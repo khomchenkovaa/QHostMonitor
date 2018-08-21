@@ -1,0 +1,2882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ReportProfilesDlg</class>
+ <widget class="QDialog" name="ReportProfilesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>701</width>
+    <height>770</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Report profiles</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_13" stretch="0,1">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_10">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblProfilesNew">
+          <property name="text">
+           <string>Profiles</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>60</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnProfilesNew">
+          <property name="text">
+           <string>&amp;New</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/new.png</normaloff>:/img/new.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btProfilesCopy">
+          <property name="text">
+           <string>&amp;Copy</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/action/copy.png</normaloff>:/img/action/copy.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnProfilesRename">
+          <property name="text">
+           <string>&amp;Rename</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/action/properties.png</normaloff>:/img/action/properties.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btnProfilesDelete">
+          <property name="text">
+           <string>&amp;Delete</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+          <property name="flat">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QListWidget" name="listProfiles">
+       <property name="dragDropMode">
+        <enum>QAbstractItemView::NoDragDrop</enum>
+       </property>
+       <property name="isWrapping" stdset="0">
+        <bool>true</bool>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="modelColumn">
+        <number>0</number>
+       </property>
+       <property name="uniformItemSizes">
+        <bool>false</bool>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+       <item>
+        <property name="text">
+         <string>HTML report for admin</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>HTML report for manager</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>HTML report for boss</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>HTML report, full information</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>WML report (brief)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>WML report (detailed)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DBF report (brief)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>DBF report (full)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>TXT (medium)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>TXT (brief)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Custom-ColoredStats</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Custom-Table&amp;Stats</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Dashboard</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SLA html</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SLA xml</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SLA with charts</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,0,0,0,0">
+        <property name="leftMargin">
+         <number>9</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="spacing">
+           <number>15</number>
+          </property>
+          <property name="leftMargin">
+           <number>10</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>10</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblReportType">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Report type:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbReportType">
+            <item>
+             <property name="text">
+              <string>HTML</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>WML</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DBF</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TXT</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Compact HTML</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Custom HTML</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dash board (HTML)</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SLA</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QFrame" name="frame_3">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_12">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QStackedWidget" name="stackedWidget">
+             <property name="currentIndex">
+              <number>2</number>
+             </property>
+             <widget class="QWidget" name="page">
+              <layout class="QVBoxLayout" name="verticalLayout_11">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <item>
+                  <widget class="QLabel" name="label_12">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Display</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinSublevelsOfTheFolder">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>111</number>
+                   </property>
+                   <property name="value">
+                    <number>1</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_13">
+                   <property name="text">
+                    <string>sublevel(s) of the folder</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_16" stretch="2,1,3">
+                 <item>
+                  <widget class="QLabel" name="label_14">
+                   <property name="text">
+                    <string>Display summary row at the</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbSummaryRowAt">
+                   <item>
+                    <property name="text">
+                     <string>bottom</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>top</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_15">
+                   <property name="text">
+                    <string>of the datasheet</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_15" stretch="1,1,1,1,3">
+                 <item>
+                  <widget class="QCheckBox" name="chkLatestEventsTop">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Display</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="cmbLatestEventsTopNumber">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>50</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_16">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>latest</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbLatestEventsTopStatus">
+                   <item>
+                    <property name="text">
+                     <string>bad</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>good</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>bad&amp;good</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>(any)</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_19">
+                   <property name="text">
+                    <string>events at the top</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14" stretch="1,1,1,1,3">
+                 <item>
+                  <widget class="QCheckBox" name="chkLatestEventsBottom">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Display</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="cmbLatestEventsBottomNumber">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimum">
+                    <number>1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>400</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_17">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>latest</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbLatestEventsBottomStatus">
+                   <item>
+                    <property name="text">
+                     <string>bad</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>good</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>bad&amp;good</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>(any)</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_18">
+                   <property name="text">
+                    <string>events at the bottom</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="chkIncludeHtmlAutoRefresh_2">
+                 <property name="text">
+                  <string>Include HTML &quot;auto refresh&quot; option</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_18" stretch="1,1,9">
+                 <item>
+                  <widget class="QLabel" name="lblRefreshEvery_2">
+                   <property name="text">
+                    <string>Refresh every</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSpinBox" name="spinRefreshEvery_2">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="minimum">
+                    <number>5</number>
+                   </property>
+                   <property name="maximum">
+                    <number>3600</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_21">
+                   <property name="text">
+                    <string>sec</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_6">
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <property name="spacing">
+                  <number>15</number>
+                 </property>
+                 <item>
+                  <layout class="QGridLayout" name="gridLayout">
+                   <item row="0" column="0">
+                    <widget class="QLabel" name="lblMode">
+                     <property name="text">
+                      <string>Mode</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="1" colspan="2">
+                    <widget class="QComboBox" name="cmbMode">
+                     <item>
+                      <property name="text">
+                       <string>HTML</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>XML</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="lblChart">
+                     <property name="text">
+                      <string>Chart</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="1" colspan="2">
+                    <widget class="QComboBox" name="cmbChart">
+                     <item>
+                      <property name="text">
+                       <string>no charts</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Availability</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Performance</string>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Availability+Av.reply</string>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                   <item row="3" column="0" colspan="2">
+                    <widget class="QCheckBox" name="chkShowFolderCmt">
+                     <property name="text">
+                      <string>Show folder cmt</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="2">
+                    <widget class="QSpinBox" name="spinShowFolderCmt">
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>250</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="0" colspan="2">
+                    <widget class="QCheckBox" name="chkShowTestCmt">
+                     <property name="text">
+                      <string>Show test cmt</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="4" column="2">
+                    <widget class="QSpinBox" name="spinShowTestCmt">
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                     <property name="minimum">
+                      <number>1</number>
+                     </property>
+                     <property name="maximum">
+                      <number>250</number>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="5" column="0" colspan="3">
+                    <widget class="QCheckBox" name="chkIncludeDisabledItems">
+                     <property name="text">
+                      <string>Include disabled items</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0" colspan="3">
+                    <widget class="QCheckBox" name="chkFolderSummary">
+                     <property name="text">
+                      <string>Folder summary</string>
+                     </property>
+                     <property name="checked">
+                      <bool>true</bool>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                 <item>
+                  <layout class="QVBoxLayout" name="verticalLayout_7">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="lblDisplayStatisticFor">
+                     <property name="text">
+                      <string>Display statistics for:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listDisplayStatisticFor">
+                     <item>
+                      <property name="text">
+                       <string>Prediction: next 7 days</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Today</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Yesterday</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 24 hours</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 48 hours</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>This week</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last week</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 7 days</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>last 14 days</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>This month</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last month</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 30 days</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 60 days</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>This year</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last year</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last 12 month</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>last 24 month</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="Line" name="line_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <item>
+                  <widget class="QCheckBox" name="chkConsiderItemsAsBad">
+                   <property name="text">
+                    <string>Consider items as &quot;bad&quot; when</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbConsiderItemsAsBadRatio">
+                   <item>
+                    <property name="text">
+                     <string>&quot;dead&quot; ratio</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;alive&quot; ratio</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>min reply</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>average reply</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>max reply</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="cmbConsiderItemsAsBadCheck">
+                   <item>
+                    <property name="text">
+                     <string>&lt; than</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&gt; than</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="spinConsiderItemsAsBad">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="decimals">
+                    <number>2</number>
+                   </property>
+                   <property name="minimum">
+                    <double>1.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>99999999.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.010000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>3.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="page_2">
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <item>
+                  <widget class="QLabel" name="lblDisplayFollowingTestItems">
+                   <property name="text">
+                    <string>Display the following test items:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QListWidget" name="listDisplayFollowingTestItems">
+                   <property name="font">
+                    <font>
+                     <italic>false</italic>
+                     <strikeout>false</strikeout>
+                     <kerning>true</kerning>
+                    </font>
+                   </property>
+                   <property name="toolTip">
+                    <string/>
+                   </property>
+                   <property name="autoScroll">
+                    <bool>true</bool>
+                   </property>
+                   <property name="tabKeyNavigation">
+                    <bool>false</bool>
+                   </property>
+                   <property name="showDropIndicator" stdset="0">
+                    <bool>true</bool>
+                   </property>
+                   <property name="dragEnabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="dragDropOverwriteMode">
+                    <bool>false</bool>
+                   </property>
+                   <property name="alternatingRowColors">
+                    <bool>false</bool>
+                   </property>
+                   <property name="selectionMode">
+                    <enum>QAbstractItemView::MultiSelection</enum>
+                   </property>
+                   <property name="selectionBehavior">
+                    <enum>QAbstractItemView::SelectRows</enum>
+                   </property>
+                   <property name="movement">
+                    <enum>QListView::Static</enum>
+                   </property>
+                   <property name="isWrapping" stdset="0">
+                    <bool>false</bool>
+                   </property>
+                   <property name="modelColumn">
+                    <number>0</number>
+                   </property>
+                   <property name="uniformItemSizes">
+                    <bool>false</bool>
+                   </property>
+                   <property name="wordWrap">
+                    <bool>false</bool>
+                   </property>
+                   <property name="selectionRectVisible">
+                    <bool>false</bool>
+                   </property>
+                   <property name="sortingEnabled">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>with &quot;Good&quot; status</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;Bad&quot; items (new)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;Bad&quot; items (acknowledged)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;Unknown&quot; (new)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;Unknown&quot; (acknowledged)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>&quot;Wait for master&quot;</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Out of schedule</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Not tested yet</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Disabled</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Warning items (new)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Warning (acknowledged)</string>
+                    </property>
+                    <property name="checkState">
+                     <enum>Checked</enum>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QStackedWidget" name="stackedWidget_2">
+                 <property name="frameShape">
+                  <enum>QFrame::Panel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Sunken</enum>
+                 </property>
+                 <property name="lineWidth">
+                  <number>0</number>
+                 </property>
+                 <property name="currentIndex">
+                  <number>0</number>
+                 </property>
+                 <widget class="QWidget" name="page_3">
+                  <layout class="QVBoxLayout" name="verticalLayout_6">
+                   <item>
+                    <widget class="QLabel" name="lblDisplayTheFollowingField">
+                     <property name="text">
+                      <string>Display the following fields:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QListWidget" name="listDisplayTheFollowingField">
+                     <property name="dragDropMode">
+                      <enum>QAbstractItemView::NoDragDrop</enum>
+                     </property>
+                     <property name="isWrapping" stdset="0">
+                      <bool>true</bool>
+                     </property>
+                     <property name="spacing">
+                      <number>1</number>
+                     </property>
+                     <property name="selectionRectVisible">
+                      <bool>false</bool>
+                     </property>
+                     <item>
+                      <property name="text">
+                       <string>Test name</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Status</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Reccurrences</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Reply</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last test time</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last status</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Last reply</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Interval</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Test method</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Comment</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Related URL</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Master test</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Schedule</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Alert profile</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Private log</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Alive %</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Dead %</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Unknown %</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Total time</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Alive time</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Dead time</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Unknown time</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Total tests</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Passed tests</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Failed tests</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Unknown tests</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Average reply</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Min reply</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Max reply</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Status changed at</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Status changes</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Created at</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Modified at</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Comment line #2</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Comment line #3</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Comment line #4</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Comment line #5</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Test by</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Acknowledged at</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Acknowledged by</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                     <item>
+                      <property name="text">
+                       <string>Ack comment</string>
+                      </property>
+                      <property name="checkState">
+                       <enum>Checked</enum>
+                      </property>
+                     </item>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_4">
+                  <layout class="QVBoxLayout" name="verticalLayout_2">
+                   <item>
+                    <spacer name="verticalSpacer">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeType">
+                      <enum>QSizePolicy::Fixed</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>11</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item>
+                    <widget class="QFrame" name="frame_4">
+                     <property name="frameShape">
+                      <enum>QFrame::StyledPanel</enum>
+                     </property>
+                     <property name="frameShadow">
+                      <enum>QFrame::Raised</enum>
+                     </property>
+                     <layout class="QVBoxLayout" name="verticalLayout">
+                      <property name="spacing">
+                       <number>10</number>
+                      </property>
+                      <property name="leftMargin">
+                       <number>6</number>
+                      </property>
+                      <property name="topMargin">
+                       <number>0</number>
+                      </property>
+                      <property name="rightMargin">
+                       <number>6</number>
+                      </property>
+                      <property name="bottomMargin">
+                       <number>0</number>
+                      </property>
+                      <item>
+                       <layout class="QFormLayout" name="formLayout">
+                        <property name="leftMargin">
+                         <number>8</number>
+                        </property>
+                        <property name="topMargin">
+                         <number>6</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>9</number>
+                        </property>
+                        <item row="0" column="0">
+                         <widget class="QLabel" name="lblReportStyle">
+                          <property name="text">
+                           <string>Report style</string>
+                          </property>
+                          <property name="buddy">
+                           <cstring>cmbReportStyle</cstring>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="0" column="1">
+                         <widget class="QComboBox" name="cmbReportStyle">
+                          <item>
+                           <property name="text">
+                            <string>Group tests by folders</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Table</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>All tests in one book</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                        <item row="1" column="0">
+                         <widget class="QLabel" name="lblDisplayOnThItem">
+                          <property name="text">
+                           <string>Display on the item:</string>
+                          </property>
+                          <property name="buddy">
+                           <cstring>cmbDisplayOnThItem</cstring>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="1" column="1">
+                         <widget class="QComboBox" name="cmbDisplayOnThItem">
+                          <item>
+                           <property name="text">
+                            <string>&lt;nothing&gt;</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Test name</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Status</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Status</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Reccurrences</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Reply</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Last test time</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Last status</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Last reply</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Interval</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Test method</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Comment</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Related URL</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Master test</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Schedule</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Alert profile</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Private log</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Alive %</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Dead %</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Unknown %</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Total time</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Alive time</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Dead time</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Unknown time</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Total tests</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Passed tests</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Failed tests</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Unknown tests</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Average reply</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Min reply</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Max reply</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Status changed at</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Status changes</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Created at</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Modified at</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Comment line #2</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Comment line #3</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Comment line #4</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Comment line #5</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Test by</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Acknowledged at</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Acknowledged by</string>
+                           </property>
+                          </item>
+                          <item>
+                           <property name="text">
+                            <string>Ack comment</string>
+                           </property>
+                          </item>
+                         </widget>
+                        </item>
+                        <item row="2" column="0">
+                         <widget class="QLabel" name="lblSizeOfTestItems">
+                          <property name="text">
+                           <string>Size of test items:</string>
+                          </property>
+                         </widget>
+                        </item>
+                        <item row="2" column="1">
+                         <layout class="QHBoxLayout" name="horizontalLayout">
+                          <item>
+                           <widget class="QSpinBox" name="spinSizeOfTestItemsRow">
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
+                            </property>
+                            <property name="minimum">
+                             <number>2</number>
+                            </property>
+                            <property name="maximum">
+                             <number>800</number>
+                            </property>
+                            <property name="value">
+                             <number>2</number>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QLabel" name="label_11">
+                            <property name="text">
+                             <string>X</string>
+                            </property>
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
+                            </property>
+                           </widget>
+                          </item>
+                          <item>
+                           <widget class="QSpinBox" name="spinSizeOfTestItemsColumn">
+                            <property name="alignment">
+                             <set>Qt::AlignCenter</set>
+                            </property>
+                            <property name="minimum">
+                             <number>2</number>
+                            </property>
+                            <property name="maximum">
+                             <number>800</number>
+                            </property>
+                           </widget>
+                          </item>
+                         </layout>
+                        </item>
+                       </layout>
+                      </item>
+                      <item>
+                       <widget class="Line" name="line">
+                        <property name="orientation">
+                         <enum>Qt::Horizontal</enum>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QCheckBox" name="chkIncludeHtmlAutoRefresh">
+                        <property name="text">
+                         <string>Include HTML &quot;auto refresh&quot; option</string>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <layout class="QHBoxLayout" name="horizontalLayout_2">
+                        <property name="leftMargin">
+                         <number>9</number>
+                        </property>
+                        <property name="rightMargin">
+                         <number>9</number>
+                        </property>
+                        <item>
+                         <widget class="QLabel" name="lblRefreshEvery">
+                          <property name="text">
+                           <string>Refresh every</string>
+                          </property>
+                          <property name="buddy">
+                           <cstring>spinRefreshEvery</cstring>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QSpinBox" name="spinRefreshEvery">
+                          <property name="alignment">
+                           <set>Qt::AlignCenter</set>
+                          </property>
+                          <property name="minimum">
+                           <number>5</number>
+                          </property>
+                          <property name="maximum">
+                           <number>3600</number>
+                          </property>
+                          <property name="value">
+                           <number>5</number>
+                          </property>
+                         </widget>
+                        </item>
+                        <item>
+                         <widget class="QLabel" name="lblSec">
+                          <property name="text">
+                           <string>sec</string>
+                          </property>
+                         </widget>
+                        </item>
+                       </layout>
+                      </item>
+                     </layout>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="page_5">
+                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                   <item>
+                    <widget class="QPushButton" name="btnSetupReportTemplate">
+                     <property name="sizePolicy">
+                      <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                       <horstretch>0</horstretch>
+                       <verstretch>0</verstretch>
+                      </sizepolicy>
+                     </property>
+                     <property name="text">
+                      <string>Setup report template</string>
+                     </property>
+                     <property name="icon">
+                      <iconset resource="../qHostMonitor.qrc">
+                       <normaloff>:/img/test/external_test.png</normaloff>:/img/test/external_test.png</iconset>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblIncludeFollowingTestmethod">
+            <property name="text">
+             <string>Include the following test method:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QListWidget" name="listIncludeFollowingTestmethod">
+            <property name="verticalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOff</enum>
+            </property>
+            <property name="horizontalScrollBarPolicy">
+             <enum>Qt::ScrollBarAlwaysOn</enum>
+            </property>
+            <property name="alternatingRowColors">
+             <bool>false</bool>
+            </property>
+            <property name="selectionMode">
+             <enum>QAbstractItemView::MultiSelection</enum>
+            </property>
+            <property name="selectionBehavior">
+             <enum>QAbstractItemView::SelectItems</enum>
+            </property>
+            <property name="textElideMode">
+             <enum>Qt::ElideRight</enum>
+            </property>
+            <property name="flow">
+             <enum>QListView::TopToBottom</enum>
+            </property>
+            <property name="isWrapping" stdset="0">
+             <bool>true</bool>
+            </property>
+            <property name="spacing">
+             <number>1</number>
+            </property>
+            <property name="modelColumn">
+             <number>0</number>
+            </property>
+            <property name="uniformItemSizes">
+             <bool>false</bool>
+            </property>
+            <property name="wordWrap">
+             <bool>false</bool>
+            </property>
+            <property name="selectionRectVisible">
+             <bool>false</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>Ping</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>TCP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>URL request</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Drive free space</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Folder/file size</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Folder/file availability</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>External test</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SSH</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>File CRC</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Oracle server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>UNC resource</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Interbase server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>MS SQL server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>MySQL server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Postgre SQL server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Sybase SQL server</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Process</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Service</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SNMP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NT Events log</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>CPU usage</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Compare files</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>ODBC Query</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SMTP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>POP3</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>IMAP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DNS</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>LDAP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Trace</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Count Files</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>RAS</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Performance Counter</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Script</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>UDP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>NTP/SNTP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Radius</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HTTP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Text Log</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Shell Script</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Temp. Monitor</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Traffic Monitor</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SNMP Trap</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>WMI</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Mail Relay</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DICOM</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Dominant Process</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>DHCP</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>SDPO monitor</string>
+             </property>
+             <property name="checkState">
+              <enum>Checked</enum>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QGroupBox" name="gpBoxSorting">
+          <property name="title">
+           <string>Sorting</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QRadioButton" name="rdSortingDefaultSortOrder">
+             <property name="text">
+              <string>Use default sort order (depends on GUI and folder-level sorting settings)</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QRadioButton" name="rdSortingTestItemBy">
+               <property name="text">
+                <string>Sort test items by the following fields</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="cmbSortingTestName">
+               <item>
+                <property name="text">
+                 <string>Test name</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Status</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Status</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Reccurrences</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Reply</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Last test time</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Last status</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Last reply</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Interval</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Test method</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Comment</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Related URL</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Master test</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Schedule</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Alert profile</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Private log</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Alive %</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Dead %</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Unknown %</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Total time</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Alive time</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Dead time</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Unknown time</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Total tests</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Passed tests</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Failed tests</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Unknown tests</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Average reply</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Min reply</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Max reply</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Status changed at</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Status changes</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Created at</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Modified at</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Comment line #2</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Comment line #3</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Comment line #4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Comment line #5</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Test by</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Acknowledged at</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Acknowledged by</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Ack comment</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="cmbSortingAcending">
+               <item>
+                <property name="text">
+                 <string>Acending</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Descending</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QFormLayout" name="formLayout_3">
+          <property name="verticalSpacing">
+           <number>2</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblColorScheme">
+            <property name="text">
+             <string>Color scheme</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lnlColorScheme"/>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnColorScheme">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../qHostMonitor.qrc">
+                <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="chkUseExternalHeader">
+            <property name="text">
+             <string>Use external header</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineUseExternalHeader"/>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnUseExternalHeader">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../qHostMonitor.qrc">
+                <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="2" column="0">
+           <widget class="QCheckBox" name="chkUseExternalFooter">
+            <property name="text">
+             <string>Use external footer</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLineEdit" name="lineUseExternalFooter"/>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnUseExternalFooter">
+              <property name="text">
+               <string>...</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../qHostMonitor.qrc">
+                <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>16</width>
+                <height>16</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ReportProfilesDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ReportProfilesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

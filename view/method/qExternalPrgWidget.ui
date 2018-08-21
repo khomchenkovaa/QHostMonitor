@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ExternalPrgWidget</class>
+ <widget class="QWidget" name="ExternalPrgWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>127</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>External Program</string>
+  </property>
+  <property name="toolTip">
+   <string>External Program</string>
+  </property>
+  <property name="statusTip">
+   <string>External Program</string>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="topMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="bottomMargin">
+    <number>4</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="loExternalPrg">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblExternalPrg">
+       <property name="text">
+        <string>External program:   </string>
+       </property>
+       <property name="buddy">
+        <cstring>editExternalPrg</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLineEdit" name="editExternalPrg"/>
+     </item>
+     <item>
+      <widget class="QToolButton" name="btnExternalPrg">
+       <property name="maximumSize">
+        <size>
+         <width>26</width>
+         <height>26</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="loAlert">
+     <property name="spacing">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblAlert">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Alert if the errorlevel returned by program</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="scaledContents">
+        <bool>true</bool>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+       <property name="buddy">
+        <cstring>cmbAlertCondition</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cmbAlertCondition">
+       <item>
+        <property name="text">
+         <string>is &lt; then</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is &gt; then</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is = to</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is &lt;&gt; from</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinAlertValue">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="maximum">
+        <number>9999</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="lineExternalPrg">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="loWinMode">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblWinMode">
+       <property name="text">
+        <string>Window mode</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbWinMode</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cmbWinMode">
+       <item>
+        <property name="text">
+         <string>SW_SHOWNORMAL</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_HIDE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMAXIMIZED</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMINIMIZED</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMINNOACTIVE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWNOACTIVATE</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="loTimeout">
+     <property name="leftMargin">
+      <number>35</number>
+     </property>
+     <property name="rightMargin">
+      <number>35</number>
+     </property>
+     <item>
+      <widget class="QCheckBox" name="chkKillApp">
+       <property name="text">
+        <string>Kill application if no answer within</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinWaitTimeout">
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>99999</number>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="lblSec">
+       <property name="text">
+        <string>sec</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

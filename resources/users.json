@@ -1,0 +1,1464 @@
+[
+ {
+  "name" : "<Default>",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Blue",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [{
+          "column" : "Test name",
+          "asc" : true
+        },{
+          "column" : "Test method",
+          "asc" : true
+        }]
+ },{
+  "name" : "Admin",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Green",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#005e00",
+          "gridColor" : "#bfbfbf",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#005e00",
+          "gridColor" : "#bfbfbf",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#005e00",
+          "gridColor" : "#bfbfbf",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : true
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ },{
+  "name" : "local",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Black & Green",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : true
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ },{
+  "name" : "Manager",
+  "style" : 0,
+  "showGridLines" : true,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Grey",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#bfbfbf",
+          "gridColor" : "#060384",
+          "inPacketsColor" : "#005e00",
+          "outPacketsColor" : "#297671"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#bfbfbf",
+          "gridColor" : "#060384",
+          "inPacketsColor" : "#005e00",
+          "outPacketsColor" : "#297671",
+          "errorColor" : "#941613"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#bfbfbf",
+          "gridColor" : "#060384",
+          "inPacketsColor" : "#005e00",
+          "outPacketsColor" : "#297671",
+          "errorColor" : "#941613"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : false
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : false
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : false
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : false
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : false
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : false
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : false
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : false
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : false
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : false
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ },{
+  "name" : "Technician",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Blue",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ },{
+  "name" : "webuser",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Blue",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ },{
+  "name" : "watchdog",
+  "style" : 0,
+  "showGridLines" : false,
+  "gridForLogViewer" : false,
+  "showTestsInSubfolders" : true,
+  "colorScheme" : "Blue",
+  "ipmRefreshTime" : 1,
+  "ipmShowPacketsCounter" : true,
+  "tcpMonitor" : {
+          "vLinesNumber" : 0,
+          "hLinesNumber" : 6,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe"
+          },
+  "udpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "icmpMonitor" : {
+          "vLinesNumber" : 10,
+          "hLinesNumber" : 10,
+          "backgroundColor" : "#060384",
+          "gridColor" : "#0000d1",
+          "inPacketsColor" : "#00fe00",
+          "outPacketsColor" : "#00fefe",
+          "errorColor" : "#fe0000"
+          },
+  "columns" : [{
+          "title" : "Test name",
+          "macro" : "%TestName%",
+          "checked" : true
+        },{
+          "title" : "Status",
+          "macro" : "%Status%",
+          "checked" : true
+        },{
+          "title" : "Recurrences",
+          "macro" : "%Recurrences%",
+          "checked" : true
+        },{
+          "title" : "Reply",
+          "macro" : "%Reply%",
+          "checked" : true
+        },{
+          "title" : "Last test time",
+          "macro" : "%LastTestTime%",
+          "checked" : false
+        },{
+          "title" : "Last status",
+          "macro" : "%LastStatus%",
+          "checked" : false
+        },{
+          "title" : "Last reply",
+          "macro" : "%LastReply%",
+          "checked" : false
+        },{
+          "title" : "Interval",
+          "macro" : "%Interval%",
+          "checked" : false
+        },{
+          "title" : "Test method",
+          "macro" : "%TestMethod%",
+          "checked" : true
+        },{
+          "title" : "Comment",
+          "macro" : "%CommentLine1%",
+          "checked" : false
+        },{
+          "title" : "Related URL",
+          "macro" : "%RelatedURL%",
+          "checked" : false
+        },{
+          "title" : "Master test",
+          "macro" : "%MasterTest%",
+          "checked" : false
+        },{
+          "title" : "Schedule",
+          "macro" : "%Schedule%",
+          "checked" : false
+        },{
+          "title" : "Alert profile",
+          "macro" : "%AlertProfile%",
+          "checked" : false
+        },{
+          "title" : "Private log",
+          "macro" : "%PrivateLog%",
+          "checked" : false
+        },{
+          "title" : "Alive %",
+          "macro" : "%AliveRatio%",
+          "checked" : true
+        },{
+          "title" : "Dead %",
+          "macro" : "%DeadRatio%",
+          "checked" : true
+        },{
+          "title" : "Unknown%",
+          "macro" : "%UnknownRatio%",
+          "checked" : true
+        },{
+          "title" : "Total time",
+          "macro" : "%TotalTime%",
+          "checked" : true
+        },{
+          "title" : "Alive time",
+          "macro" : "%AliveTime%",
+          "checked" : true
+        },{
+          "title" : "Dead time",
+          "macro" : "%DeadTime%",
+          "checked" : true
+        },{
+          "title" : "Unknown time",
+          "macro" : "%UnknownTime%",
+          "checked" : false
+        },{
+          "title" : "Total tests",
+          "macro" : "%TotalTests%",
+          "checked" : true
+        },{
+          "title" : "Passed tests",
+          "macro" : "%PassedCnt%",
+          "checked" : true
+        },{
+          "title" : "Failed tests",
+          "macro" : "%FailedCnt%",
+          "checked" : true
+        },{
+          "title" : "Unknown tests",
+          "macro" : "%UnknownCnt%",
+          "checked" : false
+        },{
+          "title" : "Average reply",
+          "macro" : "%AverageReply%",
+          "checked" : true
+        },{
+          "title" : "Min reply",
+          "macro" : "%MinReply%",
+          "checked" : true
+        },{
+          "title" : "Max reply",
+          "macro" : "%MaxReply%",
+          "checked" : true
+        },{
+          "title" : "Status changed at",
+          "macro" : "%StatusChangedTime%",
+          "checked" : true
+        },{
+          "title" : "Status changes",
+          "macro" : "%StatusChangesCnt%",
+          "checked" : true
+        },{
+          "title" : "Created at",
+          "macro" : "%CreatedTime%",
+          "checked" : false
+        },{
+          "title" : "Modified at",
+          "macro" : "%ModifiedTime%",
+          "checked" : true
+        },{
+          "title" : "Comment line #2",
+          "macro" : "%CommentLine2%",
+          "checked" : false
+        },{
+          "title" : "Comment line #3",
+          "macro" : "%CommentLine3%",
+          "checked" : false
+        },{
+          "title" : "Comment line #4",
+          "macro" : "%CommentLine4%",
+          "checked" : false
+        },{
+          "title" : "Comment line #5",
+          "macro" : "%CommentLine5%",
+          "checked" : false
+        },{
+          "title" : "Test by",
+          "macro" : "%Agent%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged at",
+          "macro" : "%AcknowledgedAt%",
+          "checked" : false
+        },{
+          "title" : "Acknowledged by",
+          "macro" : "%AcknowledgedBy%",
+          "checked" : false
+        },{
+          "title" : "Ack comment",
+          "macro" : "%AckComment%",
+          "checked" : false
+        }],
+  "sort" : [
+         {
+          "column" : "Test name",
+          "asc" : true
+         },{
+          "column" : "Test method",
+          "asc" : true
+         }
+  ]
+ }
+]

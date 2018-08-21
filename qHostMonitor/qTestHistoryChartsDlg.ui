@@ -1,0 +1,1153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TestHistoryChartsDlg</class>
+ <widget class="QDialog" name="TestHistoryChartsDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>832</width>
+    <height>658</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Test History</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/action/historyChart.png</normaloff>:/img/action/historyChart.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_3">
+   <property name="spacing">
+    <number>10</number>
+   </property>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <property name="spacing">
+      <number>14</number>
+     </property>
+     <item>
+      <widget class="QGroupBox" name="gpBox1">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lbGp1Alive">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="lbGp1AliveValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="lbGp1Max">
+          <property name="text">
+           <string>Max reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="lbGp1MaxValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lbGp1Dead">
+          <property name="text">
+           <string>Dead</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="lbGp1DeadValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="lbGp1Min">
+          <property name="text">
+           <string>Min reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="lbGp1MinValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lbGp1Unknown">
+          <property name="text">
+           <string>Unknown</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="lbGp1UnknownValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="lbGp1Average">
+          <property name="text">
+           <string>Average</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="lbGp1AverageValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="gpBox2">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lbGp2Alive">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="lbGp2AliveValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="lbGp2Max">
+          <property name="text">
+           <string>Max reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="lbGp2MaxValue">
+          <property name="text">
+           <string>143 GB</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lbGp2Dead">
+          <property name="text">
+           <string>Dead</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="lbGp2DeadValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="lbGp2Min">
+          <property name="text">
+           <string>Min reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="lbGp2MinValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lbGp2Unknown">
+          <property name="text">
+           <string>Unknown</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="lbGp2UnknownValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="lbGp2Average">
+          <property name="text">
+           <string>Average</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="lbGp2AverageValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="gpBox3">
+       <property name="title">
+        <string>GroupBox</string>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <property name="leftMargin">
+         <number>10</number>
+        </property>
+        <property name="topMargin">
+         <number>10</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lbGp3Alive">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="lbGp3AliveValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="lbGp3Max">
+          <property name="text">
+           <string>Max reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="lbGp3MaxValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lbGp3Dead">
+          <property name="text">
+           <string>Dead</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLabel" name="lbGp3DeadValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLabel" name="lbGp3Min">
+          <property name="text">
+           <string>Min reply</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="3">
+         <widget class="QLabel" name="lbGp3MinValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lbGp3Unknown">
+          <property name="text">
+           <string>Unknown</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QLabel" name="lbGp3UnknownValue">
+          <property name="text">
+           <string>Alive</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QLabel" name="lbGp3Average">
+          <property name="text">
+           <string>Average</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="lbGp3AverageValue">
+          <property name="text">
+           <string>0.00%</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>7</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic1Period">
+            <property name="currentText">
+             <string>Prediction: next 7 days</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Prediction: next 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Today</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Yesterday</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 48 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 14 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 30 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 60 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last Year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 12 months</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 months</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic1Availability">
+            <item>
+             <property name="text">
+              <string>Availability</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Performance</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Availability+Average reply</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_2">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic2Period">
+            <item>
+             <property name="text">
+              <string>Prediction: next 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Today</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Yesterday</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 48 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 14 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 30 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 60 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last Year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 12 months</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 months</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic2Availability">
+            <item>
+             <property name="text">
+              <string>Availability</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Performance</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Availability+Average reply</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <property name="spacing">
+        <number>7</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_3">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblGraphic1">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>360</width>
+              <height>165</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_4">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblGraphic2">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>360</width>
+              <height>165</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>7</number>
+       </property>
+       <property name="topMargin">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_6">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic3Period">
+            <item>
+             <property name="text">
+              <string>Prediction: next 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Today</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Yesterday</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 48 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 14 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 30 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 60 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last Year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 12 months</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 months</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic3Availability">
+            <item>
+             <property name="text">
+              <string>Availability</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Performance</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Availability+Average reply</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_8">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>4</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic4Period">
+            <item>
+             <property name="text">
+              <string>Prediction: next 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Today</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Yesterday</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 48 hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last week</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 7 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 14 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last month</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 30 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 60 days</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>This year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last Year</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 12 months</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Last 24 months</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbGraphic4Availability">
+            <item>
+             <property name="text">
+              <string>Availability</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Performance</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Availability+Average reply</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <property name="spacing">
+        <number>7</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_5">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblGraphic3">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>360</width>
+              <height>165</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_7">
+         <property name="frameShape">
+          <enum>QFrame::Panel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblGraphic4">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>360</width>
+              <height>165</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>TextLabel</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>528</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="btnBoxTesthistory">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Close</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QToolButton" name="btnTestSelectUp">
+         <property name="font">
+          <font>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::UpArrow</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QToolButton" name="btnTestSelectDown">
+         <property name="font">
+          <font>
+           <strikeout>false</strikeout>
+          </font>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="autoRaise">
+          <bool>false</bool>
+         </property>
+         <property name="arrowType">
+          <enum>Qt::DownArrow</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

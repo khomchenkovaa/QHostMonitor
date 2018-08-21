@@ -1,0 +1,4018 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainForm</class>
+ <widget class="QMainWindow" name="MainForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>933</width>
+    <height>688</height>
+   </rect>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>768</width>
+    <height>568</height>
+   </size>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>SDPO - System Diagnostic Program Software</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <property name="minimumSize">
+    <size>
+     <width>760</width>
+     <height>527</height>
+    </size>
+   </property>
+   <layout class="QVBoxLayout" name="loCentralWidget">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QSplitter" name="mainSplitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="handleWidth">
+       <number>6</number>
+      </property>
+      <widget class="QFrame" name="pnlFoldersTree">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>177</width>
+         <height>521</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>350</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>177</width>
+         <height>495</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTabWidget" name="tabFoldersTree">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>177</width>
+            <height>521</height>
+           </size>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::NoContextMenu</enum>
+          </property>
+          <property name="tabPosition">
+           <enum>QTabWidget::South</enum>
+          </property>
+          <property name="tabShape">
+           <enum>QTabWidget::Rounded</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabFolders">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>177</width>
+             <height>521</height>
+            </size>
+           </property>
+           <attribute name="title">
+            <string>Folders</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="loTabFolders">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="toolFolders">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>170</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Panel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QToolButton" name="btnNewFolder">
+                 <property name="toolTip">
+                  <string>New folder</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>New folder</string>
+                 </property>
+                 <property name="text">
+                  <string>New subfolder</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnNewSubfolder">
+                 <property name="toolTip">
+                  <string>New subfolder</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>New subfolder</string>
+                 </property>
+                 <property name="text">
+                  <string>New folder</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineFolder1">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnFolderProperties">
+                 <property name="toolTip">
+                  <string>Folder properties</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Folder properties</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/properties.png</normaloff>:/img/action/properties.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineFolder2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnDelFolder">
+                 <property name="toolTip">
+                  <string>Remove folder</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Remove folder</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/delete.png</normaloff>:/img/action/delete.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineFolder3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnFolderColors">
+                 <property name="toolTip">
+                  <string>Use color palette</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Use color palette</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/colorPalette.png</normaloff>:/img/action/colorPalette.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="hSpacerFolders">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>46</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTreeView" name="treeFolders">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>172</width>
+                <height>469</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="palette">
+               <palette>
+                <active>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>136</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </active>
+                <inactive>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>255</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>136</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </inactive>
+                <disabled>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>190</red>
+                    <green>190</green>
+                    <blue>190</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>239</red>
+                    <green>235</green>
+                    <blue>231</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </disabled>
+               </palette>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+              <property name="acceptDrops">
+               <bool>true</bool>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::NoEditTriggers</set>
+              </property>
+              <property name="dragEnabled">
+               <bool>true</bool>
+              </property>
+              <property name="dragDropMode">
+               <enum>QAbstractItemView::DragDrop</enum>
+              </property>
+              <property name="defaultDropAction">
+               <enum>Qt::TargetMoveAction</enum>
+              </property>
+              <property name="textElideMode">
+               <enum>Qt::ElideLeft</enum>
+              </property>
+              <attribute name="headerVisible">
+               <bool>false</bool>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabViews">
+           <property name="minimumSize">
+            <size>
+             <width>177</width>
+             <height>521</height>
+            </size>
+           </property>
+           <attribute name="title">
+            <string>Views</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="loTabViews">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QFrame" name="ViewsToolBar">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>123</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::Panel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_2">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QToolButton" name="btnViewAdd">
+                 <property name="toolTip">
+                  <string>New view</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>New view</string>
+                 </property>
+                 <property name="text">
+                  <string>New subfolder</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnViewCopy">
+                 <property name="toolTip">
+                  <string>Copy view</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Copy view</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/copy.png</normaloff>:/img/action/copy.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineView1">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnViewProperties">
+                 <property name="toolTip">
+                  <string>View properties</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>View properties</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/properties.png</normaloff>:/img/action/properties.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineView2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QToolButton" name="btnViewDel">
+                 <property name="toolTip">
+                  <string>Remove view</string>
+                 </property>
+                 <property name="statusTip">
+                  <string>Remove view</string>
+                 </property>
+                 <property name="text">
+                  <string>...</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../qHostMonitor.qrc">
+                   <normaloff>:/img/action/delete.png</normaloff>:/img/action/delete.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="Line" name="lineView3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="hSpacerView">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QTreeView" name="treeView">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>172</width>
+                <height>469</height>
+               </size>
+              </property>
+              <property name="palette">
+               <palette>
+                <active>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>136</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </active>
+                <inactive>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>255</green>
+                    <blue>255</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>0</red>
+                    <green>0</green>
+                    <blue>136</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </inactive>
+                <disabled>
+                 <colorrole role="Text">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>190</red>
+                    <green>190</green>
+                    <blue>190</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                 <colorrole role="Base">
+                  <brush brushstyle="SolidPattern">
+                   <color alpha="255">
+                    <red>239</red>
+                    <green>235</green>
+                    <blue>231</blue>
+                   </color>
+                  </brush>
+                 </colorrole>
+                </disabled>
+               </palette>
+              </property>
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+              <attribute name="headerVisible">
+               <bool>false</bool>
+              </attribute>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QFrame" name="pnlMain">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>584</width>
+         <height>527</height>
+        </size>
+       </property>
+       <property name="sizeIncrement">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>575</width>
+         <height>228</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QFrame" name="pnlFoldersLine">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>584</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Panel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="editFoldersLine">
+             <property name="text">
+              <string>Root\</string>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="btnFoldersLineTree">
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../qHostMonitor.qrc">
+               <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+             </property>
+             <property name="shortcut">
+              <string notr="true"/>
+             </property>
+             <property name="autoRaise">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QFrame" name="pnlToolBar">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>584</width>
+            <height>27</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="leftMargin">
+            <number>0</number>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+           <property name="rightMargin">
+            <number>0</number>
+           </property>
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
+           <item>
+            <layout class="QHBoxLayout" name="loToolBar">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QToolButton" name="btnToolbarAdd">
+               <property name="statusTip">
+                <string>Add test to list</string>
+               </property>
+               <property name="text">
+                <string>Add</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/new.png</normaloff>:/img/new.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::MenuButtonPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+               <property name="arrowType">
+                <enum>Qt::NoArrow</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToolbarEdit">
+               <property name="statusTip">
+                <string>Edit test's properties</string>
+               </property>
+               <property name="text">
+                <string>Edit</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::DelayedPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToolbarDel">
+               <property name="statusTip">
+                <string>Remove test(s) from the list</string>
+               </property>
+               <property name="text">
+                <string>Remove</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/action/delete.png</normaloff>:/img/action/delete.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="lineToolbar1">
+               <property name="minimumSize">
+                <size>
+                 <width>6</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToolbarRefresh">
+               <property name="statusTip">
+                <string>Refresh statuses of hosts</string>
+               </property>
+               <property name="text">
+                <string>Refresh</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/action/refresh.png</normaloff>:/img/action/refresh.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::MenuButtonPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToolbarReset">
+               <property name="statusTip">
+                <string>Reset statistic</string>
+               </property>
+               <property name="text">
+                <string>Reset</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/misc/dateTime.png</normaloff>:/img/misc/dateTime.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="popupMode">
+                <enum>QToolButton::MenuButtonPopup</enum>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="lineToolbar2">
+               <property name="minimumSize">
+                <size>
+                 <width>6</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToobarStart">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>66</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="statusTip">
+                <string>Monitor On</string>
+               </property>
+               <property name="text">
+                <string>Start</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/action/startMonitoring.png</normaloff>:/img/action/startMonitoring.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="lineToolbarStart">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>6</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QToolButton" name="btnToolbarAlert">
+               <property name="text">
+                <string>Enable Alerts</string>
+               </property>
+               <property name="icon">
+                <iconset resource="../qHostMonitor.qrc">
+                 <normaloff>:/img/action/enableAlerts.png</normaloff>:/img/action/enableAlerts.png</iconset>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+               <property name="toolButtonStyle">
+                <enum>Qt::ToolButtonTextBesideIcon</enum>
+               </property>
+               <property name="autoRaise">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="Line" name="lineToolbarAlerts">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="spacerToolBar">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitterTestList">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>584</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <widget class="QListView" name="lvTestList">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>584</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>254</red>
+                 <green>254</green>
+                 <blue>254</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>135</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>254</red>
+                 <green>254</green>
+                 <blue>254</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>135</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>118</red>
+                 <green>118</green>
+                 <blue>117</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragOnly</enum>
+           </property>
+           <property name="defaultDropAction">
+            <enum>Qt::IgnoreAction</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="modelColumn">
+            <number>0</number>
+           </property>
+          </widget>
+          <widget class="QTreeView" name="trvTestList">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>584</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>136</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>136</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>190</red>
+                 <green>190</green>
+                 <blue>190</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>239</red>
+                 <green>235</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+           <property name="contextMenuPolicy">
+            <enum>Qt::CustomContextMenu</enum>
+           </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="dragEnabled">
+            <bool>true</bool>
+           </property>
+           <property name="dragDropMode">
+            <enum>QAbstractItemView::DragOnly</enum>
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="rootIsDecorated">
+            <bool>false</bool>
+           </property>
+           <property name="sortingEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QTableView" name="tblQuickLogView">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="palette">
+            <palette>
+             <active>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>254</red>
+                 <green>254</green>
+                 <blue>254</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>136</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </active>
+             <inactive>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>254</red>
+                 <green>254</green>
+                 <blue>254</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>0</red>
+                 <green>0</green>
+                 <blue>136</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </inactive>
+             <disabled>
+              <colorrole role="Text">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>190</red>
+                 <green>190</green>
+                 <blue>190</blue>
+                </color>
+               </brush>
+              </colorrole>
+              <colorrole role="Base">
+               <brush brushstyle="SolidPattern">
+                <color alpha="255">
+                 <red>239</red>
+                 <green>235</green>
+                 <blue>231</blue>
+                </color>
+               </brush>
+              </colorrole>
+             </disabled>
+            </palette>
+           </property>
+          </widget>
+          <widget class="QScrollArea" name="pnlInfoPane">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>300</height>
+            </size>
+           </property>
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOn</enum>
+           </property>
+           <property name="widgetResizable">
+            <bool>true</bool>
+           </property>
+           <widget class="SDPO::MainInfoPaneWidget" name="wMainInfoPane">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>639</width>
+              <height>82</height>
+             </rect>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>300</height>
+             </size>
+            </property>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="MainMenu">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>933</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>8</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QMenu {font-size: 8pt}</string>
+   </property>
+   <widget class="QMenu" name="mnuFile">
+    <property name="toolTip">
+     <string>Request test list now</string>
+    </property>
+    <property name="statusTip">
+     <string>Request test list now</string>
+    </property>
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <widget class="QMenu" name="mnuRecentList">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
+     <property name="title">
+      <string>Recent list</string>
+     </property>
+     <addaction name="actionFile_1"/>
+    </widget>
+    <addaction name="actNewTestList"/>
+    <addaction name="actLoadTestList"/>
+    <addaction name="mnuRecentList"/>
+    <addaction name="separator"/>
+    <addaction name="actAppendFromHML"/>
+    <addaction name="actImportFromIPTools"/>
+    <addaction name="actImportFromTxtFile"/>
+    <addaction name="actExportToTxtFile"/>
+    <addaction name="separator"/>
+    <addaction name="actStartHMLManager"/>
+    <addaction name="actExecuteScript"/>
+    <addaction name="separator"/>
+    <addaction name="actSave"/>
+    <addaction name="actSaveAs"/>
+    <addaction name="actProperties"/>
+    <addaction name="separator"/>
+    <addaction name="actPrint"/>
+    <addaction name="separator"/>
+    <addaction name="actExit"/>
+   </widget>
+   <widget class="QMenu" name="mnuMonitoring">
+    <property name="toolTip">
+     <string>Start monitoring</string>
+    </property>
+    <property name="statusTip">
+     <string>Start monitoring</string>
+    </property>
+    <property name="title">
+     <string>&amp;Monitoring</string>
+    </property>
+    <addaction name="actStartMonitoring"/>
+    <addaction name="actStopMonitoring"/>
+    <addaction name="separator"/>
+    <addaction name="actEnableAlerts"/>
+    <addaction name="actDisableAlerts"/>
+    <addaction name="separator"/>
+    <addaction name="actPause"/>
+   </widget>
+   <widget class="QMenu" name="mnuTest">
+    <property name="title">
+     <string>T&amp;est</string>
+    </property>
+    <widget class="QMenu" name="mnuTestAdd">
+     <property name="geometry">
+      <rect>
+       <x>872</x>
+       <y>132</y>
+       <width>229</width>
+       <height>834</height>
+      </rect>
+     </property>
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>700</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>8</pointsize>
+      </font>
+     </property>
+     <property name="statusTip">
+      <string extracomment="0.png"/>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
+     </property>
+     <property name="title">
+      <string>&amp;New</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../qHostMonitor.qrc">
+       <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+     </property>
+     <widget class="QMenu" name="mnutestAddWeb">
+      <property name="toolTip">
+       <string extracomment="137.png"/>
+      </property>
+      <property name="title">
+       <string>Web tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/test/web.png</normaloff>:/img/test/web.png</iconset>
+      </property>
+      <addaction name="actTestHTTP"/>
+      <addaction name="actTestURL"/>
+      <addaction name="actSOAP"/>
+      <addaction name="separator"/>
+      <addaction name="actCertificateExpiration"/>
+      <addaction name="actDomainExpiration"/>
+     </widget>
+     <widget class="QMenu" name="mnuTestAddEmail">
+      <property name="toolTip">
+       <string extracomment="131.png"/>
+      </property>
+      <property name="title">
+       <string>E-Mail tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/test/email.png</normaloff>:/img/test/email.png</iconset>
+      </property>
+      <addaction name="actTestSMTP"/>
+      <addaction name="actTestPOP3"/>
+      <addaction name="actTestIMAP"/>
+      <addaction name="separator"/>
+      <addaction name="actEMail"/>
+      <addaction name="actMailRelay"/>
+     </widget>
+     <widget class="QMenu" name="mnuTestAddInternetService">
+      <property name="statusTip">
+       <string extracomment="58.png"/>
+      </property>
+      <property name="title">
+       <string>Internet Services</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/action/internetService.png</normaloff>:/img/action/internetService.png</iconset>
+      </property>
+      <addaction name="actTestTCP"/>
+      <addaction name="actTestUDP"/>
+      <addaction name="separator"/>
+      <addaction name="actTestRadius"/>
+      <addaction name="actTestDNS"/>
+      <addaction name="actTestDHCP"/>
+      <addaction name="actTestNTP"/>
+      <addaction name="separator"/>
+      <addaction name="actTestLDAP"/>
+      <addaction name="actTestDICOM"/>
+     </widget>
+     <widget class="QMenu" name="mnuTestAddDatabase">
+      <property name="toolTip">
+       <string extracomment="49.png"/>
+      </property>
+      <property name="title">
+       <string>Database test</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/test/sql_server_check.png</normaloff>:/img/test/sql_server_check.png</iconset>
+      </property>
+      <addaction name="actInterbase"/>
+      <addaction name="actMSSQL"/>
+      <addaction name="actMySQL"/>
+      <addaction name="actOracle"/>
+      <addaction name="actPostgreSQL"/>
+      <addaction name="actSybase"/>
+     </widget>
+     <widget class="QMenu" name="mnuTestAddShellScript">
+      <property name="toolTip">
+       <string extracomment="94.png"/>
+      </property>
+      <property name="title">
+       <string>Shell Script test</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/action/schellScript.png</normaloff>:/img/action/schellScript.png</iconset>
+      </property>
+      <addaction name="separator"/>
+      <addaction name="actScriptManager"/>
+     </widget>
+     <widget class="QMenu" name="mnuTestAddFiles">
+      <property name="title">
+       <string>Files</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../qHostMonitor.qrc">
+        <normaloff>:/img/action/files.png</normaloff>:/img/action/files.png</iconset>
+      </property>
+      <addaction name="actTestUNC"/>
+      <addaction name="actTestFolderFileSize"/>
+      <addaction name="actTestCountFiles"/>
+      <addaction name="actTestFolderFileAvailability"/>
+      <addaction name="actTestFileIntegrity"/>
+      <addaction name="actTestTextLog"/>
+     </widget>
+     <addaction name="actTestPing"/>
+     <addaction name="actTestTrace"/>
+     <addaction name="mnutestAddWeb"/>
+     <addaction name="mnuTestAddEmail"/>
+     <addaction name="mnuTestAddInternetService"/>
+     <addaction name="actTestRAS"/>
+     <addaction name="separator"/>
+     <addaction name="actTestDriveFreeSpace"/>
+     <addaction name="actTestCompareFiles"/>
+     <addaction name="separator"/>
+     <addaction name="actTestNTEventsLog"/>
+     <addaction name="actTestService"/>
+     <addaction name="actTestProcess"/>
+     <addaction name="actTestCPUUsage"/>
+     <addaction name="actDominantProcess"/>
+     <addaction name="actPerformanceCounter"/>
+     <addaction name="actTestWMI"/>
+     <addaction name="actRegistry"/>
+     <addaction name="mnuTestAddFiles"/>
+     <addaction name="separator"/>
+     <addaction name="mnuTestAddDatabase"/>
+     <addaction name="actTestODBCQuery"/>
+     <addaction name="separator"/>
+     <addaction name="actTestSNMPGet"/>
+     <addaction name="actSNMPTrap"/>
+     <addaction name="actTestSNMPTable"/>
+     <addaction name="actTestTrafficMonitor"/>
+     <addaction name="actNetInterfaceStatus"/>
+     <addaction name="actNetInterfaceErrors"/>
+     <addaction name="separator"/>
+     <addaction name="actTestActiveScript"/>
+     <addaction name="mnuTestAddShellScript"/>
+     <addaction name="actTestExternal"/>
+     <addaction name="actTestSSH"/>
+     <addaction name="separator"/>
+     <addaction name="actTestITTemperatureMonitor"/>
+     <addaction name="actTestHMMonitor"/>
+    </widget>
+    <widget class="QMenu" name="mnuTestRefresh">
+     <property name="toolTip">
+      <string extracomment="117.png"/>
+     </property>
+     <property name="title">
+      <string>Refresh</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../qHostMonitor.qrc">
+       <normaloff>:/img/action/refresh.png</normaloff>:/img/action/refresh.png</iconset>
+     </property>
+     <addaction name="actRefreshSelectedTests"/>
+     <addaction name="actRefreshFolderOnly"/>
+     <addaction name="actRefreshFolderWithChilds"/>
+     <addaction name="actRefreshAll"/>
+    </widget>
+    <widget class="QMenu" name="mnuTestReset">
+     <property name="toolTip">
+      <string extracomment="31.png"/>
+     </property>
+     <property name="title">
+      <string>Reset</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../qHostMonitor.qrc">
+       <normaloff>:/img/misc/dateTime.png</normaloff>:/img/misc/dateTime.png</iconset>
+     </property>
+     <addaction name="actResetSelectedTests"/>
+     <addaction name="actResetFolderOnly"/>
+     <addaction name="actResetFolderWithChilds"/>
+     <addaction name="actResetAll"/>
+    </widget>
+    <addaction name="mnuTestAdd"/>
+    <addaction name="actTestEdit"/>
+    <addaction name="actTestCopy"/>
+    <addaction name="actLink"/>
+    <addaction name="actLinkInfo"/>
+    <addaction name="actTestRemove"/>
+    <addaction name="actTestRemoveWithLinks"/>
+    <addaction name="separator"/>
+    <addaction name="actTestEnable"/>
+    <addaction name="actTestDisable"/>
+    <addaction name="actTestPause"/>
+    <addaction name="actTestResume"/>
+    <addaction name="separator"/>
+    <addaction name="actPlannedPause"/>
+    <addaction name="actTestsScheduledForPause"/>
+    <addaction name="separator"/>
+    <addaction name="mnuTestRefresh"/>
+    <addaction name="mnuTestReset"/>
+    <addaction name="actAcknowledge"/>
+    <addaction name="separator"/>
+    <addaction name="actTestInfo"/>
+    <addaction name="actHistoryCharts"/>
+    <addaction name="actLogAnalizer"/>
+    <addaction name="actViewPrivateLog"/>
+    <addaction name="separator"/>
+    <addaction name="actTemplates"/>
+   </widget>
+   <widget class="QMenu" name="mnuSearch">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>&amp;Search</string>
+    </property>
+    <addaction name="actFind"/>
+    <addaction name="actFindNext"/>
+    <addaction name="separator"/>
+    <addaction name="actFindBadTest"/>
+    <addaction name="actFindUnknownTest"/>
+   </widget>
+   <widget class="QMenu" name="mnuView">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="actViewRSIstatus"/>
+    <addaction name="actActiveRMAstatus"/>
+    <addaction name="actEstimateLoad"/>
+    <addaction name="actAuditingTool"/>
+    <addaction name="actSuperMatrix"/>
+    <addaction name="separator"/>
+    <addaction name="actDependants"/>
+    <addaction name="separator"/>
+    <addaction name="actViewLogAnalizer"/>
+    <addaction name="actViewLog"/>
+    <addaction name="actSystemLog"/>
+    <addaction name="separator"/>
+    <addaction name="actFoldersTree"/>
+    <addaction name="actViewsList"/>
+    <addaction name="actFolderLine"/>
+    <addaction name="actInfoPane"/>
+    <addaction name="actQuickLog"/>
+    <addaction name="actStatusBar"/>
+   </widget>
+   <widget class="QMenu" name="mnuReports">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>&amp;Reports</string>
+    </property>
+    <addaction name="separator"/>
+    <addaction name="Createmorereports"/>
+    <addaction name="AutoGenerate"/>
+   </widget>
+   <widget class="QMenu" name="mnuProfiles">
+    <property name="title">
+     <string>&amp;Profiles</string>
+    </property>
+    <addaction name="actPatterns"/>
+    <addaction name="actSchedules"/>
+    <addaction name="separator"/>
+    <addaction name="actProfilesScriptManager"/>
+    <addaction name="actConnectionManager"/>
+    <addaction name="actColorSchemes"/>
+    <addaction name="actMailProfiles"/>
+    <addaction name="actReportProfiles"/>
+    <addaction name="separator"/>
+    <addaction name="actGlobalMacroVars"/>
+    <addaction name="actActionsProfiles"/>
+   </widget>
+   <widget class="QMenu" name="mnuUser">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>&amp;User</string>
+    </property>
+    <addaction name="actGuiPreferences"/>
+    <addaction name="actPopupCustomMenu"/>
+    <addaction name="separator"/>
+    <addaction name="actOperators"/>
+    <addaction name="actLoginAs"/>
+   </widget>
+   <widget class="QMenu" name="mnuOptions">
+    <property name="toolTip">
+     <string>Options</string>
+    </property>
+    <property name="statusTip">
+     <string>Displays the Options dialog box.</string>
+    </property>
+    <property name="title">
+     <string>&amp;Options</string>
+    </property>
+    <addaction name="actOptions"/>
+   </widget>
+   <widget class="QMenu" name="mnuTools">
+    <property name="title">
+     <string>&amp;Tools</string>
+    </property>
+    <addaction name="actToolsLocalInfo"/>
+    <addaction name="separator"/>
+    <addaction name="actToolsTrace"/>
+    <addaction name="actToolsTelnet"/>
+    <addaction name="separator"/>
+    <addaction name="actToolsIPMonitor"/>
+   </widget>
+   <widget class="QMenu" name="mnuHelp">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actHelpUpdateCheck"/>
+    <addaction name="separator"/>
+    <addaction name="actHelp"/>
+    <addaction name="actHomePage"/>
+    <addaction name="actHelpWWWForum"/>
+    <addaction name="actSupport"/>
+    <addaction name="separator"/>
+    <addaction name="actAbout"/>
+    <addaction name="actLicense"/>
+   </widget>
+   <widget class="QMenu" name="mnuHostList">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>HostList</string>
+    </property>
+    <widget class="QMenu" name="mnuRefresh2">
+     <property name="title">
+      <string>Refresh</string>
+     </property>
+     <property name="icon">
+      <iconset resource="../qHostMonitor.qrc">
+       <normaloff>:/img/action/refresh.png</normaloff>:/img/action/refresh.png</iconset>
+     </property>
+     <addaction name="actRefreshFolderOnly"/>
+     <addaction name="actRefreshFolderWithChilds"/>
+     <addaction name="actRefreshAll"/>
+    </widget>
+    <addaction name="actAcknowledge"/>
+    <addaction name="separator"/>
+    <addaction name="actTestEdit"/>
+    <addaction name="actTestAdd"/>
+    <addaction name="actTestCopy"/>
+    <addaction name="actLink"/>
+    <addaction name="actLinkInfo"/>
+    <addaction name="actTestRemove"/>
+    <addaction name="separator"/>
+    <addaction name="mnuRefresh2"/>
+    <addaction name="actTestPause"/>
+    <addaction name="actTestResume"/>
+    <addaction name="separator"/>
+    <addaction name="actDisableSelectedTests"/>
+    <addaction name="actEnableSelectedTests"/>
+    <addaction name="actDisableThisFolder"/>
+    <addaction name="actEnableThisFolder"/>
+    <addaction name="separator"/>
+    <addaction name="actTestInfo"/>
+    <addaction name="actHistoryCharts"/>
+    <addaction name="Realtimechart1"/>
+    <addaction name="Systeminfo1"/>
+    <addaction name="separator"/>
+    <addaction name="actLogAnalizer"/>
+    <addaction name="actViewPrivateLog"/>
+    <addaction name="separator"/>
+    <addaction name="RelatedURL1"/>
+    <addaction name="Trace2"/>
+    <addaction name="Telnet2"/>
+    <addaction name="ExploreWMI1"/>
+    <addaction name="ProcessMeter1"/>
+    <addaction name="separator"/>
+    <addaction name="actionCustom"/>
+   </widget>
+   <addaction name="mnuFile"/>
+   <addaction name="mnuMonitoring"/>
+   <addaction name="mnuTest"/>
+   <addaction name="mnuSearch"/>
+   <addaction name="mnuView"/>
+   <addaction name="mnuReports"/>
+   <addaction name="mnuProfiles"/>
+   <addaction name="mnuUser"/>
+   <addaction name="mnuOptions"/>
+   <addaction name="mnuTools"/>
+   <addaction name="mnuHelp"/>
+   <addaction name="mnuHostList"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actNewTestList">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/new.png</normaloff>:/img/new.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;New TestList</string>
+   </property>
+   <property name="toolTip">
+    <string>New TestList</string>
+   </property>
+   <property name="statusTip">
+    <string>Creates new TestList</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actLoadTestList">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Load TestList...</string>
+   </property>
+   <property name="toolTip">
+    <string>Load TestList</string>
+   </property>
+   <property name="statusTip">
+    <string>Displays the Open dialog box for loading an existing TestList</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actAppendFromHML">
+   <property name="text">
+    <string>&amp;Append from HML file...</string>
+   </property>
+   <property name="toolTip">
+    <string>Append from HML file</string>
+   </property>
+   <property name="statusTip">
+    <string>Appends tests to current TestList from HML file</string>
+   </property>
+  </action>
+  <action name="actImportFromIPTools">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/import.png</normaloff>:/img/action/import.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import from IP-Tools...</string>
+   </property>
+   <property name="toolTip">
+    <string>Import from IP-Tools</string>
+   </property>
+   <property name="statusTip">
+    <string>Imports tests from IP-Tools TestList</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="ImportfromfileonHMsystem">
+   <property name="text">
+    <string>Import from Text file on HM system...</string>
+   </property>
+  </action>
+  <action name="actImportFromTxtFile">
+   <property name="text">
+    <string>&amp;Import from Text file...</string>
+   </property>
+   <property name="toolTip">
+    <string>Import from Text file</string>
+   </property>
+   <property name="statusTip">
+    <string>Imports tests from Text file</string>
+   </property>
+  </action>
+  <action name="actExportToTxtFile">
+   <property name="text">
+    <string>Export to Text file...</string>
+   </property>
+  </action>
+  <action name="actStartHMLManager">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/hmManager.png</normaloff>:/img/action/hmManager.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start HML Manager</string>
+   </property>
+   <property name="toolTip">
+    <string>Start HML Manager</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actExecuteScript">
+   <property name="text">
+    <string>Execute script...</string>
+   </property>
+   <property name="toolTip">
+    <string>Execute script</string>
+   </property>
+  </action>
+  <action name="actSave">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/save.png</normaloff>:/img/action/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
+   </property>
+   <property name="toolTip">
+    <string>Save</string>
+   </property>
+   <property name="statusTip">
+    <string>Saves the current file using its current name.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSaveAs">
+   <property name="text">
+    <string>Save &amp;as...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save as....</string>
+   </property>
+   <property name="statusTip">
+    <string>Saves the current file using a new name.</string>
+   </property>
+  </action>
+  <action name="actProperties">
+   <property name="text">
+    <string>Properties...</string>
+   </property>
+  </action>
+  <action name="actPrint">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/print.png</normaloff>:/img/action/print.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Print...</string>
+   </property>
+   <property name="toolTip">
+    <string>Prints report</string>
+   </property>
+   <property name="statusTip">
+    <string>Prints report</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actExit">
+   <property name="text">
+    <string>&amp;Exit</string>
+   </property>
+   <property name="toolTip">
+    <string>Exit</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+X</string>
+   </property>
+  </action>
+  <action name="actStartMonitoring">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/startMonitoring.png</normaloff>:/img/action/startMonitoring.png</iconset>
+   </property>
+   <property name="text">
+    <string>Start monitoring</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actStopMonitoring">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/stopMonitoring.png</normaloff>:/img/action/stopMonitoring.png</iconset>
+   </property>
+   <property name="text">
+    <string>Stop monitoring</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actEnableAlerts">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/enableAlerts.png</normaloff>:/img/action/enableAlerts.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable alerts</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actPause">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/pause.png</normaloff>:/img/action/pause.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pause...</string>
+   </property>
+   <property name="toolTip">
+    <string>Pause monitoring/alerting</string>
+   </property>
+   <property name="statusTip">
+    <string>Pause monitoring/alerting</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestPing">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/ping.png</normaloff>:/img/test/ping.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Ping test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestTrace">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/trace_test.png</normaloff>:/img/test/trace_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>Trace test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestHTTP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/misc/urlTests.png</normaloff>:/img/misc/urlTests.png</iconset>
+   </property>
+   <property name="text">
+    <string>HTTP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestURL">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/misc/urlTests.png</normaloff>:/img/misc/urlTests.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;URL test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSOAP">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/soap-xml.png</normaloff>:/img/test/soap-xml.png</iconset>
+   </property>
+   <property name="text">
+    <string>SOAP/XML</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actCertificateExpiration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/cerificate_expiration.png</normaloff>:/img/test/cerificate_expiration.png</iconset>
+   </property>
+   <property name="text">
+    <string>Certificate expiration</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actDomainExpiration">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/domain_expiration.png</normaloff>:/img/test/domain_expiration.png</iconset>
+   </property>
+   <property name="text">
+    <string>Domain expiration</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestSMTP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/smtp_test.png</normaloff>:/img/test/smtp_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>SMTP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestPOP3">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/pop3_test.png</normaloff>:/img/test/pop3_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>POP3</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestIMAP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/imap_test.png</normaloff>:/img/test/imap_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>IMAP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actEMail">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/email.png</normaloff>:/img/test/email.png</iconset>
+   </property>
+   <property name="text">
+    <string>E-Mail</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actMailRelay">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/mail_relay.png</normaloff>:/img/test/mail_relay.png</iconset>
+   </property>
+   <property name="text">
+    <string>Mail Relay</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestTCP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/tcp_connection.png</normaloff>:/img/test/tcp_connection.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;TCP test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestUDP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/udp_test.png</normaloff>:/img/test/udp_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>UDP test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestRadius">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/radius.png</normaloff>:/img/test/radius.png</iconset>
+   </property>
+   <property name="text">
+    <string>Radius</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestDNS">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/dns_test.png</normaloff>:/img/test/dns_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>DNS</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestDHCP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/dhcp_test.png</normaloff>:/img/test/dhcp_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>DHCP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestNTP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/ntp_test.png</normaloff>:/img/test/ntp_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>NTP/SNTP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestLDAP">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/ldap_test.png</normaloff>:/img/test/ldap_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>LDAP</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestDICOM">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/dicom.png</normaloff>:/img/test/dicom.png</iconset>
+   </property>
+   <property name="text">
+    <string>DICOM</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestRAS">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/ras_test.png</normaloff>:/img/test/ras_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>RAS test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestUNC">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/unc_availability.png</normaloff>:/img/test/unc_availability.png</iconset>
+   </property>
+   <property name="text">
+    <string>U&amp;NC test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestDriveFreeSpace">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/drive_free_space2.png</normaloff>:/img/test/drive_free_space2.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Drive Free Space</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestFolderFileSize">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/folder-file_size.png</normaloff>:/img/test/folder-file_size.png</iconset>
+   </property>
+   <property name="text">
+    <string>Folder/File &amp;Size</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestCountFiles">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/count_files.png</normaloff>:/img/test/count_files.png</iconset>
+   </property>
+   <property name="text">
+    <string>Count Files</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestFolderFileAvailability">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/folder-file_availability2.png</normaloff>:/img/test/folder-file_availability2.png</iconset>
+   </property>
+   <property name="text">
+    <string>Folder/File &amp;Availability</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestFileIntegrity">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/file_integrity.png</normaloff>:/img/test/file_integrity.png</iconset>
+   </property>
+   <property name="text">
+    <string>File &amp;Integrity test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestTextLog">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/text_log.png</normaloff>:/img/test/text_log.png</iconset>
+   </property>
+   <property name="text">
+    <string>Text &amp;Log test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestCompareFiles">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/compare_files.png</normaloff>:/img/test/compare_files.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Compare Files</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestNTEventsLog">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/nt_event_log.png</normaloff>:/img/test/nt_event_log.png</iconset>
+   </property>
+   <property name="text">
+    <string>NT Events Log</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestService">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/service.png</normaloff>:/img/test/service.png</iconset>
+   </property>
+   <property name="text">
+    <string>Service test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestProcess">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/process.png</normaloff>:/img/test/process.png</iconset>
+   </property>
+   <property name="text">
+    <string>Process test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestCPUUsage">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/vm_host_cpu_usage.png</normaloff>:/img/test/vm_host_cpu_usage.png</iconset>
+   </property>
+   <property name="text">
+    <string>CPU Usage</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actDominantProcess">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/dominant_process.png</normaloff>:/img/test/dominant_process.png</iconset>
+   </property>
+   <property name="text">
+    <string>Dominant Process</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actPerformanceCounter">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/performance_counter.png</normaloff>:/img/test/performance_counter.png</iconset>
+   </property>
+   <property name="text">
+    <string>Performance Counter</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestWMI">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/wmi.png</normaloff>:/img/test/wmi.png</iconset>
+   </property>
+   <property name="text">
+    <string>WMI test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actRegistry">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/registry.png</normaloff>:/img/test/registry.png</iconset>
+   </property>
+   <property name="text">
+    <string>Registry</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actInterbase">
+   <property name="text">
+    <string>&amp;Interbase</string>
+   </property>
+  </action>
+  <action name="actMSSQL">
+   <property name="text">
+    <string>MS SQL</string>
+   </property>
+  </action>
+  <action name="actMySQL">
+   <property name="text">
+    <string>MySQL</string>
+   </property>
+  </action>
+  <action name="actOracle">
+   <property name="text">
+    <string>Oracle</string>
+   </property>
+  </action>
+  <action name="actPostgreSQL">
+   <property name="text">
+    <string>PostgreSQL</string>
+   </property>
+  </action>
+  <action name="actSybase">
+   <property name="text">
+    <string>Sybase</string>
+   </property>
+  </action>
+  <action name="actTestODBCQuery">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/odbc_query.png</normaloff>:/img/test/odbc_query.png</iconset>
+   </property>
+   <property name="text">
+    <string>ODBC Query test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestSNMPGet">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/snmp_get.png</normaloff>:/img/test/snmp_get.png</iconset>
+   </property>
+   <property name="text">
+    <string>SNMP GET test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSNMPTrap">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/snmp_trap.png</normaloff>:/img/test/snmp_trap.png</iconset>
+   </property>
+   <property name="text">
+    <string>SNMP Trap test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestSNMPTable">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/snmp_table.png</normaloff>:/img/test/snmp_table.png</iconset>
+   </property>
+   <property name="text">
+    <string>SNMP Table</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestTrafficMonitor">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/traffic_monitor.png</normaloff>:/img/test/traffic_monitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>Traffic Monitor</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actNetInterfaceStatus">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/net_interface_status.png</normaloff>:/img/test/net_interface_status.png</iconset>
+   </property>
+   <property name="text">
+    <string>Interfaces status</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actNetInterfaceErrors">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/net_interface_error.png</normaloff>:/img/test/net_interface_error.png</iconset>
+   </property>
+   <property name="text">
+    <string>Interfaces errors</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestActiveScript">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/active_script.png</normaloff>:/img/test/active_script.png</iconset>
+   </property>
+   <property name="text">
+    <string>Active Script test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actScriptManager">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/askknowledge.png</normaloff>:/img/action/askknowledge.png</iconset>
+   </property>
+   <property name="text">
+    <string>Script Manager...</string>
+   </property>
+  </action>
+  <action name="actTestExternal">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/external_test.png</normaloff>:/img/test/external_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>External test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestSSH">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/ssh_test.png</normaloff>:/img/test/ssh_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>SSH test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestITTemperatureMonitor">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/temperature_monitor.png</normaloff>:/img/test/temperature_monitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>IT Temperature Monitor</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestHMMonitor">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>HM Monitor</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestEdit">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/properties.png</normaloff>:/img/action/properties.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Edit...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestCopy">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/copy.png</normaloff>:/img/action/copy.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Copy...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actLink">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/link.png</normaloff>:/img/action/link.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Link...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actLinkInfo">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/info.png</normaloff>:/img/action/info.png</iconset>
+   </property>
+   <property name="text">
+    <string>Link &amp;info...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestRemove">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/delete.png</normaloff>:/img/action/delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Remove</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestRemoveWithLinks">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/deleteWithLinks.png</normaloff>:/img/action/deleteWithLinks.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove item(s) with links</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestEnable">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/enableTest.png</normaloff>:/img/action/enableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>Enable</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestDisable">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/disableTest.png</normaloff>:/img/action/disableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>Disable</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestResume">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/resumeTest.png</normaloff>:/img/action/resumeTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>Resume</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actPlannedPause">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/setPlannedPause.png</normaloff>:/img/action/setPlannedPause.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set planned pause...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestsScheduledForPause">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/testScheduled.png</normaloff>:/img/action/testScheduled.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tests scheduled for pause...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actRefreshSelectedTests">
+   <property name="text">
+    <string>Refresh selected test(s)</string>
+   </property>
+  </action>
+  <action name="actRefreshFolderOnly">
+   <property name="text">
+    <string>Refresh current folder only</string>
+   </property>
+  </action>
+  <action name="actRefreshFolderWithChilds">
+   <property name="text">
+    <string>Refresh current folder and subfolders</string>
+   </property>
+  </action>
+  <action name="actRefreshAll">
+   <property name="text">
+    <string>Refresh all tests</string>
+   </property>
+  </action>
+  <action name="actResetSelectedTests">
+   <property name="text">
+    <string>Reset selected test(s)</string>
+   </property>
+  </action>
+  <action name="actResetFolderOnly">
+   <property name="text">
+    <string>Reset current folder only</string>
+   </property>
+  </action>
+  <action name="actResetFolderWithChilds">
+   <property name="text">
+    <string>Reset current folder and subfolders</string>
+   </property>
+  </action>
+  <action name="actResetAll">
+   <property name="text">
+    <string>Reset all tests</string>
+   </property>
+  </action>
+  <action name="actAcknowledge">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/askknowledge.png</normaloff>:/img/action/askknowledge.png</iconset>
+   </property>
+   <property name="text">
+    <string>Acknowledge...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTestInfo">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/testInfo.png</normaloff>:/img/action/testInfo.png</iconset>
+   </property>
+   <property name="text">
+    <string>Test &amp;info...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actHistoryCharts">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/historyChart.png</normaloff>:/img/action/historyChart.png</iconset>
+   </property>
+   <property name="text">
+    <string>History charts...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+H</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actLogAnalizer">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/logAnalizer.png</normaloff>:/img/action/logAnalizer.png</iconset>
+   </property>
+   <property name="text">
+    <string>Log Analyzer...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actViewPrivateLog">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/view.png</normaloff>:/img/action/view.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;View private log..</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actTemplates">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/find.png</normaloff>:/img/action/find.png</iconset>
+   </property>
+   <property name="text">
+    <string>Templates...</string>
+   </property>
+  </action>
+  <action name="actFind">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/find.png</normaloff>:/img/action/find.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Find...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actFindNext">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/findNext.png</normaloff>:/img/action/findNext.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Search again</string>
+   </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actFindBadTest">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/findBad.png</normaloff>:/img/action/findBad.png</iconset>
+   </property>
+   <property name="text">
+    <string>Find &quot;Bad&quot; test</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actFindUnknownTest">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/findUnknown.png</normaloff>:/img/action/findUnknown.png</iconset>
+   </property>
+   <property name="text">
+    <string>Find &quot;Unknown&quot; test</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actViewRSIstatus">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/viewRCA.png</normaloff>:/img/action/viewRCA.png</iconset>
+   </property>
+   <property name="text">
+    <string>RCI status...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actActiveRMAstatus">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/rmaStatus.png</normaloff>:/img/action/rmaStatus.png</iconset>
+   </property>
+   <property name="text">
+    <string>Active RMA status...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actEstimateLoad">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/estimateLoad.png</normaloff>:/img/action/estimateLoad.png</iconset>
+   </property>
+   <property name="text">
+    <string>Estimate load...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actAuditingTool">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/estimateLoad.png</normaloff>:/img/action/estimateLoad.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Auditing tool...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSuperMatrix">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/grid.png</normaloff>:/img/action/grid.png</iconset>
+   </property>
+   <property name="text">
+    <string>Super matrix</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actDependants">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Dependants...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actViewLogAnalizer">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/logAnalizer.png</normaloff>:/img/action/logAnalizer.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Log Analyzer</string>
+   </property>
+   <property name="toolTip">
+    <string>Log Analyzer</string>
+   </property>
+   <property name="statusTip">
+    <string>Shows Log Analyzer</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actViewLog">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/view.png</normaloff>:/img/action/view.png</iconset>
+   </property>
+   <property name="text">
+    <string>Log &amp;viewer</string>
+   </property>
+   <property name="statusTip">
+    <string>Shows current log file</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSystemLog">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/folder-file_availability.png</normaloff>:/img/test/folder-file_availability.png</iconset>
+   </property>
+   <property name="text">
+    <string>System log</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actFoldersTree">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Folders Tree</string>
+   </property>
+  </action>
+  <action name="actViewsList">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Views List</string>
+   </property>
+  </action>
+  <action name="actFolderLine">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Folder Line</string>
+   </property>
+  </action>
+  <action name="actInfoPane">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Info pane</string>
+   </property>
+  </action>
+  <action name="actQuickLog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Quick log</string>
+   </property>
+  </action>
+  <action name="actStatusBar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Status bar</string>
+   </property>
+  </action>
+  <action name="Createmorereports">
+   <property name="text">
+    <string>Report manager...</string>
+   </property>
+  </action>
+  <action name="AutoGenerate">
+   <property name="text">
+    <string>Autogenerate options...</string>
+   </property>
+  </action>
+  <action name="actPatterns">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/patterns.png</normaloff>:/img/action/patterns.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Patterns...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSchedules">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/scheduler.png</normaloff>:/img/action/scheduler.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Schedules...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actConnectionManager">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/enableAlerts.png</normaloff>:/img/action/enableAlerts.png</iconset>
+   </property>
+   <property name="text">
+    <string>Connection &amp;Manager...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actColorSchemes">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/color.png</normaloff>:/img/action/color.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Color schemes...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actMailProfiles">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/mail.png</normaloff>:/img/action/mail.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Mail profiles...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actReportProfiles">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/report.png</normaloff>:/img/action/report.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Report profiles...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actGlobalMacroVars">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/macroVars.png</normaloff>:/img/action/macroVars.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Global macro variables...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actActionsProfiles">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/external_test.png</normaloff>:/img/test/external_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Action profiles...</string>
+   </property>
+   <property name="statusTip">
+    <string>View/Edit Action profiles</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actGuiPreferences">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/userPref.png</normaloff>:/img/action/userPref.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;GUI preferences...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actPopupCustomMenu">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/popupMenu.png</normaloff>:/img/action/popupMenu.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Custom menu profiles...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actOperators">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/operator.png</normaloff>:/img/action/operator.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Operators...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actLoginAs">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/lock.png</normaloff>:/img/action/lock.png</iconset>
+   </property>
+   <property name="text">
+    <string>Login as...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actToolsLocalInfo">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/info.png</normaloff>:/img/action/info.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Local Info</string>
+   </property>
+   <property name="statusTip">
+    <string>Info about your computer</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actToolsTrace">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/test/trace_test.png</normaloff>:/img/test/trace_test.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Trace</string>
+   </property>
+   <property name="statusTip">
+    <string>Trace route to host</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actToolsTelnet">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/monitor.png</normaloff>:/img/action/monitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>T&amp;elnet</string>
+   </property>
+   <property name="statusTip">
+    <string>Telet client</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actToolsIPMonitor">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/ipMonitor.png</normaloff>:/img/action/ipMonitor.png</iconset>
+   </property>
+   <property name="text">
+    <string>IP &amp;Monitor</string>
+   </property>
+   <property name="statusTip">
+    <string>IP-Monitor show in real time graphics for count In,Out,Error packets for TCP,UDP,ICMP protocols</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actHelpUpdateCheck">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/misc/updateCheck.png</normaloff>:/img/misc/updateCheck.png</iconset>
+   </property>
+   <property name="text">
+    <string>Update check...</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actHelp">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/help.png</normaloff>:/img/action/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Help</string>
+   </property>
+   <property name="statusTip">
+    <string>Help</string>
+   </property>
+   <property name="shortcut">
+    <string>F1</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actHomePage">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/homePage.png</normaloff>:/img/action/homePage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Home &amp;Page</string>
+   </property>
+   <property name="statusTip">
+    <string>http://www.ks-soft.net/hostmon.eng/index.htm</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actHelpWWWForum">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/users.png</normaloff>:/img/users.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;WWW Forum</string>
+   </property>
+   <property name="statusTip">
+    <string>WWW Forum on www.ks-soft.net</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actSupport">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/info.png</normaloff>:/img/action/info.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Support</string>
+   </property>
+   <property name="statusTip">
+    <string>Send e-mail to tech support</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actAbout">
+   <property name="text">
+    <string>&amp;About...</string>
+   </property>
+   <property name="statusTip">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="actLicense">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/key.png</normaloff>:/img/action/key.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;License...</string>
+   </property>
+   <property name="statusTip">
+    <string>License information, Registration</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actDisableAlerts">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/disableAlerts.png</normaloff>:/img/action/disableAlerts.png</iconset>
+   </property>
+   <property name="text">
+    <string>Disable alerts</string>
+   </property>
+   <property name="iconVisibleInMenu">
+    <bool>true</bool>
+   </property>
+  </action>
+  <action name="actionFiles">
+   <property name="text">
+    <string>Files</string>
+   </property>
+  </action>
+  <action name="actionUNC_test">
+   <property name="text">
+    <string>UNC test</string>
+   </property>
+  </action>
+  <action name="actionFolder_File_Size">
+   <property name="text">
+    <string>Folder/File Size</string>
+   </property>
+  </action>
+  <action name="actionCount_Files">
+   <property name="text">
+    <string>Count Files</string>
+   </property>
+  </action>
+  <action name="actionFolder_File_Availability">
+   <property name="text">
+    <string>Folder/File Availability</string>
+   </property>
+  </action>
+  <action name="actionFile_Integrity">
+   <property name="text">
+    <string>File Integrity</string>
+   </property>
+  </action>
+  <action name="actionText_Log_test">
+   <property name="text">
+    <string>Text Log test</string>
+   </property>
+  </action>
+  <action name="actOptions">
+   <property name="text">
+    <string>&amp;Options</string>
+   </property>
+  </action>
+  <action name="actProfilesScriptManager">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/94.png</normaloff>:/resources/RC Data/0000/TMAINFORM/94.png</iconset>
+   </property>
+   <property name="text">
+    <string>Script Manager</string>
+   </property>
+  </action>
+  <action name="actTestAdd">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Add</string>
+   </property>
+  </action>
+  <action name="actTestPause">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/pauseTest.png</normaloff>:/img/action/pauseTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Pause...</string>
+   </property>
+  </action>
+  <action name="actDisableSelectedTests">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/disableTest.png</normaloff>:/img/action/disableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Disable selected test(s)</string>
+   </property>
+  </action>
+  <action name="actEnableSelectedTests">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/enableTest.png</normaloff>:/img/action/enableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>E&amp;nable selected test(s)</string>
+   </property>
+  </action>
+  <action name="actDisableThisFolder">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/disableTest.png</normaloff>:/img/action/disableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>D&amp;isable this folder</string>
+   </property>
+  </action>
+  <action name="actEnableThisFolder">
+   <property name="icon">
+    <iconset resource="../qHostMonitor.qrc">
+     <normaloff>:/img/action/enableTest.png</normaloff>:/img/action/enableTest.png</iconset>
+   </property>
+   <property name="text">
+    <string>Ena&amp;ble this folder</string>
+   </property>
+  </action>
+  <action name="Realtimechart1">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-8.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-8.png</iconset>
+   </property>
+   <property name="text">
+    <string>Real time chart</string>
+   </property>
+  </action>
+  <action name="Systeminfo1">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-79.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-79.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;System info</string>
+   </property>
+  </action>
+  <action name="actionRelated_URL">
+   <property name="text">
+    <string>Related URL</string>
+   </property>
+  </action>
+  <action name="RelatedURL1">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-42.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-42.png</iconset>
+   </property>
+   <property name="text">
+    <string>Related URL</string>
+   </property>
+  </action>
+  <action name="Trace2">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-19.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-19.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Trace</string>
+   </property>
+  </action>
+  <action name="Telnet2">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-10.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-10.png</iconset>
+   </property>
+   <property name="text">
+    <string>Telnet</string>
+   </property>
+  </action>
+  <action name="ExploreWMI1">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-106.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-106.png</iconset>
+   </property>
+   <property name="text">
+    <string>Explore WMI</string>
+   </property>
+  </action>
+  <action name="ProcessMeter1">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-119.png</normaloff>:/resources/RC Data/0000/TMAINFORM/MenuImageList-119.png</iconset>
+   </property>
+   <property name="text">
+    <string>Process &amp;Meter</string>
+   </property>
+  </action>
+  <action name="actionCustom">
+   <property name="text">
+    <string>Custom</string>
+   </property>
+  </action>
+  <action name="actionFile_1">
+   <property name="text">
+    <string>file 1</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::MainInfoPaneWidget</class>
+   <extends>QWidget</extends>
+   <header>qMainInfoPaneWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,968 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShellMng</class>
+ <widget class="QDialog" name="ShellMng">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>607</width>
+    <height>494</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Script Manager</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_4">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_8">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="panelScripts">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="lineWidth">
+          <number>2</number>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="lblScripts">
+            <property name="text">
+             <string>Scripts</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnNew">
+            <property name="statusTip">
+             <string/>
+            </property>
+            <property name="text">
+             <string>&amp;New</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/action/add.png</normaloff>:/img/action/add.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnCopy">
+            <property name="text">
+             <string>&amp;Copy</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/action/copy.png</normaloff>:/img/action/copy.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnDelete">
+            <property name="text">
+             <string>&amp;Delete</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/action/delete.png</normaloff>:/img/action/delete.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnImport">
+            <property name="statusTip">
+             <string>Import</string>
+            </property>
+            <property name="text">
+             <string>Import</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/import.png</normaloff>:/img/import.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnExport">
+            <property name="statusTip">
+             <string>Export</string>
+            </property>
+            <property name="text">
+             <string>Export</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/export.png</normaloff>:/img/export.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextBesideIcon</enum>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>1</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnSortAlpha">
+            <property name="toolTip">
+             <string>Sort by name</string>
+            </property>
+            <property name="statusTip">
+             <string>Sort by name</string>
+            </property>
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/name.png</normaloff>:/img/name.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnSortPlatform">
+            <property name="toolTip">
+             <string>Sort by supported platform</string>
+            </property>
+            <property name="statusTip">
+             <string>Sort by supported platform</string>
+            </property>
+            <property name="text">
+             <string>Platform</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/platform.png</normaloff>:/img/platform.png</iconset>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QListView" name="lstScripts">
+         <property name="isWrapping" stdset="0">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QFrame" name="panelInfo">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblErrImage">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="pixmap">
+           <pixmap>:/images/ImageList2/11.png</pixmap>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblInfo">
+          <property name="text">
+           <string>0 script(s) exist. 0 added, 0 removed</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>131</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>4</number>
+        </property>
+        <property name="leftMargin">
+         <number>4</number>
+        </property>
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="rightMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <property name="verticalSpacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lblName">
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="buddy">
+             <cstring>editName</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1" colspan="3">
+           <widget class="QLineEdit" name="editName">
+            <property name="text">
+             <string>List of users</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="lblHint">
+            <property name="text">
+             <string>Hint</string>
+            </property>
+            <property name="buddy">
+             <cstring>editHint</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1" colspan="3">
+           <widget class="QLineEdit" name="editHint"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="lblDeveoper">
+            <property name="text">
+             <string>Developer</string>
+            </property>
+            <property name="buddy">
+             <cstring>cmbDeveloper</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QComboBox" name="cmbDeveloper">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>KS-Soft (www.ks-soft.net)</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="2" column="2">
+           <widget class="QLabel" name="lblVersion">
+            <property name="text">
+             <string>Version</string>
+            </property>
+            <property name="buddy">
+             <cstring>spinVersion</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="3">
+           <widget class="QDoubleSpinBox" name="spinVersion">
+            <property name="decimals">
+             <number>1</number>
+            </property>
+            <property name="value">
+             <double>1.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="lblPlatform">
+            <property name="text">
+             <string>Platform</string>
+            </property>
+            <property name="buddy">
+             <cstring>cmbPlatform</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QComboBox" name="cmbPlatform">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>AIX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>AIX/BSD/Linux/Solaris</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BSD</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>BSD/Linux</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>FreeBSD/Linux/Solaris</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>HP-UX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Linux</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Solaris</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Tru64 UNIX</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Unix</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>UnixWare</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Windows</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Windows 9x/ME</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Windows NT-2003</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="3" column="2">
+           <widget class="QLabel" name="lblDate">
+            <property name="text">
+             <string>Date</string>
+            </property>
+            <property name="buddy">
+             <cstring>spinDate</cstring>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="3">
+           <widget class="QDateEdit" name="spinDate">
+            <property name="date">
+             <date>
+              <year>2015</year>
+              <month>5</month>
+              <day>18</day>
+             </date>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTabWidget" name="PageControl">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tabScript">
+           <attribute name="title">
+            <string>Script</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>2</number>
+            </property>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <property name="spacing">
+               <number>4</number>
+              </property>
+              <item>
+               <widget class="QLabel" name="lblStartCmd">
+                <property name="text">
+                 <string>Start cmd</string>
+                </property>
+                <property name="buddy">
+                 <cstring>cmbStartCmd</cstring>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="cmbStartCmd">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>/bin/sh -c &quot;%Script% %Params%&quot;</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>%Script% %Params%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>cmd /c %Script% %Params%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>cmd /c cscript /B /E:JScript %Script% %Params%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>cmd /c cscript /B /E:VBScript %Script% %Params%</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>powershell.exe %script% %params%</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QLabel" name="lblScript">
+              <property name="text">
+               <string>Script</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPlainTextEdit" name="txtScript">
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOn</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabComment">
+           <attribute name="title">
+            <string>Comment</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QPlainTextEdit" name="txtComment"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabHistory">
+           <attribute name="title">
+            <string>History</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>2</number>
+            </property>
+            <property name="topMargin">
+             <number>2</number>
+            </property>
+            <property name="rightMargin">
+             <number>2</number>
+            </property>
+            <property name="bottomMargin">
+             <number>2</number>
+            </property>
+            <item>
+             <widget class="QPlainTextEdit" name="txtHistory"/>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="tabLetsTry">
+           <attribute name="title">
+            <string>Lets try</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_3">
+            <property name="spacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>6</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>6</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <layout class="QGridLayout" name="loProperties">
+              <property name="horizontalSpacing">
+               <number>2</number>
+              </property>
+              <property name="verticalSpacing">
+               <number>0</number>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="lblTestBy">
+                <property name="text">
+                 <string>Test by</string>
+                </property>
+                <property name="buddy">
+                 <cstring>cmbAgent</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="cmbAgent">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>HostMonitor</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>Agent: 127.0.0.1</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="0" column="2">
+               <widget class="QLabel" name="lblTimeout">
+                <property name="text">
+                 <string>Timeout</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spinTimeoutSec</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="3">
+               <widget class="QSpinBox" name="spinTimeoutSec"/>
+              </item>
+              <item row="0" column="4">
+               <widget class="QLabel" name="lblSec">
+                <property name="text">
+                 <string>sec</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spinTimeoutSec</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="5">
+               <widget class="QPushButton" name="btnTest">
+                <property name="text">
+                 <string>Test</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="lblParams">
+                <property name="text">
+                 <string>Params</string>
+                </property>
+                <property name="buddy">
+                 <cstring>editParams</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="editParams"/>
+              </item>
+              <item row="1" column="2">
+               <widget class="QLabel" name="lblDisplay">
+                <property name="text">
+                 <string>Display</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spinDisplayLines</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QSpinBox" name="spinDisplayLines"/>
+              </item>
+              <item row="1" column="4">
+               <widget class="QLabel" name="lblLines">
+                <property name="text">
+                 <string>lines</string>
+                </property>
+                <property name="buddy">
+                 <cstring>spinDisplayLines</cstring>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="5">
+               <widget class="QCheckBox" name="chbClear">
+                <property name="toolTip">
+                 <string>Clear old res</string>
+                </property>
+                <property name="statusTip">
+                 <string>Clear old res</string>
+                </property>
+                <property name="text">
+                 <string>Clear</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="Line" name="line">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPlainTextEdit" name="txtResult">
+              <property name="verticalScrollBarPolicy">
+               <enum>Qt::ScrollBarAlwaysOn</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="toolTip">
+        <string>Another operator editing scripts
+You may not change settings at this time</string>
+       </property>
+       <property name="statusTip">
+        <string>Another operator editing scripts You may not change settings at this time</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap>:/images/ImageList2/11.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnApply">
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnUsage">
+       <property name="toolTip">
+        <string> Usage report</string>
+       </property>
+       <property name="statusTip">
+        <string> Usage report</string>
+       </property>
+       <property name="text">
+        <string>&amp;Usage</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnRevoke">
+       <property name="text">
+        <string>Revoke</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>ShellMng</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>440</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>ShellMng</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>466</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

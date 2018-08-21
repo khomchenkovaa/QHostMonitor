@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PlaySoundWidget</class>
+ <widget class="QWidget" name="PlaySoundWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>455</width>
+    <height>161</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>15</number>
+   </property>
+   <property name="topMargin">
+    <number>4</number>
+   </property>
+   <item>
+    <widget class="QPlainTextEdit" name="txtPlaySoundDescription">
+     <property name="plainText">
+      <string>This action designed to play a sound file (WAV, MID, etc). In addition to the common action parameters, the &lt;Play sound&gt; action has the following options:
+- Sound file
+Specify full path to the sound file.
+- Show WakeUP window and play sound repeatedly
+With this option enabled HostMonitor will display a popup window with information about the event and will play a sound repeatedly until you click &quot;Stop&quot; button.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="lblSoundFile">
+         <property name="text">
+          <string>Sound file</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QLineEdit" name="lineSoundFile"/>
+         </item>
+         <item>
+          <widget class="QToolButton" name="btnSoundFile">
+           <property name="text">
+            <string>...</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../../qHostMonitor.qrc">
+             <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="chkShowWakeup">
+       <property name="text">
+        <string>Show WakeUp window and plays sound repeatedly</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

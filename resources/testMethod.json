@@ -1,0 +1,739 @@
+{
+"groups" : [
+ {
+    "groupId" : 0,
+    "name" : "root",
+    "parent" : -1,
+    "description" : [""]
+ }, {
+    "groupId" : 1,
+    "name" : "Internet Services",
+    "parent" : 0,
+    "icon" : ":/img/action/internetService.png",
+    "description" : ["Internet services"]
+ }, {
+    "groupId" : 2,
+    "name" : "Disk/Files",
+    "parent" : 0,
+    "icon" : ":/img/action/save.png",
+    "description" : ["Disk/Folder/File",
+        "This set of tests can check local (or mapped) drives, folders, files"
+        ]
+ }, {
+    "groupId" : 3,
+    "name" : "SNMP",
+    "parent" : 0,
+    "icon" : ":/img/action/snmp_trap.png",
+    "description" : ["SNMP",
+        "The following test methods use SNMP protocol to obtain information from local or remote system.",
+        "The Simple Network Management Protocol (SNMP) is the Internet standard protocol for exchanging management information between management console applications and managed entities (hosts, routers, bridges, hubs). Using this protocol HostMonitor can control many different parametrs of network devices."
+        ]
+ }, {
+    "groupId" : 4,
+    "name" : "Databases",
+    "parent" : 0,
+    "icon" : ":/img/action/sql_server_check.png",
+    "description" : ["Databases",
+        "Check your SQL server. HostMonitor supports Interbase, MS SQL, MySQL, Oracle, PostgreSQL, and Sybase servers.",
+        "To monitor Oracle servers HostMonitor uses the Oracle Call Interface (OCI.DLL), you should have the Oracle client software installed on the computer. The same is true for other SQL servers, install the client software for testing your SQL server.",
+        "HostMonitor uses the following DLLs:",
+        "- gds32.dll to monitor Interbase connections",
+        "- ntwdblib.dll to monitor MS SQL Server",
+        "- libmysql.dll to monitor MySQL",
+        "- libpq.dll to monitor PostgreSQL",
+        "- libsybdb.dll to monitor Sybase"
+        ]
+ }, {
+    "groupId" : 5,
+    "name" : "External",
+    "parent" : 0,
+    "icon" : ":/img/action/external_test.png",
+    "description" : ["External",
+        "HostMonitor has many built-in check types, but it can not support all possible check types. That`s why the program contains an External Test. With the External Test, HostMonitor uses an external application to perform a test and, based on the returned errorlevel, will flag the test entry as being up or down."]
+ }
+],
+"tests" : [
+ {
+    "id" : 0,
+    "name" : "Ping",
+    "title" : "Ping",
+    "text" : "Ping test",
+    "icon" : ":/img/test/ping.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "%TestMethod% %host%",
+    "comment" : "Ping %host%",
+    "description" : [ "Ping",
+        "The ping command verifies connections to remote computers, routers and other network components by sending ICMP (Internet Control Message Protocol) echo packets to the remote component and listening for echo reply packets. It`s best to use the Ping method to check a remote connection in general. To check specific services and conditions, HostMonitor provides a number of special test types."
+        ]
+ },{
+    "id" : 1,
+    "name" : "Tcp",
+    "title" : "TCP",
+    "text" : "TCP connection",
+    "icon" : ":/img/test/tcp_connection.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "TCP %host%",
+    "comment" : "port: %TargetPort%",
+    "description" : [ "TCP",
+        "This test allows you to check TCP/IP service such as HTTP, Whois, Finger or any other.",
+        "You have to enter server address and port to be checked. Please note, a range of IP addresses (e.g. 123.123.123.1 - 123.123.123.254) rather than a single address can be specified. In this case, HostMonitor will create a separate test for each of the addresses within that range."
+        ]
+ },{
+    "id" : 2,
+    "name" : "Url",
+    "title" : "URL",
+    "text" : "URL request",
+    "icon" : ":/img/test/url_request.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : [ "URL",
+        "HostMonitor can perform a URL (Universal Resource Locator) check based on the HTTP (web), HTTPS (secure web), FTP or Gopher protocols.",
+        "Examples of URLs include:",
+        "http://www.yahoo.com/index.html",
+        "https://www.super.secure.server.gov:444/unpublished/mainpage.html",
+        "You can specify service`s port, and for password protected pages you may define user name and password.",
+        "For URL check HostMonitor can connect to the remote server using a proxy server, this proxy server can be defined in the PROXY tab of the HostMonitor Options dialog. By default a re-direction is not seen as an UP situation, however by enabling the option '302 redirect - OK?' HostMonitor will see them as UP.",
+        "HostMonitor is not limited to the retrieval of HTM or HTML files for the HTTP and HTTPS checking, it can also retrieve other types of pages, even CGI scripts.",
+        "Also HostMonitor can search specified string on pages and start alert actions if this string appear or disappear.",
+        "HostMonitor may be the only program able to check the contents of files using CRC. If someone hack your site, HostMonitor can detect this before thousands of people see their handiwork on your corporate site."
+        ]
+ },{
+    "id" : 3,
+    "name" : "DriveSpace",
+    "title" : "Disk free space",
+    "text" : "Drive Free Space",
+    "icon" : ":/img/test/drive_free_space.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "%object%:/",
+    "comment" : "%path%/",
+    "description" : [ "Drive Free Space",
+        "To create a task to check for low disk space, choose 'Drive Free Space' as the test type, select the drive to check, and specify the minimum free space value. To check available space on a drive elsewhere on the network, use a UNC test, or map the drive to a drive letter on the local PC that is running HostMonitor."
+        ]
+ },{
+    "id" : 4,
+    "name" : "FileSize",
+    "title" : "Folder size",
+    "text" : "Folder/File Size",
+    "icon" : ":/img/test/folder-file_size.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["Folder/File Size",
+        "HostMonitor can check folder or file size. To add this task select test type 'Folder/File Size', enter folder name and specify a maximum size. Also, select the option 'Include sub-folders' and HostMonitor will calculate the size for the folder and all its sub-folders. Set 'Translate macros' options if you need use special macros in filename."
+        ]
+ },{
+    "id" : 5,
+    "name" : "FileExists",
+    "title" : "File Availability",
+    "text" : "Folder/File Availability",
+    "icon" : ":/img/test/folder-file_availability.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["File/Folder Availability",
+        "HostMonitor can check for a file that MUST exist each time a test is run, or can check for a file that MUST NOT exist each time a test is run. Select 'Folder/File Availability' as the test type and enter the file or folder name.",
+        "Set 'Translate macros' options if you need to use special macros in filename. Also you can set additional conditions and HostMonitor will start alert action only when file older (newer) than NN min (hours, days, etc.)"
+        ]
+ },{
+    "id" : 6,
+    "name" : "Externalprg",
+    "title" : "External",
+    "text" : "External test",
+    "icon" : ":/img/test/external_test.png",
+    "parent" : 1005,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["External",
+        "HostMonitor has many built-in check types, but it can not support all possible check types. That`s why the program contains an External Test. With the External Test, HostMonitor uses an external application to perform a test and, based on the returned errorlevel, will flag the test entry as being up or down."
+        ]
+ },{
+    "id" : 7,
+    "name" : "SSH",
+    "title" : "SSH test",
+    "text" : "SSH test",
+    "icon" : ":/img/test/ssh_test.png",
+    "parent" : 1005,
+    "active" : "yes",
+    "testname" : "SSH: %path%",
+    "comment" : "SSH: %path% (%host%)",
+    "description" : ["SSH" ,
+        "SSH Secure Shell allows secure network services over an insecure network, such as the Internet. With SSH, HostMonitor can login onto a remote machine running the SSH daemon, and execute a command or shell script."
+        ]
+ },{
+    "id" : 8,
+    "name" : "FileCRC",
+    "title" : "File Integrity",
+    "text" : "File Integrity",
+    "icon" : ":/img/test/file_integrity.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["File Integrity",
+        "HostMonitor can check the integrity of your files and start alert actions if someone change them. This is done by calculating the CRC (Cyclic Redundancy Check) of the file and comparing it against a previously obtained value."
+        ]
+ },{
+    "id" : 9,
+    "name" : "Oracle",
+    "title" : "Oracle",
+    "text" : "check Oracle server",
+    "icon" : ":/img/test/check_oracle_server.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "Oracle %host%",
+    "comment" : "%host%",
+    "description" : ["Oracle",
+        "To monitor Oracle SQL servers HostMonitor uses the Oracle Call Interface (OCI.DLL), you should have the Oracle client software installed on the computer."
+        ]
+ },{
+    "id" : 10,
+    "name" : "UNC",
+    "title" : "UNC",
+    "text" : "UNC (availability/free space)",
+    "icon" : ":/img/test/unc_availability.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["UNC",
+        "Check the UNC path (or local folder) for availability; for the total amount of free space; or for the amount of free space available to the current user (if the operating system implements per-user quotas, this value may be less than the total number of free bytes on the disk). For this test you have to specify the UNC path (or local folder) that you wish to be checked and select the condition for the alert:",
+        "- when the resource is unavailable",
+        "- when free space (for current user) is less than a specified value",
+        "- when the total free space is less than a specified value"
+        ]
+ },{
+    "id" : 11,
+    "name" : "Interbase",
+    "title" : "Interbase",
+    "text" : "Interbase server check",
+    "icon" : ":/img/test/sql_server_check.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "IBase %host%",
+    "comment" : "%object%",
+    "description" : ["Interbase",
+        "This test checks connection to Interbase SQL server. You can specify server`s name or IP address, protocol (TCP/IP, SPX or NetBEUI), database (path to database on server), user`s name and password."
+        ]
+ },{
+    "id" : 12,
+    "name" : "MSSQL",
+    "title" : "MS SQL",
+    "text" : "MS SQL server check",
+    "icon" : ":/img/test/sql_server_check.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "MS SQL %host%",
+    "comment" : "%object%",
+    "description" : ["MS SQL",
+        "This test checks connection to Microsoft SQL server. You should specify server`s name, database name, login and password."
+        ]
+ },{
+    "id" : 13,
+    "name" : "MySQL",
+    "title" : "MySQL",
+    "text" : "MySQL server check",
+    "icon" : ":/img/test/mysql_server_check.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "MySQL %host%",
+    "comment" : "%object%",
+    "description" : ["MySQL",
+        "This test checks connection to My SQL server. You should specify server`s name or IP address, port number, database name, login and password."
+        ]
+ },{
+    "id" : 14,
+    "name" : "Postgre",
+    "title" : "PGSQL",
+    "text" : "PostgreSQL server check",
+    "icon" : ":/img/test/sql_server_check.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "Postgre %host%",
+    "comment" : "%object%",
+    "description" : ["PostgreSQL",
+        "This test checks connection to Postgre SQL server. You should specify server`s name or IP address, port number, database name, login and password."
+        ]
+ },{
+    "id" : 15,
+    "name" : "Sybase",
+    "title" : "Sybase",
+    "text" : "SybaseSQL server chceck",
+    "icon" : ":/img/test/sql_server_check.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "Sybase %host%",
+    "comment" : "%object%",
+    "description" : ["Sybase SQL",
+        "This test checks connection to Sybase SQL server. You should specify server`s name, database name, login and password."
+        ]
+ },{
+    "id" : 16,
+    "name" : "Process",
+    "title" : "Process",
+    "text" : "Process",
+    "icon" : ":/img/test/process.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "Process %object% on %host%",
+    "description" : ["Process",
+        "A process, in the simplest terms, is an executing program. HostMonitor can control specified process on local or remote computer and start alert actions if number of instances of the specified process is out of the defined range. To control processes on a remote computer you must have the rights to do that (administrator privilege on the remote computer)."
+        ]
+ },{
+    "id" : 17,
+    "name" : "Service",
+    "title" : "Service",
+    "text" : "Service",
+    "icon" : ":/img/test/service.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "Service %object% on %host%",
+    "description" : ["Service",
+        "Microsoft Windows NT/2000/XP/2003 supports an application type known as a service.",
+        "To test services, HostMonitor establishes a connection to the service control manager on the specified computer and requests the service to update immediately its current status information. If the service has not been started or the service does not answer HostMonitor will start the specified alert actions.",
+        "Note #1: To test services on a remote computer you must have appropriate privileges.",
+        "Note #2: To check services from a Windows 9x machine you must have the Microsoft NT server tools installed."
+        ]
+ },{
+    "id" : 18,
+    "name" : "SNMP",
+    "title" : "SNMP Get",
+    "text" : "SNMP GET",
+    "icon" : ":/img/test/snmp_get.png",
+    "parent" : 1003,
+    "active" : "yes",
+    "testname" : "SNMP %mibnameshort%",
+    "comment" : "SNMP Get %mibnameshort% from %host%",
+    "description" : ["SNMP Get",
+        "This test allows you to poll specified host, request one of many counters supported by SNMP agent and",
+        "- compare retrieved counter to some constant",
+        "- or compare current value of the counter with previous value of this counter"
+        ]
+ },{
+    "id" : 19,
+    "name" : "NTLog",
+    "title" : "NT Event Log",
+    "text" : "NT Event Log",
+    "icon" : ":/img/test/nt_event_log.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "NTLog %host%:%path%",
+    "comment" : "NTLog %host%:%path%",
+    "description" : ["NT Event Log",
+        "Event logging in Microsoft Windows NT/2000/XP/2003 provides a standard, centralized way for applications (and the operating system) to record important software and hardware events. The event-logging service stores events from various sources in a single collection called an event log.",
+        "HostMonitor can check this log and start alert actions if some specific events occur."
+        ]
+ },{
+    "id" : 20,
+    "name" : "CPU",
+    "title" : "CPU Usage",
+    "text" : "CPU Usage",
+    "icon" : ":/img/test/cpu_usage.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "CPU %host% (%FCommentLine2%)",
+    "comment" : "CPU usage on %host%",
+    "description" : ["CPU Usage",
+        "CPU Usage test checks the percentage of CPU utilization for the local or remote machine. This test is implemented for Microsoft Windows NT/2000/XP/2003 and Novell Netware 4.x, 5.x.",
+        "",
+        "Note #1: To monitor CPU utilization on a remote Windows NT-2003 system, make sure you have the Remote Registry service started on the remote system (to monitor processes HostMonitor must have access to the registry). On Windows 2000 this service is installed by default, for Windows NT you can find this service in the Resource Kit.",
+        "Also to use this test for remote Windows NT/2000/XP/2003 computers you must have the permissions to do that (administrator privilege on the remote computer).",
+        "",
+        "Note #2: To check Novell Netware servers, HostMonitor uses the functionality of the Novell Netware client. Therefore, the Novell Netware client software has to be installed on the machine where HostMonitor is running."
+        ]
+ },{
+    "id" : 21,
+    "name" : "CompareFiles",
+    "title" : "File Compare",
+    "text" : "Compare Files",
+    "icon" : ":/img/test/compare_files.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "compare '%object%' & '%object2%'",
+    "comment" : "alert when %testmode% ('%object%' & '%object2%')",
+    "description" : ["Compare Files",
+        "You can use this test to compare two files or to search a string in the file. 6 alert conditions available:",
+        "- alert when files are different",
+        "- alert when files are identical",
+        "- alert when 1st file contains 2nd (in any position)",
+        "- alert when 1st file does not contain 2nd",
+        "- alert when file contains a specified string",
+        "- alert when file does not contain a specified string"
+        ]
+ },{
+    "id" : 22,
+    "name" : "ODBC",
+    "title" : "ODBC",
+    "text" : "ODBC Query",
+    "icon" : ":/img/misc/odbcTests.png",
+    "parent" : 1004,
+    "active" : "yes",
+    "testname" : "ODBC: %object%",
+    "comment" : "%path%",
+    "description" : ["ODBC Query",
+        "ODBC Query test allows you to monitor SQL-based systems. HostMonitor can check the availability of an ODBC data source, run an SQL query, and analyze the value of a specified data field in the result set returned."
+        ]
+ },{
+    "id" : 23,
+    "name" : "SMTP",
+    "title" : "SMTP",
+    "text" : "SMTP test",
+    "icon" : ":/img/test/smtp_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "SMTP: %host%",
+    "comment" : "SMTP: %host%",
+    "description" : ["SMTP",
+        "Most Internet e-mail servers use the Simple Mail Transfer Protocol (SMTP) to transmit e-mail from server to server. HostMonitor monitors this type of server by sending an SMTP command to the server as if it were an e-mail client or another server verifying the existence of a user. By verifying the username, the program effectively tests the SMTP server`s mail database without generating unnecessary mail messages"
+        ]
+ },{
+    "id" : 24,
+    "name" : "POP3",
+    "title" : "POP3",
+    "text" : "POP3 test",
+    "icon" : ":/img/test/pop3_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "POP3: %host%",
+    "comment" : "POP3: %host%",
+    "description" : ["POP3",
+        "E-mail is commonly posted and transferred between mail servers using SMTP, but access to mail is provided through POP3 (Post Office Protocol version 3). POP3 test can be used to test that your mail server`s POP functions are functioning perfectly. To perform test HostMonitor login to the server and logout using specified user account.",
+        "As an option HostMonitor can check number of messages and size of messages for specified user. If messages count/size exceed specified limit, the program can start alert actions."
+        ]
+ },{
+    "id" : 25,
+    "name" : "IMAP",
+    "title" : "IMAP",
+    "text" : "IMAP test",
+    "icon" : ":/img/test/imap_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "IMAP: %host%",
+    "comment" : "IMAP: %host%",
+    "description" : ["IMAP",
+        "Some Internet mail servers support IMAP (Internet Message Access Protocol) for exchanging and manipulating e-mail. The IMAP test works much in the same way that POP3 test function to test IMAP compliant mail servers. The IMAP test performed by HostMonitor involves logging in to your mail server using an existing account and checking the status of the mailbox for that user.",
+        "As option HostMonitor can check number of messages and size of messages for specified mailbox. If message count/size exceed specified limit, the program can start alert actions."
+        ]
+ },{
+    "id" : 26,
+    "name" : "DNS",
+    "title" : "DNS",
+    "text" : "DNS test",
+    "icon" : ":/img/test/dns_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "DNS-%testmode%: %host%",
+    "comment" : "DNS-%testmode%: %host%",
+    "description" : ["DNS",
+        "The DNS test allow to monitor a Domain Name Server, it acts as a low-level resolver and connects directly to the target name server to perform a query."
+        ]
+ },{
+    "id" : 27,
+    "name" : "Ldap",
+    "title" : "LDAP",
+    "text" : "LDAP test",
+    "icon" : ":/img/test/ldap_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "LDAP: %host%",
+    "comment" : "LDAP: %host%",
+    "description" : ["LDAP",
+        "This test is used to check Directory Servers using the LDAP (Lightweight Directory Access Protocol). To perform this test HostMonitor connects and binds to the directory server. If the Password property has a value, it is used for authentication. As an option HostMonitor can perform Search operation using specified base object and search filter."
+        ]
+ },{
+    "id" : 28,
+    "name" : "Trace",
+    "title" : "Trace",
+    "text" : "Trace test",
+    "icon" : ":/img/test/trace_test.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "Trace: %host%",
+    "comment" : "Trace: %host%",
+    "description" : ["Trace",
+        "Traces the route to a remote host over the network. This test allows you to check the route all packets take to go from your machine to a specific host on the Internet (Intranel, LAN). It also displays the time each hop (or each machine packets go through) takes to answer."
+        ]
+ },{
+    "id" : 29,
+    "name" : "CountFiles",
+    "title" : "Count Files",
+    "text" : "Count Files",
+    "icon" : ":/img/test/count_files.png",
+    "parent" : 1002,
+    "active" : "yes",
+    "testname" : "Count Files: %object%",
+    "comment" : "Count Files: %path%",
+    "description" : ["Count Files",
+        "This test allows you to check number of files in the specified directory. Let`s say you have a mailserver that uses a spool directory. If the mail server is running correctly, it should deliver the mail within 5 minutes to the internet. Using Count Files test HostMonitor can check the number of files in the mail server`s spool directory and warn you when number of files exceed specified limit."
+        ]
+ },{
+    "id" : 30,
+    "name" : "RAS",
+    "title" : "RAS",
+    "text" : "RAS test",
+    "icon" : ":/img/test/ras_test.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "RAS: %object%",
+    "comment" : "RAS: %object%",
+    "description" : ["RAS",
+        "The RAS check type useful for monitoring remote RAS server. With this test HostMonitor tries to connect to the server using specified dial-up connection, sets status of the test ('Ok', 'Bad', 'No answer', or 'Unknown' depending on the connection result), and disconnects from the server."
+        ]
+ },{
+    "id" : 31,
+    "name" : "PerfCounter",
+    "title" : "Performance Counter",
+    "text" : "Performace Counter",
+    "icon" : ":/img/test/performance_counter.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "PerfCounter: %object%",
+    "comment" : "PerfCounter: %path%",
+    "description" : ["Performance Counter",
+        "Performance Counter test allows you to monitor specific aspects of work performed on local or remote computer by a system or a service. You can monitor a lot of important parameters of the system (that is running Windows NT 4.0, Windows 2000, XP or Windows 2003), such as:",
+        "- the percentage of time that the processor is executing a non-Idle thread",
+        "- the number of processes in the computer at the time of data collection",
+        "- the number of established TCP connections",
+        "- the percentage of elapsed time that all of the threads of specified process used the processor to execute instructions",
+        "- the total number of handles currently open by specified process",
+        "- current number of jobs in a print queue",
+        "- the amount of physical memory available to processes running on the computer and much more"
+        ]
+ },{
+    "id" : 32,
+    "name" : "Script",
+    "title" : "Active Script",
+    "text" : "Active Script",
+    "icon" : ":/img/test/active_script.png",
+    "parent" : 1005,
+    "active" : "yes",
+    "testname" : "%testmode%: %object%",
+    "comment" : "%testmode%: %object%",
+    "description" : ["Active Script",
+        "Starting from HostMonitor version 3.40 you can create your own tests using different script languages such as Visual Basic Script or Java Script. HostMonitor uses Microsoft ActiveScripting technology to execute scripts that were written by you or somebody else. Theoretically using this type of test you can check anything what is possible to check (if its impossible to retrieve some information using script language, you can create ActiveX object (e.g. using C++) and use this object in the script)."
+        ]
+ },{
+    "id" : 33,
+    "name" : "UDP",
+    "title" : "UDP",
+    "text" : "UDP test",
+    "icon" : ":/img/test/udp_test.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "UDP: %host%",
+    "comment" : "port: %TargetPort%",
+    "description" : ["UDP",
+        "The UDP test provides you with the ability to monitor UDP based servers such as TFTP, SNTP, Daytime, etc. Please note, to check DNS, NTP, and RADIUS servers you can use dedicated DNS, NTP, and RADIUS tests."
+        ]
+ },{
+    "id" : 34,
+    "name" : "NTP",
+    "title" : "NTP",
+    "text" : "NTP test",
+    "icon" : ":/img/test/ntp_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "NTP: %host%",
+    "comment" : "NTP: %host%",
+    "description" : ["NTP/SNTP",
+        "The Network Time Protocol (NTP) is widely used to synchronize computer clocks in the global Internet. Using NTP/SNTP test you can easily check you NTP/SNTP server"
+        ]
+ },{
+    "id" : 35,
+    "name" : "Radius",
+    "title" : "Radius",
+    "text" : "RADIUS (Remote Auth, Dial In User Service)",
+    "icon" : ":/img/test/radius.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "Radius: %host%",
+    "comment" : "Radius: %host%",
+    "description" : ["RADIUS",
+        "RADIUS test allows you to check Remote Authentication Dial-In User Service."
+        ]
+ },{
+    "id" : 36,
+    "name" : "HTTP",
+    "title" : "HTTP",
+    "text" : "HTTP (Hyper Text Transfer Protocol)",
+    "icon" : ":/img/test/http.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "HTTP: %object%",
+    "comment" : "HTTP: %path%",
+    "description" : ["HTTP",
+        "The HTTP test provides you with the ability to monitor HTTP based servers, verify the content of dynamically generated pages, check for changed content. Also it can help you verify that CGI scripts and back-end databases are functioning properly."
+        ]
+ },{
+    "id" : 37,
+    "name" : "TextLog",
+    "title" : "Text Log",
+    "text" : "Text Log",
+    "icon" : ":/img/test/text_log.png",
+    "parent" : 2,
+    "active" : "yes",
+    "testname" : "TestLog: %object%",
+    "comment" : "TestLog: %path%",
+    "description" : ["Text Log",
+        "This test is useful when you need to check log files created by another application. Unlike 'Compare files' (that can warn you when a file contains some specific string) Text Log test warns you when NEW records in the file contain specified string or expression"
+        ]
+ },{
+    "id" : 38,
+    "name" : "ShellScript",
+    "title" : "Shell Script",
+    "text" : "Shell Script",
+    "icon" : ":/img/test/shell_script.png",
+    "parent" : 1005,
+    "active" : "yes",
+    "testname" : "%path%: %object%",
+    "comment" : "%path%: %object%",
+    "description" : ["Shell Script",
+        "Mainly this test method was implemented to monitor UNIX-like systems (such as Linux or FreeBSD), however you can use Shell Script to perform some custom made tests on Windows systems as well.",
+        "HostMonitor already has set of scripts that allow you to check various parameters of UNIX-like systems. But it is very easy to modify these scripts or create new scripts that will suit your needs."
+        ]
+ },{
+    "id" : 39,
+    "name" : "TempMonitor",
+    "title" : "Temperature Monitor",
+    "text" : "Temperature Monitor",
+    "icon" : ":/img/test/temperature_monitor.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "Temperature: %object%",
+    "comment" : "Temperature: %object%",
+    "description" : ["IT Temperature Monitor",
+        "If you utilize temperature-sensing units from Sensatronics, this test provides you with the ability to monitor temperature and to start alert actions when temperature is out of the specified range."
+        ]
+ },{
+    "id" : 40,
+    "name" : "TrafficMonitor",
+    "title" : "Network Traffic",
+    "text" : "Traffic Monitor",
+    "icon" : ":/img/test/traffic_monitor.png",
+    "parent" : 1003,
+    "active" : "yes",
+    "testname" : "%TestMode%: %host% (%object%)",
+    "comment" : "Interface: %object%",
+    "description" : ["Traffic Monitor",
+        "This test allows you to check the traffic on network interfaces of SNMP enabled devices. It has the following advantages over the SNMP (GET) test:",
+        "",
+        "- you don`t need to know much about OIDs. Connection to the specified network device is established with the help of Test Properties dialog which displays the list of available interfaces."
+        ]
+ },{
+    "id" : 41,
+    "name" : "SNMPTrap",
+    "title" : "SNMP Trap",
+    "text" : "SNMP Trap",
+    "icon" : ":/img/test/snmp_trap.png",
+    "parent" : 1003,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "",
+    "description" : ["SNMP Trap",
+        "SNMP Trap test method allows you to receive SNMP Trap messages - unsolicited messages from a device (such as router, server) to an SNMP console. Traps might indicate power-up or link-up/down conditions, temperatures exceeding certain thresholds, high traffic, etc. Traps provide an immediate notification for an event that otherwise might only be discovered during occasional polling."
+        ]
+ },{
+    "id" : 42,
+    "name" : "WMI",
+    "title" : "WMI",
+    "text" : "WMI",
+    "icon" : ":/img/test/wmi.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "WMI: %object% (%host%)",
+    "comment" : "%host%: %path%",
+    "description" : ["WMI",
+        "WMI is the Microsoft's implementation of Web-Based Enterprise Management (WBEM) - a new management technology that allows software to monitor and control managed resources throughout the network. Such managed resources include hard drives, file systems, settings of operating system, processes, services, shares, registry settings, networking components, event logs, users, groups, etc."
+        ]
+ },{
+    "id" : 43,
+    "name" : "MailRelay",
+    "title" : "Mail relay",
+    "text" : "Mail Relay",
+    "icon" : ":/img/test/mail_relay.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "MailRelay: %path%",
+    "comment" : "MailRelay: %path%",
+    "description" : ["Mail Relay",
+        "The Mail Relay test method allows you to monitor chain of mail servers. HostMonitor sends e-mail thru specific mail server and check when the mail becomes available in target mailbox.",
+        "HostMonitor sends special mail using SMTP protocol and checks target mailbox using POP3 or IMAP protocol"
+        ]
+ },{
+    "id" : 44,
+    "name" : "DICOM",
+    "title" : "DICOM",
+    "text" : "DICOM",
+    "icon" : ":/img/test/dicom.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "DICOM: %host%",
+    "comment" : "DICOM: %host%",
+    "description" : ["DICOM",
+        "The Digital Imaging and Communications in Medicine (DICOM) standard was created by the National Electrical Manufacturers Association (NEMA) to aid the distribution and viewing of medical images, such as CT scans, MRIs, and ultrasound.",
+        "DICOM test sends DIMSE C-Echo request to specified server and waits for correct responce"
+        ]
+ },{
+    "id" : 45,
+    "name" : "DominantProcess",
+    "title" : "Dominant Process",
+    "text" : "Dominant Process",
+    "icon" : ":/img/test/dominant_process.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "TopProcess: %host% (%testmode%)",
+    "comment" : "TopProcess: %host% (%testmode%)",
+    "description" : ["Dominant Process",
+        "CPU Usage, Performance Counter and WMI test methods allow you to monitor total resource usage on the system or monitor resources used by specific process.",
+        "Dominant Process test allows you to find process that uses the most of resources on local or remote system. You may setup this test to look for a process that uses the most of handles, threads, memory or virtual memory, etc."
+        ]
+ },{
+    "id" : 46,
+    "name" : "DHCP",
+    "title" : "DHCP",
+    "text" : "DHCP test",
+    "icon" : ":/img/test/dhcp_test.png",
+    "parent" : 1001,
+    "active" : "yes",
+    "testname" : "DHCP: %host%",
+    "comment" : "DHCP: %host%",
+    "description" : ["DHCP",
+        "Dynamic Host Configuration Protocol (DHCP) is a protocol used by networked computers (clients) to obtain IP addresses and other parameters such as the default gateway, subnet mask, and IP addresses of DNS servers from a DHCP server.",
+        "This test method checks DHCP service on specified host."
+        ]
+ },{
+    "id" : 47,
+    "name" : "HM Monitor",
+    "title" : "HM Monitor",
+    "text" : "SDPO Monitor",
+    "icon" : ":/img/test/hm_monitor.png",
+    "parent" : 0,
+    "active" : "yes",
+    "testname" : "HostMonitor: %host% (%object%)",
+    "comment" : "HostMonitor: %host% (%object%)",
+    "description" : ["HM Monitor",
+        "This test allows you to monitor local or remote SDPO. Yes, you may monitor primary SDPO using another instance of SDPO."
+        ]
+ },{
+    "id" : 48,
+    "name" : "Unknown",
+    "title" : "Unknown method",
+    "text" : "Unknown",
+    "icon" : "",
+    "parent" : -1,
+    "active" : "no",
+    "testname" : "",
+    "comment" : "",
+    "description" : [""]
+ }
+]
+}

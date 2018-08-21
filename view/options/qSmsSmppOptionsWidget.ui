@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SmsSmppOptionsWidget</class>
+ <widget class="QWidget" name="SmsSmppOptionsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>601</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>SMS: SMPP</string>
+  </property>
+  <widget class="QGroupBox" name="gpPrimarySmppAccount">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>15</y>
+     <width>275</width>
+     <height>260</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string> Primary SMPP account  </string>
+   </property>
+   <widget class="QLabel" name="lblPrimaryHost">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Host</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryPort">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>55</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimarySystemId">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>85</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>System Id</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryPassword">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>115</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Password</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimarySource">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>145</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Source</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryAddress">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>175</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Address</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryTon">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>205</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TON</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryNpi">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>235</y>
+      <width>64</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NPI</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryHost">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>jabber.org</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinPrimaryPort">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>50</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="maximum">
+     <number>65535</number>
+    </property>
+    <property name="value">
+     <number>2775</number>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimarySystemId">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>80</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryPassword">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>110</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryAddress">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>170</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbPrimaryTon">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>200</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>International</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>National</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Network Specific</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Subscriber Number</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Alphanumeric</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Abbreviated</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+    </item>
+   </widget>
+   <widget class="QComboBox" name="cmbPrimaryNpi">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>230</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ISDN (E163/E164)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Data (X.121)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Telex (F.69)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Land Mobile (E.212)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>National</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Private</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ERMES</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Internet (IP)</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="gpBackupSmppAccount">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>15</y>
+     <width>275</width>
+     <height>260</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string> Backup SMPP account  </string>
+   </property>
+   <widget class="QLabel" name="lblBackupPort">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>55</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupSystemId">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>80</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupSource">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>145</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Source</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbBackupTon">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>200</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>International</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>National</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Network Specific</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Subscriber Number</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Alphanumeric</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Abbreviated</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblBackupNpi">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>235</y>
+      <width>64</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>NPI</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupPassword">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>115</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Password</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupTon">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>205</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TON</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupSystemId">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>85</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>System Id</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupHost">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>20</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>jabber.org</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupAddress">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>175</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Address</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBackupPort">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>50</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="maximum">
+     <number>65535</number>
+    </property>
+    <property name="value">
+     <number>2775</number>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupPassword">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>110</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbBackupNpi">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>230</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ISDN (E163/E164)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Data (X.121)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Telex (F.69)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Land Mobile (E.212)</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>National</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Private</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>ERMES</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Internet (IP)</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblBackupHost">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>70</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Host</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupAddress">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>170</y>
+      <width>185</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

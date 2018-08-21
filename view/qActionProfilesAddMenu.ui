@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ActionProfilesAddMenu</class>
+ <widget class="QDialog" name="ActionProfilesAddMenu">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>868</width>
+    <height>299</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>2</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>2</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>4</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="Line" name="line_11">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnShowPopupWindow">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Show popup window</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Show_popup_window.png</normaloff>:/img/actions/Show_popup_window.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnPlaySound">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Play sound</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Play_sound.png</normaloff>:/img/actions/Play_sound.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendMessageToPagerTap">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send message to pager (TAP)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_messgae_to_pager_(TAP).png</normaloff>:/img/actions/Send_messgae_to_pager_(TAP).png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendMessageToPagerSnpp">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send message to pager (SNPP)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_messgae_to_pager_(SNPP).png</normaloff>:/img/actions/Send_messgae_to_pager_(SNPP).png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendMessageToBeeper">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send message to beeper</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_messgae_to_beeper.png</normaloff>:/img/actions/Send_messgae_to_beeper.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendSmsGsm">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send SMS (GSM modem)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_SMS_(GSM_modem).png</normaloff>:/img/actions/Send_SMS_(GSM_modem).png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendSmsSmpp">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send SMS (SMPP over IP)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_SMS_(SMPP_over_IP).png</normaloff>:/img/actions/Send_SMS_(SMPP_over_IP).png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendEmailSmtp">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send e-mail (SMTP)</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_e-mail_(SMTP).png</normaloff>:/img/actions/Send_e-mail_(SMTP).png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendMessageIcq">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send message to ICQ</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_message_to_ICQ.png</normaloff>:/img/actions/Send_message_to_ICQ.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendMessageToJabber">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Send message to Jabber</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_message_to_jabber.png</normaloff>:/img/actions/Send_message_to_jabber.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>4</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="Line" name="line_9">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRecordSdpoLog">
+       <property name="text">
+        <string>Record SDPO log</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Record_HM_log.png</normaloff>:/img/actions/Record_HM_log.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnGenerateReports">
+       <property name="text">
+        <string>Generate reports</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Generate_reports.png</normaloff>:/img/actions/Generate_reports.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_4">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnStopService">
+       <property name="text">
+        <string>Stop service</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Stop_service.png</normaloff>:/img/actions/Stop_service.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnStartService">
+       <property name="text">
+        <string>Start service</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Start_service.png</normaloff>:/img/actions/Start_service.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRestartService">
+       <property name="text">
+        <string>Restart service</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Restart_service.png</normaloff>:/img/actions/Restart_service.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRebootRemoteSystem">
+       <property name="text">
+        <string>Reboot remote system</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Reboot_remote_system.png</normaloff>:/img/actions/Reboot_remote_system.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRebootLocalMachine">
+       <property name="text">
+        <string>Reboot local machine</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Reboot_local_machine.png</normaloff>:/img/actions/Reboot_local_machine.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnDilaupToTheNetwork">
+       <property name="text">
+        <string>Dial-up to the network</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Dial-up_to_the_network.png</normaloff>:/img/actions/Dial-up_to_the_network.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnDisconnectDialUp">
+       <property name="text">
+        <string>Disconnect dial-up connection</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Disconnect_dial-up_connection.png</normaloff>:/img/actions/Disconnect_dial-up_connection.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnExecuteExternalProgram">
+       <property name="text">
+        <string>Execute external program</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Execute_external_programm.png</normaloff>:/img/actions/Execute_external_programm.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="Line" name="line_6">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>4</number>
+     </property>
+     <property name="rightMargin">
+      <number>2</number>
+     </property>
+     <item>
+      <widget class="Line" name="line_10">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnLogEvent">
+       <property name="text">
+        <string>Log Event</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Log_Event.png</normaloff>:/img/actions/Log_Event.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSqlQuery">
+       <property name="text">
+        <string>SQL Query</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/SQL_Query.png</normaloff>:/img/actions/SQL_Query.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_8">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnHttpRequest">
+       <property name="text">
+        <string>HTTP request</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/HTTP_request.png</normaloff>:/img/actions/HTTP_request.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSendDataToPort">
+       <property name="text">
+        <string>Send data to TCP/UDP port</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Send_data_to_TCP-UDP_port.png</normaloff>:/img/actions/Send_data_to_TCP-UDP_port.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSyslog">
+       <property name="text">
+        <string>Syslog</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Syslog.png</normaloff>:/img/actions/Syslog.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSnmpSet">
+       <property name="text">
+        <string>SNMP Set</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/SnmpSet.png</normaloff>:/img/actions/SnmpSet.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnSnmpTrap">
+       <property name="text">
+        <string>SNMP Trap</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/SnmpTrap.png</normaloff>:/img/actions/SnmpTrap.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="Line" name="line_7">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRepeatTest">
+       <property name="text">
+        <string>Repeat test</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Repeat_test.png</normaloff>:/img/actions/Repeat_test.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnChangeTestInterval">
+       <property name="text">
+        <string>Change test interval</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Change_test_interval.png</normaloff>:/img/actions/Change_test_interval.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item alignment="Qt::AlignLeft">
+      <widget class="QPushButton" name="btnRunHmsScript">
+       <property name="text">
+        <string>Run HMS script</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../qHostMonitor.qrc">
+         <normaloff>:/img/actions/Run_HMS_script.png</normaloff>:/img/actions/Run_HMS_script.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="flat">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

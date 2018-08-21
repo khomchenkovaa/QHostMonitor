@@ -1,0 +1,1932 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SchedulerOptionsWidget</class>
+ <widget class="QWidget" name="SchedulerOptionsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>723</width>
+    <height>338</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Scheduler</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="5,3">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinAndMaxSize</enum>
+     </property>
+     <item>
+      <widget class="QFrame" name="frame_12">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_30">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Schedule</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_13">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="label_31">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Execute action profile</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_14">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0">
+      <item>
+       <widget class="QComboBox" name="cmbScheduleSelect_1">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>regular</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>daily</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>weekly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monthly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>quarterly</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetFixedSize</enum>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblEvery_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>every</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDay_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>day.............</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSelectDay_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>sunday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>saturday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMinute_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>1439</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbMonthDay_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <item>
+           <property name="text">
+            <string>1st</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2nd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3rd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>5th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>6th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>7th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>9th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>25th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>26th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>27th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>28th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>29th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>31th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Last day</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblAt_1">
+          <property name="text">
+           <string>at</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblMinute_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>min</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="timeEdit_1">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="displayFormat">
+           <string>hh:mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="cmbAlertSelect_1">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnAlertSelect_1">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_15">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_15">
+      <item>
+       <widget class="QComboBox" name="cmbScheduleSelect_2">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>regular</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>daily</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>weekly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monthly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>quarterly</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_10">
+        <item>
+         <widget class="QLabel" name="lblEvery_2">
+          <property name="text">
+           <string>every</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDay_2">
+          <property name="text">
+           <string>day.............</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSelectDay_2">
+          <item>
+           <property name="text">
+            <string>sunday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>saturday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMinute_2">
+          <property name="maximum">
+           <number>1439</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbMonthDay_2">
+          <item>
+           <property name="text">
+            <string>1st</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2nd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3rd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>5th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>6th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>7th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>9th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>25th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>26th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>27th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>28th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>29th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>31th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Last day</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblAt_2">
+          <property name="text">
+           <string>at</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblMinute_2">
+          <property name="text">
+           <string>min</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="timeEdit_2">
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="displayFormat">
+           <string>hh:mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="cmbAlertSelect_2">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnAlertSelect_2">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_16">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_16">
+      <item>
+       <widget class="QComboBox" name="cmbScheduleSelect_3">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>regular</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>daily</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>weekly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monthly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>quarterly</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <item>
+         <widget class="QLabel" name="lblEvery_3">
+          <property name="text">
+           <string>every</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDay_3">
+          <property name="text">
+           <string>day.............</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSelectDay_3">
+          <item>
+           <property name="text">
+            <string>sunday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>saturday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMinute_3">
+          <property name="maximum">
+           <number>1439</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbMonthDay_3">
+          <item>
+           <property name="text">
+            <string>1st</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2nd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3rd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>5th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>6th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>7th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>9th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>25th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>26th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>27th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>28th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>29th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>31th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Last day</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblAt_3">
+          <property name="text">
+           <string>at</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblMinute_3">
+          <property name="text">
+           <string>min</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="timeEdit_3">
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="displayFormat">
+           <string>hh:mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="cmbAlertSelect_3">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnAlertSelect_3">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_17">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_17">
+      <item>
+       <widget class="QComboBox" name="cmbScheduleSelect_4">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>regular</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>daily</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>weekly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monthly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>quarterly</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_12">
+        <item>
+         <widget class="QLabel" name="lblEvery_4">
+          <property name="text">
+           <string>every</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDay_4">
+          <property name="text">
+           <string>day.............</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSelectDay_4">
+          <item>
+           <property name="text">
+            <string>sunday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>saturday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMinute_4">
+          <property name="maximum">
+           <number>1439</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbMonthDay_4">
+          <item>
+           <property name="text">
+            <string>1st</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2nd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3rd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>5th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>6th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>7th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>9th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>25th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>26th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>27th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>28th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>29th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>31th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Last day</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblAt_4">
+          <property name="text">
+           <string>at</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblMinute_4">
+          <property name="text">
+           <string>min</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="timeEdit_4">
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="displayFormat">
+           <string>hh:mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_13">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="cmbAlertSelect_4">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnAlertSelect_4">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_18">
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_18">
+      <item>
+       <widget class="QComboBox" name="cmbScheduleSelect_5">
+        <property name="editable">
+         <bool>false</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>none</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>regular</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>daily</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>weekly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>monthly</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>quarterly</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QLabel" name="lblEvery_5">
+          <property name="text">
+           <string>every</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblDay_5">
+          <property name="text">
+           <string>day.............</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbSelectDay_5">
+          <item>
+           <property name="text">
+            <string>sunday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>monday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tuesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>wednesday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>thursday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>friday</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>saturday</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinMinute_5">
+          <property name="maximum">
+           <number>1439</number>
+          </property>
+          <property name="value">
+           <number>60</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="cmbMonthDay_5">
+          <item>
+           <property name="text">
+            <string>1st</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>2nd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>3rd</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>4th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>5th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>6th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>7th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>8th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>9th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>10th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>11th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>12th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>13th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>14th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>15th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>16th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>17th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>18th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>19th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>20th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>21th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>22th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>23th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>24th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>25th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>26th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>27th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>28th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>29th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>30th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>31th</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Last day</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblAt_5">
+          <property name="text">
+           <string>at</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblMinute_5">
+          <property name="text">
+           <string>min</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QTimeEdit" name="timeEdit_5">
+          <property name="buttonSymbols">
+           <enum>QAbstractSpinBox::NoButtons</enum>
+          </property>
+          <property name="displayFormat">
+           <string>hh:mm</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_5">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_14">
+        <property name="spacing">
+         <number>1</number>
+        </property>
+        <item>
+         <widget class="QComboBox" name="cmbAlertSelect_5">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="btnAlertSelect_5">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>16</width>
+            <height>16</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

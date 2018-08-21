@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MailerSettingsWidget</class>
+ <widget class="QWidget" name="MailerSettingsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>601</width>
+    <height>313</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Mailer settings</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,1">
+     <item>
+      <widget class="QGroupBox" name="gpPrimarySmtpServer">
+       <property name="title">
+        <string>Primary SMTP server  </string>
+       </property>
+       <layout class="QFormLayout" name="formLayout_2">
+        <property name="verticalSpacing">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblPrimarySmtpAddress">
+          <property name="text">
+           <string>Address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cmbPrimarySmtpAddress">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>smtp.mail.yahoo.com</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblPrimarySmtpPort">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QSpinBox" name="spinPrimarySmtpPort">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>65535</number>
+            </property>
+            <property name="value">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblPrimarySmtpTls">
+            <property name="text">
+             <string>TLS</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbPrimarySmtpTls">
+            <item>
+             <property name="text">
+              <string>none</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Implicit</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Explicit</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblPrimarySmtpAuth">
+          <property name="text">
+           <string>Auth</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="cmbPrimarySmtpAuth">
+          <item>
+           <property name="text">
+            <string>&lt;None&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Plain</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Login</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cram-MD5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cram-SHA1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>NTLM</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>POP before SMTP</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblPrimarySmtpLogin">
+          <property name="text">
+           <string>Login</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="editPrimarySmtpLogin"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblPrimarySmtpPassword">
+          <property name="text">
+           <string>Password</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="editPrimarySmtpPassword"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="gpBackupSmtpServer">
+       <property name="title">
+        <string>Backup SMTP server  </string>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="verticalSpacing">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblBackupSmtpAddress">
+          <property name="text">
+           <string>Address</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cmbBackupSmtpAddress">
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>smtp.mail.yahoo.com</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblBackupSmtpPort">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QSpinBox" name="spinBackupSmtpPort">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>65535</number>
+            </property>
+            <property name="value">
+             <number>25</number>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="lblBackupSmtpTls">
+            <property name="text">
+             <string>TLS</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbBackupSmtpTls">
+            <item>
+             <property name="text">
+              <string>none</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Implicit</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Explicit</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblBackupSmtpAuth">
+          <property name="text">
+           <string>Auth</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="cmbBackupSmtpAuth">
+          <item>
+           <property name="text">
+            <string>&lt;None&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Plain</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Login</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cram-MD5</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cram-SHA1</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>NTLM</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>POP before SMTP</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblBackupSmtpLogin">
+          <property name="text">
+           <string>Login</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLineEdit" name="editBackupSmtpLogin"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblBackupSmtpPassword">
+          <property name="text">
+           <string>Password</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLineEdit" name="editBackupSmtpPassword"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="gpShowStatusWindow">
+     <property name="title">
+      <string>Show status window when sending mail</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="spacing">
+       <number>8</number>
+      </property>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QCheckBox" name="chkCloseOnDisconnect">
+          <property name="text">
+           <string>Close on disconnect, delay closing for </string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="spinCloseOnDisconnect">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+          <property name="correctionMode">
+           <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+          </property>
+          <property name="maximum">
+           <number>600</number>
+          </property>
+          <property name="value">
+           <number>6</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_148">
+          <property name="text">
+           <string>sec</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="chkShowInLastPosition">
+        <property name="text">
+         <string>Show in the last stored position</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

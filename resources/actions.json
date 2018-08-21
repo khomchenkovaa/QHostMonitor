@@ -1,0 +1,51 @@
+[
+ {
+  "name" : "Do nothing",
+  "onBad" : [],
+  "onGood" : [],
+  "comment" : [ "no comments" ]
+ },
+ {
+  "name" : "Message, Sound",
+  "onBad" : [
+          {
+          "action" : "WinPopup",
+          "name" : "Show message",
+          "agent" : "HostMonitor",
+          "storeResult" : false,
+          "mode" : 0,
+          "startAfter" : 1,
+          "retries" : -1
+          },{
+          "action" : "PlaySound",
+          "name" : "Play sound",
+          "agent" : "HostMonitor",
+          "storeResult" : false,
+          "mode" : 0,
+          "startAfter" : 1,
+          "retries" : -1,
+          "file" : "dead.wav",
+          "wakeUp" : false
+          }
+  ],
+  "onGood" : [
+          {
+          "action" : "PlaySound",
+          "name" : "Play sound",
+          "agent" : "HostMonitor",
+          "storeResult" : false,
+          "mode" : 0,
+          "startAfter" : 1,
+          "retries" : 1,
+          "file" : "alive.wav",
+          "wakeUp" : false
+          }
+  ],
+  "comment" : [
+      "This profile tells SDPO to do the following:",
+      "1) Play dead.wav every time test probe fails",
+      "2) Show popup message when test fails 1st time (test changed status from 'good' to 'bad')",
+      "3) Play alive.wav when rest restores 'good' status (test changed status from 'bad' to 'good')"
+  ]
+ }
+]

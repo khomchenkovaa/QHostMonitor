@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AccessMethodOptionsWidget</class>
+ <widget class="QWidget" name="AccessMethodOptionsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>601</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Access method</string>
+  </property>
+        <layout class="QVBoxLayout" name="verticalLayout_19">
+         <item>
+          <widget class="QGroupBox" name="boxAccessMethod">
+           <property name="title">
+            <string>Select how HostMonitor will access the net to retrieve URLs</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_18">
+            <item>
+             <widget class="QRadioButton" name="rbAccessUseRegistry">
+              <property name="text">
+               <string>use registry configuration</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rbAccessDirect">
+              <property name="text">
+               <string>direct to net</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <widget class="QRadioButton" name="rbAccessViaProxy">
+                <property name="text">
+                 <string>via named proxy</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="btnAccessProxy">
+                <property name="text">
+                 <string>Proxy settings</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_11">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rbAccessPreconfig">
+              <property name="text">
+               <string>preconfig, prevent using java/script/INS</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPlainTextEdit" name="plainAccessMethodDescription">
+           <property name="verticalScrollBarPolicy">
+            <enum>Qt::ScrollBarAlwaysOff</enum>
+           </property>
+           <property name="plainText">
+            <string>USE REGISTRY CONFIGURATION
+Retrieves the proxy or direct configuration from registry.
+DIRECT TO NET
+Resolves all host names locally.
+VIA NAMED PROXY
+Passes requests to the proxy unless a proxy bypass list is supplied and the name to be resolved bypasses the proxy.
+PRECONFIG, PREVENT USING JAVA/SCRIPT/INS
+Retrieves the proxy or direct configuration from the registry and prevents the use of a startup JScript or Internet Setup (INS) file.</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

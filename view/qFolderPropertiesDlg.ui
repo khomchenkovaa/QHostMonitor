@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FolderPropertiesDlg</class>
+ <widget class="QDialog" name="FolderPropertiesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>699</width>
+    <height>481</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_3">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="leftMargin">
+      <number>6</number>
+     </property>
+     <property name="topMargin">
+      <number>6</number>
+     </property>
+     <property name="rightMargin">
+      <number>6</number>
+     </property>
+     <property name="bottomMargin">
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="leftMargin">
+         <number>5</number>
+        </property>
+        <property name="topMargin">
+         <number>5</number>
+        </property>
+        <property name="rightMargin">
+         <number>5</number>
+        </property>
+        <property name="bottomMargin">
+         <number>5</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="lblSourceFolder">
+          <property name="text">
+           <string>Folder:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editSourceFolder</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="editSourceFolder"/>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <widget class="SDPO::ColumnsPropertiesWidget" name="tabColumns">
+        <attribute name="title">
+         <string>Columns</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::ColorsPropertiesWidget" name="tabColors">
+        <attribute name="title">
+         <string>Folder colors</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::DynamicViewReportsWidget" name="tabReports">
+        <attribute name="title">
+         <string>Reports</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::FolderPropertiesStatisticWidget" name="tabStatistics">
+        <attribute name="title">
+         <string>Statistics</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::RegionalPropertiesWidget" name="tabRegional">
+        <attribute name="title">
+         <string>Regional</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::CommentPropertiesWidget" name="tabComment">
+        <attribute name="title">
+         <string>Comment</string>
+        </attribute>
+       </widget>
+       <widget class="QWidget" name="tabVariables">
+        <attribute name="title">
+         <string>Variables</string>
+        </attribute>
+       </widget>
+       <widget class="SDPO::SpecialsPropertiesWidget" name="tabSpecials">
+        <attribute name="title">
+         <string>Specials</string>
+        </attribute>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QDialogButtonBox" name="btnBoxFolderProperties">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+       </property>
+       <property name="centerButtons">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>298</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="lblID">
+          <property name="text">
+           <string>ID:</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lblFolderID">
+          <property name="text">
+           <string>0000</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::ColumnsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColumnsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ColorsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColorsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RegionalPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qRegionalPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CommentPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qCommentPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::FolderPropertiesStatisticWidget</class>
+   <extends>QWidget</extends>
+   <header>qFolderPropertiesStatisticWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DynamicViewReportsWidget</class>
+   <extends>QWidget</extends>
+   <header>qDynamicViewReportsWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SpecialsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qSpecialsPropertiesWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>btnBoxFolderProperties</sender>
+   <signal>accepted()</signal>
+   <receiver>FolderPropertiesDlg</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnBoxFolderProperties</sender>
+   <signal>rejected()</signal>
+   <receiver>FolderPropertiesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

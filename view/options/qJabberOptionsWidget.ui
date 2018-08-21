@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JabberOptionsWidget</class>
+ <widget class="QWidget" name="JabberOptionsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>601</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Jabber</string>
+  </property>
+  <widget class="QGroupBox" name="gpPrimaryJabberAccount">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>15</y>
+     <width>565</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string> Primary Jabber account  </string>
+   </property>
+   <widget class="QLabel" name="lblPrimaryLoginServer">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Login Server</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryJabberID">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Jabber ID</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryPassword">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Password</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryLoginServer">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>25</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>jabber.org</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryJabberID">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>55</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editPrimaryPassword">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>85</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimarySslTls">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>25</y>
+      <width>55</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SSL/TLS</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblPrimaryTcpPort">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>60</y>
+      <width>55</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TCP port</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbPrimarySslTls">
+    <property name="geometry">
+     <rect>
+      <x>445</x>
+      <y>20</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>None</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Implicit</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Explicit</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QSpinBox" name="spinPrimaryTcpPort">
+    <property name="geometry">
+     <rect>
+      <x>445</x>
+      <y>55</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>65535</number>
+    </property>
+    <property name="value">
+     <number>5222</number>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="gpBackupJabberAccount">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>151</y>
+     <width>565</width>
+     <height>120</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string> Backup Jabber account  </string>
+   </property>
+   <widget class="QLabel" name="lblBackupJabberID">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Jabber ID</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupSslTls">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>25</y>
+      <width>55</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>SSL/TLS</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinBackupTcpPort">
+    <property name="geometry">
+     <rect>
+      <x>445</x>
+      <y>55</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="minimum">
+     <number>1</number>
+    </property>
+    <property name="maximum">
+     <number>65535</number>
+    </property>
+    <property name="value">
+     <number>5222</number>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="cmbBackupSslTls">
+    <property name="geometry">
+     <rect>
+      <x>445</x>
+      <y>20</y>
+      <width>90</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <item>
+     <property name="text">
+      <string>None</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Implicit</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Explicit</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="lblBackupLoginServer">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Login Server</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupTcpPort">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>60</y>
+      <width>55</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TCP port</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupPassword">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>85</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lblBackupPassword">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>85</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Password</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupJabberID">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>55</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="editBackupLoginServer">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>25</y>
+      <width>260</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>jabber.org</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QToolButton" name="btnSwitchJabberAccount">
+   <property name="geometry">
+    <rect>
+     <x>547</x>
+     <y>135</y>
+     <width>27</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Switch</string>
+   </property>
+   <property name="icon">
+    <iconset resource="../../qHostMonitor.qrc">
+     <normaloff>:/img/jabberSwitch.png</normaloff>:/img/jabberSwitch.png</iconset>
+   </property>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

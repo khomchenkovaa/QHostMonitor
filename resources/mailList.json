@@ -1,0 +1,73 @@
+[
+  {
+   "name" : "Mail to Boss",
+   "type" : "Text",
+   "charset" : "",
+   "body" : [
+          "Message from SDPO (host changed status)",
+          "",
+          "Test   : %TestName%",
+          "Status : %STATUS%",
+          "",
+          "But everything is under control. Network administrator will fix this problem in 10 min. "
+   ]
+  },
+  {
+   "name" : "Mail to manager",
+   "type" : "Text",
+   "charset" : "",
+   "body" : [
+          "Message from SDPO (host changed status)",
+          "",
+          "Test  : %TestName%",
+          "Status: %STATUS%",
+          "Date  : %DATETIME%",
+          "Reply : %Reply%"
+   ]
+  },
+  {
+   "name" : "Mail to admin",
+   "type" : "Text",
+   "charset" : "iso-8859-1",
+   "body" : [
+          "Message from SDPO (host changed status)",
+          "",
+          "Test  : %TestName%",
+          "Method: %TestMethod%",
+          "Status: %STATUS%",
+          "Date  : %DATETIME%",
+          "Reply : %Reply%",
+          "",
+          "Recurrences : %Recurrences%",
+          "Last status : %LastStatus%",
+          "Total tests : %TotalTests%",
+          "Alive ratio : %AliveRatio%",
+          "Dead ratio  : %DeadRatio%",
+          "",
+          "Folder: %Folder%"
+   ]
+  },
+  {
+   "name" : "Page to admin",
+   "type" : "Text",
+   "charset" : "",
+   "body" : [
+          "Message from SDPO",
+          "",
+          "Test  : %HostName%",
+          "Method: %TestMethod%",
+          "Status: %STATUS%",
+          "Date  : %DATETIME%",
+          "Reply : %Reply%"
+   ]
+  },
+  {
+   "name" : "Mail to customer",
+   "type" : "Text",
+   "charset" : "",
+   "body" : [
+          "Everything is fine ;-)"
+   ]
+  }
+
+]

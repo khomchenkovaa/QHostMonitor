@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PerformanceCounterWidget</class>
+ <widget class="QWidget" name="PerformanceCounterWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>401</width>
+    <height>134</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="topMargin">
+    <number>2</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="bottomMargin">
+    <number>2</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout" columnstretch="0,7,5,0" rowminimumheight="0,0,0,16,0">
+     <property name="horizontalSpacing">
+      <number>4</number>
+     </property>
+     <property name="verticalSpacing">
+      <number>2</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCheckCounter">
+       <property name="text">
+        <string>Check counter</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QComboBox" name="cmbCheckCounter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="3">
+      <widget class="QToolButton" name="btnCheckCounter">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblAlertWhen">
+       <property name="text">
+        <string>Alert when value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="cmbAlert">
+       <item>
+        <property name="text">
+         <string>is &lt; than</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is &gt; than</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is = to</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>is &lt;&gt; from</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>increases by</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>decreases by</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>changes by</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>increases by (%)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>decreases by (%)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>changes by (%)</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>increases /sec</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>decreases /sec</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>changes /sec</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="2" colspan="2">
+      <widget class="QSpinBox" name="spinAlert">
+       <property name="maximum">
+        <number>1000000</number>
+       </property>
+       <property name="value">
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblDisplayMode">
+       <property name="text">
+        <string>Display mode</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="cmbDisplayMode">
+       <item>
+        <property name="text">
+         <string>as is</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>sec-&gt; [days] hh:mm:ss</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>msec-&gt; [days] hh:mm:ss</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bytes -&gt; Kb</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bytes -&gt; Mb</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>bytes -&gt; Gb</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="2" column="2" colspan="2">
+      <widget class="QToolButton" name="btnDisplayMode">
+       <property name="text">
+        <string>Get current value</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="4">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QCheckBox" name="chkConnect">
+       <property name="text">
+        <string>Connect as</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="cmbConnectLogin">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2" colspan="2">
+      <widget class="QLineEdit" name="lnConnectPassword"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CommonViewPropertiesDlg</class>
+ <widget class="QDialog" name="CommonViewPropertiesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>666</width>
+    <height>375</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Common view properties</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="4,0">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="SDPO::ColumnsPropertiesWidget" name="tabColumns">
+      <attribute name="title">
+       <string>Columns</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::ColorsPropertiesWidget" name="tabColors">
+      <attribute name="title">
+       <string>Colors</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::CommentPropertiesWidget" name="tabComment">
+      <attribute name="title">
+       <string>Comment</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::ColumnsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColumnsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ColorsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColorsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CommentPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qCommentPropertiesWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>CommonViewPropertiesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>332</x>
+     <y>352</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>332</x>
+     <y>187</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

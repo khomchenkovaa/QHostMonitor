@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SnmpTrapWidget</class>
+ <widget class="QWidget" name="SnmpTrapWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>360</width>
+    <height>125</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0" rowminimumheight="0,10,0">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblBadMessage">
+       <property name="text">
+        <string>Bad message filter</string>
+       </property>
+       <property name="buddy">
+        <cstring>lnBadMessage</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lnBadMessage"/>
+     </item>
+     <item row="0" column="2">
+      <widget class="QToolButton" name="btnBadMessage">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>18</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblGoodMessage">
+       <property name="text">
+        <string>Good message filter  </string>
+       </property>
+       <property name="buddy">
+        <cstring>lnGoodMessage</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lnGoodMessage"/>
+     </item>
+     <item row="1" column="2">
+      <widget class="QToolButton" name="btnGoodMessage">
+       <property name="text">
+        <string>...</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>18</width>
+         <height>16</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="Line" name="line">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <layout class="QGridLayout" name="gridLayout_2" columnstretch="1,5" columnminimumwidth="0,0">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblDisplay">
+       <property name="text">
+        <string>Display</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbSelecDisplay</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="cmbSelecDisplay">
+       <item>
+        <property name="text">
+         <string>Agent address</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Trap type</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Enterprise</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>OID</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Counter value</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Relative value</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>OID &amp; Value</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QCheckBox" name="chkIncrementCounters">
+       <property name="text">
+        <string>Increment counters when no messages recived</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

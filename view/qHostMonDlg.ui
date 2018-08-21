@@ -1,0 +1,2840 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HostMonDlg</class>
+ <widget class="QDialog" name="HostMonDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>921</width>
+    <height>693</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Test properties</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+  </property>
+  <property name="locale">
+   <locale language="English" country="UnitedStates"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <item row="0" column="0" rowspan="3">
+    <widget class="QFrame" name="frmTest">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="lineWidth">
+      <number>2</number>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetMinimumSize</enum>
+      </property>
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <item>
+       <layout class="QGridLayout" name="gridLayout">
+        <property name="bottomMargin">
+         <number>6</number>
+        </property>
+        <property name="horizontalSpacing">
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>6</number>
+        </property>
+        <item row="1" column="2">
+         <widget class="QToolButton" name="btnTestMethod">
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Show tests tree</string>
+          </property>
+          <property name="statusTip">
+           <string>Show tests tree</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QToolButton" name="btnAgent">
+          <property name="maximumSize">
+           <size>
+            <width>24</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="toolTip">
+           <string>Choose Remote Monitoring Agent</string>
+          </property>
+          <property name="statusTip">
+           <string>Choose Remote Monitoring Agent</string>
+          </property>
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../qHostMonitor.qrc">
+            <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="btnTestBy">
+          <property name="whatsThis">
+           <string>Test can be performed by HostMonitor itself (by default) or by Remote Monitoring Agent. You may select an agent from drop down list or click on a button (to the right of the field) to manage agent list. </string>
+          </property>
+          <property name="text">
+           <string>Test by</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cmbAgent">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <item>
+           <property name="text">
+            <string>HostMonitor</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="cmbTestMethod">
+          <item>
+           <property name="text">
+            <string>Ping</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/ping.png</normaloff>:/img/test/ping.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>TCP connection</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/tcp_connection.png</normaloff>:/img/test/tcp_connection.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>URL request</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/url_request.png</normaloff>:/img/test/url_request.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Drive Free Space</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/drive_free_space.png</normaloff>:/img/test/drive_free_space.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Folder/File Size</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/folder-file_size.png</normaloff>:/img/test/folder-file_size.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Folder/File Availability</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/folder-file_availability.png</normaloff>:/img/test/folder-file_availability.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>External test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/external_test.png</normaloff>:/img/test/external_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SSH test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/ssh_test.png</normaloff>:/img/test/ssh_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>File Integrity</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/file_integrity.png</normaloff>:/img/test/file_integrity.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>check Oracle server</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/check_oracle_server.png</normaloff>:/img/test/check_oracle_server.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>UNC (availability/free space)</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/unc_availability.png</normaloff>:/img/test/unc_availability.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Interbase server check</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/sql_server_check.png</normaloff>:/img/test/sql_server_check.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>MS SQL server check</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/sql_server_check.png</normaloff>:/img/test/sql_server_check.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>MySQL server check</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/mysql_server_check.png</normaloff>:/img/test/mysql_server_check.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>PostgreSQL server check</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/sql_server_check.png</normaloff>:/img/test/sql_server_check.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SybaseSQL server chceck</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/sql_server_check.png</normaloff>:/img/test/sql_server_check.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Process</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/process.png</normaloff>:/img/test/process.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Service</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/service.png</normaloff>:/img/test/service.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SNMP GET</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/snmp_get.png</normaloff>:/img/test/snmp_get.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>NT Event Log</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/nt_event_log.png</normaloff>:/img/test/nt_event_log.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>CPU Usage</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/cpu_usage.png</normaloff>:/img/test/cpu_usage.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Compare Files</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/compare_files.png</normaloff>:/img/test/compare_files.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>ODBC Query</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/misc/odbcTests.png</normaloff>:/img/misc/odbcTests.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SMTP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/smtp_test.png</normaloff>:/img/test/smtp_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>POP3 test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/pop3_test.png</normaloff>:/img/test/pop3_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>IMAP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/imap_test.png</normaloff>:/img/test/imap_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DNS test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/dns_test.png</normaloff>:/img/test/dns_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>LDAP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/ldap_test.png</normaloff>:/img/test/ldap_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Trace test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/trace_test.png</normaloff>:/img/test/trace_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Count Files</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/count_files.png</normaloff>:/img/test/count_files.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RAS test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/ras_test.png</normaloff>:/img/test/ras_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Performace Counter</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/performance_counter.png</normaloff>:/img/test/performance_counter.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Active Script</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/active_script.png</normaloff>:/img/test/active_script.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>UDP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/udp_test.png</normaloff>:/img/test/udp_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>NTP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/ntp_test.png</normaloff>:/img/test/ntp_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>RADIUS (Remote Auth, Dial In User Service)</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/radius.png</normaloff>:/img/test/radius.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>HTTP (Hyper Text Transfer Protocol)</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/http.png</normaloff>:/img/test/http.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Text Log</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/text_log.png</normaloff>:/img/test/text_log.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Shell Script</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/shell_script.png</normaloff>:/img/test/shell_script.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Temperature Monitor</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/temperature_monitor.png</normaloff>:/img/test/temperature_monitor.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Traffic Monitor</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/traffic_monitor.png</normaloff>:/img/test/traffic_monitor.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SNMP Trap</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/snmp_trap.png</normaloff>:/img/test/snmp_trap.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>WMI</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/wmi.png</normaloff>:/img/test/wmi.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Mail Relay</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/mail_relay.png</normaloff>:/img/test/mail_relay.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DICOM</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/dicom.png</normaloff>:/img/test/dicom.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dominant Process</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/dominant_process.png</normaloff>:/img/test/dominant_process.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DHCP test</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/dhcp_test.png</normaloff>:/img/test/dhcp_test.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SDPO Monitor</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/hm_monitor.png</normaloff>:/img/test/hm_monitor.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SOAP/XML</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/soap-xml.png</normaloff>:/img/test/soap-xml.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>EMail</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/email.png</normaloff>:/img/test/email.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Cerificate expiration</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/cerificate_expiration.png</normaloff>:/img/test/cerificate_expiration.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Domain expiration</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/domain_expiration.png</normaloff>:/img/test/domain_expiration.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Registry</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/registry.png</normaloff>:/img/test/registry.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SNMP Table</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/snmp_table.png</normaloff>:/img/test/snmp_table.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Memory</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/memory.png</normaloff>:/img/test/memory.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM host status</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_status.png</normaloff>:/img/test/vm_host_status.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM host CPU usage</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_cpu_usage.png</normaloff>:/img/test/vm_host_cpu_usage.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM host free Memory</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_free_memory.png</normaloff>:/img/test/vm_host_free_memory.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM host free Database space</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_free_database_space.png</normaloff>:/img/test/vm_host_free_database_space.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM guests status</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_guest_status.png</normaloff>:/img/test/vm_guest_status.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM guests CPU usage</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_cpu_usage.png</normaloff>:/img/test/vm_host_cpu_usage.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM guests free Memory</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_free_memory.png</normaloff>:/img/test/vm_host_free_memory.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>VM guests free Disk space</string>
+           </property>
+           <property name="icon">
+            <iconset resource="../qHostMonitor.qrc">
+             <normaloff>:/img/test/vm_host_free_database_space.png</normaloff>:/img/test/vm_host_free_database_space.png</iconset>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="btnTestMethodLabel">
+          <property name="text">
+           <string>Test method</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QStackedWidget" name="stwTestMethod">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::Panel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="SDPO::PingWidget" name="wPing"/>
+        <widget class="SDPO::TcpWidget" name="wTCP"/>
+        <widget class="SDPO::UrlWidget" name="wURL"/>
+        <widget class="SDPO::DriveSpaceSimpleWidget" name="wDriveSpace"/>
+        <widget class="SDPO::FileSizeWidget" name="wFileSize"/>
+        <widget class="SDPO::FileExistsWidget" name="wFileExists"/>
+        <widget class="SDPO::ExternalPrgWidget" name="wExternalPrg"/>
+        <widget class="SDPO::SshWidget" name="wSSH"/>
+        <widget class="SDPO::FileContentsWidget" name="wFileContents"/>
+        <widget class="SDPO::OracleWidget" name="wOracle"/>
+        <widget class="SDPO::UncWidget" name="wUNC"/>
+        <widget class="SDPO::InterbaseWidget" name="wIntebase"/>
+        <widget class="SDPO::MsSqlWidget" name="wMSSQL"/>
+        <widget class="SDPO::MySqlWidget" name="wMySQL"/>
+        <widget class="SDPO::PostgreSqlWidget" name="wPostgreSQL"/>
+        <widget class="SDPO::SybaseWidget" name="wSybase"/>
+        <widget class="SDPO::ProcessWidget" name="wProcess"/>
+        <widget class="SDPO::ServiceWidget" name="wService"/>
+        <widget class="SDPO::SnmpGetWidget" name="wSnmpGet"/>
+        <widget class="SDPO::NtEventLogWidget" name="wNtEventLog"/>
+        <widget class="SDPO::CpuUsageWidget" name="wCPUusage"/>
+        <widget class="SDPO::CompareFilesWidget" name="wCompareFiles"/>
+        <widget class="SDPO::OdbcQueryWidget" name="wODBCquery"/>
+        <widget class="SDPO::SmtpTestWidget" name="wSMTPtest"/>
+        <widget class="SDPO::Pop3TestWidget" name="wPOP3test"/>
+        <widget class="SDPO::ImapTestWidget" name="wIMAPtest"/>
+        <widget class="SDPO::DnsTestWidget" name="wDNStest"/>
+        <widget class="SDPO::LdapTestWidget" name="wLDAPtest"/>
+        <widget class="SDPO::TraceTestWidget" name="wTraceTest"/>
+        <widget class="SDPO::CountFilesWidget" name="wCountFiles"/>
+        <widget class="SDPO::RasTestWidget" name="wRAStest"/>
+        <widget class="SDPO::PerformanceCounterWidget" name="wPerformanceCounter"/>
+        <widget class="SDPO::ActiveScriptWidget" name="wActiveScript"/>
+        <widget class="SDPO::UdpTestWidget" name="wUDPtest"/>
+        <widget class="SDPO::NtpTestWidget" name="wNTPtest"/>
+        <widget class="SDPO::RadiusWidget" name="wRadius"/>
+        <widget class="SDPO::HttpWidget" name="wHTTP"/>
+        <widget class="SDPO::TextLogWidget" name="wTextLog"/>
+        <widget class="SDPO::ShellScriptWidget" name="wShellScript"/>
+        <widget class="SDPO::TemperatureMonitorWidget" name="wTemperatureMonitor"/>
+        <widget class="SDPO::TrafficMonitorWidget" name="wTrafficMonitor"/>
+        <widget class="SDPO::SnmpTrapWidget" name="wSNMPtrap"/>
+        <widget class="SDPO::WmiWidget" name="wWMI"/>
+        <widget class="SDPO::MailRelayWidget" name="wMailRelay"/>
+        <widget class="SDPO::DicomWidget" name="wDICOM"/>
+        <widget class="SDPO::DominantProcessWidget" name="wDominantProcess"/>
+        <widget class="SDPO::DhcpWidget" name="wDHCPtest"/>
+        <widget class="SDPO::SdpoMonitorWidget" name="wSDPOmonitor"/>
+        <zorder>wSDPOmonitor</zorder>
+       </widget>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="verticalSpacing">
+         <number>6</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblTestName">
+          <property name="text">
+           <string>Test name</string>
+          </property>
+          <property name="buddy">
+           <cstring>cmbTestName</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cmbTestName">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="whatsThis">
+           <string>The name of the test; HostMonitor auto populates this field with a suggested name based on the type and other test parameters; you can change that name to whatever name you want.</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <property name="duplicatesEnabled">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblTestComment">
+          <property name="text">
+           <string>Comment</string>
+          </property>
+          <property name="buddy">
+           <cstring>ledTestComment</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="ledTestComment">
+            <property name="whatsThis">
+             <string>Here you may provide any comments that make sense to you. You can specify one-line comment directly in the Test Properties dialog or press  button to bring-up popup dialog for entering multi-line comments.</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTestCommentLines">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTestCommentText">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lblTestRelatedURL">
+          <property name="text">
+           <string>Related URL</string>
+          </property>
+          <property name="buddy">
+           <cstring>cmbTestRelatedURL</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbTestRelatedURL">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="whatsThis">
+             <string>For each test, a related URL can be specified. By adding this property to the list of visible columns or to a report, you will make the related URLs appear in the test list view or report sheet. In HTML reports, URLs appear as hyperlinks. In the list view, tests with a related URL will have a popup menu item that launches the associated program (typically, your default Internet browser).</string>
+            </property>
+            <property name="inputMethodHints">
+             <set>Qt::ImhUrlCharactersOnly</set>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTestUrlFileSelect">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTestUrlOpen">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/misc/urlTests.png</normaloff>:/img/misc/urlTests.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <layout class="QVBoxLayout" name="loSchedule">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="loScheduleButtons">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QPushButton" name="btnScheduleRegular">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Regular schedule</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnScheduleIrregular">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Irregular schedule</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnScheduleByExpression">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>By expression</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QStackedWidget" name="stwSchedule">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <widget class="QWidget" name="grpScheduleByExpression">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <property name="spacing">
+          <number>2</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <widget class="QComboBox" name="cmbScheduleExpr1">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="cmbScheduleExpr2">
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="grpScheduleRegular">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>4</number>
+         </property>
+         <property name="bottomMargin">
+          <number>4</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="lblScheduleTestEvery">
+             <property name="text">
+              <string>Test every</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="sbScheduleHours">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximum">
+              <number>23</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblScheduleHours">
+             <property name="text">
+              <string>hours</string>
+             </property>
+             <property name="buddy">
+              <cstring>sbScheduleHours</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="sbScheduleMin">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximum">
+              <number>59</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblScheduleMin">
+             <property name="text">
+              <string>min</string>
+             </property>
+             <property name="buddy">
+              <cstring>sbScheduleMin</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="sbScheduleSec">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="maximum">
+              <number>59</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblScheduleSec">
+             <property name="text">
+              <string>sec</string>
+             </property>
+             <property name="buddy">
+              <cstring>sbScheduleSec</cstring>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>6</number>
+           </property>
+           <item>
+            <widget class="QLabel" name="lblSchedule">
+             <property name="text">
+              <string>Schedule</string>
+             </property>
+             <property name="buddy">
+              <cstring>cmbSchedule</cstring>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbSchedule">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="btnSchedulesDlg">
+             <property name="maximumSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../qHostMonitor.qrc">
+               <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="grpScheduleIrregular">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <property name="topMargin">
+          <number>6</number>
+         </property>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <property name="spacing">
+            <number>4</number>
+           </property>
+           <item>
+            <widget class="QComboBox" name="cmbSchedIrregularMode">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <item>
+              <property name="text">
+               <string>Start test once a day</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Start test once a week</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Start test once a month</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbSchedDayOfMonth">
+             <item>
+              <property name="text">
+               <string>1</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>8</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>9</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>10</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>11</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>12</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>13</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>14</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>15</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>16</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>17</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>18</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>19</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>20</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>21</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>22</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>23</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>24</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>25</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>26</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>27</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>28</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>29</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>30</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>31</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Last day</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbSchedDayOfWeek">
+             <item>
+              <property name="text">
+               <string>Monday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Tuesday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Wednesday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Thursday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Friday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Saturday</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Sunday</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <widget class="QTimeEdit" name="timeSchedIrregular">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="displayFormat">
+              <string>HH:mm:ss</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="1">
+    <layout class="QVBoxLayout" name="loAlerts">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <property name="sizeConstraint">
+      <enum>QLayout::SetMinimumSize</enum>
+     </property>
+     <item>
+      <widget class="QLabel" name="lblAlerts">
+       <property name="text">
+        <string>Alerts</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_8">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="SDPO::AlertsEditWidget" name="grpAlerts" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="1">
+    <layout class="QVBoxLayout" name="loLogReports">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Log &amp; reports</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QFrame" name="frame_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_9">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="SDPO::LogReportsEditWidget" name="grpLogsReports" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>350</width>
+            <height>80</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>354</width>
+            <height>80</height>
+           </size>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="0">
+    <layout class="QVBoxLayout" name="loMaster">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_12">
+       <item>
+        <widget class="QLabel" name="lblThisTestDependsOn">
+         <property name="text">
+          <string>This test depends on </string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbDependencyMode">
+         <item>
+          <property name="text">
+           <string>another test(s)</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Expression</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDependenciesHideLeft">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qHostMonitor.qrc">
+           <normaloff>:/img/minus.gif</normaloff>
+           <normalon>:/img/plus.gif</normalon>:/img/minus.gif</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QFrame" name="frmMasterTests">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QStackedWidget" name="stwMasterTest">
+          <property name="frameShape">
+           <enum>QFrame::NoFrame</enum>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="SDPO::MasterTestsEditWidget" name="wMasterTests"/>
+          <widget class="SDPO::ExpressionTestsEditWidget" name="wExpressionTests"/>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <property name="leftMargin">
+           <number>9</number>
+          </property>
+          <property name="rightMargin">
+           <number>9</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="chkSynchronizeCounters">
+            <property name="text">
+             <string>Synchronize counters</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkSynchronizeStatusAlerts">
+            <property name="text">
+             <string>Synchronize status &amp;&amp; alerts</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="3" column="1">
+    <layout class="QVBoxLayout" name="loDependencies">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QLabel" name="lblDependecies">
+         <property name="text">
+          <string>Dependencies of this test</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDependenciesHideRight">
+         <property name="maximumSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qHostMonitor.qrc">
+           <normaloff>:/img/minus.gif</normaloff>
+           <normalon>:/img/plus.gif</normalon>:/img/minus.gif</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QFrame" name="frmDependentTests">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout_11">
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <widget class="QTreeWidget" name="treeDependentTests">
+          <property name="rootIsDecorated">
+           <bool>false</bool>
+          </property>
+          <property name="columnCount">
+           <number>2</number>
+          </property>
+          <attribute name="headerDefaultSectionSize">
+           <number>150</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Dependent test</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Condition</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <spacer name="verticalSpacer">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnDependTestAdd">
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Show tests tree</string>
+            </property>
+            <property name="statusTip">
+             <string>Show tests tree</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/new.png</normaloff>:/img/new.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnDependTestDelete">
+            <property name="maximumSize">
+             <size>
+              <width>22</width>
+              <height>22</height>
+             </size>
+            </property>
+            <property name="toolTip">
+             <string>Show tests tree</string>
+            </property>
+            <property name="statusTip">
+             <string>Show tests tree</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="4" column="0" colspan="2">
+    <layout class="QVBoxLayout" name="loOptional">
+     <property name="spacing">
+      <number>0</number>
+     </property>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_16">
+       <property name="leftMargin">
+        <number>6</number>
+       </property>
+       <property name="rightMargin">
+        <number>6</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Optional status processing</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>36</width>
+           <height>18</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkReverseAlert">
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Reverse alert</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnStatusProcessingHide">
+         <property name="maximumSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="icon">
+          <iconset resource="../qHostMonitor.qrc">
+           <normaloff>:/img/minus.gif</normaloff>
+           <normalon>:/img/plus.gif</normalon>:/img/minus.gif</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QFrame" name="frmOptional">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <property name="lineWidth">
+        <number>2</number>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>4</number>
+        </property>
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="rightMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <property name="horizontalSpacing">
+         <number>4</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QCheckBox" name="chkUnknownIsBad">
+          <property name="text">
+           <string>Treat Unknown status as Bad</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QCheckBox" name="chkUseWarningIf">
+          <property name="text">
+           <string>Use &quot;Warning&quot; status if</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_17">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbWarningCondition">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnWarningCondition">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="chkWarningIsBad">
+          <property name="text">
+           <string>Treat Warning status as Bad</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="chkUseNormalIf">
+          <property name="text">
+           <string>Use &quot;Normal&quot; status if</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_18">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbNormalCondition">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnNormalCondition">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="Line" name="Bevel34">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QCheckBox" name="chkTuneUpReply">
+          <property name="text">
+           <string>Tune up Reply value</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1" alignment="Qt::AlignRight">
+         <widget class="QLabel" name="lblReplyEquals">
+          <property name="text">
+           <string>Reply = </string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_19">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbReply">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTuneUpReply">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="5" column="0">
+    <widget class="QFrame" name="Bevel11">
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="lblTestIs">
+        <property name="text">
+         <string>Test is</string>
+        </property>
+        <property name="buddy">
+         <cstring>cmbEnabled</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="cmbEnabled">
+        <property name="whatsThis">
+         <string>This option enables or disables test execution.</string>
+        </property>
+        <item>
+         <property name="text">
+          <string>Enabled</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Disabled</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPlainTextEdit" name="WarnMemo">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="palette">
+         <palette>
+          <active>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>225</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </active>
+          <inactive>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>255</red>
+              <green>255</green>
+              <blue>225</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </inactive>
+          <disabled>
+           <colorrole role="Base">
+            <brush brushstyle="SolidPattern">
+             <color alpha="255">
+              <red>239</red>
+              <green>235</green>
+              <blue>231</blue>
+             </color>
+            </brush>
+           </colorrole>
+          </disabled>
+         </palette>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="plainText">
+         <string>WarnMemo</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnLinks">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>27</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="icon">
+         <iconset resource="../qHostMonitor.qrc">
+          <normaloff>:/img/test/links.bmp</normaloff>:/img/test/links.bmp</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btnPrevTest">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../qHostMonitor.qrc">
+          <normaloff>:/img/test/previous.png</normaloff>:/img/test/previous.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QToolButton" name="btnNextTest">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>27</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>...</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../qHostMonitor.qrc">
+          <normaloff>:/img/test/next.png</normaloff>:/img/test/next.png</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QFrame" name="frmButtons">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QPushButton" name="btnOk">
+        <property name="text">
+         <string>Ok</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnAdd">
+        <property name="text">
+         <string>&amp;New test</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnCancel">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnHelp">
+        <property name="text">
+         <string>&amp;Help</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+  <zorder>frmTest</zorder>
+  <zorder>frmButtons</zorder>
+  <zorder>Bevel11</zorder>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::PingWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qPingWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TcpWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qTcpWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::UrlWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qUrlWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DriveSpaceSimpleWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qDriveSpaceSimpleWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::FileSizeWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qFileSizeWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::FileExistsWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qFileExistsWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ExternalPrgWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qExternalPrgWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SshWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSshWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::FileContentsWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qFileContentsWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::OracleWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qOracleWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::UncWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qUncWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::InterbaseWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qInterbaseWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::MsSqlWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qMsSqlWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::MySqlWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qMySqlWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::PostgreSqlWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qPostgreSqlWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SybaseWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSybaseWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ProcessWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qProcessWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ServiceWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qServiceWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SnmpGetWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSnmpGetWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::NtEventLogWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qNtEventLogWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CpuUsageWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qCpuUsageWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CompareFilesWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qCompareFilesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::OdbcQueryWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qOdbcQueryWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SmtpTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSmtpTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::Pop3TestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qPop3TestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ImapTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qImapTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DnsTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qDnsTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::LdapTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qLdapTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TraceTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qTraceTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CountFilesWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qCountFilesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RasTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qRasTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::PerformanceCounterWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qPerformanceCounterWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ActiveScriptWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qActiveScriptWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::UdpTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qUdpTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::NtpTestWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qNtpTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RadiusWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qRadiusWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::HttpWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qHttpWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TextLogWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qTextLogWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ShellScriptWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qShellScriptWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TemperatureMonitorWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qTemperatureMonitorWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TrafficMonitorWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qTrafficMonitorWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SnmpTrapWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSnmpTrapWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::WmiWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qWmiWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::MailRelayWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qMailRelayWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DicomWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qDicomWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DominantProcessWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qDominantProcessWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DhcpWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qDhcpWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SdpoMonitorWidget</class>
+   <extends>QWidget</extends>
+   <header>method/qSdpoMonitorWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::AlertsEditWidget</class>
+   <extends>QWidget</extends>
+   <header>testedit/qAlertsEditWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::LogReportsEditWidget</class>
+   <extends>QWidget</extends>
+   <header>testedit/qLogReportsEditWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::MasterTestsEditWidget</class>
+   <extends>QWidget</extends>
+   <header>testedit/qMasterTestsEditWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ExpressionTestsEditWidget</class>
+   <extends>QWidget</extends>
+   <header>testedit/qExpressionTestsEditWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>btnCancel</sender>
+   <signal>clicked()</signal>
+   <receiver>HostMonDlg</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>620</x>
+     <y>549</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>783</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbTestMethod</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stwTestMethod</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>177</x>
+     <y>46</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>27</x>
+     <y>66</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>stwTestMethod</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>cmbTestMethod</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>219</x>
+     <y>72</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>251</x>
+     <y>45</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cmbDependencyMode</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>stwMasterTest</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>195</x>
+     <y>313</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>195</x>
+     <y>357</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkSynchronizeCounters</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>chkSynchronizeStatusAlerts</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>124</x>
+     <y>507</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>507</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

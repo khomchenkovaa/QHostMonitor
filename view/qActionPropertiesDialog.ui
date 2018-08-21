@@ -1,0 +1,1023 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ActionPropertiesDialog</class>
+ <widget class="QDialog" name="ActionPropertiesDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>572</width>
+    <height>567</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_8">
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::Box</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="horizontalSpacing">
+         <number>4</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>2</number>
+        </property>
+        <property name="leftMargin">
+         <number>4</number>
+        </property>
+        <property name="topMargin">
+         <number>4</number>
+        </property>
+        <property name="rightMargin">
+         <number>4</number>
+        </property>
+        <property name="bottomMargin">
+         <number>4</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblActionType">
+          <property name="text">
+           <string>Action type</string>
+          </property>
+          <property name="buddy">
+           <cstring>cmbActionType</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cmbActionType">
+          <item>
+           <property name="text">
+            <string>Show message</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Play sound</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send message to alphanumeric pager (using TAP protocol)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send message to alphanumeric pager (using SNPP protocol)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send message to numeric pager</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send SMS (GSM modem)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send SMS (SMPP)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send e-mail</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send message to ICQ</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send message to Jabber</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Record info into HM log</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Generate reports</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Stop service</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Start service</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Restart service</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Remote reboot</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Local reboot</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Dial-up to network</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Disconnect dial-up connection</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Execute external program</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Log Event</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SQL Query</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>HTTP request </string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Send data to TCP/UDP port</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Syslog</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SNMP Set</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>SNMP Trap</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Check host again</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Set new test interval</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Execute HMS script</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblActionName">
+          <property name="text">
+           <string>Action name</string>
+          </property>
+          <property name="buddy">
+           <cstring>lnActionName</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="lnActionName">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="2">
+         <widget class="Line" name="line">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="lblExecuteBy">
+          <property name="text">
+           <string>Execute by</string>
+          </property>
+          <property name="buddy">
+           <cstring>cmbExecuteBy</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QComboBox" name="cmbExecuteBy"/>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnExecuteBy">
+            <property name="maximumSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="lblQuickLog">
+          <property name="text">
+           <string>Quick Log</string>
+          </property>
+          <property name="buddy">
+           <cstring>chkStoreActionResult</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QCheckBox" name="chkStoreActionResult">
+          <property name="text">
+           <string>store action result</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QGroupBox" name="gpConditionToStartAction">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>220</height>
+        </size>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="title">
+        <string>Condition to start action</string>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
+       </property>
+       <property name="checkable">
+        <bool>false</bool>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="spacing">
+         <number>2</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbSelectMode">
+            <property name="sizeAdjustPolicy">
+             <enum>QComboBox::AdjustToContents</enum>
+            </property>
+            <item>
+             <property name="text">
+              <string>standart mode</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>advanced mode</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>on the schedule</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QStackedWidget" name="stcWidgetMode">
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Sunken</enum>
+          </property>
+          <property name="lineWidth">
+           <number>2</number>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="StandartMode">
+           <layout class="QFormLayout" name="formLayout_2">
+            <property name="labelAlignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="formAlignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+            <property name="horizontalSpacing">
+             <number>6</number>
+            </property>
+            <property name="verticalSpacing">
+             <number>2</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>4</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <item row="0" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_5" stretch="1,4">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QSpinBox" name="spinStartWhen">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>255</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="lblConsecutiveGood">
+                <property name="text">
+                 <string>consecutive &quot;Good&quot; results occur</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="2" column="0" colspan="2">
+             <widget class="Line" name="line_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="1">
+             <layout class="QHBoxLayout" name="horizontalLayout_9" stretch="1,4">
+              <property name="spacing">
+               <number>6</number>
+              </property>
+              <item>
+               <widget class="QSpinBox" name="spinRepeat">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="correctionMode">
+                 <enum>QAbstractSpinBox::CorrectToPreviousValue</enum>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>255</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QHBoxLayout" name="horizontalLayout_4">
+                <property name="spacing">
+                 <number>18</number>
+                </property>
+                <item>
+                 <widget class="QLabel" name="label_7">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="text">
+                   <string>time(s)</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QRadioButton" name="rbUntilStatusChanges">
+                  <property name="text">
+                   <string>until status changes</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item row="7" column="0">
+             <widget class="QRadioButton" name="rbRepeat">
+              <property name="layoutDirection">
+               <enum>Qt::RightToLeft</enum>
+              </property>
+              <property name="text">
+               <string>Repeat</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="lblStarWhen">
+              <property name="text">
+               <string>Start when</string>
+              </property>
+              <property name="buddy">
+               <cstring>spinStartWhen</cstring>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="AdvancedMode">
+           <layout class="QVBoxLayout" name="verticalLayout">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>4</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_8">
+              <property name="text">
+               <string>Please, provide a logical expression using macros as tests' parametrs</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_9">
+              <property name="text">
+               <string>Action will be executed when parametrs  meet specified conditions</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
+              <item>
+               <widget class="QComboBox" name="cmbAdvancedMode">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="btnAdvancedMode">
+                <property name="maximumSize">
+                 <size>
+                  <width>24</width>
+                  <height>24</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="../qHostMonitor.qrc">
+                  <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
+                </property>
+                <property name="iconSize">
+                 <size>
+                  <width>18</width>
+                  <height>18</height>
+                 </size>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <property name="spacing">
+           <number>2</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="chkTimeRestriction">
+            <property name="text">
+             <string>Time restriction: use schedule</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbTimeRestriction">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <item>
+             <property name="text">
+              <string>7 Days, 24 Hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>7 Days, Day</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>7 Days, Night</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Monday - Friday, 24 Hours</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Monday - Friday, Day</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Monday - Friday, Night</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Weekends</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>never</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnTimeRestriction">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>18</width>
+              <height>18</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="chkDefferedAction">
+          <property name="text">
+           <string>Deferred action (suspended action may be executed later)</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="Line" name="lineActionDependsOn">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="chkActionDependsOn">
+            <property name="text">
+             <string>Action depends on &quot;bad&quot; one</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cmbActionDependsOn">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4" stretch="0,0">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frmActionParametrs">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="lblActionParametrs">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>--- Action parametrs ---</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QStackedWidget" name="stcWidgetActionParametrs">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="currentIndex">
+          <number>0</number>
+         </property>
+         <widget class="SDPO::ShowPopupWindowWidget" name="pgShowPopupWindow"/>
+         <widget class="SDPO::PlaySoundWidget" name="pgPlaySound"/>
+         <widget class="SDPO::SendMessageToPagerTapWidget" name="pgSendMessageToPagerTap"/>
+         <widget class="SDPO::SendMessageToPagerSnppWidget" name="pgSendMessageToPagerSnpp"/>
+         <widget class="SDPO::SendMessageToBeeperWidget" name="pgSendMessageToBeeper"/>
+         <widget class="SDPO::SendSmsGsmModemWidget" name="pgSendSmsGsm"/>
+         <widget class="SDPO::SendSmsSmppWidget" name="pgSendSmsSmpp"/>
+         <widget class="SDPO::SendEmailSmtpWidget" name="pgSendEmailSmtp"/>
+         <widget class="SDPO::SendMessageToIcqWidget" name="pgSendMessageIcq"/>
+         <widget class="SDPO::SendMessageToJabberWidget" name="pgSendMessageToJabber"/>
+         <widget class="SDPO::RecordSdpoLogWidget" name="pgRecordSdpoLog"/>
+         <widget class="SDPO::GenerateReportsWidget" name="pgGenerateReports"/>
+         <widget class="SDPO::StopServiceWidget" name="pgStopService"/>
+         <widget class="SDPO::StartServiceWidget" name="pgStartService"/>
+         <widget class="SDPO::RestartServiceWidget" name="pgRestartService"/>
+         <widget class="SDPO::RebootRemoteSystemWidget" name="pgRebootRemoteSystem"/>
+         <widget class="SDPO::RebootLocalMachineWidget" name="pgRebootLocalMachine"/>
+         <widget class="SDPO::DialupToTheNetworkWidget" name="pgDilaupToTheNetwork"/>
+         <widget class="SDPO::DisconnectDialupConnectionWidget" name="pgDisconnectDialUp"/>
+         <widget class="SDPO::ExecuteExternalProgramWidget" name="pgExecuteExternalProgram"/>
+         <widget class="SDPO::LogEventWidget" name="pgLogEvent"/>
+         <widget class="SDPO::SqlQueryWidget" name="pgSqlQuery"/>
+         <widget class="SDPO::HttpRequestWidget" name="pgHttpRequest"/>
+         <widget class="SDPO::SendDataToTcpUdpPortWidget" name="pgSendDataToPort"/>
+         <widget class="SDPO::SyslogWidget" name="pgSyslog"/>
+         <widget class="SDPO::SnmpSetWidget" name="pgSnmpSet"/>
+         <widget class="SDPO::SnmpTrapWidgets" name="pgSnmpTrap"/>
+         <widget class="SDPO::RepeatTestWidget" name="pgRepeatTest"/>
+         <widget class="SDPO::ChangeTestIntervalWidget" name="pgChangeTestInterval"/>
+         <widget class="SDPO::RunHmsScriptWidget" name="pgRunHmsScript"/>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout_3">
+     <item>
+      <widget class="QDialogButtonBox" name="btnBoxActionPropertiesDialog">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Maximum">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::ShowPopupWindowWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qShowPopupWindowWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::PlaySoundWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qPlaySoundWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendMessageToPagerTapWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendMessageToPagerTapWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendMessageToPagerSnppWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendMessageToPagerSnppWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendMessageToBeeperWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendMessageToBeeperWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendSmsGsmModemWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendSmsGsmModemWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendSmsSmppWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendSmsSmppWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendEmailSmtpWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendEmailSmtpWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendMessageToIcqWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendMessageToIcqWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendMessageToJabberWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendMessageToJabberWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RecordSdpoLogWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRecordSdpoLogWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::GenerateReportsWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qGenerateReportsWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::StopServiceWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qStopServiceWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::StartServiceWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qStartServiceWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RestartServiceWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRestartServiceWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RebootRemoteSystemWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRebootRemoteSystemWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RebootLocalMachineWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRebootLocalMachineWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DialupToTheNetworkWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qDialupToTheNetworkWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DisconnectDialupConnectionWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qDisconnectDialupConnectionWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ExecuteExternalProgramWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qExecuteExternalProgramWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::LogEventWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qLogEventWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SqlQueryWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSqlQueryWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::HttpRequestWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qHttpRequestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SendDataToTcpUdpPortWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSendDataToTcpUdpPortWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SyslogWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSyslogWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SnmpSetWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qSnmpSetWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::SnmpTrapWidgets</class>
+   <extends>QWidget</extends>
+   <header>action/qSnmpTrapWidgets.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RepeatTestWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRepeatTestWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ChangeTestIntervalWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qChangeTestIntervalWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::RunHmsScriptWidget</class>
+   <extends>QWidget</extends>
+   <header>action/qRunHmsScriptWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>btnBoxActionPropertiesDialog</sender>
+   <signal>accepted()</signal>
+   <receiver>ActionPropertiesDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>btnBoxActionPropertiesDialog</sender>
+   <signal>rejected()</signal>
+   <receiver>ActionPropertiesDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

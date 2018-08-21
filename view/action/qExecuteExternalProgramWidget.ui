@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ExecuteExternalProgramWidget</class>
+ <widget class="QWidget" name="ExecuteExternalProgramWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>455</width>
+    <height>145</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QPlainTextEdit" name="txtExecuteDescription">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>455</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+     <property name="plainText">
+      <string>SDPO can execute an external program. Specify the command
+line to launch external application (macro variables may be used in the
+command line). Second parameter &quot;Window mode&quot; specifies how the
+application window will be shown.</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="horizontalSpacing">
+      <number>30</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblCommandLine">
+       <property name="text">
+        <string>Command line</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbCommandLine</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblWindowMode">
+       <property name="text">
+        <string>Window mode</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbWindowMode</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="cmbWindowMode">
+       <item>
+        <property name="text">
+         <string>SW_SHOWNORMAL</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_HIDE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMAXIMIZED</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMINIMIZED</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWMINNOACTIVE</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>SW_SHOWNOACTIVE</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="cmbCommandLine">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="sizeAdjustPolicy">
+        <enum>QComboBox::AdjustToMinimumContentsLengthWithIcon</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string/>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>samples\SendMail.exe  To=admin@firm.com  &quot;Subject=[%DateTime%] %HostName% is Dead&quot;  StartAfterLoad</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>samples\message.exe &quot;%dateTime% %hostname% dead&quot;</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -1,0 +1,18 @@
+[
+  {
+   "variable" : "udv_admin_mail",
+   "value" : "admin@company44.com"
+  },
+  {
+   "variable" : "udv_manager_mail",
+   "value" : "manager@company44.com"
+  },
+  {
+   "variable" : "udv_boss_mail",
+   "value" : "birboss@company44.com"
+  },
+  {
+   "variable" : "udv_all_managers",
+   "value" : "greg@company44.com; mark@company44.com; garry@company44.com"
+  }
+]

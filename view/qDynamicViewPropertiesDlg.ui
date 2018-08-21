@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DynamicViewPropertiesDlg</class>
+ <widget class="QDialog" name="DynamicViewPropertiesDlg">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>706</width>
+    <height>536</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Dynamic view properties</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../qHostMonitor.qrc">
+    <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="1,4">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <property name="spacing">
+      <number>10</number>
+     </property>
+     <item>
+      <widget class="QFrame" name="frame">
+       <property name="frameShape">
+        <enum>QFrame::Panel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Sunken</enum>
+       </property>
+       <layout class="QFormLayout" name="formLayout">
+        <property name="verticalSpacing">
+         <number>10</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="lblViewName">
+          <property name="text">
+           <string>View name</string>
+          </property>
+          <property name="buddy">
+           <cstring>editViewName</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="editViewName"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="lblSourceFolder">
+          <property name="text">
+           <string>Source folder:</string>
+          </property>
+          <property name="buddy">
+           <cstring>editSourceFolder</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="editSourceFolder"/>
+          </item>
+          <item>
+           <widget class="QToolButton" name="btnSelectSubfolders">
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../qHostMonitor.qrc">
+              <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>16</width>
+              <height>16</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="2" column="1">
+         <widget class="QCheckBox" name="chkIncludeSubfolders">
+          <property name="text">
+           <string>Include subfolders</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </item>
+     <item>
+      <widget class="QDialogButtonBox" name="buttonBox">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Help|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="SDPO::ViewCriteriaPropertiesWidget" name="tabViewCriteria">
+      <attribute name="title">
+       <string>View criteria</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::ColumnsPropertiesWidget" name="tabColumns">
+      <attribute name="title">
+       <string>Columns</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::ColorsPropertiesWidget" name="tabColors">
+      <attribute name="title">
+       <string>Colors</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::DynamicViewReportsWidget" name="tabReports">
+      <attribute name="title">
+       <string>Reports</string>
+      </attribute>
+     </widget>
+     <widget class="SDPO::CommentPropertiesWidget" name="tabComment">
+      <attribute name="title">
+       <string>Comment</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::ViewCriteriaPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qViewCriteriaPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ColumnsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColumnsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::ColorsPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qColorsPropertiesWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::DynamicViewReportsWidget</class>
+   <extends>QWidget</extends>
+   <header>qDynamicViewReportsWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::CommentPropertiesWidget</class>
+   <extends>QWidget</extends>
+   <header>properties/qCommentPropertiesWidget.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../qHostMonitor.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>DynamicViewPropertiesDlg</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

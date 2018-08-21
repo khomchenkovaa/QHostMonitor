@@ -1,0 +1,1304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MiscellaneousOptionsWidget</class>
+ <widget class="QWidget" name="MiscellaneousOptionsWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>601</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>DejaVu Sans</family>
+    <pointsize>8</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>Misc</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <widget class="QTableWidget" name="tableMisc">
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Sunken</enum>
+     </property>
+     <property name="verticalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::NoEditTriggers</set>
+     </property>
+     <property name="selectionMode">
+      <enum>QAbstractItemView::SingleSelection</enum>
+     </property>
+     <property name="horizontalScrollMode">
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
+     </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
+     <property name="gridStyle">
+      <enum>Qt::NoPen</enum>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderDefaultSectionSize">
+      <number>205</number>
+     </attribute>
+     <attribute name="horizontalHeaderHighlightSections">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="horizontalHeaderMinimumSectionSize">
+      <number>21</number>
+     </attribute>
+     <attribute name="verticalHeaderVisible">
+      <bool>false</bool>
+     </attribute>
+     <attribute name="verticalHeaderDefaultSectionSize">
+      <number>22</number>
+     </attribute>
+     <attribute name="verticalHeaderHighlightSections">
+      <bool>false</bool>
+     </attribute>
+     <row>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>4</string>
+      </property>
+     </row>
+     <row>
+      <property name="text">
+       <string>5</string>
+      </property>
+     </row>
+     <column>
+      <property name="text">
+       <string>1</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>2</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>3</string>
+      </property>
+     </column>
+     <item row="0" column="0">
+      <property name="text">
+       <string>Date&amp;Time format</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/dateTime.png</normaloff>:/img/misc/dateTime.png</iconset>
+      </property>
+     </item>
+     <item row="0" column="1">
+      <property name="text">
+       <string>SSL options</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/sslOptions.png</normaloff>:/img/misc/sslOptions.png</iconset>
+      </property>
+     </item>
+     <item row="0" column="2">
+      <property name="text">
+       <string>SNMP Get tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/snmpGet.png</normaloff>:/img/misc/snmpGet.png</iconset>
+      </property>
+     </item>
+     <item row="1" column="0">
+      <property name="text">
+       <string>Reports &amp; Statistics</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/reportsStatistics.png</normaloff>:/img/misc/reportsStatistics.png</iconset>
+      </property>
+     </item>
+     <item row="1" column="1">
+      <property name="text">
+       <string>Settings for URL tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/urlTests.png</normaloff>:/img/misc/urlTests.png</iconset>
+      </property>
+     </item>
+     <item row="1" column="2">
+      <property name="text">
+       <string>SNMP Trap tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/snmpTrap.png</normaloff>:/img/misc/snmpTrap.png</iconset>
+      </property>
+     </item>
+     <item row="2" column="0">
+      <property name="text">
+       <string>ODBC tests &amp; logging</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/odbcTests.png</normaloff>:/img/misc/odbcTests.png</iconset>
+      </property>
+     </item>
+     <item row="2" column="1">
+      <property name="text">
+       <string>Settings for UNC tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/uncTests.png</normaloff>:/img/misc/uncTests.png</iconset>
+      </property>
+     </item>
+     <item row="2" column="2">
+      <property name="text">
+       <string>Traffic Monitor tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/trafficMonitor.png</normaloff>:/img/misc/trafficMonitor.png</iconset>
+      </property>
+     </item>
+     <item row="3" column="0">
+      <property name="text">
+       <string>RMA / Logging</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/rmaLogging.png</normaloff>:/img/misc/rmaLogging.png</iconset>
+      </property>
+     </item>
+     <item row="3" column="1">
+      <property name="text">
+       <string>NT Event Log tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/ntEvent.png</normaloff>:/img/misc/ntEvent.png</iconset>
+      </property>
+     </item>
+     <item row="4" column="0">
+      <property name="text">
+       <string>Update check</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/updateCheck.png</normaloff>:/img/misc/updateCheck.png</iconset>
+      </property>
+     </item>
+     <item row="4" column="1">
+      <property name="text">
+       <string>Performance Counter tests</string>
+      </property>
+      <property name="icon">
+       <iconset resource="../../qHostMonitor.qrc">
+        <normaloff>:/img/misc/perfomanceCounter.png</normaloff>:/img/misc/perfomanceCounter.png</iconset>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item>
+    <widget class="QStackedWidget" name="swMisc">
+     <property name="frameShape">
+      <enum>QFrame::Panel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <property name="currentIndex">
+      <number>11</number>
+     </property>
+     <widget class="QWidget" name="pageMiscDateTime">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QFrame" name="frmDateTime">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QCheckBox" name="chkDateTimeFixed">
+            <property name="text">
+             <string>Use fixed date&amp;&amp;time formats:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QFormLayout" name="formLayout">
+              <property name="labelAlignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="formAlignment">
+               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              </property>
+              <item row="0" column="0">
+               <widget class="QLabel" name="lblDateFormat">
+                <property name="text">
+                 <string>Date format</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QComboBox" name="cmbDateFormat">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>M/d/yyyy</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>M/d/yy</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>MM/dd/yy</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>MM/dd/yyyy</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>yy/MM/dd</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>yyyy-MM-dd</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="lblTimeFormat">
+                <property name="text">
+                 <string>Time format</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QComboBox" name="cmbTimeFormat">
+                <property name="editable">
+                 <bool>true</bool>
+                </property>
+                <item>
+                 <property name="text">
+                  <string>h:mm:ss AMPM</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>hh:mm:ss AMPM</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>H:mm:ss</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>HH:mm:ss</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageReportsStatistics">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <item>
+        <widget class="QGroupBox" name="frmMiscReports">
+         <property name="title">
+          <string> Reports </string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QCheckBox" name="chkShowFolderNames">
+            <property name="text">
+             <string>Show folder names</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkSkipEmptyFolders">
+            <property name="text">
+             <string>Skip empty folders</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <widget class="QGroupBox" name="grpMiscStatistics">
+           <property name="title">
+            <string> Statistics </string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <item>
+             <widget class="QRadioButton" name="rbDisplayRatioTests">
+              <property name="text">
+               <string>Display Alive/Dead ratio of passed/failed tests</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rbDisplayRatioTime">
+              <property name="text">
+               <string>Display Alive/Dead ratio of alive/dead time</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frmPrecision">
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Sunken</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <item>
+             <widget class="QLabel" name="lblPrecision">
+              <property name="text">
+               <string>Precision: display</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="spinPrecision">
+              <property name="maximum">
+               <number>6</number>
+              </property>
+              <property name="value">
+               <number>2</number>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lblPrecision2">
+              <property name="text">
+               <string>digit(s) after decimal</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageMiscODBC">
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <item>
+        <widget class="QGroupBox" name="grpDSN">
+         <property name="title">
+          <string> DSN </string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_6">
+          <item>
+           <widget class="QRadioButton" name="rbDsnUser">
+            <property name="text">
+             <string>User DSN</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbDsnSystem">
+            <property name="text">
+             <string>System DSN</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="grpQueryOptions">
+         <property name="title">
+          <string> Query options </string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_7">
+          <item>
+           <widget class="QCheckBox" name="chkNotSqlFetch">
+            <property name="text">
+             <string>Do not use SqlFetchAbsolute command</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="chkEnableConnectionPooling">
+            <property name="text">
+             <string>Enable connection pooling</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageRmaLogging">
+      <layout class="QVBoxLayout" name="verticalLayout_9">
+       <item>
+        <widget class="QGroupBox" name="grpBackupAgent">
+         <property name="title">
+          <string> If backup agent specified and connection to primary RMA failed </string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_8">
+          <item>
+           <widget class="QRadioButton" name="rbSetUnknown">
+            <property name="text">
+             <string>Set &quot;Unknown&quot; status, log error, then repeat test using backup agent</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbRequestBackup">
+            <property name="text">
+             <string>Request backup agent without reporting error</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkLogAboutInactive">
+         <property name="text">
+          <string>Log: record info about &quot;inactive&quot; statuses (Disabled, Wait for master, Paused, etc)</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageUpdateCheck">
+      <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <item>
+        <widget class="QFrame" name="frmUpdateCheck">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_10">
+          <item>
+           <widget class="QRadioButton" name="rbNoUpdates">
+            <property name="text">
+             <string>Do not check for updates automatically</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbUpdateCheck">
+            <property name="text">
+             <string>Check for updates at www.ks-soft.net every 3rd night.</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageSSL">
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="2" column="3">
+        <widget class="QCheckBox" name="chkIgnoreAuthorityImap">
+         <property name="text">
+          <string>IMAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QCheckBox" name="chkIgnoreAuthorityLdap">
+         <property name="text">
+          <string>LDAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QCheckBox" name="chkAcceptInvalidDatesImap">
+         <property name="text">
+          <string>IMAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QCheckBox" name="chkAcceptInvalidDatesLdap">
+         <property name="text">
+          <string>LDAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblAcceptInvalidHosts">
+         <property name="text">
+          <string>Accept SSL/PCT certificates with invalid host name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QCheckBox" name="chkAcceptInvalidHostsPop3">
+         <property name="text">
+          <string>POP3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QCheckBox" name="chkAcceptInvalidHostsLdap">
+         <property name="text">
+          <string>LDAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblAcceptInvalidDates">
+         <property name="text">
+          <string>Accept SSL/PCT certificates with invalid dates</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="chkAcceptInvalidDatesPop3">
+         <property name="text">
+          <string>POP3</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QCheckBox" name="chkAcceptInvalidHostsImap">
+         <property name="text">
+          <string>IMAP</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lblIgnoreAuthority">
+         <property name="text">
+          <string>Ignore unknown certificate authority problems
+</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QCheckBox" name="chkIgnoreAuthorityPop3">
+         <property name="text">
+          <string>POP3</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageUrlSettings">
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_11">
+         <item>
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkNotCheckConnection">
+           <property name="text">
+            <string>Do not check Internet connection (at start and before URL request)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <widget class="QLabel" name="lblAgentName">
+             <property name="text">
+              <string>Agent name</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cmbAgentName">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <item>
+              <property name="text">
+               <string>KSHostMonitor:/1.0</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mozilla/3.01 (compatible;)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mozilla/4.0 (compatible; MSIE 4.01)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mozilla/4.0 (compatible; MSIE 5.01)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mozilla/4.0 (compatible; MSIE 6.0)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Mozilla/5.0 Netscape6/6.01</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>MSProxy/2.0</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Go!Zilla 3.5 (www.gozilla.com)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>FlashGet</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Opera/5.12</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Teleport Pro/1.29</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkAcceptInvalidHosts">
+           <property name="text">
+            <string>Accept SSL/PCT certificates with invalid host name</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkAcceptInvalidDates">
+           <property name="text">
+            <string>Accept SSL/PCT certificates with invalid dates</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageUncSettings">
+      <layout class="QVBoxLayout" name="verticalLayout_14">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_9">
+         <property name="spacing">
+          <number>20</number>
+         </property>
+         <item>
+          <widget class="QGroupBox" name="grpUncTestMode">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string> UNC test mode </string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_12">
+            <item>
+             <widget class="QRadioButton" name="rbUncNormal">
+              <property name="text">
+               <string>Normal  - HostMonitor can start many tests simultaneously </string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rbUncOnePerServer">
+              <property name="text">
+               <string>OnePerServer - only 1 test for each server at one time</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QRadioButton" name="rbUncOneByOne">
+              <property name="text">
+               <string>OneByOne - only 1 test at one time</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_13">
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="lblUncRetries">
+             <property name="text">
+              <string>UNC test retries</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="spinUncRetries">
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+             <property name="value">
+              <number>2</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkErrorInReply">
+         <property name="text">
+          <string>Show errors description in &quot;Reply&quot; field when cannot access resource</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageNtEventLog">
+      <layout class="QHBoxLayout" name="horizontalLayout_10">
+       <item>
+        <widget class="QFrame" name="frame_10">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_15">
+          <property name="leftMargin">
+           <number>20</number>
+          </property>
+          <item>
+           <widget class="QCheckBox" name="chkShowEventsDecription">
+            <property name="text">
+             <string>Show events description in &quot;Reply&quot; field for &quot;NT Event Log&quot; test</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pagePerformance">
+      <layout class="QHBoxLayout" name="horizontalLayout_11">
+       <item>
+        <widget class="QGroupBox" name="grpTestMode">
+         <property name="title">
+          <string> Test mode </string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_16">
+          <item>
+           <widget class="QRadioButton" name="rbModeMultiThread">
+            <property name="text">
+             <string>MultiThread - allows to start several tests in separate threads (fastest method)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbModeOneByOne">
+            <property name="text">
+             <string>OneByOne - starts Performance Counter tests one by one </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbModeSmart">
+            <property name="text">
+             <string>Smart - multithreading model, pdh.dll can be reloaded</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbModeExternal">
+            <property name="text">
+             <string>External - uses external (perfobj) utility to perform tests (fast and most reliable method)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageSNMPGet">
+      <layout class="QVBoxLayout" name="verticalLayout_17">
+       <item>
+        <widget class="QPlainTextEdit" name="plainSnmpDescription">
+         <property name="readOnly">
+          <bool>true</bool>
+         </property>
+         <property name="plainText">
+          <string>Since the &quot;SNMP test&quot; is typically applied to single instance MIB objects, HostMonitor automatically appends the single instance sub-identifier (&quot;.0&quot;).
+Though this has an unfortunate side-effect for table instance retrieval.</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="chkSnmpAppend0">
+         <property name="text">
+          <string>Automatically append the single instance sub-identifier (&quot;.0&quot;).</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageSNMPTrap">
+      <layout class="QVBoxLayout" name="verticalLayout_19">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QLabel" name="lblSnmpTrapUdpPort">
+           <property name="text">
+            <string>Receive traps on UDP port #</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="spinSnmpTrapUdpPort">
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>65535</number>
+           </property>
+           <property name="value">
+            <number>162</number>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="grpSnmpTrafficAlert">
+         <property name="title">
+          <string>High traffic alert </string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_18">
+          <item>
+           <layout class="QGridLayout" name="gridLayout_2">
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>when more than</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QSpinBox" name="spinSnmpAlertMessages">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>99999</number>
+              </property>
+              <property name="value">
+               <number>1800</number>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_14">
+              <item>
+               <widget class="QLabel" name="label_27">
+                <property name="autoFillBackground">
+                 <bool>true</bool>
+                </property>
+                <property name="text">
+                 <string>incoming messages per  </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="spinSnmpAlertSeconds">
+                <property name="alignment">
+                 <set>Qt::AlignCenter</set>
+                </property>
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>86400</number>
+                </property>
+                <property name="value">
+                 <number>60</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="label_29">
+                <property name="text">
+                 <string>sec</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="chkSnmpSuspend">
+              <property name="text">
+               <string>Suspend receiving messages for </string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QSpinBox" name="spinSnmpSuspendTime">
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+              <property name="minimum">
+               <number>1</number>
+              </property>
+              <property name="maximum">
+               <number>86400</number>
+              </property>
+              <property name="value">
+               <number>60</number>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="2">
+             <widget class="QLabel" name="label_28">
+              <property name="text">
+               <string>sec</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_13">
+            <item>
+             <widget class="QCheckBox" name="chkExecuteAtionProfile">
+              <property name="text">
+               <string>Execute action profile</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="cmbSelectActionProfile">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QToolButton" name="btnSelectActionProfile">
+              <property name="maximumSize">
+               <size>
+                <width>24</width>
+                <height>24</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>snmp</string>
+              </property>
+              <property name="icon">
+               <iconset resource="../../qHostMonitor.qrc">
+                <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pageTraffic">
+      <layout class="QHBoxLayout" name="horizontalLayout_15">
+       <item>
+        <widget class="QFrame" name="frmTraffic">
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_20">
+          <item>
+           <spacer name="verticalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbTrafficInKB">
+            <property name="text">
+             <string>Display traffic using KB / MB units</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbTrafficInKbit">
+            <property name="text">
+             <string>Display traffic using Kbit / Mbit units</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="rbTestSettings">
+            <property name="text">
+             <string>Select units considering test settings (threshold value)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="../../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
+ </resources>
+ <connections/>
+</ui>

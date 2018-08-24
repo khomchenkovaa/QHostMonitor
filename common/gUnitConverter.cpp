@@ -1,10 +1,10 @@
-#include "gUnit.h"
+#include "gUnitConverter.h"
 
 namespace SDPO {
 
 /*****************************************************************/
 
-GUnit::GUnit(const QString& text, QObject *parent) :
+GUnitConverter::GUnitConverter(const QString& text, QObject *parent) :
     QObject(parent),
     a_Text(text)
 {
@@ -13,7 +13,7 @@ GUnit::GUnit(const QString& text, QObject *parent) :
 
 /*****************************************************************/
 
-GUnit::GUnit(const int value, const QString ext, QObject *parent) :
+GUnitConverter::GUnitConverter(const int value, const QString ext, QObject *parent) :
     QObject(parent),
     a_Value(value),
     a_Ext(ext)
@@ -24,7 +24,7 @@ GUnit::GUnit(const int value, const QString ext, QObject *parent) :
 
 /*****************************************************************/
 
-bool GUnit::convert()
+bool GUnitConverter::convert()
 {
     QString pattern = "(\\d+)\\s*(\\w\\w|%)";
     QRegExp rx(pattern);
@@ -53,7 +53,7 @@ bool GUnit::convert()
 
 /*****************************************************************/
 
-QString GUnit::toString()
+QString GUnitConverter::toString()
 {
     a_Text = QString("%1 %2").arg(a_Value).arg(a_Ext);
     return a_Text;
@@ -61,7 +61,7 @@ QString GUnit::toString()
 
 /*****************************************************************/
 
-double GUnit::toNumber()
+double GUnitConverter::toNumber()
 {
     float result = a_Value;
     if (a_Ext.compare("Kb",Qt::CaseInsensitive) == 0) {
@@ -81,7 +81,9 @@ double GUnit::toNumber()
     return a_Number;
 }
 
-int GUnit::fromNumber()
+/*****************************************************************/
+
+int GUnitConverter::fromNumber()
 {
     float result = a_Number;
     if (a_Ext.compare("Kb",Qt::CaseInsensitive) == 0) {

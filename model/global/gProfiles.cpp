@@ -96,7 +96,13 @@ QString GUserProfile::getColumnMacro(const int idx) const
 GUserProfile GUserProfile::clone()
 {
     GUserProfile profile;
+    profile.id = id;
     profile.name = name;
+    profile.password = password;
+    profile.enabled = enabled;
+    profile.email = email;
+    profile.pager = pager;
+    profile.icq = icq;
     profile.style = style;
     profile.showGridLines = showGridLines;
     profile.gridForLogViewer = gridForLogViewer;

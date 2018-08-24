@@ -45,7 +45,13 @@ void IOUserProfileLoader::parseJsonData(QJsonDocument json_doc)
     foreach (const QJsonValue &item, json_array) {
         QJsonObject json_obj = item.toObject();
         GUserProfile profile;
+        profile.id = json_obj["id"].toString();
         profile.name = json_obj["name"].toString();
+        profile.password = json_obj["password"].toString();
+        profile.enabled = json_obj["enabled"].toBool();
+        profile.email = json_obj["email"].toString();
+        profile.pager = json_obj["pager"].toString();
+        profile.icq = json_obj["icq"].toString();
         profile.setStyle(json_obj["style"].toInt());
         profile.showGridLines = json_obj["showGridLines"].toBool();
         profile.gridForLogViewer = json_obj["gridForLogViewer"].toBool();
@@ -69,7 +75,13 @@ QJsonDocument IOUserProfileLoader::createJsonDocument()
     QJsonArray jsonArray;
     foreach (const GUserProfile &profile, GData::userProfiles) {
          QJsonObject jsonObj;
+         jsonObj.insert("id",QJsonValue(profile.id));
          jsonObj.insert("name",QJsonValue(profile.name));
+         jsonObj.insert("password",QJsonValue(profile.password));
+         jsonObj.insert("enabled",QJsonValue(profile.enabled));
+         jsonObj.insert("email",QJsonValue(profile.email));
+         jsonObj.insert("pager",QJsonValue(profile.pager));
+         jsonObj.insert("icq",QJsonValue(profile.icq));
          jsonObj.insert("style",QJsonValue(profile.getStyle()));
          jsonObj.insert("showGridLines",QJsonValue(profile.showGridLines));
          jsonObj.insert("gridForLogViewer",QJsonValue(profile.gridForLogViewer));

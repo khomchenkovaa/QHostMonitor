@@ -1,4 +1,5 @@
 #include "tEnums.h"
+#include "QString"
 
 namespace SDPO {
 
@@ -31,6 +32,36 @@ std::vector<SimpleStatusStruct> TEnums::simpleStatusList = {
     { SimpleStatusID::UNKNOWN, "UNKNOWN" },
     { SimpleStatusID::WARNING, "WARNING" }
 };
+
+/*****************************************************************/
+
+QStringList TEnums::permissions;
+
+/*****************************************************************/
+
+void TEnums::init()
+{
+    // User permissions
+    if (permissions.count()) return;
+    permissions << QObject::tr("add tests/folders");                 // PRM_CREATE
+    permissions << QObject::tr("configure tests/folders");           // PRM_EDIT
+    permissions << QObject::tr("remove tests/folders");              // PRM_DELETE
+    permissions << QObject::tr("disable/enable tests");              // PRM_DISABLE
+    permissions << QObject::tr("reset statistic");                   // PRM_STATISTIC
+    permissions << QObject::tr("start/stop monitoring");             // PRM_MONITORING
+    permissions << QObject::tr("change options");                    // PRM_OPTIONS
+    permissions << QObject::tr("manage schedules");                  // PRM_SCHEDULES
+    permissions << QObject::tr("manage mail profiles");              // PRM_MAIL_PROFILES
+    permissions << QObject::tr("manage color profiles");             // PRM_COLOR_PROFILES
+    permissions << QObject::tr("manage report profiles");            // PRM_REPORT_PROFILES
+    permissions << QObject::tr("manage action profiles");            // PRM_ACTION_PROFILES
+    permissions << QObject::tr("manage user profiles");              // PRM_USER_PROFILES
+    permissions << QObject::tr("acknowledge test status");           // PRM_ACKNOWLEDGE
+    permissions << QObject::tr("pause/resume tests");                // PRM_PAUSE
+    permissions << QObject::tr("edit GUI options for the account");  // PRM_GUI
+    permissions << QObject::tr("edit GUI options for ALL accounts"); // PRM_GUI_ALL
+    permissions << QObject::tr("view test settings (read-only)");    // PRM_READ
+}
 
 /*****************************************************************/
 

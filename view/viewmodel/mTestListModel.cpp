@@ -146,7 +146,7 @@ void TestListModel::setProfile()
         colorScheme = m_current->getColorScheme();
     } else {
         foreach (const GUserProfile &profile, GData::userProfiles) {
-            if (profile.name == GData::currentUser ) {
+            if (profile.id == GData::currentUser ) {
                 columns.append(profile.columns);
                 colorScheme = profile.colorScheme;
                 break;

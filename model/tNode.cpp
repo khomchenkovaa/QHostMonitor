@@ -328,7 +328,7 @@ QColumnList TNode::getColumns()
             result = m_parentNode->getColumns();
         } else { // Root
             foreach (const GUserProfile &profile, GData::userProfiles) {
-                if (profile.name == GData::currentUser ) {
+                if (profile.id == GData::currentUser ) {
                     result.append(profile.columns);
                 }
             }
@@ -360,7 +360,7 @@ QSortPairList TNode::getSort()
             result = m_parentNode->getSort();
         } else { // Root
             foreach (const GUserProfile &profile, GData::userProfiles) {
-                if (profile.name == GData::currentUser ) {
+                if (profile.id == GData::currentUser ) {
                     result.append(profile.sort);
                 }
             }
@@ -403,7 +403,7 @@ QString TNode::getColorScheme() const
                 result = value.toString();
             } else { // Root Folder inherits from profile
                 foreach (const GUserProfile &profile, GData::userProfiles) {
-                    if (profile.name == GData::currentUser ) {
+                    if (profile.id == GData::currentUser ) {
                         result = profile.colorScheme;
                         break;
                     }

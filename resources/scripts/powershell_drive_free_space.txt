@@ -1,0 +1,11 @@
+--------------------------------------------------------------------
+Purpose:    Checks available space on specified drive
+
+Parameters:  
+- Drive:    disk drive to check, e.g. C:\
+- MinLimit: script sets "Bad" status when amount of free space on 
+            specified drive is less than specified limit (MB)
+
+Requirements:  
+ - Windows PowerShell 1.0
+--------------------------------------------------------------------

@@ -72,7 +72,7 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="btnNewOperators">
+           <widget class="QPushButton" name="btnNew">
             <property name="text">
              <string>&amp;New</string>
             </property>
@@ -92,7 +92,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btnCopyOperators">
+           <widget class="QPushButton" name="btnCopy">
             <property name="text">
              <string>&amp;Copy</string>
             </property>
@@ -112,7 +112,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btnRenameOperators">
+           <widget class="QPushButton" name="btnRename">
             <property name="text">
              <string>&amp;Rename</string>
             </property>
@@ -132,7 +132,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="btnDeleteOperators">
+           <widget class="QPushButton" name="btnDelete">
             <property name="text">
              <string>&amp;Delete</string>
             </property>
@@ -155,7 +155,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listOperatorSelect"/>
+        <widget class="QListWidget" name="listUserProfiles"/>
        </item>
       </layout>
      </item>
@@ -190,12 +190,12 @@
                <string>ID</string>
               </property>
               <property name="buddy">
-               <cstring>cmbId</cstring>
+               <cstring>cmbID</cstring>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QComboBox" name="cmbId">
+             <widget class="QComboBox" name="cmbID">
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -259,12 +259,12 @@
                <string>Confirm</string>
               </property>
               <property name="buddy">
-               <cstring>cmbConfirm</cstring>
+               <cstring>cmbPasswordConfirm</cstring>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QComboBox" name="cmbConfirm">
+             <widget class="QComboBox" name="cmbPasswordConfirm">
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -354,7 +354,7 @@
              </widget>
             </item>
             <item row="3" column="0">
-             <widget class="QLabel" name="lblIcq">
+             <widget class="QLabel" name="lblICQ">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
                 <horstretch>0</horstretch>
@@ -365,12 +365,12 @@
                <string>ICQ</string>
               </property>
               <property name="buddy">
-               <cstring>cmbIcq</cstring>
+               <cstring>cmbICQ</cstring>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QComboBox" name="cmbIcq">
+             <widget class="QComboBox" name="cmbICQ">
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -408,14 +408,14 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="lblUserHasRights">
+             <widget class="QLabel" name="lblUserRights">
               <property name="text">
                <string>User has rights to</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="listUserHasRights">
+             <widget class="QListWidget" name="listUserRights">
               <property name="horizontalScrollBarPolicy">
                <enum>Qt::ScrollBarAlwaysOff</enum>
               </property>
@@ -690,7 +690,6 @@
  </widget>
  <resources>
   <include location="../qHostMonitor.qrc"/>
-  <include location="../qHostMonitor.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -700,8 +699,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>593</x>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -716,8 +715,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>593</x>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

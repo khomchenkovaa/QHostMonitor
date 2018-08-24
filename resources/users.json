@@ -1,6 +1,12 @@
 [
  {
+  "id" : "<Default>",
   "name" : "<Default>",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,
@@ -207,7 +213,13 @@
           "asc" : true
         }]
  },{
+  "id" : "Admin",
   "name" : "Admin",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,
@@ -416,7 +428,13 @@
          }
   ]
  },{
+  "id" : "local",
   "name" : "local",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,
@@ -625,7 +643,13 @@
          }
   ]
  },{
+  "id" : "Manager",
   "name" : "Manager",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : true,
   "gridForLogViewer" : false,
@@ -834,7 +858,13 @@
          }
   ]
  },{
+  "id" : "Technician",
   "name" : "Technician",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,
@@ -1043,7 +1073,13 @@
          }
   ]
  },{
+  "id" : "webuser",
   "name" : "webuser",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,
@@ -1252,7 +1288,13 @@
          }
   ]
  },{
+  "id" : "watchdog",
   "name" : "watchdog",
+  "password" : "",
+  "enabled" : true,
+  "email" : "",
+  "pager" : "",
+  "ICQ" : "",
   "style" : 0,
   "showGridLines" : false,
   "gridForLogViewer" : false,

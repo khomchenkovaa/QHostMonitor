@@ -1,0 +1,9 @@
+-----------------------------------------------------------------------
+Purpose: Compares two files. Sets "Bad" status when files are different
+Comment: This script is for demo purpose only. 
+         Build-in "Compare Files" test is more flexible.
+
+Parameters:  
+- FileName1: name of the 1st file
+- FileName2: name of the 2nd file
+-----------------------------------------------------------------------

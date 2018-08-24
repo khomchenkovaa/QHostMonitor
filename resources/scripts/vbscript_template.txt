@@ -1,0 +1,8 @@
+-----------------------------------------------------------------------
+Purpose:    Simple VB Script template for demo purpose.
+Comment:    Script sets "Ok" test status and displays specified 
+            parameters in "Reply" field
+Parameters: Any list of parameters
+Language:   VBScript
+Sys req:    Windows Script Host must be installed
+-----------------------------------------------------------------------

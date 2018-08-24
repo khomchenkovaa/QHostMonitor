@@ -85,10 +85,22 @@ void UserPreferencesDlg::on_btnCopy_clicked()
         // for each checked id
         foreach(int id, ids) {
             GUserProfile profile = m_userProfiles.at(id);
+            QString id = profile.id;
             QString name = profile.name;
+            QString password = profile.password;
+            bool enabled = profile.enabled;
+            QString email = profile.email;
+            QString pager = profile.pager;
+            QString icq = profile.icq;
             GUserProfile newProfile = current.clone();
+            newProfile.id = id;
             newProfile.name = name;
-            m_userProfiles.replace(id,newProfile);
+            newProfile.password = password;
+            newProfile.enabled = enabled;
+            newProfile.email = email;
+            newProfile.pager = pager;
+            newProfile.icq = icq;
+            m_userProfiles.replace(idx,newProfile);
         }
     }
 }
@@ -400,7 +412,7 @@ void UserPreferencesDlg::init()
     for (int i=0; i< GData::userProfiles.count(); i++) {
         GUserProfile profile = GData::userProfiles.at(i);
         m_userProfiles.append(profile.clone());
-        ui->listUserProfiles->addItem(profile.name);
+        ui->listUserProfiles->addItem(profile.id);
     }
     ui->listUserProfiles->setCurrentRow(idx);
 }

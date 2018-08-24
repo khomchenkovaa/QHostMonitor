@@ -1,11 +1,11 @@
-#ifndef GUNIT_H
-#define GUNIT_H
+#ifndef GUNITCONVERTER_H
+#define GUNITCONVERTER_H
 
 #include "PropertyHelper.h"
 
 namespace SDPO {
 
-class GUnit : public QObject
+class GUnitConverter : public QObject
 {
     Q_OBJECT
 
@@ -15,8 +15,8 @@ class GUnit : public QObject
     AUTO_PROPERTY(double, Number)
 
 public:
-    explicit GUnit(const QString &text, QObject *parent = 0);
-    explicit GUnit(const int value, const QString ext, QObject *parent = 0);
+    explicit GUnitConverter(const QString &text, QObject *parent = 0);
+    explicit GUnitConverter(const int value, const QString ext, QObject *parent = 0);
 
     bool convert();
     QString toString();
@@ -27,4 +27,4 @@ public:
 
 } // namespace SDPO
 
-#endif // GUNIT_H
+#endif // GUNITCONVERTER_H

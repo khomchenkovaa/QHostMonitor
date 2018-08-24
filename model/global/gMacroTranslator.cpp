@@ -1,7 +1,7 @@
 #include "gMacroTranslator.h"
 #include "tNode.h"
 #include "global/gUserVars.h"
-#include "gUnit.h"
+#include "gUnitConverter.h"
 
 namespace SDPO {
 
@@ -97,7 +97,7 @@ QString GMacroTranslator::build() const
     while (rx.indexIn(result) != -1) {
         int value = rx.cap(1).toInt();
         QString ext = rx.cap(2);
-        GUnit conv(value, ext);
+        GUnitConverter conv(value, ext);
         result = result.replace(rx.cap(0), QString::number(conv.getNumber()));
     }
     return result;

@@ -1,6 +1,6 @@
 #include "tDriveSpace.h"
 #include <QStorageInfo>
-#include "gUnit.h"
+#include "gUnitConverter.h"
 
 namespace SDPO {
 
@@ -32,7 +32,7 @@ void TDriveSpace::run()
         if (m_Dimension == "%") {
             testValue = (bytesFree / bytesTotal) * 100.0;
         } else {
-            GUnit conv(0,m_Dimension);
+            GUnitConverter conv(0,m_Dimension);
             conv.setNumber(bytesFree);
             testValue = conv.fromNumber();
         }

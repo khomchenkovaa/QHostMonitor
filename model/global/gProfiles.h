@@ -102,7 +102,13 @@ typedef QList<TLColumn> QColumnList;
 
 struct GUserProfile
 {
+    QString       id;
     QString       name;
+    QString       password;
+    bool          enabled;
+    QString       email;
+    QString       pager;
+    QString       icq;
     TestListStyle style;
     bool          showGridLines;
     bool          gridForLogViewer;

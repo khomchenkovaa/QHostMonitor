@@ -1,0 +1,10 @@
+--------------------------------------------------------------------
+Purpose:    Checks the amount of free physical memory on the system
+
+Parameters:  
+- MinLimit: script sets "Bad" status when amount of free memory is 
+            less than specified limit (MB) 
+
+Requirements:  
+ - Windows PowerShell 1.0
+--------------------------------------------------------------------

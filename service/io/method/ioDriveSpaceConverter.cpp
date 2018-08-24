@@ -1,5 +1,5 @@
 #include "ioDriveSpaceConverter.h"
-#include "gUnit.h"
+#include "gUnitConverter.h"
 
 namespace SDPO {
 
@@ -31,7 +31,7 @@ bool IODriveSpaceConverter::setValue(QString key, QString value)
     if ( key == SP_DRIVE ) {
         test->setDrive(value);
     } else if (key == SP_MIN_FREE_SPACE) {
-        GUnit conv(value);
+        GUnitConverter conv(value);
         test->setMinFreeSpace(conv.getValue());
         test->setDimension(conv.getExt());
     } else {

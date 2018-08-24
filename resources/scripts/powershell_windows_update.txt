@@ -1,0 +1,10 @@
+--------------------------------------------------------------------
+Purpose:    Checks last Windows update date
+
+Parameters:  
+- MaxLimit: script sets "Bad" status when no Windows service packs or
+            updates were installed for last N days (or more)
+
+Requirements:  
+ - Windows PowerShell 1.0
+--------------------------------------------------------------------

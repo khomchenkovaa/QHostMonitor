@@ -33,6 +33,7 @@ Startup::Startup() :
 {
     connect(&m_mainForm, SIGNAL(testingPaused(bool)), &m_testRunner, SLOT(setPaused(bool)));
 
+    TEnums::init();
     load();
 
     m_mainForm.setupFolders(&m_HML);

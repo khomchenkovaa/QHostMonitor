@@ -1,9 +1,11 @@
+#ifndef TENUMS_H
+#define TENUMS_H
 /********************************************************************
  * Represents Enumerators: TestingMethod, SimpleStatus, TestStatus
  * ******************************************************************/
-#pragma once
 
 #include "xMacroVar.h"
+#include <QObject>
 #include <QString>
 #include <QDebug>
 
@@ -51,12 +53,37 @@ struct SimpleStatusStruct {
 
 /*****************************************************************/
 
+enum class PermissionID {
+    PRM_CREATE,          // add tests/folders
+    PRM_EDIT,            // configure tests/folders
+    PRM_DELETE,          // remove tests/folders
+    PRM_DISABLE,         // disable/enable tests
+    PRM_STATISTIC,       // reset statistic
+    PRM_MONITORING,      // start/stop monitoring
+    PRM_OPTIONS,         // change options
+    PRM_SCHEDULES,       // manage schedules
+    PRM_MAIL_PROFILES,   // manage mail profiles
+    PRM_COLOR_PROFILES,  // manage color profiles
+    PRM_REPORT_PROFILES, // manage report profiles
+    PRM_ACTION_PROFILES, // manage action profiles
+    PRM_USER_PROFILES,   // manage user profiles
+    PRM_ACKNOWLEDGE,     // acknowledge test status
+    PRM_PAUSE,           // pause/resume tests
+    PRM_GUI,             // edit GUI options for the account
+    PRM_GUI_ALL,         // edit GUI options for ALL accounts
+    PRM_READ             // view test settings (read-only)
+};
+
+/*****************************************************************/
+
 class TEnums {
 
     static std::vector<TestStatusStruct> testStatusList;
     static std::vector<SimpleStatusStruct>simpleStatusList;
+    static QStringList permissions;
 
 public:
+    static void init();
     static QString testStatus(TestStatus status);
     static TestStatus testStatusFromString(const QString name);
     static QString simpleStatus(SimpleStatusID status);
@@ -68,3 +95,5 @@ public:
 /*****************************************************************/
 
 } // namespace SDPO
+
+#endif // TENUMS_H

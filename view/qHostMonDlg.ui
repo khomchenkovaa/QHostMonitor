@@ -748,7 +748,7 @@
         <widget class="SDPO::PingWidget" name="wPing"/>
         <widget class="SDPO::TcpWidget" name="wTCP"/>
         <widget class="SDPO::UrlWidget" name="wURL"/>
-        <widget class="SDPO::DriveSpaceSimpleWidget" name="wDriveSpace"/>
+        <widget class="SDPO::DriveSpaceWidget" name="wDriveSpace"/>
         <widget class="SDPO::FileSizeWidget" name="wFileSize"/>
         <widget class="SDPO::FileExistsWidget" name="wFileExists"/>
         <widget class="SDPO::ExternalPrgWidget" name="wExternalPrg"/>
@@ -2506,9 +2506,9 @@
    <header>method/qUrlWidget.h</header>
   </customwidget>
   <customwidget>
-   <class>SDPO::DriveSpaceSimpleWidget</class>
+   <class>SDPO::DriveSpaceWidget</class>
    <extends>QWidget</extends>
-   <header>method/qDriveSpaceSimpleWidget.h</header>
+   <header>method/qDriveSpaceWidget.h</header>
   </customwidget>
   <customwidget>
    <class>SDPO::FileSizeWidget</class>

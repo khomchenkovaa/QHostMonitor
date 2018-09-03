@@ -78,7 +78,6 @@ HEADERS += \
     $$PWD/method/qServiceToMonitorDlg.h \
     $$PWD/method/qSnmpGetWidget.h \
     $$PWD/method/qNtEventLogWidget.h \
-    $$PWD/method/qDriveSpaceSimpleWidget.h \
     $$PWD/method/qCpuUsageWidget.h \
     $$PWD/method/qCompareFilesWidget.h \
     $$PWD/method/qOdbcQueryWidget.h \
@@ -243,7 +242,6 @@ SOURCES += \
     $$PWD/method/qServiceToMonitorDlg.cpp \
     $$PWD/method/qSnmpGetWidget.cpp \
     $$PWD/method/qNtEventLogWidget.cpp \
-    $$PWD/method/qDriveSpaceSimpleWidget.cpp \
     $$PWD/method/qCpuUsageWidget.cpp \
     $$PWD/method/qCompareFilesWidget.cpp \
     $$PWD/method/qOdbcQueryWidget.cpp \
@@ -404,7 +402,6 @@ FORMS    += \
     $$PWD/method/qServiceToMonitorDlg.ui \
     $$PWD/method/qSnmpGetWidget.ui \
     $$PWD/method/qNtEventLogWidget.ui \
-    $$PWD/method/qDriveSpaceSimpleWidget.ui \
     $$PWD/method/qCpuUsageWidget.ui \
     $$PWD/method/qCompareFilesWidget.ui \
     $$PWD/method/qOdbcQueryWidget.ui \

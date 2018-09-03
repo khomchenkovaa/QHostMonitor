@@ -1,6 +1,7 @@
 #include "qCpuUsageWidget.h"
 #include "ui_qCpuUsageWidget.h"
 #include "method/tCpuUsage.h"
+
 namespace SDPO {
 
 /*****************************************************************/

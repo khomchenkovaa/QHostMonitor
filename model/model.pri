@@ -81,7 +81,10 @@ HEADERS += \
     ../model/tRoot.h \
     ../model/method/sdpoTestMethods.h \
     ../model/action/sdpoTestActions.h \
-    ../model/global/ioUserProfileLoader.h
+    ../model/global/ioUserProfileLoader.h \
+    ../model/method/tDnsTest.h \
+    ../model/method/tDominantProcess.h \
+    ../model/method/tFileContents.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -159,4 +162,7 @@ SOURCES += \
     ../model/tFolder.cpp \
     ../model/gData.cpp \
     ../model/tRoot.cpp \
-    ../model/global/ioUserProfileLoader.cpp
+    ../model/global/ioUserProfileLoader.cpp \
+    ../model/method/tDnsTest.cpp \
+    ../model/method/tDominantProcess.cpp \
+    ../model/method/tFileContents.cpp

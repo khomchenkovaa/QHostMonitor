@@ -256,7 +256,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="cmbConnectPassword"/>
+      <widget class="QLineEdit" name="lineConnectPassword"/>
      </item>
      <item>
       <widget class="QToolButton" name="btnConnectAs">
@@ -280,7 +280,6 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../qHostMonitor.qrc"/>
   <include location="../../qHostMonitor.qrc"/>
  </resources>
  <connections/>

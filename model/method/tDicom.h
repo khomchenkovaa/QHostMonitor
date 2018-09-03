@@ -18,7 +18,7 @@ class TDicom : public TTestMethod
     AUTO_PROPERTY(int, Timeout)
     AUTO_PROPERTY(QString, CalledAeTitle)
     AUTO_PROPERTY(QString, CallingAeTitle)
-
+// hello
 public:
     explicit TDicom(QObject *parent = 0);
 

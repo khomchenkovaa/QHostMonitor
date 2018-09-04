@@ -40,6 +40,26 @@
    "linkVisited"       : ["#00ffff", "#000080"],
    "linkActive"        : ["#00ffff", "#000080"]
   },{
+   "name"              : "My boss's favorire colors",
+   "htmlText"          : ["#000000", "#ffffff"],
+   "header"            : ["#ffffff", "#0000ff"],
+   "folder"            : ["#000000", "#00ff00"],
+   "testNotTested"     : ["#000000", "#ffffff"],
+   "testOk"            : ["#000000", "#ffffff"],
+   "testNormal"        : ["#000000", "#ffffff"],
+   "testWarning"       : ["#ffffff", "#ff9b37"],
+   "testBad"           : ["#ffffff", "#ff0000"],
+   "testAcknowledged"  : ["#cc0066", "#ffd9d9"],
+   "testUnknown"       : ["#ff0000", "#ffffff"],
+   "message"           : ["#000000", "#ffffff"],
+   "testChecking"      : ["#000000", "#ffffff"],
+   "testDisabled"      : ["#000000", "#c0c0c0"],
+   "testWaitForMaster" : ["#e4e4e4", "#ffffff"],
+   "testOutOfSchedule" : ["#e4e4e4", "#ffffff"],
+   "links"             : ["#0000ff", "#ffffff"],
+   "linkVisited"       : ["#0000ff", "#ffffff"],
+   "linkActive"        : ["#0000ff", "#ffffff"]
+  },{
    "name"              : "Grey",
    "htmlText"          : ["#000000", "#e9e9e9"],
    "header"            : ["#ffffff", "#0000ff"],

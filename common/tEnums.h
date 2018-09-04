@@ -1,13 +1,13 @@
 #ifndef TENUMS_H
 #define TENUMS_H
 /********************************************************************
- * Represents Enumerators: TestingMethod, SimpleStatus, TestStatus
+ * Represents Enumerators:
+ * TestStatus, SimpleStatus, Prmissions
  * ******************************************************************/
 
 #include "xMacroVar.h"
 #include <QObject>
 #include <QString>
-#include <QDebug>
 
 namespace SDPO {
 
@@ -32,11 +32,6 @@ enum class TestStatus {
     Normal       // User defined
 };
 
-struct TestStatusStruct {
-    TestStatus id;
-    QString name;
-};
-
 /*****************************************************************/
 
 enum class SimpleStatusID {
@@ -44,11 +39,6 @@ enum class SimpleStatusID {
     DOWN,
     UNKNOWN,
     WARNING
-};
-
-struct SimpleStatusStruct {
-    SimpleStatusID id;
-    QString name;
 };
 
 /*****************************************************************/
@@ -78,14 +68,15 @@ enum class PermissionID {
 
 class TEnums {
 
-    static std::vector<TestStatusStruct> testStatusList;
-    static std::vector<SimpleStatusStruct>simpleStatusList;
+//    static std::vector<TestStatusStruct>   testStatusList;
+    static QStringList testStatusList;
+    static QStringList simpleStatusList;
     static QStringList permissions;
 
 public:
     static void init();
     static QString testStatus(TestStatus status);
-    static TestStatus testStatusFromString(const QString name);
+    static TestStatus testStatusFromString(const QString &name);
     static QString simpleStatus(SimpleStatusID status);
     static MVariablesStruct mVar(Macro::Variable mv);
     static Macro::Variable mvFromString(const QString name);

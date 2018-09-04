@@ -1,9 +1,11 @@
 #ifndef HOSTMONDLGS_H
 #define HOSTMONDLGS_H
 
-#include <QDialog>
 #include "tEnums.h"
 #include "global/tMethod.h"
+
+#include <QDialog>
+#include <QVariant>
 
 namespace Ui {
     class HostMonDlg;

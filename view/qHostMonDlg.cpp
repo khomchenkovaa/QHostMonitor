@@ -2,6 +2,7 @@
 #include "ui_qHostMonDlg.h"
 
 #include <QMessageBox>
+#include <QDebug>
 
 #include "method/qTestWidget.h"
 #include "testedit/qAlertsEditWidget.h"

@@ -1,6 +1,8 @@
 #include "hmListService.h"
 #include "io/ioTextFile.h"
 
+#include <QDebug>
+
 namespace SDPO {
 
 /******************************************************************/

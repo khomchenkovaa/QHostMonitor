@@ -4,6 +4,8 @@
 #include "action/sdpoTestActions.h"
 #include "hmScriptRunner.h"
 
+#include <QDebug>
+
 namespace SDPO {
 
 /***********************************************/

@@ -1,6 +1,8 @@
 #include "tSchedule.h"
 #include "qcron/qcron.hpp"
 
+#include <QDebug>
+
 namespace SDPO {
 
 QStringList TSchedule::dayOfWeek = (QStringList() << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday");

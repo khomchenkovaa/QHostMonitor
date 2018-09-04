@@ -3,6 +3,7 @@
 #include "global/gMacroTranslator.h"
 
 #include <QScriptEngine>
+#include <QDebug>
 
 namespace SDPO {
 

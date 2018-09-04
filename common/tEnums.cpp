@@ -1,46 +1,43 @@
 #include "tEnums.h"
-#include "QString"
 
 namespace SDPO {
 
 /*****************************************************************/
 
-std::vector<TestStatusStruct> TEnums::testStatusList = {
-    { TestStatus::NotTested,     "Not tested" },
-    { TestStatus::HostAlive,     "Host is alive" },
-    { TestStatus::NoAnswer,      "No answer" },
-    { TestStatus::Unknown,       "Unknown" },
-    { TestStatus::UnknownHost,   "Unknown host" },
-    { TestStatus::Checking,      "Checking" },
-    { TestStatus::Resolving,     "Resolving" },
-    { TestStatus::Ok,            "Ok" },
-    { TestStatus::Bad,           "Bad" },
-    { TestStatus::Disabled,      "Disabled" },
-    { TestStatus::BadContents,   "Bad contents" },
-    { TestStatus::WaitForMaster, "Wait for Master" },
-    { TestStatus::OutOfSchedule, "Out of schedule" },
-    { TestStatus::Paused,        "Paused" },
-    { TestStatus::Warning,       "Warning" },
-    { TestStatus::Normal,        "Normal" }
-};
-
-/*****************************************************************/
-
-std::vector<SimpleStatusStruct> TEnums::simpleStatusList = {
-    { SimpleStatusID::UP,      "UP" },
-    { SimpleStatusID::DOWN,    "DOWN" },
-    { SimpleStatusID::UNKNOWN, "UNKNOWN" },
-    { SimpleStatusID::WARNING, "WARNING" }
-};
-
-/*****************************************************************/
-
+QStringList TEnums::testStatusList;
+QStringList TEnums::simpleStatusList;
 QStringList TEnums::permissions;
 
 /*****************************************************************/
 
 void TEnums::init()
 {
+    // Test Status
+    if (testStatusList.count()) return;
+    testStatusList << QObject::tr("Not tested");      // NotTested
+    testStatusList << QObject::tr("Host is alive");   // HostAlive
+    testStatusList << QObject::tr("No answer");       // NoAnswer
+    testStatusList << QObject::tr("Unknown");         // Unknown
+    testStatusList << QObject::tr("Unknown host");    // UnknownHost
+    testStatusList << QObject::tr("Checking");        // Checking
+    testStatusList << QObject::tr("Resolving");       // Resolving
+    testStatusList << QObject::tr("Ok");              // Ok
+    testStatusList << QObject::tr("Bad");             // Bad
+    testStatusList << QObject::tr("Disabled");        // Disabled
+    testStatusList << QObject::tr("Bad contents");    // BadContents
+    testStatusList << QObject::tr("Wait for Master"); // WaitForMaster
+    testStatusList << QObject::tr("Out of schedule"); // OutOfSchedule
+    testStatusList << QObject::tr("Paused");          // Paused
+    testStatusList << QObject::tr("Warning");         // Warning
+    testStatusList << QObject::tr("Normal");          // Normal
+
+    // Simple Status
+    if (simpleStatusList.count()) return;
+    simpleStatusList << QObject::tr("UP");      // UP
+    simpleStatusList << QObject::tr("DOWN");    // DOWN
+    simpleStatusList << QObject::tr("UNKNOWN"); // UNKNOWN
+    simpleStatusList << QObject::tr("WARNING"); // WARNING
+
     // User permissions
     if (permissions.count()) return;
     permissions << QObject::tr("add tests/folders");                 // PRM_CREATE
@@ -66,28 +63,23 @@ void TEnums::init()
 /*****************************************************************/
 
 QString TEnums::testStatus(TestStatus status) {
-    if ((unsigned)status >= testStatusList.size()) status = TestStatus::Unknown;
-    return testStatusList.at((unsigned)status).name;
+    return testStatusList.at((int)status);
 }
 
 /*****************************************************************/
 
-TestStatus TEnums::testStatusFromString(const QString name) {
-    TestStatus result = TestStatus::Unknown;
-    for(unsigned i=0;i<testStatusList.size();++i) {
-        if (testStatusList.at(i).name == name ) {
-            result = testStatusList.at(i).id;
-            break;
-        }
+TestStatus TEnums::testStatusFromString(const QString &name) {
+    int idx = testStatusList.indexOf(name);
+    if (idx == -1) {
+        return TestStatus::Unknown;
     }
-    return result;
+    return (TestStatus)idx;
 }
 
 /*****************************************************************/
 
 QString TEnums::simpleStatus(SimpleStatusID status) {
-    if ((unsigned)status >= simpleStatusList.size()) status = SimpleStatusID::UNKNOWN;
-    return simpleStatusList.at((unsigned)status).name;
+    return simpleStatusList.at((int)status);
 }
 
 /*****************************************************************/

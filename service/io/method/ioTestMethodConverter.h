@@ -3,6 +3,8 @@
 
 #include "method/sdpoTestMethods.h"
 
+#include <QTextStream>
+
 namespace SDPO {
 
 // Specific parameters

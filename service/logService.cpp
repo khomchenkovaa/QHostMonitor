@@ -8,6 +8,8 @@
 #include "logger/odbcLogger.h"
 #include "mSettings.h"
 
+#include <QDebug>
+
 namespace SDPO {
 
 QStringList LogService::failedLogs;

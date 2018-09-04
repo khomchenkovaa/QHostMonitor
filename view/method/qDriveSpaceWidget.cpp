@@ -84,6 +84,7 @@ QString DriveSpaceWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::DriveSpace);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::DriveSpace);
     case Macro::Host :
     case Macro::HostAddr : return "localhost";

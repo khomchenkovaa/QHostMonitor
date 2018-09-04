@@ -79,6 +79,7 @@ QString FileContentsWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::FileContents);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::FileContents);
     case Macro::Host : return "localhost";
     case Macro::Path : return ui->lineEditFile->text();

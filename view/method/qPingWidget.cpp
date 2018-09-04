@@ -103,6 +103,7 @@ QString PingWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Ping);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::Ping);
     case Macro::Host :
     case Macro::HostAddr : return ui->cmbPingHost->currentText().trimmed();

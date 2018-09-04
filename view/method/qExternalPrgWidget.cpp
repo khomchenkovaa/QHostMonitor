@@ -93,6 +93,7 @@ QString ExternalPrgWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Externalprg);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::Externalprg);
     case Macro::Path : return ui->editExternalPrg->text();
     case Macro::Object : return ui->editExternalPrg->text().mid(ui->editExternalPrg->text().lastIndexOf("/"));

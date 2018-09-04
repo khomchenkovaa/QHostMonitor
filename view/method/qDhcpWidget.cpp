@@ -97,6 +97,7 @@ QString DhcpWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::CountFiles);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::CountFiles);
     case Macro::Host : return ui->cmbHost->currentText();
     default: return QString();

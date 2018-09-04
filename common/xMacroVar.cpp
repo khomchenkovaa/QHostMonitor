@@ -22,6 +22,7 @@ extern const std::vector<MVariablesStruct> mvVariablesList = {
     { Macro::Agent,	             "Agent",	           Macro::TP },
     { Macro::TestMethod,	     "TestMethod",	       Macro::TP },
     { Macro::MethodID,	         "MethodID",	       Macro::TP },
+    { Macro::MethodName,	     "MethodName",	       Macro::TP },
     { Macro::TestedObjectInfo,	 "TestedObjectInfo",   Macro::TP },
     { Macro::Interval,	         "Interval",	       Macro::TP },
     { Macro::Interval_Sec,	     "Interval_Sec",	   Macro::TP },

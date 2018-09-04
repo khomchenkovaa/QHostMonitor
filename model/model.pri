@@ -84,7 +84,8 @@ HEADERS += \
     ../model/global/ioUserProfileLoader.h \
     ../model/method/tDnsTest.h \
     ../model/method/tDominantProcess.h \
-    ../model/method/tFileContents.h
+    ../model/method/tFileContents.h \
+    ../model/method/tHttp.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -165,4 +166,5 @@ SOURCES += \
     ../model/global/ioUserProfileLoader.cpp \
     ../model/method/tDnsTest.cpp \
     ../model/method/tDominantProcess.cpp \
-    ../model/method/tFileContents.cpp
+    ../model/method/tFileContents.cpp \
+    ../model/method/tHttp.cpp

@@ -94,6 +94,7 @@ QString MySqlWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::MySQL);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::MySQL);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::Object : return ui->cmbDatabase->currentText();

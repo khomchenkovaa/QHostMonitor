@@ -15,7 +15,7 @@ namespace Macro {
     enum Variable {
         Unknown,
         // TP (test properties)
-        TestName, TestID, HostName, HostID, Agent, TestMethod, MethodID, TestedObjectInfo,
+        TestName, TestID, HostName, HostID, Agent, TestMethod, MethodID, MethodName, TestedObjectInfo,
         Interval, Interval_Sec, Interval_Min, ScheduleName,
         AlertProfile, AlertThreshold, AlertThresholValue,
         MasterTest, MasterTests,

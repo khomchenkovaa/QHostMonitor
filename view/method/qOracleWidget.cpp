@@ -88,6 +88,7 @@ QString OracleWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Oracle);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::Oracle);
     case Macro::Host : return ui->cmbDatabase->currentText();
     case Macro::Object : return ui->cmbDatabase->currentText();

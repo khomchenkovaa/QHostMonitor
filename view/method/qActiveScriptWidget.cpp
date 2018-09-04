@@ -99,6 +99,7 @@ QString ActiveScriptWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Script);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::Script);
     case Macro::TestMode : return ui->cmbLanguage->currentText();
     case Macro::Object : return ui->lnRunScript->text();

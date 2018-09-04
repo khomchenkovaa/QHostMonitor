@@ -93,6 +93,7 @@ QString DnsTestWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::DNS);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::DNS);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::TestMode : return ui->cmbRequestType->currentText();

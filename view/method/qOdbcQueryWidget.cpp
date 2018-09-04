@@ -122,6 +122,7 @@ QString OdbcQueryWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::ODBC);
+    case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::ODBC);
     case Macro::Path : return ui->txtSqlQuery->toPlainText();
     case Macro::Object : return ui->cmbDataSource->currentText();

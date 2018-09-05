@@ -111,7 +111,7 @@
    "testBad"           : ["#ff0000", "#000000"],
    "testAcknowledged"  : ["#ffd9d9", "#000000"],
    "testUnknown"       : ["#ffff00", "#000000"],
-   "testStop"          : ["#00ff00", "#272727"],
+   "message"           : ["#00ff00", "#272727"],
    "testChecking"      : ["#ffff00", "#000000"],
    "testDisabled"      : ["#808080", "#272727"],
    "testWaitForMaster" : ["#808080", "#272727"],

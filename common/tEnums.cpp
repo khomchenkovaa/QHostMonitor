@@ -84,6 +84,13 @@ QString TEnums::simpleStatus(SimpleStatusID status) {
 
 /*****************************************************************/
 
+QString TEnums::permissionName(const PermissionID id)
+{
+    return permissions.at((int)id);
+}
+
+/*****************************************************************/
+
 MVariablesStruct TEnums::mVar(Macro::Variable mv) {
     if ((unsigned)mv >= mvVariablesList.size()) mv = Macro::Unknown;
     return mvVariablesList.at(mv);

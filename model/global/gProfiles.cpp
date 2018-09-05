@@ -93,6 +93,26 @@ QString GUserProfile::getColumnMacro(const int idx) const
 
 /*****************************************************************/
 
+void GUserProfile::setPermission(const PermissionID id, const bool value)
+{
+    unsigned mask = 1U << (unsigned)id;
+    if (value) {
+        permissions |= mask;
+    } else {
+        permissions &= ~mask;
+    }
+}
+
+/*****************************************************************/
+
+bool GUserProfile::hasPermission(const PermissionID id) const
+{
+    unsigned mask = 1U << (unsigned)id;
+    return (permissions & mask) > 0;
+}
+
+/*****************************************************************/
+
 GUserProfile GUserProfile::clone()
 {
     GUserProfile profile;
@@ -103,6 +123,7 @@ GUserProfile GUserProfile::clone()
     profile.email = email;
     profile.pager = pager;
     profile.icq = icq;
+    profile.permissions = permissions;
     profile.style = style;
     profile.showGridLines = showGridLines;
     profile.gridForLogViewer = gridForLogViewer;

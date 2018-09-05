@@ -109,6 +109,7 @@ struct GUserProfile
     QString       email;
     QString       pager;
     QString       icq;
+    unsigned      permissions;
     TestListStyle style;
     bool          showGridLines;
     bool          gridForLogViewer;
@@ -127,6 +128,8 @@ struct GUserProfile
     int getColumnCount() const;
     TLColumn getColumn(const int idx) const;
     QString getColumnMacro(const int idx) const;
+    void setPermission(const PermissionID id, const bool value);
+    bool hasPermission(const PermissionID id) const;
     GUserProfile clone();
 };
 

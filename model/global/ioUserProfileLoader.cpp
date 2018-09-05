@@ -52,6 +52,7 @@ void IOUserProfileLoader::parseJsonData(QJsonDocument json_doc)
         profile.email = json_obj["email"].toString();
         profile.pager = json_obj["pager"].toString();
         profile.icq = json_obj["icq"].toString();
+        profile.permissions = json_obj["permissions"].toInt();
         profile.setStyle(json_obj["style"].toInt());
         profile.showGridLines = json_obj["showGridLines"].toBool();
         profile.gridForLogViewer = json_obj["gridForLogViewer"].toBool();
@@ -82,6 +83,7 @@ QJsonDocument IOUserProfileLoader::createJsonDocument()
          jsonObj.insert("email",QJsonValue(profile.email));
          jsonObj.insert("pager",QJsonValue(profile.pager));
          jsonObj.insert("icq",QJsonValue(profile.icq));
+         jsonObj.insert("permissions",QJsonValue((int)profile.permissions));
          jsonObj.insert("style",QJsonValue(profile.getStyle()));
          jsonObj.insert("showGridLines",QJsonValue(profile.showGridLines));
          jsonObj.insert("gridForLogViewer",QJsonValue(profile.gridForLogViewer));

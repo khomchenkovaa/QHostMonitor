@@ -68,16 +68,17 @@ enum class PermissionID {
 
 class TEnums {
 
-//    static std::vector<TestStatusStruct>   testStatusList;
     static QStringList testStatusList;
     static QStringList simpleStatusList;
     static QStringList permissions;
 
 public:
+
     static void init();
     static QString testStatus(TestStatus status);
     static TestStatus testStatusFromString(const QString &name);
     static QString simpleStatus(SimpleStatusID status);
+    static QString permissionName(const PermissionID id);
     static MVariablesStruct mVar(Macro::Variable mv);
     static Macro::Variable mvFromString(const QString name);
 

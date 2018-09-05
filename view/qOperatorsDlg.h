@@ -29,6 +29,8 @@ public:
 private slots:
     void on_listUserProfiles_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_btnBoxUserProfiles_accepted();
+
 private:
     void init();
     void load(const int idx);

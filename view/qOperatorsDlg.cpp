@@ -1,5 +1,7 @@
 #include "qOperatorsDlg.h"
 #include "ui_qOperatorsDlg.h"
+#include "global/ioUserProfileLoader.h"
+#include <QDebug>
 
 namespace SDPO {
 
@@ -60,7 +62,14 @@ void OperatorsDlg::load(const int idx)
     ui->cmbEmail->setCurrentText(profile.email);
     ui->cmbPager->setCurrentText(profile.pager);
     ui->cmbICQ->setCurrentText(profile.icq);
-    //! TODO user rights
+    ui->listUserRights->clear();
+    for (int i = (int)PermissionID::PRM_CREATE; i <= (int)PermissionID::PRM_READ; i++) {
+        QListWidgetItem *item = new QListWidgetItem(TEnums::permissionName((PermissionID)i));
+        item->setCheckState( profile.hasPermission((PermissionID)i) ? Qt::Checked : Qt::Unchecked );
+        ui->listUserRights->addItem(item);
+    }
+
+    //! TODO other properties
 }
 
 /******************************************************************/
@@ -76,10 +85,32 @@ void OperatorsDlg::save(const int idx)
     profile.email = ui->cmbEmail->currentText();
     profile.pager = ui->cmbPager->currentText();
     profile.icq = ui->cmbICQ->currentText();
-    //! TODO user rights
+    for (int i = (int)PermissionID::PRM_CREATE; i <= (int)PermissionID::PRM_READ; i++) {
+        QListWidgetItem *item = ui->listUserRights->item(i);
+        profile.setPermission((PermissionID)i, item->checkState() == Qt::Checked);
+    }
+    //! TODO other properties
     m_userProfiles.replace(idx, profile);
 }
 
 /******************************************************************/
 
+void OperatorsDlg::on_btnBoxUserProfiles_accepted()
+{
+    int idx = ui->listUserProfiles->currentRow();
+    if (idx != -1) {
+        save(idx);
+        for (int i=0; i< m_userProfiles.count(); i++) {
+            GUserProfile profile = m_userProfiles.at(i);
+            GData::userProfiles.replace(i, profile);
+        }
+        IOUserProfileLoader loader;
+        loader.save();
+    }
+}
+
+/******************************************************************/
+
 } // namespace SDPO
+
+

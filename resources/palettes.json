@@ -54,8 +54,8 @@
    "message"           : ["#000000", "#ffffff"],
    "testChecking"      : ["#000000", "#ffffff"],
    "testDisabled"      : ["#000000", "#c0c0c0"],
-   "testWaitForMaster" : ["#e4e4e4", "#ffffff"],
-   "testOutOfSchedule" : ["#e4e4e4", "#ffffff"],
+   "testWaitForMaster" : ["#800040", "#e4e4e4"],
+   "testOutOfSchedule" : ["#800040", "#e4e4e4"],
    "links"             : ["#0000ff", "#ffffff"],
    "linkVisited"       : ["#0000ff", "#ffffff"],
    "linkActive"        : ["#0000ff", "#ffffff"]

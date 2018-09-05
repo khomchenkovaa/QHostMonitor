@@ -33,6 +33,7 @@ extern const std::vector<MVariablesStruct> mvVariablesList = {
     { Macro::AlertThresholValue, "AlertThresholValue", Macro::TP },
     { Macro::MasterTest,	     "MasterTest",	       Macro::TP },
     { Macro::MasterTests,	     "MasterTests",	       Macro::TP },
+    { Macro::TargetPort,	     "TargetPort",	       Macro::TP },
     { Macro::PrivateLog,	     "PrivateLog",	       Macro::TP },
     { Macro::RelatedURL,	     "RelatedURL",	       Macro::TP },
     { Macro::TaskComment,	     "TaskComment",	       Macro::TP },

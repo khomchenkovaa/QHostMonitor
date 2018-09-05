@@ -83,6 +83,12 @@ void DnsTestWidget::reset(QVariant data)
 QStringList DnsTestWidget::validate()
 {
     QStringList errors;
+    if(ui->cmbServer->currentText().trimmed().isEmpty()) {
+        errors.append(tr("Please, specify a server"));
+    }
+    if(ui->cmbRequest->currentText().trimmed().isEmpty()) {
+        errors.append(tr("Please, provide host name"));
+    }
     return errors;
 }
 

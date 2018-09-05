@@ -76,6 +76,9 @@ void HttpWidget::reset(QVariant data)
 QStringList HttpWidget::validate()
 {
     QStringList errors;
+    if(ui->cmbUrl->currentText().trimmed().isEmpty()) {
+        errors.append(tr("Please, provide URL"));
+    }
     return errors;
 }
 

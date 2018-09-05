@@ -85,7 +85,8 @@ HEADERS += \
     ../model/method/tDnsTest.h \
     ../model/method/tDominantProcess.h \
     ../model/method/tFileContents.h \
-    ../model/method/tHttp.h
+    ../model/method/tHttp.h \
+    ../model/method/tImapTest.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -167,4 +168,5 @@ SOURCES += \
     ../model/method/tDnsTest.cpp \
     ../model/method/tDominantProcess.cpp \
     ../model/method/tFileContents.cpp \
-    ../model/method/tHttp.cpp
+    ../model/method/tHttp.cpp \
+    ../model/method/tImapTest.cpp

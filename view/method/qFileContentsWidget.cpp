@@ -69,6 +69,12 @@ void FileContentsWidget::reset(QVariant data)
 QStringList FileContentsWidget::validate()
 {
     QStringList errors;
+    if(ui->lineEditFile->text().trimmed().isEmpty()) {
+        errors.append(tr("Please, specify a file name"));
+    }
+    if(ui->lineCrcEdit->text().trimmed().isEmpty()) {
+        errors.append(tr("File CRC not specified \n To retrive CRC value click the \"Calculate CRC\" button"));
+    }
     return errors;
 }
 

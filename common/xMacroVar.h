@@ -18,7 +18,7 @@ namespace Macro {
         TestName, TestID, HostName, HostID, Agent, TestMethod, MethodID, MethodName, TestedObjectInfo,
         Interval, Interval_Sec, Interval_Min, ScheduleName,
         AlertProfile, AlertThreshold, AlertThresholValue,
-        MasterTest, MasterTests,
+        MasterTest, MasterTests, TargetPort,
         PrivateLog, RelatedURL,
         TaskComment, CommentLine1, CommentLine2, CommentLine3, CommentLine4, CommentLine5, CommentID,
         CreatedTime, ModifiedTime,

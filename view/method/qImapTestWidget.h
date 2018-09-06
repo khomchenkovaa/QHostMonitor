@@ -24,7 +24,7 @@ public:
     virtual QString getTemplateValue(const QString var) const Q_DECL_OVERRIDE;
 
 private slots :
-    void on_checkMail_clicked();
+    void checkMail_clicked();
 
 private:
     Ui::ImapTestWidget *ui;

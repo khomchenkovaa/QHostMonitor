@@ -11,8 +11,8 @@ ImapTestWidget::ImapTestWidget(QWidget *parent) :
     ui(new Ui::ImapTestWidget)
 {
     ui->setupUi(this);
-    on_checkMail_clicked();
-    connect(ui->chkMail, SIGNAL(clicked()),this, SLOT(on_checkMail_clicked()));
+    checkMail_clicked();
+    connect(ui->chkMail, SIGNAL(clicked()),this, SLOT(checkMail_clicked()));
 }
 
 /*****************************************************************/
@@ -83,9 +83,6 @@ void ImapTestWidget::reset(QVariant data)
     ui->lnPassword->clear();
     ui->spinTimeout->setValue(60);
     ui->chkMail->setChecked(false);
-    //on_checkMail_clicked();
-   // connect(ui->chkMail, SIGNAL(clicked()),this, SLOT(on_checkMail_clicked()));
-
     ui->cmbMessageFolder->setCurrentText(QString("Inbox"));
     ui->cmbTLS->setCurrentText(QString("All messages"));
     ui->cmbMessageAlert->setCurrentText(QString("Allert when size of all messages bigger than"));
@@ -121,7 +118,7 @@ QString ImapTestWidget::getTemplateValue(const QString var) const
 
 /*****************************************************************/
 
-void ImapTestWidget::on_checkMail_clicked()
+void ImapTestWidget::checkMail_clicked()
 {
   if (ui->chkMail->isChecked())
     {

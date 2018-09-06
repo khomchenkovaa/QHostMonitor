@@ -24,8 +24,10 @@ private:
     QJsonValue jsonColumns(const QColumnList &value);
     QSortPairList parseSort(const QJsonValue jsonValue);
     QJsonValue jsonSort(const QSortPairList &value);
-
-
+    QIpPairList parseRccFrom(const QJsonValue jsonValue);
+    QJsonValue jsonRccFrom(const QIpPairList &value);
+    QFoldersList parseFolders(const QJsonValue jsonValue);
+    QJsonValue jsonFolders(const QFoldersList &value);
 };
 
 } // namespace SDPO

@@ -4,6 +4,8 @@
 #include <QString>
 #include <QStringList>
 #include <QColor>
+#include <QUuid>
+
 #include "tEnums.h"
 
 namespace SDPO {
@@ -96,20 +98,31 @@ struct TLColumn
 
 /*****************************************************************/
 
-typedef QPair<QString, bool> QSortPair;
-typedef QList<QSortPair> QSortPairList;
-typedef QList<TLColumn> QColumnList;
+typedef QPair<QString, bool>  QIpPair;
+typedef QList<QIpPair>        QIpPairList;
+typedef QPair<QUuid, QString> QFoldersPair;
+typedef QList<QFoldersPair>   QFoldersList;
+typedef QList<TLColumn>       QColumnList;
+typedef QPair<QString, bool>  QSortPair;
+typedef QList<QSortPair>      QSortPairList;
 
 struct GUserProfile
 {
+    // user profile
     QString       id;
-    QString       name;
+    QString       name;        // Full name
     QString       password;
-    bool          enabled;
+    bool          enabled;     // status
     QString       email;
     QString       pager;
     QString       icq;
-    unsigned      permissions;
+    unsigned      permissions; // user has rights to
+    QIpPairList   rccFrom;     // accept remote connections from
+    bool          rccLimit;    // limit number of RCC connection for the account
+    int           rccNumber;   // max number of RCC connection for the account
+    bool          allowAll;    // access to all folders in ant HML list
+    QFoldersList  folders;     // access to folders only
+    // GUI preferences
     TestListStyle style;
     bool          showGridLines;
     bool          gridForLogViewer;

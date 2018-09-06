@@ -108,7 +108,7 @@ void GUserProfile::setPermission(const PermissionID id, const bool value)
 bool GUserProfile::hasPermission(const PermissionID id) const
 {
     unsigned mask = 1U << (unsigned)id;
-    return (permissions & mask) > 0;
+    return (permissions & mask);
 }
 
 /*****************************************************************/
@@ -124,6 +124,17 @@ GUserProfile GUserProfile::clone()
     profile.pager = pager;
     profile.icq = icq;
     profile.permissions = permissions;
+    foreach (const QIpPair &pair, rccFrom) {
+        QIpPair newPair = pair;
+        profile.rccFrom.append(newPair);
+    }
+    profile.rccLimit = rccLimit;
+    profile.rccNumber = rccNumber;
+    profile.allowAll = allowAll;
+    foreach (const QFoldersPair &pair, folders) {
+        QFoldersPair newPair = pair;
+        profile.folders.append(newPair);
+    }
     profile.style = style;
     profile.showGridLines = showGridLines;
     profile.gridForLogViewer = gridForLogViewer;

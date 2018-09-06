@@ -53,6 +53,13 @@ void IOUserProfileLoader::parseJsonData(QJsonDocument json_doc)
         profile.pager = json_obj["pager"].toString();
         profile.icq = json_obj["icq"].toString();
         profile.permissions = json_obj["permissions"].toInt();
+        profile.rccFrom = parseRccFrom(json_obj["rccFrom"]);
+        profile.rccLimit = json_obj["rccLimit"].toBool();
+        profile.rccNumber = json_obj["rccNumber"].toInt();
+        profile.allowAll = json_obj["allowAll"].toBool();
+        if (!profile.allowAll && json_obj.contains("folders")) {
+            profile.folders = parseFolders(json_obj["folders"]);
+        }
         profile.setStyle(json_obj["style"].toInt());
         profile.showGridLines = json_obj["showGridLines"].toBool();
         profile.gridForLogViewer = json_obj["gridForLogViewer"].toBool();
@@ -84,6 +91,13 @@ QJsonDocument IOUserProfileLoader::createJsonDocument()
          jsonObj.insert("pager",QJsonValue(profile.pager));
          jsonObj.insert("icq",QJsonValue(profile.icq));
          jsonObj.insert("permissions",QJsonValue((int)profile.permissions));
+         jsonObj.insert("rccFrom",jsonRccFrom(profile.rccFrom));
+         jsonObj.insert("rccLimit",QJsonValue(profile.rccLimit));
+         jsonObj.insert("rccNumber",QJsonValue(profile.rccNumber));
+         jsonObj.insert("allowAll",QJsonValue(profile.allowAll));
+         if (!profile.allowAll) {
+             jsonObj.insert("folders",jsonFolders(profile.folders));
+         }
          jsonObj.insert("style",QJsonValue(profile.getStyle()));
          jsonObj.insert("showGridLines",QJsonValue(profile.showGridLines));
          jsonObj.insert("gridForLogViewer",QJsonValue(profile.gridForLogViewer));
@@ -171,7 +185,7 @@ QSortPairList IOUserProfileLoader::parseSort(const QJsonValue jsonValue)
     QSortPairList result;
     foreach (const QJsonValue &value, jsonValue.toArray()) {
         QJsonObject json_obj = value.toObject();
-        QPair<QString,bool> pair;
+        QSortPair pair;
         pair.first = json_obj["column"].toString();
         pair.second = json_obj["asc"].toBool();
         result << pair;
@@ -188,6 +202,64 @@ QJsonValue IOUserProfileLoader::jsonSort(const QSortPairList &value)
         QJsonObject jsonObj;
         jsonObj.insert("column",QJsonValue(pair.first));
         jsonObj.insert("asc",QJsonValue(pair.second));
+        result.append(QJsonValue(jsonObj));
+    }
+    return QJsonValue(result);
+}
+
+/*****************************************************************/
+
+QIpPairList IOUserProfileLoader::parseRccFrom(const QJsonValue jsonValue)
+{
+    QIpPairList result;
+    foreach (const QJsonValue &value, jsonValue.toArray()) {
+        QJsonObject json_obj = value.toObject();
+        QIpPair pair;
+        pair.first = json_obj["ip"].toString();
+        pair.second = json_obj["allow"].toBool();
+        result << pair;
+    }
+    return result;
+}
+
+/*****************************************************************/
+
+QJsonValue IOUserProfileLoader::jsonRccFrom(const QIpPairList &value)
+{
+    QJsonArray result;
+    foreach(const QIpPair &pair, value) {
+        QJsonObject jsonObj;
+        jsonObj.insert("ip",QJsonValue(pair.first));
+        jsonObj.insert("allow",QJsonValue(pair.second));
+        result.append(QJsonValue(jsonObj));
+    }
+    return QJsonValue(result);
+}
+
+/*****************************************************************/
+
+QFoldersList IOUserProfileLoader::parseFolders(const QJsonValue jsonValue)
+{
+    QFoldersList result;
+    foreach (const QJsonValue &value, jsonValue.toArray()) {
+        QJsonObject json_obj = value.toObject();
+        QFoldersPair pair;
+        pair.first = QUuid(json_obj["uuid"].toString());
+        pair.second = json_obj["path"].toString();
+        result << pair;
+    }
+    return result;
+}
+
+/*****************************************************************/
+
+QJsonValue IOUserProfileLoader::jsonFolders(const QFoldersList &value)
+{
+    QJsonArray result;
+    foreach(const QFoldersPair &pair, value) {
+        QJsonObject jsonObj;
+        jsonObj.insert("uuid",QJsonValue(pair.first.toString()));
+        jsonObj.insert("path",QJsonValue(pair.second));
         result.append(QJsonValue(jsonObj));
     }
     return QJsonValue(result);

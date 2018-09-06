@@ -9,7 +9,6 @@ class TLdapTest : public TTestMethod
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString Host READ  getHost())
     Q_PROPERTY(QString Object READ  getBaseObject())
     Q_PROPERTY(QString TargetPort READ  getPort())
 

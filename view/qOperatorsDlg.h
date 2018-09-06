@@ -5,6 +5,11 @@
 
 #include "gData.h"
 
+#define ROLE_DEFAULT  "<Default>"
+#define ROLE_ADMIN    "Admin"
+#define ROLE_LOCAL    "local"
+#define ROLE_WATCHDOG "watchdog"
+
 namespace Ui {
 class OperatorsDlg;
 }
@@ -28,13 +33,23 @@ public:
 
 private slots:
     void on_listUserProfiles_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
-
     void on_btnBoxUserProfiles_accepted();
+    void on_btnFolder_clicked();
+    void on_btnNew_clicked();
+    void on_btnCopy_clicked();
+    void on_btnRename_clicked();
+    void on_btnDelete_clicked();
+    void on_listAcceptRemoteConnection_customContextMenuRequested(const QPoint &pos);
+
+    void on_actAddIP_triggered();
+
+    void on_actRemoveIP_triggered();
 
 private:
     void init();
     void load(const int idx);
-    void save(const int idx);
+    bool save(const int idx);
+    void setFieldsState(const QString &name);
 };
 
 } // namespace SDPO

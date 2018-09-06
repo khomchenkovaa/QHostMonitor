@@ -196,6 +196,9 @@
             </item>
             <item row="0" column="1">
              <widget class="QComboBox" name="cmbID">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="editable">
                <bool>true</bool>
               </property>
@@ -236,14 +239,14 @@
                <string>Password</string>
               </property>
               <property name="buddy">
-               <cstring>cmbPassword</cstring>
+               <cstring>editPassword</cstring>
               </property>
              </widget>
             </item>
             <item row="2" column="1">
-             <widget class="QComboBox" name="cmbPassword">
-              <property name="editable">
-               <bool>true</bool>
+             <widget class="QLineEdit" name="editPassword">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
               </property>
              </widget>
             </item>
@@ -259,14 +262,14 @@
                <string>Confirm</string>
               </property>
               <property name="buddy">
-               <cstring>cmbPasswordConfirm</cstring>
+               <cstring>editConfirm</cstring>
               </property>
              </widget>
             </item>
             <item row="3" column="1">
-             <widget class="QComboBox" name="cmbPasswordConfirm">
-              <property name="editable">
-               <bool>true</bool>
+             <widget class="QLineEdit" name="editConfirm">
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
               </property>
              </widget>
             </item>
@@ -398,7 +401,11 @@
              </widget>
             </item>
             <item>
-             <widget class="QListWidget" name="listAcceptRemoteConnection"/>
+             <widget class="QListWidget" name="listAcceptRemoteConnection">
+              <property name="contextMenuPolicy">
+               <enum>Qt::CustomContextMenu</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
@@ -572,14 +579,14 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <item>
-           <widget class="QCheckBox" name="chkLimitNumberOfRcc">
+           <widget class="QCheckBox" name="chkRccLimit">
             <property name="text">
              <string>Limit number of RCC connections for the account to</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinLimitNumberOfRcc">
+           <widget class="QSpinBox" name="spinRccLimit">
             <property name="alignment">
              <set>Qt::AlignCenter</set>
             </property>
@@ -608,7 +615,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QRadioButton" name="rdAllFoldersInHml">
+         <widget class="QRadioButton" name="rbAllFoldersAnyHml">
           <property name="text">
            <string>All folders in any HML list</string>
           </property>
@@ -623,17 +630,21 @@
            <number>0</number>
           </property>
           <item>
-           <widget class="QRadioButton" name="rdTheFollowingFolder">
+           <widget class="QRadioButton" name="rbFolder">
             <property name="text">
              <string>The following folder only</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="lineTheFollowingFolder"/>
+           <widget class="QLineEdit" name="editFolder">
+            <property name="readOnly">
+             <bool>true</bool>
+            </property>
+           </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="btnTheFollowingFolder">
+           <widget class="QToolButton" name="btnFolder">
             <property name="text">
              <string>...</string>
             </property>
@@ -652,7 +663,7 @@
          </layout>
         </item>
         <item>
-         <widget class="QRadioButton" name="rdNoAccessToHml">
+         <widget class="QRadioButton" name="rbNoAccessToHml">
           <property name="text">
            <string>No access to this HML list</string>
           </property>
@@ -687,27 +698,27 @@
     </layout>
    </item>
   </layout>
+  <action name="actAddIP">
+   <property name="text">
+    <string>Add IP address...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
+  </action>
+  <action name="actRemoveIP">
+   <property name="text">
+    <string>Remove Item</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../qHostMonitor.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>btnBoxUserProfiles</sender>
-   <signal>accepted()</signal>
-   <receiver>OperatorsDlg</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>593</x>
-     <y>138</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btnBoxUserProfiles</sender>
    <signal>rejected()</signal>

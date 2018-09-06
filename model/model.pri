@@ -87,7 +87,8 @@ HEADERS += \
     ../model/method/tFileContents.h \
     ../model/method/tHttp.h \
     ../model/method/tImapTest.h \
-    ../model/method/tLdapTest.h
+    ../model/method/tLdapTest.h \
+    ../model/method/tMailRelay.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -171,4 +172,5 @@ SOURCES += \
     ../model/method/tFileContents.cpp \
     ../model/method/tHttp.cpp \
     ../model/method/tImapTest.cpp \
-    ../model/method/tLdapTest.cpp
+    ../model/method/tLdapTest.cpp \
+    ../model/method/tMailRelay.cpp

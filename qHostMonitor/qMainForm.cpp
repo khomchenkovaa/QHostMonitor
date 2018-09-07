@@ -1417,8 +1417,8 @@ void MainForm::on_actConnectionManager_triggered()
 
 void MainForm::on_actGuiPreferences_triggered()
 {
-    UserPreferencesDlg actUserPrefernceDlg;
-    if (actUserPrefernceDlg.exec() == QDialog::Accepted) {
+    UserPreferencesDlg dlg;
+    if (dlg.exec() == QDialog::Accepted) {
         //! repaint all
     }
 }
@@ -1427,8 +1427,8 @@ void MainForm::on_actGuiPreferences_triggered()
 
 void MainForm::on_actOperators_triggered()
 {
-    OperatorsDlg actUserProfileDlg;
-    actUserProfileDlg.exec();
+    OperatorsDlg dlg(m_HML);
+    dlg.exec();
 }
 
 /******************************************************************/

@@ -4,6 +4,7 @@
 #include <QDialog>
 
 #include "gData.h"
+#include "hmListService.h"
 
 #define ROLE_DEFAULT  "<Default>"
 #define ROLE_ADMIN    "Admin"
@@ -25,10 +26,11 @@ class OperatorsDlg : public QDialog
     Q_OBJECT
 
     Ui::OperatorsDlg *ui;
+    HMListService *m_HML;
     GUserProfileList m_userProfiles;
 
 public:
-    explicit OperatorsDlg(QWidget *parent = 0);
+    explicit OperatorsDlg(HMListService *hml = 0, QWidget *parent = 0);
     ~OperatorsDlg();
 
 private slots:
@@ -40,9 +42,7 @@ private slots:
     void on_btnRename_clicked();
     void on_btnDelete_clicked();
     void on_listAcceptRemoteConnection_customContextMenuRequested(const QPoint &pos);
-
     void on_actAddIP_triggered();
-
     void on_actRemoveIP_triggered();
 
 private:

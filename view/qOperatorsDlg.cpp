@@ -1,6 +1,7 @@
 #include "qOperatorsDlg.h"
 #include "ui_qOperatorsDlg.h"
 #include "global/ioUserProfileLoader.h"
+#include "qFolderDlg.h"
 
 #include <QMenu>
 #include <QInputDialog>
@@ -11,9 +12,10 @@ namespace SDPO {
 
 /******************************************************************/
 
-OperatorsDlg::OperatorsDlg(QWidget *parent) :
+OperatorsDlg::OperatorsDlg(HMListService *hml, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OperatorsDlg)
+    ui(new Ui::OperatorsDlg),
+    m_HML(hml)
 {
     ui->setupUi(this);
     init();
@@ -86,11 +88,22 @@ void OperatorsDlg::load(const int idx)
     }
     ui->chkRccLimit->setChecked(profile.rccLimit);
     ui->spinRccLimit->setValue(profile.rccNumber);
+    ui->editFolder->clear();
     if (profile.allowAll) {
         ui->rbAllFoldersAnyHml->setChecked(true);
     } else {
-        //! TODO folder selection
-        ui->rbNoAccessToHml->setChecked(true);
+        bool contains = false;
+        foreach(const QFoldersPair &pair, profile.folders) {
+            if (m_HML->guid() == pair.first) {
+                contains = true;
+                ui->rbFolder->setChecked(true);
+                ui->editFolder->setText(pair.second);
+                break;
+            }
+        }
+        if (!contains) {
+            ui->rbNoAccessToHml->setChecked(true);
+        }
     }
     setFieldsState(profile.id);
 }
@@ -124,7 +137,30 @@ bool OperatorsDlg::save(const int idx)
     profile.rccLimit = ui->chkRccLimit->isChecked();
     profile.rccNumber = ui->spinRccLimit->value();
     profile.allowAll = ui->rbAllFoldersAnyHml->isChecked();
-    //! TODO folder selection
+    if (ui->rbFolder->isChecked()) {
+        QFoldersPair pair;
+        pair.first = m_HML->guid();
+        pair.second = ui->editFolder->text();
+        bool found = false;
+        for (int i=0; i<profile.folders.count();i++) {
+            if (pair.first == profile.folders.at(i).first) {
+                found = true;
+                profile.folders.replace(i, pair);
+                break;
+            }
+        }
+        if (!found) {
+            profile.folders.append(pair);
+        }
+    }
+    if (ui->rbNoAccessToHml->isChecked()) {
+        for (int i=0; i<profile.folders.count();i++) {
+            if (m_HML->guid() == profile.folders.at(i).first) {
+                profile.folders.removeAt(i);
+                break;
+            }
+        }
+    }
     m_userProfiles.replace(idx, profile);
     return true;
 }
@@ -210,7 +246,13 @@ void OperatorsDlg::on_btnBoxUserProfiles_accepted()
 
 void OperatorsDlg::on_btnFolder_clicked()
 {
-    //! TODO
+    FolderDlg folderDlg;
+    folderDlg.setWindowTitle(tr("Select folder"));
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    folderDlg.setModel(model, ui->editFolder->text());
+    if (QDialog::Accepted == folderDlg.exec()) {
+        ui->editFolder->setText(folderDlg.path());
+    }
 }
 
 /******************************************************************/

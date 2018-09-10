@@ -88,7 +88,9 @@ HEADERS += \
     ../model/method/tHttp.h \
     ../model/method/tImapTest.h \
     ../model/method/tLdapTest.h \
-    ../model/method/tMailRelay.h
+    ../model/method/tMailRelay.h \
+    ../model/method/tMsSql.h \
+    ../model/method/tNtEventLog.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -173,4 +175,6 @@ SOURCES += \
     ../model/method/tHttp.cpp \
     ../model/method/tImapTest.cpp \
     ../model/method/tLdapTest.cpp \
-    ../model/method/tMailRelay.cpp
+    ../model/method/tMailRelay.cpp \
+    ../model/method/tMsSql.cpp \
+    ../model/method/tNtEventLog.cpp

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>360</width>
+    <width>370</width>
     <height>128</height>
    </rect>
   </property>
@@ -58,7 +58,7 @@
         <bool>false</bool>
        </property>
        <property name="flat">
-        <bool>false</bool>
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -136,7 +136,7 @@
         <number>4</number>
        </property>
        <item>
-        <widget class="QCheckBox" name="LogConnChk">
+        <widget class="QCheckBox" name="chkConnectToRemote">
          <property name="text">
           <string>Connect to remote machine as :</string>
          </property>
@@ -169,12 +169,15 @@ Connection Manager profiles)</string>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="LogUserEdit">
+          <widget class="QComboBox" name="cmbLogin">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
@@ -186,7 +189,7 @@ Connection Manager profiles)</string>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="LogPswdEdit"/>
+          <widget class="QLineEdit" name="editPassword"/>
          </item>
         </layout>
        </item>
@@ -212,40 +215,6 @@ Connection Manager profiles)</string>
        <property name="verticalSpacing">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="Label174">
-         <property name="text">
-          <string>Computer</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="logEvCompEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QToolButton" name="NtLogBtn1">
-         <property name="maximumSize">
-          <size>
-           <width>22</width>
-           <height>22</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>...</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../../qHostMonitor.qrc">
-           <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="Label175">
          <property name="text">
@@ -253,18 +222,8 @@ Connection Manager profiles)</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="logTypeEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QToolButton" name="NtLogBtn2">
+       <item row="0" column="3">
+        <widget class="QToolButton" name="NtLogBtn1">
          <property name="maximumSize">
           <size>
            <width>22</width>
@@ -287,17 +246,31 @@ Connection Manager profiles)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="logIDEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="0" column="0">
+        <widget class="QLabel" name="Label174">
+         <property name="text">
+          <string>Computer</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
+       <item row="3" column="3">
+        <widget class="QToolButton" name="NtLogBtn4">
+         <property name="maximumSize">
+          <size>
+           <width>22</width>
+           <height>22</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../qHostMonitor.qrc">
+           <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="3">
         <widget class="QToolButton" name="NtLogBtn3">
          <property name="maximumSize">
           <size>
@@ -321,18 +294,8 @@ Connection Manager profiles)</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="LogDescrEdit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2">
-        <widget class="QToolButton" name="NtLogBtn4">
+       <item row="1" column="3">
+        <widget class="QToolButton" name="NtLogBtn2">
          <property name="maximumSize">
           <size>
            <width>22</width>
@@ -347,6 +310,18 @@ Connection Manager profiles)</string>
            <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="editEventType"/>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="editEventId"/>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLineEdit" name="editDescription"/>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="editComputer"/>
        </item>
       </layout>
      </widget>
@@ -384,6 +359,9 @@ Connection Manager profiles)</string>
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -497,7 +475,6 @@ Connection Manager profiles)</string>
   </layout>
  </widget>
  <resources>
-  <include location="../../qHostMonitor.qrc"/>
   <include location="../../qHostMonitor.qrc"/>
  </resources>
  <connections/>

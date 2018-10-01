@@ -1,11 +1,11 @@
-#ifndef TMSSQL_H
-#define TMSSQL_H
+#ifndef TSYBASE_H
+#define TSYBASE_H
 
 #include "tTestMethod.h"
 
 namespace SDPO {
 
-class TMsSql : public TTestMethod
+class TSybase : public TTestMethod
 {
     Q_OBJECT
 
@@ -18,7 +18,7 @@ class TMsSql : public TTestMethod
     AUTO_PROPERTY(QString, Password)
 
 public:
-    explicit TMsSql(QObject *parent = 0);
+    explicit TSybase(QObject *parent = 0);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;
@@ -31,4 +31,4 @@ public:
 
 } // namespace SDPO
 
-#endif // TMSSQL_H
+#endif // TSYBASE_H

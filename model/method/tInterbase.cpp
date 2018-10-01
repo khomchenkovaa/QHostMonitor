@@ -22,27 +22,26 @@ void TInterbase::run()
     int newReplyInt = 0;
     TestStatus newStatus = TestStatus::Unknown;
 
-//    if (QSqlDatabase::isDriverAvailable("QODBC")) {
-//        QSqlDatabase db = QSqlDatabase::database("testInterbase");
-//        if (!db.isValid()) {
-//            db = QSqlDatabase::addDatabase("QODBC", "testInterbase");
-//        }
-//        db.setHostName(a_Host);
-//        db.setDatabaseName(a_Database);
-//        db.setUserName(a_Login);
-//        db.setPassword(a_Password);
-//        //db.setProtocol(a_Protocol);
-//        bool ok = db.open();
-//        if (!ok) {
-//            m_ErrorString = db.lastError().text();
-//            newStatus = TestStatus::Bad;
-//            newReply = db.lastError().text();
-//        } else {
-//            newStatus = TestStatus::Ok;
-//            newReply = "Connected";
-//            db.close();
-//        }
-//    }
+    if (QSqlDatabase::isDriverAvailable("QIBASE")) {
+        QSqlDatabase db = QSqlDatabase::database("testInterbase");
+        if (!db.isValid()) {
+            db = QSqlDatabase::addDatabase("QIBASE", "testInterbase");
+        }
+        db.setHostName(a_Host);
+        db.setDatabaseName(a_Database);
+        db.setUserName(a_Login);
+        db.setPassword(a_Password);
+        bool ok = db.open();
+        if (!ok) {
+            m_ErrorString = db.lastError().text();
+            newStatus = TestStatus::Bad;
+            newReply = db.lastError().text();
+        } else {
+            newStatus = TestStatus::Ok;
+            newReply = "Connected";
+            db.close();
+        }
+    }
     m_Status = newStatus;
     m_Reply = newReply;
     m_ReplyDouble = newReplyFloat;

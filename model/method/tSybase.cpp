@@ -1,4 +1,4 @@
-#include "tMsSql.h"
+#include "tSybase.h"
 
 #include <QSqlDatabase>
 #include <QSqlError>
@@ -7,8 +7,8 @@ namespace SDPO {
 
 /******************************************************************/
 
-TMsSql::TMsSql(QObject *parent) :
-    TTestMethod(TMethodID::MSSQL, parent)
+TSybase::TSybase(QObject *parent) :
+    TTestMethod(TMethodID::Sybase, parent)
 {
     a_Server = QString("");
     a_Database = QString("");
@@ -18,26 +18,36 @@ TMsSql::TMsSql(QObject *parent) :
 
 /******************************************************************/
 
-void TMsSql::run()
+QString TSybase::getTestMethod() const
+{
+    return QString("Sybase %1").arg(a_Server);
+}
+
+/******************************************************************/
+
+QString TSybase::getTestedObjectInfo() const
+{
+    return QString("Check Sybase Adaptive Server (%1)").arg(a_Server);
+}
+
+/******************************************************************/
+
+void TSybase::run()
 {
     QString newReply = "No driver";
     float newReplyFloat = 0.0;
     int newReplyInt = 0;
     TestStatus newStatus = TestStatus::Unknown;
 
-    if (QSqlDatabase::isDriverAvailable("QODBC")) {
-        QSqlDatabase db = QSqlDatabase::database("testMsSQL");
+    if (QSqlDatabase::isDriverAvailable("QTDS")) {
+        QSqlDatabase db = QSqlDatabase::database("testSybase");
         if (!db.isValid()) {
-            db = QSqlDatabase::addDatabase("QODBC", "testMsSQL");
-            db.setConnectOptions("SQL_ATTR_ODBC_VERSION=SQL_OV_ODBC3");
+            db = QSqlDatabase::addDatabase("QTDS", "testSybase");
         }
-        QString odbcDriver = "SQL Server"; // 2005
-//        QString odbcDriver = "SQL Server Native Client 10.0"; // 2008
-//        QString odbcDriver = "SQL Server Native Client 11.0"; // 2012
-
-        QString dbName = QString("DRIVER={%1};SERVER=%2;DATABASE=%3;UID=%4;Port=1433;PWD=%5;WSID=.")
-                .arg(odbcDriver).arg(a_Server).arg(a_Login).arg(a_Password);
-        db.setDatabaseName(dbName);
+        db.setHostName(a_Server);
+        db.setDatabaseName(a_Database);
+        db.setUserName(a_Login);
+        db.setPassword(a_Password);
         bool ok = db.open();
         if (!ok) {
             m_ErrorString = db.lastError().text();
@@ -53,14 +63,15 @@ void TMsSql::run()
     m_Reply = newReply;
     m_ReplyDouble = newReplyFloat;
     m_ReplyInt = newReplyInt;
+
     emit testSuccess();
 }
 
 /******************************************************************/
 
-TTestMethod *TMsSql::clone()
+TTestMethod *TSybase::clone()
 {
-    TMsSql *result = new TMsSql(parent());
+    TSybase *result = new TSybase(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
     result->clearResult();
@@ -70,20 +81,6 @@ TTestMethod *TMsSql::clone()
     result->a_Login = a_Login;
     result->a_Password = a_Password;
     return result;
-}
-
-/******************************************************************/
-
-QString TMsSql::getTestMethod() const
-{
-    return QString("MS SQL %1").arg(a_Server);
-}
-
-/******************************************************************/
-
-QString TMsSql::getTestedObjectInfo() const
-{
-    return QString("Check MS SQL server (%1)").arg(a_Server);
 }
 
 /******************************************************************/

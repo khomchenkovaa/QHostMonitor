@@ -223,6 +223,7 @@ QVariant TestListModel::headerData(int section, Qt::Orientation orientation, int
 QVariant TestListModel::getIcon( TNode *item) const
 {
     TTest* test;
+    bool isTest = true;
     // folder has no statuses
     switch(item->getType()) {
     case TNode::FOLDER:
@@ -231,6 +232,7 @@ QVariant TestListModel::getIcon( TNode *item) const
     case TNode::LINK: {
         TLink* link = qobject_cast<TLink*>(item);
         test = link->getTest();
+        isTest = false;
         } break;
     case TNode::TEST:
         test = qobject_cast<TTest*>(item);
@@ -238,37 +240,42 @@ QVariant TestListModel::getIcon( TNode *item) const
     default:
         return QVariant();
     }
+
     // icon by status
     switch(test->statusID()) {
-    case TestStatus::Unknown:
-    case TestStatus::UnknownHost:
-        return QIcon(":/img/status/unknown.png");
-    case TestStatus::NoAnswer:
-        return QIcon(":/img/status/noAnswer.png");
-    case TestStatus::Bad:
-    case TestStatus::BadContents:
-        return QIcon(":/img/status/bad.png");
-    case TestStatus::Disabled:
-        return QIcon(":/img/status/disabled.png");
-    case TestStatus::WaitForMaster:
-        return QIcon(":/img/status/waitForMaster.png");
-    case TestStatus::OutOfSchedule:
-    case TestStatus::Paused:
-        return QIcon(":/img/status/pause.png");
-    case TestStatus::Warning:
-        return QIcon(":/img/status/warning.png");
     case TestStatus::NotTested:
+        return QIcon(isTest?":/img/status/tstNotTested.png":":/img/status/lnkNotTested.png");
+    case TestStatus::HostAlive:
+        return QIcon(isTest?":/img/status/tstHostAlive.png":":/img/status/lnkHostAlive.png");
+    case TestStatus::NoAnswer:
+        return QIcon(isTest?":/img/status/tstNoAnswer.png":":/img/status/lnkNoAnswer.png");
+    case TestStatus::Unknown:
+        return QIcon(isTest?":/img/status/tstUnknown.png":":/img/status/lnkUnknown.png");
+    case TestStatus::UnknownHost:
+        return QIcon(isTest?":/img/status/tstUnknownHost.png":":/img/status/lnkUnknownHost.png");
     case TestStatus::Checking:
-        return QIcon(":/img/status/checking.png");
+        return QIcon(isTest?":/img/status/tstChecking.png":":/img/status/lnkChecking.png");
+    case TestStatus::Resolving:
+        return QIcon(isTest?":/img/status/tstResolving.png":":/img/status/lnkResolving.png");
+    case TestStatus::Ok:
+        return QIcon(isTest?":/img/status/tstOk.png":":/img/status/lnkOk.png");
+    case TestStatus::Bad:
+        return QIcon(isTest?":/img/status/tstBad.png":":/img/status/lnkBad.png");
+    case TestStatus::Disabled:
+        return QIcon(isTest?":/img/status/tstDisabled.png":":/img/status/lnkDisabled.png");
+    case TestStatus::BadContents:
+        return QIcon(isTest?":/img/status/tstBadContents.png":":/img/status/lnkBadContents.png");
+    case TestStatus::WaitForMaster:
+        return QIcon(isTest?":/img/status/tstWaitForMaster.png":":/img/status/lnkWaitForMaster.png");
+    case TestStatus::OutOfSchedule:
+        return QIcon(isTest?":/img/status/tstOutOfSchedule.png":":/img/status/lnkOutOfSchedule.png");
+    case TestStatus::Paused:
+        return QIcon(isTest?":/img/status/tstPaused.png":":/img/status/lnkPaused.png");
+    case TestStatus::Warning:
+        return QIcon(isTest?":/img/status/tstWarning.png":":/img/status/lnkWarning.png");
+    case TestStatus::Normal:
+        return QIcon(isTest?":/img/status/tstNormal.png":":/img/status/lnkNormal.png");
     }
-    // icon by method
-    if (item->getType() == TNode::TEST || item->getType() == TNode::LINK) {
-         QVariant methodId = item->getGlobal(Macro::MethodID);
-         if (methodId.canConvert(QMetaType::Int)) {
-             TMethod method = TMethod::tMethodList.at(methodId.toInt());
-             return method.icon;
-         }
-     }
     return QVariant();
 }
 

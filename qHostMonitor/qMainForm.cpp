@@ -137,8 +137,8 @@ void MainForm::resetModel()
 
     if (m_model) delete m_model;
     m_model = new TestListModel();
-    connect(m_HML->rootItem(), SIGNAL(newTest(TNode*)), m_model, SLOT(addTest(TNode*)));
-    connect(m_HML->rootItem(), SIGNAL(newLink(TNode*)), m_model, SLOT(addTest(TNode*)));
+    connect(m_HML, SIGNAL(testAdded(TNode*)), m_model, SLOT(addTest(TNode*)));
+    connect(m_HML, SIGNAL(linkAdded(TNode*)), m_model, SLOT(addTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(pasteTest(TNode*)), m_model, SLOT(addTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(delTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(cutTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
@@ -189,8 +189,7 @@ void MainForm::resetScriptMenu()
 void MainForm::onTestAdded(TTest *test)
 {
     TNode *item = m_folders->itemFromIndex(ui->treeFolders->currentIndex());
-    TRoot *root = qobject_cast<TRoot*>(item->getRoot());
-    root->addNode(item, test);
+    m_HML->addNode(item, test);
 }
 
 /******************************************************************/
@@ -1102,8 +1101,7 @@ void MainForm::on_actTestCopy_triggered()
     TNode *node = m_HML->nodeByPath(path);
     QString newName = test->testName() + "-copy";
     TTest *newTest = test->clone(newName);
-    TRoot *root = qobject_cast<TRoot*>(node->getRoot());
-    root->addNode(node, newTest);
+    m_HML->addNode(node, newTest);
 
     if (folderDlg.isDisabled()) {
         newTest->setEnabled(false);
@@ -1140,9 +1138,8 @@ void MainForm::on_actLink_triggered()
 
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
-    TRoot *root = qobject_cast<TRoot*>(node->getRoot());
     test->addLink(node);
-    root->addNode(node, new TLink(test));
+    m_HML->addNode(node, new TLink(test));
 }
 
 /******************************************************************/
@@ -1571,7 +1568,9 @@ void MainForm::on_btnViewProperties_clicked()
     } else if (node->getType() == TNode::VIEW) {
         TView *view = qobject_cast<TView*>(node);
         DynamicViewPropertiesDlg dlg(view, m_HML);
-        dlg.exec();
+        if(QDialog::Accepted == dlg.exec()) {
+            onTreeViewChanged();
+        }
     }
 }
 

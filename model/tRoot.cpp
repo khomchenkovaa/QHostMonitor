@@ -37,31 +37,6 @@ TNode *TRoot::findByPath(QString path)
 
 /******************************************************************/
 
-void TRoot::addNode(TNode *parent, TNode *item)
-{
-    if (item->getType() == TNode::ROOT) return;
-    parent->appendChild(item);
-    switch (item->getType()) {
-    case TNode::FOLDER :
-        emit newFolder(parent->getPath(), item->getName());
-        break;
-    case TNode::VIEW :
-        emit newView (item->getName());
-        break;
-    case TNode::TEST :
-        connect(item,SIGNAL(readyRun(TNode*)),this,SIGNAL(readyRun(TNode*)));
-        connect(item,SIGNAL(testDone(TNode*)),this,SIGNAL(testUpdated(TNode*)));
-        emit newTest(item);
-        break;
-    case TNode::LINK :
-        emit newLink(item);
-        break;
-    default: break;
-    }
-}
-
-/******************************************************************/
-
 void TRoot::removeNode(TNode *item)
 {
     if (item->getType() == TNode::ROOT) return;

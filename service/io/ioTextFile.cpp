@@ -293,7 +293,7 @@ void IOTextFile::addTest() {
     m_curTest->setTest(testMethod);
     cmd = m_testProps.take(PRM_DEST_FOLDER);
     TNode *node = m_HML->cmdCreateFolder(cmd.value);
-    m_HML->rootItem()->addNode(node,m_curTest);
+    m_HML->addNode(node,m_curTest);
     ++m_testsAdded;
     setTestProperties();
 }
@@ -511,7 +511,7 @@ void IOTextFile::createLinks()
     foreach(QString link, m_linkedTo) {
         TNode *linkNode = m_HML->cmdCreateFolder(link.replace("\\","/"));
         m_curTest->addLink(linkNode);
-        m_HML->rootItem()->addNode(linkNode, new TLink(m_curTest));
+        m_HML->addNode(linkNode, new TLink(m_curTest));
     }
 }
 

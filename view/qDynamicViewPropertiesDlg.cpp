@@ -75,6 +75,7 @@ void DynamicViewPropertiesDlg::save()
     ui->tabColors->save(m_view);
     //! TODO Reports
     ui->tabComment->save(m_view);
+    m_view->updateList();
 
     this->accept();
 }

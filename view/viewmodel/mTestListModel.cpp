@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "tTest.h"
 #include "tLink.h"
+#include "tFolder.h"
 #include "tTestInfo.h"
 #include "global/tMethod.h"
 #include "gData.h"
@@ -173,27 +174,16 @@ void TestListModel::resetModel()
     beginResetModel();
     m_list.clear();
     if (m_current) {
-        m_list.append(m_current);
-        updateList(m_current);
+        if (m_current->getType() == TNode::FOLDER) {
+            m_list.append(m_current);
+            TFolder *folder = qobject_cast<TFolder*>(m_current);
+            m_list.append(folder->testList(m_recursive));
+        } else if (m_current->getType() == TNode::VIEW) {
+            m_list.append(m_current->tests());
+        }
     }
     setProfile();
     endResetModel();
-}
-
-/******************************************************************/
-
-void TestListModel::updateList(TNode *item)
-{
-    m_list.append(item->tests());
-    if (!m_recursive) {
-        return;
-    }
-    foreach(TNode *node, item->folders()) {
-        if (node->hasTests()) {
-            m_list.append(node);
-            updateList(node);
-        }
-    }
 }
 
 /******************************************************************/

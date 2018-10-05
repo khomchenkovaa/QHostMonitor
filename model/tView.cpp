@@ -15,6 +15,7 @@ TView::TView(const QString &name, TFolder *folder, QObject *parent) :
 {
     b_Recursive = true;
     setupCriteriaDefaults();
+    updateList();
     setupListeners();
 }
 
@@ -53,7 +54,6 @@ void TView::setupListeners()
 {
     if (!m_folder) return;
     TRoot *root = qobject_cast<TRoot*>(m_folder->getRoot());
-    connect(root, SIGNAL(newTest(TNode*)),     this, SLOT(updateByCriteria(TNode*)));
     connect(root, SIGNAL(pasteTest(TNode*)),   this, SLOT(updateByCriteria(TNode*)));
     connect(root, SIGNAL(delTest(TNode*)),     this, SLOT(updateByCriteria(TNode*)));
     connect(root, SIGNAL(cutTest(TNode*)),     this, SLOT(updateByCriteria(TNode*)));
@@ -203,6 +203,18 @@ void TView::updateByCriteria(TNode *item)
         if (m_childTests.contains(item)) {
             m_childTests.removeOne(item);
         }
+    }
+}
+
+/***********************************************/
+
+void TView::updateList()
+{
+    m_childTests.clear();
+    if (!m_folder) return;
+    foreach(TNode *item, m_folder->testList()) {
+        if (item->getType() != TNode::TEST) continue;
+        updateByCriteria(item);
     }
 }
 

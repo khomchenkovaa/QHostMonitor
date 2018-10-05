@@ -150,18 +150,17 @@ void Startup::checkScriptsDir() {
 /******************************************************************/
 
 void Startup::loadFoldersModel() {
-    TRoot *root = m_HML.rootItem();
-    TNode* views = root->rootView();
-    TFolder *folder = qobject_cast<TFolder*>(root->rootFolder());
+    TNode* views = m_HML.rootView();
+    TFolder *folder = qobject_cast<TFolder*>(m_HML.rootFolder());
 
     TView *vAllBadItems = new TView("all bad items",folder);
-    root->addNode(views, vAllBadItems);
+    m_HML.addNode(views, vAllBadItems);
     vAllBadItems->setSelectByStatus(true);
     vAllBadItems->addStatusCriteria(TView::VS_BadNew);
     vAllBadItems->addStatusCriteria(TView::VS_BadAcknowleged);
 
     TView *vBadWarning = new TView("bad & warning",folder);
-    root->addNode(views, vBadWarning);
+    m_HML.addNode(views, vBadWarning);
     vBadWarning->setSelectByStatus(true);
     vBadWarning->addStatusCriteria(TView::VS_BadNew);
     vBadWarning->addStatusCriteria(TView::VS_BadAcknowleged);
@@ -171,31 +170,31 @@ void Startup::loadFoldersModel() {
     vBadWarning->addStatusCriteria(TView::VS_WarningAcknowleged);
 
     TView *vNonAcknowleged = new TView("non asknowleged",folder);
-    root->addNode(views, vNonAcknowleged);
+    m_HML.addNode(views, vNonAcknowleged);
     vNonAcknowleged->setSelectByStatus(true);
     vNonAcknowleged->addStatusCriteria(TView::VS_BadNew);
     vNonAcknowleged->addStatusCriteria(TView::VS_UnknownNew);
     vNonAcknowleged->addStatusCriteria(TView::VS_WarningNew);
 
     TView *vDisabled = new TView("disabled",folder);
-    root->addNode(views, vDisabled);
+    m_HML.addNode(views, vDisabled);
     vDisabled->setSelectByStatus(true);
     vDisabled->addStatusCriteria(TView::VS_Disabled);
 
     TView *vDeadTime5 = new TView("DeadTime > 5%",folder);
-    root->addNode(views, vDeadTime5);
+    m_HML.addNode(views, vDeadTime5);
     vDeadTime5->setSelectByStats(true);
     vDeadTime5->setStatsCriteria(TView::VC_DeadRatio);
     vDeadTime5->setDeadRatioValue(5.0);
 
     TView *vDeadTime10 = new TView("DeadTime > 10%",folder);
-    root->addNode(views, vDeadTime10);
+    m_HML.addNode(views, vDeadTime10);
     vDeadTime10->setSelectByStats(true);
     vDeadTime10->setStatsCriteria(TView::VC_DeadRatio);
     vDeadTime10->setDeadRatioValue(10.0);
 
     TView *vStatusChanged = new TView("Recent status changed",folder);
-    root->addNode(views, vStatusChanged);
+    m_HML.addNode(views, vStatusChanged);
     vStatusChanged->setSelectByStats(true);
     vStatusChanged->setStatsCriteria(TView::VC_Duration);
     vStatusChanged->setDurationGreater(false);

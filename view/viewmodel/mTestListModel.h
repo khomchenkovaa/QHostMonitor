@@ -42,7 +42,6 @@ public slots:
 private:
     void setProfile();
     void resetModel();
-    void updateList(TNode *item);
     QVariant getIcon(TNode *item) const;
     QVariant getColor(TNode *item) const;
     QVariant getBgColor(TNode *item) const;

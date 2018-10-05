@@ -28,6 +28,33 @@ HMListService::~HMListService()
 
 /******************************************************************/
 
+void HMListService::addNode(TNode *parent, TNode *item)
+{
+    if (item->getType() == TNode::ROOT) return;
+    parent->appendChild(item);
+    switch (item->getType()) {
+    case TNode::FOLDER :
+        emit folderAdded(item);
+        break;
+    case TNode::VIEW :
+        //! TODO fill view
+        emit viewAdded(item);
+        break;
+    case TNode::TEST :
+        //! TODO update views
+        connect(item,SIGNAL(readyRun(TNode*)),m_Root,SIGNAL(readyRun(TNode*)));
+        connect(item,SIGNAL(testDone(TNode*)),m_Root,SIGNAL(testUpdated(TNode*)));
+        emit testAdded(item);
+        break;
+    case TNode::LINK :
+        emit linkAdded(item);
+        break;
+    default: break;
+    }
+}
+
+/******************************************************************/
+
 bool HMListService::cmdNewTestList()
 {
     emit modelAboutToChange();
@@ -122,7 +149,7 @@ TNode *HMListService::cmdCreateFolder(QString path)
         TNode *tmpNode = node->findChild(folderName);
         if (!tmpNode) {
             tmpNode = new TFolder(folderName);
-            m_Root->addNode(node,tmpNode);
+            addNode(node,tmpNode);
         }
         node = tmpNode;
     }

@@ -226,6 +226,23 @@ int TFolder::testsWarningAcknowkegedRecursive() const
 
 /*************************************************/
 
+QList<TNode*> TFolder::testList(bool recursive)
+{
+    QList<TNode*> result = tests();
+    if (recursive) {
+        foreach(TNode *node, m_childNodes) {
+            if (node->getType() != TNode::FOLDER) continue;
+            if (!node->hasTests()) continue;
+            result.append(node);
+            TFolder *folder = qobject_cast<TFolder*>(node);
+            result.append(folder->testList());
+        }
+    }
+    return result;
+}
+
+/*************************************************/
+
 QVariant TFolder::property(QString name) const
 {
     if (name.startsWith("FCommentLine")) {

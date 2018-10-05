@@ -78,6 +78,8 @@ public:
     int testsUnknownAcknowkegedRecursive() const;
     int testsWarningAcknowkegedRecursive() const;
 
+    QList<TNode*> testList(bool recursive = true);
+
     QVariant property(QString name) const Q_DECL_OVERRIDE;
 
 private: // interface settings

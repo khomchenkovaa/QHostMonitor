@@ -39,6 +39,9 @@ public:
     TNode *rootView() { return m_Root->rootView(); }
     TNode *nodeByPath(QString path) { return m_Root->findByPath(path); }
 
+    // test list content
+    void addNode(TNode* parent, TNode* item);
+
     // commands
     bool cmdNewTestList();
     bool cmdLoadTestList(QString fileName); //! TODO
@@ -51,6 +54,18 @@ public:
 signals:
     void modelAboutToChange();
     void modelChanged();
+    void folderAdded(TNode *folder);
+    void folderAboutToDelete(TNode *folder);
+    void folderDeleted(TNode *parentFolder, QString name);
+    void viewAdded(TNode *view);
+    void viewDeleted(QString name);
+    void testAdded(TNode *test);
+    void testUpdated(TNode *test);
+    void testAboutToDelete(TNode *test);
+    void testDeleted(TNode *folder, int idx);
+    void linkAdded(TNode *link);
+    void linkAboutToDelete(TNode *link);
+    void linkDeleted(TNode *folder, TNode* test);
 
 public slots:
 

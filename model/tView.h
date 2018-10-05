@@ -70,6 +70,7 @@ private:
 
 public slots:
     void updateByCriteria(TNode* item);
+    void updateList();
 
 public: // methods
     TFolder* getSourceFolder() { return m_folder; }

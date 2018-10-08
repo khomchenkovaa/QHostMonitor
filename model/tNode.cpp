@@ -158,6 +158,18 @@ TNode *TNode::findChildRecursive(QString nm)
 
 /*************************************************/
 
+TNode *TNode::findByID(int id)
+{
+    if(m_ID == id) return this;
+    foreach(TNode *node , m_childNodes) {
+        TNode *found = node->findByID(id);
+        if (found) return found;
+    }
+    return 0;
+}
+
+/*************************************************/
+
 TNode *TNode::findTest(QString nm)
 {
     foreach(TNode *node , m_childTests) {

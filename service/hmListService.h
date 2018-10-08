@@ -50,6 +50,8 @@ public:
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
     TNode *cmdCreateFolder(QString path);
+    bool cmdSetFolderVariable(TNode* folder, QString varName, QString varValue, bool inheritPartly = false);
+    bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);
 
 signals:
     void modelAboutToChange();

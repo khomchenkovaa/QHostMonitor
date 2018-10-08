@@ -158,4 +158,20 @@ TNode *HMListService::cmdCreateFolder(QString path)
 
 /******************************************************************/
 
+bool HMListService::cmdSetFolderVariable(TNode *folder, QString varName, QString varValue, bool inheritPartly)
+{
+    qDebug() << "TODO: cmdSetFolderVariable" << folder->getName() << varName << varValue << inheritPartly;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetFolderAgent(TNode *folder, QString agentName, bool unlessInherited)
+{
+    qDebug() << "TODO: cmdSetFolderAgent" << folder->getName() << agentName << unlessInherited;
+    return true;
+}
+
+/******************************************************************/
+
 } // namespace SDPO

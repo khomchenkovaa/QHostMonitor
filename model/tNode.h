@@ -73,6 +73,7 @@ public: // node structure
     TNode *lastChild();
     TNode *findChild(QString nm);
     TNode *findChildRecursive(QString nm);
+    TNode *findByID(int id);
     TNode *findTest(QString nm);
     int childCount(bool withTests = false) const;
     int foldersTotal() const;

@@ -232,13 +232,7 @@ bool HMScriptRunner::runNewTestList(const int num, const QString &cmdLine)
         return false;
     }
 
-    bool discardChanged = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "DiscardChanges") {
-            discardChanged = true;
-            break;
-        }
-    }
+    bool discardChanged = cmdList.contains("DiscardChanges");
 
     if (!discardChanged && m_HML->isModelModified()) {
         m_Errors.append(tr("[ERROR] Line %1: Test List is changed. Save it first\n").arg(num));
@@ -258,12 +252,13 @@ bool HMScriptRunner::runLoadTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
@@ -283,11 +278,13 @@ bool HMScriptRunner::runAppendTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
-    if (!cmdList.count()) {
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
@@ -309,33 +306,20 @@ bool HMScriptRunner::runImportFromFile(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    bool skipDuplicates = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "SkipDuplicates") {
-            skipDuplicates = true;
-            break;
-        }
-    }
-
-    bool writeLog = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "WriteLog") {
-            writeLog = true;
-            break;
-        }
-    }
-
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
-
+    QString fileName = cmdList.takeFirst();
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
         fileName = m_FileName.mid(0,idx+1) + fileName;
     }
+
+    bool skipDuplicates = cmdList.contains("SkipDuplicates");
+    bool writeLog = cmdList.contains("WriteLog");
 
     return m_HML->cmdImportFromFile(fileName, skipDuplicates, writeLog);
 }
@@ -352,11 +336,12 @@ bool HMScriptRunner::runSaveTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
     QString fileName;
 
-    if (cmdList.count()) {
-        fileName = cmdList.at(1);
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
         if (!fileName.startsWith("/")) {
             int idx = m_FileName.lastIndexOf("/");
             fileName = m_FileName.mid(0,idx+1) + fileName;
@@ -379,33 +364,21 @@ bool HMScriptRunner::runExportHmlIntoText(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    bool commentDestFolder = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "-SF") {
-            commentDestFolder = true;
-            break;
-        }
-    }
-
-    bool commentLinks = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "-SL") {
-            commentLinks = true;
-            break;
-        }
-    }
-
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
         fileName = m_FileName.mid(0,idx+1) + fileName;
     }
+
+    bool commentDestFolder = cmdList.contains("-SF");
+    bool commentLinks = cmdList.contains("-SL");
 
     return m_HML->cmdExportHmlIntoText(fileName, commentDestFolder, commentLinks);
 }
@@ -423,13 +396,17 @@ bool HMScriptRunner::runResolveMacros(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_ResolveMacros = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_ResolveMacros = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -446,19 +423,26 @@ bool HMScriptRunner::runSetCurrentFolder(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
 
     TRoot *root = m_HML->rootItem();
     TNode *found = 0;
-    if (cmdList.at(1).contains("/")) { // find by path
-        found = root->findByPath(cmdList.at(1));
+    if (folder.contains("/")) { // find by path
+        found = root->findByPath(folder);
     } else { // find by name
-        found = root->findChildRecursive(cmdList.at(1));
+        found = root->findChildRecursive(folder);
     }
 
     if (found && found->getType() == TNode::FOLDER) {
         m_CurrentFolder = found;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(folder));
     }
     return true;
 }
@@ -474,13 +458,17 @@ bool HMScriptRunner::runIncludeSubfolders(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_IncludeSubfolders = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_IncludeSubfolders = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -496,13 +484,17 @@ bool HMScriptRunner::runUseLinks(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_UseLinks = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_UseLinks = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -524,11 +516,13 @@ bool HMScriptRunner::runCreateFolder(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
+
     if (!cmdList.count()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no path\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString path = cmdList.at(1);
+    QString path = cmdList.takeFirst();
     path = path.replace("\\","/");
     m_HML->cmdCreateFolder(path);
     return true;
@@ -550,7 +544,22 @@ bool HMScriptRunner::runSetFolderVariable(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no variable name\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString varName = cmdList.takeFirst();
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no variable value\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString varValue = cmdList.takeFirst();
+
+    bool inheritPartly = cmdList.contains("-inheritpartly");
+    m_HML->cmdSetFolderVariable(m_CurrentFolder, varName, varValue, inheritPartly);
     return true;
 }
 
@@ -571,7 +580,33 @@ bool HMScriptRunner::runSetFolderAgent(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) { // find by path
+        found = m_HML->rootItem()->findByPath(folder);
+    } else { // find by id
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    if (!found || found->getType() != TNode::FOLDER) {
+        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(folder));
+        return false;
+    }
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no agent name\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString agentName = cmdList.takeFirst();
+
+    bool unlessInherited = cmdList.contains("UnlessInherited");
+
+    m_HML->cmdSetFolderAgent(found, agentName, unlessInherited);
     return true;
 }
 

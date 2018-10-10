@@ -64,9 +64,6 @@ MainForm::MainForm(QWidget *parent) :
     m_views = 0;
     m_model = 0;
 
-    connect(hostMonDlg, SIGNAL(testAdded(TTest*)), this, SLOT(onTestAdded(TTest*)));
-    connect(hostMonDlg, SIGNAL(testChanged(TTest*)), this, SLOT(onTestChanged(TTest*)));
-
     connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
 
     ui->btnToolbarAdd->setMenu(ui->mnuTestAdd);
@@ -77,9 +74,6 @@ MainForm::MainForm(QWidget *parent) :
 /******************************************************************/
 
 void MainForm::init() {
-    emit ui->actEnableAlerts->triggered();
-    emit ui->actStartMonitoring->triggered();
-
     ui->pnlFoldersTree->setHidden(!ui->actFoldersTree->isChecked());
     ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
     ui->statusBar->setHidden(!ui->actStatusBar->isChecked());
@@ -106,13 +100,25 @@ MainForm::~MainForm() {
 void MainForm::setupFolders(HMListService* hml)
 {
     m_HML   = hml;
-    hostMonDlg->setRootNode(m_HML->rootItem());
+    // model
     resetModel();
-    connect(m_HML,SIGNAL(modelChanged()),this,SLOT(resetModel()));
-    connect(m_HML,SIGNAL(monitoringStarted(bool)),this,SLOT(onMonitoringStarted(bool)));
-    connect(ui->actStartMonitoring,SIGNAL(triggered()),m_HML,SLOT(cmdStartMonitoring()));
-    connect(ui->btnToobarStart,SIGNAL(clicked()),m_HML,SLOT(cmdStartMonitoring()));
-    connect(ui->actStopMonitoring,SIGNAL(triggered()),m_HML,SLOT(cmdStopMonitoring()));
+    connect(m_HML, SIGNAL(modelChanged()), this, SLOT(resetModel()));
+    // HostMonDlg
+    hostMonDlg->setRootNode(m_HML->rootItem());
+    connect(hostMonDlg, SIGNAL(testAdded(TTest*)), this, SLOT(onTestAdded(TTest*)));
+    connect(hostMonDlg, SIGNAL(testChanged(TTest*)), this, SLOT(onTestChanged(TTest*)));
+    // alerts
+    connect(m_HML, SIGNAL(alertsEnabled(bool)), this, SLOT(onAlertsEnabled(bool)));
+    connect(ui->actEnableAlerts, SIGNAL(triggered()), m_HML, SLOT(cmdAlertsEnable()));
+    connect(ui->btnToolbarAlert, SIGNAL(clicked()), m_HML, SLOT(cmdAlertsEnable()));
+    connect(ui->actDisableAlerts, SIGNAL(triggered()),m_HML, SLOT(cmdAlertsDisable()));
+    m_HML->cmdAlertsEnable();
+    // monitoring
+    connect(m_HML, SIGNAL(monitoringStarted(bool)), this, SLOT(onMonitoringStarted(bool)));
+    connect(ui->actStartMonitoring, SIGNAL(triggered()), m_HML, SLOT(cmdMonitoringStart()));
+    connect(ui->btnToobarStart, SIGNAL(clicked()), m_HML, SLOT(cmdMonitoringStart()));
+    connect(ui->actStopMonitoring, SIGNAL(triggered()), m_HML, SLOT(cmdMonitoringStop()));
+    m_HML->cmdMonitoringStart();
 }
 
 /******************************************************************/
@@ -273,10 +279,20 @@ void MainForm::onActionWinPopup(TTest *test)
 
 void MainForm::onMonitoringStarted(bool value)
 {
-    ui->actStartMonitoring->setEnabled(!value);
+    ui->actStartMonitoring->setDisabled(value);
     ui->actStopMonitoring->setEnabled(value);
     ui->btnToobarStart->setHidden(value);
     ui->lineToolbarStart->setHidden(value);
+}
+
+/******************************************************************/
+
+void MainForm::onAlertsEnabled(bool value)
+{
+    ui->actEnableAlerts->setDisabled(value);
+    ui->actDisableAlerts->setEnabled(value);
+    ui->btnToolbarAlert->setHidden(value);
+    ui->lineToolbarAlerts->setHidden(value);
 }
 
 /******************************************************************/
@@ -625,28 +641,6 @@ void MainForm::on_actExit_triggered()
 
 /******************************************************************/
 // Monitoring menu
-/******************************************************************/
-
-void MainForm::on_actEnableAlerts_triggered()
-{
-    //! TODO enable alerts
-    ui->actEnableAlerts->setEnabled(false);
-    ui->actDisableAlerts->setEnabled(true);
-    ui->btnToolbarAlert->setHidden(true);
-    ui->lineToolbarAlerts->setHidden(true);
-}
-
-/******************************************************************/
-
-void MainForm::on_actDisableAlerts_triggered()
-{
-    //! TODO disable alerts
-    ui->actEnableAlerts->setEnabled(true);
-    ui->actDisableAlerts->setEnabled(false);
-    ui->btnToolbarAlert->setHidden(false);
-    ui->lineToolbarAlerts->setHidden(false);
-}
-
 /******************************************************************/
 
 void MainForm::on_actPause_triggered()
@@ -1641,13 +1635,6 @@ void MainForm::on_btnToolbarRefresh_clicked()
 void MainForm::on_btnToolbarReset_clicked()
 {
     on_actResetSelectedTests_triggered();
-}
-
-/******************************************************************/
-
-void MainForm::on_btnToolbarAlert_clicked()
-{
-    on_actEnableAlerts_triggered();
 }
 
 /******************************************************************/

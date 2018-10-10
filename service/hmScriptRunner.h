@@ -166,8 +166,8 @@ private:
     bool runCreateReport(const int num, const QString &cmdLine);     //! TODO
     bool runStartProgram(const int num, const QString &cmdLine);     //! TODO
     bool runExecuteProgram(const int num, const QString &cmdLine);   //! TODO
-    bool runEnableAlerts(const int num, const QString &cmdLine);     //! TODO
-    bool runDisableAlerts(const int num, const QString &cmdLine);    //! TODO
+    bool runEnableAlerts(const int num, const QString &cmdLine);
+    bool runDisableAlerts(const int num, const QString &cmdLine);
     bool runPauseAlerts(const int num, const QString &cmdLine);      //! TODO
     bool runPauseMonitor(const int num, const QString &cmdLine);     //! TODO
     bool runStopMonitor(const int num, const QString &cmdLine);

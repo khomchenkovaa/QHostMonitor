@@ -69,10 +69,13 @@ signals:
     void linkAboutToDelete(TNode *link);
     void linkDeleted(TNode *folder, TNode* test);
     void monitoringStarted(bool value);
+    void alertsEnabled(bool value);
 
 public slots:
-    void cmdStartMonitoring();
-    void cmdStopMonitoring();
+    void cmdAlertsEnable();
+    void cmdAlertsDisable();
+    void cmdMonitoringStart();
+    void cmdMonitoringStop();
 
 };
 

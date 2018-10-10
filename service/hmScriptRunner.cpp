@@ -1249,14 +1249,14 @@ bool HMScriptRunner::runEnableAlerts(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+     m_HML->cmdAlertsEnable();
      return true;
 }
 
 /*****************************************************************
  * Disable all alerts (except "scheduled" actions).
  * Note: if alerts are disabled then script can be launched manually (menu File->Execute script).
- * Also you may setup built-in Scheduler to execute actions even when alerts are disabled. However if monitoring is stopped, Scheduler will be deactivated.
+ * Also you may setup built-in Scheduler to execute actions even when alerts are disabled.
  *****************************************************************/
 bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
 {
@@ -1264,7 +1264,7 @@ bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+     m_HML->cmdAlertsDisable();
      return true;
 }
 
@@ -1307,7 +1307,7 @@ bool HMScriptRunner::runStopMonitor(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-    m_HML->cmdStopMonitoring();
+    m_HML->cmdMonitoringStop();
     return true;
 }
 
@@ -1320,7 +1320,7 @@ bool HMScriptRunner::runStartMonitor(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
     }
-    m_HML->cmdStartMonitoring();
+    m_HML->cmdMonitoringStart();
     return true;
 }
 

@@ -63,6 +63,7 @@ public slots:
     void onTreeViewChanged();
     void onActionWinPopup(TTest *test);
     void onMonitoringStarted(bool value);
+    void onAlertsEnabled(bool value);
 
     void changeEvent(QEvent*event);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -85,8 +86,6 @@ private slots:
     void on_actProperties_triggered();
     void on_actExit_triggered();
     // Monitoring menu
-    void on_actEnableAlerts_triggered();
-    void on_actDisableAlerts_triggered();
     void on_actPause_triggered();
     // Test menu (new)
     void on_actTestPing_triggered();
@@ -192,7 +191,6 @@ private slots:
     void on_btnToolbarDel_clicked();
     void on_btnToolbarRefresh_clicked();
     void on_btnToolbarReset_clicked();
-    void on_btnToolbarAlert_clicked();
     void on_trvTestList_doubleClicked(const QModelIndex &index);
 
 private:

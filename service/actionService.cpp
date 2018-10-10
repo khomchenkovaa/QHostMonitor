@@ -12,8 +12,10 @@ namespace SDPO {
 
 ActionService::ActionService(HMListService *hml, QObject *parent) :
     QObject(parent),
+    b_RunningState(true),
     m_HML(hml)
 {
+    connect(m_HML,SIGNAL(alertsEnabled(bool)),SLOT(setRunningState(bool)));
 }
 
 /***********************************************/
@@ -34,6 +36,8 @@ void ActionService::clear()
 
 void ActionService::runActions(TNode *item)
 {
+    if(!b_RunningState) return;
+
     TTest *test = qobject_cast<TTest*>(item);
     if (test->getAlertProfileID() == -1) {
         return;
@@ -45,7 +49,6 @@ void ActionService::runActions(TNode *item)
     if (test->simpleStatusID() == SimpleStatusID::UP) { //! TODO информирование только один раз
         runProfile(test->getAlertProfileID(), test, false);
     }
-
 }
 
 /***********************************************/

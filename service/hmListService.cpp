@@ -174,14 +174,28 @@ bool HMListService::cmdSetFolderAgent(TNode *folder, QString agentName, bool unl
 
 /******************************************************************/
 
-void HMListService::cmdStartMonitoring()
+void HMListService::cmdAlertsEnable()
+{
+    emit alertsEnabled(true);
+}
+
+/******************************************************************/
+
+void HMListService::cmdAlertsDisable()
+{
+    emit alertsEnabled(false);
+}
+
+/******************************************************************/
+
+void HMListService::cmdMonitoringStart()
 {
     emit monitoringStarted(true);
 }
 
 /******************************************************************/
 
-void HMListService::cmdStopMonitoring()
+void HMListService::cmdMonitoringStop()
 {
     emit monitoringStarted(false);
 }

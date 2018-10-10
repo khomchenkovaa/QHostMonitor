@@ -109,6 +109,10 @@ void MainForm::setupFolders(HMListService* hml)
     hostMonDlg->setRootNode(m_HML->rootItem());
     resetModel();
     connect(m_HML,SIGNAL(modelChanged()),this,SLOT(resetModel()));
+    connect(m_HML,SIGNAL(monitoringStarted(bool)),this,SLOT(onMonitoringStarted(bool)));
+    connect(ui->actStartMonitoring,SIGNAL(triggered()),m_HML,SLOT(cmdStartMonitoring()));
+    connect(ui->btnToobarStart,SIGNAL(clicked()),m_HML,SLOT(cmdStartMonitoring()));
+    connect(ui->actStopMonitoring,SIGNAL(triggered()),m_HML,SLOT(cmdStopMonitoring()));
 }
 
 /******************************************************************/
@@ -263,6 +267,16 @@ void MainForm::onActionWinPopup(TTest *test)
         dlg.move(x,y);
     }
     dlg.exec();
+}
+
+/******************************************************************/
+
+void MainForm::onMonitoringStarted(bool value)
+{
+    ui->actStartMonitoring->setEnabled(!value);
+    ui->actStopMonitoring->setEnabled(value);
+    ui->btnToobarStart->setHidden(value);
+    ui->lineToolbarStart->setHidden(value);
 }
 
 /******************************************************************/
@@ -611,28 +625,6 @@ void MainForm::on_actExit_triggered()
 
 /******************************************************************/
 // Monitoring menu
-/******************************************************************/
-
-void MainForm::on_actStartMonitoring_triggered()
-{
-    ui->actStartMonitoring->setEnabled(false);
-    ui->actStopMonitoring->setEnabled(true);
-    ui->btnToobarStart->setHidden(true);
-    ui->lineToolbarStart->setHidden(true);
-    emit testingPaused(false);
-}
-
-/******************************************************************/
-
-void MainForm::on_actStopMonitoring_triggered()
-{
-    ui->actStartMonitoring->setEnabled(true);
-    ui->actStopMonitoring->setEnabled(false);
-    ui->btnToobarStart->setHidden(false);
-    ui->lineToolbarStart->setHidden(false);
-    emit testingPaused(true);
-}
-
 /******************************************************************/
 
 void MainForm::on_actEnableAlerts_triggered()
@@ -1649,13 +1641,6 @@ void MainForm::on_btnToolbarRefresh_clicked()
 void MainForm::on_btnToolbarReset_clicked()
 {
     on_actResetSelectedTests_triggered();
-}
-
-/******************************************************************/
-
-void MainForm::on_btnToobarStart_clicked()
-{
-    on_actStartMonitoring_triggered();
 }
 
 /******************************************************************/

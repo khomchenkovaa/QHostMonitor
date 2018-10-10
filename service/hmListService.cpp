@@ -174,4 +174,18 @@ bool HMListService::cmdSetFolderAgent(TNode *folder, QString agentName, bool unl
 
 /******************************************************************/
 
+void HMListService::cmdStartMonitoring()
+{
+    emit monitoringStarted(true);
+}
+
+/******************************************************************/
+
+void HMListService::cmdStopMonitoring()
+{
+    emit monitoringStarted(false);
+}
+
+/******************************************************************/
+
 } // namespace SDPO

@@ -708,9 +708,9 @@ bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cm
 }
 
 /*****************************************************************
- * Checks the status of all tests in the folder (except disabled hosts) immediately, do not wait for the elapse test interval for each test
+ * Checks the status of all tests in the folder (except disabled hosts) immediately,
+ * do not wait for the elapse test interval for each test
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -724,7 +724,6 @@ bool HMScriptRunner::runRefreshAll(const int num, const QString &cmdLine)
 /*****************************************************************
  * Resets statistics for all tests within the folder
  *****************************************************************/
-
 bool HMScriptRunner::runResetAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -738,7 +737,6 @@ bool HMScriptRunner::runResetAll(const int num, const QString &cmdLine)
 /*****************************************************************
  * Disables all tests in the folder
  *****************************************************************/
-
 bool HMScriptRunner::runDisableAllTests(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -752,7 +750,6 @@ bool HMScriptRunner::runDisableAllTests(const int num, const QString &cmdLine)
 /*****************************************************************
  * Enables all tests in the folder
  *****************************************************************/
-
 bool HMScriptRunner::runEnableAllTests(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -767,7 +764,6 @@ bool HMScriptRunner::runEnableAllTests(const int num, const QString &cmdLine)
  * Disables the specified test
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -782,7 +778,6 @@ bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
  * Enables the specified test
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runEnableTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -797,7 +792,6 @@ bool HMScriptRunner::runEnableTest(const int num, const QString &cmdLine)
  * Checks the status of the specified test immediately
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -812,7 +806,6 @@ bool HMScriptRunner::runRefreshTest(const int num, const QString &cmdLine)
  * Resets statistics for specified test or group of tests
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -829,7 +822,6 @@ bool HMScriptRunner::runResetTest(const int num, const QString &cmdLine)
  *         <interval>
  *         [<comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runPauseTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -844,7 +836,6 @@ bool HMScriptRunner::runPauseTest(const int num, const QString &cmdLine)
  * Resumes paused test or group of tests
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -860,7 +851,6 @@ bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
  *         <ParameterName>
  *         <Value>
  *****************************************************************/
-
 bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -880,7 +870,6 @@ bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)
  *         <Curr. value>
  *         <New value>
  *****************************************************************/
-
 bool HMScriptRunner::runReplaceTestParam(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -897,7 +886,6 @@ bool HMScriptRunner::runReplaceTestParam(const int num, const QString &cmdLine)
  *         [StopAlerts]
  *         [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runAckTestStatus(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -911,7 +899,6 @@ bool HMScriptRunner::runAckTestStatus(const int num, const QString &cmdLine)
 /*****************************************************************
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetAcknowledgements(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -930,7 +917,6 @@ bool HMScriptRunner::runResetAcknowledgements(const int num, const QString &cmdL
  * HostMonitor will consider that previous status of the test was not "Ok" (either "Bad" or "Unknown").
  * This allows you to forcedly start actions that already were executed (e.g. for testing purpose).
  *****************************************************************/
-
 bool HMScriptRunner::runResetRecurrencesTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -944,7 +930,6 @@ bool HMScriptRunner::runResetRecurrencesTest(const int num, const QString &cmdLi
 /*****************************************************************
  * Sets Recurrences counter to 0 for all tests in the folder.
  *****************************************************************/
-
 bool HMScriptRunner::runResetRecurrencesAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -961,7 +946,6 @@ bool HMScriptRunner::runResetRecurrencesAll(const int num, const QString &cmdLin
  * Please note: clocks on local and remote systems must be synchronized if you check event log on the latter, in order for this command to work correctly.
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetEventLogRefPoint(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -976,7 +960,6 @@ bool HMScriptRunner::runResetEventLogRefPoint(const int num, const QString &cmdL
  * Disables test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -991,7 +974,6 @@ bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
  * Enables test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1010,7 +992,6 @@ bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
  * result (effects just 1 test probe caused by "Refresh" command).
  * In other words test result will be recorded even if you are using Brief logging mode and test status did not change.
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1020,14 +1001,12 @@ bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
      m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
      return true;
 }
-
 /*****************************************************************
  * Command works similar to RefreshTestByID command - it tells HostMonitor to perform test probe immediately.
  * In contrast to RefreshTestByID command, it can force execution even for test items that were configured with Irregular schedule
  * Params: <TestID>
  *         [forcelog]
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1037,12 +1016,10 @@ bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &c
      m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
      return true;
 }
-
 /*****************************************************************
  * Resets statistics test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1058,7 +1035,6 @@ bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
  * Params: <TestID>
  *         <interval_minutes> [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1074,7 +1050,6 @@ bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
  * Params: <TestID>
  *         <interval_minutes> [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1091,7 +1066,6 @@ bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
  *         [StopAlerts]
  *         [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1106,7 +1080,6 @@ bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
  * This command tells HostMonitor to clear "acknowledged" flag for specified test item(s)
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1123,7 +1096,6 @@ bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &
  *         <ParameterName>
  *         <Value>
  *****************************************************************/
-
 bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1141,7 +1113,6 @@ bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
  *         <Curr. value>
  *         <New value>
  *****************************************************************/
-
 bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1157,7 +1128,6 @@ bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLi
  * Params: <VariableName>
  *         <VariableValue>
  *****************************************************************/
-
 bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1171,7 +1141,6 @@ bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
 /*****************************************************************
  * Saves changes
  *****************************************************************/
-
 bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1185,7 +1154,6 @@ bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
 /*****************************************************************
  * Loads previously saved variables
  *****************************************************************/
-
 bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1200,7 +1168,6 @@ bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
  * Tells HostMonitor to record into common log current test statuses of all test items except items that do not use common log
  * and items that already have recorded (today!) their status into common log
  *****************************************************************/
-
 bool HMScriptRunner::runFlushCommonLog(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1217,7 +1184,6 @@ bool HMScriptRunner::runFlushCommonLog(const int num, const QString &cmdLine)
  * (e.g. you want to "flush" log records at noon instead of midnight or you want to "flush" log records for some specific private logs
  * or you want to "flush" log records twice a day)
  *****************************************************************/
-
 bool HMScriptRunner::runFlushPrivateLogs(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1233,7 +1199,6 @@ bool HMScriptRunner::runFlushPrivateLogs(const int num, const QString &cmdLine)
  * Params: "report profile name"
  *          <target file name>
  *****************************************************************/
-
 bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1248,7 +1213,6 @@ bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
  * Starts external program and continue to execute the script (do not wait until external program will terminate)
  * Params: <CommandLine>
  *****************************************************************/
-
 bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1266,7 +1230,6 @@ bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
  * Params: <TimeToWait>
  *         <CommandLine>
  *****************************************************************/
-
 bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1280,7 +1243,6 @@ bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
 /*****************************************************************
  * Enable alerts
  *****************************************************************/
-
 bool HMScriptRunner::runEnableAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1296,7 +1258,6 @@ bool HMScriptRunner::runEnableAlerts(const int num, const QString &cmdLine)
  * Note: if alerts are disabled then script can be launched manually (menu File->Execute script).
  * Also you may setup built-in Scheduler to execute actions even when alerts are disabled. However if monitoring is stopped, Scheduler will be deactivated.
  *****************************************************************/
-
 bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1313,7 +1274,6 @@ bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
  * All scheduled actions (those that are executed by built-in Scheduler) will continue to execute anyway.
  * Params: <interval>
  *****************************************************************/
-
 bool HMScriptRunner::runPauseAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1328,7 +1288,6 @@ bool HMScriptRunner::runPauseAlerts(const int num, const QString &cmdLine)
  * Pause monitoring for specified time (time should be specified in minutes)
  * Params: <interval>
  *****************************************************************/
-
 bool HMScriptRunner::runPauseMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1342,35 +1301,32 @@ bool HMScriptRunner::runPauseMonitor(const int num, const QString &cmdLine)
 /*****************************************************************
  * Stop monitoring
  *****************************************************************/
-
 bool HMScriptRunner::runStopMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    m_HML->cmdStopMonitoring();
+    return true;
 }
 
 /*****************************************************************
  * Start monitoring
  *****************************************************************/
-
 bool HMScriptRunner::runStartMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    m_HML->cmdStartMonitoring();
+    return true;
 }
 
 /*****************************************************************
  * Quit HostMonitor
  *****************************************************************/
-
 bool HMScriptRunner::runQuitMonitor(const int num, const QString &cmdLine)
 {
     Q_UNUSED(num)

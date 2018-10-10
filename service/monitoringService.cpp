@@ -11,7 +11,7 @@ namespace SDPO {
 MonitoringService::MonitoringService(int threadCount, QObject *parent) :
     QObject(parent)
 {
-    b_Paused = false;
+    b_RunningState = true;
     QThreadPool::globalInstance()->setMaxThreadCount(threadCount);
 }
 
@@ -38,8 +38,11 @@ void MonitoringService::runTest(TNode *item)
     if (item->getType() != TNode::TEST) return;
     TTest* test = qobject_cast<TTest*>(item);
 
-    if (!test->isEnabled()) return;
-    if (test->isPaused()) return;
+    if (!b_RunningState || !test->isEnabled() || test->isPaused()) {
+        test->restart();
+        return;
+    }
+
     MonitoringTask *task = new MonitoringTask(test->test());
     QThreadPool::globalInstance()->start(task);
 }

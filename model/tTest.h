@@ -526,6 +526,7 @@ public:
 
 public slots:
     void onTestPerformed();
+    void restart();
     void slotTimeout();
 
 private:

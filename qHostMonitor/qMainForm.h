@@ -52,9 +52,6 @@ public:
     void setupFolders(HMListService *hml);
     void init();
 
-signals:
-    void testingPaused(bool value);
-
 public slots:
     void resetModel();
     void resetScriptMenu();
@@ -65,6 +62,7 @@ public slots:
     void onTreeFolderChanged();
     void onTreeViewChanged();
     void onActionWinPopup(TTest *test);
+    void onMonitoringStarted(bool value);
 
     void changeEvent(QEvent*event);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -87,8 +85,6 @@ private slots:
     void on_actProperties_triggered();
     void on_actExit_triggered();
     // Monitoring menu
-    void on_actStartMonitoring_triggered();
-    void on_actStopMonitoring_triggered();
     void on_actEnableAlerts_triggered();
     void on_actDisableAlerts_triggered();
     void on_actPause_triggered();
@@ -196,7 +192,6 @@ private slots:
     void on_btnToolbarDel_clicked();
     void on_btnToolbarRefresh_clicked();
     void on_btnToolbarReset_clicked();
-    void on_btnToobarStart_clicked();
     void on_btnToolbarAlert_clicked();
     void on_trvTestList_doubleClicked(const QModelIndex &index);
 

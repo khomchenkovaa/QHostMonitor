@@ -44,14 +44,14 @@ public:
 
     // commands
     bool cmdNewTestList();
-    bool cmdLoadTestList(QString fileName); //! TODO
-    bool cmdAppendTestList(QString fileName); //! TODO
+    bool cmdLoadTestList(QString fileName);                                                                  //! TODO
+    bool cmdAppendTestList(QString fileName);                                                                //! TODO
     bool cmdImportFromFile(QString fileName, bool skipDuplicates = false, bool writeLog = false);
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
     TNode *cmdCreateFolder(QString path);
-    bool cmdSetFolderVariable(TNode* folder, QString varName, QString varValue, bool inheritPartly = false);
-    bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);
+    bool cmdSetFolderVariable(TNode* folder, QString varName, QString varValue, bool inheritPartly = false); //! TODO
+    bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);                  //! TODO
 
 signals:
     void modelAboutToChange();
@@ -68,8 +68,11 @@ signals:
     void linkAdded(TNode *link);
     void linkAboutToDelete(TNode *link);
     void linkDeleted(TNode *folder, TNode* test);
+    void monitoringStarted(bool value);
 
 public slots:
+    void cmdStartMonitoring();
+    void cmdStopMonitoring();
 
 };
 

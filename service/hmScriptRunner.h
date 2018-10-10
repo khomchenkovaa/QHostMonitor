@@ -120,8 +120,8 @@ private:
     bool runUseLinks(const int num, const QString &cmdLine);
 // Folder Modification
     bool runCreateFolder(const int num, const QString &cmdLine);
-    bool runSetFolderVariable(const int num, const QString &cmdLine);       //! TODO
-    bool runSetFolderAgent(const int num, const QString &cmdLine);          //! TODO
+    bool runSetFolderVariable(const int num, const QString &cmdLine);
+    bool runSetFolderAgent(const int num, const QString &cmdLine);
     bool runCopyFolder(const int num, const QString &cmdLine);              //! TODO
     bool runCopyTest(const int num, const QString &cmdLine);                //! TODO
     bool runCopyTestByID(const int num, const QString &cmdLine);            //! TODO
@@ -170,8 +170,8 @@ private:
     bool runDisableAlerts(const int num, const QString &cmdLine);    //! TODO
     bool runPauseAlerts(const int num, const QString &cmdLine);      //! TODO
     bool runPauseMonitor(const int num, const QString &cmdLine);     //! TODO
-    bool runStopMonitor(const int num, const QString &cmdLine);      //! TODO
-    bool runStartMonitor(const int num, const QString &cmdLine);     //! TODO
+    bool runStopMonitor(const int num, const QString &cmdLine);
+    bool runStartMonitor(const int num, const QString &cmdLine);
     bool runQuitMonitor(const int num, const QString &cmdLine);
 
 };

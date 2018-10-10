@@ -32,8 +32,6 @@ Startup::Startup() :
     m_actionService(*new ActionService(&m_HML)),
     m_logService(*new LogService())
 {
-    connect(&m_mainForm, SIGNAL(testingPaused(bool)), &m_testRunner, SLOT(setPaused(bool)));
-
     TEnums::init();
     load();
 
@@ -41,10 +39,11 @@ Startup::Startup() :
     m_mainForm.init();
     m_mainForm.resetScriptMenu();
 
+    connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
     connect(m_HML.rootItem(), SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_actionService, SLOT(runActions(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_logService, SLOT(writeLog(TNode*)));
-    connect(&m_logService, SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));
+    connect(&m_logService,    SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));
     connect(&m_actionService, SIGNAL(actionWinPopup(TTest*)), &m_mainForm, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
     connect(&m_actionService, SIGNAL(actionWriteCommonLog(TTest*)), &m_logService, SLOT(writeCommonLog(TTest*)), Qt::QueuedConnection);
     connect(&m_actionService, SIGNAL(actionWritePrivateLog(TTest*)), &m_logService, SLOT(writePrivateLog(TTest*)), Qt::QueuedConnection);

@@ -127,8 +127,15 @@ void TTest::onTestPerformed()
     // 6. modify current test status and statistisc counters (Status, Reply, Alive%, Passed tests, Failed tests, etc)
     dynamicStatistics(newStatus, newReply, m_test->getReplyDouble(), m_test->getReplyInt());
 
-    m_schedule.start();
+    restart();
     emit testDone(this);
+}
+
+/******************************************************************/
+
+void TTest::restart()
+{
+    m_schedule.start();
 }
 
 /******************************************************************/

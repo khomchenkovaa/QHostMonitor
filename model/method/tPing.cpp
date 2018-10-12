@@ -10,10 +10,12 @@ namespace SDPO {
 TPing::TPing(QString addr, QObject *parent) :
     TTestMethod(TMethodID::Ping, parent)
 {
+    QSettings s;
     a_Address      = addr;
-    a_Packets      = Settings::get(Settings::Ping_Trace, Settings::Packets, QVariant(1)).toInt();
-    a_Timeout      = Settings::get(Settings::Ping_Trace, Settings::Timeout, QVariant(0)).toInt();
-    a_PacketSize   = Settings::get(Settings::Ping_Trace, Settings::PacketSize, QVariant(0)).toInt();
+    a_Packets      = s.value(SKEY_PING_Packets, 1).toInt();
+    a_Timeout      = s.value(SKEY_PING_Timeout, 0).toInt();
+    a_PacketSize   = s.value(SKEY_PING_PacketSize, 0).toInt();
+    a_TimeToLive   = s.value(SKEY_PING_TTL, 3).toInt();
     b_DontFragment = false;
     a_BadCriteria  = 0.9;
     a_DisplayMode  = TPing::Time;
@@ -62,10 +64,9 @@ void TPing::run()
 
 QString TPing::getCommand() const
 {
-    int timeToLive = Settings::get(Settings::Ping_Trace, Settings::TTL, QVariant(3)).toInt();
     QString cmd = "ping";
     if (a_Packets > 0) cmd.append(QString(" -c %1").arg(a_Packets));
-    if (timeToLive > 0) cmd.append(QString(" -t %1").arg(timeToLive));
+    if (a_TimeToLive > 0) cmd.append(QString(" -t %1").arg(a_TimeToLive));
 //    if (a_Timeout > 0) cmd.append(QString(" -W %1").arg(a_Timeout));
     if (a_PacketSize > 0) cmd.append(QString(" -s %1").arg(a_PacketSize));
     if (b_DontFragment) cmd.append(" -M dont");

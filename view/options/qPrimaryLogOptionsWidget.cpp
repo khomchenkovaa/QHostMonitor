@@ -161,7 +161,7 @@ void PrimaryLogOptionsWidget::setPrimaryFileLogName()
 
 /******************************************************************/
 
-void PrimaryLogOptionsWidget::init()
+void PrimaryLogOptionsWidget::init(QSettings *s)
 {
     reset_AlertInaccessible();
     reset_AlertAlive();
@@ -224,7 +224,7 @@ void PrimaryLogOptionsWidget::init()
 
 /******************************************************************/
 
-void PrimaryLogOptionsWidget::prepareToSave()
+void PrimaryLogOptionsWidget::prepareToSave(QSettings *s)
 {
     Settings::set(Settings::Logging1, Settings::Target) = QVariant(ui->cmbPrimaryLogType->currentIndex());
     Settings::set(Settings::Logging1, Settings::SaveMode) = QVariant(ui->cmbPrimaryLogMode->currentIndex());

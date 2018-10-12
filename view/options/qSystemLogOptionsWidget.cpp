@@ -29,33 +29,20 @@ void SystemLogOptionsWidget::on_btnSystemLogFileName_clicked()
 
 /******************************************************************/
 
-void SystemLogOptionsWidget::init()
+void SystemLogOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Logging, Settings::SysLogFileName, QVariant());
-        ui->editSystemLogFileName->setText(value.toString());
-
-    value = Settings::get(Settings::Logging, Settings::LogSuccessActions, QVariant(0));
-        if (value.toInt() == 1) {
-            ui->chkSystemLogSuccessful->setChecked(true);
-        } else {
-            ui->chkSystemLogSuccessful->setChecked(false);
-        }
-
-    value = Settings::get(Settings::Logging, Settings::LogSuccessActions, QVariant(1));
-        if (value.toInt() == 1) {
-            ui->chkSystemLogFailed->setChecked(true);
-        } else {
-            ui->chkSystemLogFailed->setChecked(false);
-        }
+    ui->editSystemLogFileName->setText(s->value(SKEY_LOGGING_SysLogFileName).toString());
+    ui->chkSystemLogSuccessful->setChecked(s->value(SKEY_LOGGING_LogSuccessActions,0).toInt() == 1);
+    ui->chkSystemLogFailed->setChecked(s->value(SKEY_LOGGING_LogFailedActions,0).toInt() == 1);
 }
 
 /******************************************************************/
 
-void SystemLogOptionsWidget::prepareToSave()
+void SystemLogOptionsWidget::prepareToSave(QSettings *s)
 {
-   Settings::set(Settings::Logging, Settings::SysLogFileName) = QVariant(ui->editSystemLogFileName->text());
-   Settings::set(Settings::Logging, Settings::LogSuccessActions) = QVariant(ui->chkSystemLogSuccessful->isChecked()?1:0);
-   Settings::set(Settings::Logging, Settings::LogFailedActions) = QVariant(ui->chkSystemLogFailed->isChecked()?1:0);
+    s->setValue(SKEY_LOGGING_SysLogFileName, ui->editSystemLogFileName->text());
+    s->setValue(SKEY_LOGGING_LogSuccessActions, ui->chkSystemLogSuccessful->isChecked()?1:0);
+    s->setValue(SKEY_LOGGING_LogFailedActions, ui->chkSystemLogFailed->isChecked()?1:0);
 }
 
 /******************************************************************/

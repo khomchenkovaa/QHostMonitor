@@ -33,30 +33,22 @@ void IcqOptionsWidget::on_btnIcqAccountsSwitch_clicked()
 
 /******************************************************************/
 
-void IcqOptionsWidget::init()
+void IcqOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::ICQ, Settings::PrimaryUIN, QVariant(0));
-        ui->cmbPrimaryIcqUin->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::ICQ, Settings::PrimaryPswd, QVariant(0));
-        ui->editPrimaryIcqPassword->setText(value.toString());
-
-    value = Settings::get(Settings::ICQ, Settings::BackupUIN, QVariant(0));
-        ui->cmbBackupIcqUin->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::ICQ, Settings::BackupPswd, QVariant(0));
-        ui->editBackupIcqPassword->setText(value.toString());
+    ui->cmbPrimaryIcqUin->setCurrentText(s->value(SKEY_ICQ_PrimaryUIN).toString());
+    ui->editPrimaryIcqPassword->setText(s->value(SKEY_ICQ_PrimaryPswd).toString());
+    ui->cmbBackupIcqUin->setCurrentText(s->value(SKEY_ICQ_BackupUIN).toString());
+    ui->editBackupIcqPassword->setText(s->value(SKEY_ICQ_BackupPswd).toString());
 }
 
 /******************************************************************/
 
-void IcqOptionsWidget::prepareToSave()
+void IcqOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::ICQ, Settings::PrimaryUIN) = QVariant(ui->cmbPrimaryIcqUin->currentText());
-    Settings::set(Settings::ICQ, Settings::PrimaryPswd) = QVariant(ui->editPrimaryIcqPassword->text());
-    Settings::set(Settings::ICQ, Settings::BackupUIN) = QVariant(ui->cmbBackupIcqUin->currentText());
-    Settings::set(Settings::ICQ, Settings::BackupPswd) = QVariant(ui->editBackupIcqPassword->text());
-
+    s->setValue(SKEY_ICQ_PrimaryUIN,ui->cmbPrimaryIcqUin->currentText());
+    s->setValue(SKEY_ICQ_PrimaryPswd,ui->editPrimaryIcqPassword->text());
+    s->setValue(SKEY_ICQ_BackupUIN,ui->cmbBackupIcqUin->currentText());
+    s->setValue(SKEY_ICQ_BackupPswd,ui->editBackupIcqPassword->text());
 }
 
 /******************************************************************/

@@ -1,13 +1,11 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "gSettings.h"
+
 #include <QVariant>
 #include <QSettings>
 #include <QMetaEnum>
-
-#define ORGANIZATION_NAME "SNIIP"
-#define ORGANIZATION_DOMAIN "www.sniip.ru"
-#define APPLICATION_NAME "SDPO"
 
 namespace SDPO {
 
@@ -73,7 +71,6 @@ public:
         Scheduler,
         TrapListener,
         ActiveRMAServer
-
     };
 
     enum Key{

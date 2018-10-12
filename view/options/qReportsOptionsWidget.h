@@ -18,8 +18,8 @@ public:
     explicit ReportsOptionsWidget(QWidget *parent = 0);
     ~ReportsOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
     void reset_ActionProfileSelect();
 
     private slots:

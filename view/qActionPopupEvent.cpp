@@ -1,7 +1,7 @@
 #include "qActionPopupEvent.h"
 #include "ui_qActionPopupEvent.h"
 #include "tTest.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 namespace SDPO {
 
@@ -67,10 +67,9 @@ void ActionPopupEvent::setupProperties()
     ui->editStatus->setText(m_test->simpleStatus());
     ui->editReply->setText(m_test->getReply());
 
-    QVariant value = Settings::get(Settings::HostMon, Settings::MsgWinTime, QVariant(5));
-    m_closeAfter = value.toInt();
-    value = Settings::get(Settings::HostMon, Settings::MsgWinCloseAuto, QVariant(1));
-    m_autoClose = (value.toInt() == 1);
+    QSettings s;
+    m_closeAfter = s.value(SKEY_HOSTMON_MsgWinTime, 5).toInt();
+    m_autoClose = (s.value(SKEY_HOSTMON_MsgWinCloseAuto, 5).toInt() == 1);
 }
 
 /***********************************************/

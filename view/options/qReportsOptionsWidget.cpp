@@ -121,7 +121,7 @@ void ReportsOptionsWidget::on_btnCreateReport_1_clicked()
 
 /******************************************************************/
 
-void ReportsOptionsWidget::init()
+void ReportsOptionsWidget::init(QSettings *s)
 {
     reset_ActionProfileSelect();
 
@@ -227,7 +227,7 @@ void ReportsOptionsWidget::init()
 
 /******************************************************************/
 
-void ReportsOptionsWidget::prepareToSave()
+void ReportsOptionsWidget::prepareToSave(QSettings *s)
 {
     Settings::set(Settings::Reports, Settings::AutoCreate) = QVariant(ui->chkGenerateReports->isChecked()?1:0);
     Settings::set(Settings::Reports, Settings::Interval) = QVariant(ui->spinGenerateReports->value());

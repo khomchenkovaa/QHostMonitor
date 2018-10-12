@@ -17,8 +17,8 @@ public:
     explicit SmsGsmOptionsWidget(QWidget *parent = 0);
     ~SmsGsmOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
     private slots:
         void on_btnSelectLogFile_clicked();

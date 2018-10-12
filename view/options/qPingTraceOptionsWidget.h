@@ -17,8 +17,8 @@ public:
     explicit PingTraceOptionsWidget(QWidget *parent = 0);
     ~PingTraceOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
 private:
     Ui::PingTraceOptionsWidget *ui;

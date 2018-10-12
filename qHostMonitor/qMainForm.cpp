@@ -35,7 +35,7 @@
 #include "viewmodel/mFoldersAndViewsModel.h"
 #include "viewmodel/mTestListModel.h"
 #include "viewmodel/mTestListSortingModel.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include "io/ioTextFile.h"
 #include "hIOShellScripts.h"
 #include "global/ioUserVarsLoader.h"
@@ -266,10 +266,10 @@ void MainForm::onTreeViewChanged()
 void MainForm::onActionWinPopup(TTest *test)
 {
     ActionPopupEvent dlg(test,this);
-    QVariant value = Settings::get(Settings::HostMon, Settings::MsgWinConstPos, QVariant(0));
-    if (value.toInt()) {
-        int x = Settings::get(Settings::HostMon, Settings::MsgWinXPos, QVariant(200)).toInt();
-        int y = Settings::get(Settings::HostMon, Settings::MsgWinYPos, QVariant(100)).toInt();
+    QSettings s;
+    if (s.value(SKEY_HOSTMON_MsgWinConstPos, 0).toInt()) {
+        int x = s.value(SKEY_HOSTMON_MsgWinXPos, 200).toInt();
+        int y = s.value(SKEY_HOSTMON_MsgWinYPos, 100).toInt();
         dlg.move(x,y);
     }
     dlg.exec();

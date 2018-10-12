@@ -21,45 +21,35 @@ MsgWindowOptionsWidget::~MsgWindowOptionsWidget()
 
 /******************************************************************/
 
-void MsgWindowOptionsWidget::init()
+void MsgWindowOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::HostMon, Settings::MsgWinTime, QVariant(5));
-    ui->spinMWCloseAfter->setValue(value.toInt());
-
-    value = Settings::get(Settings::HostMon, Settings::MsgWinXPos, QVariant(200));
-    ui->spinMsgWinX->setValue(value.toInt());
-
-    value = Settings::get(Settings::HostMon, Settings::MsgWinYPos, QVariant(100));
-    ui->spinMsgWinY->setValue(value.toInt());
-
-    value = Settings::get(Settings::HostMon, Settings::MsgWinConstPos, QVariant(0));
-    if (value.toInt() == 1) {
+    ui->spinMWCloseAfter->setValue(s->value(SKEY_HOSTMON_MsgWinTime,5).toInt());
+    ui->spinMsgWinX->setValue(s->value(SKEY_HOSTMON_MsgWinXPos,200).toInt());
+    ui->spinMsgWinY->setValue(s->value(SKEY_HOSTMON_MsgWinYPos,100).toInt());
+    if (s->value(SKEY_HOSTMON_MsgWinConstPos,0).toInt()) {
         ui->rbMWPredefinedPosition->setChecked(true);
     } else {
         ui->rbMWShowInLastPosition->setChecked(true);
     }
-
-    value = Settings::get(Settings::HostMon, Settings::MsgWinCloseAuto, QVariant(1));
-    if (value.toInt() == 1) {
+    if (s->value(SKEY_HOSTMON_MsgWinCloseAuto,1).toInt() == 1) {
         ui->rbMWCloseAfter->setChecked(true);
     } else {
         ui->rbMWCloseManually->setChecked(true);
     }
-
-    value = Settings::get(Settings::HostMon, Settings::MsgWinStayTop, QVariant(1));
-    ui->chkMWStayOnTop->setChecked(value.toInt()==1);
+    ui->chkMWStayOnTop->setChecked(s->value(SKEY_HOSTMON_MsgWinStayTop,1).toInt()==1);
 }
 
 /******************************************************************/
 
-void MsgWindowOptionsWidget::prepareToSave()
+void MsgWindowOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::HostMon, Settings::MsgWinTime) = QVariant(ui->spinMWCloseAfter->value());
-    Settings::set(Settings::HostMon, Settings::MsgWinXPos) = QVariant(ui->spinMsgWinX->value());
-    Settings::set(Settings::HostMon, Settings::MsgWinYPos) = QVariant(ui->spinMsgWinY->value());
-    Settings::set(Settings::HostMon, Settings::MsgWinConstPos) = QVariant(ui->rbMWPredefinedPosition->isChecked()?1:0);
-    Settings::set(Settings::HostMon, Settings::MsgWinCloseAuto) = QVariant(ui->rbMWCloseAfter->isChecked()?1:0);
-    Settings::set(Settings::HostMon, Settings::MsgWinStayTop) = QVariant(ui->chkMWStayOnTop->isChecked()?1:0);
+    s->setValue(SKEY_HOSTMON_MsgWinTime, ui->spinMWCloseAfter->value());
+    s->setValue(SKEY_HOSTMON_MsgWinXPos, ui->spinMsgWinX->value());
+    s->setValue(SKEY_HOSTMON_MsgWinYPos, ui->spinMsgWinY->value());
+
+    s->setValue(SKEY_HOSTMON_MsgWinConstPos, ui->rbMWPredefinedPosition->isChecked()?1:0);
+    s->setValue(SKEY_HOSTMON_MsgWinCloseAuto, ui->rbMWCloseAfter->isChecked()?1:0);
+    s->setValue(SKEY_HOSTMON_MsgWinStayTop, ui->chkMWStayOnTop->isChecked()?1:0);
 }
 
 /******************************************************************/

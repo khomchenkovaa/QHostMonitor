@@ -1279,8 +1279,22 @@ bool HMScriptRunner::runPauseAlerts(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 1)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    }
+
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no interval\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    bool ok;
+    int interval = cmdList.first().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: In Command '%2' interval is not a number in minutes\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+     m_HML->cmdAlertsPause(interval);
      return true;
 }
 
@@ -1293,9 +1307,22 @@ bool HMScriptRunner::runPauseMonitor(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 1)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no interval\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    bool ok;
+    int interval = cmdList.first().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: In Command '%2' interval is not a number in minutes\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    m_HML->cmdMonitoringPause(interval);
+    return true;
 }
 
 /*****************************************************************

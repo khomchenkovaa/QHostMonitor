@@ -74,8 +74,10 @@ signals:
 public slots:
     void cmdAlertsEnable();
     void cmdAlertsDisable();
+    void cmdAlertsPause(int interval);
     void cmdMonitoringStart();
     void cmdMonitoringStop();
+    void cmdMonitoringPause(int interval);
 
 };
 

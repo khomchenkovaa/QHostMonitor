@@ -109,62 +109,64 @@ void OptionsForm::on_FinishCancelHelpBtn_accepted()
 
 void OptionsForm::init()
 {
-    ui->wPreferences->init();
-    ui->wBehavior->init();
-    ui->wStartupOptions->init();
-    ui->wService->init();
-    ui->wAccessMethod->init();
-    ui->wProxy->init();
-    ui->wPrimaryLog->init();
-    ui->wBackupLog->init();
-    ui->wSystemLog->init();
-    ui->wLogProcessing->init();
-    ui->wHtmlColors->init();
-    ui->wViewers->init();
-    ui->wReports->init();
-    ui->wMsgWindow->init();
-    ui->wMailerSettings->init();
-    ui->wPagers->init();
-    ui->wIcq->init();
-    ui->wJabber->init();
-    ui->wSmsGsm->init();
-    ui->wSmsSmpp->init();
-    ui->wPingTrace->init();
-    ui->wRci->init();
-    ui->wActiveRma->init();
-    ui->wScheduler->init();
-    ui->wMisc->init();
+    QSettings s;
+    ui->wPreferences->init(&s);
+    ui->wBehavior->init(&s);
+    ui->wStartupOptions->init(&s);
+    ui->wService->init(&s);
+    ui->wAccessMethod->init(&s);
+    ui->wProxy->init(&s);
+    ui->wPrimaryLog->init(&s);
+    ui->wBackupLog->init(&s);
+    ui->wSystemLog->init(&s);
+    ui->wLogProcessing->init(&s);
+    ui->wHtmlColors->init(&s);
+    ui->wViewers->init(&s);
+    ui->wReports->init(&s);
+    ui->wMsgWindow->init(&s);
+    ui->wMailerSettings->init(&s);
+    ui->wPagers->init(&s);
+    ui->wIcq->init(&s);
+    ui->wJabber->init(&s);
+    ui->wSmsGsm->init(&s);
+    ui->wSmsSmpp->init(&s);
+    ui->wPingTrace->init(&s);
+    ui->wRci->init(&s);
+    ui->wActiveRma->init(&s);
+    ui->wScheduler->init(&s);
+    ui->wMisc->init(&s);
 }
 
 /******************************************************************/
 
 void OptionsForm::prepareToSave()
 {
-    ui->wPreferences->prepareToSave();
-    ui->wBehavior->prepareToSave();
-    ui->wStartupOptions->prepareToSave();
-    ui->wService->prepareToSave();
-    ui->wAccessMethod->prepareToSave();
-    ui->wProxy->prepareToSave();
-    ui->wPrimaryLog->prepareToSave();
-    ui->wBackupLog->prepareToSave();
-    ui->wSystemLog->prepareToSave();
-    ui->wLogProcessing->prepareToSave();
-    ui->wHtmlColors->prepareToSave();
-    ui->wViewers->prepareToSave();
-    ui->wReports->prepareToSave();
-    ui->wMsgWindow->prepareToSave();
-    ui->wMailerSettings->prepareToSave();
-    ui->wPagers->prepareToSave();
-    ui->wIcq->prepareToSave();
-    ui->wJabber->prepareToSave();
-    ui->wSmsGsm->prepareToSave();
-    ui->wSmsSmpp->prepareToSave();
-    ui->wPingTrace->prepareToSave();
-    ui->wRci->prepareToSave();
-    ui->wActiveRma->prepareToSave();
-    ui->wScheduler->prepareToSave();
-    ui->wMisc->prepareToSave();
+    QSettings s;
+    ui->wPreferences->prepareToSave(&s);
+    ui->wBehavior->prepareToSave(&s);
+    ui->wStartupOptions->prepareToSave(&s);
+    ui->wService->prepareToSave(&s);
+    ui->wAccessMethod->prepareToSave(&s);
+    ui->wProxy->prepareToSave(&s);
+    ui->wPrimaryLog->prepareToSave(&s);
+    ui->wBackupLog->prepareToSave(&s);
+    ui->wSystemLog->prepareToSave(&s);
+    ui->wLogProcessing->prepareToSave(&s);
+    ui->wHtmlColors->prepareToSave(&s);
+    ui->wViewers->prepareToSave(&s);
+    ui->wReports->prepareToSave(&s);
+    ui->wMsgWindow->prepareToSave(&s);
+    ui->wMailerSettings->prepareToSave(&s);
+    ui->wPagers->prepareToSave(&s);
+    ui->wIcq->prepareToSave(&s);
+    ui->wJabber->prepareToSave(&s);
+    ui->wSmsGsm->prepareToSave(&s);
+    ui->wSmsSmpp->prepareToSave(&s);
+    ui->wPingTrace->prepareToSave(&s);
+    ui->wRci->prepareToSave(&s);
+    ui->wActiveRma->prepareToSave(&s);
+    ui->wScheduler->prepareToSave(&s);
+    ui->wMisc->prepareToSave(&s);
 }
 
 /******************************************************************/

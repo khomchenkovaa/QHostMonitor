@@ -32,70 +32,47 @@ void SmsGsmOptionsWidget::on_btnSelectLogFile_clicked()
 
 /******************************************************************/
 
-void SmsGsmOptionsWidget::init()
+void SmsGsmOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::GSM, Settings::Primary_ComPort, QVariant("COM1"));
-        ui->cmbPrimaryComPort->setCurrentText(value.toString());
+    ui->cmbPrimaryComPort->setCurrentText(s->value(SKEY_GSM_PrimaryComPort,"COM1").toString());
+    ui->cmbPrimaryBaudRate->setCurrentText(s->value(SKEY_GSM_PrimaryBaudRate,"19200").toString());
+    ui->cmbPrimaryModemType->setCurrentText(s->value(SKEY_GSM_PrimaryModem,"Siemens A1").toString());
+    ui->cmbPrimaryMode->setCurrentText(s->value(SKEY_GSM_PrimarySMSFormat,"PDU").toString());
+    ui->editPrimaryPin->setText(s->value(SKEY_GSM_PrimaryPIN,"1111").toString());
+    ui->editPrimaryServiceCenter->setText(s->value(SKEY_GSM_PrimarySCA).toString());
 
-    value = Settings::get(Settings::GSM, Settings::Primary_BaudRate, QVariant("19200"));
-        ui->cmbPrimaryBaudRate->setCurrentText(value.toString());
+    ui->cmbBackupComPort->setCurrentText(s->value(SKEY_GSM_BackupComPort,"COM2").toString());
+    ui->cmbBackupBaudRate->setCurrentText(s->value(SKEY_GSM_BackupBaudRate,"19200").toString());
+    ui->cmbBackupModemType->setCurrentText(s->value(SKEY_GSM_BackupModem,"Nokia 6650").toString());
+    ui->cmbBackupMode->setCurrentText(s->value(SKEY_GSM_BackupSMSFormat,"PDU").toString());
+    ui->editBackupPin->setText(s->value(SKEY_GSM_BackupPIN,"1111").toString());
+    ui->editBackupServiceCenter->setText(s->value(SKEY_GSM_BackupSCA).toString());
 
-    value = Settings::get(Settings::GSM, Settings::Primary_Modem, QVariant("Siemens A1"));
-        ui->cmbPrimaryModemType->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Primary_SMSFormat, QVariant("PDU"));
-        ui->cmbPrimaryMode->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Primary_PIN, QVariant("1111"));
-        ui->editPrimaryPin->setText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Primary_SCA, QVariant());
-        ui->editPrimaryServiceCenter->setText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_ComPort, QVariant("COM2"));
-        ui->cmbBackupComPort->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_BaudRate, QVariant("19200"));
-        ui->cmbBackupBaudRate->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_Modem, QVariant("Nokia 6650"));
-        ui->cmbBackupModemType->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_SMSFormat, QVariant("PDU"));
-        ui->cmbBackupMode->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_PIN, QVariant("1111"));
-        ui->editBackupPin->setText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::Backup_SCA, QVariant());
-        ui->editBackupServiceCenter->setText(value.toString());
-
-    value = Settings::get(Settings::GSM, Settings::LogMode, QVariant(2));
-        ui->cmbSmsLog->setCurrentIndex(value.toInt());
-
-    QString curFolder = QCoreApplication::applicationDirPath() + "/logs/";
-    value = Settings::get(Settings::GSM, Settings::LogFile, QVariant(curFolder + "smslog.txt"));
-        ui->editLogFile->setText(value.toString());
+    ui->cmbSmsLog->setCurrentIndex(s->value(SKEY_GSM_LogMode,2).toInt());
+    QString logFile = QCoreApplication::applicationDirPath() + "/logs/smslog.txt";
+    ui->editLogFile->setText(s->value(SKEY_GSM_LogFile,logFile).toString());
 }
 
 /******************************************************************/
 
-void SmsGsmOptionsWidget::prepareToSave()
+void SmsGsmOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::GSM, Settings::Primary_ComPort) = QVariant(ui->cmbPrimaryComPort->currentText());
-    Settings::set(Settings::GSM, Settings::Primary_BaudRate) = QVariant(ui->cmbPrimaryBaudRate->currentText());
-    Settings::set(Settings::GSM, Settings::Primary_Modem) = QVariant(ui->cmbPrimaryModemType->currentText());
-    Settings::set(Settings::GSM, Settings::Primary_SMSFormat) = QVariant(ui->cmbPrimaryMode->currentText());
-    Settings::set(Settings::GSM, Settings::Primary_PIN) = QVariant(ui->editPrimaryPin->text());
-    Settings::set(Settings::GSM, Settings::Primary_SCA) = QVariant(ui->editPrimaryServiceCenter->text());
-    Settings::set(Settings::GSM, Settings::Backup_ComPort) = QVariant(ui->cmbBackupComPort->currentText());
-    Settings::set(Settings::GSM, Settings::Backup_BaudRate) = QVariant(ui->cmbBackupBaudRate->currentText());
-    Settings::set(Settings::GSM, Settings::Backup_Modem) = QVariant(ui->cmbBackupModemType->currentText());
-    Settings::set(Settings::GSM, Settings::Backup_SMSFormat) = QVariant(ui->cmbBackupMode->currentText());
-    Settings::set(Settings::GSM, Settings::Backup_PIN) = QVariant(ui->editBackupPin->text());
-    Settings::set(Settings::GSM, Settings::Backup_SCA) = QVariant(ui->editBackupServiceCenter->text());
-    Settings::set(Settings::GSM, Settings::LogMode) = QVariant(ui->cmbSmsLog->currentIndex());
-    Settings::set(Settings::GSM, Settings::LogFile) = QVariant(ui->editLogFile->text());
+    s->setValue(SKEY_GSM_PrimaryComPort, ui->cmbPrimaryComPort->currentText());
+    s->setValue(SKEY_GSM_PrimaryBaudRate, ui->cmbPrimaryBaudRate->currentText());
+    s->setValue(SKEY_GSM_PrimaryModem, ui->cmbPrimaryModemType->currentText());
+    s->setValue(SKEY_GSM_PrimarySMSFormat, ui->cmbPrimaryMode->currentText());
+    s->setValue(SKEY_GSM_PrimaryPIN, ui->editPrimaryPin->text());
+    s->setValue(SKEY_GSM_PrimarySCA, ui->editPrimaryServiceCenter->text());
+
+    s->setValue(SKEY_GSM_BackupComPort, ui->cmbBackupComPort->currentText());
+    s->setValue(SKEY_GSM_BackupBaudRate, ui->cmbBackupBaudRate->currentText());
+    s->setValue(SKEY_GSM_BackupModem, ui->cmbBackupModemType->currentText());
+    s->setValue(SKEY_GSM_BackupSMSFormat, ui->cmbBackupMode->currentText());
+    s->setValue(SKEY_GSM_BackupPIN, ui->editBackupPin->text());
+    s->setValue(SKEY_GSM_BackupSCA, ui->editBackupServiceCenter->text());
+
+    s->setValue(SKEY_GSM_LogMode, ui->cmbSmsLog->currentIndex());
+    s->setValue(SKEY_GSM_LogFile, ui->editLogFile->text());
 }
 
 /******************************************************************/

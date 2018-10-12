@@ -17,8 +17,8 @@ public:
     explicit SmsSmppOptionsWidget(QWidget *parent = 0);
     ~SmsSmppOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
 private:
     Ui::SmsSmppOptionsWidget *ui;

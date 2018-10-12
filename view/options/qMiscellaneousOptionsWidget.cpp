@@ -51,167 +51,67 @@ void MiscellaneousOptionsWidget::on_btnSelectActionProfile_clicked()
 
 /******************************************************************/
 
-void MiscellaneousOptionsWidget::init()
+void MiscellaneousOptionsWidget::init(QSettings *s)
 {
-        /******************************************************************/
+    QVariant value;
 
-    QVariant value = Settings::get(Settings::FixedFormats, Settings::UseFixedFormats, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkDateTimeFixed->setChecked(true);
-        else
-            ui->chkDateTimeFixed->setChecked(false);
-        on_selectDateFormat();
-        connect(ui->chkDateTimeFixed, SIGNAL(clicked()),this, SLOT(on_selectDateFormat()));
+    // Date & Time format
+    ui->chkDateTimeFixed->setChecked(s->value(SKEY_FORMATS_UseFixedFormats,0).toInt());
+    on_selectDateFormat();
+    connect(ui->chkDateTimeFixed, SIGNAL(clicked()),this, SLOT(on_selectDateFormat()));
+    ui->cmbDateFormat->setCurrentIndex(s->value(SKEY_FORMATS_FixedDateFormat,3).toInt());
+    ui->cmbTimeFormat->setCurrentIndex(s->value(SKEY_FORMATS_FixedTimeFormat,0).toInt());
 
-    value = Settings::get(Settings::FixedFormats, Settings::FixedDateFormat, QVariant(3));
-        ui->cmbDateFormat->setCurrentIndex(value.toInt());
+    // Reports & Statistics
+    ui->chkShowFolderNames->setChecked(s->value(SKEY_REPORTS_ShowFolders,0).toInt());
+    ui->chkSkipEmptyFolders->setChecked(s->value(SKEY_REPORTS_SkipEmptyFolders,1).toInt());
+    if (s->value(SKEY_MISC_AliveDeadRatioMode,0).toInt()) {
+        ui->rbDisplayRatioTime->setChecked(true);
+    } else {
+        ui->rbDisplayRatioTests->setChecked(true);
+    }
+    ui->spinPrecision->setValue(s->value(SKEY_ENVIRON_DigitsAfterDotStat,2).toInt());
 
-    value = Settings::get(Settings::FixedFormats, Settings::FixedTimeFormat, QVariant(0));
-        ui->cmbTimeFormat->setCurrentIndex(value.toInt());
+    // ODBC tests & logging
+    ui->chkNotSqlFetch->setChecked(s->value(SKEY_MISC_DoNotUseSqlFetchAbsolute,1).toInt());
+    if(s->value(SKEY_MISC_ODBCUseSystemDSN,1).toInt()) {
+        ui->rbDsnSystem->setChecked(true);
+    } else {
+        ui->rbDsnUser->setChecked(true);
+    }
+    ui->chkEnableConnectionPooling->setChecked(s->value(SKEY_MISC_ODBCConnectionPooling,0).toInt());
 
-        /******************************************************************/
+    // RMA / Logging
+    if (s->value(SKEY_LOGGING_RecordPrimaryRMAErrors,1).toInt()) {
+        ui->rbRequestBackup->setChecked(true);
+    } else {
+        ui->rbSetUnknown->setChecked(true);
+    }
+    ui->chkLogAboutInactive->setChecked(s->value(SKEY_LOGGING_LogStateChanges,0).toInt());
 
-    value = Settings::get(Settings::Reports, Settings::ShowFolders, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkShowFolderNames->setChecked(true);
-        else
-            ui->chkShowFolderNames->setChecked(false);
+    // Update check
+    if (s->value(SKEY_UPDATE_AutoMode,1).toInt()) {
+        ui->rbNoUpdates->setChecked(true);
+    } else {
+        ui->rbUpdateCheck->setChecked(true);
+    }
 
-    value = Settings::get(Settings::Reports, Settings::SkipEmptyFolders, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkSkipEmptyFolders->setChecked(true);
-        else
-            ui->chkSkipEmptyFolders->setChecked(false);
+    // SSL options
+    ui->chkAcceptInvalidHostsPop3->setChecked(s->value(SKEY_MISC_sslAnyHostPOP3,0).toInt());
+    ui->chkAcceptInvalidDatesPop3->setChecked(s->value(SKEY_MISC_sslAnyDatePOP3,0).toInt());
+    ui->chkIgnoreAuthorityPop3->setChecked(s->value(SKEY_MISC_sslAnyAuthPOP3,0).toInt());
+    ui->chkAcceptInvalidHostsImap->setChecked(s->value(SKEY_MISC_sslAnyHostIMAP,0).toInt());
+    ui->chkAcceptInvalidDatesImap->setChecked(s->value(SKEY_MISC_sslAnyDateIMAP,0).toInt());
+    ui->chkIgnoreAuthorityImap->setChecked(s->value(SKEY_MISC_sslAnyAuthIMAP,0).toInt());
+    ui->chkAcceptInvalidHostsLdap->setChecked(s->value(SKEY_MISC_sslAnyHostLDAP,0).toInt());
+    ui->chkAcceptInvalidDatesLdap->setChecked(s->value(SKEY_MISC_sslAnyDateLDAP,0).toInt());
+    ui->chkIgnoreAuthorityLdap->setChecked(s->value(SKEY_MISC_sslAnyAuthLDAP,0).toInt());
 
-    value = Settings::get(Settings::Misc, Settings::AliveDeadRatioMode, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbDisplayRatioTests->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbDisplayRatioTime->setChecked(true);
-
-    value = Settings::get(Settings::Environ, Settings::DigitsAfterDotStat, QVariant(2));
-        ui->spinPrecision->setValue(value.toInt());
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::Misc, Settings::DoNotUse_SqlFetchAbsolute, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkNotSqlFetch->setChecked(true);
-        else
-            ui->chkNotSqlFetch->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::ODBC_UseSystemDSN, QVariant(1));
-        if (value.toInt() == 0)
-            ui->rbDsnUser->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbDsnSystem->setChecked(true);
-
-    value = Settings::get(Settings::Misc, Settings::ODBC_ConnectionPooling, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkEnableConnectionPooling->setChecked(true);
-        else
-            ui->chkEnableConnectionPooling->setChecked(false);
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::Logging, Settings::RecordPrimaryRMAErrors, QVariant(1));
-        if (value.toInt() == 0)
-            ui->rbSetUnknown->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbRequestBackup->setChecked(true);
-
-    value = Settings::get(Settings::Logging, Settings::LogStateChanges, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkLogAboutInactive->setChecked(true);
-        else
-            ui->chkLogAboutInactive->setChecked(false);
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::UpdateCheck, Settings::AutoMode, QVariant(1));
-        if (value.toInt() == 0)
-            ui->rbUpdateCheck->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbNoUpdates->setChecked(true);
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyHostPOP3, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidHostsPop3->setChecked(true);
-        else
-            ui->chkAcceptInvalidHostsPop3->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyDatePOP3, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidDatesPop3->setChecked(true);
-        else
-            ui->chkAcceptInvalidDatesPop3->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyAuthPOP3, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkIgnoreAuthorityPop3->setChecked(true);
-        else
-            ui->chkIgnoreAuthorityPop3->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyHostIMAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidHostsImap->setChecked(true);
-        else
-            ui->chkAcceptInvalidHostsImap->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyDateIMAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidDatesImap->setChecked(true);
-        else
-            ui->chkAcceptInvalidDatesImap->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyAuthIMAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkIgnoreAuthorityImap->setChecked(true);
-        else
-            ui->chkIgnoreAuthorityImap->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyHostLDAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidHostsLdap->setChecked(true);
-        else
-            ui->chkAcceptInvalidHostsLdap->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyDateLDAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidDatesLdap->setChecked(true);
-        else
-            ui->chkAcceptInvalidDatesLdap->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::sslAnyAuthLDAP, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkIgnoreAuthorityLdap->setChecked(true);
-        else
-            ui->chkIgnoreAuthorityLdap->setChecked(false);
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::HostMon, Settings::CheckInternetConnection, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkNotCheckConnection->setChecked(true);
-        else
-            ui->chkNotCheckConnection->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::DefAgentName, QVariant(4));
-        ui->cmbAgentName->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Misc, Settings::IGNORE_CERT_CN_INVALID, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidHosts->setChecked(true);
-        else
-            ui->chkAcceptInvalidHosts->setChecked(false);
-
-    value = Settings::get(Settings::Misc, Settings::IGNORE_CERT_DATE_INVALID, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkAcceptInvalidDates->setChecked(true);
-        else
-            ui->chkAcceptInvalidDates->setChecked(false);
+    // Settings for URL tests
+    ui->chkNotCheckConnection->setChecked(s->value(SKEY_HOSTMON_CheckInternetConnection,0).toInt());
+    ui->cmbAgentName->setCurrentText(s->value(SKEY_MISC_DefAgentName, "KSHostMonitor:/1.0").toString());
+    ui->chkAcceptInvalidHosts->setChecked(s->value(SKEY_MISC_IgnoreCertCnInvalid,0).toInt());
+    ui->chkAcceptInvalidDates->setChecked(s->value(SKEY_MISC_IgnoreCertDateInvalid,0).toInt());
 
         /******************************************************************/
 
@@ -308,59 +208,49 @@ void MiscellaneousOptionsWidget::init()
 
 /******************************************************************/
 
-void MiscellaneousOptionsWidget::prepareToSave()
+void MiscellaneousOptionsWidget::prepareToSave(QSettings *s)
 {      
-    Settings::set(Settings::FixedFormats, Settings::UseFixedFormats) = QVariant(ui->chkDateTimeFixed->isChecked()?1:0);
-    Settings::set(Settings::FixedFormats, Settings::FixedDateFormat) = QVariant(ui->cmbDateFormat->currentIndex());
-    Settings::set(Settings::FixedFormats, Settings::FixedTimeFormat) = QVariant(ui->cmbTimeFormat->currentIndex());
-    Settings::set(Settings::Reports, Settings::ShowFolders) = QVariant(ui->chkShowFolderNames->isChecked()?1:0);
-    Settings::set(Settings::Reports, Settings::SkipEmptyFolders) = QVariant(ui->chkSkipEmptyFolders->isChecked()?1:0);
+    // Date & Time format
+    s->setValue(SKEY_FORMATS_UseFixedFormats, ui->chkDateTimeFixed->isChecked()?1:0);
+    s->setValue(SKEY_FORMATS_FixedDateFormat, ui->cmbDateFormat->currentIndex());
+    s->setValue(SKEY_FORMATS_FixedTimeFormat, ui->cmbTimeFormat->currentIndex());
 
-    int DisplayRatio;
-        if(ui->rbDisplayRatioTests->isChecked())
-            DisplayRatio = 0;
-        else if (ui->rbDisplayRatioTime->isChecked())
-            DisplayRatio = 1;
-    Settings::set(Settings::Misc, Settings::AliveDeadRatioMode) = QVariant(DisplayRatio);
-    Settings::set(Settings::Environ, Settings::DigitsAfterDotStat) = QVariant(ui->spinPrecision->value());
-    Settings::set(Settings::Misc, Settings::DoNotUse_SqlFetchAbsolute) = QVariant(ui->chkNotSqlFetch->isChecked()?1:0);
+    // Reports & Statistics
+    s->setValue(SKEY_REPORTS_ShowFolders, ui->chkShowFolderNames->isChecked()?1:0);
+    s->setValue(SKEY_REPORTS_SkipEmptyFolders, ui->chkSkipEmptyFolders->isChecked()?1:0);
+    s->setValue(SKEY_MISC_AliveDeadRatioMode, ui->rbDisplayRatioTime->isChecked()?1:0);
+    s->setValue(SKEY_ENVIRON_DigitsAfterDotStat, ui->spinPrecision->value());
 
-    int DsnSelect;
-        if(ui->rbDsnUser->isChecked())
-            DsnSelect = 0;
-        else if (ui->rbDsnSystem->isChecked())
-            DsnSelect = 1;
-    Settings::set(Settings::Misc, Settings::ODBC_UseSystemDSN) = QVariant(DsnSelect);
-    Settings::set(Settings::Misc, Settings::ODBC_ConnectionPooling) = QVariant(ui->chkEnableConnectionPooling->isChecked()?1:0);
-    Settings::set(Settings::Logging, Settings::LogStateChanges) = QVariant(ui->chkLogAboutInactive->isChecked()?1:0);
+    // ODBC tests & logging
+    s->setValue(SKEY_MISC_DoNotUseSqlFetchAbsolute, ui->chkNotSqlFetch->isChecked()?1:0);
+    s->setValue(SKEY_MISC_ODBCUseSystemDSN, ui->rbDsnSystem->isChecked()?1:0);
+    s->setValue(SKEY_MISC_ODBCConnectionPooling, ui->chkEnableConnectionPooling->isChecked()?1:0);
 
-    int primaryRmaFailed;
-        if(ui->rbSetUnknown->isChecked())
-            primaryRmaFailed = 0;
-        else if (ui->rbRequestBackup->isChecked())
-            primaryRmaFailed = 1;
-    Settings::set(Settings::Logging, Settings::RecordPrimaryRMAErrors) = QVariant(primaryRmaFailed);
+    // RMA / Logging
+    s->setValue(SKEY_LOGGING_RecordPrimaryRMAErrors, ui->rbRequestBackup->isChecked()?1:0);
+    s->setValue(SKEY_LOGGING_LogStateChanges, ui->chkLogAboutInactive->isChecked()?1:0);
 
-    int updateCheck;
-    if (ui->rbUpdateCheck->isChecked())
-        updateCheck = 0;
-    else if (ui->rbNoUpdates->isChecked())
-        updateCheck = 1;
-    Settings::set(Settings::UpdateCheck, Settings::AutoMode) = QVariant(updateCheck);
-    Settings::set(Settings::Misc, Settings::sslAnyHostPOP3) = QVariant(ui->chkAcceptInvalidHostsPop3->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyDatePOP3) = QVariant(ui->chkAcceptInvalidDatesPop3->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyAuthPOP3) = QVariant(ui->chkIgnoreAuthorityPop3->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyHostIMAP) = QVariant(ui->chkAcceptInvalidHostsImap->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyDateIMAP) = QVariant(ui->chkAcceptInvalidDatesImap->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyAuthIMAP) = QVariant(ui->chkIgnoreAuthorityImap->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyHostLDAP) = QVariant(ui->chkAcceptInvalidHostsLdap->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyDateLDAP) = QVariant(ui->chkAcceptInvalidDatesLdap->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::sslAnyAuthLDAP) = QVariant(ui->chkIgnoreAuthorityLdap->isChecked()?1:0);
-    Settings::set(Settings::HostMon, Settings::CheckInternetConnection) = QVariant(ui->chkNotCheckConnection->isChecked()?1:0);
-    Settings::set(Settings::HostMon, Settings::CheckInternetConnection) = QVariant(ui->chkNotCheckConnection->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::DefAgentName) = QVariant(ui->cmbAgentName->currentText());
-    Settings::set(Settings::Misc, Settings::IGNORE_CERT_CN_INVALID) = QVariant(ui->chkAcceptInvalidHosts->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::IGNORE_CERT_DATE_INVALID) = QVariant(ui->chkAcceptInvalidDates->isChecked()?1:0);
+    // Update check
+    s->setValue(SKEY_UPDATE_AutoMode, ui->rbNoUpdates->isChecked()?1:0);
+
+    // SSL options
+    s->setValue(SKEY_MISC_sslAnyHostPOP3, ui->chkAcceptInvalidHostsPop3->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyDatePOP3, ui->chkAcceptInvalidDatesPop3->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyAuthPOP3, ui->chkIgnoreAuthorityPop3->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyHostIMAP, ui->chkAcceptInvalidHostsImap->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyDateIMAP, ui->chkAcceptInvalidDatesImap->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyAuthIMAP, ui->chkIgnoreAuthorityImap->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyHostLDAP, ui->chkAcceptInvalidHostsLdap->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyDateLDAP, ui->chkAcceptInvalidDatesLdap->isChecked()?1:0);
+    s->setValue(SKEY_MISC_sslAnyAuthLDAP, ui->chkIgnoreAuthorityLdap->isChecked()?1:0);
+
+    // Settings for URL tests
+    s->setValue(SKEY_HOSTMON_CheckInternetConnection, ui->chkNotCheckConnection->isChecked()?1:0);
+    s->setValue(SKEY_MISC_DefAgentName, ui->cmbAgentName->currentText());
+    s->setValue(SKEY_MISC_IgnoreCertCnInvalid, ui->chkAcceptInvalidHosts->isChecked()?1:0);
+    s->setValue(SKEY_MISC_IgnoreCertDateInvalid, ui->chkAcceptInvalidDates->isChecked()?1:0);
+
+
     Settings::set(Settings::Misc, Settings::UNCRetries) = QVariant(ui->spinUncRetries->value());
 
     int UncStatus;

@@ -25,17 +25,16 @@ HtmlColorsOptionsWidget::~HtmlColorsOptionsWidget()
 
 /******************************************************************/
 
-void HtmlColorsOptionsWidget::init()
+void HtmlColorsOptionsWidget::init(QSettings *s)
 {
-     QVariant value = Settings::get(Settings::Interface, Settings::DefaultLogPaletteID, QVariant("Grey"));
-     ui->editColorScheme->setText(value.toString());
+     ui->editColorScheme->setText(s->value(SKEY_INTERFACE_DefaultLogPaletteID, "Grey").toString());
 }
 
 /******************************************************************/
 
-void HtmlColorsOptionsWidget::prepareToSave()
+void HtmlColorsOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Interface, Settings::DefaultLogPaletteID) = QVariant(ui->editColorScheme->text());
+    s->setValue(SKEY_INTERFACE_DefaultLogPaletteID, ui->editColorScheme->text());
 }
 
 /******************************************************************/

@@ -25,6 +25,7 @@ private:
     AUTO_PROPERTY(int, Timeout)
     AUTO_PROPERTY(int, PacketSize)
     AUTO_PROPERTY(int, Packets)
+    AUTO_PROPERTY(int, TimeToLive)
     BOOL_PROPERTY(DontFragment)
     AUTO_PROPERTY(float, BadCriteria)
     AUTO_PROPERTY(DisplayMode, DisplayMode)

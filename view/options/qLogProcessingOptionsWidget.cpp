@@ -21,7 +21,7 @@ LogProcessingOptionsWidget::~LogProcessingOptionsWidget()
 
 /******************************************************************/
 
-void LogProcessingOptionsWidget::init()
+void LogProcessingOptionsWidget::init(QSettings *s)
 {
     QVariant value = Settings::get(Settings::Logging, Settings::UseBothLogs, QVariant(0));
         if (value.toInt() == 0)
@@ -88,7 +88,7 @@ void LogProcessingOptionsWidget::init()
 /******************************************************************/
 
 
-void LogProcessingOptionsWidget::prepareToSave()
+void LogProcessingOptionsWidget::prepareToSave(QSettings *s)
 {
     int BothsLogs;
     if (ui->rbLogProcessingBackup->isChecked())

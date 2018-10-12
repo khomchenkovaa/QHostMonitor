@@ -13,7 +13,8 @@ HEADERS += \
     $$PWD/lib/qdbf/qdbf_global.h \
     $$PWD/lib/qdbf/qdbfrecord.h \
     $$PWD/lib/qdbf/qdbftable.h \
-    $$PWD/lib/qdbf/qdbftablemodel.h
+    $$PWD/lib/qdbf/qdbftablemodel.h \
+    ../common/gSettings.h
 
 SOURCES += \
     $$PWD/mSettings.cpp \

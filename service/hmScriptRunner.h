@@ -168,8 +168,8 @@ private:
     bool runExecuteProgram(const int num, const QString &cmdLine);   //! TODO
     bool runEnableAlerts(const int num, const QString &cmdLine);
     bool runDisableAlerts(const int num, const QString &cmdLine);
-    bool runPauseAlerts(const int num, const QString &cmdLine);      //! TODO
-    bool runPauseMonitor(const int num, const QString &cmdLine);     //! TODO
+    bool runPauseAlerts(const int num, const QString &cmdLine);
+    bool runPauseMonitor(const int num, const QString &cmdLine);
     bool runStopMonitor(const int num, const QString &cmdLine);
     bool runStartMonitor(const int num, const QString &cmdLine);
     bool runQuitMonitor(const int num, const QString &cmdLine);

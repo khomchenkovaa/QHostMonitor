@@ -17,12 +17,12 @@ public:
     explicit MailerSettingsWidget(QWidget *parent = 0);
     ~MailerSettingsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
     private slots:
-        void ShowMessagePrimaryPortChange();
-        void ShowMessageBackUpPortChange();
+        void onPrimaryPortChange();
+        void onBackUpPortChange();
         void on_cmbPrimaryAuthSelect(int);
         void on_cmbBackupAuthSelect(int);
 

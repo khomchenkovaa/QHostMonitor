@@ -135,7 +135,7 @@ void BackupLogOptionsWidget::setBackupFileLogName()
 }
 
 /******************************************************************/
-void BackupLogOptionsWidget::init()
+void BackupLogOptionsWidget::init(QSettings *s)
 {
     reset_AlertInaccessible();
 
@@ -190,7 +190,7 @@ void BackupLogOptionsWidget::init()
 
 /******************************************************************/
 
-void BackupLogOptionsWidget::prepareToSave()
+void BackupLogOptionsWidget::prepareToSave(QSettings *s)
 {
     Settings::set(Settings::Logging2, Settings::Target) = QVariant(ui->cmbBackupLogType->currentIndex());
     Settings::set(Settings::Logging2, Settings::SaveMode) = QVariant(ui->cmbBackupLogMode->currentIndex());

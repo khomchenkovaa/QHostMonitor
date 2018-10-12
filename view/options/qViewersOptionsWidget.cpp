@@ -52,103 +52,53 @@ void ViewersOptionsWidget::on_btnViewersDbfLogFiles_clicked()
 
 /******************************************************************/
 
-void ViewersOptionsWidget::init()
+void ViewersOptionsWidget::init(QSettings *s)
 {
-   QVariant value = Settings::get(Settings::LogViewer, Settings::TextViewerMode, QVariant(0));
-         ui->cmbTxtLogFiles->setCurrentIndex(value.toInt());
-         on_SelectLogViewer();
-         connect(ui->cmbTxtLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
 
-    value = Settings::get(Settings::LogViewer, Settings::HTMLViewerMode, QVariant(1));
-         ui->cmbHtmlLogFiles->setCurrentIndex(value.toInt());
-         on_SelectLogViewer();
-         connect(ui->cmbHtmlLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
+    ui->cmbTxtLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_TextViewerMode,0).toInt());
+    ui->cmbHtmlLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_HTMLViewerMode,1).toInt());
+    ui->cmbDbfLogFile->setCurrentIndex(s->value(SKEY_LOGVIEWER_DBFViewerMode,0).toInt());
+    on_SelectLogViewer();
+    connect(ui->cmbTxtLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
+    connect(ui->cmbHtmlLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
+    connect(ui->cmbDbfLogFile, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
 
-    value = Settings::get(Settings::LogViewer, Settings::DBFViewerMode, QVariant(0));
-         ui->cmbDbfLogFile->setCurrentIndex(value.toInt());
-         on_SelectLogViewer();
-         connect(ui->cmbDbfLogFile, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
-
-    value = Settings::get(Settings::LogViewer, Settings::TextViewerCmd, QVariant("notepad.exe %log%"));
-         ui->editViewersTxtLogFiles->setText(value.toString());
-
-    value = Settings::get(Settings::LogViewer, Settings::HTMLViewerCmd, QVariant());
-         ui->editViewersHtmlLogFiles->setText(value.toString());
-
-    value = Settings::get(Settings::LogViewer, Settings::DBFViewerCmd, QVariant());
-         ui->editViewersDbfLogFiles->setText(value.toString());
+    ui->editViewersTxtLogFiles->setText(s->value(SKEY_LOGVIEWER_TextViewerCmd, "notepad.exe %log%").toString());
+    ui->editViewersHtmlLogFiles->setText(s->value(SKEY_LOGVIEWER_HTMLViewerCmd).toString());
+    ui->editViewersDbfLogFiles->setText(s->value(SKEY_LOGVIEWER_DBFViewerCmd).toString());
 }
 
 /******************************************************************/
 
-void ViewersOptionsWidget::prepareToSave()
+void ViewersOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::LogViewer, Settings::TextViewerMode) = QVariant(ui->cmbTxtLogFiles->currentIndex());
-    Settings::set(Settings::LogViewer, Settings::HTMLViewerMode) = QVariant(ui->cmbHtmlLogFiles->currentIndex());
-    Settings::set(Settings::LogViewer, Settings::DBFViewerMode) = QVariant(ui->cmbDbfLogFile->currentIndex());
-    Settings::set(Settings::LogViewer, Settings::TextViewerCmd) = QVariant(ui->editViewersTxtLogFiles->text());
-    Settings::set(Settings::LogViewer, Settings::HTMLViewerCmd) = QVariant(ui->editViewersHtmlLogFiles->text());
-    Settings::set(Settings::LogViewer, Settings::DBFViewerCmd) = QVariant(ui->editViewersDbfLogFiles->text());
+    s->setValue(SKEY_LOGVIEWER_TextViewerMode, ui->cmbTxtLogFiles->currentIndex());
+    s->setValue(SKEY_LOGVIEWER_HTMLViewerMode, ui->cmbHtmlLogFiles->currentIndex());
+    s->setValue(SKEY_LOGVIEWER_DBFViewerMode, ui->cmbDbfLogFile->currentIndex());
+
+    s->setValue(SKEY_LOGVIEWER_TextViewerCmd, ui->editViewersTxtLogFiles->text());
+    s->setValue(SKEY_LOGVIEWER_HTMLViewerCmd, ui->editViewersHtmlLogFiles->text());
+    s->setValue(SKEY_LOGVIEWER_DBFViewerCmd, ui->editViewersDbfLogFiles->text());
 }
 
 /******************************************************************/
 
 void ViewersOptionsWidget::on_SelectLogViewer()
 {
-    int indexTxtLog = ui->cmbTxtLogFiles->currentIndex();
-        switch (indexTxtLog) {
-        case 0:
-            ui->lblViewersTxtLogFiles->setDisabled(true);
-            ui->editViewersTxtLogFiles->setDisabled(true);
-            ui->btnViewersTxtLogFiles->setDisabled(true);
-            break;
-        case 1:
-            ui->lblViewersTxtLogFiles->setDisabled(true);
-            ui->editViewersTxtLogFiles->setDisabled(true);
-            ui->btnViewersTxtLogFiles->setDisabled(true);
-            break;
-        case 2:
-            ui->lblViewersTxtLogFiles->setEnabled(true);
-            ui->editViewersTxtLogFiles->setEnabled(true);
-            ui->btnViewersTxtLogFiles->setEnabled(true);
-            break;
-        }
-    int indexHtmlLog = ui->cmbHtmlLogFiles->currentIndex();
-        switch (indexHtmlLog) {
-        case 0:
-            ui->lblViewersHtmlLogFiles->setDisabled(true);
-            ui->editViewersHtmlLogFiles->setDisabled(true);
-            ui->btnViewersHtmlLogFiles->setDisabled(true);
-            break;
-        case 1:
-            ui->lblViewersHtmlLogFiles->setDisabled(true);
-            ui->editViewersHtmlLogFiles->setDisabled(true);
-            ui->btnViewersHtmlLogFiles->setDisabled(true);
-            break;
-        case 2:
-            ui->lblViewersHtmlLogFiles->setEnabled(true);
-            ui->editViewersHtmlLogFiles->setEnabled(true);
-            ui->btnViewersHtmlLogFiles->setEnabled(true);
-            break;
-        }
-    int indexDbfLog = ui->cmbDbfLogFile->currentIndex();
-        switch (indexDbfLog) {
-        case 0:
-            ui->lblViewersDbfLogFiles->setDisabled(true);
-            ui->editViewersDbfLogFiles->setDisabled(true);
-            ui->btnViewersDbfLogFiles->setDisabled(true);
-            break;
-        case 1:
-            ui->lblViewersDbfLogFiles->setDisabled(true);
-            ui->editViewersDbfLogFiles->setDisabled(true);
-            ui->btnViewersDbfLogFiles->setDisabled(true);
-            break;
-        case 2:
-            ui->lblViewersDbfLogFiles->setEnabled(true);
-            ui->editViewersDbfLogFiles->setEnabled(true);
-            ui->btnViewersDbfLogFiles->setEnabled(true);
-            break;
-        }
+    bool txtLogEnabled = (ui->cmbTxtLogFiles->currentIndex() == 2);
+    ui->lblViewersTxtLogFiles->setEnabled(txtLogEnabled);
+    ui->editViewersTxtLogFiles->setEnabled(txtLogEnabled);
+    ui->btnViewersTxtLogFiles->setEnabled(txtLogEnabled);
+
+    bool htmlLogEnabled = (ui->cmbHtmlLogFiles->currentIndex() == 2);
+    ui->lblViewersHtmlLogFiles->setEnabled(htmlLogEnabled);
+    ui->editViewersHtmlLogFiles->setEnabled(htmlLogEnabled);
+    ui->btnViewersHtmlLogFiles->setEnabled(htmlLogEnabled);
+
+    bool dbfLogEnabled = (ui->cmbDbfLogFile->currentIndex() == 2);
+    ui->lblViewersDbfLogFiles->setEnabled(dbfLogEnabled);
+    ui->editViewersDbfLogFiles->setEnabled(dbfLogEnabled);
+    ui->btnViewersDbfLogFiles->setEnabled(dbfLogEnabled);
 }
 
 /******************************************************************/

@@ -21,59 +21,32 @@ PagersOptionsWidget::~PagersOptionsWidget()
 
 /******************************************************************/
 
-void PagersOptionsWidget::init()
+void PagersOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Pagers, Settings::pgDevice, QVariant("Auto select free TAPI device"));
-        ui->cmbUseDevice->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Pagers, Settings::pgBoudRate, QVariant("2400"));
-        ui->cmbBaudRate->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Pagers, Settings::pgInitStr, QVariant("AUTO"));
-        ui->cmbModemInitString->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Pagers, Settings::pgDialStr, QVariant("ATDT"));
-        ui->cmbModemDialString->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Pagers, Settings::pgShowWindow, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkShowStatusWindow->setChecked(true);
-        else
-            ui->chkShowStatusWindow->setChecked(false);
-
-    value = Settings::get(Settings::Pagers, Settings::pgCloseWindow, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkCloseWindowOnDisconnect->setChecked(true);
-        else
-            ui->chkCloseWindowOnDisconnect->setChecked(false);
-
-    value = Settings::get(Settings::Pagers, Settings::pgCloseDelay, QVariant(5));
-        ui->spinCloseWindowOnDisconnect->setValue(value.toInt());
-
-    value = Settings::get(Settings::Pagers, Settings::pgWaitFreeDevice, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkIfDeviceBusyWait->setChecked(true);
-        else
-            ui->chkIfDeviceBusyWait->setChecked(false);
-
-    value = Settings::get(Settings::Pagers, Settings::pgWaitDeviceDelay, QVariant(15));
-        ui->spinIfDeviceBusyWait->setValue(value.toInt());
-
+    ui->cmbUseDevice->setCurrentText(s->value(SKEY_PAGERS_Device,"Auto select free TAPI device").toString());
+    ui->cmbBaudRate->setCurrentText(s->value(SKEY_PAGERS_BoudRate,"2400").toString());
+    ui->cmbModemInitString->setCurrentText(s->value(SKEY_PAGERS_InitStr,"AUTO").toString());
+    ui->cmbModemDialString->setCurrentText(s->value(SKEY_PAGERS_DialStr,"ATDT").toString());
+    ui->chkShowStatusWindow->setChecked(s->value(SKEY_PAGERS_ShowWindow,1).toInt() == 1);
+    ui->chkCloseWindowOnDisconnect->setChecked(s->value(SKEY_PAGERS_ClodeWindow,1).toInt() == 1);
+    ui->spinCloseWindowOnDisconnect->setValue(s->value(SKEY_PAGERS_CloseDelay,5).toInt());
+    ui->chkIfDeviceBusyWait->setChecked(s->value(SKEY_PAGERS_WaitFreeDevice,1).toInt() == 1);
+    ui->spinIfDeviceBusyWait->setValue(s->value(SKEY_PAGERS_WaitDeviceDelay,15).toInt());
 }
 
 /******************************************************************/
 
-void PagersOptionsWidget::prepareToSave()
+void PagersOptionsWidget::prepareToSave(QSettings *s)
 {
-     Settings::set(Settings::Pagers, Settings::pgDevice) = QVariant(ui->cmbUseDevice->currentText());
-     Settings::set(Settings::Pagers, Settings::pgBoudRate) = QVariant(ui->cmbBaudRate->currentText());
-     Settings::set(Settings::Pagers, Settings::pgInitStr) = QVariant(ui->cmbModemInitString->currentText());
-     Settings::set(Settings::Pagers, Settings::pgDialStr) = QVariant(ui->cmbModemDialString->currentText());
-     Settings::set(Settings::Pagers, Settings::pgShowWindow) = QVariant(ui->chkShowStatusWindow->isChecked()?1:0);
-     Settings::set(Settings::Pagers, Settings::pgCloseWindow) = QVariant(ui->chkCloseWindowOnDisconnect->isChecked()?1:0);
-     Settings::set(Settings::Pagers, Settings::pgCloseDelay) = QVariant(ui->spinCloseWindowOnDisconnect->value());
-     Settings::set(Settings::Pagers, Settings::pgWaitFreeDevice) = QVariant(ui->chkIfDeviceBusyWait->isChecked()?1:0);
-     Settings::set(Settings::Pagers, Settings::pgWaitDeviceDelay) = QVariant(ui->spinIfDeviceBusyWait->value());
+    s->setValue(SKEY_PAGERS_Device,ui->cmbUseDevice->currentText());
+    s->setValue(SKEY_PAGERS_BoudRate,ui->cmbBaudRate->currentText());
+    s->setValue(SKEY_PAGERS_InitStr,ui->cmbModemInitString->currentText());
+    s->setValue(SKEY_PAGERS_DialStr,ui->cmbModemDialString->currentText());
+    s->setValue(SKEY_PAGERS_ShowWindow,ui->chkShowStatusWindow->isChecked()?1:0);
+    s->setValue(SKEY_PAGERS_ClodeWindow,ui->chkCloseWindowOnDisconnect->isChecked()?1:0);
+    s->setValue(SKEY_PAGERS_CloseDelay,ui->spinCloseWindowOnDisconnect->value());
+    s->setValue(SKEY_PAGERS_WaitFreeDevice,ui->chkIfDeviceBusyWait->isChecked()?1:0);
+    s->setValue(SKEY_PAGERS_WaitDeviceDelay,ui->spinIfDeviceBusyWait->value());
 }
 
 /******************************************************************/

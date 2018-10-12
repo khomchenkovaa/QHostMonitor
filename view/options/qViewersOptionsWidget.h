@@ -17,16 +17,13 @@ public:
     explicit ViewersOptionsWidget(QWidget *parent = 0);
     ~ViewersOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
-    private slots:
+private slots:
     void on_SelectLogViewer();
-
     void on_btnViewersTxtLogFiles_clicked();
-
     void on_btnViewersHtmlLogFiles_clicked();
-
     void on_btnViewersDbfLogFiles_clicked();
 
 private:

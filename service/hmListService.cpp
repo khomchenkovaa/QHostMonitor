@@ -188,6 +188,13 @@ void HMListService::cmdAlertsDisable()
 
 /******************************************************************/
 
+void HMListService::cmdAlertsPause(int interval)
+{
+    Q_UNUSED(interval);
+}
+
+/******************************************************************/
+
 void HMListService::cmdMonitoringStart()
 {
     emit monitoringStarted(true);
@@ -198,6 +205,13 @@ void HMListService::cmdMonitoringStart()
 void HMListService::cmdMonitoringStop()
 {
     emit monitoringStarted(false);
+}
+
+/******************************************************************/
+
+void HMListService::cmdMonitoringPause(int interval)
+{
+    Q_UNUSED(interval);
 }
 
 /******************************************************************/

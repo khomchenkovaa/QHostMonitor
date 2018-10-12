@@ -411,8 +411,8 @@ QString TNode::getColorScheme() const
             result = m_parentNode->getColorScheme();
         } else { // Root
             if (m_Name == ROOT_VIEW_NAME) { // Root View inherits from options
-                QVariant value = Settings::get(Settings::Interface, Settings::DefaultLogPaletteID, QVariant("<Default>"));
-                result = value.toString();
+                QSettings s;
+                result = s.value(SKEY_INTERFACE_DefaultLogPaletteID, "<Default>").toString();
             } else { // Root Folder inherits from profile
                 foreach (const GUserProfile &profile, GData::userProfiles) {
                     if (profile.id == GData::currentUser ) {

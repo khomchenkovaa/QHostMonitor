@@ -79,7 +79,7 @@ void MailerSettingsWidget::init(QSettings *s)
 {
     ui->cmbPrimarySmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server1,"smtp.mail.yahoo.com").toString());
     ui->spinPrimarySmtpPort->setValue(s->value(SKEY_SMTP_Port1,25).toInt());
-    ui->cmbPrimarySmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SSLType1,0).toInt());
+    ui->cmbPrimarySmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType1,0).toInt());
     int idx1 = s->value(SKEY_SMTP_Auth1,0).toInt();
     ui->cmbPrimarySmtpAuth->setCurrentIndex(idx1);
     ui->editPrimarySmtpLogin->setText(s->value(SKEY_SMTP_User1).toString());
@@ -90,7 +90,7 @@ void MailerSettingsWidget::init(QSettings *s)
 
     ui->cmbBackupSmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server2,"smtp.mail.yahoo.com").toString());
     ui->spinBackupSmtpPort->setValue(s->value(SKEY_SMTP_Port2,25).toInt());
-    ui->cmbBackupSmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SSLType2,0).toInt());
+    ui->cmbBackupSmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType2,0).toInt());
     int idx2 = s->value(SKEY_SMTP_Auth2,0).toInt();
     ui->cmbBackupSmtpAuth->setCurrentIndex(idx2);
     ui->editBackupSmtpLogin->setText(s->value(SKEY_SMTP_User2).toString());
@@ -111,14 +111,14 @@ void MailerSettingsWidget::prepareToSave(QSettings *s)
 {
     s->setValue(SKEY_SMTP_Server1,ui->cmbPrimarySmtpAddress->currentText());
     s->setValue(SKEY_SMTP_Port1,ui->spinPrimarySmtpPort->value());
-    s->setValue(SKEY_SMTP_SSLType1,ui->cmbPrimarySmtpTls->currentIndex());
+    s->setValue(SKEY_SMTP_SslType1,ui->cmbPrimarySmtpTls->currentIndex());
     s->setValue(SKEY_SMTP_Auth1,ui->cmbPrimarySmtpAuth->currentIndex());
     s->setValue(SKEY_SMTP_User1,ui->editPrimarySmtpLogin->text());
     s->setValue(SKEY_SMTP_Pswd1,ui->editPrimarySmtpPassword->text());
 
     s->setValue(SKEY_SMTP_Server2,ui->cmbBackupSmtpAddress->currentText());
     s->setValue(SKEY_SMTP_Port2,ui->spinBackupSmtpPort->value());
-    s->setValue(SKEY_SMTP_SSLType2,ui->cmbBackupSmtpTls->currentIndex());
+    s->setValue(SKEY_SMTP_SslType2,ui->cmbBackupSmtpTls->currentIndex());
     s->setValue(SKEY_SMTP_Auth2,ui->cmbBackupSmtpAuth->currentIndex());
     s->setValue(SKEY_SMTP_User2,ui->editBackupSmtpLogin->text());
     s->setValue(SKEY_SMTP_Pswd2,ui->editBackupSmtpPassword->text());

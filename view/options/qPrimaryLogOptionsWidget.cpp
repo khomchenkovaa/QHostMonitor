@@ -166,90 +166,66 @@ void PrimaryLogOptionsWidget::init(QSettings *s)
     reset_AlertInaccessible();
     reset_AlertAlive();
 
-    QVariant value = Settings::get(Settings::Logging1, Settings::Target, QVariant(1));
-        ui->cmbPrimaryLogType->setCurrentIndex(value.toInt());
-        on_cmbPrimaryLogSelect(value.toInt());
-        connect(ui->cmbPrimaryLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryLogSelect(int)));
+    ui->cmbPrimaryLogType->setCurrentIndex(s->value(SKEY_LOG1_Target,1).toInt());
+    on_cmbPrimaryLogSelect(ui->cmbPrimaryLogType->currentIndex());
+    connect(ui->cmbPrimaryLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryLogSelect(int)));
 
-    value = Settings::get(Settings::Logging1, Settings::SaveMode, QVariant(2));
-        ui->cmbPrimaryLogMode->setCurrentIndex(value.toInt());
+    ui->cmbPrimaryLogMode->setCurrentIndex(s->value(SKEY_LOG1_SaveMode,2).toInt());
+    ui->cmbPrimaryLogFile->setCurrentIndex(s->value(SKEY_LOG1_LogNameMethod,0).toInt());
 
-    value = Settings::get(Settings::Logging1, Settings::LogNameMethod, QVariant(0));
-        ui->cmbPrimaryLogFile->setCurrentIndex(value.toInt());
+    QString val = s->value(SKEY_LOG1_File2Name).toString();
+    int idx = val.lastIndexOf("/");
+    if (idx != -1) {
+        curFolder = val.mid(0,idx);
+    }
+    ui->editPrimaryLogFileName->setText(val);
 
-    value = Settings::get(Settings::Logging1, Settings::File2Name, QVariant());
-    QString val = value.toString();
-        int idx = val.lastIndexOf("/");
-        if (idx != -1)
-            curFolder = val.mid(0,idx);
-        ui->editPrimaryLogFileName->setText(val);
+    switch (s->value(SKEY_LOG1_LogFormat,0).toInt()) {
+    case 1: ui->rbPrimaryLogText->setChecked(true); break;
+    case 2: ui->rbPrimaryLogDBF->setChecked(true); break;
+    default: // case 0:
+        ui->rbPrimaryLogHTML->setChecked(true); break;
+    }
+    ui->chkPrimaryLogAlertInaccessible->setChecked(s->value(SKEY_LOG1_UseDeadAction,0).toInt());
+    ui->cmbPrimaryLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG1_DeadActionID,-1).toInt());
+    ui->chkPrimaryLogAlertAlive->setChecked(s->value(SKEY_LOG1_UseGoodAction,0).toInt());
+    ui->cmbPrimaryLogAlertAlive->setCurrentIndex(s->value(SKEY_LOG1_GoodActionID,-1).toInt());
 
-    value = Settings::get(Settings::Logging1, Settings::LogFormat, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbPrimaryLogHTML->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbPrimaryLogText->setChecked(true);
-        else if (value.toInt() == 2)
-            ui->rbPrimaryLogDBF->setChecked(true);
-
-    value = Settings::get(Settings::Logging1, Settings::UseDeadAction, QVariant(0));
-        ui->chkPrimaryLogAlertInaccessible->setChecked(value.toInt() == 1);
-
-    value = Settings::get(Settings::Logging1, Settings::DeadActionID, QVariant(-1));
-        ui->cmbPrimaryLogAlertInaccessible->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging1, Settings::UseGoodAction, QVariant(0));
-        ui->chkPrimaryLogAlertAlive->setChecked(value.toInt() == 1);
-
-    value = Settings::get(Settings::Logging1, Settings::GoodActionID, QVariant(-1));
-        ui->cmbPrimaryLogAlertAlive->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging, Settings::odbcLogSource, QVariant());
-        ui->cmbPrimaryLogDatasource->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Logging, Settings::odbcLogSQLQuer, QVariant("Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')"));
-        ui->plainPrimaryLogSQL->clear();
-        ui->plainPrimaryLogSQL->insertPlainText(value.toString());
-
-    value = Settings::get(Settings::Logging, Settings::odbcLogUser, QVariant());
-        ui->editPrimaryLogLogin->setText(value.toString());
-
-    value = Settings::get(Settings::Logging, Settings::odbcLogPswd, QVariant());
-        ui->editPrimaryLogPassword->setText(value.toString());
-
-    value = Settings::get(Settings::Logging, Settings::odbcLogTimeout, QVariant(10));
-        ui->spinPrimaryLogTimeout->setValue(value.toInt());
-
+    ui->cmbPrimaryLogDatasource->setCurrentText(s->value(SKEY_LOGGING_OdbcLogSource).toString());
+    ui->plainPrimaryLogSQL->clear();
+    ui->plainPrimaryLogSQL->insertPlainText(s->value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString());
+    ui->editPrimaryLogLogin->setText(s->value(SKEY_LOGGING_OdbcLogUser).toString());
+    ui->editPrimaryLogPassword->setText(s->value(SKEY_LOGGING_OdbcLogPswd).toString());
+    ui->spinPrimaryLogTimeout->setValue(s->value(SKEY_LOGGING_OdbcLogTimeout,10).toInt());
 }
 
 /******************************************************************/
 
 void PrimaryLogOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Logging1, Settings::Target) = QVariant(ui->cmbPrimaryLogType->currentIndex());
-    Settings::set(Settings::Logging1, Settings::SaveMode) = QVariant(ui->cmbPrimaryLogMode->currentIndex());
-    Settings::set(Settings::Logging1, Settings::LogNameMethod) = QVariant(ui->cmbPrimaryLogFile->currentIndex());
-    Settings::set(Settings::Logging1, Settings::File2Name) = QVariant(ui->editPrimaryLogFileName->text());
+    s->setValue(SKEY_LOG1_Target, ui->cmbPrimaryLogType->currentIndex());
+    s->setValue(SKEY_LOG1_SaveMode, ui->cmbPrimaryLogMode->currentIndex());
+    s->setValue(SKEY_LOG1_LogNameMethod, ui->cmbPrimaryLogFile->currentIndex());
+    s->setValue(SKEY_LOG1_File2Name, ui->editPrimaryLogFileName->text());
 
-    int LogFormat;
-        if (ui->rbPrimaryLogHTML->isChecked()?1:0)
-        LogFormat = 0;
-        else if (ui->rbPrimaryLogText->isChecked()?1:0)
-            LogFormat = 1;
-        else if (ui->rbPrimaryLogDBF->isChecked()?1:0)
-            LogFormat =2 ;
+    int logFormat = 0; // ui->rbPrimaryLogHTML->isChecked()
+    if (ui->rbPrimaryLogText->isChecked()) {
+        logFormat = 1;
+    } else if (ui->rbPrimaryLogDBF->isChecked()) {
+        logFormat = 2 ;
+    }
+    s->setValue(SKEY_LOG1_LogFormat, logFormat);
 
-    Settings::set(Settings::Logging1, Settings::LogFormat) = QVariant(LogFormat);
+    s->setValue(SKEY_LOG1_UseDeadAction, ui->chkPrimaryLogAlertInaccessible->isChecked()?1:0);
+    s->setValue(SKEY_LOG1_DeadActionID, ui->cmbPrimaryLogAlertInaccessible->currentIndex());
+    s->setValue(SKEY_LOG1_UseGoodAction, ui->chkPrimaryLogAlertAlive->isChecked()?1:0);
+    s->setValue(SKEY_LOG1_GoodActionID, ui->cmbPrimaryLogAlertAlive->currentIndex());
 
-    Settings::set(Settings::Logging1, Settings::UseDeadAction) = QVariant(ui->chkPrimaryLogAlertInaccessible->isChecked()?1:0);
-    Settings::set(Settings::Logging1, Settings::DeadActionID) = QVariant(ui->cmbPrimaryLogAlertInaccessible->currentIndex());
-    Settings::set(Settings::Logging1, Settings::UseGoodAction) =QVariant(ui->chkPrimaryLogAlertAlive->isChecked()?1:0);
-    Settings::set(Settings::Logging1, Settings::GoodActionID) = QVariant(ui->cmbPrimaryLogAlertAlive->currentIndex());
-    Settings::set(Settings::Logging, Settings::odbcLogSource) = QVariant(ui->cmbPrimaryLogDatasource->currentText());
-    Settings::set(Settings::Logging, Settings::odbcLogSQLQuer) = QVariant(ui->plainPrimaryLogSQL->toPlainText());
-    Settings::set(Settings::Logging, Settings::odbcLogUser) = QVariant(ui->editPrimaryLogLogin->text());
-    Settings::set(Settings::Logging, Settings::odbcLogPswd) = QVariant(ui->editPrimaryLogPassword->text());
-    Settings::set(Settings::Logging, Settings::odbcLogTimeout) = QVariant(ui->spinPrimaryLogTimeout->value());
+    s->setValue(SKEY_LOGGING_OdbcLogSource, ui->cmbPrimaryLogDatasource->currentText());
+    s->setValue(SKEY_LOGGING_OdbcLogSqlQuery, ui->plainPrimaryLogSQL->toPlainText());
+    s->setValue(SKEY_LOGGING_OdbcLogUser, ui->editPrimaryLogLogin->text());
+    s->setValue(SKEY_LOGGING_OdbcLogPswd, ui->editPrimaryLogPassword->text());
+    s->setValue(SKEY_LOGGING_OdbcLogTimeout, ui->spinPrimaryLogTimeout->value());
 }
 
 /******************************************************************/

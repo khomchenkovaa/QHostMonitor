@@ -2,7 +2,6 @@
 #define QOPTIONSWIDGET_H
 
 #include "gSettings.h"
-#include "mSettings.h"
 
 #include <QWidget>
 

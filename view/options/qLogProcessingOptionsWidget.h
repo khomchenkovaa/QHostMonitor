@@ -3,6 +3,8 @@
 
 #include "qOptionsWidget.h"
 
+#define COMMONLOG_PROCESSING_EXT_CMD "cmd  /c  del  \"%log%\" +"
+#define PRIVLOG_PROCESSING_EXT_CMD "cmd  /c  move /y  \"%log%"  "%logpath%old\%logname%\""
 
 namespace Ui {
 class LogProcessingOptionsWidget;

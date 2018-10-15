@@ -37,11 +37,11 @@
 // Telnet,
 // LogViewer
 #define SKEY_LOGVIEWER_TextViewerMode "LogViewer/TextViewerMode"
-#define SKEY_LOGVIEWER_HTMLViewerMode "LogViewer/HTMLViewerMode"
-#define SKEY_LOGVIEWER_DBFViewerMode  "LogViewer/DBFViewerMode"
+#define SKEY_LOGVIEWER_HtmlViewerMode "LogViewer/HTMLViewerMode"
+#define SKEY_LOGVIEWER_DbfViewerMode  "LogViewer/DBFViewerMode"
 #define SKEY_LOGVIEWER_TextViewerCmd  "LogViewer/TextViewerCmd"
-#define SKEY_LOGVIEWER_HTMLViewerCmd  "LogViewer/HTMLViewerCmd"
-#define SKEY_LOGVIEWER_DBFViewerCmd   "LogViewer/DBFViewerCmd"
+#define SKEY_LOGVIEWER_HtmlViewerCmd  "LogViewer/HTMLViewerCmd"
+#define SKEY_LOGVIEWER_DbfViewerCmd   "LogViewer/DBFViewerCmd"
 
 // Ping_Trace
 #define SKEY_PING_Packets    "Ping_Trace/Packets"
@@ -83,14 +83,14 @@
 // SMTP
 #define SKEY_SMTP_Server1  "SMTP/SMTPServer"
 #define SKEY_SMTP_Port1    "SMTP/SMTPPort"
-#define SKEY_SMTP_SSLType1 "SMTP/SSLType1"
+#define SKEY_SMTP_SslType1 "SMTP/SSLType1"
 #define SKEY_SMTP_Auth1    "SMTP/Authentication1"
 #define SKEY_SMTP_User1    "SMTP/Username1"
 #define SKEY_SMTP_Pswd1    "SMTP/Password1"
 
 #define SKEY_SMTP_Server2  "SMTP/SMTPServer2"
 #define SKEY_SMTP_Port2    "SMTP/SMTPPort2"
-#define SKEY_SMTP_SSLType2 "SMTP/SSLType2"
+#define SKEY_SMTP_SslType2 "SMTP/SSLType2"
 #define SKEY_SMTP_Auth2    "SMTP/Authentication2"
 #define SKEY_SMTP_User2    "SMTP/Username2"
 #define SKEY_SMTP_Pswd2    "SMTP/Password2"
@@ -115,9 +115,31 @@
 #define SKEY_PAGERS_WaitDeviceDelay "Pagers/pgWaitDeviceDelay"
 
 // Reports
-#define SKEY_REPORTS_ShowFolders "Reports/ShowFolders"
+#define SKEY_REPORTS_ShowFolders      "Reports/ShowFolders"
 #define SKEY_REPORTS_SkipEmptyFolders "Reports/SkipEmptyFolders"
 
+#define SKEY_REPORTS_AutoCreate     "Reports/AutoCreate"
+#define SKEY_REPORTS_Interval       "Reports/Interval"
+#define SKEY_REPORTS_CreateReport1  "Reports/CreateReport1"
+#define SKEY_REPORTS_ReportType1    "Reports/ReportType1"
+#define SKEY_REPORTS_ReportFile1    "Reports/ReportFile1"
+#define SKEY_REPORTS_CreateReport2  "Reports/CreateReport2"
+#define SKEY_REPORTS_ReportType2    "Reports/ReportType2"
+#define SKEY_REPORTS_ReportFile2    "Reports/ReportFile2"
+#define SKEY_REPORTS_CreateReport3  "Reports/CreateReport3"
+#define SKEY_REPORTS_ReportType3    "Reports/ReportType3"
+#define SKEY_REPORTS_ReportFile3    "Reports/ReportFile3"
+#define SKEY_REPORTS_CreateReport4  "Reports/CreateReport4"
+#define SKEY_REPORTS_ReportType4    "Reports/ReportType4"
+#define SKEY_REPORTS_ReportFile4    "Reports/ReportFile4"
+#define SKEY_REPORTS_CreateReport5  "Reports/CreateReport5"
+#define SKEY_REPORTS_ReportType5    "Reports/ReportType5"
+#define SKEY_REPORTS_ReportFile5    "Reports/ReportFile5"
+#define SKEY_REPORTS_CreateReport6  "Reports/CreateReport6"
+#define SKEY_REPORTS_ReportType6    "Reports/ReportType6"
+#define SKEY_REPORTS_ReportFile6    "Reports/ReportFile6"
+#define SKEY_REPORTS_ExecuteActions "Reports/ExecuteActions"
+#define SKEY_REPORTS_ActionsProfile "Reports/ActionsProfile"
 
 // Service
 #define SKEY_SERVICE_Logon    "Service/Logon"
@@ -132,8 +154,8 @@
 
 #define SKEY_MISC_AliveDeadRatioMode       "Misc/AliveDeadRatioMode"
 #define SKEY_MISC_DoNotUseSqlFetchAbsolute "Misc/DoNotUse_SqlFetchAbsolute"
-#define SKEY_MISC_ODBCUseSystemDSN         "Misc/ODBC_UseSystemDSN"
-#define SKEY_MISC_ODBCConnectionPooling    "Misc/ODBC_ConnectionPooling"
+#define SKEY_MISC_OdbcUseSystemDsn         "Misc/ODBC_UseSystemDSN"
+#define SKEY_MISC_OdbcConnectionPooling    "Misc/ODBC_ConnectionPooling"
 
 #define SKEY_MISC_sslAnyHostPOP3 "Misc/sslAnyHostPOP3"
 #define SKEY_MISC_sslAnyDatePOP3 "Misc/sslAnyDatePOP3"
@@ -149,6 +171,17 @@
 #define SKEY_MISC_IgnoreCertCnInvalid   "Misc/IGNORE_CERT_CN_INVALID"
 #define SKEY_MISC_IgnoreCertDateInvalid "Misc/IGNORE_CERT_DATE_INVALID"
 
+#define SKEY_MISC_UncRetries    "Misc/UNCRetries"
+#define SKEY_MISC_UncMode       "Misc/UNCMode"
+#define SKEY_MISC_UncShowErrors "Misc/UNCShowErrors"
+
+#define SKEY_MISC_ShowNTEventDescr "Misc/ShowNTEventDescr"
+
+#define SKEY_MISC_PerfWorkMode "Misc/PerfWorkMode"
+
+#define SKEY_MISC_SnmpAutoSingleInstance "Misc/snmpAutoSingleInstance"
+
+#define SKEY_MISC_TrafficMonitorUnits "Misc/TrafficMonitorUnits"
 
 // FixedFormats
 #define SKEY_FORMATS_UseFixedFormats "FixedFormats/UseFixedFormats"
@@ -170,11 +203,57 @@
 #define SKEY_LOGGING_RecordPrimaryRMAErrors  "Logging/RecordPrimaryRMAErrors"
 #define SKEY_LOGGING_LogStateChanges         "Logging/LogStateChanges"
 
+#define SKEY_LOGGING_UseBothLogs         "Logging/UseBothLogs"
 
-// Logging1,
-// Logging2,
-// Logging_CommonProcessing,
-// Logging_PrivProcessing,
+#define SKEY_LOGGING_OdbcLogSource   "Logging/odbcLogSource"
+#define SKEY_LOGGING_OdbcLogSqlQuery "Logging/odbcLogSQLQuer"
+#define SKEY_LOGGING_OdbcLogUser     "Logging/odbcLogUser"
+#define SKEY_LOGGING_OdbcLogPswd     "Logging/odbcLogPswd"
+#define SKEY_LOGGING_OdbcLogTimeout  "Logging/odbcLogTimeout"
+
+#define SVAL_LOGGING_OdbcQuery "Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')"
+
+// Logging1
+#define SKEY_LOG1_Target          "Logging1/Target"
+#define SKEY_LOG1_SaveMode        "Logging1/SaveMode"
+#define SKEY_LOG1_LogNameMethod   "Logging1/LogNameMethod"
+#define SKEY_LOG1_File2Name       "Logging1/File2Name"
+#define SKEY_LOG1_LogFormat       "Logging1/LogFormat"
+#define SKEY_LOG1_UseDeadAction   "Logging1/UseDeadAction"
+#define SKEY_LOG1_DeadActionID    "Logging1/DeadActionID"
+#define SKEY_LOG1_UseGoodAction   "Logging1/UseGoodAction"
+#define SKEY_LOG1_GoodActionID    "Logging1/GoodActionID"
+
+// Logging2
+#define SKEY_LOG2_Target          "Logging2/Target"
+#define SKEY_LOG2_SaveMode        "Logging2/SaveMode"
+#define SKEY_LOG2_LogNameMethod   "Logging2/LogNameMethod"
+#define SKEY_LOG2_File2Name       "Logging2/File2Name"
+#define SKEY_LOG2_LogFormat       "Logging2/LogFormat"
+#define SKEY_LOG2_UseDeadAction   "Logging2/UseDeadAction"
+#define SKEY_LOG2_DeadActionID    "Logging2/DeadActionID"
+#define SKEY_LOG2_OdbcLogSource   "Logging2/odbcLogSource"
+#define SKEY_LOG2_OdbcLogSqlQuery "Logging2/odbcLogSQLQuer"
+#define SKEY_LOG2_OdbcLogUser     "Logging2/odbcLogUser"
+#define SKEY_LOG2_OdbcLogPswd     "Logging2/odbcLogPswd"
+#define SKEY_LOG2_OdbcLogTimeout  "Logging2/odbcLogTimeout"
+
+// Logging_CommonProcessing
+#define SKEY_COMMONLOG_CheckEnabled "Logging_CommonProcessing/CheckEnabled"
+#define SKEY_COMMONLOG_CheckMode    "Logging_CommonProcessing/CheckMode"
+#define SKEY_COMMONLOG_TimeUnit     "Logging_CommonProcessing/TimeUnit"
+#define SKEY_COMMONLOG_TimeLimit    "Logging_CommonProcessing/TimeLimit"
+#define SKEY_COMMONLOG_SizeLimit    "Logging_CommonProcessing/SizeLimit"
+#define SKEY_COMMONLOG_ExtCommand   "Logging_CommonProcessing/ExtCommand"
+
+// Logging_PrivProcessing
+#define SKEY_PRIVLOG_CheckEnabled "Logging_PrivProcessing/CheckEnabled"
+#define SKEY_PRIVLOG_CheckMode    "Logging_PrivProcessing/CheckMode"
+#define SKEY_PRIVLOG_TimeUnit     "Logging_PrivProcessing/TimeUnit"
+#define SKEY_PRIVLOG_TimeLimit    "Logging_PrivProcessing/TimeLimit"
+#define SKEY_PRIVLOG_SizeLimit    "Logging_PrivProcessing/SizeLimit"
+#define SKEY_PRIVLOG_ExtCommand   "Logging_PrivProcessing/ExtCommand"
+
 // ICQ
 #define SKEY_ICQ_PrimaryUIN  "ICQ/PrimaryUIN"
 #define SKEY_ICQ_PrimaryPswd "ICQ/PrimaryPswd"
@@ -188,14 +267,14 @@
 #define SKEY_GSM_PrimaryComPort   "GSM/Primary_ComPort"
 #define SKEY_GSM_PrimaryBaudRate  "GSM/Primary_BaudRate"
 #define SKEY_GSM_PrimaryModem     "GSM/Primary_Modem"
-#define SKEY_GSM_PrimarySMSFormat "GSM/Primary_SMSFormat"
+#define SKEY_GSM_PrimarySmsFormat "GSM/Primary_SMSFormat"
 #define SKEY_GSM_PrimaryPIN       "GSM/Primary_PIN"
 #define SKEY_GSM_PrimarySCA       "GSM/Primary_SCA"
 
 #define SKEY_GSM_BackupComPort   "GSM/Backup_ComPort"
 #define SKEY_GSM_BackupBaudRate  "GSM/Backup_BaudRate"
 #define SKEY_GSM_BackupModem     "GSM/Backup_Modem"
-#define SKEY_GSM_BackupSMSFormat "GSM/Backup_SMSFormat"
+#define SKEY_GSM_BackupSmsFormat "GSM/Backup_SMSFormat"
 #define SKEY_GSM_BackupPIN       "GSM/Backup_PIN"
 #define SKEY_GSM_BackupSCA       "GSM/Backup_SCA"
 
@@ -206,13 +285,13 @@
 #define SKEY_JABBER_PrimaryLoginServer "Jabber/PrimaryLoginServer"
 #define SKEY_JABBER_PrimaryUserName    "Jabber/PrimaryUserName"
 #define SKEY_JABBER_PrimaryPswd        "Jabber/PrimaryPswd"
-#define SKEY_JABBER_PrimarySSLMode     "Jabber/PrimarySSLMode"
+#define SKEY_JABBER_PrimarySslMode     "Jabber/PrimarySSLMode"
 #define SKEY_JABBER_PrimaryLoginPort   "Jabber/PrimaryLoginPort"
 
 #define SKEY_JABBER_BackupLoginServer  "Jabber/BackupLoginServer"
 #define SKEY_JABBER_BackupUserName     "Jabber/BackupUserName"
 #define SKEY_JABBER_BackupPswd         "Jabber/BackupPswd"
-#define SKEY_JABBER_BackupSSLMode      "Jabber/BackupSSLMode"
+#define SKEY_JABBER_BackupSslMode      "Jabber/BackupSSLMode"
 #define SKEY_JABBER_BackupLoginPort    "Jabber/BackupLoginPort"
 
 // SMS_SMPP1
@@ -276,7 +355,16 @@
 #define SKEY_SCHEDULER_Day5         "Scheduler/Day5"
 #define SKEY_SCHEDULER_SchedAlerts5 "Scheduler/SchedAlerts5"
 
-// TrapListener,
+// TrapListener
+#define SKEY_TRAP_Port         "TrapListener/Port"
+#define SKEY_TRAP_TrafficCheck "TrapListener/TrafficCheck"
+#define SKEY_TRAP_TrafficLimit "TrapListener/TrafficLimit"
+#define SKEY_TRAP_TrafficSpan  "TrapListener/TrafficSpan"
+#define SKEY_TRAP_Pause        "TrapListener/Pause"
+#define SKEY_TRAP_PauseSpan    "TrapListener/PauseSpan"
+#define SKEY_TRAP_Action       "TrapListener/Action"
+#define SKEY_TRAP_ActionID     "TrapListener/ActionID"
+
 // ActiveRMAServer
 #define SKEY_RMA_Enabled     "ActiveRMAServer/Enabled"
 #define SKEY_RMA_Port        "ActiveRMAServer/Port"

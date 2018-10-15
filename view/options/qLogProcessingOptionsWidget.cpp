@@ -23,66 +23,38 @@ LogProcessingOptionsWidget::~LogProcessingOptionsWidget()
 
 void LogProcessingOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Logging, Settings::UseBothLogs, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbLogProcessingBackup->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbLogProcessingBoth->setChecked(true);
+    if (s->value(SKEY_LOGGING_UseBothLogs,0).toInt()) {
+        ui->rbLogProcessingBoth->setChecked(true);
+    } else {
+        ui->rbLogProcessingBackup->setChecked(true);
+    }
+    ui->chkLogProcessingCommon->setChecked(s->value(SKEY_COMMONLOG_CheckEnabled,0).toInt());
+    on_chkLogsStatus();
+    connect(ui->chkLogProcessingCommon, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
 
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::CheckEnabled, QVariant(0));
-        if (value.toInt() == 0)
-        {
-            ui->chkLogProcessingCommon->setChecked(false);
-        }
-        else
-        {
-            ui->chkLogProcessingCommon->setChecked(true);
-        }
-        on_chkLogsStatus();
-        connect(ui->chkLogProcessingCommon, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
+    // Common log
+    ui->cmbLogProcessingCommonCriteria->setCurrentIndex(s->value(SKEY_COMMONLOG_CheckMode,0).toInt());
+    on_SelectLogs();
+    connect(ui->cmbLogProcessingCommonCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
 
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::CheckMode, QVariant(0));
-        ui->cmbLogProcessingCommonCriteria->setCurrentIndex(value.toInt());
-        on_SelectLogs();
-        connect(ui->cmbLogProcessingCommonCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
+    ui->cmbLogProcessingCommonTime->setCurrentIndex(s->value(SKEY_COMMONLOG_TimeUnit,2).toInt());
+    ui->spinLogProcessingCommonTime->setValue(s->value(SKEY_COMMONLOG_TimeLimit,3).toInt());
+    ui->spinLogProcessingCommonSize->setValue(s->value(SKEY_COMMONLOG_SizeLimit,600000).toInt());
+    ui->editLogProcessingCommonCmd->setText(s->value(SKEY_COMMONLOG_ExtCommand, COMMONLOG_PROCESSING_EXT_CMD).toString());
 
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::TimeUnit, QVariant(2));
-        ui->cmbLogProcessingCommonTime->setCurrentIndex(value.toInt());
+    // Private log
+    ui->chkLogProcessingPrivate->setChecked(s->value(SKEY_PRIVLOG_CheckEnabled,0).toInt());
+    on_chkLogsStatus();
+    connect(ui->chkLogProcessingPrivate, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
 
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::TimeLimit, QVariant(3));
-        ui->spinLogProcessingCommonTime->setValue(value.toInt());
+    ui->cmbLogProcessingPrivateCriteria->setCurrentIndex(s->value(SKEY_PRIVLOG_CheckMode,1).toInt());
+    on_SelectLogs();
+    connect(ui->cmbLogProcessingPrivateCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
 
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::SizeLimit, QVariant(600000));
-        ui->spinLogProcessingCommonSize->setValue(value.toInt());
-
-    value = Settings::get(Settings::Logging_CommonProcessing, Settings::ExtCommand, QVariant("cmd  /c  del  ""%log%"" +"));
-        ui->editLogProcessingCommonCmd->setText(value.toString());
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::CheckEnabled, QVariant(0));
-        if (value.toInt() == 0)
-            ui->chkLogProcessingPrivate->setChecked(false);
-        else
-            ui->chkLogProcessingPrivate->setChecked(true);
-        on_chkLogsStatus();
-        connect(ui->chkLogProcessingPrivate, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::CheckMode, QVariant(1));
-        ui->cmbLogProcessingPrivateCriteria->setCurrentIndex(value.toInt());
-        on_SelectLogs();
-        connect(ui->cmbLogProcessingPrivateCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::TimeUnit, QVariant(2));
-        ui->cmbLogProcessingTime->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::TimeLimit, QVariant(3));
-        ui->spinLogProcessingTime->setValue(value.toInt());
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::SizeLimit, QVariant(200000));
-        ui->spinLogProcessingSize->setValue(value.toInt());
-
-    value = Settings::get(Settings::Logging_PrivProcessing, Settings::ExtCommand, QVariant("cmd  /c  move /y  ""%log%"  "%logpath%old\%logname%"""));
-        ui->editLogProcessingPrivateCmd->setText(value.toString());
-
+    ui->cmbLogProcessingTime->setCurrentIndex(s->value(SKEY_PRIVLOG_TimeUnit,2).toInt());
+    ui->spinLogProcessingTime->setValue(s->value(SKEY_PRIVLOG_TimeLimit,3).toInt());
+    ui->spinLogProcessingSize->setValue(s->value(SKEY_PRIVLOG_SizeLimit,200000).toInt());
+    ui->editLogProcessingPrivateCmd->setText(s->value(SKEY_PRIVLOG_ExtCommand, PRIVLOG_PROCESSING_EXT_CMD).toString());
 }
 
 /******************************************************************/
@@ -90,25 +62,23 @@ void LogProcessingOptionsWidget::init(QSettings *s)
 
 void LogProcessingOptionsWidget::prepareToSave(QSettings *s)
 {
-    int BothsLogs;
-    if (ui->rbLogProcessingBackup->isChecked())
-        BothsLogs = 0;
-    else if (ui->rbLogProcessingBoth->isChecked())
-        BothsLogs = 1;
+    s->setValue(SKEY_LOGGING_UseBothLogs,ui->rbLogProcessingBoth->isChecked());
 
-    Settings::set(Settings::Logging, Settings::UseBothLogs) = QVariant(BothsLogs);
-    Settings::set(Settings::Logging_CommonProcessing, Settings::CheckEnabled) = QVariant(ui->chkLogProcessingCommon->isChecked()?1:0);
-    Settings::set(Settings::Logging_CommonProcessing, Settings::CheckMode) = QVariant(ui->cmbLogProcessingCommonCriteria->currentIndex());
-    Settings::set(Settings::Logging_CommonProcessing, Settings::TimeUnit) = QVariant(ui->cmbLogProcessingCommonTime->currentIndex());
-    Settings::set(Settings::Logging_CommonProcessing, Settings::TimeLimit) = QVariant(ui->spinLogProcessingCommonTime->value());
-    Settings::set(Settings::Logging_CommonProcessing, Settings::SizeLimit) = QVariant(ui->spinLogProcessingCommonSize->value());
-    Settings::set(Settings::Logging_CommonProcessing, Settings::ExtCommand) =QVariant(ui->editLogProcessingCommonCmd->text());
-    Settings::set(Settings::Logging_PrivProcessing, Settings::CheckEnabled) = QVariant(ui->chkLogProcessingPrivate->isChecked()?1:0);
-    Settings::set(Settings::Logging_PrivProcessing, Settings::CheckMode) = QVariant(ui->cmbLogProcessingPrivateCriteria->currentIndex());
-    Settings::set(Settings::Logging_PrivProcessing, Settings::TimeUnit) = QVariant(ui->cmbLogProcessingTime->currentIndex());
-    Settings::set(Settings::Logging_PrivProcessing, Settings::TimeLimit) = QVariant(ui->spinLogProcessingTime->value());
-    Settings::set(Settings::Logging_PrivProcessing, Settings::SizeLimit) = QVariant(ui->spinLogProcessingSize->value());
-    Settings::set(Settings::Logging_PrivProcessing, Settings::ExtCommand) =QVariant(ui->editLogProcessingPrivateCmd->text());
+    // Common log
+    s->setValue(SKEY_COMMONLOG_CheckEnabled, ui->chkLogProcessingCommon->isChecked()?1:0);
+    s->setValue(SKEY_COMMONLOG_CheckMode, ui->cmbLogProcessingCommonCriteria->currentIndex());
+    s->setValue(SKEY_COMMONLOG_TimeUnit, ui->cmbLogProcessingCommonTime->currentIndex());
+    s->setValue(SKEY_COMMONLOG_TimeLimit, ui->spinLogProcessingCommonTime->value());
+    s->setValue(SKEY_COMMONLOG_SizeLimit, ui->spinLogProcessingCommonSize->value());
+    s->setValue(SKEY_COMMONLOG_ExtCommand, ui->editLogProcessingCommonCmd->text());
+
+    // Private log
+    s->setValue(SKEY_PRIVLOG_CheckEnabled, ui->chkLogProcessingPrivate->isChecked()?1:0);
+    s->setValue(SKEY_PRIVLOG_CheckMode, ui->cmbLogProcessingPrivateCriteria->currentIndex());
+    s->setValue(SKEY_PRIVLOG_TimeUnit, ui->cmbLogProcessingTime->currentIndex());
+    s->setValue(SKEY_PRIVLOG_TimeLimit, ui->spinLogProcessingTime->value());
+    s->setValue(SKEY_PRIVLOG_SizeLimit, ui->spinLogProcessingSize->value());
+    s->setValue(SKEY_PRIVLOG_ExtCommand, ui->editLogProcessingPrivateCmd->text());
 }
 
 /******************************************************************/

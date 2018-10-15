@@ -4,7 +4,7 @@
 #include "utils.h"
 #include <QDebug>
 #include "gData.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 namespace SDPO {
 

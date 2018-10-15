@@ -56,16 +56,16 @@ void ViewersOptionsWidget::init(QSettings *s)
 {
 
     ui->cmbTxtLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_TextViewerMode,0).toInt());
-    ui->cmbHtmlLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_HTMLViewerMode,1).toInt());
-    ui->cmbDbfLogFile->setCurrentIndex(s->value(SKEY_LOGVIEWER_DBFViewerMode,0).toInt());
+    ui->cmbHtmlLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_HtmlViewerMode,1).toInt());
+    ui->cmbDbfLogFile->setCurrentIndex(s->value(SKEY_LOGVIEWER_DbfViewerMode,0).toInt());
     on_SelectLogViewer();
     connect(ui->cmbTxtLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
     connect(ui->cmbHtmlLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
     connect(ui->cmbDbfLogFile, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
 
     ui->editViewersTxtLogFiles->setText(s->value(SKEY_LOGVIEWER_TextViewerCmd, "notepad.exe %log%").toString());
-    ui->editViewersHtmlLogFiles->setText(s->value(SKEY_LOGVIEWER_HTMLViewerCmd).toString());
-    ui->editViewersDbfLogFiles->setText(s->value(SKEY_LOGVIEWER_DBFViewerCmd).toString());
+    ui->editViewersHtmlLogFiles->setText(s->value(SKEY_LOGVIEWER_HtmlViewerCmd).toString());
+    ui->editViewersDbfLogFiles->setText(s->value(SKEY_LOGVIEWER_DbfViewerCmd).toString());
 }
 
 /******************************************************************/
@@ -73,12 +73,12 @@ void ViewersOptionsWidget::init(QSettings *s)
 void ViewersOptionsWidget::prepareToSave(QSettings *s)
 {
     s->setValue(SKEY_LOGVIEWER_TextViewerMode, ui->cmbTxtLogFiles->currentIndex());
-    s->setValue(SKEY_LOGVIEWER_HTMLViewerMode, ui->cmbHtmlLogFiles->currentIndex());
-    s->setValue(SKEY_LOGVIEWER_DBFViewerMode, ui->cmbDbfLogFile->currentIndex());
+    s->setValue(SKEY_LOGVIEWER_HtmlViewerMode, ui->cmbHtmlLogFiles->currentIndex());
+    s->setValue(SKEY_LOGVIEWER_DbfViewerMode, ui->cmbDbfLogFile->currentIndex());
 
     s->setValue(SKEY_LOGVIEWER_TextViewerCmd, ui->editViewersTxtLogFiles->text());
-    s->setValue(SKEY_LOGVIEWER_HTMLViewerCmd, ui->editViewersHtmlLogFiles->text());
-    s->setValue(SKEY_LOGVIEWER_DBFViewerCmd, ui->editViewersDbfLogFiles->text());
+    s->setValue(SKEY_LOGVIEWER_HtmlViewerCmd, ui->editViewersHtmlLogFiles->text());
+    s->setValue(SKEY_LOGVIEWER_DbfViewerCmd, ui->editViewersDbfLogFiles->text());
 }
 
 /******************************************************************/

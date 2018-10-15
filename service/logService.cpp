@@ -6,7 +6,7 @@
 #include "logger/htmlLogger.h"
 #include "logger/dbfLogger.h"
 #include "logger/odbcLogger.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 #include <QDebug>
 
@@ -118,7 +118,8 @@ void LogService::writeCommonLog(TTest *test)
              << test->property("TestMethod").toString()
              << test->property("TestID").toInt();
 
-    bool useBothLogs = Settings::get(Settings::Logging, Settings::UseBothLogs, QVariant(0)) == 1;
+    QSettings s;
+    bool useBothLogs = s.value(SKEY_LOGGING_UseBothLogs,0) == 1;
     if (!logWritten || useBothLogs) {
         writeBackupLog(test);
     }

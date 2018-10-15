@@ -74,12 +74,12 @@ void MiscellaneousOptionsWidget::init(QSettings *s)
 
     // ODBC tests & logging
     ui->chkNotSqlFetch->setChecked(s->value(SKEY_MISC_DoNotUseSqlFetchAbsolute,1).toInt());
-    if(s->value(SKEY_MISC_ODBCUseSystemDSN,1).toInt()) {
+    if(s->value(SKEY_MISC_OdbcUseSystemDsn,1).toInt()) {
         ui->rbDsnSystem->setChecked(true);
     } else {
         ui->rbDsnUser->setChecked(true);
     }
-    ui->chkEnableConnectionPooling->setChecked(s->value(SKEY_MISC_ODBCConnectionPooling,0).toInt());
+    ui->chkEnableConnectionPooling->setChecked(s->value(SKEY_MISC_OdbcConnectionPooling,0).toInt());
 
     // RMA / Logging
     if (s->value(SKEY_LOGGING_RecordPrimaryRMAErrors,1).toInt()) {
@@ -113,97 +113,49 @@ void MiscellaneousOptionsWidget::init(QSettings *s)
     ui->chkAcceptInvalidHosts->setChecked(s->value(SKEY_MISC_IgnoreCertCnInvalid,0).toInt());
     ui->chkAcceptInvalidDates->setChecked(s->value(SKEY_MISC_IgnoreCertDateInvalid,0).toInt());
 
-        /******************************************************************/
+    // Settings for UNC tests
+    ui->spinUncRetries->setValue(s->value(SKEY_MISC_UncRetries,2).toInt());
+    switch (s->value(SKEY_MISC_UncMode,0).toInt()) {
+    case 1: ui->rbUncOnePerServer->setChecked(true); break;
+    case 2: ui->rbUncOneByOne->setChecked(true); break;
+    default: // case 0:
+        ui->rbUncNormal->setChecked(true); break;
+    }
+    ui->chkErrorInReply->setChecked(s->value(SKEY_MISC_UncShowErrors,0).toInt());
 
-    value = Settings::get(Settings::Misc, Settings::UNCRetries, QVariant(2));
-        ui->spinUncRetries->setValue(value.toInt());
+    // NT event log tests
+    ui->chkShowEventsDecription->setChecked(s->value(SKEY_MISC_ShowNTEventDescr,1).toInt());
 
-    value = Settings::get(Settings::Misc, Settings::UNCMode, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbUncNormal->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbUncOnePerServer->setChecked(true);
-        else if (value.toInt() == 2)
-            ui->rbUncOneByOne->setChecked(true);
+    // Performance counter
+    switch(s->value(SKEY_MISC_PerfWorkMode,0).toInt()) {
+    case 1: ui->rbModeOneByOne->setChecked(true); break;
+    case 2: ui->rbModeSmart->setChecked(true); break;
+    case 3: ui->rbModeExternal->setChecked(true); break;
+    default: // case 0:
+        ui->rbModeMultiThread->setChecked(true); break;
+    }
 
-    value = Settings::get(Settings::Misc, Settings::UNCShowErrors, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkErrorInReply->setChecked(true);
-        else
-            ui->chkErrorInReply->setChecked(false);
+    // SNMP Get tests
+    ui->chkSnmpAppend0->setChecked(s->value(SKEY_MISC_SnmpAutoSingleInstance,0).toInt());
 
-        /******************************************************************/
+    // SNMP Trap tests
+    reset_SnmpTrapAction();
+    ui->spinSnmpTrapUdpPort->setValue(s->value(SKEY_TRAP_Port, 162).toInt());
+    ui->grpSnmpTrafficAlert->setChecked(s->value(SKEY_TRAP_TrafficCheck, 1).toInt());
+    ui->spinSnmpAlertMessages->setValue(s->value(SKEY_TRAP_TrafficLimit, 1800).toInt());
+    ui->spinSnmpAlertSeconds->setValue(s->value(SKEY_TRAP_TrafficSpan, 60).toInt());
+    ui->chkSnmpSuspend->setChecked(s->value(SKEY_TRAP_Pause, 1).toInt());
+    ui->spinSnmpSuspendTime->setValue(s->value(SKEY_TRAP_PauseSpan, 60).toInt());
+    ui->chkExecuteAtionProfile->setChecked(s->value(SKEY_TRAP_Action, 1).toInt());
+    ui->cmbSelectActionProfile->setCurrentIndex(s->value(SKEY_TRAP_ActionID,0).toInt());
 
-    value = Settings::get(Settings::Misc, Settings::ShowNTEventDescr, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkShowEventsDecription->setChecked(true);
-        else
-            ui->chkShowEventsDecription->setChecked(false);
-
-        /******************************************************************/
-    value = Settings::get(Settings::Misc, Settings::PerfWorkMode, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbModeMultiThread->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbModeOneByOne->setChecked(true);
-        else if (value.toInt() == 2)
-            ui->rbModeSmart->setChecked(true);
-        else if (value.toInt() == 3)
-            ui->rbModeExternal->setChecked(true);
-
-       /******************************************************************/
-    value = Settings::get(Settings::Misc, Settings::snmpAutoSingleInstance, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkSnmpAppend0->setChecked(true);
-        else
-            ui->chkSnmpAppend0->setChecked(false);
-
-       /******************************************************************/
-
-     reset_SnmpTrapAction();
-
-     value = Settings::get(Settings::TrapListener, Settings::Port, QVariant(162));
-        ui->spinSnmpTrapUdpPort->setValue(value.toInt());
-
-     value = Settings::get(Settings::TrapListener, Settings::TrafficCheck, QVariant(1));
-        if (value.toInt() == 1)
-            ui->grpSnmpTrafficAlert->setChecked(true);
-        else
-            ui->grpSnmpTrafficAlert->setChecked(false);
-
-     value = Settings::get(Settings::TrapListener, Settings::TrafficLimit, QVariant(1800));
-        ui->spinSnmpAlertMessages->setValue(value.toInt());
-
-     value = Settings::get(Settings::TrapListener, Settings::TrafficSpan, QVariant(60));
-     ui->spinSnmpAlertSeconds->setValue(value.toInt());
-
-     value = Settings::get(Settings::TrapListener, Settings::Pause, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkSnmpSuspend->setChecked(true);
-        else
-            ui->chkSnmpSuspend->setChecked(false);
-
-     value = Settings::get(Settings::TrapListener, Settings::PauseSpan, QVariant(60));
-     ui->spinSnmpSuspendTime->setValue(value.toInt());
-
-     value = Settings::get(Settings::TrapListener, Settings::Action, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkExecuteAtionProfile->setChecked(true);
-        else
-            ui->chkExecuteAtionProfile->setChecked(false);
-
-     value = Settings::get(Settings::TrapListener, Settings::ActionID, QVariant());
-        ui->cmbSelectActionProfile->setCurrentIndex(value.toInt());
-
-        /******************************************************************/
-
-    value = Settings::get(Settings::Misc, Settings::TrafficMonitorUnits, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbTrafficInKB->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbTrafficInKbit->setChecked(true);
-        else if (value.toInt() == 2)
-            ui->rbTestSettings->setChecked(true);
+    // Traffic monitor tests
+    switch (s->value(SKEY_MISC_TrafficMonitorUnits,0).toInt()) {
+    case 1: ui->rbTrafficInKbit->setChecked(true); break;
+    case 2: ui->rbTestSettings->setChecked(true); break;
+    default: // case 0:
+        ui->rbTrafficInKB->setChecked(true); break;
+    }
 }
 
 /******************************************************************/
@@ -223,8 +175,8 @@ void MiscellaneousOptionsWidget::prepareToSave(QSettings *s)
 
     // ODBC tests & logging
     s->setValue(SKEY_MISC_DoNotUseSqlFetchAbsolute, ui->chkNotSqlFetch->isChecked()?1:0);
-    s->setValue(SKEY_MISC_ODBCUseSystemDSN, ui->rbDsnSystem->isChecked()?1:0);
-    s->setValue(SKEY_MISC_ODBCConnectionPooling, ui->chkEnableConnectionPooling->isChecked()?1:0);
+    s->setValue(SKEY_MISC_OdbcUseSystemDsn, ui->rbDsnSystem->isChecked()?1:0);
+    s->setValue(SKEY_MISC_OdbcConnectionPooling, ui->chkEnableConnectionPooling->isChecked()?1:0);
 
     // RMA / Logging
     s->setValue(SKEY_LOGGING_RecordPrimaryRMAErrors, ui->rbRequestBackup->isChecked()?1:0);
@@ -250,48 +202,52 @@ void MiscellaneousOptionsWidget::prepareToSave(QSettings *s)
     s->setValue(SKEY_MISC_IgnoreCertCnInvalid, ui->chkAcceptInvalidHosts->isChecked()?1:0);
     s->setValue(SKEY_MISC_IgnoreCertDateInvalid, ui->chkAcceptInvalidDates->isChecked()?1:0);
 
+    // Settings for UNC tests
+    s->setValue(SKEY_MISC_UncRetries, ui->spinUncRetries->value());
+    int uncStatus = 0; // ui->rbUncNormal->isChecked()
+    if (ui->rbUncOnePerServer->isChecked()) {
+        uncStatus = 1;
+    } else if (ui->rbUncOneByOne->isChecked()) {
+        uncStatus = 2;
+    }
+    s->setValue(SKEY_MISC_UncMode, uncStatus);
+    s->setValue(SKEY_MISC_UncShowErrors, ui->chkErrorInReply->isChecked()?1:0);
 
-    Settings::set(Settings::Misc, Settings::UNCRetries) = QVariant(ui->spinUncRetries->value());
+    // NT event log tests
+    s->setValue(SKEY_MISC_ShowNTEventDescr, ui->chkShowEventsDecription->isChecked()?1:0);
 
-    int UncStatus;
-        if(ui->rbUncNormal->isChecked())
-            UncStatus = 0;
-        else if (ui->rbUncOnePerServer->isChecked())
-            UncStatus = 1;
-        else if (ui->rbUncOneByOne->isChecked())
-            UncStatus = 2;
-    Settings::set(Settings::Misc, Settings::UNCMode) = QVariant(UncStatus);
-    Settings::set(Settings::Misc, Settings::UNCShowErrors) = QVariant(ui->chkErrorInReply->isChecked()?1:0);
-    Settings::set(Settings::Misc, Settings::ShowNTEventDescr) = QVariant(ui->chkShowEventsDecription->isChecked()?1:0);
+    // Performance counter
+    int performanceTestMode = 0; // ui->rbModeMultiThread->isChecked()
+    if(ui->rbModeOneByOne->isChecked()) {
+        performanceTestMode = 1;
+    } else if(ui->rbModeSmart->isChecked()) {
+        performanceTestMode = 2;
+    } else if(ui->rbModeExternal->isChecked()) {
+        performanceTestMode = 3;
+    }
+    s->setValue(SKEY_MISC_PerfWorkMode, performanceTestMode);
 
-    int performanceTestMode;
-        if(ui->rbModeMultiThread->isChecked())
-            performanceTestMode = 0;
-        else if(ui->rbModeOneByOne->isChecked())
-            performanceTestMode = 1;
-        else if(ui->rbModeSmart->isChecked())
-            performanceTestMode = 2;
-        else if(ui->rbModeExternal->isChecked())
-            performanceTestMode = 3;
-    Settings::set(Settings::Misc, Settings::PerfWorkMode) = QVariant(performanceTestMode);
-    Settings::set(Settings::Misc, Settings::snmpAutoSingleInstance) = QVariant(ui->chkSnmpAppend0->isChecked()?1:0);
-    Settings::set(Settings::TrapListener, Settings::Port) = QVariant(ui->spinSnmpTrapUdpPort->value());
-    Settings::set(Settings::TrapListener, Settings::TrafficCheck) = QVariant(ui->grpSnmpTrafficAlert->isChecked()?1:0);
-    Settings::set(Settings::TrapListener, Settings::TrafficLimit) = QVariant(ui->spinSnmpAlertMessages->value());
-    Settings::set(Settings::TrapListener, Settings::TrafficSpan) = QVariant(ui->spinSnmpAlertSeconds->value());
-    Settings::set(Settings::TrapListener, Settings::Pause) = QVariant(ui->chkSnmpSuspend->isChecked()?1:0);
-    Settings::set(Settings::TrapListener, Settings::PauseSpan) = QVariant(ui->spinSnmpSuspendTime->value());
-    Settings::set(Settings::TrapListener, Settings::Action) = QVariant(ui->chkExecuteAtionProfile->isChecked()?1:0);
-    Settings::set(Settings::TrapListener, Settings::ActionID) = QVariant(ui->cmbSelectActionProfile->currentIndex());
+    // SNMP Get tests
+    s->setValue(SKEY_MISC_SnmpAutoSingleInstance, ui->chkSnmpAppend0->isChecked()?1:0);
 
-    int trafficMonitorSelect;
-        if(ui->rbTrafficInKB->isChecked())
-            trafficMonitorSelect = 0;
-        else if(ui->rbTrafficInKbit->isChecked())
-            trafficMonitorSelect = 1;
-        else if(ui->rbTestSettings->isChecked())
-            trafficMonitorSelect = 2;
-        Settings::set(Settings::Misc, Settings::TrafficMonitorUnits) = QVariant(trafficMonitorSelect);
+    // SNMP Trap tests
+    s->setValue(SKEY_TRAP_Port, ui->spinSnmpTrapUdpPort->value());
+    s->setValue(SKEY_TRAP_TrafficCheck, ui->grpSnmpTrafficAlert->isChecked()?1:0);
+    s->setValue(SKEY_TRAP_TrafficLimit, ui->spinSnmpAlertMessages->value());
+    s->setValue(SKEY_TRAP_TrafficSpan, ui->spinSnmpAlertSeconds->value());
+    s->setValue(SKEY_TRAP_Pause, ui->chkSnmpSuspend->isChecked()?1:0);
+    s->setValue(SKEY_TRAP_PauseSpan, ui->spinSnmpSuspendTime->value());
+    s->setValue(SKEY_TRAP_Action, ui->chkExecuteAtionProfile->isChecked()?1:0);
+    s->setValue(SKEY_TRAP_ActionID, ui->cmbSelectActionProfile->currentIndex());
+
+    // Traffic monitor tests
+    int trafficMonitorSelect = 0; // ui->rbTrafficInKB->isChecked()
+    if(ui->rbTrafficInKbit->isChecked()) {
+        trafficMonitorSelect = 1;
+    } else if(ui->rbTestSettings->isChecked()) {
+        trafficMonitorSelect = 2;
+    }
+    s->setValue(SKEY_MISC_TrafficMonitorUnits, trafficMonitorSelect);
 }
 
 /******************************************************************/

@@ -2,7 +2,6 @@
 #include "ui_qOptionsForm.h"
 
 #include <QTreeWidgetItem>
-#include "mSettings.h"
 #include <QDebug>
 
 namespace SDPO {
@@ -16,6 +15,8 @@ OptionsForm::OptionsForm(QWidget *parent) :
     ui->setupUi(this);
     ui->optionsTree->setColumnHidden(1,true);
     connect(ui->wAccessMethod, SIGNAL(goToPage(int)), this, SLOT(setCurrentPage(int)));
+    connect(ui->FinishCancelHelpBtn, SIGNAL(accepted()), this, SLOT(prepareToSave()));
+    connect(ui->PageControl, SIGNAL(currentChanged(int)), this, SLOT(selectOptionsTreeItem(int)));
     init();
 }
 
@@ -69,14 +70,6 @@ void OptionsForm::on_nextButton_clicked()
 
 /******************************************************************/
 
-void OptionsForm::on_PageControl_tabBarClicked(int index)
-{
-    // activate tree
-    selectOptionsTreeItem(index);
-}
-
-/******************************************************************/
-
 void OptionsForm::selectOptionsTreeItem(const int idx)
 {
     QList<QTreeWidgetItem*> items = ui->optionsTree->findItems(QString().setNum(idx),Qt::MatchExactly,1);
@@ -95,14 +88,6 @@ void OptionsForm::selectOptionsTreeItem(const int idx)
         ui->optionsTree->setCurrentItem(items.at(0)->child(idx-7));
     }
 
-}
-
-/******************************************************************/
-
-void OptionsForm::on_FinishCancelHelpBtn_accepted()
-{
-    prepareToSave();
-    Settings::save();
 }
 
 /******************************************************************/

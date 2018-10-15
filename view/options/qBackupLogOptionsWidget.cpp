@@ -138,82 +138,55 @@ void BackupLogOptionsWidget::setBackupFileLogName()
 void BackupLogOptionsWidget::init(QSettings *s)
 {
     reset_AlertInaccessible();
-
-    QVariant value = Settings::get(Settings::Logging2, Settings::Target, QVariant(1));
-        ui->cmbBackupLogType->setCurrentIndex(value.toInt());
-        on_cmbBackupLogSelect(value.toInt());
-        connect(ui->cmbBackupLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbBackupLogSelect(int)));
-
-    value = Settings::get(Settings::Logging2, Settings::SaveMode, QVariant(2));
-        ui->cmbBackupLogMode->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging2, Settings::LogNameMethod, QVariant(0));
-        ui->cmbBackupLogFile->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging2, Settings::File2Name, QVariant());
-    QString val = value.toString();
-        int idx = val.lastIndexOf("/");
-        if (idx != -1)
-            curFolder = val.mid(0,idx);
-        ui->editBackupLogFileName->setText(val);
-
-    value = Settings::get(Settings::Logging2, Settings::LogFormat, QVariant(0));
-        if (value.toInt() == 0)
-            ui->rbBackupLogHTML->setChecked(true);
-        else if (value.toInt() == 1)
-            ui->rbBackupLogText->setChecked(true);
-        else if (value.toInt() == 2)
-            ui->rbBackupLogDBF->setChecked(true);
-
-    value = Settings::get(Settings::Logging2, Settings::UseDeadAction, QVariant(0));
-        ui->chkBackupLogAlertInaccessible->setChecked(value.toInt() == 1);
-
-    value = Settings::get(Settings::Logging2, Settings::DeadActionID, QVariant(-1));
-        ui->cmbBackupLogAlertInaccessible->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Logging2, Settings::odbcLogSource, QVariant());
-        ui->cmbBackupLogDatasource->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::Logging2, Settings::odbcLogSQLQuer, QVariant("Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')"));
-        ui->plainBackupLogSQL->clear();
-        ui->plainBackupLogSQL->insertPlainText(value.toString());
-
-    value = Settings::get(Settings::Logging2, Settings::odbcLogUser, QVariant());
-        ui->editBackupLogLogin->setText(value.toString());
-
-    value = Settings::get(Settings::Logging2, Settings::odbcLogPswd, QVariant());
-        ui->editBackupLogPassword->setText(value.toString());
-
-    value = Settings::get(Settings::Logging2, Settings::odbcLogTimeout, QVariant(10));
-        ui->spinBackupLogTimeout->setValue(value.toInt());
+    ui->cmbBackupLogType->setCurrentIndex(s->value(SKEY_LOG2_Target,1).toInt());
+    on_cmbBackupLogSelect(ui->cmbBackupLogType->currentIndex());
+    connect(ui->cmbBackupLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbBackupLogSelect(int)));
+    ui->cmbBackupLogMode->setCurrentIndex(s->value(SKEY_LOG2_SaveMode,2).toInt());
+    ui->cmbBackupLogFile->setCurrentIndex(s->value(SKEY_LOG2_LogNameMethod,0).toInt());
+    QString val = s->value(SKEY_LOG2_File2Name).toString();
+    int idx = val.lastIndexOf("/");
+    if (idx != -1) {
+        curFolder = val.mid(0,idx);
+    }
+    ui->editBackupLogFileName->setText(val);
+    switch (s->value(SKEY_LOG2_LogFormat,0).toInt()) {
+    case 1: ui->rbBackupLogText->setChecked(true); break;
+    case 2: ui->rbBackupLogDBF->setChecked(true); break;
+    default: // case 0:
+        ui->rbBackupLogHTML->setChecked(true); break;
+    }
+    ui->chkBackupLogAlertInaccessible->setChecked(s->value(SKEY_LOG2_UseDeadAction,0).toInt() == 1);
+    ui->cmbBackupLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG2_DeadActionID,-1).toInt());
+    ui->cmbBackupLogDatasource->setCurrentText(s->value(SKEY_LOG2_OdbcLogSource).toString());
+    ui->plainBackupLogSQL->clear();
+    ui->plainBackupLogSQL->insertPlainText(s->value(SKEY_LOG2_OdbcLogSqlQuery, SVAL_LOGGING_OdbcQuery).toString());
+    ui->editBackupLogLogin->setText(s->value(SKEY_LOG2_OdbcLogUser).toString());
+    ui->editBackupLogPassword->setText(s->value(SKEY_LOG2_OdbcLogPswd).toString());
+    ui->spinBackupLogTimeout->setValue(s->value(SKEY_LOG2_OdbcLogTimeout,10).toInt());
 }
 
 /******************************************************************/
 
 void BackupLogOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Logging2, Settings::Target) = QVariant(ui->cmbBackupLogType->currentIndex());
-    Settings::set(Settings::Logging2, Settings::SaveMode) = QVariant(ui->cmbBackupLogMode->currentIndex());
-    Settings::set(Settings::Logging2, Settings::LogNameMethod) = QVariant(ui->cmbBackupLogFile->currentIndex());
-    Settings::set(Settings::Logging2, Settings::File2Name) = QVariant(ui->editBackupLogFileName->text());
-
-    int LogFormat;
-        if (ui->rbBackupLogHTML->isChecked()?1:0)
-        LogFormat = 0;
-        else if (ui->rbBackupLogText->isChecked()?1:0)
-            LogFormat = 1;
-        else if (ui->rbBackupLogDBF->isChecked()?1:0)
-            LogFormat =2 ;
-
-    Settings::set(Settings::Logging2, Settings::LogFormat) = QVariant(LogFormat);
-
-    Settings::set(Settings::Logging2, Settings::UseDeadAction) = QVariant(ui->chkBackupLogAlertInaccessible->isChecked()?1:0);
-    Settings::set(Settings::Logging2, Settings::odbcLogSQLQuer) = QVariant(ui->plainBackupLogSQL->toPlainText());
-    Settings::set(Settings::Logging2, Settings::DeadActionID) = QVariant(ui->cmbBackupLogAlertInaccessible->currentIndex());
-    Settings::set(Settings::Logging2, Settings::odbcLogSource) = QVariant(ui->cmbBackupLogDatasource->currentText());
-    Settings::set(Settings::Logging2, Settings::odbcLogUser) = QVariant(ui->editBackupLogLogin->text());
-    Settings::set(Settings::Logging2, Settings::odbcLogPswd) = QVariant(ui->editBackupLogPassword->text());
-    Settings::set(Settings::Logging2, Settings::odbcLogTimeout) = QVariant(ui->spinBackupLogTimeout->value());
+    s->setValue(SKEY_LOG2_Target, ui->cmbBackupLogType->currentIndex());
+    s->setValue(SKEY_LOG2_SaveMode, ui->cmbBackupLogMode->currentIndex());
+    s->setValue(SKEY_LOG2_LogNameMethod, ui->cmbBackupLogFile->currentIndex());
+    s->setValue(SKEY_LOG2_File2Name, ui->editBackupLogFileName->text());
+    int logFormat = 0; // ui->rbBackupLogHTML->isChecked()
+    if (ui->rbBackupLogText->isChecked()) {
+        logFormat = 1;
+    } else if (ui->rbBackupLogDBF->isChecked()) {
+        logFormat = 2;
+    }
+    s->setValue(SKEY_LOG2_LogFormat, logFormat);
+    s->setValue(SKEY_LOG2_UseDeadAction, ui->chkBackupLogAlertInaccessible->isChecked()?1:0);
+    s->setValue(SKEY_LOG2_DeadActionID, ui->cmbBackupLogAlertInaccessible->currentIndex());
+    s->setValue(SKEY_LOG2_OdbcLogSource, ui->cmbBackupLogDatasource->currentText());
+    s->setValue(SKEY_LOG2_OdbcLogSqlQuery, ui->plainBackupLogSQL->toPlainText());
+    s->setValue(SKEY_LOG2_OdbcLogUser, ui->editBackupLogLogin->text());
+    s->setValue(SKEY_LOG2_OdbcLogPswd, ui->editBackupLogPassword->text());
+    s->setValue(SKEY_LOG2_OdbcLogTimeout, ui->spinBackupLogTimeout->value());
 }
 
 /******************************************************************/

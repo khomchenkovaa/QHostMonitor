@@ -1,6 +1,6 @@
 #include "tPing.h"
 #include "tEnums.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include <QProcess>
 
 namespace SDPO {

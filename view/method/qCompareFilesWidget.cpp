@@ -1,6 +1,5 @@
 #include "qCompareFilesWidget.h"
 #include "ui_qCompareFilesWidget.h"
-#include "mSettings.h"
 #include "global/tMethod.h"
 #include "method/tCompareFiles.h"
 #include <QFileDialog>

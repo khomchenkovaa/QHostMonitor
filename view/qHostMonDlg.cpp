@@ -12,7 +12,7 @@
 #include "qMethodSelectDlg.h"
 #include "qLinksList.h"
 #include "qMacroEditorDlg.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include "tEnums.h"
 #include "tTest.h"
 #include "global/gMacroTranslator.h"

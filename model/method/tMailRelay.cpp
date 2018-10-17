@@ -14,7 +14,7 @@ TMailRelay::TMailRelay(QObject *parent) :
 
 void TMailRelay::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -25,7 +25,6 @@ TTestMethod *TMailRelay::clone()
     TMailRelay *result = new TMailRelay(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Outgoing = a_Outgoing;
     result->a_Incoming = a_Incoming;

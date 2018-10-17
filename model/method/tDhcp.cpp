@@ -16,7 +16,7 @@ TDhcp::TDhcp(QObject *parent) :
 
 void TDhcp::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -27,7 +27,6 @@ TTestMethod *TDhcp::clone()
     TDhcp *result = new TDhcp(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Host = a_Host;
     result->a_Timeout = a_Timeout;

@@ -25,7 +25,7 @@ TNtEventLog::TNtEventLog(QObject *parent) :
 
 void TNtEventLog::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -36,7 +36,6 @@ TTestMethod *TNtEventLog::clone()
     TNtEventLog *result = new TNtEventLog(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->b_LogSource = b_LogSource;
     result->b_AlertCondition = b_AlertCondition;

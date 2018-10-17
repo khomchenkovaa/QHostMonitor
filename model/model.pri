@@ -10,10 +10,6 @@ HEADERS += \
     $$PWD/tLink.h \
     $$PWD/tAgent.h \
     $$PWD/tSchedule.h \
-    $$PWD/qcron/holiday.hpp \
-    $$PWD/qcron/qcron.hpp \
-    $$PWD/qcron/qcronfield.hpp \
-    $$PWD/qcron/qcronnode.hpp \
     $$PWD/method/tTestMethod.h \
     $$PWD/method/tPing.h \
     $$PWD/method/tDriveSpace.h \
@@ -100,10 +96,6 @@ SOURCES += \
     $$PWD/tLink.cpp \
     $$PWD/tAgent.cpp \
     $$PWD/tSchedule.cpp \
-    $$PWD/qcron/holiday.cpp \
-    $$PWD/qcron/qcron.cpp \
-    $$PWD/qcron/qcronfield.cpp \
-    $$PWD/qcron/qcronnode.cpp \
     $$PWD/method/tTestMethod.cpp \
     $$PWD/method/tPing.cpp \
     $$PWD/method/tDriveSpace.cpp \

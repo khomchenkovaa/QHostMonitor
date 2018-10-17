@@ -9,6 +9,26 @@
 
 namespace SDPO {
 
+struct TTestResult {
+    TestStatus status;
+    QString    reply;
+    double     replyDouble;
+    int        replyInt;
+    QString    error;
+
+    TTestResult() {
+        clear();
+    }
+
+    void clear() {
+        status = TestStatus::Unknown;
+        reply = QString();
+        replyDouble = 0.0;
+        replyInt = 0;
+        error = QString();
+    }
+};
+
 class TTestMethod : public QObject
 {
     Q_OBJECT
@@ -27,12 +47,13 @@ protected:
     TMethodID m_TMethodID;
     QString m_NamePattern;
     QString m_CommentPattern;
+    TTestResult m_Result;
     // result
-    TestStatus m_Status;
-    QString m_Reply;
-    double m_ReplyDouble;
-    int m_ReplyInt;
-    QString m_ErrorString;
+//    TestStatus m_Status;
+//    QString m_Reply;
+//    double m_ReplyDouble;
+//    int m_ReplyInt;
+//    QString m_ErrorString;
 
 public:
     explicit TTestMethod(TMethodID methodId, QObject *parent = 0);
@@ -51,17 +72,17 @@ public:
     QString getCommentPattern() const { return m_CommentPattern; }
     void setCommentPattern(const QString value) { m_CommentPattern = value; }
 
-    TestStatus getStatus() const { return m_Status; }
-    QString getReply() const { return m_Reply; }
-    double getReplyDouble() const { return m_ReplyDouble; }
-    int getReplyInt() const { return m_ReplyInt; }
-    QString getErrorString() const { return m_ErrorString; }
+    TTestResult getResult() const { return m_Result; }
+    TestStatus getStatus() const { return m_Result.status; }
+    QString getReply() const { return m_Result.reply; }
+    double getReplyDouble() const { return m_Result.replyDouble; }
+    int getReplyInt() const { return m_Result.replyInt; }
+    QString getErrorString() const { return m_Result.error; }
 
     // command
     virtual void run() {} // Do nothing
     virtual QString getCommand() const { return QString(); }
-    virtual void parseResult(QString data) { m_Reply = data; }
-    void clearResult();
+    virtual void parseResult(QString data) { m_Result.reply = data; }
 
     virtual TTestMethod *clone();
     QString getDafaultName() const;

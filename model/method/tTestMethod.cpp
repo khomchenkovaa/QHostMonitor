@@ -13,18 +13,6 @@ TTestMethod::TTestMethod(TMethodID methodId, QObject *parent) :
     TMethod method = TMethod::tMethodList.at((int)methodId);
     m_NamePattern = method.namePattern;
     m_CommentPattern = method.commentPattern;
-    clearResult();
-}
-
-/***********************************************/
-
-void TTestMethod::clearResult()
-{
-    m_Status = TestStatus::Unknown;
-    m_Reply = QString();
-    m_ReplyDouble = 0.0;
-    m_ReplyInt = 0;
-    m_ErrorString = QString();
 }
 
 /***********************************************/
@@ -34,7 +22,6 @@ TTestMethod *TTestMethod::clone()
     TTestMethod *result = new TTestMethod(m_TMethodID, parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     return result;
 }
 

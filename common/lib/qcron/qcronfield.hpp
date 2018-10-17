@@ -54,7 +54,7 @@ public:
             case DOM:    _min = 1; _max = 31;      break;
             case MONTH:  _min = 1; _max = 12;      break;
             case DOW:    _min = 1; _max = 7 ;      break;
-            case YEAR:   _min = 1; _max = 2099; break;
+            case YEAR:   _min = 1; _max = 2099;    break;
             default:     throw 42;
             }
         }

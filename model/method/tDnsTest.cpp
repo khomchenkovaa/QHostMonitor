@@ -21,7 +21,7 @@ TDnsTest::TDnsTest(QObject *parent) :
 
 void TDnsTest::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -32,7 +32,6 @@ TTestMethod *TDnsTest::clone()
     TDnsTest *result = new TDnsTest(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Server = a_Server;
     result->a_TimeOut = a_TimeOut;

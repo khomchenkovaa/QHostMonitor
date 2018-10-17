@@ -22,7 +22,7 @@ TCompareFiles::TCompareFiles(QObject *parent) :
 
 void TCompareFiles::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -33,7 +33,6 @@ TTestMethod *TCompareFiles::clone()
     TCompareFiles *result = new TCompareFiles(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_AlertWhen = a_AlertWhen;
     result->a_FirstFile = a_FirstFile;

@@ -19,7 +19,7 @@ TCpuUsage::TCpuUsage(QObject *parent) :
 
 void TCpuUsage::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -30,7 +30,6 @@ TTestMethod *TCpuUsage::clone()
     TCpuUsage *result = new TCpuUsage(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Computer = a_Computer;
     result->a_OsSelect = a_OsSelect;

@@ -18,10 +18,7 @@ TDriveSpace::TDriveSpace(QObject *parent) :
 
 void TDriveSpace::run()
 {
-    QString newReply = "No answer";
-    float newReplyFloat = 0.0;
-    int newReplyInt = 0;
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult result;
 
     QList<QStorageInfo> drives = QStorageInfo::mountedVolumes();
     foreach(QStorageInfo storage, drives) {
@@ -37,22 +34,19 @@ void TDriveSpace::run()
             testValue = conv.fromNumber();
         }
 
-        newReplyInt = testValue;
-        newReplyFloat = testValue;
-        newReply = QString::number(testValue) + m_Dimension;
+        result.replyInt = testValue;
+        result.replyDouble = testValue;
+        result.reply = QString::number(testValue) + m_Dimension;
 
         if (testValue < m_MinFreeSpace) {
-            newStatus = TestStatus::Bad;
+            result.status = TestStatus::Bad;
         } else {
-            newStatus = TestStatus::Ok;
+            result.status = TestStatus::Ok;
         }
         break;
     }
 
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
 
     emit testSuccess();
 }
@@ -64,7 +58,6 @@ TTestMethod *TDriveSpace::clone()
     TDriveSpace *result = new TDriveSpace(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->m_Drive = m_Drive;
     result->m_MinFreeSpace = m_MinFreeSpace;

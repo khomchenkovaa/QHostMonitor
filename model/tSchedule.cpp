@@ -1,5 +1,5 @@
 #include "tSchedule.h"
-#include "qcron/qcron.hpp"
+#include "lib/qcron/qcron.hpp"
 
 #include <QDebug>
 
@@ -58,11 +58,11 @@ void TSchedule::setRegular(const int interval, const QString schedName)
 
 /***********************************************/
 
-void TSchedule::setOneTestPerDay(const QTime schedTime)
+void TSchedule::setOncePerDay(const QTime schedTime)
 {
     bool changed = false;
-    if (a_Mode != TSchedule::OneTestPerDay ) {
-        a_Mode = TSchedule::OneTestPerDay;
+    if (a_Mode != TSchedule::OncePerDay ) {
+        a_Mode = TSchedule::OncePerDay;
         changed = true;
     }
     if (a_ScheduleTime != schedTime) {
@@ -76,11 +76,11 @@ void TSchedule::setOneTestPerDay(const QTime schedTime)
 
 /***********************************************/
 
-void TSchedule::setOneTestPerWeek(const int weekDay, const QTime schedTime)
+void TSchedule::setOncePerWeek(const int weekDay, const QTime schedTime)
 {
     bool changed = false;
-    if (a_Mode != TSchedule::OneTestPerWeek ) {
-        a_Mode = TSchedule::OneTestPerWeek;
+    if (a_Mode != TSchedule::OncePerWeek ) {
+        a_Mode = TSchedule::OncePerWeek;
         changed = true;
     }
     if (a_ScheduleDay != weekDay) {
@@ -98,11 +98,11 @@ void TSchedule::setOneTestPerWeek(const int weekDay, const QTime schedTime)
 
 /***********************************************/
 
-void TSchedule::setOneTestPerMonth(const int monthDay, const QTime schedTime)
+void TSchedule::setOncePerMonth(const int monthDay, const QTime schedTime)
 {
     bool changed = false;
-    if (a_Mode != TSchedule::OneTestPerMonth ) {
-        a_Mode = TSchedule::OneTestPerMonth;
+    if (a_Mode != TSchedule::OncePerMonth ) {
+        a_Mode = TSchedule::OncePerMonth;
         changed = true;
     }
     if (a_ScheduleDay != monthDay) {
@@ -151,13 +151,13 @@ QString TSchedule::intervalAsStr() const
         QTime t = time.addSecs(a_Interval);
         result = t.toString("hh:mm:ss");
         } break;
-    case ScheduleMode::OneTestPerDay :
+    case ScheduleMode::OncePerDay :
         result = QString("Daily, at %1").arg(a_ScheduleTime.toString("hh:mm:ss"));
         break;
-    case ScheduleMode::OneTestPerWeek :
+    case ScheduleMode::OncePerWeek :
         result = QString("Weekly, on %1").arg(dayOfWeek.at(a_ScheduleDay));
         break;
-    case ScheduleMode::OneTestPerMonth :
+    case ScheduleMode::OncePerMonth :
         result = QString("Monthly,[%1] %2").arg(a_ScheduleDay).arg(a_ScheduleTime.toString("hh:mm:ss"));
         break;
     case ScheduleMode::ByExpression :
@@ -178,9 +178,9 @@ QString TSchedule::scheduleModeAsString() const
 {
     switch (a_Mode) {
     case ScheduleMode::Regular : return "Regular";
-    case ScheduleMode::OneTestPerDay : return "OneTestPerDay";
-    case ScheduleMode::OneTestPerWeek : return "OneTestPerWeek";
-    case ScheduleMode::OneTestPerMonth : return "OneTestPerMonth";
+    case ScheduleMode::OncePerDay : return "OneTestPerDay";
+    case ScheduleMode::OncePerWeek : return "OneTestPerWeek";
+    case ScheduleMode::OncePerMonth : return "OneTestPerMonth";
     case ScheduleMode::ByExpression : return "ByExpression";
     }
     return QString();
@@ -194,15 +194,15 @@ void TSchedule::start()
     QString pattern;
     switch (a_Mode) {
     case ScheduleMode::Regular : startTimer(); break;
-    case ScheduleMode::OneTestPerDay :
+    case ScheduleMode::OncePerDay :
         pattern = QString("%1 %2 * * * *").arg(a_ScheduleTime.minute()).arg(a_ScheduleTime.hour());
         m_cron1 = startCron(pattern);
         break;
-    case ScheduleMode::OneTestPerWeek :
+    case ScheduleMode::OncePerWeek :
         pattern = QString("%1 %2 * * %3 *").arg(a_ScheduleTime.minute()).arg(a_ScheduleTime.hour()).arg(a_ScheduleDay+1);
         m_cron1 = startCron(pattern);
         break;
-    case ScheduleMode::OneTestPerMonth :
+    case ScheduleMode::OncePerMonth :
         pattern = QString("%1 %2 %3 * * *").arg(a_ScheduleTime.minute()).arg(a_ScheduleTime.hour()).arg(a_ScheduleDay+1);
         m_cron1 = startCron(pattern);
         break;

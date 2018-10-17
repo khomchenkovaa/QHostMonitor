@@ -37,10 +37,8 @@ QString TOdbcQuery::getTestedObjectInfo() const
 
 void TOdbcQuery::run()
 {
-    QString newReply = "No answer";
-    float newReplyFloat = 0.0;
-    int newReplyInt = 0;
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult result;
+    result.reply = "No answer";
 
     QSqlDatabase db = QSqlDatabase::database("testOdbcQuery");
     if (!db.isValid()) {
@@ -51,68 +49,65 @@ void TOdbcQuery::run()
     db.setPassword(a_Password);
     bool ok = db.open();
     if (!ok) {
-        m_ErrorString = db.lastError().text();
-        newStatus = TestStatus::Bad;
-        newReply = db.lastError().text();
+        result.error = db.lastError().text();
+        result.status = TestStatus::Bad;
+        result.reply = db.lastError().text();
     } else {
         if (b_ExecuteQuery) {
             QSqlQuery query(db);
-            bool result = query.exec(a_SqlQuery);
-            if (result) {
+            bool queryOk = query.exec(a_SqlQuery);
+            if (queryOk) {
                 if (b_TestAlert) {
                     if (query.seek(a_AlertRow-1)) {
                         QVariant value = query.value(a_AlertCol-1);
                         if (value.isValid()) {
                             switch (a_CriteriaMode) {
                             case 0: // is < than
-                                newStatus = (value.toInt() < a_CriteriaValue.toInt()) ? TestStatus::Bad : TestStatus::Ok;
+                                result.status = (value.toInt() < a_CriteriaValue.toInt()) ? TestStatus::Bad : TestStatus::Ok;
                                 break;
                             case 1: // is > than
-                                newStatus = (value.toInt() > a_CriteriaValue.toInt()) ? TestStatus::Bad : TestStatus::Ok;
+                                result.status = (value.toInt() > a_CriteriaValue.toInt()) ? TestStatus::Bad : TestStatus::Ok;
                                 break;
                             case 2: // is = to
-                                newStatus = (value.toString() == a_CriteriaValue) ? TestStatus::Bad : TestStatus::Ok;
+                                result.status = (value.toString() == a_CriteriaValue) ? TestStatus::Bad : TestStatus::Ok;
                                 break;
                             case 3: // is <> from
-                                newStatus = (value.toString() != a_CriteriaValue) ? TestStatus::Bad : TestStatus::Ok;
+                                result.status = (value.toString() != a_CriteriaValue) ? TestStatus::Bad : TestStatus::Ok;
                                 break;
                             case 4: // containts
-                                newStatus = (value.toString().contains(a_CriteriaValue)) ? TestStatus::Bad : TestStatus::Ok;
+                                result.status = (value.toString().contains(a_CriteriaValue)) ? TestStatus::Bad : TestStatus::Ok;
                                 break;
                             case 5: // does not contain
-                                newStatus = (value.toString().contains(a_CriteriaValue)) ? TestStatus::Ok : TestStatus::Bad;
+                                result.status = (value.toString().contains(a_CriteriaValue)) ? TestStatus::Ok : TestStatus::Bad;
                                 break;
                             }
-                            newReply = value.toString();
-                            newReplyInt = value.toInt();
-                            newReplyFloat = value.toFloat();
+                            result.reply = value.toString();
+                            result.replyInt = value.toInt();
+                            result.replyDouble = value.toFloat();
                         } else {
-                            newStatus = TEnums::testStatusFromString(a_UnavailableStatus);
-                            newReply = "Unavailable";
+                            result.status = TEnums::testStatusFromString(a_UnavailableStatus);
+                            result.reply = "Unavailable";
                         }
                     } else {
-                        newStatus = TEnums::testStatusFromString(a_UnavailableStatus);
-                        newReply = "Unavailable";
+                        result.status = TEnums::testStatusFromString(a_UnavailableStatus);
+                        result.reply = "Unavailable";
                     }
                 } else {
-                    newStatus = TestStatus::Ok;
-                    newReply = "Query OK";
+                    result.status = TestStatus::Ok;
+                    result.reply = "Query OK";
                 }
             } else {
-                newStatus = TestStatus::Bad;
-                newReply = query.lastError().text();
-                m_ErrorString = query.lastError().text();
+                result.status = TestStatus::Bad;
+                result.reply = query.lastError().text();
+                result.error = query.lastError().text();
             }
         } else {
-            newStatus = TestStatus::Ok;
-            newReply = "Connected";
+            result.status = TestStatus::Ok;
+            result.reply = "Connected";
         }
         db.close();
     }
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
 
     emit testSuccess();
 }
@@ -124,7 +119,6 @@ TTestMethod *TOdbcQuery::clone()
     TOdbcQuery *result = new TOdbcQuery(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_DataSource = a_DataSource;
     result->a_Login = a_Login;

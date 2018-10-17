@@ -535,7 +535,7 @@ private:
     void setSuggestedVars(const TestStatus newStatus);
     TestStatus processUserStatusExpressions(const TestStatus originalStatus);
     QString tuneUpReply(const QString originalReply);
-    void dynamicStatistics(const TestStatus newStatus, const QString newReply, const double newReplyNumber, const int newReplyInt);
+    void dynamicStatistics(const TTestResult testResult);
 
     void resetCurrentTestState();
     void resetSuggestedTestState();

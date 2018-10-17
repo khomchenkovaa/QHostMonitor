@@ -344,9 +344,9 @@ void IOTextFile::setTestProperties()
         int interval = m_testProps.take(PRM_INTERVAL).value.toInt();
         m_curTest->setRegularSchedule(interval, scheduleName);
     } break;
-    case TSchedule::OneTestPerDay:
-    case TSchedule::OneTestPerWeek:
-    case TSchedule::OneTestPerMonth:{
+    case TSchedule::OncePerDay:
+    case TSchedule::OncePerWeek:
+    case TSchedule::OncePerMonth:{
         int idx = ((int)schMode) - 1;
         int scheduleDay = 2;
         if (m_testProps.keys().contains(PRM_SCHEDULE_DAY)) {

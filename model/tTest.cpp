@@ -111,21 +111,22 @@ QVariant TTest::getGlobal(Macro::Variable globalVar) const
 void TTest::onTestPerformed()
 {
     // 1. (perform the test)
+    TTestResult testResult = m_test->getResult();
     // 2. process "Reverse alert" option
-    TestStatus newStatus = processReverseAlertOption(m_test->getStatus());
+    testResult.status = processReverseAlertOption(testResult.status);
 
     // 3. set “suggested” macro variables (%SuggestedStatus%, %SuggestedSimpleStatus%, %SuggestedReply%,  %SuggestedRecurrences% and %FailureIteration%)
     // without touching regular counters (%Status%, %Reply%, %Recurrences%, etc);
-    setSuggestedVars(newStatus);
+    setSuggestedVars(testResult.status);
 
     // 4. check "Warning" and "Normal" expressions
-    newStatus = processUserStatusExpressions(newStatus);
+    testResult.status = processUserStatusExpressions(testResult.status);
 
     // 5. process “Tune up Reply” option
-    QString newReply = tuneUpReply(m_test->getReply());
+    testResult.reply = tuneUpReply(testResult.reply);
 
     // 6. modify current test status and statistisc counters (Status, Reply, Alive%, Passed tests, Failed tests, etc)
-    dynamicStatistics(newStatus, newReply, m_test->getReplyDouble(), m_test->getReplyInt());
+    dynamicStatistics(testResult);
 
     restart();
     emit testDone(this);
@@ -258,14 +259,14 @@ QString TTest::tuneUpReply(const QString originalReply)
 
 /******************************************************************/
 
-void TTest::dynamicStatistics(const TestStatus newStatus, const QString newReply, const double newReplyNumber, const int newReplyInt)
+void TTest::dynamicStatistics(const TTestResult testResult)
 {
     // helpers
     QDateTime curTime = currentDateTime();
     QDateTime lastTime = m_TestTime;
     qint64 delta = curTime.toMSecsSinceEpoch() - lastTime.toMSecsSinceEpoch();
-    SimpleStatusID newSimpleStatus = produceSimpleStatus(newStatus);
-    bool statusChanged = (m_Status != newStatus);
+    SimpleStatusID newSimpleStatus = produceSimpleStatus(testResult.status);
+    bool statusChanged = (m_Status != testResult.status);
     bool simpleStatusChanged = (m_SimpleStatusID != newSimpleStatus);
 
     // previous state
@@ -281,10 +282,10 @@ void TTest::dynamicStatistics(const TestStatus newStatus, const QString newReply
 
     // current test state
     m_TestTime = curTime;
-    a_Reply = newReply;
-    a_Reply_Number = newReplyNumber;
-    a_Reply_Integer = newReplyInt;
-    m_Status = newStatus;
+    a_Reply = testResult.reply;
+    a_Reply_Number = testResult.replyDouble;
+    a_Reply_Integer = testResult.replyInt;
+    m_Status = testResult.status;
     m_SimpleStatusID = newSimpleStatus;
     if (statusChanged) {
         a_CurrentStatusIteration = 0;
@@ -332,9 +333,9 @@ void TTest::dynamicStatistics(const TestStatus newStatus, const QString newReply
     m_UnknownRatio = 100.0 * m_UnknownTime / m_TotalTime;
 
     if (m_SimpleStatusID == SimpleStatusID::UP) {
-        if (m_MinReply < newReplyNumber) m_MinReply = newReplyNumber;
-        if (m_MaxReply > newReplyNumber) m_MaxReply = newReplyNumber;
-        m_AverageReply = (m_AverageReply*(a_PassedCnt-1) + newReplyNumber) / a_PassedCnt;
+        if (m_MinReply < testResult.replyDouble) m_MinReply = testResult.replyDouble;
+        if (m_MaxReply > testResult.replyDouble) m_MaxReply = testResult.replyDouble;
+        m_AverageReply = (m_AverageReply*(a_PassedCnt-1) + testResult.replyDouble) / a_PassedCnt;
     }
 }
 
@@ -398,13 +399,13 @@ TTest *TTest::clone(const QString &newName)
     case TSchedule::Regular:
         result->setRegularSchedule(m_schedule.getInterval(), m_schedule.getScheduleName());
         break;
-    case TSchedule::OneTestPerDay:
+    case TSchedule::OncePerDay:
         result->setIrregularSchedule(0,scheduleDay(),scheduleTime());
         break;
-    case TSchedule::OneTestPerWeek:
+    case TSchedule::OncePerWeek:
         result->setIrregularSchedule(1,scheduleDay(),scheduleTime());
         break;
-    case TSchedule::OneTestPerMonth:
+    case TSchedule::OncePerMonth:
         result->setIrregularSchedule(2,scheduleDay(),scheduleTime());
         break;
     case TSchedule::ByExpression:
@@ -461,9 +462,9 @@ void TTest::setRegularSchedule(const int interval, const QString schedName)
 void TTest::setIrregularSchedule(const int mode, const int schedDay, const QTime schedTime)
 {
     switch (mode) {
-    case 0: m_schedule.setOneTestPerDay(schedTime); break;
-    case 1: m_schedule.setOneTestPerWeek(schedDay, schedTime); break;
-    case 2: m_schedule.setOneTestPerMonth(schedDay, schedTime); break;
+    case 0: m_schedule.setOncePerDay(schedTime); break;
+    case 1: m_schedule.setOncePerWeek(schedDay, schedTime); break;
+    case 2: m_schedule.setOncePerMonth(schedDay, schedTime); break;
     }
 }
 

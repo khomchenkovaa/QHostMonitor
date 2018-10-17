@@ -20,10 +20,8 @@ TMsSql::TMsSql(QObject *parent) :
 
 void TMsSql::run()
 {
-    QString newReply = "No driver";
-    float newReplyFloat = 0.0;
-    int newReplyInt = 0;
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult result;
+    result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QODBC")) {
         QSqlDatabase db = QSqlDatabase::database("testMsSQL");
@@ -40,19 +38,17 @@ void TMsSql::run()
         db.setDatabaseName(dbName);
         bool ok = db.open();
         if (!ok) {
-            m_ErrorString = db.lastError().text();
-            newStatus = TestStatus::Bad;
-            newReply = db.lastError().text();
+            result.error = db.lastError().text();
+            result.status = TestStatus::Bad;
+            result.reply = db.lastError().text();
         } else {
-            newStatus = TestStatus::Ok;
-            newReply = "Connected";
+            result.status = TestStatus::Ok;
+            result.reply = "Connected";
             db.close();
         }
     }
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
+
     emit testSuccess();
 }
 
@@ -63,7 +59,6 @@ TTestMethod *TMsSql::clone()
     TMsSql *result = new TMsSql(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Server = a_Server;
     result->a_Database = a_Database;

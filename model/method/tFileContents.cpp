@@ -17,7 +17,7 @@ TFileContents::TFileContents(QObject *parent) :
 
 void TFileContents::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -28,7 +28,6 @@ TTestMethod *TFileContents::clone()
     TFileContents *result = new TFileContents(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_File = a_File;
     result->a_Crc = a_Crc;

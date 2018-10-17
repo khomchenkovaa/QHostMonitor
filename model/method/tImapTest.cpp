@@ -24,7 +24,7 @@ TImapTest::TImapTest(QObject *parent) :
 
 void TImapTest::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -35,7 +35,6 @@ TTestMethod *TImapTest::clone()
     TImapTest *result = new TImapTest(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Server = a_Server;
     result->a_Port = a_Port;

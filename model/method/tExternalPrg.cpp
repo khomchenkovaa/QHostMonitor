@@ -19,11 +19,11 @@ TExternalPrg::TExternalPrg(QObject *parent) :
 
 void TExternalPrg::run()
 {
-    clearResult();
+    m_Result.clear();
 
     QString command = getCommand();
     if (command.isEmpty()) {
-        m_ErrorString = "Command is empty";
+        m_Result.error = "Command is empty";
         emit testFailed();
         return;
     }
@@ -34,20 +34,20 @@ void TExternalPrg::run()
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(command);
     if (!process.waitForStarted()) {
-        m_Reply = getTestedObjectInfo() + " can not start";
+        m_Result.reply = getTestedObjectInfo() + " can not start";
         process.close();
         emit testFailed();
         return;
     }
     if(!process.waitForFinished(a_KillTimeout * 1000)) {
-        m_Reply = getTestedObjectInfo() + " terminated";
+        m_Result.reply = getTestedObjectInfo() + " terminated";
         process.close();
         emit testFailed();
         return;
     }
-    TestStatus newStatus = testStatusByExitCode(process.exitCode());
+    m_Result.status = testStatusByExitCode(process.exitCode());
     parseResult(process.readAll().trimmed());
-    m_Status = newStatus;
+
     emit testSuccess();
 }
 
@@ -58,7 +58,6 @@ TTestMethod *TExternalPrg::clone()
     TExternalPrg *result = new TExternalPrg(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_ExternalPrg = a_ExternalPrg;
     result->a_AlertMode = a_AlertMode;

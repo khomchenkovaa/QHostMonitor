@@ -20,7 +20,7 @@ TCountFiles::TCountFiles(QObject *parent) :
 
 void TCountFiles::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -31,7 +31,6 @@ TTestMethod *TCountFiles::clone()
     TCountFiles *result = new TCountFiles(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Folder = a_Folder;
     result->b_TranslateMacros = b_TranslateMacros;

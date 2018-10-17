@@ -19,11 +19,11 @@ TShellScript::TShellScript(QObject *parent) :
 
 void TShellScript::run()
 {
-    clearResult();
+    m_Result.clear();
 
     QString command = getCommand();
     if (command.isEmpty()) {
-        m_ErrorString = "Command is empty";
+        m_Result.error = "Command is empty";
         emit testFailed();
         return;
     }
@@ -34,13 +34,13 @@ void TShellScript::run()
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(command);
     if (!process.waitForStarted()) {
-        m_Reply = getTestedObjectInfo() + " can not start";
+        m_Result.reply = getTestedObjectInfo() + " can not start";
         process.close();
         emit testFailed();
         return;
     }
     if(!process.waitForFinished(a_Timeout * 1000)) {
-        m_Reply = getTestedObjectInfo() + " terminated";
+        m_Result.reply = getTestedObjectInfo() + " terminated";
         process.close();
         emit testFailed();
         return;
@@ -49,7 +49,7 @@ void TShellScript::run()
         parseResult(process.readAll().trimmed());
         emit testSuccess();
     } else {
-        m_ErrorString = process.errorString();
+        m_Result.error = process.errorString();
         emit testFailed();
     }
 }
@@ -67,22 +67,21 @@ QString TShellScript::getCommand() const
 
 void TShellScript::parseResult(QString data)
 {
-    QString newReply = "No answer";
-    float newReplyFloat = 0.0;
-    int newReplyInt = 0;
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult tResult;
+    tResult.reply = "No answer";
+
     // Result format: scriptres:<status>:<Reply>
     QStringList result = data.split(":");
     if (result.count() > 0) {
         if (result.at(0).compare("scriptres",Qt::CaseInsensitive)) {
             // not equals - bad contents
-            newReply = result.at(0);
-            newStatus = TestStatus::BadContents;
+            tResult.reply = result.at(0);
+            tResult.status = TestStatus::BadContents;
         } else {
             // equals - processing
             if (result.count() > 1) {
                 // getting status: Host is alive, No answer, Unknown, Unknown host, Ok, Bad, Bad contents
-                newStatus = TEnums::testStatusFromString(result.at(1));
+                tResult.status = TEnums::testStatusFromString(result.at(1));
             }
             if (result.count() > 2) {
                 //! TODO parsing reply:
@@ -92,17 +91,14 @@ void TShellScript::parseResult(QString data)
                 // • decimal_number + space + “Gb” (like “12 Gb”, “4 Gb”)
                 // • decimal_number + space + “%”   (like “50 %”, “99 %”)
                 // • decimal_number + space + “ms” (like “100 ms”, “5400 ms”
-                newReply = result.at(2);
-                newReplyInt = newReply.mid(0,newReply.indexOf(' ')).toInt();
-                newReplyFloat = newReply.mid(0,newReply.indexOf(' ')).toFloat();
+                tResult.reply = result.at(2);
+                tResult.replyInt = tResult.reply.mid(0,tResult.reply.indexOf(' ')).toInt();
+                tResult.replyDouble = tResult.reply.mid(0,tResult.reply.indexOf(' ')).toFloat();
             }
         }
     }
 
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = tResult;
 }
 
 /******************************************************************/
@@ -112,7 +108,6 @@ TTestMethod *TShellScript::clone()
     TShellScript *result = new TShellScript(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Name = a_Name;
     result->a_Platform = a_Platform;

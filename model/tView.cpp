@@ -131,10 +131,10 @@ bool TView::checkStatsCritetia(TTest *test)
         if (test->getUnknownRatio() > a_UnknownRatioValue) return true;
         break;
     case VC_ReplyGT:
-        if (test->getReply_Number() > a_ReplyGTValue) return true;
+        if (test->getReplyNumber() > a_ReplyGTValue) return true;
         break;
     case VC_ReplyLT:
-        if (test->getReply_Number() < a_ReplyLTValue) return true;
+        if (test->getReplyNumber() < a_ReplyLTValue) return true;
         break;
     case VC_Duration:
         if (b_DurationGreater) {

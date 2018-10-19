@@ -264,7 +264,7 @@ bool LogService::needToWrite(const PLogProperties::LogMode mode, TTest *test) co
         }
         break;
     case PLogProperties::LM_REPLY : // write a record when test status or reply value changes
-        result = (test->getLastReply() != test->getReply() || test->status() != test->lastStatus());
+        result = (test->lastReply() != test->getReply() || test->status() != test->lastStatus());
         break;
     }
     return result;

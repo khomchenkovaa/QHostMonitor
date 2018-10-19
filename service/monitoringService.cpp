@@ -43,7 +43,7 @@ void MonitoringService::runTest(TNode *item)
         return;
     }
 
-    MonitoringTask *task = new MonitoringTask(test->test());
+    MonitoringTask *task = new MonitoringTask(test->method());
     QThreadPool::globalInstance()->start(task);
 }
 

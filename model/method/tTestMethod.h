@@ -2,12 +2,15 @@
 #define TTESTMETHOD_H
 
 #include "PropertyHelper.h"
-#include <QMap>
 #include "tEnums.h"
 #include "global/tMethod.h"
 
+#include <QMap>
+#include <QDateTime>
 
 namespace SDPO {
+
+/***********************************************/
 
 struct TTestResult {
     TestStatus status;
@@ -15,6 +18,7 @@ struct TTestResult {
     double     replyDouble;
     int        replyInt;
     QString    error;
+    QDateTime  date;
 
     TTestResult() {
         clear();
@@ -26,8 +30,49 @@ struct TTestResult {
         replyDouble = 0.0;
         replyInt = 0;
         error = QString();
+        date = QDateTime();
+    }
+
+    void reverse() {
+        switch (status) {
+        case TestStatus::HostAlive:   status = TestStatus::Bad; break;
+        case TestStatus::NoAnswer:    status = TestStatus::Ok;  break;
+        case TestStatus::Ok:          status = TestStatus::Bad; break;
+        case TestStatus::Bad:         status = TestStatus::Ok;  break;
+        case TestStatus::BadContents: status = TestStatus::Ok;  break;
+        default: break;
+        }
+    }
+
+    SimpleStatusID simpleStatus(const bool unknownIsBad = false, const bool warningIsBad = false) const {
+        SimpleStatusID result = SimpleStatusID::UNKNOWN;
+        switch (status) {
+            case TestStatus::HostAlive:
+            case TestStatus::Ok:
+            case TestStatus::Normal:
+                result = SimpleStatusID::UP;
+                break;
+            case TestStatus::NoAnswer:
+            case TestStatus::Bad:
+            case TestStatus::BadContents:
+                result = SimpleStatusID::DOWN;
+                break;
+            case TestStatus::Warning:
+                result = SimpleStatusID::WARNING;
+                break;
+            default:
+                break;
+        }
+        // Unknown, might be processed as “bad” statuses depending on “unknownIsBad” option
+        if (unknownIsBad && result==SimpleStatusID::UNKNOWN) result = SimpleStatusID::DOWN;
+
+        // Warning, might be processed as “bad” statuses depending on “warningIsBad” option
+        if (warningIsBad && result==SimpleStatusID::WARNING) result = SimpleStatusID::DOWN;
+        return result;
     }
 };
+
+/***********************************************/
 
 class TTestMethod : public QObject
 {
@@ -48,12 +93,6 @@ protected:
     QString m_NamePattern;
     QString m_CommentPattern;
     TTestResult m_Result;
-    // result
-//    TestStatus m_Status;
-//    QString m_Reply;
-//    double m_ReplyDouble;
-//    int m_ReplyInt;
-//    QString m_ErrorString;
 
 public:
     explicit TTestMethod(TMethodID methodId, QObject *parent = 0);
@@ -71,13 +110,7 @@ public:
     void setNamePattern(const QString value) { m_NamePattern = value; }
     QString getCommentPattern() const { return m_CommentPattern; }
     void setCommentPattern(const QString value) { m_CommentPattern = value; }
-
     TTestResult getResult() const { return m_Result; }
-    TestStatus getStatus() const { return m_Result.status; }
-    QString getReply() const { return m_Result.reply; }
-    double getReplyDouble() const { return m_Result.replyDouble; }
-    int getReplyInt() const { return m_Result.replyInt; }
-    QString getErrorString() const { return m_Result.error; }
 
     // command
     virtual void run() {} // Do nothing

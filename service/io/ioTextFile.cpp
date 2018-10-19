@@ -228,8 +228,8 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     out << PRM_TITLE          << " = " << test->getName()                          << endl;
     out << PRM_COMMENT        << " = " << test->getComment().replace("\n","^M")    << endl;
     out << PRM_RELATED_URL    << " = " << test->getRelatedURL()                    << endl;
-    out << PRM_NAME_PATTERN   << " = " << test->test()->getNamePattern()           << endl;
-    out << PRM_CMNT_PATTERN   << " = " << test->test()->getCommentPattern()        << endl;
+    out << PRM_NAME_PATTERN   << " = " << test->method()->getNamePattern()           << endl;
+    out << PRM_CMNT_PATTERN   << " = " << test->method()->getCommentPattern()        << endl;
     out << PRM_SCHEDULE_MODE  << " = " << m_ScheduleMode.at(test->scheduleMode())   << endl;
     out << PRM_SCHEDULE       << " = " << test->scheduleName()                     << endl;
     out << PRM_INTERVAL       << " = " << test->interval()                         << endl;
@@ -242,7 +242,7 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     out << PRM_COM_LOG_MODE   << " = " << logMode.at(test->getCommonLogMode())     << endl;
     out << ";--- Test specific properties ---" << endl;
     if (getConverter(test->methodId())) {
-        m_curMethodConverter->setTestMethod(test->test());
+        m_curMethodConverter->setTestMethod(test->method());
         m_curMethodConverter->exportTo(out);
     }
     out << endl << endl;
@@ -310,11 +310,11 @@ void IOTextFile::setTestProperties()
     }
     if (m_testProps.keys().contains(PRM_NAME_PATTERN)) {
         cmd = m_testProps.take(PRM_NAME_PATTERN);
-        m_curTest->test()->setNamePattern(cmd.value);
+        m_curTest->method()->setNamePattern(cmd.value);
     }
     if (m_testProps.keys().contains(PRM_CMNT_PATTERN)) {
         cmd = m_testProps.take(PRM_CMNT_PATTERN);
-        m_curTest->test()->setCommentPattern(cmd.value.replace("^M","\n"));
+        m_curTest->method()->setCommentPattern(cmd.value.replace("^M","\n"));
     }
     if (m_testProps.keys().contains(PRM_COMMENT)) {
         cmd = m_testProps.take(PRM_COMMENT);

@@ -80,7 +80,7 @@ void HostMonDlg::on_btnOk_clicked()
     }
     TTestMethod* test;
     if (editItem) {
-        test = editItem->test();
+        test = editItem->method();
     } else {
         test = 0;
     }
@@ -489,9 +489,9 @@ void HostMonDlg::init(TTest *item)
 
     TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
     if (widget) {
-        widget->init(editItem->test());
-        widget->setNamePattern(editItem->test()->getNamePattern());
-        widget->setCommentPattern(editItem->test()->getCommentPattern());
+        widget->init(editItem->method());
+        widget->setNamePattern(editItem->method()->getNamePattern());
+        widget->setCommentPattern(editItem->method()->getCommentPattern());
         refreshName();
         refreshComment();
     }

@@ -32,7 +32,7 @@ public:
     enum VCriteria { VC_AliveRatio, VC_DeadRatio, VC_UnknownRatio, VC_ReplyGT, VC_ReplyLT, VC_Duration };
     Q_ENUM(VCriteria)
 
-    explicit TView(const QString &name, TFolder* folder, QObject *parent = 0);
+    explicit TView(const int id, const QString &name, TFolder* folder, QObject *parent = 0);
     ~TView();
 
 private: // properties

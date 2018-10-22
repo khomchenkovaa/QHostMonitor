@@ -6,10 +6,9 @@ namespace SDPO {
 /******************************************************************/
 
 TRoot::TRoot(QObject *parent) :
-    TNode( QString(),TNode::ROOT, parent)
+    TNode(0, QString(),TNode::ROOT, parent)
 {
     TNode::count = 1;
-    m_ID = 0;
     setup();
 }
 
@@ -156,12 +155,12 @@ void TRoot::removeViews(TNode *node)
 void TRoot::setup()
 {
     // Folders
-    m_rootFolder = new TFolder(QString(ROOT_FOLDER_NAME));
+    m_rootFolder = new TFolder(nextID(),QString(ROOT_FOLDER_NAME));
     appendChild(m_rootFolder);
     m_rootFolder->setUseOwnRegionalSettings(true);
     m_rootFolder->setTimeZoneIanaId("UTC");
     // Views
-    m_rootView = new TFolder(QString(ROOT_VIEW_NAME));
+    m_rootView = new TFolder(nextID(),QString(ROOT_VIEW_NAME));
     appendChild(m_rootView);
 }
 

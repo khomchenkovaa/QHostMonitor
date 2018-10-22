@@ -6,8 +6,8 @@ namespace SDPO {
 
 /*************************************************/
 
-TFolder::TFolder(const QString &name, QObject *parent) :
-    TNode(name, TNode::FOLDER, parent)
+TFolder::TFolder(const int id, const QString &name, QObject *parent) :
+    TNode(id, name, TNode::FOLDER, parent)
 {
     b_UseOwnRegionalSettings = false;
     b_ApplyRemoteTimeToGui = false;

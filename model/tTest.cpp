@@ -14,8 +14,8 @@ int TTest::failureCount = 0;
 
 /***********************************************/
 
-TTest::TTest(const QString &name, QObject *parent) :
-    TNode(name, TNode::TEST, parent),
+TTest::TTest(const int id, const QString &name, QObject *parent) :
+    TNode(id, name, TNode::TEST, parent),
     m_schedule(* new TSchedule())
 {
     m_TMethod = new TTestMethod(TMethodID::Empty);
@@ -151,15 +151,15 @@ void TTest::setSuggestedVars(const TTestResult testResult)
     m_SuggestedState = testResult;
 
     if (testResult.simpleStatus(b_UnknownIsBad) == m_SuggestedLastState.simpleStatus(b_UnknownIsBad)) {
-        m_Stat.suggestedRecurrences++;
+        m_Recurences.suggestedSimpleStatus++;
     } else {
-        m_Stat.suggestedRecurrences = 0;
+        m_Recurences.suggestedSimpleStatus = 0;
     }
 
     if (testResult.simpleStatus(b_UnknownIsBad) == SimpleStatusID::DOWN) {
-        m_Stat.failureIteration++;
+        m_Recurences.failure++;
     } else {
-        m_Stat.failureIteration=0;
+        m_Recurences.failure=0;
     }
 }
 
@@ -223,13 +223,13 @@ void TTest::dynamicStatistics(const TTestResult testResult)
     m_CurrentState = testResult;
 
     if (statusChanged) {
-        m_Stat.currentIteration = 0;
+        m_Recurences.currentStatus = 0;
     } else {
-        m_Stat.currentIteration++;
+        m_Recurences.currentStatus++;
     }
 
     if (simpleStatusChanged) {
-        m_Stat.recurrences = 0;
+        m_Recurences.currentSimpleStatus = 0;
         m_Stat.previousDuration = m_Stat.currentDuration;
         m_Stat.currentDuration = 0;
         m_Stat.previousTime = m_Stat.changedTime;
@@ -243,7 +243,7 @@ void TTest::dynamicStatistics(const TTestResult testResult)
             a_FailureID = ++failureCount;
         }
     } else {
-        m_Stat.recurrences++;
+        m_Recurences.currentSimpleStatus++;
         m_Stat.currentDuration = testResult.date.toMSecsSinceEpoch() - m_Stat.changedTime.toMSecsSinceEpoch();
     }
 
@@ -295,9 +295,9 @@ void TTest::updateSpecificProperties()
 
 /***********************************************/
 
-TTest *TTest::clone(const QString &newName)
+TTest *TTest::clone(const int newID, const QString &newName)
 {
-    TTest *result = new TTest(newName, parent());
+    TTest *result = new TTest(newID, newName, parent());
     // TNode properties
     result->m_Path = m_Path;
     result->m_Comment = m_Comment;
@@ -325,7 +325,7 @@ TTest *TTest::clone(const QString &newName)
     result->b_SynchronizeCounters = b_SynchronizeCounters;
     result->b_SynchronizeStatusAlerts = b_SynchronizeStatusAlerts;
     // Optional status propcessing
-    result->b_ReverseAlert = b_ReverseAlert;
+    result->b_ReverseAlert = b_ReverseAlert;m_ID = ++count;
     result->b_UnknownIsBad = b_UnknownIsBad;
     result->b_WarningIsBad = b_WarningIsBad;
     result->b_UseWarningScript = b_UseWarningScript;

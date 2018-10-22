@@ -1,5 +1,6 @@
 #include "hmListService.h"
 #include "io/ioTextFile.h"
+#include "io/ioHMList.h"
 
 #include <QDebug>
 
@@ -51,6 +52,7 @@ void HMListService::addNode(TNode *parent, TNode *item)
         break;
     default: break;
     }
+    m_Modified = true;
 }
 
 /******************************************************************/
@@ -75,9 +77,22 @@ bool HMListService::cmdNewTestList()
 
 bool HMListService::cmdLoadTestList(QString fileName)
 {
-    m_FileName = fileName;
-    qDebug() << "TODO: cmdLoadTestList" << fileName;
-    return true;
+    IOHMList loader(this,fileName);
+    emit modelAboutToChange();
+
+    delete m_Root;
+    m_Root = new TRoot();
+
+    bool result = loader.load();\
+    if (result) {
+        m_FileName = fileName;
+        m_FileSize = QFile(fileName).size();
+    }
+    m_Modified = false;
+
+    emit modelChanged();
+
+    return result;
 }
 
 /******************************************************************/
@@ -114,8 +129,15 @@ bool HMListService::cmdSaveTestList(QString fileName)
     if (fileName.isEmpty()) {
         return false;
     }
-    qDebug() << "TODO: cmdSaveTestList" << fileName;
-    return true;
+    IOHMList saver(this, fileName);
+    bool result = saver.save();
+    if (result) {
+        m_FileName = fileName;
+        m_FileSize = QFile(fileName).size();
+        m_Modified = false;
+    }
+
+    return result;
 }
 
 /******************************************************************/
@@ -148,7 +170,7 @@ TNode *HMListService::cmdCreateFolder(QString path)
         }
         TNode *tmpNode = node->findChild(folderName);
         if (!tmpNode) {
-            tmpNode = new TFolder(folderName);
+            tmpNode = new TFolder(nextID(),folderName);
             addNode(node,tmpNode);
         }
         node = tmpNode;

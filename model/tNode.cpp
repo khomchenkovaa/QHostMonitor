@@ -14,13 +14,13 @@ int TNode::count = 0;
 
 /*************************************************/
 
-TNode::TNode(const QString &name, const NodeType type, QObject *parent) :
+TNode::TNode(const int id, const QString &name, const NodeType type, QObject *parent) :
     QObject(parent),
+    m_ID(id),
     m_Name(name),
     m_Type(type),
     m_parentNode(0)
 {
-    m_ID = ++count;
     m_Path = QString();
     m_CreatedAt =  QDateTime::currentDateTime();
     m_ModifiedAt = QDateTime::currentDateTime();

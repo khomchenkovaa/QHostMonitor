@@ -117,7 +117,7 @@ QModelIndex FoldersAndViewsModel::appendFolder(QString nodeName, const QModelInd
     if (node) {
         int row = rowCount(parent);
         beginInsertRows(parent, row, row);
-        node->appendChild(new TFolder(nodeName, node));
+        node->appendChild(new TFolder(TRoot::nextID(), nodeName, node));
         endInsertRows();
         result = index(row,0,parent);
     }
@@ -134,7 +134,7 @@ QModelIndex FoldersAndViewsModel::appendView(QString nodeName)
     if (node) {
         int row = rowCount(idx);
         beginInsertRows(idx, row, row);
-        TView *newView = new TView(nodeName, qobject_cast<TFolder*>(root->rootFolder()), node);
+        TView *newView = new TView(TRoot::nextID(), nodeName, qobject_cast<TFolder*>(root->rootFolder()), node);
         node->appendChild(newView);
         endInsertRows();       
         idx = index(row,0,idx);

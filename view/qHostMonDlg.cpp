@@ -15,6 +15,7 @@
 #include "gSettings.h"
 #include "tEnums.h"
 #include "tTest.h"
+#include "tRoot.h"
 #include "global/gMacroTranslator.h"
 
 namespace SDPO {
@@ -228,7 +229,7 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
     if (editItem) {
         isNew = false;
     } else {
-        editItem = new TTest(testName);
+        editItem = new TTest(TRoot::nextID(), testName);
     }
 
     editItem->setTest(testMethod);

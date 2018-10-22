@@ -20,6 +20,8 @@ public:
     ~TRoot();
 
     // test list properties
+    static int counter() { return TNode::count; }
+    static int nextID() { return ++TNode::count; }
     TNode *rootFolder() { return findChild(ROOT_FOLDER_NAME); }
     TNode *rootView() { return findChild(ROOT_VIEW_NAME); }
     TNode *findByPath(QString path);

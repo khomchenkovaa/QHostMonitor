@@ -41,10 +41,7 @@ struct TAcknowledge {
 };
 
 struct TStatistics {
-    int       currentIteration;
-    int       recurrences;
     qint64    currentDuration;
-    int       suggestedRecurrences;
     QDateTime previousTime;
     int       previousDuration;
     QDateTime changedTime;
@@ -60,17 +57,13 @@ struct TStatistics {
     double    avgReply;
     double    minReply;
     double    maxReply;
-    int       failureIteration;
 
     TStatistics() {
         clear();
     }
 
     void clear() {
-        currentIteration = 0;
-        recurrences = 0;
         currentDuration = 0;
-        suggestedRecurrences = 0;
         previousTime = QDateTime();
         previousDuration = 0;
         changedTime = QDateTime();
@@ -86,7 +79,6 @@ struct TStatistics {
         avgReply = 0.0;
         minReply = 0.0;
         maxReply = 0.0;
-        failureIteration = 0;
     }
 
     double aliveRatio() {
@@ -99,6 +91,24 @@ struct TStatistics {
 
     double unknownRatio() {
         return totalTime? (100.0 * unknownTime / totalTime) : 0.0;
+    }
+};
+
+struct TRecurences {
+    int       currentStatus;
+    int       currentSimpleStatus;
+    int       suggestedSimpleStatus;
+    int       failure;
+
+    TRecurences() {
+        clear();
+    }
+
+    void clear() {
+        currentStatus = 0;
+        currentSimpleStatus = 0;
+        suggestedSimpleStatus = 0;
+        failure = 0;
     }
 };
 
@@ -172,6 +182,7 @@ class TTest : public TNode
     AUTO_PROPERTY(int, LastFailureID)
 
     TStatistics m_Stat;
+    TRecurences m_Recurences;
 
 public:
     // TTest methods
@@ -370,8 +381,8 @@ public:
     int statusID() const { return (int)getStatusID(); }
     QString simpleStatus() const { return TEnums::simpleStatus(m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad)); }
     SimpleStatusID simpleStatusID() const { return m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad); }
-    int getCurrentStatusIteration() const { return m_Stat.currentIteration; }
-    int getRecurrences() const { return m_Stat.recurrences; }
+    int getCurrentStatusIteration() const { return m_Recurences.currentStatus; }
+    int getRecurrences() const { return m_Recurences.currentSimpleStatus; }
     QString currentStatusDuration() const { return Utils::getTimeFromMs(m_Stat.currentDuration); }
     qint64 getCurrentStatusDurationSec() const { return m_Stat.currentDuration / 1000; }
 
@@ -420,8 +431,8 @@ public:
     QString suggestedReply() const { return m_SuggestedState.reply; }
     int suggestedReplyInteger() const { return m_SuggestedState.replyInt; }
     QString suggestedLastReply() const { return m_SuggestedLastState.reply; }
-    int getSuggestedRecurrences() const { return m_Stat.suggestedRecurrences; }
-    int getFailureIteration() const { return m_Stat.failureIteration; }
+    int getSuggestedRecurrences() const { return m_Recurences.suggestedSimpleStatus; }
+    int getFailureIteration() const { return m_Recurences.failure; }
 
     /****************************************************
      *       Acknowledged Info                          *
@@ -473,7 +484,7 @@ public:
     QString acknowledgedBy() const { return m_Acknowledged?m_Acknowledge.by:QString(); }
     QString ackComment() const { return m_Acknowledged?m_Acknowledge.comment:QString(); }
     QString ackResponseTime() const;
-    int     ackRecurrences() const { return m_Acknowledged?(m_Stat.recurrences - m_Acknowledge.recurrences):0; }
+    int     ackRecurrences() const { return m_Acknowledged?(m_Recurences.currentSimpleStatus - m_Acknowledge.recurrences):0; }
 
     /****************************************************
      *                  Previous state                  *
@@ -594,13 +605,13 @@ public:
 
 public:
 
-    TTest(const QString &name, QObject *parent = 0);
+    TTest(const int id, const QString &name, QObject *parent = 0);
     ~TTest();
 
     QVariant property(QString name) const Q_DECL_OVERRIDE;
     virtual QVariant getGlobal(Macro::Variable globalVar) const;
     void updateSpecificProperties();
-    TTest *clone(const QString &newName);
+    TTest *clone(const int newID, const QString &newName);
 
 public slots:
     void onTestPerformed();

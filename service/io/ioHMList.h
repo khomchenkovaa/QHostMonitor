@@ -4,6 +4,13 @@
 #include "tEnums.h"
 #include "method/sdpoTestMethodConverters.h"
 
+#include <QPair>
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QJsonParseError>
+
 namespace SDPO {
 
 class HMListService;
@@ -20,10 +27,19 @@ public:
     explicit IOHMList(HMListService *hml, QString fileName, QObject *parent = 0);
     ~IOHMList();
 
+    bool load();
+    bool save();
+
 signals:
+    void notifyStatusMessage(QString msg);
 
-public slots:
-
+private:
+    QPair<QJsonDocument, QJsonParseError> getJsonDocument(const QString &raw_json);
+    QString readJsonFile();
+    void sendErrorMessage(const QString &msg);
+    bool parseJsonData(QJsonDocument json_doc);
+    QJsonDocument createJsonDocument();
+    bool writeJsonToFile(QFile &outFile, const QString &outJson);
 };
 
 } // namespace SDPO

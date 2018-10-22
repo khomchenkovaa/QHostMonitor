@@ -9,8 +9,8 @@ namespace SDPO {
 
 /***********************************************/
 
-TView::TView(const QString &name, TFolder *folder, QObject *parent) :
-    TNode(name, TNode::VIEW, parent),
+TView::TView(const int id, const QString &name, TFolder *folder, QObject *parent) :
+    TNode(id, name, TNode::VIEW, parent),
     m_folder(folder)
 {
     b_Recursive = true;

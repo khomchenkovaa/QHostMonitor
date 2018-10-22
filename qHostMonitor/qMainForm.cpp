@@ -1086,7 +1086,7 @@ void MainForm::on_actTestCopy_triggered()
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
     QString newName = test->testName() + "-copy";
-    TTest *newTest = test->clone(newName);
+    TTest *newTest = test->clone(m_HML->nextID(), newName);
     m_HML->addNode(node, newTest);
 
     if (folderDlg.isDisabled()) {
@@ -1125,7 +1125,7 @@ void MainForm::on_actLink_triggered()
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
     test->addLink(node);
-    m_HML->addNode(node, new TLink(test));
+    m_HML->addNode(node, new TLink(m_HML->nextID(), test));
 }
 
 /******************************************************************/

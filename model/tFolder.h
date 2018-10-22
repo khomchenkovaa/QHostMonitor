@@ -58,7 +58,7 @@ class TFolder : public TNode
     Q_PROPERTY(QString FolderRecursive_AcknowledgedWarning READ testsWarningAcknowkegedRecursive)
 
 public:
-    explicit TFolder(const QString& name, QObject *parent = 0);
+    explicit TFolder(const int id, const QString& name, QObject *parent = 0);
 
     int testsTotal() const;
     int testsGood() const;

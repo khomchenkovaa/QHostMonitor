@@ -5,8 +5,8 @@ namespace SDPO {
 
 /*************************************************/
 
-TLink::TLink(TTest *test, QObject *parent) :
-    TNode(test->getName(), TNode::LINK, parent),
+TLink::TLink(const int id, TTest *test, QObject *parent) :
+    TNode(id, test->getName(), TNode::LINK, parent),
     m_test(test)
 {
 }

@@ -38,6 +38,7 @@ public:
     TNode *rootFolder() { return m_Root->rootFolder(); }
     TNode *rootView() { return m_Root->rootView(); }
     TNode *nodeByPath(QString path) { return m_Root->findByPath(path); }
+    int nextID() const { return TRoot::nextID(); }
 
     // test list content
     void addNode(TNode* parent, TNode* item);

@@ -289,7 +289,7 @@ void IOTextFile::addTest() {
     }
     // find or create test
     cmd = m_testProps.take(PRM_TITLE);
-    m_curTest = new TTest(cmd.value);
+    m_curTest = new TTest(m_HML->nextID(),cmd.value);
     m_curTest->setTest(testMethod);
     cmd = m_testProps.take(PRM_DEST_FOLDER);
     TNode *node = m_HML->cmdCreateFolder(cmd.value);
@@ -511,7 +511,7 @@ void IOTextFile::createLinks()
     foreach(QString link, m_linkedTo) {
         TNode *linkNode = m_HML->cmdCreateFolder(link.replace("\\","/"));
         m_curTest->addLink(linkNode);
-        m_HML->addNode(linkNode, new TLink(m_curTest));
+        m_HML->addNode(linkNode, new TLink(m_HML->nextID(), m_curTest));
     }
 }
 

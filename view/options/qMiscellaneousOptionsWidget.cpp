@@ -1,7 +1,7 @@
 #include "qMiscellaneousOptionsWidget.h"
 #include "ui_qMiscellaneousOptionsWidget.h"
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "gData.h"
 
 namespace SDPO {

@@ -30,7 +30,7 @@ struct TTestResult {
         replyDouble = 0.0;
         replyInt = 0;
         error = QString();
-        date = QDateTime();
+        date = QDateTime::currentDateTime();
     }
 
     void reverse() {
@@ -81,17 +81,19 @@ class TTestMethod : public QObject
     // Represents short description of a testing method
     Q_PROPERTY(QString TestMethod READ getTestMethod)
     Q_PROPERTY(QString MethodName READ getTestMethodName)
+
     // Returns integer number that represents test method (test that has triggered action execution)
     Q_PROPERTY(QString MethodID READ getTestMethodID)
+
     // Provides information about tested object,
     // variable returns string value like 'MS SQL database "MainLog" on 192.168.10.15'.
     // This variable offers more information than %TestMethod% variable
     Q_PROPERTY(QString TestedObjectInfo READ getTestedObjectInfo)
 
 protected:
-    TMethodID m_TMethodID;
-    QString m_NamePattern;
-    QString m_CommentPattern;
+    TMethodID   m_TMethodID;
+    QString     m_NamePattern;
+    QString     m_CommentPattern;
     TTestResult m_Result;
 
 public:

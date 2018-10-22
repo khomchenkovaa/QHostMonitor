@@ -1,5 +1,5 @@
 #include "ioTestMethodLoader.h"
-#include "tMethod.h"
+#include "global/tMethod.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>

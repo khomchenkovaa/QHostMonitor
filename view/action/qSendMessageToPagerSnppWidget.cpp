@@ -3,7 +3,7 @@
 #include "action/tSendMessageToPagerSnppAction.h"
 #include "qOptionsForm.h"
 #include "gData.h"
-#include "global/ioMailProfileLoader.h"
+#include "io/ioMailProfileLoader.h"
 #include "qMailProfilesDlg.h"
 
 namespace SDPO {

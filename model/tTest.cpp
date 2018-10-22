@@ -210,7 +210,6 @@ void TTest::dynamicStatistics(const TTestResult testResult)
     SimpleStatusID simpleStatusID = testResult.simpleStatus(b_UnknownIsBad, b_WarningIsBad);
     bool simpleStatusChanged = (simpleStatusID != m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad));
     qint64 delta = testResult.date.toMSecsSinceEpoch() - m_CurrentState.date.toMSecsSinceEpoch();
-    qDebug() << "delta:" << delta;
 
     // last state
     m_LastState = m_CurrentState;

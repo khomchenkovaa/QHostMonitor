@@ -2,7 +2,7 @@
 #include "ui_qPrimaryLogOptionsWidget.h"
 #include "qMacroEditorDlg.h"
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "gData.h"
 
 #include <QFileDialog>

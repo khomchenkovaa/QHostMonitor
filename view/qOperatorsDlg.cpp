@@ -1,6 +1,6 @@
 #include "qOperatorsDlg.h"
 #include "ui_qOperatorsDlg.h"
-#include "global/ioUserProfileLoader.h"
+#include "io/ioUserProfileLoader.h"
 #include "qFolderDlg.h"
 
 #include <QMenu>

@@ -2,7 +2,7 @@
 #include "ui_qReportsOptionsWidget.h"
 #include <QFileDialog>
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "gData.h"
 #include "qReportProfilesDlg.h"
 

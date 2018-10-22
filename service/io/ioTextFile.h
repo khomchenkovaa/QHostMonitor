@@ -106,7 +106,7 @@ public: // enums
 private:
     HMListService *m_HML;
 
-    // deafaults
+    // defaults
     QString m_fileName;
     QString m_defaultSchedule;
     QString m_defaultAlertProfile;

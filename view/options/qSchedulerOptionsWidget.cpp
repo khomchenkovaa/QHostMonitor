@@ -1,7 +1,7 @@
 #include "qSchedulerOptionsWidget.h"
 #include "ui_qSchedulerOptionsWidget.h"
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "gData.h"
 
 namespace SDPO {

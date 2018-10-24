@@ -1,13 +1,15 @@
 #include "mFoldersAndViewsModel.h"
 #include "tRoot.h"
+#include "hmListService.h"
 
 namespace SDPO {
 
 /******************************************************************/
 
-FoldersAndViewsModel::FoldersAndViewsModel(TNode *root, ModelMode mode, QObject *parent) :
+FoldersAndViewsModel::FoldersAndViewsModel(HMListService *hml, ModelMode mode, QObject *parent) :
     QAbstractItemModel(parent),
-    m_root(root),
+    m_HML(hml),
+    m_root(m_HML->rootItem()),
     m_mode(mode)
 {
 }
@@ -117,7 +119,7 @@ QModelIndex FoldersAndViewsModel::appendFolder(QString nodeName, const QModelInd
     if (node) {
         int row = rowCount(parent);
         beginInsertRows(parent, row, row);
-        node->appendChild(new TFolder(TRoot::nextID(), nodeName, node));
+        node->appendChild(new TFolder(m_HML->nextID(), nodeName, node));
         endInsertRows();
         result = index(row,0,parent);
     }
@@ -128,13 +130,12 @@ QModelIndex FoldersAndViewsModel::appendFolder(QString nodeName, const QModelInd
 
 QModelIndex FoldersAndViewsModel::appendView(QString nodeName)
 {
-    TRoot *root = qobject_cast<TRoot*>(m_root->getRoot());
-    TNode *node = root->rootView();
+    TNode *node = m_HML->rootView();
     QModelIndex idx = index(0,0);
     if (node) {
         int row = rowCount(idx);
         beginInsertRows(idx, row, row);
-        TView *newView = new TView(TRoot::nextID(), nodeName, qobject_cast<TFolder*>(root->rootFolder()), node);
+        TView *newView = new TView(m_HML->nextID(), nodeName, qobject_cast<TFolder*>(m_HML->rootFolder()), node);
         node->appendChild(newView);
         endInsertRows();       
         idx = index(row,0,idx);
@@ -161,9 +162,8 @@ QModelIndex FoldersAndViewsModel::deleteFolder(const QModelIndex &folder)
     QModelIndex parent = folder.parent();
     QModelIndex result;
     int row = node->row(false);
-    TRoot *root = qobject_cast<TRoot*>(m_root->getRoot());
     beginRemoveRows(parent, row, row);
-    root->removeNode(node);
+    m_HML->rootItem()->removeNode(node);
     endRemoveRows();
     // constructing new index
     TNode *parentNode = itemFromIndex(parent);
@@ -189,9 +189,8 @@ QModelIndex FoldersAndViewsModel::deleteView(const QModelIndex &view)
     QModelIndex parent = view.parent();
     QModelIndex result;
     int row = node->row(false);
-    TRoot *root = qobject_cast<TRoot*>(m_root->getRoot());
     beginRemoveRows(parent, row, row);
-    root->removeNode(node);
+    m_HML->rootItem()->removeNode(node);
     endRemoveRows();
     // constructing new index
     TNode *parentNode = itemFromIndex(parent);

@@ -79,14 +79,19 @@ public:
     int testsWarningAcknowkegedRecursive() const;
 
     QList<TNode*> testList(bool recursive = true);
+    QList<TNode*> folderList(bool recursive = true);
+    QList<TNode*> viewList(bool recursive = false);
 
     QVariant property(QString name) const Q_DECL_OVERRIDE;
 
 private: // interface settings
+    // regional
     BOOL_PROPERTY(UseOwnRegionalSettings)
     bool b_ApplyRemoteTimeToGui;
     bool b_ApplyRemoteTimeToSchedules;
     QString m_TimeZoneIanaId;
+
+    // specials
     BOOL_PROPERTY(TestStatusesNotAffectTrayIconColor)
     BOOL_PROPERTY(NonSimultaneouslyTestExecution)
 

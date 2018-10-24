@@ -15,7 +15,8 @@ HMListService::HMListService(QObject *parent) :
     m_Modified(false),
     m_FileName(QString()),
     m_FileSize(0),
-    m_StoreHistoricalData(true)
+    m_StoreHistoricalData(true),
+    m_CurFolder(m_Root->rootFolder())
 {
 }
 
@@ -68,6 +69,7 @@ bool HMListService::cmdNewTestList()
     m_FileName.clear();
     m_FileSize = 0;
     m_StoreHistoricalData = true;
+    m_CurFolder = m_Root->rootFolder();
 
     emit modelChanged();
     return true;

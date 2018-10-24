@@ -26,18 +26,15 @@ namespace SDPO {
 
 Startup::Startup() :
     QObject(NULL),
-    m_mainForm(*new MainForm(NULL)),
     m_HML(*new HMListService(this)),
-    m_testRunner(*new MonitoringService()),
+    m_logService(*new LogService()),
     m_actionService(*new ActionService(&m_HML)),
-    m_logService(*new LogService())
+    m_testRunner(*new MonitoringService()),
+    m_mainForm(*new MainForm(&m_HML,NULL))
 {
     TEnums::init();
     load();
-
-    m_mainForm.setupFolders(&m_HML);
     m_mainForm.init();
-    m_mainForm.resetScriptMenu();
 
     connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
     connect(m_HML.rootItem(), SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));

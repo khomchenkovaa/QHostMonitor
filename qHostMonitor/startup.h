@@ -20,16 +20,12 @@ public:
     void show() const;
     ~Startup();
 
-signals:
-
-public slots:
-
 private:
-    MainForm& m_mainForm;
-    HMListService& m_HML;
-    MonitoringService& m_testRunner;
-    ActionService& m_actionService;
-    LogService& m_logService;
+    HMListService     &m_HML;
+    LogService        &m_logService;
+    ActionService     &m_actionService;
+    MonitoringService &m_testRunner;
+    MainForm          &m_mainForm;
 
     // singleton
     explicit Startup(const Startup& rhs);

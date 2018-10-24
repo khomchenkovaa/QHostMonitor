@@ -51,10 +51,11 @@ namespace SDPO {
 
 /******************************************************************/
 
-MainForm::MainForm(QWidget *parent) :
+MainForm::MainForm(HMListService *hml, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainForm),
-    hostMonDlg(new HostMonDlg(this))
+    m_HML(hml),
+    hostMonDlg(new HostMonDlg(m_HML,this))
 {
     ui->setupUi(this);
     this -> setTrayIconActions();
@@ -74,6 +75,8 @@ MainForm::MainForm(QWidget *parent) :
 /******************************************************************/
 
 void MainForm::init() {
+    setupFolders();
+
     ui->pnlFoldersTree->setHidden(!ui->actFoldersTree->isChecked());
     ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
     ui->statusBar->setHidden(!ui->actStatusBar->isChecked());
@@ -83,6 +86,8 @@ void MainForm::init() {
     ui->pnlInfoPane->setHidden(!ui->actInfoPane->isChecked());
     ui->tblQuickLogView->setHidden(!ui->actQuickLog->isChecked());
     ui->lvTestList->setHidden(true);
+
+    resetScriptMenu();
 }
 
 /******************************************************************/
@@ -97,14 +102,12 @@ MainForm::~MainForm() {
 
 /******************************************************************/
 
-void MainForm::setupFolders(HMListService* hml)
+void MainForm::setupFolders()
 {
-    m_HML   = hml;
     // model
     resetModel();
     connect(m_HML, SIGNAL(modelChanged()), this, SLOT(resetModel()));
     // HostMonDlg
-    hostMonDlg->setRootNode(m_HML->rootItem());
     connect(hostMonDlg, SIGNAL(testAdded(TTest*)), this, SLOT(onTestAdded(TTest*)));
     connect(hostMonDlg, SIGNAL(testChanged(TTest*)), this, SLOT(onTestChanged(TTest*)));
     // alerts
@@ -126,7 +129,7 @@ void MainForm::setupFolders(HMListService* hml)
 void MainForm::resetModel()
 {    
     if (m_folders) delete m_folders;
-    m_folders = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    m_folders = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     ui->treeFolders->setModel(m_folders);
     ui->treeFolders->setCurrentIndex(m_folders->index(0,0));
     connect(ui->treeFolders->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(onTreeFolderChanged()));
@@ -136,7 +139,7 @@ void MainForm::resetModel()
     ui->treeFolders->setStyleSheet(fStyle);
 
     if (m_views) delete m_views;
-    m_views = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::VIEWS);
+    m_views = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::VIEWS);
     ui->treeView->setModel(m_views);
     ui->treeView->setCurrentIndex(m_views->index(0,0));
     connect(ui->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(onTreeViewChanged()));
@@ -1076,7 +1079,7 @@ void MainForm::on_actTestCopy_triggered()
 
     FolderDlg folderDlg;
     folderDlg.setWindowTitle(tr("COPY: Select destination folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     folderDlg.activateButtons();
     if (QDialog::Accepted != folderDlg.exec()) {
@@ -1116,7 +1119,7 @@ void MainForm::on_actLink_triggered()
 
     FolderDlg folderDlg;
     folderDlg.setWindowTitle(tr("LINK: Select destination folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     if (QDialog::Accepted != folderDlg.exec()) {
         return;
@@ -1581,7 +1584,7 @@ void MainForm::on_btnViewDel_clicked()
 void MainForm::on_btnFoldersLineTree_clicked()
 {
     FolderDlg folderDlg;
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS_AND_VIEWS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS_AND_VIEWS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     if (QDialog::Accepted == folderDlg.exec()) {
         QString path = folderDlg.path();

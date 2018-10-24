@@ -18,6 +18,7 @@ class HMListService : public QObject
     QString m_FileName;
     int     m_FileSize;
     bool    m_StoreHistoricalData;
+    TNode*  m_CurFolder;
 
 public:
     explicit HMListService(QObject *parent = 0);
@@ -25,20 +26,23 @@ public:
 
     // getters and setters
     QUuid guid() const { return m_GUID; }
+    void setGuid(const QUuid guid) { m_GUID = guid; }
     bool isModelModified() const { return m_Modified; }
     QString currentFileName() const { return m_FileName; }
     void setFileName(const QString &value) { m_FileName = value; }
     int fileSize() const { return m_FileSize; }
     bool isStoreHistoricalData() const { return m_StoreHistoricalData; }
     void setStoreHistoricalData(const bool value) { m_StoreHistoricalData=value; }
+    TNode* currentFolder() { return m_CurFolder; }
+    void setCurrentFolder(TNode* folder) { m_CurFolder = folder; }
 
     // test list properties
-    bool isCurFileExists() const { return !m_FileName.isEmpty(); }
+    bool   isCurFileExists() const { return !m_FileName.isEmpty(); }
     TRoot *rootItem() { return m_Root; }
     TNode *rootFolder() { return m_Root->rootFolder(); }
     TNode *rootView() { return m_Root->rootView(); }
     TNode *nodeByPath(QString path) { return m_Root->findByPath(path); }
-    int nextID() const { return TRoot::nextID(); }
+    int    nextID() const { return TRoot::nextID(); }
 
     // test list content
     void addNode(TNode* parent, TNode* item);

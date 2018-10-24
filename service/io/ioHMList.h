@@ -14,6 +14,10 @@
 namespace SDPO {
 
 class HMListService;
+class TNode;
+class TView;
+
+static QString DT_FORMAT = QStringLiteral("yyyy.MM.dd HH:mm:ss");
 
 class IOHMList : public QObject
 {
@@ -22,7 +26,7 @@ class IOHMList : public QObject
     HMListService *m_HML;
 
     QString m_fileName;
-    IOTestMethodConverter *m_curMethodConverter;
+
 public:
     explicit IOHMList(HMListService *hml, QString fileName, QObject *parent = 0);
     ~IOHMList();
@@ -39,6 +43,15 @@ private:
     void sendErrorMessage(const QString &msg);
     bool parseJsonData(QJsonDocument json_doc);
     QJsonDocument createJsonDocument();
+    QJsonValue createRootFolderSection();
+    QJsonValue createRootViewSection();
+    QJsonValue createFoldersSection();
+    QJsonValue createViewsSection();
+    QJsonValue createTestsSection(const bool storeStatistics, const bool storeIterations);
+    QJsonValue createHistorySection();
+    QJsonValue createColumnsSettings(TNode* node);
+    QJsonValue createSortSettings(TNode* node);
+    QJsonValue createViewCriteriaSettings(TView* view);
     bool writeJsonToFile(QFile &outFile, const QString &outJson);
 };
 

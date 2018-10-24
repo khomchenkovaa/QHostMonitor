@@ -90,9 +90,11 @@ public: // node structure
     virtual QVariant getGlobal(Macro::Variable globalVar) const;
 
 protected: // interface settings
+    // columns
     bool b_UseOwnColumnSettings;
     QColumnList m_columns;
     QSortPairList m_sort;
+    // colors
     bool b_UseOwnColorSettings;
     QString m_ColorScheme;
     bool b_CheckingColorStatus;

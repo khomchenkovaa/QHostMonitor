@@ -50,7 +50,7 @@ void DynamicViewPropertiesDlg::on_btnSelectSubfolders_clicked()
 {
     FolderDlg dlg;
     dlg.setWindowTitle(tr("Select source folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     dlg.setModel(model, m_SourceFolder->getPath());
     if (QDialog::Accepted != dlg.exec()) {
         return;

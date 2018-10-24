@@ -31,8 +31,9 @@ class MainForm : public QMainWindow
 {
     Q_OBJECT
 
-    Ui::MainForm *ui;
-    HostMonDlg   *hostMonDlg;
+    Ui::MainForm  *ui;
+    HMListService *m_HML;
+    HostMonDlg    *hostMonDlg;
 
     QMenu   *trayIconMenu;
     QAction *showAction;
@@ -40,16 +41,15 @@ class MainForm : public QMainWindow
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
 
-    HMListService        *m_HML;
     TestListSortingModel *m_filterModel;
     TestListModel        *m_model;
     FoldersAndViewsModel *m_folders;
     FoldersAndViewsModel *m_views;
 public:
-    explicit MainForm(QWidget *parent = 0);
+    explicit MainForm(HMListService *hml, QWidget *parent = 0);
     ~MainForm();
 
-    void setupFolders(HMListService *hml);
+    void setupFolders();
     void init();
 
 public slots:

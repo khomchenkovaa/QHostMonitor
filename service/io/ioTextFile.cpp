@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "hmListService.h"
 #include "gData.h"
+#include "ioHelper.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -523,62 +524,8 @@ IOTestMethodConverter *IOTextFile::getConverter(TMethodID methodId)
         delete m_curMethodConverter;
         m_curMethodConverter = 0;
     }
-    switch (methodId) {
-    case TMethodID::Ping :
-        m_curMethodConverter = new IOPingConverter();
-        break;
-    case TMethodID::DriveSpace :
-        m_curMethodConverter = new IODriveSpaceConverter();
-        break;
-    case TMethodID::FileSize :
-        m_curMethodConverter = new IOFolderSizeConverter();
-        break;
-    case TMethodID::FileExists :
-        m_curMethodConverter = new IOFileExistsConverter();
-        break;
-    case TMethodID::SNMP :
-        m_curMethodConverter = new IOSnmpGetConverter();
-        break;
-    case TMethodID::ShellScript :
-        m_curMethodConverter = new IOShellScriptConverter();
-        break;
-    case TMethodID::Oracle :
-        m_curMethodConverter = new IOOracleConverter();
-        break;
-    case TMethodID::MySQL :
-        m_curMethodConverter = new IOMySqlConverter();
-        break;
-    case TMethodID::Postgre :
-        m_curMethodConverter = new IOPostgreSqlConverter();
-        break;
-    case TMethodID::Interbase :
-        m_curMethodConverter = new IOInterbaseConverter();
-        break;
-    case TMethodID::ODBC :
-        m_curMethodConverter = new IOODBCConverter();
-        break;
-    case TMethodID::Externalprg :
-        m_curMethodConverter = new IOExternalPrgConverter();
-        break;
-    case TMethodID::DICOM :
-        m_curMethodConverter = new IODICOMConverter();
-        break;
-    case TMethodID::DHCP :
-        m_curMethodConverter = new IODHCPConverter();
-        break;
-    case TMethodID::CPU :
-        m_curMethodConverter = new IOCPUUsageConverter();
-        break;
-    case TMethodID::CountFiles :
-        m_curMethodConverter = new IOCountFilesConverter();
-        break;
-    case TMethodID::FileCompare :
-        m_curMethodConverter = new IOCompareFilesConverter();
-        break;
-    default:
-        m_curMethodConverter = new IOTestMethodConverter();
-        break;
-    }
+    m_curMethodConverter = IOHelper::methodConverter(methodId);
+
     return m_curMethodConverter;
 }
 

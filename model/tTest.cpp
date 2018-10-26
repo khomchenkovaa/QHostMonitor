@@ -325,7 +325,7 @@ TTest *TTest::clone(const int newID, const QString &newName)
     result->b_SynchronizeCounters = b_SynchronizeCounters;
     result->b_SynchronizeStatusAlerts = b_SynchronizeStatusAlerts;
     // Optional status propcessing
-    result->b_ReverseAlert = b_ReverseAlert;m_ID = ++count;
+    result->b_ReverseAlert = b_ReverseAlert;
     result->b_UnknownIsBad = b_UnknownIsBad;
     result->b_WarningIsBad = b_WarningIsBad;
     result->b_UseWarningScript = b_UseWarningScript;

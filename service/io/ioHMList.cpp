@@ -9,7 +9,6 @@
 
 #include <QDebug>
 
-
 namespace SDPO {
 
 /******************************************************************/
@@ -43,7 +42,7 @@ bool IOHMList::load()
         return false;
     }
     QJsonDocument jsonDoc = jsonResult.first;
-    return parseJsonData(jsonDoc);
+    return parseJsonDocument(jsonDoc);
 }
 
 /******************************************************************/
@@ -84,6 +83,29 @@ QString IOHMList::readJsonFile()
 
 /******************************************************************/
 
+bool IOHMList::writeJsonToFile(QFile &outFile, const QString &outJson)
+{
+    int length = outJson.length();
+    if (!outFile.open(QFile::WriteOnly|QFile::Text)) {
+        sendErrorMessage(tr("Could not open file '%1' to write").arg(outFile.fileName()));
+        return false;
+    }
+
+    qint64 bytesWritten = outFile.write(qUtf8Printable(outJson),length);
+    outFile.close();
+
+    if (bytesWritten != length) {
+        sendErrorMessage(tr("Could not write HMList to %1").arg(outFile.fileName()));
+        if (!outFile.remove()) {
+            sendErrorMessage(tr("Count not remove file %1. Please delete manualy").arg(outFile.fileName()));
+        }
+        return false;
+    }
+    return true;
+}
+
+/******************************************************************/
+
 void IOHMList::sendErrorMessage(const QString &msg)
 {
     qDebug() << msg;
@@ -92,129 +114,238 @@ void IOHMList::sendErrorMessage(const QString &msg)
 
 /******************************************************************/
 
-bool IOHMList::parseJsonData(QJsonDocument json_doc)
-{
-    QJsonObject jsonObj = json_doc.object();
-    // head
-    m_HML->setGuid(QUuid(jsonObj["GUID"].toString()));
-
-    return false;
-}
-
-/******************************************************************/
-
 QJsonDocument IOHMList::createJsonDocument()
 {
     QSettings s;
     QJsonObject jsonObj;
-    // head
-    jsonObj.insert("GUID", QJsonValue(m_HML->guid().toString()));
-    jsonObj.insert("count", QJsonValue(TRoot::counter()));
-    jsonObj.insert("history", QJsonValue(m_HML->isStoreHistoricalData()));
-    if (s.value(SKEY_INTERFACE_SaveCurrFolder, 1).toInt()) {
-        jsonObj.insert("currentFolder", QJsonValue(m_HML->currentFolder()->getPath()));
-    }
+    // Head
+    jsonObj.insert(SCT_HEAD, createHeadSection());
 
-    // root
-    jsonObj.insert("root", createRootFolderSection());
-    jsonObj.insert("rootView", createRootViewSection());
+    // Root
+    jsonObj.insert(SCT_ROOT, createRootFolderSection());
+    jsonObj.insert(SCT_RVIEW, createRootViewSection());
 
-    // Folders and views
-    jsonObj.insert("folders", createFoldersSection());
-    jsonObj.insert("views", createViewsSection());
+    // Folders and Views
+    jsonObj.insert(SCT_FOLDERS, createFoldersSection());
+    jsonObj.insert(SCT_VIEWS, createViewsSection());
 
-    // tests
+    // Tests and Links
     bool storeStatistics = (s.value(SKEY_MISC_StoreStatistics, 1).toInt()==1);
     bool storeIterations = (s.value(SKEY_MISC_StoreIterations, 1).toInt()==1);
-    jsonObj.insert("tests", createTestsSection(storeStatistics, storeIterations));
+    jsonObj.insert(SCT_TESTS, createTestsSection(storeStatistics, storeIterations));
 
-    // history
+    // History
     if (m_HML->isStoreHistoricalData()) {
-        jsonObj.insert("history", createHistorySection());
+        jsonObj.insert(SCT_HISTORY, createHistorySection());
     }
 
-    QJsonDocument jsonDoc(jsonObj);
-    return jsonDoc;
+    // Current Folder
+    if (s.value(SKEY_INTERFACE_SaveCurrFolder, 1).toInt()) {
+        jsonObj.insert(PRM_CUR_FOLDER, QJsonValue(m_HML->currentFolder()->getPath()));
+    }
+
+    return QJsonDocument(jsonObj);
+}
+
+/******************************************************************/
+
+bool IOHMList::parseJsonDocument(QJsonDocument jsonDocument)
+{
+    QJsonObject jsonObj = jsonDocument.object();
+    // Head
+    parseHeadSection(jsonObj.value(SCT_HEAD));
+
+    // root
+    parseRootFolderSection(jsonObj.value(SCT_ROOT));
+    parseRootViewSection(jsonObj.value(SCT_RVIEW));
+
+    // Folders and vies
+    parseFoldersSection(jsonObj.value(SCT_FOLDERS));
+    parseViewsSection(jsonObj.value(SCT_VIEWS));
+
+    // Tests
+    parseTestsSection(jsonObj.value(SCT_TESTS));
+
+    // History
+    if (jsonObj.contains(SCT_HISTORY)) {
+        parseHistorySection(jsonObj.value(SCT_HISTORY));
+    }
+
+    // CurrentFolder
+    if (jsonObj.contains(PRM_CUR_FOLDER)) {
+        QString path = jsonObj.value(PRM_CUR_FOLDER).toString();
+        TNode *node = m_HML->nodeByPath(path);
+        if (node->getType() != TNode::FOLDER) {
+            node = m_HML->rootFolder();
+        }
+        m_HML->setCurrentFolder(node);
+    }
+
+    return true;
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createHeadSection()
+{
+    QJsonObject result;
+    HMListInfo hmInfo = m_HML->info();
+    result.insert(PRM_GUID, QJsonValue(hmInfo.guid.toString()));
+    result.insert(PRM_CNT, QJsonValue(hmInfo.count));
+    result.insert(PRM_STORE_HISTORY, QJsonValue(hmInfo.storeHistoricalData));
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseHeadSection(QJsonValue jsonValue)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    HMListInfo hmInfo = m_HML->info();
+    hmInfo.guid = QUuid(jsonObj.value(PRM_GUID).toString());
+    hmInfo.count = jsonObj.value(PRM_CNT).toInt();
+    hmInfo.storeHistoricalData = jsonObj.value(PRM_STORE_HISTORY).toBool();
+    m_HML->setInfo(hmInfo);
 }
 
 /******************************************************************/
 
 QJsonValue IOHMList::createRootFolderSection()
 {
-    QJsonObject result;
+    QJsonObject jsonObj;
     TFolder *fld = qobject_cast<TFolder*>(m_HML->rootFolder());
     // columns
     if (fld->isUseOwnColumnSettings()) {
-        result.insert("columns", createColumnsSettings(fld));
-        result.insert("sort", createSortSettings(fld));
+        jsonObj.insert(FVS_COLUMNS, createColumnsSettings(fld));
     }
 
     // folder colors
     if (fld->isUseOwnColorSettings()) {
-        QJsonObject colorObj;
-        colorObj.insert("scheme", QJsonValue(fld->getColorScheme()));
-        colorObj.insert("checking", QJsonValue(fld->isCheckingColorStatus()));
-        result.insert("colors", QJsonValue(colorObj));
+        jsonObj.insert(FVS_COLORS, createColorSettings(fld));
     }
 
     // reports
-    //! TODO
+    if (fld->isUseOwnReportSettings()) {
+        jsonObj.insert(FVS_REPORTS, createReportSettings(fld));
+    }
 
     // statistics
-    //! TODO
+    if (fld->isUseOwnStatSettings()) {
+        jsonObj.insert(FVS_STAT, createStatSettings(fld));
+    }
 
     // regional
     if (fld->isUseOwnRegionalSettings()) {
-        QJsonObject regionalObj;
-        regionalObj.insert("gui", QJsonValue(fld->isApplyRemoteTimeToGui()));
-        regionalObj.insert("schedulers", QJsonValue(fld->isApplyRemoteTimeToSchedules()));
-        regionalObj.insert("timezone", QJsonValue(fld->getTimeZoneIanaId()));
-        result.insert("regional", QJsonValue(regionalObj));
+        jsonObj.insert(FVS_REGIONAL, createRegionalSettings(fld));
     }
 
     // comment
     if (!fld->getComment().isEmpty()) {
-        result.insert("comment", QJsonValue(fld->getComment()));
+        jsonObj.insert(PRM_COMMENT, QJsonValue(fld->getComment()));
     }
 
     // variables
-    //! TODO
+    jsonObj.insert(FVS_VARS, createVarsSettings(fld));
 
     // specials
-    QJsonObject specialsObj;
-    specialsObj.insert("testStatusesNotAffectTrayIcon", QJsonValue(fld->isTestStatusesNotAffectTrayIconColor()));
-    specialsObj.insert("nonSimultaneouslyTestExecution", QJsonValue(fld->isNonSimultaneouslyTestExecution()));
-    result.insert("specials", QJsonValue(specialsObj));
+    jsonObj.insert(FVS_SPECIALS, createSpecialsSettings(fld));
 
-    return QJsonValue(result);
+    return QJsonValue(jsonObj);
+}
+
+/******************************************************************/
+
+void IOHMList::parseRootFolderSection(QJsonValue jsonValue)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    TFolder *fld = qobject_cast<TFolder*>(m_HML->rootFolder());
+
+    // columns
+    fld->setUseOwnColumnSettings(jsonObj.contains(FVS_COLUMNS));
+    if (fld->isUseOwnColumnSettings()) {
+        parseColumnSettings(jsonObj.value(FVS_COLUMNS),fld);
+    }
+
+    // folder colors
+    fld->setUseOwnColorSettings(jsonObj.contains(FVS_COLORS));
+    if (fld->isUseOwnColorSettings()) {
+        parseColorSettings(jsonObj.value(FVS_COLORS),fld);
+    }
+
+    // reports
+    fld->setUseOwnReportSettings(jsonObj.contains(FVS_REPORTS));
+    if (fld->isUseOwnReportSettings()) {
+        parseReportSettings(jsonObj.value(FVS_REPORTS),fld);
+    }
+
+    // statistics
+    fld->setUseOwnStatSettings(jsonObj.contains(FVS_STAT));
+    if (fld->isUseOwnStatSettings()) {
+        parseStatSettings(jsonObj.value(FVS_STAT),fld);
+    }
+
+    // regional
+    fld->setUseOwnRegionalSettings(jsonObj.contains(FVS_REGIONAL));
+    if (fld->isUseOwnRegionalSettings()) {
+        parseRegionalSettings(jsonObj.value(FVS_REGIONAL),fld);
+    }
+
+    // comment
+    fld->setComment(jsonObj.value(PRM_COMMENT).toString());
+
+    // variables
+    parseVarsSettings(jsonObj.value(FVS_VARS),fld);
+
+    // specials
+    parseSpecialsSettings(jsonObj.value(FVS_SPECIALS),fld);
 }
 
 /******************************************************************/
 
 QJsonValue IOHMList::createRootViewSection()
 {
-    QJsonObject result;
+    QJsonObject jsonObj;
     TFolder *fld = qobject_cast<TFolder*>(m_HML->rootView());
+
     // columns
     if (fld->isUseOwnColumnSettings()) {
-        result.insert("columns", createColumnsSettings(fld));
-        result.insert("sort", createSortSettings(fld));
+        jsonObj.insert(FVS_COLUMNS, createColumnsSettings(fld));
     }
 
     // folder colors
     if (fld->isUseOwnColorSettings()) {
-        QJsonObject colorObj;
-        colorObj.insert("scheme", QJsonValue(fld->getColorScheme()));
-        colorObj.insert("checking", QJsonValue(fld->isCheckingColorStatus()));
-        result.insert("colors", QJsonValue(colorObj));
+        jsonObj.insert(FVS_COLORS, createColorSettings(fld));
     }
 
     // comment
     if (!fld->getComment().isEmpty()) {
-        result.insert("comment", QJsonValue(fld->getComment()));
+        jsonObj.insert(PRM_COMMENT, QJsonValue(fld->getComment()));
     }
 
-    return QJsonValue(result);
+    return QJsonValue(jsonObj);
+}
+
+/******************************************************************/
+
+void IOHMList::parseRootViewSection(QJsonValue jsonValue)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    TFolder *fld = qobject_cast<TFolder*>(m_HML->rootView());
+
+    // columns
+    fld->setUseOwnColumnSettings(jsonObj.contains(FVS_COLUMNS));
+    if (fld->isUseOwnColumnSettings()) {
+        parseColumnSettings(jsonObj.value(FVS_COLUMNS),fld);
+    }
+
+    // folder colors
+    fld->setUseOwnColorSettings(jsonObj.contains(FVS_COLORS));
+    if (fld->isUseOwnColorSettings()) {
+        parseColorSettings(jsonObj.value(FVS_COLORS),fld);
+    }
+
+    // comment
+    fld->setComment(jsonObj.value(PRM_COMMENT).toString());
 }
 
 /******************************************************************/
@@ -233,52 +364,110 @@ QJsonValue IOHMList::createFoldersSection()
         jsonObj.insert("created", QJsonValue(fld->getCreatedAt().toString(DT_FORMAT)));
         jsonObj.insert("modified", QJsonValue(fld->getModifiedAt().toString(DT_FORMAT)));
         jsonObj.insert("parentID", QJsonValue(fld->parentNode()->getID()));
+
         // columns
         if (fld->isUseOwnColumnSettings()) {
-            jsonObj.insert("columns", createColumnsSettings(fld));
-            jsonObj.insert("sort", createSortSettings(fld));
+            jsonObj.insert(FVS_COLUMNS, createColumnsSettings(fld));
         }
 
         // folder colors
         if (fld->isUseOwnColorSettings()) {
-            QJsonObject colorObj;
-            colorObj.insert("scheme", QJsonValue(fld->getColorScheme()));
-            colorObj.insert("checking", QJsonValue(fld->isCheckingColorStatus()));
-            jsonObj.insert("colors", QJsonValue(colorObj));
+            jsonObj.insert(FVS_COLORS, createColorSettings(fld));
         }
 
         // reports
-        //! TODO
+        if (fld->isUseOwnReportSettings()) {
+            jsonObj.insert(FVS_REPORTS, createReportSettings(fld));
+        }
 
         // statistics
-        //! TODO
+        if (fld->isUseOwnStatSettings()) {
+            jsonObj.insert(FVS_STAT, createStatSettings(fld));
+        }
 
         // regional
         if (fld->isUseOwnRegionalSettings()) {
-            QJsonObject regionalObj;
-            regionalObj.insert("gui", QJsonValue(fld->isApplyRemoteTimeToGui()));
-            regionalObj.insert("schedulers", QJsonValue(fld->isApplyRemoteTimeToSchedules()));
-            regionalObj.insert("timezone", QJsonValue(fld->getTimeZoneIanaId()));
-            jsonObj.insert("regional", QJsonValue(regionalObj));
+            jsonObj.insert(FVS_REGIONAL, createRegionalSettings(fld));
         }
 
         // comment
         if (!fld->getComment().isEmpty()) {
-            jsonObj.insert("comment", QJsonValue(fld->getComment()));
+            jsonObj.insert(PRM_COMMENT, QJsonValue(fld->getComment()));
         }
 
         // variables
-        //! TODO
+        jsonObj.insert(FVS_VARS, createVarsSettings(fld));
 
         // specials
-        QJsonObject specialsObj;
-        specialsObj.insert("testStatusesNotAffectTrayIcon", QJsonValue(fld->isTestStatusesNotAffectTrayIconColor()));
-        specialsObj.insert("nonSimultaneouslyTestExecution", QJsonValue(fld->isNonSimultaneouslyTestExecution()));
-        jsonObj.insert("specials", QJsonValue(specialsObj));
+        jsonObj.insert(FVS_SPECIALS, createSpecialsSettings(fld));
 
         result.append(jsonObj);
     }
     return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseFoldersSection(QJsonValue jsonValue)
+{
+    TFolder *rootFolder = qobject_cast<TFolder*>(m_HML->rootFolder());
+    foreach(const QJsonValue &fldValue, jsonValue.toArray()) {
+        QJsonObject jsonObj = fldValue.toObject();
+        // node
+        int parentID = jsonObj.value("parentID").toInt();
+        TNode *parent = rootFolder->findByID(parentID);
+        if (!parent || parent->getType() != TNode::FOLDER) {
+            QString msg = tr("Can not find folder with id %1").arg(parentID);
+            sendErrorMessage(msg);
+            // skip ?
+            continue;
+        }
+        int id = jsonObj.value("id").toInt();
+        QString name = jsonObj.value("name").toString();
+        TFolder *fld = new TFolder(id, name);
+        m_HML->addNode(parent, fld);
+        fld->setCreatedAt(QDateTime::fromString(jsonObj.value("created").toString(), DT_FORMAT));
+        fld->setModifiedAt(QDateTime::fromString(jsonObj.value("modified").toString(), DT_FORMAT));
+
+        // columns
+        fld->setUseOwnColumnSettings(jsonObj.contains(FVS_COLUMNS));
+        if (fld->isUseOwnColumnSettings()) {
+            parseColumnSettings(jsonObj.value(FVS_COLUMNS),fld);
+        }
+
+        // folder colors
+        fld->setUseOwnColorSettings(jsonObj.contains(FVS_COLORS));
+        if (fld->isUseOwnColorSettings()) {
+            parseColorSettings(jsonObj.value(FVS_COLORS),fld);
+        }
+
+        // reports
+        fld->setUseOwnReportSettings(jsonObj.contains(FVS_REPORTS));
+        if (fld->isUseOwnReportSettings()) {
+            parseReportSettings(jsonObj.value(FVS_REPORTS),fld);
+        }
+
+        // statistics
+        fld->setUseOwnStatSettings(jsonObj.contains(FVS_STAT));
+        if (fld->isUseOwnStatSettings()) {
+            parseStatSettings(jsonObj.value(FVS_STAT),fld);
+        }
+
+        // regional
+        fld->setUseOwnRegionalSettings(jsonObj.contains(FVS_REGIONAL));
+        if (fld->isUseOwnRegionalSettings()) {
+            parseRegionalSettings(jsonObj.value(FVS_REGIONAL),fld);
+        }
+
+        // comment
+        fld->setComment(jsonObj.value(PRM_COMMENT).toString());
+
+        // variables
+        parseVarsSettings(jsonObj.value(FVS_VARS),fld);
+
+        // specials
+        parseSpecialsSettings(jsonObj.value(FVS_SPECIALS),fld);
+    }
 }
 
 /******************************************************************/
@@ -305,33 +494,82 @@ QJsonValue IOHMList::createViewsSection()
         jsonObj.insert("source", QJsonValue(sourceObj));
 
         // view criteria
-        jsonObj.insert("criteria", createViewCriteriaSettings(view));
+        jsonObj.insert(FVS_CRITERIA, createViewCriteriaSettings(view));
 
         // columns
         if (view->isUseOwnColumnSettings()) {
-            jsonObj.insert("columns", createColumnsSettings(view));
-            jsonObj.insert("sort", createSortSettings(view));
+            jsonObj.insert(FVS_COLUMNS, createColumnsSettings(view));
         }
 
         // colors
         if (view->isUseOwnColorSettings()) {
-            QJsonObject colorObj;
-            colorObj.insert("scheme", QJsonValue(view->getColorScheme()));
-            colorObj.insert("checking", QJsonValue(view->isCheckingColorStatus()));
-            jsonObj.insert("colors", QJsonValue(colorObj));
+            jsonObj.insert(FVS_COLORS, createColorSettings(view));
         }
 
         // reports
-        //! TODO
+        if (view->isUseOwnReportSettings()) {
+            jsonObj.insert(FVS_REPORTS, createReportSettings(view));
+        }
 
         // comment
         if (!view->getComment().isEmpty()) {
-            jsonObj.insert("comment", QJsonValue(view->getComment()));
+            jsonObj.insert(PRM_COMMENT, QJsonValue(view->getComment()));
         }
 
         result.append(jsonObj);
     }
     return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseViewsSection(QJsonValue jsonValue)
+{
+    TFolder *rootView = qobject_cast<TFolder*>(m_HML->rootView());
+    foreach(const QJsonValue &fldValue, jsonValue.toArray()) {
+        QJsonObject jsonObj = fldValue.toObject();
+        // source
+        QJsonObject srcObj = jsonObj.value("source").toObject();
+        int folderID = srcObj.value("folderID").toInt();
+        bool recursive = srcObj.value("recursive").toBool();
+        TNode *source = m_HML->rootFolder()->findByID(folderID);
+        if (!source || source->getType() != TNode::FOLDER) {
+            source = m_HML->rootFolder();
+        }
+
+        // node
+        int id = jsonObj.value("id").toInt();
+        QString name = jsonObj.value("name").toString();
+        TView *view = new TView(id, name,  qobject_cast<TFolder*>(source));
+        m_HML->addNode(rootView, view);
+        view->setCreatedAt(QDateTime::fromString(jsonObj.value("created").toString(), DT_FORMAT));
+        view->setModifiedAt(QDateTime::fromString(jsonObj.value("modified").toString(), DT_FORMAT));
+        view->setRecursive(recursive);
+
+        // view criteria
+        parseViewCriteriaSettings(jsonObj.value(FVS_CRITERIA),view);
+
+        // columns
+        view->setUseOwnColumnSettings(jsonObj.contains(FVS_COLUMNS));
+        if (view->isUseOwnColumnSettings()) {
+            parseColumnSettings(jsonObj.value(FVS_COLUMNS),view);
+        }
+
+        // colors
+        view->setUseOwnColorSettings(jsonObj.contains(FVS_COLORS));
+        if (view->isUseOwnColorSettings()) {
+            parseColorSettings(jsonObj.value(FVS_COLORS),view);
+        }
+
+        // reports
+        view->setUseOwnReportSettings(jsonObj.contains(FVS_REPORTS));
+        if (view->isUseOwnReportSettings()) {
+            parseReportSettings(jsonObj.value(FVS_REPORTS),view);
+        }
+
+        // comment
+        view->setComment(jsonObj.value(PRM_COMMENT).toString());
+    }
 }
 
 /******************************************************************/
@@ -352,7 +590,7 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         jsonObj.insert("created", QJsonValue(test->getCreatedAt().toString(DT_FORMAT)));
         jsonObj.insert("modified", QJsonValue(test->getModifiedAt().toString(DT_FORMAT)));
         jsonObj.insert("parentID", QJsonValue(test->parentNode()->getID()));
-        jsonObj.insert("comment", QJsonValue(test->getComment()));
+        jsonObj.insert(PRM_COMMENT, QJsonValue(test->getComment()));
 
         // method
         QJsonObject methodObj;
@@ -371,6 +609,7 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         jsonObj.insert("paused", QJsonValue(test->isPaused()));
         jsonObj.insert("pauseComment", QJsonValue(test->getPauseComment()));
 
+        // alert profile
         jsonObj.insert("alert", QJsonValue(test->getAlertProfileID()));
 
         // Log & Reports options
@@ -382,9 +621,9 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
             logObj.insert("privateLogMode", QJsonValue(test->getPrivateLogMode()));
             logObj.insert("privateLog", QJsonValue(test->getPrivateLog()));
         }
-        logObj.insert("excludeFromHtmlReport", QJsonValue(test->isExcludeFromHtmlReport()));
-        logObj.insert("excludeFromWmlReport", QJsonValue(test->isExcludeFromWmlReport()));
-        logObj.insert("excludeFromDbfReport", QJsonValue(test->isExcludeFromDbfReport()));
+        logObj.insert("ExcludeFromHtmlReport", QJsonValue(test->isExcludeFromHtmlReport()));
+        logObj.insert("ExcludeFromWmlReport", QJsonValue(test->isExcludeFromWmlReport()));
+        logObj.insert("ExcludeFromDbfReport", QJsonValue(test->isExcludeFromDbfReport()));
         jsonObj.insert("log", QJsonValue(logObj));
 
         // Dependencies
@@ -438,38 +677,277 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
 
 /******************************************************************/
 
+void IOHMList::parseTestsSection(QJsonValue jsonValue)
+{
+    TFolder *rootFolder = qobject_cast<TFolder*>(m_HML->rootFolder());
+    foreach(const QJsonValue &testValue, jsonValue.toArray()) {
+        QJsonObject testObj = testValue.toObject();
+        // node
+        int id = testObj.value("id").toInt();
+        QString name = testObj.value("name").toString();
+        TTest *test = new TTest(id,name);
+        test->setCreatedAt(QDateTime::fromString(testObj.value("created").toString(), DT_FORMAT));
+        test->setModifiedAt(QDateTime::fromString(testObj.value("modified").toString(), DT_FORMAT));
+        int parentId = testObj.value("parentID").toInt();
+        TNode *parent = rootFolder->findByID(parentId);
+        if (!parent || parent->getType() != TNode::FOLDER) {
+            parent = rootFolder;
+        }
+        m_HML->addNode(parent,test);
+
+        // method
+        QJsonObject methodObj = testObj.value("method").toObject();
+        QString methodName = methodObj.value("type").toString();
+        TMethodID methodID = TMethod::fromString(methodName);
+        IOTestMethodConverter *converter = IOHelper::methodConverter(methodID);
+        TTestMethod *method = converter->fromJson(methodObj.value("params"));
+        method->setNamePattern(methodObj.value("namePattern").toString());
+        method->setCommentPattern(methodObj.value("commentPattern").toString());
+        test->setTest(method);
+        delete converter;
+
+        // properties
+        test->setEnabled(testObj.value("enabled").toBool());
+        test->setPaused(testObj.value("paused").toBool());
+        test->setPauseComment(testObj.value("pauseComment").toString());
+
+        // alert profile
+        //!
+
+        // Log & Reports options
+        QJsonObject logObj = testObj.value("log").toObject();
+        if (logObj.contains("commonLogMode")) {
+            test->setUseCommonLog(true);
+            test->setCommonLogMode(logObj.value("commonLogMode").toInt());
+        } else {
+            test->setUseCommonLog(false);
+        }
+        if (logObj.contains("privateLogMode")) {
+            test->setUsePrivateLog(true);
+            test->setPrivateLogMode(logObj.value("privateLogMode").toInt());
+            test->setPrivateLog(logObj.value("privateLog").toString());
+        } else {
+            test->setUsePrivateLog(false);
+        }
+        test->setExcludeFromHtmlReport(logObj.value("ExcludeFromHtmlReport").toBool());
+        test->setExcludeFromWmlReport(logObj.value("ExcludeFromWmlReport").toBool());
+        test->setExcludeFromDbfReport(logObj.value("ExcludeFromDbfReport").toBool());
+
+        // skip dependencies (wait for all tests load)
+
+        // optional
+        QJsonObject optObj = testObj.value("optional").toObject();
+        test->setReverseAlert(optObj.value("reverse").toBool());
+        test->setUnknownIsBad(optObj.value("UnknownIsBad").toBool());
+        test->setWarningIsBad(optObj.value("WarningIsBad").toBool());
+        test->setUseWarningScript(optObj.contains("WarningScript"));
+        if (test->isUseWarningScript()) {
+            test->setWarningScript(optObj.value("WarningScript").toString());
+        }
+        test->setUseNormalScript(optObj.contains("NormalScript"));
+        if (test->isUseWarningScript()) {
+            test->setNormalScript(optObj.value("NormalScript").toString());
+        }
+        test->setTuneUpReply(optObj.contains("TuneUpScript"));
+        if (test->isUseWarningScript()) {
+            test->setTuneUpScript(optObj.value("TuneUpScript").toString());
+        }
+
+        // Load statistics
+
+        // Load iterations
+    }
+
+    // load dependencies
+    foreach(const QJsonValue &testValue, jsonValue.toArray()) {
+        QJsonObject testObj = testValue.toObject();
+        QJsonObject depObj = testObj.value("dependencies").toObject();
+        Q_UNUSED(depObj)
+        //! TODO
+    }
+}
+
+/******************************************************************/
+
 QJsonValue IOHMList::createHistorySection()
 {
+    //! TODO
     return QJsonValue();
+}
+
+/******************************************************************/
+
+void IOHMList::parseHistorySection(QJsonValue jsonValue)
+{
+    Q_UNUSED(jsonValue)
+    //! TODO
 }
 
 /******************************************************************/
 
 QJsonValue IOHMList::createColumnsSettings(TNode *node)
 {
-    QJsonArray result;
+    QJsonObject result;
+    // column settings
+    QJsonArray fields;
     foreach(const TLColumn &column, node->getColumns()) {
         QJsonObject jsonObj;
-        jsonObj.insert("title", QJsonValue(column.title));
-        jsonObj.insert("macro", QJsonValue(column.macro));
-        jsonObj.insert("checked", QJsonValue(column.checked));
-        result.append(jsonObj);
+        jsonObj.insert(PRM_TITLE, QJsonValue(column.title));
+        jsonObj.insert(PRM_MACRO, QJsonValue(column.macro));
+        jsonObj.insert(PRM_CHECK, QJsonValue(column.checked));
+        fields.append(jsonObj);
     }
+    result.insert(GRP_FIELDS, QJsonValue(fields));
+    // sort settings
+    QJsonArray sortBy;
+    foreach(const QSortPair &sort, node->getSort()) {
+        QJsonObject jsonObj;
+        jsonObj.insert(PRM_COLUMN, QJsonValue(sort.first));
+        jsonObj.insert(PRM_ASC, QJsonValue(sort.second));
+        sortBy.append(jsonObj);
+    }
+    result.insert(GRP_SORT, QJsonValue(sortBy));
     return QJsonValue(result);
 }
 
 /******************************************************************/
 
-QJsonValue IOHMList::createSortSettings(TNode *node)
+void IOHMList::parseColumnSettings(QJsonValue jsonValue, TNode *node)
 {
-    QJsonArray result;
-    foreach(const QSortPair &sort, node->getSort()) {
-        QJsonObject jsonObj;
-        jsonObj.insert("column", QJsonValue(sort.first));
-        jsonObj.insert("asc", QJsonValue(sort.second));
-        result.append(jsonObj);
+    QColumnList columnList;
+    foreach(const QJsonValue &fieldValue, jsonValue.toObject().value(GRP_FIELDS).toArray()) {
+        QJsonObject jsonObj = fieldValue.toObject();
+        TLColumn column;
+        column.title   = jsonObj.value(PRM_TITLE).toString();
+        column.macro   = jsonObj.value(PRM_MACRO).toString();
+        column.checked = jsonObj.value(PRM_CHECK).toBool();
+        columnList.append(column);
     }
+    node->setColumns(columnList);
+
+    QSortPairList sortList;
+    foreach(const QJsonValue &sortValue, jsonValue.toObject().value(GRP_SORT).toArray()) {
+        QJsonObject jsonObj = sortValue.toObject();
+        QSortPair sortPair(jsonObj.value(PRM_COLUMN).toString(), jsonObj.value(PRM_ASC).toBool());
+        sortList.append(sortPair);
+    }
+    node->setSort(sortList);
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createColorSettings(TNode *node)
+{
+    QJsonObject result;
+    result.insert(PRM_SCHEME, QJsonValue(node->getColorScheme()));
+    result.insert(PRM_CHECK, QJsonValue(node->isCheckingColorStatus()));
     return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseColorSettings(QJsonValue jsonValue, TNode *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    node->setColorScheme(jsonObj.value(PRM_SCHEME).toString());
+    node->setCheckingColorStatus(jsonObj.value(PRM_CHECK).toBool());
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createReportSettings(TNode *node)
+{
+    QJsonObject result;
+    Q_UNUSED(node)
+    //! TODO
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseReportSettings(QJsonValue jsonValue, TNode *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    Q_UNUSED(jsonObj)
+    Q_UNUSED(node)
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createStatSettings(TFolder *node)
+{
+    QJsonObject result;
+    Q_UNUSED(node)
+    //! TODO
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseStatSettings(QJsonValue jsonValue, TFolder *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    Q_UNUSED(jsonObj)
+    Q_UNUSED(node)
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createRegionalSettings(TFolder *node)
+{
+    QJsonObject result;
+    result.insert(PRM_GUI, QJsonValue(node->isApplyRemoteTimeToGui()));
+    result.insert(PRM_SCHEDULERS, QJsonValue(node->isApplyRemoteTimeToSchedules()));
+    result.insert(PRM_TIMEZONE, QJsonValue(node->getTimeZoneIanaId()));
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseRegionalSettings(QJsonValue jsonValue, TFolder *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    node->setApplyRemoteTimeToGui(jsonObj.value(PRM_GUI).toBool());
+    node->setApplyRemoteTimeToSchedules(jsonObj.value(PRM_SCHEDULERS).toBool());
+    node->setTimeZoneIanaId(jsonObj.value(PRM_TIMEZONE).toString());
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createVarsSettings(TFolder *node)
+{
+    QJsonObject result;
+    Q_UNUSED(node)
+    //! TODO
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseVarsSettings(QJsonValue jsonValue, TFolder *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    Q_UNUSED(jsonObj)
+    Q_UNUSED(node)
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createSpecialsSettings(TFolder *node)
+{
+    QJsonObject result;
+    result.insert(PRM_AFFECT_TRAY_ICON, QJsonValue(node->isTestStatusesNotAffectTrayIconColor()));
+    result.insert(PRM_NON_SIMUL_EXEC, QJsonValue(node->isNonSimultaneouslyTestExecution()));
+    return QJsonValue(result);
+}
+
+/******************************************************************/
+
+void IOHMList::parseSpecialsSettings(QJsonValue jsonValue, TFolder *node)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    node->setTestStatusesNotAffectTrayIconColor(jsonObj.value(PRM_AFFECT_TRAY_ICON).toBool());
+    node->setNonSimultaneouslyTestExecution(jsonObj.value(PRM_NON_SIMUL_EXEC).toBool());
 }
 
 /******************************************************************/
@@ -554,25 +1032,104 @@ QJsonValue IOHMList::createViewCriteriaSettings(TView *view)
 
 /******************************************************************/
 
-bool IOHMList::writeJsonToFile(QFile &outFile, const QString &outJson)
+void IOHMList::parseViewCriteriaSettings(QJsonValue jsonValue, TView *view)
 {
-    int length = outJson.length();
-    if (!outFile.open(QFile::WriteOnly|QFile::Text)) {
-        sendErrorMessage(tr("Could not open file '%1' to write").arg(outFile.fileName()));
-        return false;
-    }
+    QJsonObject jsonObj = jsonValue.toObject();
 
-    qint64 bytesWritten = outFile.write(qUtf8Printable(outJson),length);
-    outFile.close();
-
-    if (bytesWritten != length) {
-        sendErrorMessage(tr("Could not write HMList to %1").arg(outFile.fileName()));
-        if (!outFile.remove()) {
-            sendErrorMessage(tr("Count not remove file %1. Please delete manualy").arg(outFile.fileName()));
+    // select items by status
+    if (jsonObj.contains("status")) {
+        view->setSelectByStatus(true);
+        int idx = TView::staticMetaObject.indexOfEnumerator("VStatus");
+        QMetaEnum statusEnum = TView::staticMetaObject.enumerator(idx);
+        view->clearStatusCriteria();
+        foreach(const QJsonValue &val, jsonObj.value("status").toArray()) {
+            TView::VStatus status = (TView::VStatus)statusEnum.keyToValue(val.toString().toStdString().data());
+            view->addStatusCriteria(status);
         }
-        return false;
+    } else {
+        view->setSelectByStatus(false);
     }
-    return true;
+
+    // select items by test method
+    if (jsonObj.contains("method")) {
+        view->setSelectByTestMethod(true);
+        view->clearMethodCriteria();
+        foreach(const QJsonValue &val, jsonObj.value("method").toArray()) {
+            view->addMethodCriteria(TMethod::fromString(val.toString()));
+        }
+    } else {
+        view->setSelectByTestMethod(false);
+    }
+
+    // select items by statistics
+    if (jsonObj.contains("statistics")) {
+        view->setSelectByStats(true);
+        QJsonObject statsObj = jsonObj.value("statistics").toObject();
+        int idx = TView::staticMetaObject.indexOfEnumerator("VCriteria");
+        QMetaEnum criteriaEnum = TView::staticMetaObject.enumerator(idx);
+        TView::VCriteria statsCriteria = (TView::VCriteria)criteriaEnum.keyToValue(statsObj.value("type").toString().toStdString().data());
+        switch (statsCriteria) {
+        case TView::VC_AliveRatio:
+            view->setAliveRatioValue(statsObj.value("value").toDouble());
+            break;
+        case TView::VC_DeadRatio:
+            view->setDeadRatioValue(statsObj.value("value").toDouble());
+            break;
+        case TView::VC_UnknownRatio:
+            view->setUnknownRatioValue(statsObj.value("value").toDouble());
+            break;
+        case TView::VC_ReplyGT:
+            view->setReplyGTValue(statsObj.value("value").toDouble());
+            break;
+        case TView::VC_ReplyLT:
+            view->setReplyLTValue(statsObj.value("value").toDouble());
+            break;
+        case TView::VC_Duration:
+            if (statsObj.contains("GT")) {
+                view->setDurationGreater(true);
+                view->setDurationValue(statsObj.value("GT").toInt());
+            } else {
+                view->setDurationGreater(false);
+                view->setDurationValue(statsObj.value("LT").toInt());
+            }
+        }
+    } else {
+        view->setSelectByStats(false);
+    }
+
+    // select items by test properties
+    if (jsonObj.contains("name")) {
+        view->setSelectByTestName(true);
+        view->setTestNameValue(jsonObj.value("name").toString());
+    } else {
+        view->setSelectByTestName(false);
+    }
+    if (jsonObj.contains("target")) {
+        view->setSelectByTarget(true);
+        view->setTargetValue(jsonObj.value("target").toString());
+    } else {
+        view->setSelectByTarget(false);
+    }
+    if (jsonObj.contains("comment")) {
+        view->setSelectByComment(true);
+        view->setCommentValue(jsonObj.value("comment").toString());
+    } else {
+        view->setSelectByComment(false);
+    }
+    if (jsonObj.contains("agent")) {
+        view->setSelectByAgent(true);
+        view->setAgentValue(jsonObj.value("agent").toString());
+    } else {
+        view->setSelectByAgent(false);
+    }
+
+    // select items using expression
+    if (jsonObj.contains("expression")) {
+        view->setSelectUsingExpression(true);
+        view->setExpressionValue(jsonObj.value("expression").toString());
+    } else {
+        view->setSelectUsingExpression(false);
+    }
 }
 
 /******************************************************************/

@@ -10,10 +10,6 @@ namespace SDPO {
 
 /*************************************************/
 
-int TNode::count = 0;
-
-/*************************************************/
-
 TNode::TNode(const int id, const QString &name, const NodeType type, QObject *parent) :
     QObject(parent),
     m_ID(id),
@@ -27,6 +23,7 @@ TNode::TNode(const int id, const QString &name, const NodeType type, QObject *pa
 
     b_UseOwnColumnSettings = false;
     b_UseOwnColorSettings = false;
+    b_UseOwnReportSettings = false;
     b_CheckingColorStatus = false;
 }
 

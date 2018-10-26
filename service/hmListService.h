@@ -8,41 +8,65 @@
 
 namespace SDPO {
 
+struct HMListInfo {
+    QUuid   guid;
+    bool    modified;
+    QString fileName;
+    int     fileSize;
+    bool    storeHistoricalData;
+    int     count;
+
+    HMListInfo() {
+        clear();
+    }
+
+    void clear() {
+        guid = QUuid::createUuid();
+        modified = false;
+        fileName = QString();
+        fileSize = 0;
+        storeHistoricalData = true;
+        count = 3; // root = 0, rootFolder = 1, rootView = 2
+    }
+
+    int nextID() {
+        return count++;
+    }
+};
+
 class HMListService : public QObject
 {
     Q_OBJECT
 
-    TRoot*  m_Root;
-    QUuid   m_GUID;
-    bool    m_Modified;
-    QString m_FileName;
-    int     m_FileSize;
-    bool    m_StoreHistoricalData;
-    TNode*  m_CurFolder;
+    HMListInfo  m_Info;
+    TRoot      *m_Root;
+    TNode      *m_CurFolder;
 
 public:
     explicit HMListService(QObject *parent = 0);
     ~HMListService();
 
     // getters and setters
-    QUuid guid() const { return m_GUID; }
-    void setGuid(const QUuid guid) { m_GUID = guid; }
-    bool isModelModified() const { return m_Modified; }
-    QString currentFileName() const { return m_FileName; }
-    void setFileName(const QString &value) { m_FileName = value; }
-    int fileSize() const { return m_FileSize; }
-    bool isStoreHistoricalData() const { return m_StoreHistoricalData; }
-    void setStoreHistoricalData(const bool value) { m_StoreHistoricalData=value; }
-    TNode* currentFolder() { return m_CurFolder; }
-    void setCurrentFolder(TNode* folder) { m_CurFolder = folder; }
+    HMListInfo info() const { return m_Info; }
+    void       setInfo(const HMListInfo &in) { m_Info = in; }
+    QUuid   guid() const { return m_Info.guid; }
+    void    setGuid(const QUuid guid) { m_Info.guid = guid; }
+    bool    isModelModified() const { return m_Info.modified; }
+    QString currentFileName() const { return m_Info.fileName; }
+    void    setFileName(const QString &value) { m_Info.fileName = value; }
+    int     fileSize() const { return m_Info.fileSize; }
+    bool    isStoreHistoricalData() const { return m_Info.storeHistoricalData; }
+    void    setStoreHistoricalData(const bool value) { m_Info.storeHistoricalData=value; }
+    TNode  *currentFolder() { return m_CurFolder; }
+    void    setCurrentFolder(TNode* folder) { m_CurFolder = folder; }
 
     // test list properties
-    bool   isCurFileExists() const { return !m_FileName.isEmpty(); }
+    bool   isCurFileExists() const { return !m_Info.fileName.isEmpty(); }
     TRoot *rootItem() { return m_Root; }
     TNode *rootFolder() { return m_Root->rootFolder(); }
     TNode *rootView() { return m_Root->rootView(); }
     TNode *nodeByPath(QString path) { return m_Root->findByPath(path); }
-    int    nextID() const { return TRoot::nextID(); }
+    int    nextID() { return m_Info.nextID(); }
 
     // test list content
     void addNode(TNode* parent, TNode* item);

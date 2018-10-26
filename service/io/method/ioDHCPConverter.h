@@ -3,6 +3,10 @@
 
 #include "ioTestMethodConverter.h"
 
+// Specific parameters
+#define SP_HOST    "Host"
+#define SP_TIMEOUT "Timeout"
+
 namespace SDPO {
 
 class IODHCPConverter : public IOTestMethodConverter

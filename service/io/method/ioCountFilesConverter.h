@@ -3,14 +3,16 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 //Specific parameters
-static QString SP_FOLDER        = QStringLiteral("Folder");
-static QString SP_MASK          = QStringLiteral("Mask");
-static QString SP_COUNTMODE     = QStringLiteral("CountMode");
-static QString SP_COUNTVALUE    = QStringLiteral("CountValue");
-static QString SP_FILESLIMIT    = QStringLiteral("FilesLimit");
+#define SP_FOLDER     "Folder"
+#define SP_MASK       "Mask"
+#define SP_SUBFOLDERS "SubFolders"
+#define SP_USE_MACROS "UseMacros"
+#define SP_COUNTMODE  "CountMode"
+#define SP_COUNTVALUE "CountValue"
+#define SP_FILESLIMIT "FilesLimit"
+
+namespace SDPO {
 
 class IOCountFilesConverter : public IOTestMethodConverter
 {

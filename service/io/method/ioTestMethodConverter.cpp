@@ -28,4 +28,12 @@ void IOTestMethodConverter::exportTo(QTextStream &out)
 
 /***********************************************/
 
+TTestMethod *IOTestMethodConverter::fromJson(QJsonValue jsonValue)
+{
+    Q_UNUSED(jsonValue)
+    return getTestMethod();
+}
+
+/***********************************************/
+
 } // namespace SDPO

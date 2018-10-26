@@ -3,10 +3,14 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_PROTOCOL = QStringLiteral("Protocol");
+#define SP_SERVER   "Server"
+#define SP_DATABASE "Database"
+#define SP_USER     "User"
+#define SP_PASSWORD "Password"
+#define SP_PROTOCOL "Protocol"
+
+namespace SDPO {
 
 class IOInterbaseConverter : public IOTestMethodConverter
 {

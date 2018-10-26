@@ -11,11 +11,6 @@ namespace SDPO {
 HMListService::HMListService(QObject *parent) :
     QObject(parent),
     m_Root(new TRoot()),
-    m_GUID(QUuid::createUuid()),
-    m_Modified(false),
-    m_FileName(QString()),
-    m_FileSize(0),
-    m_StoreHistoricalData(true),
     m_CurFolder(m_Root->rootFolder())
 {
 }
@@ -25,6 +20,7 @@ HMListService::HMListService(QObject *parent) :
 HMListService::~HMListService()
 {
     Utils::DestructorMsg(this);
+    m_CurFolder = 0;
     m_Root->deleteLater();
 }
 
@@ -53,7 +49,7 @@ void HMListService::addNode(TNode *parent, TNode *item)
         break;
     default: break;
     }
-    m_Modified = true;
+    m_Info.modified = true;
 }
 
 /******************************************************************/
@@ -64,12 +60,8 @@ bool HMListService::cmdNewTestList()
     delete m_Root;
 
     m_Root = new TRoot();
-    m_GUID = QUuid::createUuid();
-    m_Modified = false;
-    m_FileName.clear();
-    m_FileSize = 0;
-    m_StoreHistoricalData = true;
     m_CurFolder = m_Root->rootFolder();
+    m_Info.clear();
 
     emit modelChanged();
     return true;
@@ -87,10 +79,10 @@ bool HMListService::cmdLoadTestList(QString fileName)
 
     bool result = loader.load();\
     if (result) {
-        m_FileName = fileName;
-        m_FileSize = QFile(fileName).size();
+        m_Info.fileName = fileName;
+        m_Info.fileSize = QFile(fileName).size();
     }
-    m_Modified = false;
+    m_Info.modified = false;
 
     emit modelChanged();
 
@@ -126,7 +118,7 @@ bool HMListService::cmdImportFromFile(QString fileName, bool skipDuplicates, boo
 bool HMListService::cmdSaveTestList(QString fileName)
 {
     if (fileName.isEmpty()) {
-        fileName = m_FileName;
+        fileName = m_Info.fileName;
     }
     if (fileName.isEmpty()) {
         return false;
@@ -134,9 +126,9 @@ bool HMListService::cmdSaveTestList(QString fileName)
     IOHMList saver(this, fileName);
     bool result = saver.save();
     if (result) {
-        m_FileName = fileName;
-        m_FileSize = QFile(fileName).size();
-        m_Modified = false;
+        m_Info.fileName = fileName;
+        m_Info.fileSize = QFile(fileName).size();
+        m_Info.modified = false;
     }
 
     return result;

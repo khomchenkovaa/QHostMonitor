@@ -3,17 +3,19 @@
 
 #include "ioTestMethodConverter.h"
 
+// Specific parameters
+#define SP_DATASOURCE  "Datasource"
+#define SP_LOGIN       "Login"
+#define SP_PASSWORD    "Password"
+#define SP_TIMEOUT     "Timeout"
+#define SP_SQLQUERY    "SQLQuery"
+#define SP_CHECKFIELD  "CheckField"
+#define SP_FIELDROW    "FieldRow"
+#define SP_FIELDCOL    "FieldCol"
+#define SP_VALUE       "Value"
+#define SP_EMPTYSTATUS "EmptyStatus"
+
 namespace SDPO {
-
-//Specific parameters
-static QString SP_DATASOURCE  = QStringLiteral("Datasource");
-static QString SP_LOGIN       = QStringLiteral("Login");
-static QString SP_SQLQUERY    = QStringLiteral("SQLQuery");
-static QString SP_CHECKFIELD  = QStringLiteral("CheckField");
-static QString SP_FIELDROW    = QStringLiteral("FieldRow");
-static QString SP_FIELDCOL    = QStringLiteral("FieldCol");
-static QString SP_EMPTYSTATUS = QStringLiteral("EmptyStatus");
-
 
 class IOODBCConverter : public IOTestMethodConverter
 {

@@ -9,6 +9,7 @@ namespace SDPO {
 TFolder::TFolder(const int id, const QString &name, QObject *parent) :
     TNode(id, name, TNode::FOLDER, parent)
 {
+    b_UseOwnStatSettings = false;
     b_UseOwnRegionalSettings = false;
     b_ApplyRemoteTimeToGui = false;
     b_ApplyRemoteTimeToSchedules = false;

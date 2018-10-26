@@ -3,11 +3,13 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_SCRIPT     = QStringLiteral("Script");
-static QString SP_PARAMS     = QStringLiteral("Params");
+#define SP_SCRIPT     "Script"
+#define SP_TIMEOUT    "Timeout"
+#define SP_USE_MACROS "UseMacros"
+#define SP_PARAMS     "Params"
+
+namespace SDPO {
 
 class IOShellScriptConverter : public IOTestMethodConverter
 {

@@ -85,6 +85,9 @@ public:
     QVariant property(QString name) const Q_DECL_OVERRIDE;
 
 private: // interface settings
+    // statistics
+    BOOL_PROPERTY(UseOwnStatSettings)
+
     // regional
     BOOL_PROPERTY(UseOwnRegionalSettings)
     bool b_ApplyRemoteTimeToGui;

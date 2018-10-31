@@ -28,6 +28,11 @@
 #define PRM_CNT           "count"
 #define PRM_STORE_HISTORY "StoreHistory"
 
+// node
+#define PRM_ID          "id"
+#define PRM_CREATED_AT  "created"
+#define PRM_MODIFIED_AT "modified"
+
 // folders and views sections
 #define FVS_COLUMNS  "columns"
 #define FVS_COLORS   "colors"
@@ -37,6 +42,9 @@
 #define FVS_VARS     "variables"
 #define FVS_SPECIALS "specials"
 #define FVS_CRITERIA "criteria"
+
+// test section params
+#define TSP_SPECIFIC "specificParams"
 
 // columns
 #define GRP_FIELDS  "fields"
@@ -59,6 +67,19 @@
 #define PRM_NON_SIMUL_EXEC   "NonSimultaneouslyTestExecution"
 
 // view criteria
+#define PRM_SOURCE_FLD       "sourceFolder"
+#define PRM_SOURCE_RECURSIVE "sourceRecursive"
+#define PRM_VC_STATUS        "vcStatus"
+#define PRM_VC_METHOD        "vcMethod"
+#define PRM_VC_STATISTICS    "vcStatistics"
+#define PRM_VC_STAT_TYPE     "vcStatType"
+#define PRM_VC_STAT_SUBTYPE  "vcStatSubType"
+#define PRM_VC_STAT_VALUE    "vcStatValue"
+#define PRM_VC_NAME          "vcName"
+#define PRM_VC_TARGET        "vcTarget"
+#define PRM_VC_COMMENT       "vcComment"
+#define PRM_VC_AGENT         "vcAgent"
+#define PRM_VC_EXPRESSION    "vcExpression"
 
 
 namespace SDPO {
@@ -67,6 +88,7 @@ class HMListService;
 class TNode;
 class TFolder;
 class TView;
+class TTest;
 
 class IOHMList : public QObject
 {
@@ -126,19 +148,23 @@ private:
     void       parseReportSettings(QJsonValue jsonValue, TNode* node);
 
     QJsonValue createStatSettings(TFolder *node);
-    void       parseStatSettings(QJsonValue jsonValue, SDPO::TFolder *node);
+    void       parseStatSettings(QJsonValue jsonValue, TFolder *node);
 
     QJsonValue createRegionalSettings(TFolder *node);
-    void       parseRegionalSettings(QJsonValue jsonValue, SDPO::TFolder *node);
+    void       parseRegionalSettings(QJsonValue jsonValue, TFolder *node);
 
     QJsonValue createVarsSettings(TFolder *node);
-    void       parseVarsSettings(QJsonValue jsonValue, SDPO::TFolder *node);
+    void       parseVarsSettings(QJsonValue jsonValue, TFolder *node);
 
     QJsonValue createSpecialsSettings(TFolder *node);
-    void       parseSpecialsSettings(QJsonValue jsonValue, SDPO::TFolder *node);
+    void       parseSpecialsSettings(QJsonValue jsonValue, TFolder *node);
 
     QJsonValue createViewCriteriaSettings(TView* view);
     void       parseViewCriteriaSettings(QJsonValue jsonValue, TView* view);
+
+    QJsonValue createTestMethodSection(TTest* test);
+    void       parseTestMethodSection(QJsonValue jsonValue, TTest* test);
+
 };
 
 } // namespace SDPO

@@ -14,13 +14,26 @@ class TCompareFiles : public TTestMethod
     Q_PROPERTY(QString Object2 READ getSecondFile())
     Q_PROPERTY(QString TestMode READ getAlertWhen())
 
-    AUTO_PROPERTY(int, AlertWhen)
+public:
+    enum AlertMode {
+        FilesDifferent,
+        FilesIdentical,
+        ContainsFile,
+        DoesntContainFile,
+        ContainsString,
+        DoesntContainString
+    };
+
+private:
+    Q_ENUMS(AlertMode)
+
+    AUTO_PROPERTY(AlertMode, AlertWhen)
     AUTO_PROPERTY(QString, FirstFile)
     AUTO_PROPERTY(QString, SecondFile)
     BOOL_PROPERTY(TranslateFirstMacros)
     BOOL_PROPERTY(TranslateSecondMacros)
     AUTO_PROPERTY(QString, String)
-    AUTO_PROPERTY(QString, StringCoding)
+    AUTO_PROPERTY(int, CodecMibEnum)
     BOOL_PROPERTY(Time)
     BOOL_PROPERTY(Size)
     BOOL_PROPERTY(Contents)
@@ -39,10 +52,11 @@ public:
 
     virtual TTestMethod *clone() Q_DECL_OVERRIDE;
 
-signals:
-
-public slots:
-
+private:
+    TTestResult compareFiles(bool identical);
+    TTestResult containsFile(bool contains);
+    TTestResult containsString(bool contains);
+    QString getTranslated(QString name, bool translate);
 };
 
 } // namespace SDPO

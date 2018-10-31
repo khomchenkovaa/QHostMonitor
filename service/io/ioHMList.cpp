@@ -358,12 +358,11 @@ QJsonValue IOHMList::createFoldersSection()
         TFolder *fld = qobject_cast<TFolder*>(node);
         QJsonObject jsonObj;
         // node
-        jsonObj.insert("id", QJsonValue(fld->getID()));
-        jsonObj.insert("name", QJsonValue(fld->getName()));
-        jsonObj.insert("path", QJsonValue(fld->getPath()));
-        jsonObj.insert("created", QJsonValue(fld->getCreatedAt().toString(DT_FORMAT)));
-        jsonObj.insert("modified", QJsonValue(fld->getModifiedAt().toString(DT_FORMAT)));
-        jsonObj.insert("parentID", QJsonValue(fld->parentNode()->getID()));
+        jsonObj.insert(PRM_ID, QJsonValue(fld->getID()));
+        jsonObj.insert(PRM_TITLE, QJsonValue(fld->getName()));
+        jsonObj.insert(PRM_CREATED_AT, QJsonValue(fld->getCreatedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_MODIFIED_AT, QJsonValue(fld->getModifiedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_DEST_FOLDER, QJsonValue(fld->parentNode()->getPath()));
 
         // columns
         if (fld->isUseOwnColumnSettings()) {
@@ -410,24 +409,23 @@ QJsonValue IOHMList::createFoldersSection()
 
 void IOHMList::parseFoldersSection(QJsonValue jsonValue)
 {
-    TFolder *rootFolder = qobject_cast<TFolder*>(m_HML->rootFolder());
     foreach(const QJsonValue &fldValue, jsonValue.toArray()) {
         QJsonObject jsonObj = fldValue.toObject();
         // node
-        int parentID = jsonObj.value("parentID").toInt();
-        TNode *parent = rootFolder->findByID(parentID);
+        QString destFolder = jsonObj.value(PRM_DEST_FOLDER).toString();
+        TNode *parent = m_HML->nodeByPath(destFolder);
         if (!parent || parent->getType() != TNode::FOLDER) {
-            QString msg = tr("Can not find folder with id %1").arg(parentID);
+            QString msg = tr("Can not find dest folder '%1'").arg(destFolder);
             sendErrorMessage(msg);
-            // skip ?
+            // skip or create?
             continue;
         }
-        int id = jsonObj.value("id").toInt();
-        QString name = jsonObj.value("name").toString();
+        int id = jsonObj.value(PRM_ID).toInt();
+        QString name = jsonObj.value(PRM_TITLE).toString();
         TFolder *fld = new TFolder(id, name);
         m_HML->addNode(parent, fld);
-        fld->setCreatedAt(QDateTime::fromString(jsonObj.value("created").toString(), DT_FORMAT));
-        fld->setModifiedAt(QDateTime::fromString(jsonObj.value("modified").toString(), DT_FORMAT));
+        fld->setCreatedAt(QDateTime::fromString(jsonObj.value(PRM_CREATED_AT).toString(), DT_FORMAT));
+        fld->setModifiedAt(QDateTime::fromString(jsonObj.value(PRM_MODIFIED_AT).toString(), DT_FORMAT));
 
         // columns
         fld->setUseOwnColumnSettings(jsonObj.contains(FVS_COLUMNS));
@@ -480,18 +478,14 @@ QJsonValue IOHMList::createViewsSection()
         TView *view = qobject_cast<TView*>(node);
         QJsonObject jsonObj;
         // node
-        jsonObj.insert("id", QJsonValue(view->getID()));
-        jsonObj.insert("name", QJsonValue(view->getName()));
-        jsonObj.insert("path", QJsonValue(view->getPath()));
-        jsonObj.insert("created", QJsonValue(view->getCreatedAt().toString(DT_FORMAT)));
-        jsonObj.insert("modified", QJsonValue(view->getModifiedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_ID, QJsonValue(view->getID()));
+        jsonObj.insert(PRM_TITLE, QJsonValue(view->getName()));
+        jsonObj.insert(PRM_CREATED_AT, QJsonValue(view->getCreatedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_MODIFIED_AT, QJsonValue(view->getModifiedAt().toString(DT_FORMAT)));
 
         // source
-        QJsonObject sourceObj;
-        sourceObj.insert("folderID", QJsonValue(view->getSourceFolder()->getID()));
-        sourceObj.insert("folder", QJsonValue(view->getSourceFolder()->getPath()));
-        sourceObj.insert("recursive", QJsonValue(view->isRecursive()));
-        jsonObj.insert("source", QJsonValue(sourceObj));
+        jsonObj.insert(PRM_SOURCE_FLD, QJsonValue(view->getSourceFolder()->getPath()));
+        jsonObj.insert(PRM_SOURCE_RECURSIVE, QJsonValue(view->isRecursive()));
 
         // view criteria
         jsonObj.insert(FVS_CRITERIA, createViewCriteriaSettings(view));
@@ -529,21 +523,22 @@ void IOHMList::parseViewsSection(QJsonValue jsonValue)
     foreach(const QJsonValue &fldValue, jsonValue.toArray()) {
         QJsonObject jsonObj = fldValue.toObject();
         // source
-        QJsonObject srcObj = jsonObj.value("source").toObject();
-        int folderID = srcObj.value("folderID").toInt();
-        bool recursive = srcObj.value("recursive").toBool();
-        TNode *source = m_HML->rootFolder()->findByID(folderID);
+        QString srcFolder = jsonObj.value(PRM_SOURCE_FLD).toString();
+        TNode *source = m_HML->nodeByPath(srcFolder);
         if (!source || source->getType() != TNode::FOLDER) {
+            QString msg = tr("Can not find source folder '%1'").arg(srcFolder);
+            sendErrorMessage(msg);
             source = m_HML->rootFolder();
         }
+        bool recursive = jsonObj.value(PRM_SOURCE_RECURSIVE).toBool();
 
         // node
-        int id = jsonObj.value("id").toInt();
-        QString name = jsonObj.value("name").toString();
+        int id = jsonObj.value(PRM_ID).toInt();
+        QString name = jsonObj.value(PRM_TITLE).toString();
         TView *view = new TView(id, name,  qobject_cast<TFolder*>(source));
         m_HML->addNode(rootView, view);
-        view->setCreatedAt(QDateTime::fromString(jsonObj.value("created").toString(), DT_FORMAT));
-        view->setModifiedAt(QDateTime::fromString(jsonObj.value("modified").toString(), DT_FORMAT));
+        view->setCreatedAt(QDateTime::fromString(jsonObj.value(PRM_CREATED_AT).toString(), DT_FORMAT));
+        view->setModifiedAt(QDateTime::fromString(jsonObj.value(PRM_MODIFIED_AT).toString(), DT_FORMAT));
         view->setRecursive(recursive);
 
         // view criteria
@@ -583,26 +578,18 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         TTest *test = qobject_cast<TTest*>(node);
         QJsonObject jsonObj;
 
-        // node
-        jsonObj.insert("id", QJsonValue(test->getID()));
-        jsonObj.insert("name", QJsonValue(test->getName()));
-        jsonObj.insert("path", QJsonValue(test->getPath()));
-        jsonObj.insert("created", QJsonValue(test->getCreatedAt().toString(DT_FORMAT)));
-        jsonObj.insert("modified", QJsonValue(test->getModifiedAt().toString(DT_FORMAT)));
-        jsonObj.insert("parentID", QJsonValue(test->parentNode()->getID()));
+        // node and test's main params
+        jsonObj.insert(PRM_ID, QJsonValue(test->getID()));
+        jsonObj.insert(PRM_TITLE, QJsonValue(test->getName()));
+        jsonObj.insert(PRM_CREATED_AT, QJsonValue(test->getCreatedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_MODIFIED_AT, QJsonValue(test->getModifiedAt().toString(DT_FORMAT)));
+        jsonObj.insert(PRM_DEST_FOLDER, QJsonValue(test->parentNode()->getPath()));
         jsonObj.insert(PRM_COMMENT, QJsonValue(test->getComment()));
+        jsonObj.insert(PRM_RM_AGENT, QJsonValue(test->agentName()));
+        jsonObj.insert(PRM_RELATED_URL, QJsonValue(test->getRelatedURL()));
 
-        // method
-        QJsonObject methodObj;
-        TTestMethod* method = test->method();
-        methodObj.insert("type", QJsonValue(method->getTestMethodName()));
-        methodObj.insert("namePattern", QJsonValue(method->getNamePattern()));
-        methodObj.insert("commentPattern", QJsonValue(method->getCommentPattern()));
-        IOTestMethodConverter *converter = IOHelper::methodConverter(method->getTMethodID());
-        converter->setTestMethod(method);
-        methodObj.insert("params",converter->toJson());
-        delete converter;
-        jsonObj.insert("method", QJsonValue(methodObj));
+        // method specific parameters
+        jsonObj.insert(TSP_SPECIFIC, createTestMethodSection(test));
 
         // properties
         jsonObj.insert("enabled", QJsonValue(test->isEnabled()));
@@ -610,7 +597,7 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         jsonObj.insert("pauseComment", QJsonValue(test->getPauseComment()));
 
         // alert profile
-        jsonObj.insert("alert", QJsonValue(test->getAlertProfileID()));
+        jsonObj.insert(PRM_ALERTS, QJsonValue(test->getAlertProfileID()));
 
         // Log & Reports options
         QJsonObject logObj;
@@ -681,41 +668,35 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
 {
     TFolder *rootFolder = qobject_cast<TFolder*>(m_HML->rootFolder());
     foreach(const QJsonValue &testValue, jsonValue.toArray()) {
-        QJsonObject testObj = testValue.toObject();
+        QJsonObject jsonObj = testValue.toObject();
         // node
-        int id = testObj.value("id").toInt();
-        QString name = testObj.value("name").toString();
+        int id = jsonObj.value(PRM_ID).toInt();
+        QString name = jsonObj.value(PRM_TITLE).toString();
         TTest *test = new TTest(id,name);
-        test->setCreatedAt(QDateTime::fromString(testObj.value("created").toString(), DT_FORMAT));
-        test->setModifiedAt(QDateTime::fromString(testObj.value("modified").toString(), DT_FORMAT));
-        int parentId = testObj.value("parentID").toInt();
-        TNode *parent = rootFolder->findByID(parentId);
+        test->setCreatedAt(QDateTime::fromString(jsonObj.value(PRM_CREATED_AT).toString(), DT_FORMAT));
+        test->setModifiedAt(QDateTime::fromString(jsonObj.value(PRM_MODIFIED_AT).toString(), DT_FORMAT));
+        QString destFolder = jsonObj.value(PRM_DEST_FOLDER).toString();
+        TNode *parent = m_HML->nodeByPath(destFolder);
         if (!parent || parent->getType() != TNode::FOLDER) {
             parent = rootFolder;
+            QString msg = tr("Can not find dest folder '%1'").arg(destFolder);
+            sendErrorMessage(msg);
         }
         m_HML->addNode(parent,test);
 
         // method
-        QJsonObject methodObj = testObj.value("method").toObject();
-        QString methodName = methodObj.value("type").toString();
-        TMethodID methodID = TMethod::fromString(methodName);
-        IOTestMethodConverter *converter = IOHelper::methodConverter(methodID);
-        TTestMethod *method = converter->fromJson(methodObj.value("params"));
-        method->setNamePattern(methodObj.value("namePattern").toString());
-        method->setCommentPattern(methodObj.value("commentPattern").toString());
-        test->setTest(method);
-        delete converter;
+        parseTestMethodSection(jsonObj.value(TSP_SPECIFIC),test);
 
         // properties
-        test->setEnabled(testObj.value("enabled").toBool());
-        test->setPaused(testObj.value("paused").toBool());
-        test->setPauseComment(testObj.value("pauseComment").toString());
+        test->setEnabled(jsonObj.value("enabled").toBool());
+        test->setPaused(jsonObj.value("paused").toBool());
+        test->setPauseComment(jsonObj.value("pauseComment").toString());
 
         // alert profile
         //!
 
         // Log & Reports options
-        QJsonObject logObj = testObj.value("log").toObject();
+        QJsonObject logObj = jsonObj.value("log").toObject();
         if (logObj.contains("commonLogMode")) {
             test->setUseCommonLog(true);
             test->setCommonLogMode(logObj.value("commonLogMode").toInt());
@@ -736,7 +717,7 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
         // skip dependencies (wait for all tests load)
 
         // optional
-        QJsonObject optObj = testObj.value("optional").toObject();
+        QJsonObject optObj = jsonObj.value("optional").toObject();
         test->setReverseAlert(optObj.value("reverse").toBool());
         test->setUnknownIsBad(optObj.value("UnknownIsBad").toBool());
         test->setWarningIsBad(optObj.value("WarningIsBad").toBool());
@@ -758,7 +739,7 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
         // Load iterations
     }
 
-    // load dependencies
+    // load dependencies"expression"
     foreach(const QJsonValue &testValue, jsonValue.toArray()) {
         QJsonObject testObj = testValue.toObject();
         QJsonObject depObj = testObj.value("dependencies").toObject();
@@ -963,7 +944,7 @@ QJsonValue IOHMList::createViewCriteriaSettings(TView *view)
         foreach(const TView::VStatus &st, view->getStatusCriteria()) {
             statusObj.append(QJsonValue(statusEnum.key(st)));
         }
-        result.insert("status",QJsonValue(statusObj));
+        result.insert(PRM_VC_STATUS,QJsonValue(statusObj));
     }
     // select items by test method
     if (view->isSelectByTestMethod()) {
@@ -971,7 +952,7 @@ QJsonValue IOHMList::createViewCriteriaSettings(TView *view)
         foreach(const TMethodID &meth, view->getMethodCriteria()) {
             methodObj.append(QJsonValue(TMethod::toName(meth)));
         }
-        result.insert("method",QJsonValue(methodObj));
+        result.insert(PRM_VC_METHOD,QJsonValue(methodObj));
     }
 
     // select items by statistics
@@ -980,51 +961,48 @@ QJsonValue IOHMList::createViewCriteriaSettings(TView *view)
         QMetaEnum criteriaEnum = TView::staticMetaObject.enumerator(idx);
         QJsonObject statsObj;
         TView::VCriteria statsCriteria = view->getStatsCriteria();
-        statsObj.insert("type", QJsonValue(criteriaEnum.key(statsCriteria)));
+        statsObj.insert(PRM_VC_STAT_TYPE, QJsonValue(criteriaEnum.key(statsCriteria)));
         switch (statsCriteria) {
         case TView::VC_AliveRatio:
-            statsObj.insert("value", QJsonValue(view->getAliveRatioValue()));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getAliveRatioValue()));
             break;
         case TView::VC_DeadRatio:
-            statsObj.insert("value", QJsonValue(view->getDeadRatioValue()));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getDeadRatioValue()));
             break;
         case TView::VC_UnknownRatio:
-            statsObj.insert("value", QJsonValue(view->getUnknownRatioValue()));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getUnknownRatioValue()));
             break;
         case TView::VC_ReplyGT:
-            statsObj.insert("value", QJsonValue(view->getReplyGTValue()));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getReplyGTValue()));
             break;
         case TView::VC_ReplyLT:
-            statsObj.insert("value", QJsonValue(view->getReplyLTValue()));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getReplyLTValue()));
             break;
         case TView::VC_Duration:
-            if (view->isDurationGreater()) {
-                statsObj.insert("GT", QJsonValue(view->getDurationValue()));
-            } else {
-                statsObj.insert("LT", QJsonValue(view->getDurationValue()));
-            }
+            statsObj.insert(PRM_VC_STAT_SUBTYPE, QJsonValue(view->isDurationGreater()?"GT":"LT"));
+            statsObj.insert(PRM_VC_STAT_VALUE, QJsonValue(view->getDurationValue()));
             break;
         }
-        result.insert("statistics",QJsonValue(statsObj));
+        result.insert(PRM_VC_STATISTICS,QJsonValue(statsObj));
     }
 
     // select items by test properties
     if (view->isSelectByTestName()) {
-        result.insert("name",QJsonValue(view->getTestNameValue()));
+        result.insert(PRM_VC_NAME,QJsonValue(view->getTestNameValue()));
     }
     if (view->isSelectByTarget()) {
-        result.insert("target",QJsonValue(view->getTargetValue()));
+        result.insert(PRM_VC_TARGET,QJsonValue(view->getTargetValue()));
     }
     if (view->isSelectByComment()) {
-        result.insert("comment",QJsonValue(view->getCommentValue()));
+        result.insert(PRM_VC_COMMENT,QJsonValue(view->getCommentValue()));
     }
     if (view->isSelectByAgent()) {
-        result.insert("agent",QJsonValue(view->getAgentValue()));
+        result.insert(PRM_VC_AGENT,QJsonValue(view->getAgentValue()));
     }
 
     // select items using expression
     if (view->isSelectUsingExpression()) {
-        result.insert("expression",QJsonValue(view->getExpressionValue()));
+        result.insert(PRM_VC_EXPRESSION,QJsonValue(view->getExpressionValue()));
     }
 
     return QJsonValue(result);
@@ -1037,99 +1015,110 @@ void IOHMList::parseViewCriteriaSettings(QJsonValue jsonValue, TView *view)
     QJsonObject jsonObj = jsonValue.toObject();
 
     // select items by status
-    if (jsonObj.contains("status")) {
-        view->setSelectByStatus(true);
+    view->setSelectByStatus(jsonObj.contains(PRM_VC_STATUS));
+    if (view->isSelectByStatus()) {
         int idx = TView::staticMetaObject.indexOfEnumerator("VStatus");
         QMetaEnum statusEnum = TView::staticMetaObject.enumerator(idx);
         view->clearStatusCriteria();
-        foreach(const QJsonValue &val, jsonObj.value("status").toArray()) {
+        foreach(const QJsonValue &val, jsonObj.value(PRM_VC_STATUS).toArray()) {
             TView::VStatus status = (TView::VStatus)statusEnum.keyToValue(val.toString().toStdString().data());
             view->addStatusCriteria(status);
         }
-    } else {
-        view->setSelectByStatus(false);
     }
 
     // select items by test method
-    if (jsonObj.contains("method")) {
-        view->setSelectByTestMethod(true);
+    view->setSelectByTestMethod(jsonObj.contains(PRM_VC_METHOD));
+    if (view->isSelectByTestMethod()) {
         view->clearMethodCriteria();
-        foreach(const QJsonValue &val, jsonObj.value("method").toArray()) {
+        foreach(const QJsonValue &val, jsonObj.value(PRM_VC_METHOD).toArray()) {
             view->addMethodCriteria(TMethod::fromString(val.toString()));
         }
-    } else {
-        view->setSelectByTestMethod(false);
     }
 
     // select items by statistics
-    if (jsonObj.contains("statistics")) {
-        view->setSelectByStats(true);
-        QJsonObject statsObj = jsonObj.value("statistics").toObject();
+    view->setSelectByStats(jsonObj.contains(PRM_VC_STATISTICS));
+    if (view->isSelectByStats()) {
+        QJsonObject statsObj = jsonObj.value(PRM_VC_STATISTICS).toObject();
         int idx = TView::staticMetaObject.indexOfEnumerator("VCriteria");
         QMetaEnum criteriaEnum = TView::staticMetaObject.enumerator(idx);
-        TView::VCriteria statsCriteria = (TView::VCriteria)criteriaEnum.keyToValue(statsObj.value("type").toString().toStdString().data());
+        QString statsType = statsObj.value(PRM_VC_STAT_TYPE).toString();
+        TView::VCriteria statsCriteria = (TView::VCriteria)criteriaEnum.keyToValue(statsType.toStdString().data());
         switch (statsCriteria) {
         case TView::VC_AliveRatio:
-            view->setAliveRatioValue(statsObj.value("value").toDouble());
+            view->setAliveRatioValue(statsObj.value(PRM_VC_STAT_VALUE).toDouble());
             break;
         case TView::VC_DeadRatio:
-            view->setDeadRatioValue(statsObj.value("value").toDouble());
+            view->setDeadRatioValue(statsObj.value(PRM_VC_STAT_VALUE).toDouble());
             break;
         case TView::VC_UnknownRatio:
-            view->setUnknownRatioValue(statsObj.value("value").toDouble());
+            view->setUnknownRatioValue(statsObj.value(PRM_VC_STAT_VALUE).toDouble());
             break;
         case TView::VC_ReplyGT:
-            view->setReplyGTValue(statsObj.value("value").toDouble());
+            view->setReplyGTValue(statsObj.value(PRM_VC_STAT_VALUE).toDouble());
             break;
         case TView::VC_ReplyLT:
-            view->setReplyLTValue(statsObj.value("value").toDouble());
+            view->setReplyLTValue(statsObj.value(PRM_VC_STAT_VALUE).toDouble());
             break;
         case TView::VC_Duration:
-            if (statsObj.contains("GT")) {
-                view->setDurationGreater(true);
-                view->setDurationValue(statsObj.value("GT").toInt());
-            } else {
-                view->setDurationGreater(false);
-                view->setDurationValue(statsObj.value("LT").toInt());
-            }
+            view->setDurationGreater(statsObj.value(PRM_VC_STAT_SUBTYPE).toString() == QString("GT"));
+            view->setDurationValue(statsObj.value(PRM_VC_STAT_VALUE).toInt());
+            break;
         }
-    } else {
-        view->setSelectByStats(false);
     }
 
     // select items by test properties
-    if (jsonObj.contains("name")) {
-        view->setSelectByTestName(true);
-        view->setTestNameValue(jsonObj.value("name").toString());
-    } else {
-        view->setSelectByTestName(false);
+    view->setSelectByTestName(jsonObj.contains(PRM_VC_NAME));
+    if (view->isSelectByTestName()) {
+        view->setTestNameValue(jsonObj.value(PRM_VC_NAME).toString());
     }
-    if (jsonObj.contains("target")) {
-        view->setSelectByTarget(true);
-        view->setTargetValue(jsonObj.value("target").toString());
-    } else {
-        view->setSelectByTarget(false);
+    view->setSelectByTarget(jsonObj.contains(PRM_VC_TARGET));
+    if (view->isSelectByTarget()) {
+        view->setTargetValue(jsonObj.value(PRM_VC_TARGET).toString());
     }
-    if (jsonObj.contains("comment")) {
-        view->setSelectByComment(true);
-        view->setCommentValue(jsonObj.value("comment").toString());
-    } else {
-        view->setSelectByComment(false);
+    view->setSelectByComment(jsonObj.contains(PRM_VC_COMMENT));
+    if (view->isSelectByComment()) {
+        view->setCommentValue(jsonObj.value(PRM_VC_COMMENT).toString());
     }
-    if (jsonObj.contains("agent")) {
-        view->setSelectByAgent(true);
-        view->setAgentValue(jsonObj.value("agent").toString());
-    } else {
-        view->setSelectByAgent(false);
+    view->setSelectByAgent(jsonObj.contains(PRM_VC_AGENT));
+    if (view->isSelectByAgent()) {
+        view->setAgentValue(jsonObj.value(PRM_VC_AGENT).toString());
     }
 
     // select items using expression
-    if (jsonObj.contains("expression")) {
-        view->setSelectUsingExpression(true);
-        view->setExpressionValue(jsonObj.value("expression").toString());
-    } else {
-        view->setSelectUsingExpression(false);
+    view->setSelectUsingExpression(jsonObj.contains(PRM_VC_EXPRESSION));
+    if (view->isSelectUsingExpression()) {
+        view->setExpressionValue(jsonObj.value(PRM_VC_EXPRESSION).toString());
     }
+}
+
+/******************************************************************/
+
+QJsonValue IOHMList::createTestMethodSection(TTest *test)
+{
+    TTestMethod *method = test->method();
+    IOTestMethodConverter *converter = IOHelper::methodConverter(method->getTMethodID());
+    converter->setTestMethod(method);
+    QJsonObject jsonObj = converter->toJsonObject();
+    converter->deleteLater();
+    jsonObj.insert(PRM_METHOD, QJsonValue(method->getTestMethodName()));
+    jsonObj.insert(PRM_NAME_PATTERN, QJsonValue(method->getNamePattern()));
+    jsonObj.insert(PRM_CMNT_PATTERN, QJsonValue(method->getCommentPattern()));
+    return QJsonValue(jsonObj);
+}
+
+/******************************************************************/
+
+void IOHMList::parseTestMethodSection(QJsonValue jsonValue, TTest *test)
+{
+    QJsonObject jsonObj = jsonValue.toObject();
+    QString methodName = jsonObj.value(PRM_METHOD).toString();
+    TMethodID methodID = TMethod::fromString(methodName);
+    IOTestMethodConverter *converter = IOHelper::methodConverter(methodID);
+    TTestMethod *method = converter->fromJsonObject(jsonObj);
+    converter->deleteLater();
+    method->setNamePattern(jsonObj.value(PRM_NAME_PATTERN).toString());
+    method->setCommentPattern(jsonObj.value(PRM_CMNT_PATTERN).toString());
+    test->setTest(method);
 }
 
 /******************************************************************/

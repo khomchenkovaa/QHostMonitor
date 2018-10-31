@@ -29,6 +29,7 @@ TNode *TRoot::findByPath(QString path)
     foreach(QString str, pathList) {
         if (str == "") continue;
         node = node->findChild(str);
+        if (!node) break;
     }
     return node;
 }

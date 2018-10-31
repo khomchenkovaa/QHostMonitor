@@ -3,6 +3,8 @@
 
 #include "qTestWidget.h"
 
+#include <QTextCodec>
+
 namespace Ui {
 class CompareFilesWidget;
 }
@@ -13,6 +15,7 @@ class CompareFilesWidget : public TestWidget
 {
     Q_OBJECT
 
+    Ui::CompareFilesWidget *ui;
 public:
     explicit CompareFilesWidget(QWidget *parent = 0);
     ~CompareFilesWidget();
@@ -29,7 +32,7 @@ private slots:
     void on_btnSecondFile_clicked();
 
 private:
-    Ui::CompareFilesWidget *ui;
+    QList<QTextCodec *> findCodecs();
 };
 
 } // namespace SDPO

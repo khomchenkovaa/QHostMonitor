@@ -4,7 +4,7 @@
 #include "method/sdpoTestMethods.h"
 
 #include <QTextStream>
-#include <QJsonValue>
+#include <QJsonObject>
 
 namespace SDPO {
 
@@ -23,8 +23,8 @@ public:
     virtual bool setValue(QString key, QString value);
     virtual void exportTo(QTextStream &out);
 
-    virtual QJsonValue toJson() { return QJsonValue(); }
-    virtual TTestMethod *fromJson(QJsonValue jsonValue);
+    virtual QJsonObject toJsonObject() { return QJsonObject(); }
+    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj);
 
 
 };

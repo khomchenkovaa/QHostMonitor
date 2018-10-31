@@ -3,6 +3,8 @@
 
 #include "ioTestMethodConverter.h"
 
+#include <QMetaEnum>
+
 #define SP_ALERTMODE     "AlertMode"
 #define SP_MISSINGCHECK  "MissingCheck"
 #define SP_USE_MACROS_1  "UseMacros1"
@@ -23,16 +25,20 @@ class IOCompareFilesConverter : public IOTestMethodConverter
 {
     Q_OBJECT
 
-    QStringList m_alertMode;
+    QMetaEnum m_AlertModeEnum;
 public:
     explicit IOCompareFilesConverter(QObject *parent = 0);
 
-virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
+    virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
 
-virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
+    virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
+    virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
+    virtual QJsonObject toJsonObject() Q_DECL_OVERRIDE;
+    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
 
-virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
-
+private:
+    QString getCodecNameForMib(int mibEnum);
+    int getMibForCodecName(QString name);
 };
 
 } //namespace SDPO

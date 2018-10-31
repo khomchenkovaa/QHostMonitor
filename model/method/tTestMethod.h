@@ -123,6 +123,9 @@ public:
     QString getDafaultName() const;
     QString getDafaultComments() const;
 
+protected:
+    QString getTranslated(const QString &name, const bool translate) const;
+
 signals:
     void testSuccess();
     void testFailed();

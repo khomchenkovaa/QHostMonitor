@@ -1,5 +1,10 @@
 #include "tCountFiles.h"
 
+#include <QFileInfo>
+#include <QFileInfoList>
+
+#include <QDebug>
+
 namespace SDPO {
 
 /******************************************************************/
@@ -9,9 +14,9 @@ TCountFiles::TCountFiles(QObject *parent) :
 {
     a_Folder = QString();
     b_TranslateMacros = false;
-    a_FileNameMask = QString("*.*");
+    a_FileNameMask = QString("*");
     b_IncludeSybFolder = false;
-    a_SelectCountFiles = 0; // Count all files
+    a_Condition = CountCondition::AllFiles;
     a_CountValue = 60;
     a_AlertWhen = 100;
 }
@@ -20,7 +25,21 @@ TCountFiles::TCountFiles(QObject *parent) :
 
 void TCountFiles::run()
 {
-    m_Result.status = TestStatus::Ok;
+    TTestResult result;
+    QString folder = getTranslated(a_Folder, b_TranslateMacros);
+    QDir dir(folder);
+    if (!dir.exists()) {
+        result.error = tr("Path %1 does not exists").arg(folder);
+        m_Result = result;
+        emit testFailed();
+        return;
+    }
+    int count = countFiles(dir);
+    result.replyInt = count;
+    result.replyDouble = count;
+    result.reply = QString::number(count);
+    result.status = count > a_AlertWhen ? TestStatus::Bad : TestStatus::Ok;
+    m_Result = result;
     emit testSuccess();
 }
 
@@ -36,7 +55,7 @@ TTestMethod *TCountFiles::clone()
     result->b_TranslateMacros = b_TranslateMacros;
     result->a_FileNameMask = a_FileNameMask;
     result->b_IncludeSybFolder = b_IncludeSybFolder;
-    result->a_SelectCountFiles = a_SelectCountFiles;
+    result->a_Condition = a_Condition;
     result->a_CountValue = a_CountValue;
     result->a_AlertWhen = a_AlertWhen;
     return result;
@@ -44,9 +63,68 @@ TTestMethod *TCountFiles::clone()
 
 /******************************************************************/
 
+int TCountFiles::countFiles(QDir dir)
+{
+    int result = 0;
+    QFileInfoList fileList = dir.entryInfoList(QStringList(a_FileNameMask), QDir::Files | QDir::NoSymLinks);
+    QFileInfoList subdirList = dir.entryInfoList(QDir::AllDirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+
+    switch (a_Condition) {
+    case TCountFiles::AllFiles :
+        result = fileList.count();
+        break;
+    case TCountFiles::OlderThan : {
+        QDateTime controlDate = QDateTime::currentDateTime().addSecs((-60) * a_CountValue);
+        foreach (const QFileInfo &file, fileList) {
+            if (file.lastModified() < controlDate) {
+                result++;
+            }
+        }
+    }
+        break;
+    case TCountFiles::NewerThan : {
+        QDateTime controlDate = QDateTime::currentDateTime().addSecs((-60) * a_CountValue);
+        foreach (const QFileInfo &file, fileList) {
+            if (file.lastModified() > controlDate) {
+                result++;
+            }
+        }
+    }
+        break;
+    case TCountFiles::BiggerThan :
+        foreach (const QFileInfo &file, fileList) {
+            if (file.size() > a_CountValue) {
+                result++;
+            }
+        }
+        break;
+    case TCountFiles::SmallerThan :
+        foreach (const QFileInfo &file, fileList) {
+            if (file.size() < a_CountValue) {
+                result++;
+            }
+        }
+        break;
+    case TCountFiles::SubfolderOnly :
+        result = subdirList.count();
+        break;
+    }
+
+    if (b_IncludeSybFolder) {
+        foreach (const QFileInfo &subdirInfo, subdirList) {
+            QDir subdir(subdirInfo.canonicalFilePath());
+            result += countFiles(subdir);
+        }
+    }
+
+    return result;
+}
+
+/******************************************************************/
+
 QString TCountFiles::getTestMethod() const
 {
-    return QString("Count Filse: %1\%2").arg(a_Folder).arg(a_FileNameMask);
+    return QString("Count Files: %1/%2").arg(a_Folder).arg(a_FileNameMask);
 }
 
 /******************************************************************/

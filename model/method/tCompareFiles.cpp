@@ -1,5 +1,4 @@
 #include "tCompareFiles.h"
-#include "global/gMacroTranslator.h"
 
 #include <QCryptographicHash>
 #include <QFile>
@@ -190,17 +189,6 @@ TTestResult TCompareFiles::containsString(bool contains)
         result.status = contains? TestStatus::Bad : TestStatus::Ok;
     }
     return result;
-}
-
-/******************************************************************/
-
-QString TCompareFiles::getTranslated(QString name, bool translate)
-{
-    if (!translate) {
-        return name;
-    }
-    GMacroTranslator translator(name);
-    return translator.translate();
 }
 
 /******************************************************************/

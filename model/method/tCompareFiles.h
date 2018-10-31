@@ -1,3 +1,21 @@
+/* This test is used to compare two files or to search a string in the file.
+ * 6 alert conditions are available:
+ * • alert when files are different
+ * • alert when files are identical
+ * • alert when 1st file contains 2nd (in any position)
+ * • alert when 1st file does not contain 2nd
+ * • alert when file contains a specified string
+ * • alert when file does not contain a specified string
+ *
+ * You can specify one or more parameters to compare files: compare time, compare size, and compare contents.
+ * If you set "compare contents" option but don't set "compare size" option, HostMonitor will consider two files to be identical when one file includes another one at offset 0 (one file can be smaller than another one).
+ *
+ * If you need to check some files that are dynamically created and do not have static name (e.g. some logs that are created on daily basis and have different file name every day), you may enable "Translate macros" options.
+ * With this option enabled you may use special date macro variables, file-specific variables and User Defined Variables in file name.
+ *
+ * When you use Compare Files test to check file for some specific string, you should tell HostMonitor what encoding was used for the file.
+ * HostMonitor supports several encoding methods.
+ */
 #ifndef TCOMPAREFILES_H
 #define TCOMPAREFILES_H
 
@@ -56,7 +74,6 @@ private:
     TTestResult compareFiles(bool identical);
     TTestResult containsFile(bool contains);
     TTestResult containsString(bool contains);
-    QString getTranslated(QString name, bool translate);
 };
 
 } // namespace SDPO

@@ -53,6 +53,17 @@ QString TTestMethod::getDafaultComments() const
 
 /***********************************************/
 
+QString TTestMethod::getTranslated(const QString &name, const bool translate) const
+{
+    if (!translate) {
+        return name;
+    }
+    GMacroTranslator translator(name);
+    return translator.translate();
+}
+
+/***********************************************/
+
 QMap<QString, QString> TTestMethod::setVars(const QStringList &params) const
 {
     QMap<QString, QString> result;

@@ -61,8 +61,10 @@ void DhcpWidget::reset(QVariant data)
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->clear();
-    ui->spinTimeout->setValue(5000);
-    ui->cmbRequestIp->setCurrentText(QString("<current local IP>"));
+    ui->spinTimeout->setValue(5);
+    ui->cmbRequestIp->clear();
+    ui->cmbRequestIp->addItem(QString(DHCP_CURRENT_LOCAL_IP));
+    ui->cmbRequestIp->setCurrentText(QString(DHCP_CURRENT_LOCAL_IP));
 }
 
 /******************************************************************/
@@ -85,7 +87,7 @@ QStringList DhcpWidget::validate()
     }
     if (ui->cmbRequestIp->currentText().trimmed().isEmpty())
     {
-        errors.append(tr("Please, specify a file name mask"));
+        errors.append(tr("Please, specify a host"));
     }
     return errors;
 }

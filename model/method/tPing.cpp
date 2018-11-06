@@ -65,10 +65,10 @@ void TPing::run()
 QString TPing::getCommand() const
 {
     QString cmd = "ping";
-    if (a_Packets > 0) cmd.append(QString(" -c %1").arg(a_Packets));
-    if (a_TimeToLive > 0) cmd.append(QString(" -t %1").arg(a_TimeToLive));
+    if (a_Packets) cmd.append(QString(" -c %1").arg(a_Packets));
+    if (a_TimeToLive) cmd.append(QString(" -t %1").arg(a_TimeToLive));
 //    if (a_Timeout > 0) cmd.append(QString(" -W %1").arg(a_Timeout));
-    if (a_PacketSize > 0) cmd.append(QString(" -s %1").arg(a_PacketSize));
+    if (a_PacketSize) cmd.append(QString(" -s %1").arg(a_PacketSize));
     if (b_DontFragment) cmd.append(" -M dont");
     cmd.append(QString(" -q %1").arg(a_Address));
     return cmd;

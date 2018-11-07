@@ -5,12 +5,12 @@
 #include "logService.h"
 #include "hmListService.h"
 #include "global/tAction.h"
-#include "global/ioActionProfileLoader.h"
-#include "global/ioTestMethodLoader.h"
-#include "global/ioUserVarsLoader.h"
-#include "global/ioMailProfileLoader.h"
-#include "global/ioColorProfileLoader.h"
-#include "global/ioUserProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
+#include "io/ioTestMethodLoader.h"
+#include "io/ioUserVarsLoader.h"
+#include "io/ioMailProfileLoader.h"
+#include "io/ioColorProfileLoader.h"
+#include "io/ioUserProfileLoader.h"
 #include "tNode.h"
 #include "tView.h"
 #include "utils.h"
@@ -26,25 +26,21 @@ namespace SDPO {
 
 Startup::Startup() :
     QObject(NULL),
-    m_mainForm(*new MainForm(NULL)),
     m_HML(*new HMListService(this)),
-    m_testRunner(*new MonitoringService()),
+    m_logService(*new LogService()),
     m_actionService(*new ActionService(&m_HML)),
-    m_logService(*new LogService())
+    m_testRunner(*new MonitoringService()),
+    m_mainForm(*new MainForm(&m_HML,NULL))
 {
-    connect(&m_mainForm, SIGNAL(testingPaused(bool)), &m_testRunner, SLOT(setPaused(bool)));
-
     TEnums::init();
     load();
-
-    m_mainForm.setupFolders(&m_HML);
     m_mainForm.init();
-    m_mainForm.resetScriptMenu();
 
+    connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
     connect(m_HML.rootItem(), SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_actionService, SLOT(runActions(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_logService, SLOT(writeLog(TNode*)));
-    connect(&m_logService, SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));
+    connect(&m_logService,    SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));
     connect(&m_actionService, SIGNAL(actionWinPopup(TTest*)), &m_mainForm, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
     connect(&m_actionService, SIGNAL(actionWriteCommonLog(TTest*)), &m_logService, SLOT(writeCommonLog(TTest*)), Qt::QueuedConnection);
     connect(&m_actionService, SIGNAL(actionWritePrivateLog(TTest*)), &m_logService, SLOT(writePrivateLog(TTest*)), Qt::QueuedConnection);
@@ -150,18 +146,17 @@ void Startup::checkScriptsDir() {
 /******************************************************************/
 
 void Startup::loadFoldersModel() {
-    TRoot *root = m_HML.rootItem();
-    TNode* views = root->rootView();
-    TFolder *folder = qobject_cast<TFolder*>(root->rootFolder());
+    TNode* views = m_HML.rootView();
+    TFolder *folder = qobject_cast<TFolder*>(m_HML.rootFolder());
 
-    TView *vAllBadItems = new TView("all bad items",folder);
-    root->addNode(views, vAllBadItems);
+    TView *vAllBadItems = new TView(m_HML.nextID(), "all bad items",folder);
+    m_HML.addNode(views, vAllBadItems);
     vAllBadItems->setSelectByStatus(true);
     vAllBadItems->addStatusCriteria(TView::VS_BadNew);
     vAllBadItems->addStatusCriteria(TView::VS_BadAcknowleged);
 
-    TView *vBadWarning = new TView("bad & warning",folder);
-    root->addNode(views, vBadWarning);
+    TView *vBadWarning = new TView(m_HML.nextID(), "bad & warning",folder);
+    m_HML.addNode(views, vBadWarning);
     vBadWarning->setSelectByStatus(true);
     vBadWarning->addStatusCriteria(TView::VS_BadNew);
     vBadWarning->addStatusCriteria(TView::VS_BadAcknowleged);
@@ -170,32 +165,32 @@ void Startup::loadFoldersModel() {
     vBadWarning->addStatusCriteria(TView::VS_WarningNew);
     vBadWarning->addStatusCriteria(TView::VS_WarningAcknowleged);
 
-    TView *vNonAcknowleged = new TView("non asknowleged",folder);
-    root->addNode(views, vNonAcknowleged);
+    TView *vNonAcknowleged = new TView(m_HML.nextID(), "non asknowleged",folder);
+    m_HML.addNode(views, vNonAcknowleged);
     vNonAcknowleged->setSelectByStatus(true);
     vNonAcknowleged->addStatusCriteria(TView::VS_BadNew);
     vNonAcknowleged->addStatusCriteria(TView::VS_UnknownNew);
     vNonAcknowleged->addStatusCriteria(TView::VS_WarningNew);
 
-    TView *vDisabled = new TView("disabled",folder);
-    root->addNode(views, vDisabled);
+    TView *vDisabled = new TView(m_HML.nextID(), "disabled",folder);
+    m_HML.addNode(views, vDisabled);
     vDisabled->setSelectByStatus(true);
     vDisabled->addStatusCriteria(TView::VS_Disabled);
 
-    TView *vDeadTime5 = new TView("DeadTime > 5%",folder);
-    root->addNode(views, vDeadTime5);
+    TView *vDeadTime5 = new TView(m_HML.nextID(), "DeadTime > 5%",folder);
+    m_HML.addNode(views, vDeadTime5);
     vDeadTime5->setSelectByStats(true);
     vDeadTime5->setStatsCriteria(TView::VC_DeadRatio);
     vDeadTime5->setDeadRatioValue(5.0);
 
-    TView *vDeadTime10 = new TView("DeadTime > 10%",folder);
-    root->addNode(views, vDeadTime10);
+    TView *vDeadTime10 = new TView(m_HML.nextID(), "DeadTime > 10%",folder);
+    m_HML.addNode(views, vDeadTime10);
     vDeadTime10->setSelectByStats(true);
     vDeadTime10->setStatsCriteria(TView::VC_DeadRatio);
     vDeadTime10->setDeadRatioValue(10.0);
 
-    TView *vStatusChanged = new TView("Recent status changed",folder);
-    root->addNode(views, vStatusChanged);
+    TView *vStatusChanged = new TView(m_HML.nextID(), "Recent status changed",folder);
+    m_HML.addNode(views, vStatusChanged);
     vStatusChanged->setSelectByStats(true);
     vStatusChanged->setStatsCriteria(TView::VC_Duration);
     vStatusChanged->setDurationGreater(false);

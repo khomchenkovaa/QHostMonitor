@@ -6,10 +6,8 @@ namespace SDPO {
 /******************************************************************/
 
 TRoot::TRoot(QObject *parent) :
-    TNode( QString(),TNode::ROOT, parent)
+    TNode(0, QString(),TNode::ROOT, parent)
 {
-    TNode::count = 1;
-    m_ID = 0;
     setup();
 }
 
@@ -31,33 +29,9 @@ TNode *TRoot::findByPath(QString path)
     foreach(QString str, pathList) {
         if (str == "") continue;
         node = node->findChild(str);
+        if (!node) break;
     }
     return node;
-}
-
-/******************************************************************/
-
-void TRoot::addNode(TNode *parent, TNode *item)
-{
-    if (item->getType() == TNode::ROOT) return;
-    parent->appendChild(item);
-    switch (item->getType()) {
-    case TNode::FOLDER :
-        emit newFolder(parent->getPath(), item->getName());
-        break;
-    case TNode::VIEW :
-        emit newView (item->getName());
-        break;
-    case TNode::TEST :
-        connect(item,SIGNAL(readyRun(TNode*)),this,SIGNAL(readyRun(TNode*)));
-        connect(item,SIGNAL(testDone(TNode*)),this,SIGNAL(testUpdated(TNode*)));
-        emit newTest(item);
-        break;
-    case TNode::LINK :
-        emit newLink(item);
-        break;
-    default: break;
-    }
 }
 
 /******************************************************************/
@@ -181,12 +155,12 @@ void TRoot::removeViews(TNode *node)
 void TRoot::setup()
 {
     // Folders
-    m_rootFolder = new TFolder(QString(ROOT_FOLDER_NAME));
+    m_rootFolder = new TFolder(1,QString(ROOT_FOLDER_NAME));
     appendChild(m_rootFolder);
     m_rootFolder->setUseOwnRegionalSettings(true);
     m_rootFolder->setTimeZoneIanaId("UTC");
     // Views
-    m_rootView = new TFolder(QString(ROOT_VIEW_NAME));
+    m_rootView = new TFolder(2,QString(ROOT_VIEW_NAME));
     appendChild(m_rootView);
 }
 

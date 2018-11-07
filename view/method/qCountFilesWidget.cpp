@@ -36,7 +36,7 @@ void CountFilesWidget::init(TTestMethod *item)
     ui->chkTranslateMacros->setChecked(test->isTranslateMacros());
     ui->cmbFileName->setCurrentText(test->getFileNameMask());
     ui->chkSubFolders->setChecked(test->isIncludeSybFolder());
-    ui->cmbCount->setCurrentIndex(test->getSelectCountFiles());
+    ui->cmbCount->setCurrentIndex(test->getCondition());
     ui->spinCount->setValue(test->getCountValue());
     ui->spinAlertSize->setValue(test->getAlertWhen());
 }
@@ -55,7 +55,7 @@ TTestMethod *CountFilesWidget::save(TTestMethod *item)
     test->setTranslateMacros(ui->chkTranslateMacros->isChecked());
     test->setFileNameMask(ui->cmbFileName->currentText());
     test->setIncludeSybFolder(ui->chkSubFolders->isChecked());
-    test->setSelectCountFiles(ui->cmbCount->currentIndex());
+    test->setCondition((TCountFiles::CountCondition)ui->cmbCount->currentIndex());
     test->setCountValue(ui->spinCount->value());
     test->setAlertWhen(ui->spinAlertSize->value());
     return test;
@@ -115,22 +115,25 @@ QString CountFilesWidget::getTemplateValue(const QString var) const
 
 void CountFilesWidget::on_CountSelect()
 {
-    int CountIndex = ui->cmbCount->currentIndex();
-    if (CountIndex == 0 || CountIndex == 5)
-    {
+    TCountFiles::CountCondition condition = (TCountFiles::CountCondition)ui->cmbCount->currentIndex();
+    switch (condition) {
+    case TCountFiles::AllFiles :
+    case TCountFiles::SubfolderOnly :
         ui->spinCount->setHidden(true);
         ui->lblBytesMin->setHidden(true);
-    } else if (CountIndex == 1 || CountIndex == 2)
-    {
-        ui->spinCount->setHidden(false);
-        ui->lblBytesMin->setHidden(false);
-        ui->lblBytesMin->setText(QString("bytes"));
-    }
-    else if (CountIndex == 3 || CountIndex == 4)
-    {
+        break;
+    case TCountFiles::OlderThan :
+    case TCountFiles::NewerThan :
         ui->spinCount->setHidden(false);
         ui->lblBytesMin->setHidden(false);
         ui->lblBytesMin->setText(QString("min"));
+        break;
+    case TCountFiles::BiggerThan :
+    case TCountFiles::SmallerThan :
+        ui->spinCount->setHidden(false);
+        ui->lblBytesMin->setHidden(false);
+        ui->lblBytesMin->setText(QString("bytes"));
+        break;
     }
 }
 

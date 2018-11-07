@@ -3,12 +3,14 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_CALLEDAE  = QStringLiteral("CalledAe");
-static QString SP_CALLINGAE = QStringLiteral("CallingAe");
+#define SP_HOST      "Host"
+#define SP_PORT      "Port"
+#define SP_TIMEOUT   "Timeout"
+#define SP_CALLEDAE  "CalledAe"
+#define SP_CALLINGAE "CallingAe"
 
+namespace SDPO {
 
 class IODICOMConverter : public IOTestMethodConverter
 {

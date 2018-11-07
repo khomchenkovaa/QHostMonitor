@@ -1,6 +1,6 @@
 #include "tPing.h"
 #include "tEnums.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include <QProcess>
 
 namespace SDPO {
@@ -10,10 +10,12 @@ namespace SDPO {
 TPing::TPing(QString addr, QObject *parent) :
     TTestMethod(TMethodID::Ping, parent)
 {
+    QSettings s;
     a_Address      = addr;
-    a_Packets      = Settings::get(Settings::Ping_Trace, Settings::Packets, QVariant(1)).toInt();
-    a_Timeout      = Settings::get(Settings::Ping_Trace, Settings::Timeout, QVariant(0)).toInt();
-    a_PacketSize   = Settings::get(Settings::Ping_Trace, Settings::PacketSize, QVariant(0)).toInt();
+    a_Packets      = s.value(SKEY_PING_Packets, 1).toInt();
+    a_Timeout      = s.value(SKEY_PING_Timeout, 0).toInt();
+    a_PacketSize   = s.value(SKEY_PING_PacketSize, 0).toInt();
+    a_TimeToLive   = s.value(SKEY_PING_TTL, 3).toInt();
     b_DontFragment = false;
     a_BadCriteria  = 0.9;
     a_DisplayMode  = TPing::Time;
@@ -23,11 +25,11 @@ TPing::TPing(QString addr, QObject *parent) :
 
 void TPing::run()
 {
-    clearResult();
+    m_Result.clear();
 
     QString command = getCommand();
     if (command.isEmpty()) {
-        m_ErrorString = "Command is empty";
+        m_Result.error = "Command is empty";
         emit testFailed();
         return;
     }
@@ -38,13 +40,13 @@ void TPing::run()
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(command);
     if (!process.waitForStarted()) {
-        m_Reply = getTestedObjectInfo() + " can not start";
+        m_Result.reply = getTestedObjectInfo() + " can not start";
         process.close();
         emit testFailed();
         return;
     }
     if(!process.waitForFinished(a_Timeout)) {
-        m_Reply = getTestedObjectInfo() + " terminated";
+        m_Result.reply = getTestedObjectInfo() + " terminated";
         process.close();
         emit testFailed();
         return;
@@ -53,7 +55,7 @@ void TPing::run()
         parseResult(process.readAll().trimmed());
         emit testSuccess();
     } else {
-        m_ErrorString = process.errorString();
+        m_Result.error = process.errorString();
         emit testFailed();
     }
 }
@@ -62,12 +64,11 @@ void TPing::run()
 
 QString TPing::getCommand() const
 {
-    int timeToLive = Settings::get(Settings::Ping_Trace, Settings::TTL, QVariant(3)).toInt();
     QString cmd = "ping";
-    if (a_Packets > 0) cmd.append(QString(" -c %1").arg(a_Packets));
-    if (timeToLive > 0) cmd.append(QString(" -t %1").arg(timeToLive));
+    if (a_Packets) cmd.append(QString(" -c %1").arg(a_Packets));
+    if (a_TimeToLive) cmd.append(QString(" -t %1").arg(a_TimeToLive));
 //    if (a_Timeout > 0) cmd.append(QString(" -W %1").arg(a_Timeout));
-    if (a_PacketSize > 0) cmd.append(QString(" -s %1").arg(a_PacketSize));
+    if (a_PacketSize) cmd.append(QString(" -s %1").arg(a_PacketSize));
     if (b_DontFragment) cmd.append(" -M dont");
     cmd.append(QString(" -q %1").arg(a_Address));
     return cmd;
@@ -77,10 +78,8 @@ QString TPing::getCommand() const
 
 void TPing::parseResult(QString data)
 {
-    QString newReply = "No answer";
-    float newReplyFloat = 0.0;
-    int newReplyInt = 0;
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult tResult;
+    tResult.reply = "No answer";
 
     QStringList result = data.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
@@ -115,7 +114,7 @@ void TPing::parseResult(QString data)
         tmp = packs.at(packs.count()-1).trimmed();
         QString time = tmp.mid(tmp.indexOf(' '));
 
-        newStatus = errors? TestStatus::Bad : TestStatus::Ok;
+        tResult.status = errors? TestStatus::Bad : TestStatus::Ok;
 
         /*
          * Parse rtt?
@@ -129,33 +128,30 @@ void TPing::parseResult(QString data)
 
         switch(a_DisplayMode) {
             case TPing::Time :
-                newReply =  time;
-                newReplyInt = newReply.remove(QRegExp("[^\\d]+")).toInt();
-                newReplyFloat = newReplyInt;
+                tResult.reply =  time;
+                tResult.replyInt = tResult.reply.remove(QRegExp("[^\\d]+")).toInt();
+                tResult.replyDouble = tResult.replyInt;
                 break;
             case TPing::Lost :
-                newReplyInt = packetLoss;
-                newReplyFloat = packetLoss;
-                newReply = QString("%1\%").arg(newReplyInt);
+                tResult.replyInt = packetLoss;
+                tResult.replyDouble = packetLoss;
+                tResult.reply = QString("%1\%").arg(tResult.replyInt);
                 break;
             case TPing::Received :
-                newReplyInt = 100 - packetLoss;
-                newReplyFloat = newReplyInt;
-                newReply = QString("%1\%").arg(newReplyInt);
+                tResult.replyInt = 100 - packetLoss;
+                tResult.replyDouble = tResult.replyInt;
+                tResult.reply = QString("%1\%").arg(tResult.replyInt);
                 break;
         }
     }
 
     if (result.count() == 1) {
         // ping: unknown host unknown.host.ru
-        newStatus = TestStatus::Unknown;
-        newReply = "unknown host";
+        tResult.status = TestStatus::Unknown;
+        tResult.reply = "unknown host";
     }
 
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = tResult;
 }
 
 /******************************************************************/
@@ -165,7 +161,6 @@ TTestMethod *TPing::clone()
     TPing *result = new TPing(a_Address, parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Packets = a_Packets;
     result->a_Timeout = a_Timeout;

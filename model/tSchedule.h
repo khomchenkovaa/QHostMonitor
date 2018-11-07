@@ -22,9 +22,9 @@ class TSchedule : public QObject
 public:
     enum ScheduleMode {
         Regular,
-        OneTestPerDay,
-        OneTestPerWeek,
-        OneTestPerMonth,
+        OncePerDay,
+        OncePerWeek,
+        OncePerMonth,
         ByExpression
     };
     Q_ENUM(ScheduleMode)
@@ -44,9 +44,9 @@ public:
     ~TSchedule();
 
     void setRegular(const int interval, const QString schedName);
-    void setOneTestPerDay(const QTime schedTime);
-    void setOneTestPerWeek(const int weekDay, const QTime schedTime);
-    void setOneTestPerMonth(const int monthDay, const QTime schedTime);
+    void setOncePerDay(const QTime schedTime);
+    void setOncePerWeek(const int weekDay, const QTime schedTime);
+    void setOncePerMonth(const int monthDay, const QTime schedTime);
     void setByExpression(const QString expr1, const QString expr2);
 
     QString intervalAsStr() const;
@@ -60,7 +60,7 @@ public slots:
 
 private:
     void startTimer();
-    QCron * startCron(const QString pattern);
+    QCron* startCron(const QString pattern);
     static QStringList dayOfWeek;
 
 };

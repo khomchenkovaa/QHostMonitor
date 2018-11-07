@@ -22,8 +22,8 @@ public:
     explicit BackupLogOptionsWidget(QWidget *parent = 0);
     ~BackupLogOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
     void reset_AlertInaccessible();
 
      private slots:

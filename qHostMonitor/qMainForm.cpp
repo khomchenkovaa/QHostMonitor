@@ -35,13 +35,13 @@
 #include "viewmodel/mFoldersAndViewsModel.h"
 #include "viewmodel/mTestListModel.h"
 #include "viewmodel/mTestListSortingModel.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include "io/ioTextFile.h"
 #include "hIOShellScripts.h"
-#include "global/ioUserVarsLoader.h"
-#include "global/ioMailProfileLoader.h"
-#include "global/ioColorProfileLoader.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioUserVarsLoader.h"
+#include "io/ioMailProfileLoader.h"
+#include "io/ioColorProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "hmScriptRunner.h"
 #include "qActionPopupEvent.h"
 
@@ -51,10 +51,11 @@ namespace SDPO {
 
 /******************************************************************/
 
-MainForm::MainForm(QWidget *parent) :
+MainForm::MainForm(HMListService *hml, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainForm),
-    hostMonDlg(new HostMonDlg(this))
+    m_HML(hml),
+    hostMonDlg(new HostMonDlg(m_HML,this))
 {
     ui->setupUi(this);
     this -> setTrayIconActions();
@@ -63,9 +64,6 @@ MainForm::MainForm(QWidget *parent) :
     m_folders = 0;
     m_views = 0;
     m_model = 0;
-
-    connect(hostMonDlg, SIGNAL(testAdded(TTest*)), this, SLOT(onTestAdded(TTest*)));
-    connect(hostMonDlg, SIGNAL(testChanged(TTest*)), this, SLOT(onTestChanged(TTest*)));
 
     connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
 
@@ -77,8 +75,7 @@ MainForm::MainForm(QWidget *parent) :
 /******************************************************************/
 
 void MainForm::init() {
-    emit ui->actEnableAlerts->triggered();
-    emit ui->actStartMonitoring->triggered();
+    setupFolders();
 
     ui->pnlFoldersTree->setHidden(!ui->actFoldersTree->isChecked());
     ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
@@ -89,6 +86,8 @@ void MainForm::init() {
     ui->pnlInfoPane->setHidden(!ui->actInfoPane->isChecked());
     ui->tblQuickLogView->setHidden(!ui->actQuickLog->isChecked());
     ui->lvTestList->setHidden(true);
+
+    resetScriptMenu();
 }
 
 /******************************************************************/
@@ -103,12 +102,26 @@ MainForm::~MainForm() {
 
 /******************************************************************/
 
-void MainForm::setupFolders(HMListService* hml)
+void MainForm::setupFolders()
 {
-    m_HML   = hml;
-    hostMonDlg->setRootNode(m_HML->rootItem());
+    // model
     resetModel();
-    connect(m_HML,SIGNAL(modelChanged()),this,SLOT(resetModel()));
+    connect(m_HML, SIGNAL(modelChanged()), this, SLOT(resetModel()));
+    // HostMonDlg
+    connect(hostMonDlg, SIGNAL(testAdded(TTest*)), this, SLOT(onTestAdded(TTest*)));
+    connect(hostMonDlg, SIGNAL(testChanged(TTest*)), this, SLOT(onTestChanged(TTest*)));
+    // alerts
+    connect(m_HML, SIGNAL(alertsEnabled(bool)), this, SLOT(onAlertsEnabled(bool)));
+    connect(ui->actEnableAlerts, SIGNAL(triggered()), m_HML, SLOT(cmdAlertsEnable()));
+    connect(ui->btnToolbarAlert, SIGNAL(clicked()), m_HML, SLOT(cmdAlertsEnable()));
+    connect(ui->actDisableAlerts, SIGNAL(triggered()),m_HML, SLOT(cmdAlertsDisable()));
+    m_HML->cmdAlertsEnable();
+    // monitoring
+    connect(m_HML, SIGNAL(monitoringStarted(bool)), this, SLOT(onMonitoringStarted(bool)));
+    connect(ui->actStartMonitoring, SIGNAL(triggered()), m_HML, SLOT(cmdMonitoringStart()));
+    connect(ui->btnToobarStart, SIGNAL(clicked()), m_HML, SLOT(cmdMonitoringStart()));
+    connect(ui->actStopMonitoring, SIGNAL(triggered()), m_HML, SLOT(cmdMonitoringStop()));
+    m_HML->cmdMonitoringStart();
 }
 
 /******************************************************************/
@@ -116,7 +129,7 @@ void MainForm::setupFolders(HMListService* hml)
 void MainForm::resetModel()
 {    
     if (m_folders) delete m_folders;
-    m_folders = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    m_folders = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     ui->treeFolders->setModel(m_folders);
     ui->treeFolders->setCurrentIndex(m_folders->index(0,0));
     connect(ui->treeFolders->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(onTreeFolderChanged()));
@@ -126,7 +139,7 @@ void MainForm::resetModel()
     ui->treeFolders->setStyleSheet(fStyle);
 
     if (m_views) delete m_views;
-    m_views = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::VIEWS);
+    m_views = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::VIEWS);
     ui->treeView->setModel(m_views);
     ui->treeView->setCurrentIndex(m_views->index(0,0));
     connect(ui->treeView->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(onTreeViewChanged()));
@@ -137,8 +150,8 @@ void MainForm::resetModel()
 
     if (m_model) delete m_model;
     m_model = new TestListModel();
-    connect(m_HML->rootItem(), SIGNAL(newTest(TNode*)), m_model, SLOT(addTest(TNode*)));
-    connect(m_HML->rootItem(), SIGNAL(newLink(TNode*)), m_model, SLOT(addTest(TNode*)));
+    connect(m_HML, SIGNAL(testAdded(TNode*)), m_model, SLOT(addTest(TNode*)));
+    connect(m_HML, SIGNAL(linkAdded(TNode*)), m_model, SLOT(addTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(pasteTest(TNode*)), m_model, SLOT(addTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(delTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(cutTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
@@ -189,8 +202,7 @@ void MainForm::resetScriptMenu()
 void MainForm::onTestAdded(TTest *test)
 {
     TNode *item = m_folders->itemFromIndex(ui->treeFolders->currentIndex());
-    TRoot *root = qobject_cast<TRoot*>(item->getRoot());
-    root->addNode(item, test);
+    m_HML->addNode(item, test);
 }
 
 /******************************************************************/
@@ -257,13 +269,33 @@ void MainForm::onTreeViewChanged()
 void MainForm::onActionWinPopup(TTest *test)
 {
     ActionPopupEvent dlg(test,this);
-    QVariant value = Settings::get(Settings::HostMon, Settings::MsgWinConstPos, QVariant(0));
-    if (value.toInt()) {
-        int x = Settings::get(Settings::HostMon, Settings::MsgWinXPos, QVariant(200)).toInt();
-        int y = Settings::get(Settings::HostMon, Settings::MsgWinYPos, QVariant(100)).toInt();
+    QSettings s;
+    if (s.value(SKEY_HOSTMON_MsgWinConstPos, 0).toInt()) {
+        int x = s.value(SKEY_HOSTMON_MsgWinXPos, 200).toInt();
+        int y = s.value(SKEY_HOSTMON_MsgWinYPos, 100).toInt();
         dlg.move(x,y);
     }
     dlg.exec();
+}
+
+/******************************************************************/
+
+void MainForm::onMonitoringStarted(bool value)
+{
+    ui->actStartMonitoring->setDisabled(value);
+    ui->actStopMonitoring->setEnabled(value);
+    ui->btnToobarStart->setHidden(value);
+    ui->lineToolbarStart->setHidden(value);
+}
+
+/******************************************************************/
+
+void MainForm::onAlertsEnabled(bool value)
+{
+    ui->actEnableAlerts->setDisabled(value);
+    ui->actDisableAlerts->setEnabled(value);
+    ui->btnToolbarAlert->setHidden(value);
+    ui->lineToolbarAlerts->setHidden(value);
 }
 
 /******************************************************************/
@@ -612,50 +644,6 @@ void MainForm::on_actExit_triggered()
 
 /******************************************************************/
 // Monitoring menu
-/******************************************************************/
-
-void MainForm::on_actStartMonitoring_triggered()
-{
-    ui->actStartMonitoring->setEnabled(false);
-    ui->actStopMonitoring->setEnabled(true);
-    ui->btnToobarStart->setHidden(true);
-    ui->lineToolbarStart->setHidden(true);
-    emit testingPaused(false);
-}
-
-/******************************************************************/
-
-void MainForm::on_actStopMonitoring_triggered()
-{
-    ui->actStartMonitoring->setEnabled(true);
-    ui->actStopMonitoring->setEnabled(false);
-    ui->btnToobarStart->setHidden(false);
-    ui->lineToolbarStart->setHidden(false);
-    emit testingPaused(true);
-}
-
-/******************************************************************/
-
-void MainForm::on_actEnableAlerts_triggered()
-{
-    //! TODO enable alerts
-    ui->actEnableAlerts->setEnabled(false);
-    ui->actDisableAlerts->setEnabled(true);
-    ui->btnToolbarAlert->setHidden(true);
-    ui->lineToolbarAlerts->setHidden(true);
-}
-
-/******************************************************************/
-
-void MainForm::on_actDisableAlerts_triggered()
-{
-    //! TODO disable alerts
-    ui->actEnableAlerts->setEnabled(true);
-    ui->actDisableAlerts->setEnabled(false);
-    ui->btnToolbarAlert->setHidden(false);
-    ui->lineToolbarAlerts->setHidden(false);
-}
-
 /******************************************************************/
 
 void MainForm::on_actPause_triggered()
@@ -1091,7 +1079,7 @@ void MainForm::on_actTestCopy_triggered()
 
     FolderDlg folderDlg;
     folderDlg.setWindowTitle(tr("COPY: Select destination folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     folderDlg.activateButtons();
     if (QDialog::Accepted != folderDlg.exec()) {
@@ -1101,9 +1089,8 @@ void MainForm::on_actTestCopy_triggered()
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
     QString newName = test->testName() + "-copy";
-    TTest *newTest = test->clone(newName);
-    TRoot *root = qobject_cast<TRoot*>(node->getRoot());
-    root->addNode(node, newTest);
+    TTest *newTest = test->clone(m_HML->nextID(), newName);
+    m_HML->addNode(node, newTest);
 
     if (folderDlg.isDisabled()) {
         newTest->setEnabled(false);
@@ -1132,7 +1119,7 @@ void MainForm::on_actLink_triggered()
 
     FolderDlg folderDlg;
     folderDlg.setWindowTitle(tr("LINK: Select destination folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     if (QDialog::Accepted != folderDlg.exec()) {
         return;
@@ -1140,9 +1127,8 @@ void MainForm::on_actLink_triggered()
 
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
-    TRoot *root = qobject_cast<TRoot*>(node->getRoot());
     test->addLink(node);
-    root->addNode(node, new TLink(test));
+    m_HML->addNode(node, new TLink(m_HML->nextID(), test));
 }
 
 /******************************************************************/
@@ -1571,7 +1557,9 @@ void MainForm::on_btnViewProperties_clicked()
     } else if (node->getType() == TNode::VIEW) {
         TView *view = qobject_cast<TView*>(node);
         DynamicViewPropertiesDlg dlg(view, m_HML);
-        dlg.exec();
+        if(QDialog::Accepted == dlg.exec()) {
+            onTreeViewChanged();
+        }
     }
 }
 
@@ -1596,7 +1584,7 @@ void MainForm::on_btnViewDel_clicked()
 void MainForm::on_btnFoldersLineTree_clicked()
 {
     FolderDlg folderDlg;
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS_AND_VIEWS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS_AND_VIEWS);
     folderDlg.setModel(model, ui->editFoldersLine->text());
     if (QDialog::Accepted == folderDlg.exec()) {
         QString path = folderDlg.path();
@@ -1650,20 +1638,6 @@ void MainForm::on_btnToolbarRefresh_clicked()
 void MainForm::on_btnToolbarReset_clicked()
 {
     on_actResetSelectedTests_triggered();
-}
-
-/******************************************************************/
-
-void MainForm::on_btnToobarStart_clicked()
-{
-    on_actStartMonitoring_triggered();
-}
-
-/******************************************************************/
-
-void MainForm::on_btnToolbarAlert_clicked()
-{
-    on_actEnableAlerts_triggered();
 }
 
 /******************************************************************/

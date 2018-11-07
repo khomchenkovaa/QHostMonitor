@@ -3,7 +3,7 @@
 #include "tTest.h"
 #include "gData.h"
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "QtWidgets"
 
 namespace SDPO {

@@ -3,6 +3,7 @@
 #include "utils.h"
 #include "hmListService.h"
 #include "gData.h"
+#include "ioHelper.h"
 
 #include <QFile>
 #include <QTextStream>
@@ -228,8 +229,8 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     out << PRM_TITLE          << " = " << test->getName()                          << endl;
     out << PRM_COMMENT        << " = " << test->getComment().replace("\n","^M")    << endl;
     out << PRM_RELATED_URL    << " = " << test->getRelatedURL()                    << endl;
-    out << PRM_NAME_PATTERN   << " = " << test->test()->getNamePattern()           << endl;
-    out << PRM_CMNT_PATTERN   << " = " << test->test()->getCommentPattern()        << endl;
+    out << PRM_NAME_PATTERN   << " = " << test->method()->getNamePattern()           << endl;
+    out << PRM_CMNT_PATTERN   << " = " << test->method()->getCommentPattern()        << endl;
     out << PRM_SCHEDULE_MODE  << " = " << m_ScheduleMode.at(test->scheduleMode())   << endl;
     out << PRM_SCHEDULE       << " = " << test->scheduleName()                     << endl;
     out << PRM_INTERVAL       << " = " << test->interval()                         << endl;
@@ -242,7 +243,7 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     out << PRM_COM_LOG_MODE   << " = " << logMode.at(test->getCommonLogMode())     << endl;
     out << ";--- Test specific properties ---" << endl;
     if (getConverter(test->methodId())) {
-        m_curMethodConverter->setTestMethod(test->test());
+        m_curMethodConverter->setTestMethod(test->method());
         m_curMethodConverter->exportTo(out);
     }
     out << endl << endl;
@@ -289,11 +290,11 @@ void IOTextFile::addTest() {
     }
     // find or create test
     cmd = m_testProps.take(PRM_TITLE);
-    m_curTest = new TTest(cmd.value);
+    m_curTest = new TTest(m_HML->nextID(),cmd.value);
     m_curTest->setTest(testMethod);
     cmd = m_testProps.take(PRM_DEST_FOLDER);
     TNode *node = m_HML->cmdCreateFolder(cmd.value);
-    m_HML->rootItem()->addNode(node,m_curTest);
+    m_HML->addNode(node,m_curTest);
     ++m_testsAdded;
     setTestProperties();
 }
@@ -310,11 +311,11 @@ void IOTextFile::setTestProperties()
     }
     if (m_testProps.keys().contains(PRM_NAME_PATTERN)) {
         cmd = m_testProps.take(PRM_NAME_PATTERN);
-        m_curTest->test()->setNamePattern(cmd.value);
+        m_curTest->method()->setNamePattern(cmd.value);
     }
     if (m_testProps.keys().contains(PRM_CMNT_PATTERN)) {
         cmd = m_testProps.take(PRM_CMNT_PATTERN);
-        m_curTest->test()->setCommentPattern(cmd.value.replace("^M","\n"));
+        m_curTest->method()->setCommentPattern(cmd.value.replace("^M","\n"));
     }
     if (m_testProps.keys().contains(PRM_COMMENT)) {
         cmd = m_testProps.take(PRM_COMMENT);
@@ -344,9 +345,9 @@ void IOTextFile::setTestProperties()
         int interval = m_testProps.take(PRM_INTERVAL).value.toInt();
         m_curTest->setRegularSchedule(interval, scheduleName);
     } break;
-    case TSchedule::OneTestPerDay:
-    case TSchedule::OneTestPerWeek:
-    case TSchedule::OneTestPerMonth:{
+    case TSchedule::OncePerDay:
+    case TSchedule::OncePerWeek:
+    case TSchedule::OncePerMonth:{
         int idx = ((int)schMode) - 1;
         int scheduleDay = 2;
         if (m_testProps.keys().contains(PRM_SCHEDULE_DAY)) {
@@ -511,7 +512,7 @@ void IOTextFile::createLinks()
     foreach(QString link, m_linkedTo) {
         TNode *linkNode = m_HML->cmdCreateFolder(link.replace("\\","/"));
         m_curTest->addLink(linkNode);
-        m_HML->rootItem()->addNode(linkNode, new TLink(m_curTest));
+        m_HML->addNode(linkNode, new TLink(m_HML->nextID(), m_curTest));
     }
 }
 
@@ -523,62 +524,8 @@ IOTestMethodConverter *IOTextFile::getConverter(TMethodID methodId)
         delete m_curMethodConverter;
         m_curMethodConverter = 0;
     }
-    switch (methodId) {
-    case TMethodID::Ping :
-        m_curMethodConverter = new IOPingConverter();
-        break;
-    case TMethodID::DriveSpace :
-        m_curMethodConverter = new IODriveSpaceConverter();
-        break;
-    case TMethodID::FileSize :
-        m_curMethodConverter = new IOFolderSizeConverter();
-        break;
-    case TMethodID::FileExists :
-        m_curMethodConverter = new IOFileExistsConverter();
-        break;
-    case TMethodID::SNMP :
-        m_curMethodConverter = new IOSnmpGetConverter();
-        break;
-    case TMethodID::ShellScript :
-        m_curMethodConverter = new IOShellScriptConverter();
-        break;
-    case TMethodID::Oracle :
-        m_curMethodConverter = new IOOracleConverter();
-        break;
-    case TMethodID::MySQL :
-        m_curMethodConverter = new IOMySqlConverter();
-        break;
-    case TMethodID::Postgre :
-        m_curMethodConverter = new IOPostgreSqlConverter();
-        break;
-    case TMethodID::Interbase :
-        m_curMethodConverter = new IOInterbaseConverter();
-        break;
-    case TMethodID::ODBC :
-        m_curMethodConverter = new IOODBCConverter();
-        break;
-    case TMethodID::Externalprg :
-        m_curMethodConverter = new IOExternalPrgConverter();
-        break;
-    case TMethodID::DICOM :
-        m_curMethodConverter = new IODICOMConverter();
-        break;
-    case TMethodID::DHCP :
-        m_curMethodConverter = new IODHCPConverter();
-        break;
-    case TMethodID::CPU :
-        m_curMethodConverter = new IOCPUUsageConverter();
-        break;
-    case TMethodID::CountFiles :
-        m_curMethodConverter = new IOCountFilesConverter();
-        break;
-    case TMethodID::FileCompare :
-        m_curMethodConverter = new IOCompareFilesConverter();
-        break;
-    default:
-        m_curMethodConverter = new IOTestMethodConverter();
-        break;
-    }
+    m_curMethodConverter = IOHelper::methodConverter(methodId);
+
     return m_curMethodConverter;
 }
 

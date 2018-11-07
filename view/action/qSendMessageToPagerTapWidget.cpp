@@ -2,7 +2,7 @@
 #include "ui_qSendMessageToPagerTapWidget.h"
 #include "action/tSendMessageToPagerTapAction.h"
 #include "gData.h"
-#include "global/ioMailProfileLoader.h"
+#include "io/ioMailProfileLoader.h"
 #include "qMailProfilesDlg.h"
 #include "qOptionsForm.h"
 

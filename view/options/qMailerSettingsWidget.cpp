@@ -23,156 +23,110 @@ MailerSettingsWidget::~MailerSettingsWidget()
 
 /******************************************************************/
 
-void MailerSettingsWidget::ShowMessagePrimaryPortChange()
+void MailerSettingsWidget::onPrimaryPortChange()
 {
    int PrimaryTlsIndx =  ui->cmbPrimarySmtpTls->currentIndex();
    int PrimaryPort = ui->spinPrimarySmtpPort->value();
-       if ( PrimaryTlsIndx == 0 && PrimaryPort != 25 )
-       {   QMessageBox :: StandardButton reply;
-           reply = QMessageBox::warning(this,QObject::tr("Confirm"),  "Would you like to change port to #25", QMessageBox::Ok | QMessageBox::Cancel);
-           if (reply == QMessageBox::Ok) {
-                ui->spinPrimarySmtpPort->setValue(25);
-           }
+   if ( PrimaryTlsIndx == 0 && PrimaryPort != 25 ) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Confirm"),  "Would you like to change port to #25", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinPrimarySmtpPort->setValue(25);
        }
-       else if (PrimaryTlsIndx == 1 && PrimaryPort != 465)
-       {   QMessageBox :: StandardButton reply;
-           reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #465", QMessageBox::Ok | QMessageBox::Cancel);
-           if (reply == QMessageBox::Ok) {
-                ui->spinPrimarySmtpPort->setValue(465);
-           }
+   }
+   else if (PrimaryTlsIndx == 1 && PrimaryPort != 465) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #465", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinPrimarySmtpPort->setValue(465);
        }
-       else if (PrimaryTlsIndx == 2 && PrimaryPort != 587)
-       {
-           QMessageBox :: StandardButton reply;
-           reply =QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #587", QMessageBox::Ok | QMessageBox::Cancel);
-           if (reply == QMessageBox::Ok) {
-                ui->spinPrimarySmtpPort->setValue(587);
-           }
+   }
+   else if (PrimaryTlsIndx == 2 && PrimaryPort != 587) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #587", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinPrimarySmtpPort->setValue(587);
        }
+   }
 }
 
 /******************************************************************/
 
-void MailerSettingsWidget::ShowMessageBackUpPortChange()
-{
-    {
-       int BackupTlsIndx =  ui->cmbBackupSmtpTls->currentIndex();
-       int BackupPort = ui->spinBackupSmtpPort->value();
-           if ( BackupTlsIndx == 0 && BackupPort != 25 )
-           {   QMessageBox :: StandardButton reply;
-               reply = QMessageBox::warning(this,QObject::tr("Confirm"),  "Would you like to change port to #25", QMessageBox::Ok | QMessageBox::Cancel);
-               if (reply == QMessageBox::Ok) {
-                    ui->spinBackupSmtpPort->setValue(25);
-               }
-           }
-           else if (BackupTlsIndx == 1 && BackupPort != 465)
-           {   QMessageBox :: StandardButton reply;
-               reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #465", QMessageBox::Ok | QMessageBox::Cancel);
-               if (reply == QMessageBox::Ok) {
-                    ui->spinBackupSmtpPort->setValue(465);
-               }
-           }
-           else if (BackupTlsIndx == 2 && BackupPort != 587)
-           {
-               QMessageBox :: StandardButton reply;
-               reply =QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #587", QMessageBox::Ok | QMessageBox::Cancel);
-               if (reply == QMessageBox::Ok) {
-                    ui->spinBackupSmtpPort->setValue(587);
-               }
-           }
-    }
+void MailerSettingsWidget::onBackUpPortChange()
+{    
+   int BackupTlsIndx =  ui->cmbBackupSmtpTls->currentIndex();
+   int BackupPort = ui->spinBackupSmtpPort->value();
+   if ( BackupTlsIndx == 0 && BackupPort != 25 ) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Confirm"),  "Would you like to change port to #25", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinBackupSmtpPort->setValue(25);
+       }
+   }
+   else if (BackupTlsIndx == 1 && BackupPort != 465) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #465", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinBackupSmtpPort->setValue(465);
+       }
+   }
+   else if (BackupTlsIndx == 2 && BackupPort != 587) {
+       QMessageBox::StandardButton reply = QMessageBox::warning(this,QObject::tr("Hello"),  "Would you like to change port to #587", QMessageBox::Ok | QMessageBox::Cancel);
+       if (reply == QMessageBox::Ok) {
+            ui->spinBackupSmtpPort->setValue(587);
+       }
+   }
 }
 
 /******************************************************************/
 
-void MailerSettingsWidget::init()
+void MailerSettingsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::SMTP, Settings::SMTPServer, QVariant("smtp.mail.yahoo.com"));
-        ui->cmbPrimarySmtpAddress->setCurrentText(value.toString());
+    ui->cmbPrimarySmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server1,"smtp.mail.yahoo.com").toString());
+    ui->spinPrimarySmtpPort->setValue(s->value(SKEY_SMTP_Port1,25).toInt());
+    ui->cmbPrimarySmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType1,0).toInt());
+    int idx1 = s->value(SKEY_SMTP_Auth1,0).toInt();
+    ui->cmbPrimarySmtpAuth->setCurrentIndex(idx1);
+    ui->editPrimarySmtpLogin->setText(s->value(SKEY_SMTP_User1).toString());
+    ui->editPrimarySmtpPassword->setText(s->value(SKEY_SMTP_Pswd1).toString());
+    on_cmbPrimaryAuthSelect(idx1);
+    connect(ui->cmbPrimarySmtpTls, SIGNAL(currentIndexChanged(int)), this, SLOT(onPrimaryPortChange()));
+    connect(ui->cmbPrimarySmtpAuth, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryAuthSelect(int)));
 
-    value = Settings::get(Settings::SMTP, Settings::SMTPPort, QVariant(25));
-        ui->spinPrimarySmtpPort->setValue(value.toInt());
+    ui->cmbBackupSmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server2,"smtp.mail.yahoo.com").toString());
+    ui->spinBackupSmtpPort->setValue(s->value(SKEY_SMTP_Port2,25).toInt());
+    ui->cmbBackupSmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType2,0).toInt());
+    int idx2 = s->value(SKEY_SMTP_Auth2,0).toInt();
+    ui->cmbBackupSmtpAuth->setCurrentIndex(idx2);
+    ui->editBackupSmtpLogin->setText(s->value(SKEY_SMTP_User2).toString());
+    ui->editBackupSmtpPassword->setText(s->value(SKEY_SMTP_Pswd2).toString());
+    on_cmbBackupAuthSelect(idx2);
+    connect (ui->cmbBackupSmtpTls, SIGNAL(currentIndexChanged(int)),this,SLOT(onBackUpPortChange()));
+    connect(ui->cmbBackupSmtpAuth, SIGNAL(currentIndexChanged(int)), this,SLOT(on_cmbBackupAuthSelect(int)));
 
-    value = Settings::get(Settings::SMTP, Settings::SSLType1, QVariant(0));
-        ui->cmbPrimarySmtpTls->setCurrentIndex(value.toInt());
-        connect (ui->cmbPrimarySmtpTls, SIGNAL(currentIndexChanged(int)),this,SLOT(ShowMessagePrimaryPortChange()));
-
-    value = Settings::get(Settings::SMTP, Settings::Authentication1, QVariant(0));
-        ui->cmbPrimarySmtpAuth->setCurrentIndex(value.toInt());
-        on_cmbPrimaryAuthSelect(value.toInt());
-        connect(ui->cmbPrimarySmtpAuth, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryAuthSelect(int)));
-
-    value = Settings::get(Settings::SMTP, Settings::Username1, QVariant());
-        ui->editPrimarySmtpLogin->setText(value.toString());
-
-    value = Settings::get(Settings::SMTP, Settings::Password1, QVariant());
-        ui->editPrimarySmtpPassword->setText(value.toString());
-
-    value = Settings::get(Settings::SMTP, Settings::SMTPServer2, QVariant("smtp.mail.yahoo.com"));
-        ui->cmbBackupSmtpAddress->setCurrentText(value.toString());
-
-    value = Settings::get(Settings::SMTP, Settings::SMTPPort2, QVariant(25));
-        ui->spinBackupSmtpPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::SMTP, Settings::SSLType2, QVariant(0));
-        ui->cmbBackupSmtpTls->setCurrentIndex(value.toInt());
-        connect (ui->cmbBackupSmtpTls, SIGNAL(currentIndexChanged(int)),this,SLOT(ShowMessageBackUpPortChange()));
-
-    value = Settings::get(Settings::SMTP, Settings::Authentication2, QVariant(0));
-        ui->cmbBackupSmtpAuth->setCurrentIndex(value.toInt());
-        on_cmbBackupAuthSelect(value.toInt());
-        connect(ui->cmbBackupSmtpAuth, SIGNAL(currentIndexChanged(int)), this,SLOT(on_cmbBackupAuthSelect(int)));
-
-    value = Settings::get(Settings::SMTP, Settings::Username2, QVariant());
-        ui->editBackupSmtpLogin->setText(value.toString());
-
-    value = Settings::get(Settings::SMTP, Settings::Password2, QVariant());
-        ui->editBackupSmtpPassword->setText(value.toString());
-
-    value = Settings::get(Settings::SMTP, Settings::ShowMailWin, QVariant(1));
-        if (value.toInt() == 1)
-            ui->gpShowStatusWindow->setChecked(true);
-        else
-            ui->gpShowStatusWindow->setChecked(false);
-
-    value = Settings::get(Settings::SMTP, Settings::MailWinAutoClose, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkCloseOnDisconnect->setChecked(true);
-        else
-            ui->chkCloseOnDisconnect->setChecked(false);
-
-    value = Settings::get(Settings::SMTP, Settings::MailWinCloseAfter, QVariant(6));
-        ui->spinCloseOnDisconnect->setValue(value.toInt());
-
-    value = Settings::get(Settings::SMTP, Settings::ShowMailWinInLastPos, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkShowInLastPosition->setChecked(true);
-        else
-            ui->chkShowInLastPosition->setChecked(false);
-
+    ui->gpShowStatusWindow->setChecked(s->value(SKEY_SMTP_ShowMailWin,1).toInt() == 1);
+    ui->chkCloseOnDisconnect->setChecked(s->value(SKEY_SMTP_MailWinAutoClose,1).toInt() == 1);
+    ui->spinCloseOnDisconnect->setValue(s->value(SKEY_SMTP_MailWinCloseAfter,6).toInt());
+    ui->chkShowInLastPosition->setChecked(s->value(SKEY_SMTP_ShowMailWinInLastPos,1).toInt() == 1);
 }
 
 /******************************************************************/
 
-void MailerSettingsWidget::prepareToSave()
+void MailerSettingsWidget::prepareToSave(QSettings *s)
 {
-      Settings::set(Settings::SMTP, Settings::SMTPServer) = QVariant(ui->cmbPrimarySmtpAddress->currentText());
-      Settings::set(Settings::SMTP, Settings::SMTPPort) = QVariant(ui->spinPrimarySmtpPort->value());
-      Settings::set(Settings::SMTP, Settings::SSLType1) = QVariant(ui->cmbPrimarySmtpTls->currentIndex());
-      Settings::set(Settings::SMTP, Settings::Authentication1) = QVariant(ui->cmbPrimarySmtpAuth->currentIndex());
-      Settings::set(Settings::SMTP, Settings::Username1) = QVariant(ui->editPrimarySmtpLogin->text());
-      Settings::set(Settings::SMTP, Settings::Password1) = QVariant(ui->editPrimarySmtpPassword->text());
-      Settings::set(Settings::SMTP, Settings::SMTPServer2) = QVariant(ui->cmbBackupSmtpAddress->currentText());
-      Settings::set(Settings::SMTP, Settings::SMTPPort2) = QVariant(ui->spinBackupSmtpPort->value());
-      Settings::set(Settings::SMTP, Settings::SSLType2) = QVariant(ui->cmbBackupSmtpTls->currentIndex());
-      Settings::set(Settings::SMTP, Settings::Authentication2) = QVariant(ui->cmbBackupSmtpAuth->currentIndex());
-      Settings::set(Settings::SMTP, Settings::Username2) = QVariant(ui->editBackupSmtpLogin->text());
-      Settings::set(Settings::SMTP, Settings::Password2) = QVariant(ui->editBackupSmtpPassword->text());
-      Settings::set(Settings::SMTP, Settings::ShowMailWin) = QVariant(ui->gpShowStatusWindow->isChecked()?1:0);
-      Settings::set(Settings::SMTP, Settings::MailWinAutoClose) = QVariant(ui->chkCloseOnDisconnect->isChecked()?1:0);
-      Settings::set(Settings::SMTP, Settings::MailWinCloseAfter) = QVariant(ui->spinCloseOnDisconnect->value());
-      Settings::set(Settings::SMTP, Settings::ShowMailWinInLastPos) = QVariant(ui->chkShowInLastPosition->isChecked()?1:0);
+    s->setValue(SKEY_SMTP_Server1,ui->cmbPrimarySmtpAddress->currentText());
+    s->setValue(SKEY_SMTP_Port1,ui->spinPrimarySmtpPort->value());
+    s->setValue(SKEY_SMTP_SslType1,ui->cmbPrimarySmtpTls->currentIndex());
+    s->setValue(SKEY_SMTP_Auth1,ui->cmbPrimarySmtpAuth->currentIndex());
+    s->setValue(SKEY_SMTP_User1,ui->editPrimarySmtpLogin->text());
+    s->setValue(SKEY_SMTP_Pswd1,ui->editPrimarySmtpPassword->text());
 
+    s->setValue(SKEY_SMTP_Server2,ui->cmbBackupSmtpAddress->currentText());
+    s->setValue(SKEY_SMTP_Port2,ui->spinBackupSmtpPort->value());
+    s->setValue(SKEY_SMTP_SslType2,ui->cmbBackupSmtpTls->currentIndex());
+    s->setValue(SKEY_SMTP_Auth2,ui->cmbBackupSmtpAuth->currentIndex());
+    s->setValue(SKEY_SMTP_User2,ui->editBackupSmtpLogin->text());
+    s->setValue(SKEY_SMTP_Pswd2,ui->editBackupSmtpPassword->text());
+
+    s->setValue(SKEY_SMTP_ShowMailWin,ui->gpShowStatusWindow->isChecked()?1:0);
+    s->setValue(SKEY_SMTP_MailWinAutoClose,ui->chkCloseOnDisconnect->isChecked()?1:0);
+    s->setValue(SKEY_SMTP_MailWinCloseAfter,ui->spinCloseOnDisconnect->value());
+    s->setValue(SKEY_SMTP_ShowMailWinInLastPos,ui->chkShowInLastPosition->isChecked()?1:0);
 }
 
 /******************************************************************/

@@ -19,43 +19,27 @@ ProxyOptionsWidget::~ProxyOptionsWidget()
 
 /******************************************************************/
 
-void ProxyOptionsWidget::init()
+void ProxyOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::HostMon, Settings::ProxyServer, QVariant("127.0.0.1"));
-        ui->editProxyServer->setText(value.toString());
-
-    value = Settings::get(Settings::HostMon, Settings::ProxyPort, QVariant(80));
-        ui->spinProxyPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::HostMon, Settings::ProxyAut, QVariant(1));
-        if (value.toInt() == 1)
-            ui->boxProxyAuth->setChecked(true);
-        else
-            ui->boxProxyAuth->setChecked(false);
-
-    value = Settings::get(Settings::HostMon, Settings::ProxyUser, QVariant("test"));
-        ui->ProxyUserEdit->setText(value.toString());
-
-    value = Settings::get(Settings::HostMon, Settings::ProxyPswd, QVariant(""));
-        ui->ProxyPswdEdit->setText(value.toString());
-
-    value = Settings::get(Settings::HostMon, Settings::ProxyParam2, QVariant("<local>;"));
-        ui->plainProxyBypassList->clear();
-        ui->plainProxyBypassList->insertPlainText(value.toString());
+    ui->editProxyServer->setText(s->value(SKEY_PROXY_Server,"127.0.0.1").toString());
+    ui->spinProxyPort->setValue(s->value(SKEY_PROXY_Port,80).toInt());
+    ui->boxProxyAuth->setChecked(s->value(SKEY_PROXY_Auth,1) == 1);
+    ui->ProxyUserEdit->setText(s->value(SKEY_PROXY_User,"test").toString());
+    ui->ProxyPswdEdit->setText(s->value(SKEY_PROXY_Pswd).toString());
+    ui->plainProxyBypassList->clear();
+    ui->plainProxyBypassList->insertPlainText(s->value(SKEY_PROXY_Param2,"<local>;").toString());
 }
 
 /******************************************************************/
 
-void ProxyOptionsWidget::prepareToSave()
+void ProxyOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::HostMon, Settings::ProxyServer) = QVariant(ui->editProxyServer->text());
-    Settings::set(Settings::HostMon, Settings::ProxyPort) = QVariant(ui->spinProxyPort->value());
-    Settings::set(Settings::HostMon, Settings::ProxyAut) = QVariant(ui->boxProxyAuth->isChecked()?1:0);
-    Settings::set(Settings::HostMon, Settings::ProxyUser) = QVariant(ui->ProxyUserEdit->text());
-    Settings::set(Settings::HostMon, Settings::ProxyPswd) = QVariant(ui->ProxyPswdEdit->text());
-    Settings::set(Settings::HostMon, Settings::ProxyParam2) = QVariant(ui->plainProxyBypassList->toPlainText());
-
-    
+    s->setValue(SKEY_PROXY_Server,ui->editProxyServer->text());
+    s->setValue(SKEY_PROXY_Port,ui->spinProxyPort->value());
+    s->setValue(SKEY_PROXY_Auth,ui->boxProxyAuth->isChecked()?1:0);
+    s->setValue(SKEY_PROXY_User,ui->ProxyUserEdit->text());
+    s->setValue(SKEY_PROXY_Pswd,ui->ProxyPswdEdit->text());
+    s->setValue(SKEY_PROXY_Param2,ui->plainProxyBypassList->toPlainText());
 }
 
 /******************************************************************/

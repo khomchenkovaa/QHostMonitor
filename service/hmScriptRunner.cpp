@@ -232,13 +232,7 @@ bool HMScriptRunner::runNewTestList(const int num, const QString &cmdLine)
         return false;
     }
 
-    bool discardChanged = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "DiscardChanges") {
-            discardChanged = true;
-            break;
-        }
-    }
+    bool discardChanged = cmdList.contains("DiscardChanges");
 
     if (!discardChanged && m_HML->isModelModified()) {
         m_Errors.append(tr("[ERROR] Line %1: Test List is changed. Save it first\n").arg(num));
@@ -258,12 +252,13 @@ bool HMScriptRunner::runLoadTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
@@ -283,11 +278,13 @@ bool HMScriptRunner::runAppendTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
-    if (!cmdList.count()) {
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
@@ -309,33 +306,20 @@ bool HMScriptRunner::runImportFromFile(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    bool skipDuplicates = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "SkipDuplicates") {
-            skipDuplicates = true;
-            break;
-        }
-    }
-
-    bool writeLog = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "WriteLog") {
-            writeLog = true;
-            break;
-        }
-    }
-
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
-
+    QString fileName = cmdList.takeFirst();
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
         fileName = m_FileName.mid(0,idx+1) + fileName;
     }
+
+    bool skipDuplicates = cmdList.contains("SkipDuplicates");
+    bool writeLog = cmdList.contains("WriteLog");
 
     return m_HML->cmdImportFromFile(fileName, skipDuplicates, writeLog);
 }
@@ -352,11 +336,12 @@ bool HMScriptRunner::runSaveTestList(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
     QString fileName;
 
-    if (cmdList.count()) {
-        fileName = cmdList.at(1);
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
         if (!fileName.startsWith("/")) {
             int idx = m_FileName.lastIndexOf("/");
             fileName = m_FileName.mid(0,idx+1) + fileName;
@@ -379,33 +364,21 @@ bool HMScriptRunner::runExportHmlIntoText(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    bool commentDestFolder = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "-SF") {
-            commentDestFolder = true;
-            break;
-        }
-    }
-
-    bool commentLinks = false;
-    foreach (const QString &arg, cmdList) {
-        if (arg == "-SL") {
-            commentLinks = true;
-            break;
-        }
-    }
-
-    if (!cmdList.count()) {
+    if (cmdList.isEmpty()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no filename\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString fileName = cmdList.at(1);
+    QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
         int idx = m_FileName.lastIndexOf("/");
         fileName = m_FileName.mid(0,idx+1) + fileName;
     }
+
+    bool commentDestFolder = cmdList.contains("-SF");
+    bool commentLinks = cmdList.contains("-SL");
 
     return m_HML->cmdExportHmlIntoText(fileName, commentDestFolder, commentLinks);
 }
@@ -423,13 +396,17 @@ bool HMScriptRunner::runResolveMacros(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_ResolveMacros = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_ResolveMacros = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -446,19 +423,26 @@ bool HMScriptRunner::runSetCurrentFolder(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
 
     TRoot *root = m_HML->rootItem();
     TNode *found = 0;
-    if (cmdList.at(1).contains("/")) { // find by path
-        found = root->findByPath(cmdList.at(1));
+    if (folder.contains("/")) { // find by path
+        found = root->findByPath(folder);
     } else { // find by name
-        found = root->findChildRecursive(cmdList.at(1));
+        found = root->findChildRecursive(folder);
     }
 
     if (found && found->getType() == TNode::FOLDER) {
         m_CurrentFolder = found;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(folder));
     }
     return true;
 }
@@ -474,13 +458,17 @@ bool HMScriptRunner::runIncludeSubfolders(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_IncludeSubfolders = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_IncludeSubfolders = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -496,13 +484,17 @@ bool HMScriptRunner::runUseLinks(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
 
-    if (cmdList.at(1).compare(YES,Qt::CaseInsensitive) == 0) {
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no parameter (yes|no)\n").arg(num).arg(cmdLine));
+        return false;
+    } else if (cmdList.first().compare(YES,Qt::CaseInsensitive) == 0) {
         m_UseLinks = true;
-    } else if (cmdList.at(1).compare(NO,Qt::CaseInsensitive) == 0) {
+    } else if (cmdList.first().compare(NO,Qt::CaseInsensitive) == 0) {
         m_UseLinks = false;
     } else {
-        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.at(1)));
+        m_Errors.append(tr("[WARNING] Line %1: Unknown parameter '%2'\n").arg(num).arg(cmdList.first()));
         return false;
     }
     return true;
@@ -524,11 +516,13 @@ bool HMScriptRunner::runCreateFolder(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst(); // remove command
+
     if (!cmdList.count()) {
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no path\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString path = cmdList.at(1);
+    QString path = cmdList.takeFirst();
     path = path.replace("\\","/");
     m_HML->cmdCreateFolder(path);
     return true;
@@ -550,7 +544,22 @@ bool HMScriptRunner::runSetFolderVariable(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no variable name\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString varName = cmdList.takeFirst();
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no variable value\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString varValue = cmdList.takeFirst();
+
+    bool inheritPartly = cmdList.contains("-inheritpartly");
+    m_HML->cmdSetFolderVariable(m_CurrentFolder, varName, varValue, inheritPartly);
     return true;
 }
 
@@ -571,7 +580,33 @@ bool HMScriptRunner::runSetFolderAgent(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst(); // remove command
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) { // find by path
+        found = m_HML->rootItem()->findByPath(folder);
+    } else { // find by id
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    if (!found || found->getType() != TNode::FOLDER) {
+        m_Errors.append(tr("[WARNING] Line %1: folder '%2' not found\n").arg(num).arg(folder));
+        return false;
+    }
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no agent name\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString agentName = cmdList.takeFirst();
+
+    bool unlessInherited = cmdList.contains("UnlessInherited");
+
+    m_HML->cmdSetFolderAgent(found, agentName, unlessInherited);
     return true;
 }
 
@@ -673,9 +708,9 @@ bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cm
 }
 
 /*****************************************************************
- * Checks the status of all tests in the folder (except disabled hosts) immediately, do not wait for the elapse test interval for each test
+ * Checks the status of all tests in the folder (except disabled hosts) immediately,
+ * do not wait for the elapse test interval for each test
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -689,7 +724,6 @@ bool HMScriptRunner::runRefreshAll(const int num, const QString &cmdLine)
 /*****************************************************************
  * Resets statistics for all tests within the folder
  *****************************************************************/
-
 bool HMScriptRunner::runResetAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -703,7 +737,6 @@ bool HMScriptRunner::runResetAll(const int num, const QString &cmdLine)
 /*****************************************************************
  * Disables all tests in the folder
  *****************************************************************/
-
 bool HMScriptRunner::runDisableAllTests(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -717,7 +750,6 @@ bool HMScriptRunner::runDisableAllTests(const int num, const QString &cmdLine)
 /*****************************************************************
  * Enables all tests in the folder
  *****************************************************************/
-
 bool HMScriptRunner::runEnableAllTests(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -732,7 +764,6 @@ bool HMScriptRunner::runEnableAllTests(const int num, const QString &cmdLine)
  * Disables the specified test
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -747,7 +778,6 @@ bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
  * Enables the specified test
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runEnableTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -762,7 +792,6 @@ bool HMScriptRunner::runEnableTest(const int num, const QString &cmdLine)
  * Checks the status of the specified test immediately
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -777,7 +806,6 @@ bool HMScriptRunner::runRefreshTest(const int num, const QString &cmdLine)
  * Resets statistics for specified test or group of tests
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -794,7 +822,6 @@ bool HMScriptRunner::runResetTest(const int num, const QString &cmdLine)
  *         <interval>
  *         [<comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runPauseTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -809,7 +836,6 @@ bool HMScriptRunner::runPauseTest(const int num, const QString &cmdLine)
  * Resumes paused test or group of tests
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -825,7 +851,6 @@ bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
  *         <ParameterName>
  *         <Value>
  *****************************************************************/
-
 bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -845,7 +870,6 @@ bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)
  *         <Curr. value>
  *         <New value>
  *****************************************************************/
-
 bool HMScriptRunner::runReplaceTestParam(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -862,7 +886,6 @@ bool HMScriptRunner::runReplaceTestParam(const int num, const QString &cmdLine)
  *         [StopAlerts]
  *         [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runAckTestStatus(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -876,7 +899,6 @@ bool HMScriptRunner::runAckTestStatus(const int num, const QString &cmdLine)
 /*****************************************************************
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetAcknowledgements(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -895,7 +917,6 @@ bool HMScriptRunner::runResetAcknowledgements(const int num, const QString &cmdL
  * HostMonitor will consider that previous status of the test was not "Ok" (either "Bad" or "Unknown").
  * This allows you to forcedly start actions that already were executed (e.g. for testing purpose).
  *****************************************************************/
-
 bool HMScriptRunner::runResetRecurrencesTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -909,7 +930,6 @@ bool HMScriptRunner::runResetRecurrencesTest(const int num, const QString &cmdLi
 /*****************************************************************
  * Sets Recurrences counter to 0 for all tests in the folder.
  *****************************************************************/
-
 bool HMScriptRunner::runResetRecurrencesAll(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -926,7 +946,6 @@ bool HMScriptRunner::runResetRecurrencesAll(const int num, const QString &cmdLin
  * Please note: clocks on local and remote systems must be synchronized if you check event log on the latter, in order for this command to work correctly.
  * Params: <TestName>
  *****************************************************************/
-
 bool HMScriptRunner::runResetEventLogRefPoint(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -941,7 +960,6 @@ bool HMScriptRunner::runResetEventLogRefPoint(const int num, const QString &cmdL
  * Disables test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -956,7 +974,6 @@ bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
  * Enables test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -975,7 +992,6 @@ bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
  * result (effects just 1 test probe caused by "Refresh" command).
  * In other words test result will be recorded even if you are using Brief logging mode and test status did not change.
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -985,14 +1001,12 @@ bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
      m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
      return true;
 }
-
 /*****************************************************************
  * Command works similar to RefreshTestByID command - it tells HostMonitor to perform test probe immediately.
  * In contrast to RefreshTestByID command, it can force execution even for test items that were configured with Irregular schedule
  * Params: <TestID>
  *         [forcelog]
  *****************************************************************/
-
 bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1002,12 +1016,10 @@ bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &c
      m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
      return true;
 }
-
 /*****************************************************************
  * Resets statistics test item specified by unique ID
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1023,7 +1035,6 @@ bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
  * Params: <TestID>
  *         <interval_minutes> [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1039,7 +1050,6 @@ bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
  * Params: <TestID>
  *         <interval_minutes> [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1056,7 +1066,6 @@ bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
  *         [StopAlerts]
  *         [<Comment>]
  *****************************************************************/
-
 bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1071,7 +1080,6 @@ bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
  * This command tells HostMonitor to clear "acknowledged" flag for specified test item(s)
  * Params: <TestID>
  *****************************************************************/
-
 bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1088,7 +1096,6 @@ bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &
  *         <ParameterName>
  *         <Value>
  *****************************************************************/
-
 bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1106,7 +1113,6 @@ bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
  *         <Curr. value>
  *         <New value>
  *****************************************************************/
-
 bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1122,7 +1128,6 @@ bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLi
  * Params: <VariableName>
  *         <VariableValue>
  *****************************************************************/
-
 bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1136,7 +1141,6 @@ bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
 /*****************************************************************
  * Saves changes
  *****************************************************************/
-
 bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1150,7 +1154,6 @@ bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
 /*****************************************************************
  * Loads previously saved variables
  *****************************************************************/
-
 bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1165,7 +1168,6 @@ bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
  * Tells HostMonitor to record into common log current test statuses of all test items except items that do not use common log
  * and items that already have recorded (today!) their status into common log
  *****************************************************************/
-
 bool HMScriptRunner::runFlushCommonLog(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1182,7 +1184,6 @@ bool HMScriptRunner::runFlushCommonLog(const int num, const QString &cmdLine)
  * (e.g. you want to "flush" log records at noon instead of midnight or you want to "flush" log records for some specific private logs
  * or you want to "flush" log records twice a day)
  *****************************************************************/
-
 bool HMScriptRunner::runFlushPrivateLogs(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1198,7 +1199,6 @@ bool HMScriptRunner::runFlushPrivateLogs(const int num, const QString &cmdLine)
  * Params: "report profile name"
  *          <target file name>
  *****************************************************************/
-
 bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1213,7 +1213,6 @@ bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
  * Starts external program and continue to execute the script (do not wait until external program will terminate)
  * Params: <CommandLine>
  *****************************************************************/
-
 bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1231,7 +1230,6 @@ bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
  * Params: <TimeToWait>
  *         <CommandLine>
  *****************************************************************/
-
 bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -1245,30 +1243,28 @@ bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
 /*****************************************************************
  * Enable alerts
  *****************************************************************/
-
 bool HMScriptRunner::runEnableAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+     m_HML->cmdAlertsEnable();
      return true;
 }
 
 /*****************************************************************
  * Disable all alerts (except "scheduled" actions).
  * Note: if alerts are disabled then script can be launched manually (menu File->Execute script).
- * Also you may setup built-in Scheduler to execute actions even when alerts are disabled. However if monitoring is stopped, Scheduler will be deactivated.
+ * Also you may setup built-in Scheduler to execute actions even when alerts are disabled.
  *****************************************************************/
-
 bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+     m_HML->cmdAlertsDisable();
      return true;
 }
 
@@ -1278,14 +1274,27 @@ bool HMScriptRunner::runDisableAlerts(const int num, const QString &cmdLine)
  * All scheduled actions (those that are executed by built-in Scheduler) will continue to execute anyway.
  * Params: <interval>
  *****************************************************************/
-
 bool HMScriptRunner::runPauseAlerts(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 1)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    }
+
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no interval\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    bool ok;
+    int interval = cmdList.first().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: In Command '%2' interval is not a number in minutes\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+     m_HML->cmdAlertsPause(interval);
      return true;
 }
 
@@ -1293,49 +1302,58 @@ bool HMScriptRunner::runPauseAlerts(const int num, const QString &cmdLine)
  * Pause monitoring for specified time (time should be specified in minutes)
  * Params: <interval>
  *****************************************************************/
-
 bool HMScriptRunner::runPauseMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 1)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    cmdList.removeFirst(); // remove command
+
+    if (!cmdList.count()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no interval\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    bool ok;
+    int interval = cmdList.first().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: In Command '%2' interval is not a number in minutes\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    m_HML->cmdMonitoringPause(interval);
+    return true;
 }
 
 /*****************************************************************
  * Stop monitoring
  *****************************************************************/
-
 bool HMScriptRunner::runStopMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    m_HML->cmdMonitoringStop();
+    return true;
 }
 
 /*****************************************************************
  * Start monitoring
  *****************************************************************/
-
 bool HMScriptRunner::runStartMonitor(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    m_HML->cmdMonitoringStart();
+    return true;
 }
 
 /*****************************************************************
  * Quit HostMonitor
  *****************************************************************/
-
 bool HMScriptRunner::runQuitMonitor(const int num, const QString &cmdLine)
 {
     Q_UNUSED(num)

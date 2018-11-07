@@ -31,8 +31,9 @@ class MainForm : public QMainWindow
 {
     Q_OBJECT
 
-    Ui::MainForm *ui;
-    HostMonDlg   *hostMonDlg;
+    Ui::MainForm  *ui;
+    HMListService *m_HML;
+    HostMonDlg    *hostMonDlg;
 
     QMenu   *trayIconMenu;
     QAction *showAction;
@@ -40,20 +41,16 @@ class MainForm : public QMainWindow
     QAction *quitAction;
     QSystemTrayIcon *trayIcon;
 
-    HMListService        *m_HML;
     TestListSortingModel *m_filterModel;
     TestListModel        *m_model;
     FoldersAndViewsModel *m_folders;
     FoldersAndViewsModel *m_views;
 public:
-    explicit MainForm(QWidget *parent = 0);
+    explicit MainForm(HMListService *hml, QWidget *parent = 0);
     ~MainForm();
 
-    void setupFolders(HMListService *hml);
+    void setupFolders();
     void init();
-
-signals:
-    void testingPaused(bool value);
 
 public slots:
     void resetModel();
@@ -65,6 +62,8 @@ public slots:
     void onTreeFolderChanged();
     void onTreeViewChanged();
     void onActionWinPopup(TTest *test);
+    void onMonitoringStarted(bool value);
+    void onAlertsEnabled(bool value);
 
     void changeEvent(QEvent*event);
     void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
@@ -87,10 +86,6 @@ private slots:
     void on_actProperties_triggered();
     void on_actExit_triggered();
     // Monitoring menu
-    void on_actStartMonitoring_triggered();
-    void on_actStopMonitoring_triggered();
-    void on_actEnableAlerts_triggered();
-    void on_actDisableAlerts_triggered();
     void on_actPause_triggered();
     // Test menu (new)
     void on_actTestPing_triggered();
@@ -196,8 +191,6 @@ private slots:
     void on_btnToolbarDel_clicked();
     void on_btnToolbarRefresh_clicked();
     void on_btnToolbarReset_clicked();
-    void on_btnToobarStart_clicked();
-    void on_btnToolbarAlert_clicked();
     void on_trvTestList_doubleClicked(const QModelIndex &index);
 
 private:

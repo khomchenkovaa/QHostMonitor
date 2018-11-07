@@ -3,13 +3,16 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_PACKET_SIZE     = QStringLiteral("PacketSize");
-static QString SP_DONT_FRAGMENT   = QStringLiteral("DontFragment");
-static QString SP_MAX_LOST_RATIO  = QStringLiteral("MaxLostRatio");
-static QString SP_DISPLAY_MODE    = QStringLiteral("DisplayMode");
+#define SP_HOST           "Host"
+#define SP_TIMEOUT        "Timeout"
+#define SP_RETRIES        "Retries"
+#define SP_PACKET_SIZE    "PacketSize"
+#define SP_DONT_FRAGMENT  "DontFragment"
+#define SP_MAX_LOST_RATIO "MaxLostRatio"
+#define SP_DISPLAY_MODE   "DisplayMode"
+
+namespace SDPO {
 
 class IOPingConverter : public IOTestMethodConverter
 {

@@ -4,29 +4,26 @@
 #include "utils.h"
 #include <QDebug>
 #include "gData.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 namespace SDPO {
 
 /*************************************************/
 
-int TNode::count = 0;
-
-/*************************************************/
-
-TNode::TNode(const QString &name, const NodeType type, QObject *parent) :
+TNode::TNode(const int id, const QString &name, const NodeType type, QObject *parent) :
     QObject(parent),
+    m_ID(id),
     m_Name(name),
     m_Type(type),
     m_parentNode(0)
 {
-    m_ID = ++count;
     m_Path = QString();
     m_CreatedAt =  QDateTime::currentDateTime();
     m_ModifiedAt = QDateTime::currentDateTime();
 
     b_UseOwnColumnSettings = false;
     b_UseOwnColorSettings = false;
+    b_UseOwnReportSettings = false;
     b_CheckingColorStatus = false;
 }
 
@@ -151,6 +148,18 @@ TNode *TNode::findChildRecursive(QString nm)
     if (m_Name == nm) return this;
     foreach(TNode *node , m_childNodes) {
         TNode *found = node->findChildRecursive(nm);
+        if (found) return found;
+    }
+    return 0;
+}
+
+/*************************************************/
+
+TNode *TNode::findByID(int id)
+{
+    if(m_ID == id) return this;
+    foreach(TNode *node , m_childNodes) {
+        TNode *found = node->findByID(id);
         if (found) return found;
     }
     return 0;
@@ -399,8 +408,8 @@ QString TNode::getColorScheme() const
             result = m_parentNode->getColorScheme();
         } else { // Root
             if (m_Name == ROOT_VIEW_NAME) { // Root View inherits from options
-                QVariant value = Settings::get(Settings::Interface, Settings::DefaultLogPaletteID, QVariant("<Default>"));
-                result = value.toString();
+                QSettings s;
+                result = s.value(SKEY_INTERFACE_DefaultLogPaletteID, "<Default>").toString();
             } else { // Root Folder inherits from profile
                 foreach (const GUserProfile &profile, GData::userProfiles) {
                     if (profile.id == GData::currentUser ) {

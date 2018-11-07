@@ -6,9 +6,10 @@ namespace SDPO {
 
 /*************************************************/
 
-TFolder::TFolder(const QString &name, QObject *parent) :
-    TNode(name, TNode::FOLDER, parent)
+TFolder::TFolder(const int id, const QString &name, QObject *parent) :
+    TNode(id, name, TNode::FOLDER, parent)
 {
+    b_UseOwnStatSettings = false;
     b_UseOwnRegionalSettings = false;
     b_ApplyRemoteTimeToGui = false;
     b_ApplyRemoteTimeToSchedules = false;
@@ -222,6 +223,56 @@ int TFolder::testsWarningAcknowkegedRecursive() const
         }
     }
     return total;
+}
+
+/*************************************************/
+
+QList<TNode*> TFolder::testList(bool recursive)
+{
+    QList<TNode*> result = tests();
+    if (recursive) {
+        foreach(TNode *node, m_childNodes) {
+            if (node->getType() != TNode::FOLDER) continue;
+            if (!node->hasTests()) continue;
+            result.append(node);
+            TFolder *folder = qobject_cast<TFolder*>(node);
+            result.append(folder->testList());
+        }
+    }
+    return result;
+}
+
+/*************************************************/
+
+QList<TNode *> TFolder::folderList(bool recursive)
+{
+    QList<TNode*> result;
+    foreach(TNode *node, m_childNodes) {
+        if (node->getType() != TNode::FOLDER) continue;
+        result.append(node);
+        if (recursive) {
+            TFolder *folder = qobject_cast<TFolder*>(node);
+            result.append(folder->folderList(recursive));
+        }
+    }
+    return result;
+}
+
+/*************************************************/
+
+QList<TNode *> TFolder::viewList(bool recursive)
+{
+    QList<TNode*> result;
+    foreach(TNode *node, m_childNodes) {
+        if (node->getType() == TNode::VIEW) {
+            result.append(node);
+        }
+        if (recursive && node->getType() == TNode::FOLDER) {
+            TFolder *folder = qobject_cast<TFolder*>(node);
+            result.append(folder->viewList(recursive));
+        }
+    }
+    return result;
 }
 
 /*************************************************/

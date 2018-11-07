@@ -17,9 +17,8 @@ public:
     explicit AccessMethodOptionsWidget(QWidget *parent = 0);
     ~AccessMethodOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
-
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
 private slots:
     void on_btnAccessProxy_clicked();

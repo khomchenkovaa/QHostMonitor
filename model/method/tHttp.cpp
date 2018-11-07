@@ -16,7 +16,7 @@ THttp::THttp(QObject *parent) :
 
 void THttp::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -27,7 +27,6 @@ TTestMethod *THttp::clone()
     THttp *result = new THttp(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Proxy = a_Proxy;
     result->a_Url = a_Url;

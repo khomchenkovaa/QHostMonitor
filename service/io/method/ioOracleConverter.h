@@ -3,9 +3,12 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
+#define SP_SERVER   "Server"
+#define SP_USER     "User"
+#define SP_PASSWORD "Password"
+
+namespace SDPO {
 
 class IOOracleConverter : public IOTestMethodConverter
 {

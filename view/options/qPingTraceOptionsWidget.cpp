@@ -21,51 +21,51 @@ PingTraceOptionsWidget::~PingTraceOptionsWidget()
 
 /******************************************************************/
 
-void PingTraceOptionsWidget::init()
+void PingTraceOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Ping_Trace, Settings::Packets, QVariant(1));
-    ui->slidePackets->setValue(value.toInt());
-    ui->spinPackets->setValue(value.toInt());
+    QVariant val;
+    val = s->value(SKEY_PING_Packets, 1);
+    ui->slidePackets->setValue(val.toInt());
+    ui->spinPackets->setValue(val.toInt());
 
-    value = Settings::get(Settings::Ping_Trace, Settings::PacketSize, QVariant(32));
-    ui->slidePacketSize->setValue(value.toInt());
-    ui->spinPacketSize->setValue(value.toInt());
+    val = s->value(SKEY_PING_PacketSize, 32);
+    ui->slidePacketSize->setValue(val.toInt());
+    ui->spinPacketSize->setValue(val.toInt());
 
-    value = Settings::get(Settings::Ping_Trace, Settings::Timeout, QVariant(1000));
-    ui->slideTimeout->setValue(value.toInt());
-    ui->spinTimeout->setValue(value.toInt());
+    val = s->value(SKEY_PING_Timeout, 1000);
+    ui->slideTimeout->setValue(val.toInt());
+    ui->spinTimeout->setValue(val.toInt());
 
-    value = Settings::get(Settings::Ping_Trace, Settings::TTL, QVariant(255));
-    ui->slideTTL->setValue(value.toInt());
-    ui->spinTTL->setValue(value.toInt());
+    val = s->value(SKEY_PING_TTL, 255);
+    ui->slideTTL->setValue(val.toInt());
+    ui->spinTTL->setValue(val.toInt());
 
-    value = Settings::get(Settings::Ping_Trace, Settings::Hops, QVariant(32));
-    ui->slideHops->setValue(value.toInt());
-    ui->spinHops->setValue(value.toInt());
+    val = s->value(SKEY_PING_Hops, 32);
+    ui->slideHops->setValue(val.toInt());
+    ui->spinHops->setValue(val.toInt());
 
-    value = Settings::get(Settings::Environ, Settings::ShowHostsDescription, QVariant(1));
-    ui->cbShowHostDescription->setChecked(value.toInt()==1);
+    val = s->value(SKEY_PING_ShowHostsDescription, 1);
+    ui->cbShowHostDescription->setChecked(val.toInt()==1);
 
-    value = Settings::get(Settings::Environ, Settings::ClearOldInfo, QVariant(0));
-    ui->cbClearOldInfo->setChecked(value.toInt()==1);
+    val = s->value(SKEY_PING_ClearOldInfo, 0);
+    ui->cbClearOldInfo->setChecked(val.toInt()==1);
 
-    value = Settings::get(Settings::Ping_Trace, Settings::StopTrace, QVariant(1));
-    ui->cbStopTrace->setChecked(value.toInt()==1);
+    val = s->value(SKEY_PING_StopTrace, 1);
+    ui->cbStopTrace->setChecked(val.toInt()==1);
 }
 
 /******************************************************************/
 
-void PingTraceOptionsWidget::prepareToSave()
+void PingTraceOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Ping_Trace, Settings::Packets) = QVariant(ui->slidePackets->value());
-    Settings::set(Settings::Ping_Trace, Settings::PacketSize) = QVariant(ui->slidePacketSize->value());
-    Settings::set(Settings::Ping_Trace, Settings::Timeout) = QVariant(ui->slideTimeout->value());
-    Settings::set(Settings::Ping_Trace, Settings::TTL) = QVariant(ui->slideTTL->value());
-    Settings::set(Settings::Ping_Trace, Settings::Hops) = QVariant(ui->slideHops->value());
-    Settings::set(Settings::Environ, Settings::ShowHostsDescription) = QVariant(ui->cbShowHostDescription->isChecked()?1:0);
-    Settings::set(Settings::Environ, Settings::ClearOldInfo) = QVariant(ui->cbClearOldInfo->isChecked()?1:0);
-    Settings::set(Settings::Ping_Trace, Settings::StopTrace) = QVariant(ui->cbStopTrace->isChecked()?1:0);
-
+    s->setValue(SKEY_PING_Packets, ui->slidePackets->value());
+    s->setValue(SKEY_PING_PacketSize, ui->slidePacketSize->value());
+    s->setValue(SKEY_PING_Timeout, ui->slideTimeout->value());
+    s->setValue(SKEY_PING_TTL, ui->slideTTL->value());
+    s->setValue(SKEY_PING_Hops, ui->slideHops->value());
+    s->setValue(SKEY_PING_ShowHostsDescription, ui->cbShowHostDescription->isChecked()?1:0);
+    s->setValue(SKEY_PING_ClearOldInfo, ui->cbClearOldInfo->isChecked()?1:0);
+    s->setValue(SKEY_PING_StopTrace, ui->cbStopTrace->isChecked()?1:0);
 }
 
 /******************************************************************/

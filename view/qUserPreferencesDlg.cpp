@@ -2,7 +2,7 @@
 #include "ui_qUserPreferencesDlg.h"
 #include "qPalettesWin.h"
 #include "qUserPreferencesCopyDlg.h"
-#include "global/ioUserProfileLoader.h"
+#include "io/ioUserProfileLoader.h"
 #include <QInputDialog>
 
 namespace SDPO {

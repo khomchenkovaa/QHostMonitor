@@ -1,5 +1,5 @@
 #include "pLogProperties.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include <QDateTime>
 
 namespace SDPO {
@@ -20,40 +20,42 @@ PLogProperties::PLogProperties(bool primary, QObject *parent) :
 
 void PLogProperties::getPrimaryLogSettings()
 {
-    a_Target = (LogTarget) Settings::get(Settings::Logging1, Settings::Target, QVariant(1)).toInt();
-    a_SaveMode = (LogMode) Settings::get(Settings::Logging1, Settings::SaveMode, QVariant(2)).toInt();
-    a_Format = (LogFormat) Settings::get(Settings::Logging1, Settings::LogFormat, QVariant(0)).toInt();
-    a_NameMethod = (LogName) Settings::get(Settings::Logging1, Settings::LogNameMethod, QVariant(0)).toInt();
-    a_File2Name = Settings::get(Settings::Logging1, Settings::File2Name, QVariant()).toString();
-    b_UseDeadAction = Settings::get(Settings::Logging1, Settings::UseDeadAction, QVariant(0)).toInt() == 1;
-    a_DeadActionID = Settings::get(Settings::Logging1, Settings::DeadActionID, QVariant(-1)).toInt();
-    b_UseGoodAction = Settings::get(Settings::Logging1, Settings::UseGoodAction, QVariant(0)).toInt() == 1;
-    a_GoodActionID = Settings::get(Settings::Logging1, Settings::GoodActionID, QVariant(-1)).toInt();
-    a_OdbcSource = Settings::get(Settings::Logging, Settings::odbcLogSource, QVariant()).toString();
-    a_OdbcSqlQuery = Settings::get(Settings::Logging, Settings::odbcLogSQLQuer, QVariant("Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')")).toString();
-    a_OdbcUser = Settings::get(Settings::Logging, Settings::odbcLogUser, QVariant()).toString();
-    a_OdbcPassword = Settings::get(Settings::Logging, Settings::odbcLogPswd, QVariant()).toString();
-    a_OdbcTimeout = Settings::get(Settings::Logging, Settings::odbcLogTimeout, QVariant(10)).toInt();
+    QSettings s;
+    a_Target = (LogTarget) s.value(SKEY_LOG1_Target,1).toInt();
+    a_SaveMode = (LogMode) s.value(SKEY_LOG1_SaveMode,2).toInt();
+    a_Format = (LogFormat) s.value(SKEY_LOG1_LogFormat,0).toInt();
+    a_NameMethod = (LogName) s.value(SKEY_LOG1_LogNameMethod,0).toInt();
+    a_File2Name = s.value(SKEY_LOG1_File2Name).toString();
+    b_UseDeadAction = s.value(SKEY_LOG1_UseDeadAction,0).toInt() == 1;
+    a_DeadActionID = s.value(SKEY_LOG1_DeadActionID,-1).toInt();
+    b_UseGoodAction = s.value(SKEY_LOG1_UseGoodAction,0).toInt() == 1;
+    a_GoodActionID = s.value(SKEY_LOG1_GoodActionID,-1).toInt();
+    a_OdbcSource = s.value(SKEY_LOGGING_OdbcLogSource).toString();
+    a_OdbcSqlQuery = s.value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString();
+    a_OdbcUser = s.value(SKEY_LOGGING_OdbcLogUser).toString();
+    a_OdbcPassword = s.value(SKEY_LOGGING_OdbcLogPswd).toString();
+    a_OdbcTimeout = s.value(SKEY_LOGGING_OdbcLogTimeout).toInt();
 }
 
 /******************************************************************/
 
 void PLogProperties::getBackupLogSettings()
 {
-    a_Target = (LogTarget) Settings::get(Settings::Logging2, Settings::Target, QVariant(1)).toInt();
-    a_SaveMode = (LogMode) Settings::get(Settings::Logging2, Settings::SaveMode, QVariant(2)).toInt();
-    a_Format = (LogFormat) Settings::get(Settings::Logging2, Settings::LogFormat, QVariant(0)).toInt();
-    a_NameMethod = (LogName) Settings::get(Settings::Logging2, Settings::LogNameMethod, QVariant(0)).toInt();
-    a_File2Name = Settings::get(Settings::Logging2, Settings::File2Name, QVariant()).toString();
-    b_UseDeadAction = Settings::get(Settings::Logging2, Settings::UseDeadAction, QVariant(0)).toInt() == 1;
-    a_DeadActionID = Settings::get(Settings::Logging2, Settings::DeadActionID, QVariant(-1)).toInt();
+    QSettings s;
+    a_Target = (LogTarget) s.value(SKEY_LOG2_Target,1).toInt();
+    a_SaveMode = (LogMode) s.value(SKEY_LOG2_SaveMode,2).toInt();
+    a_Format = (LogFormat) s.value(SKEY_LOG2_LogFormat,0).toInt();
+    a_NameMethod = (LogName) s.value(SKEY_LOG2_LogNameMethod,0).toInt();
+    a_File2Name = s.value(SKEY_LOG2_File2Name).toString();
+    b_UseDeadAction = s.value(SKEY_LOG2_UseDeadAction,0).toInt() == 1;
+    a_DeadActionID = s.value(SKEY_LOG2_DeadActionID,-1).toInt();
     b_UseGoodAction = false;
     a_GoodActionID = -1; // Do Nothing
-    a_OdbcSource = Settings::get(Settings::Logging2, Settings::odbcLogSource, QVariant()).toString();
-    a_OdbcSqlQuery = Settings::get(Settings::Logging2, Settings::odbcLogSQLQuer, QVariant("Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')")).toString();
-    a_OdbcUser = Settings::get(Settings::Logging2, Settings::odbcLogUser, QVariant()).toString();
-    a_OdbcPassword = Settings::get(Settings::Logging2, Settings::odbcLogPswd, QVariant()).toString();
-    a_OdbcTimeout = Settings::get(Settings::Logging2, Settings::odbcLogTimeout, QVariant(10)).toInt();
+    a_OdbcSource = s.value(SKEY_LOG2_OdbcLogSource).toString();
+    a_OdbcSqlQuery = s.value(SKEY_LOG2_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString();
+    a_OdbcUser = s.value(SKEY_LOG2_OdbcLogUser).toString();
+    a_OdbcPassword = s.value(SKEY_LOG2_OdbcLogPswd).toString();
+    a_OdbcTimeout = s.value(SKEY_LOG2_OdbcLogTimeout).toInt();
 }
 
 /******************************************************************/

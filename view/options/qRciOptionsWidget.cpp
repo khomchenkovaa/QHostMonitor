@@ -21,76 +21,36 @@ RciOptionsWidget::~RciOptionsWidget()
 
 /******************************************************************/
 
-void RciOptionsWidget::init()
+void RciOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::RCI, Settings::Enabled, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkRciOptionsEnable->setChecked(true);
-        else
-            ui->chkRciOptionsEnable->setChecked(false);
-        on_checkedRemoteControle();
-        connect(ui->chkRciOptionsEnable, SIGNAL(clicked()),this,SLOT(on_checkedRemoteControle()));
-
-    value = Settings::get(Settings::RCI, Settings::Port, QVariant(1054));
-        ui->spinIncomingConnectionsPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::RCI, Settings::MaxClients, QVariant(16));
-        ui->spinMaximumSimultaneousConnections->setValue(value.toInt());
-
-    value = Settings::get(Settings::RCI, Settings::Port, QVariant(300));
-        ui->spinTimeout->setValue(value.toInt());
-
-    value = Settings::get(Settings::RCI, Settings::LogAccepted, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkRecordInfoAcceptedConnections->setChecked(true);
-        else
-            ui->chkRecordInfoAcceptedConnections->setChecked(false);
-
-    value = Settings::get(Settings::RCI, Settings::LogAcceptedWatchDog, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkIncludingWatchDogAccount_1->setChecked(true);
-        else
-            ui->chkIncludingWatchDogAccount_1->setChecked(false);
-
-    value = Settings::get(Settings::RCI, Settings::LogRejected, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkRecordInfoRejectedConnections->setChecked(true);
-        else
-            ui->chkRecordInfoRejectedConnections->setChecked(false);
-
-    value = Settings::get(Settings::RCI, Settings::LogRejectedWatchDog, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkIncludingWatchDogAccount_2->setChecked(true);
-        else
-            ui->chkIncludingWatchDogAccount_2->setChecked(false);
-
-    value = Settings::get(Settings::RCI, Settings::LogSuccess, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkRecordInfoAcceptedCommands->setChecked(true);
-        else
-            ui->chkRecordInfoAcceptedCommands->setChecked(false);
-
-    value = Settings::get(Settings::RCI, Settings::LogRejected, QVariant(1));
-        if (value.toInt() == 1)
-            ui->chkRecordInfoRejectedCommands->setChecked(true);
-        else
-            ui->chkRecordInfoRejectedCommands->setChecked(false);
+    ui->chkRciOptionsEnable->setChecked(s->value(SKEY_RCI_Enabled,0).toInt());
+    on_checkedRemoteControle();
+    connect(ui->chkRciOptionsEnable, SIGNAL(clicked()),this,SLOT(on_checkedRemoteControle()));
+    ui->spinIncomingConnectionsPort->setValue(s->value(SKEY_RCI_Port,1054).toInt());
+    ui->spinMaximumSimultaneousConnections->setValue(s->value(SKEY_RCI_MaxClients,16).toInt());
+    ui->spinTimeout->setValue(s->value(SKEY_RCI_Timeout,300).toInt());
+    ui->chkRecordInfoAcceptedConnections->setChecked(s->value(SKEY_RCI_LogAccepted,1).toInt());
+    ui->chkIncludingWatchDogAccount_1->setChecked(s->value(SKEY_RCI_LogAcceptedWatchDog,1).toInt());
+    ui->chkRecordInfoRejectedConnections->setChecked(s->value(SKEY_RCI_LogRejected,1).toInt());
+    ui->chkIncludingWatchDogAccount_2->setChecked(s->value(SKEY_RCI_LogRejectedWatchDog,0).toInt());
+    ui->chkRecordInfoAcceptedCommands->setChecked(s->value(SKEY_RCI_LogSuccess,1).toInt());
+    ui->chkRecordInfoRejectedCommands->setChecked(s->value(SKEY_RCI_LogError,1).toInt());
 }
 
 /******************************************************************/
 
-void RciOptionsWidget::prepareToSave()
+void RciOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::RCI, Settings::Enabled) = QVariant(ui->chkRciOptionsEnable->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::Port) = QVariant(ui->spinIncomingConnectionsPort->value());
-    Settings::set(Settings::RCI, Settings::MaxClients) = QVariant(ui->spinMaximumSimultaneousConnections->value());
-    Settings::set(Settings::RCI, Settings::Timeout) = QVariant(ui->spinTimeout->value());
-    Settings::set(Settings::RCI, Settings::LogAccepted) = QVariant(ui->chkRecordInfoAcceptedConnections->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::LogAcceptedWatchDog) = QVariant(ui->chkIncludingWatchDogAccount_1->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::LogRejected) = QVariant(ui->chkRecordInfoRejectedConnections->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::LogRejectedWatchDog) = QVariant(ui->chkIncludingWatchDogAccount_2->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::LogSuccess) = QVariant(ui->chkRecordInfoAcceptedCommands->isChecked()?1:0);
-    Settings::set(Settings::RCI, Settings::LogError) = QVariant(ui->chkRecordInfoRejectedCommands->isChecked()?1:0);
+    s->setValue(SKEY_RCI_Enabled, ui->chkRciOptionsEnable->isChecked()?1:0);
+    s->setValue(SKEY_RCI_Port, ui->spinIncomingConnectionsPort->value());
+    s->setValue(SKEY_RCI_MaxClients, ui->spinMaximumSimultaneousConnections->value());
+    s->setValue(SKEY_RCI_Timeout, ui->spinTimeout->value());
+    s->setValue(SKEY_RCI_LogAccepted, ui->chkRecordInfoAcceptedConnections->isChecked()?1:0);
+    s->setValue(SKEY_RCI_LogAcceptedWatchDog, ui->chkIncludingWatchDogAccount_1->isChecked()?1:0);
+    s->setValue(SKEY_RCI_LogRejected, ui->chkRecordInfoRejectedConnections->isChecked()?1:0);
+    s->setValue(SKEY_RCI_LogRejectedWatchDog, ui->chkIncludingWatchDogAccount_2->isChecked()?1:0);
+    s->setValue(SKEY_RCI_LogSuccess, ui->chkRecordInfoAcceptedCommands->isChecked()?1:0);
+    s->setValue(SKEY_RCI_LogError, ui->chkRecordInfoRejectedCommands->isChecked()?1:0);
 }
 
 /******************************************************************/

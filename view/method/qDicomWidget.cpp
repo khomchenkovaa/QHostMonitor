@@ -1,6 +1,5 @@
 #include "qDicomWidget.h"
 #include "ui_qDicomWidget.h"
-#include "mSettings.h"
 #include "method/tDicom.h"
 
 namespace SDPO {

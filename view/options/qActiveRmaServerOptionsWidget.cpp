@@ -21,51 +21,27 @@ ActiveRmaServerOptionsWidget::~ActiveRmaServerOptionsWidget()
 
 /******************************************************************/
 
-void ActiveRmaServerOptionsWidget::init()
+void ActiveRmaServerOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::ActiveRMAServer, Settings::Enabled, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkActiveRmaConnection->setChecked(true);
-        else
-            ui->chkActiveRmaConnection->setChecked(false);
-
-    value = Settings::get(Settings::ActiveRMAServer, Settings::Port, QVariant(5056));
-        ui->spinActiveRmaPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::ActiveRMAServer, Settings::AcceptAnyIP, QVariant(1));
-        if (value.toInt() == 1)
-            ui->rdActiveRmaAnyIp->setChecked(true);
-        else
-            ui->rdActiveRmaFollowingIp->setChecked(true);
-
-    value = Settings::get(Settings::ActiveRMAServer, Settings::LogAccepted, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkActiveRmaAcceptedConnections->setChecked(true);
-        else
-            ui->chkActiveRmaAcceptedConnections->setChecked(false);
-
-    value = Settings::get(Settings::ActiveRMAServer, Settings::LogAccepted, QVariant(0));
-        if (value.toInt() == 1)
-            ui->chkActiveRmaRejectedConnections->setChecked(true);
-        else
-            ui->chkActiveRmaRejectedConnections->setChecked(false);
-
+    ui->chkActiveRmaConnection->setChecked(s->value(SKEY_RMA_Enabled,0).toInt());
+    ui->spinActiveRmaPort->setValue(s->value(SKEY_RMA_Port,5056).toInt());
+    if (s->value(SKEY_RMA_AcceptAnyIP,1).toInt()) {
+        ui->rdActiveRmaAnyIp->setChecked(true);
+    } else {
+        ui->rdActiveRmaFollowingIp->setChecked(true);
+    }
+    ui->chkActiveRmaAcceptedConnections->setChecked(s->value(SKEY_RMA_LogAccepted,0).toInt());
+    ui->chkActiveRmaRejectedConnections->setChecked(s->value(SKEY_RMA_LogRejected,0).toInt());
 }
 /******************************************************************/
 
-void ActiveRmaServerOptionsWidget::prepareToSave()
+void ActiveRmaServerOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::ActiveRMAServer, Settings::Enabled) = QVariant(ui->chkActiveRmaConnection->isChecked()?1:0);
-    Settings::set(Settings::ActiveRMAServer, Settings::Port) = QVariant(ui->spinActiveRmaPort->value());
-
-    int acceptConnections;
-        if (ui->rdActiveRmaAnyIp->isChecked())
-            acceptConnections = 1;
-        else
-            acceptConnections = 0;
-    Settings::set(Settings::ActiveRMAServer, Settings::AcceptAnyIP) = QVariant(acceptConnections);
-    Settings::set(Settings::ActiveRMAServer, Settings::LogAccepted) = QVariant(ui->chkActiveRmaAcceptedConnections->isChecked()?1:0);
-    Settings::set(Settings::ActiveRMAServer, Settings::LogRejected) = QVariant(ui->chkActiveRmaRejectedConnections->isChecked()?1:0);
+    s->setValue(SKEY_RMA_Enabled, ui->chkActiveRmaConnection->isChecked()?1:0);
+    s->setValue(SKEY_RMA_Port, ui->spinActiveRmaPort->value());
+    s->setValue(SKEY_RMA_AcceptAnyIP,ui->rdActiveRmaAnyIp->isChecked()?1:0);
+    s->setValue(SKEY_RMA_LogAccepted, ui->chkActiveRmaAcceptedConnections->isChecked()?1:0);
+    s->setValue(SKEY_RMA_LogRejected, ui->chkActiveRmaRejectedConnections->isChecked()?1:0);
 }
 
 /******************************************************************/

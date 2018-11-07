@@ -1,7 +1,7 @@
 #include "qSchedulerOptionsWidget.h"
 #include "ui_qSchedulerOptionsWidget.h"
 #include "qActionProfiles.h"
-#include "global/ioActionProfileLoader.h"
+#include "io/ioActionProfileLoader.h"
 #include "gData.h"
 
 namespace SDPO {
@@ -123,146 +123,116 @@ void SchedulerOptionsWidget::on_btnAlertSelect_5_clicked()
 
 /******************************************************************/
 
-void SchedulerOptionsWidget::init()
+void SchedulerOptionsWidget::init(QSettings *s)
 {
     reset_AlertProfiles();
 
-    QVariant value = Settings::get(Settings::Scheduler, Settings::Mode1, QVariant(0));
-        ui->cmbScheduleSelect_1->setCurrentIndex(value.toInt());
-        on_SchedulerSelect();
-        connect(ui->cmbScheduleSelect_1, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
+    ui->cmbScheduleSelect_1->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode1,0).toInt());
+    ui->timeEdit_1->setTime(s->value(SKEY_SCHEDULER_Time1).toTime());
+    ui->spinMinute_1->setValue(s->value(SKEY_SCHEDULER_Interval1,60).toInt());
+    int day1 = s->value(SKEY_SCHEDULER_Day1,1).toInt();
+    ui->cmbSelectDay_1->setCurrentIndex(day1);
+    ui->cmbMonthDay_1->setCurrentIndex(day1);
+    ui->cmbAlertSelect_1->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts1).toInt());
 
-    value = Settings::get(Settings::Scheduler, Settings::Time1, QVariant());
-        ui->timeEdit_1->setTime(value.toTime());
+    ui->cmbScheduleSelect_2->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode2,0).toInt());
+    ui->timeEdit_2->setTime(s->value(SKEY_SCHEDULER_Time2).toTime());
+    ui->spinMinute_2->setValue(s->value(SKEY_SCHEDULER_Interval2,60).toInt());
+    int day2 = s->value(SKEY_SCHEDULER_Day2,2).toInt();
+    ui->cmbSelectDay_2->setCurrentIndex(day2);
+    ui->cmbMonthDay_2->setCurrentIndex(day2);
+    ui->cmbAlertSelect_2->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts2).toInt());
 
-    value = Settings::get(Settings::Scheduler, Settings::Interval1, QVariant(60));
-        ui->spinMinute_1->setValue(value.toInt());
+    ui->cmbScheduleSelect_3->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode3,0).toInt());
+    ui->timeEdit_3->setTime(s->value(SKEY_SCHEDULER_Time3).toTime());
+    ui->spinMinute_3->setValue(s->value(SKEY_SCHEDULER_Interval3,60).toInt());
+    int day3 = s->value(SKEY_SCHEDULER_Day3,3).toInt();
+    ui->cmbSelectDay_3->setCurrentIndex(day3);
+    ui->cmbMonthDay_3->setCurrentIndex(day3);
+    ui->cmbAlertSelect_3->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts3).toInt());
 
-    value = Settings::get(Settings::Scheduler, Settings::Day1, QVariant(1));
-        ui->cmbSelectDay_1->setCurrentIndex(value.toInt());
+    ui->cmbScheduleSelect_4->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode4,0).toInt());
+    ui->timeEdit_4->setTime(s->value(SKEY_SCHEDULER_Time4).toTime());
+    ui->spinMinute_4->setValue(s->value(SKEY_SCHEDULER_Interval4,60).toInt());
+    int day4 = s->value(SKEY_SCHEDULER_Day4,4).toInt();
+    ui->cmbSelectDay_4->setCurrentIndex(day4);
+    ui->cmbMonthDay_4->setCurrentIndex(day4);
+    ui->cmbAlertSelect_4->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts4).toInt());
 
-    value = Settings::get(Settings::Scheduler, Settings::Day1, QVariant(1));
-        ui->cmbMonthDay_1->setCurrentIndex(value.toInt());
+    ui->cmbScheduleSelect_5->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode5,0).toInt());
+    ui->timeEdit_5->setTime(s->value(SKEY_SCHEDULER_Time5).toTime());
+    ui->spinMinute_5->setValue(s->value(SKEY_SCHEDULER_Interval5,60).toInt());
+    int day5 = s->value(SKEY_SCHEDULER_Day5,5).toInt();
+    ui->cmbSelectDay_5->setCurrentIndex(day5);
+    ui->cmbMonthDay_5->setCurrentIndex(day5);
+    ui->cmbAlertSelect_5->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts5).toInt());
 
-    value = Settings::get(Settings::Scheduler, Settings::SchedAlerts1, QVariant());
-        ui->cmbAlertSelect_1->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Mode2, QVariant(0));
-        ui->cmbScheduleSelect_2->setCurrentIndex(value.toInt());
-        on_SchedulerSelect();
-        connect(ui->cmbScheduleSelect_2, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
-
-    value = Settings::get(Settings::Scheduler, Settings::Time2, QVariant());
-        ui->timeEdit_2->setTime(value.toTime());
-
-    value = Settings::get(Settings::Scheduler, Settings::Interval2, QVariant(60));
-        ui->spinMinute_2->setValue(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day2, QVariant(2));
-        ui->cmbSelectDay_2->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day2, QVariant(2));
-        ui->cmbMonthDay_2->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::SchedAlerts3, QVariant());
-        ui->cmbAlertSelect_2->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Mode3, QVariant(0));
-        ui->cmbScheduleSelect_3->setCurrentIndex(value.toInt());
-        on_SchedulerSelect();
-        connect(ui->cmbScheduleSelect_3, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
-
-    value = Settings::get(Settings::Scheduler, Settings::Time3, QVariant());
-        ui->timeEdit_3->setTime(value.toTime());
-
-    value = Settings::get(Settings::Scheduler, Settings::Interval3, QVariant(60));
-        ui->spinMinute_3->setValue(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day3, QVariant(3));
-        ui->cmbSelectDay_3->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day3, QVariant(3));
-        ui->cmbMonthDay_3->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::SchedAlerts3, QVariant());
-        ui->cmbAlertSelect_3->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Mode4, QVariant(0));
-        ui->cmbScheduleSelect_4->setCurrentIndex(value.toInt());
-        on_SchedulerSelect();
-        connect(ui->cmbScheduleSelect_4, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
-
-    value = Settings::get(Settings::Scheduler, Settings::Time4, QVariant());
-        ui->timeEdit_4->setTime(value.toTime());
-
-    value = Settings::get(Settings::Scheduler, Settings::Interval4, QVariant(60));
-        ui->spinMinute_4->setValue(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day4, QVariant(4));
-        ui->cmbSelectDay_4->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day4, QVariant(4));
-        ui->cmbMonthDay_4->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::SchedAlerts4, QVariant());
-        ui->cmbAlertSelect_4->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Mode5, QVariant(0));
-        ui->cmbScheduleSelect_5->setCurrentIndex(value.toInt());
-        on_SchedulerSelect();
-        connect(ui->cmbScheduleSelect_5, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
-
-    value = Settings::get(Settings::Scheduler, Settings::Time5, QVariant());
-        ui->timeEdit_5->setTime(value.toTime());
-
-    value = Settings::get(Settings::Scheduler, Settings::Interval5, QVariant(60));
-        ui->spinMinute_5->setValue(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day5, QVariant(5));
-        ui->cmbSelectDay_5->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::Day5, QVariant(5));
-        ui->cmbMonthDay_5->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Scheduler, Settings::SchedAlerts5, QVariant());
-        ui->cmbAlertSelect_5->setCurrentIndex(value.toInt());
-
+    on_SchedulerSelect();
+    connect(ui->cmbScheduleSelect_1, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
+    connect(ui->cmbScheduleSelect_2, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
+    connect(ui->cmbScheduleSelect_3, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
+    connect(ui->cmbScheduleSelect_4, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
+    connect(ui->cmbScheduleSelect_5, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));
 }
 
 /******************************************************************/
 
-void SchedulerOptionsWidget::prepareToSave()
+void SchedulerOptionsWidget::prepareToSave(QSettings *s)
 {
-      Settings::set(Settings::Scheduler, Settings::Mode1) = QVariant(ui->cmbScheduleSelect_1->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Time1) = QVariant(ui->timeEdit_1->text());
-      Settings::set(Settings::Scheduler, Settings::Interval1) = QVariant(ui->spinMinute_1->value());
-      Settings::set(Settings::Scheduler, Settings::Day1) = QVariant(ui->cmbSelectDay_1->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Day1) = QVariant(ui->cmbMonthDay_1->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::SchedAlerts1) = QVariant(ui->cmbAlertSelect_1->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Mode2) = QVariant(ui->cmbScheduleSelect_2->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Time2) = QVariant(ui->timeEdit_2->text());
-      Settings::set(Settings::Scheduler, Settings::Interval2) = QVariant(ui->spinMinute_2->value());
-      Settings::set(Settings::Scheduler, Settings::Day2) = QVariant(ui->cmbSelectDay_2->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Day2) = QVariant(ui->cmbMonthDay_2->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::SchedAlerts2) = QVariant(ui->cmbAlertSelect_2->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Mode3) = QVariant(ui->cmbScheduleSelect_3->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Time3) = QVariant(ui->timeEdit_3->text());
-      Settings::set(Settings::Scheduler, Settings::Interval3) = QVariant(ui->spinMinute_3->value());
-      Settings::set(Settings::Scheduler, Settings::Day3) = QVariant(ui->cmbSelectDay_3->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Day3) = QVariant(ui->cmbMonthDay_3->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::SchedAlerts3) = QVariant(ui->cmbAlertSelect_3->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Mode4) = QVariant(ui->cmbScheduleSelect_4->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Time4) = QVariant(ui->timeEdit_4->text());
-      Settings::set(Settings::Scheduler, Settings::Interval4) = QVariant(ui->spinMinute_4->value());
-      Settings::set(Settings::Scheduler, Settings::Day4) = QVariant(ui->cmbSelectDay_4->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Day4) = QVariant(ui->cmbMonthDay_4->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::SchedAlerts4) = QVariant(ui->cmbAlertSelect_4->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Mode5) = QVariant(ui->cmbScheduleSelect_5->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Time5) = QVariant(ui->timeEdit_5->text());
-      Settings::set(Settings::Scheduler, Settings::Interval5) = QVariant(ui->spinMinute_5->value());
-      Settings::set(Settings::Scheduler, Settings::Day5) = QVariant(ui->cmbSelectDay_5->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::Day5) = QVariant(ui->cmbMonthDay_5->currentIndex());
-      Settings::set(Settings::Scheduler, Settings::SchedAlerts5) = QVariant(ui->cmbAlertSelect_5->currentIndex());
+    int mode1 = ui->cmbScheduleSelect_1->currentIndex();
+    s->setValue(SKEY_SCHEDULER_Mode1, mode1);
+    s->setValue(SKEY_SCHEDULER_Time1, ui->timeEdit_1->text());
+    s->setValue(SKEY_SCHEDULER_Interval1, ui->spinMinute_1->value());
+    if (mode1 < 4) { // monthly, quaterly
+        s->setValue(SKEY_SCHEDULER_Day1, ui->cmbSelectDay_1->currentIndex());
+    } else {
+        s->setValue(SKEY_SCHEDULER_Day1, ui->cmbMonthDay_1->currentIndex());
+    }
+    s->setValue(SKEY_SCHEDULER_SchedAlerts1, ui->cmbAlertSelect_1->currentIndex());
+
+    int mode2 = ui->cmbScheduleSelect_2->currentIndex();
+    s->setValue(SKEY_SCHEDULER_Mode2, mode2);
+    s->setValue(SKEY_SCHEDULER_Time2, ui->timeEdit_2->text());
+    s->setValue(SKEY_SCHEDULER_Interval2, ui->spinMinute_2->value());
+    if (mode2 < 4) { // monthly, quaterly
+        s->setValue(SKEY_SCHEDULER_Day2, ui->cmbSelectDay_2->currentIndex());
+    } else {
+        s->setValue(SKEY_SCHEDULER_Day2, ui->cmbMonthDay_2->currentIndex());
+    }
+    s->setValue(SKEY_SCHEDULER_SchedAlerts2, ui->cmbAlertSelect_2->currentIndex());
+
+    int mode3 = ui->cmbScheduleSelect_3->currentIndex();
+    s->setValue(SKEY_SCHEDULER_Mode3, mode3);
+    s->setValue(SKEY_SCHEDULER_Time3, ui->timeEdit_3->text());
+    s->setValue(SKEY_SCHEDULER_Interval3, ui->spinMinute_3->value());
+    if (mode3 < 4) { // monthly, quaterly
+        s->setValue(SKEY_SCHEDULER_Day3, ui->cmbSelectDay_3->currentIndex());
+    } else {
+        s->setValue(SKEY_SCHEDULER_Day3, ui->cmbMonthDay_3->currentIndex());
+    }
+    s->setValue(SKEY_SCHEDULER_SchedAlerts3, ui->cmbAlertSelect_3->currentIndex());
+
+    int mode4 = ui->cmbScheduleSelect_4->currentIndex();
+    s->setValue(SKEY_SCHEDULER_Mode4, mode4);
+    s->setValue(SKEY_SCHEDULER_Time4, ui->timeEdit_4->text());
+    s->setValue(SKEY_SCHEDULER_Interval4, ui->spinMinute_4->value());
+    if (mode4 < 4) { // monthly, quaterly
+        s->setValue(SKEY_SCHEDULER_Day4, ui->cmbSelectDay_4->currentIndex());
+    } else {
+        s->setValue(SKEY_SCHEDULER_Day4, ui->cmbMonthDay_4->currentIndex());
+    }
+    s->setValue(SKEY_SCHEDULER_SchedAlerts4, ui->cmbAlertSelect_4->currentIndex());
+
+    int mode5 = ui->cmbScheduleSelect_5->currentIndex();
+    s->setValue(SKEY_SCHEDULER_Mode5, mode5);
+    s->setValue(SKEY_SCHEDULER_Time5, ui->timeEdit_5->text());
+    s->setValue(SKEY_SCHEDULER_Interval5, ui->spinMinute_5->value());
+    if (mode5 < 4) { // monthly, quaterly
+        s->setValue(SKEY_SCHEDULER_Day5, ui->cmbSelectDay_5->currentIndex());
+    } else {
+        s->setValue(SKEY_SCHEDULER_Day5, ui->cmbMonthDay_5->currentIndex());
+    }
+    s->setValue(SKEY_SCHEDULER_SchedAlerts5, ui->cmbAlertSelect_5->currentIndex());
 }
 
 /******************************************************************/

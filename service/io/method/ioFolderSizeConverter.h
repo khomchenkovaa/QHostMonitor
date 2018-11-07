@@ -3,10 +3,13 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_MAX_SIZE   = QStringLiteral("MaxSize");
+#define SP_FILE       "File"
+#define SP_SUBFOLDERS "SubFolders"
+#define SP_USE_MACROS "UseMacros"
+#define SP_MAX_SIZE   "MaxSize"
+
+namespace SDPO {
 
 class IOFolderSizeConverter : public IOTestMethodConverter
 {

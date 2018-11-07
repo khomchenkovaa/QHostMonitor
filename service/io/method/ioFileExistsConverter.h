@@ -3,12 +3,14 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_OK_IF_EXISTS = QStringLiteral("OkIfExists");
-static QString SP_MAX_AGE      = QStringLiteral("MaxAge");
-static QString SP_MIN_AGE      = QStringLiteral("MinAge");
+#define SP_FILE         "File"
+#define SP_USE_MACROS   "UseMacros"
+#define SP_OK_IF_EXISTS "OkIfExists"
+#define SP_MAX_AGE      "MaxAge"
+#define SP_MIN_AGE      "MinAge"
+
+namespace SDPO {
 
 class IOFileExistsConverter : public IOTestMethodConverter
 {

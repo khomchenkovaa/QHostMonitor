@@ -25,7 +25,7 @@ public: // Enums
     enum NodeType { ROOT, FOLDER, VIEW, LINK, TEST };
     Q_ENUM(NodeType)
 
-    explicit TNode(const QString &name, const NodeType type, QObject *parent = 0);
+    explicit TNode(const int id, const QString &name, const NodeType type, QObject *parent = 0);
     ~TNode();
 
 signals:
@@ -33,7 +33,6 @@ signals:
     void testDone(TNode*);
 
 protected:    // properties
-    static int count;
     int       m_ID;
     QString   m_Name;
     NodeType  m_Type;
@@ -54,7 +53,9 @@ public:       // properties
     QString   getCommentLine(int line) const;
     void      setComment(const QString value) { m_Comment = value; }
     QDateTime getCreatedAt() const { return m_CreatedAt; }
+    void      setCreatedAt(const QDateTime value) { m_CreatedAt = value; }
     QDateTime getModifiedAt() const { return m_ModifiedAt; }
+    void      setModifiedAt(const QDateTime value) { m_ModifiedAt = value; }
 
 protected: // node structure
     TNode *m_parentNode;
@@ -73,6 +74,7 @@ public: // node structure
     TNode *lastChild();
     TNode *findChild(QString nm);
     TNode *findChildRecursive(QString nm);
+    TNode *findByID(int id);
     TNode *findTest(QString nm);
     int childCount(bool withTests = false) const;
     int foldersTotal() const;
@@ -89,12 +91,17 @@ public: // node structure
     virtual QVariant getGlobal(Macro::Variable globalVar) const;
 
 protected: // interface settings
+    // columns
     bool b_UseOwnColumnSettings;
     QColumnList m_columns;
     QSortPairList m_sort;
+    // colors
     bool b_UseOwnColorSettings;
     QString m_ColorScheme;
     bool b_CheckingColorStatus;
+    // reports
+    bool b_UseOwnReportSettings;
+    //! TODO
 
 public: // interface settings
     bool isUseOwnColumnSettings() const { return b_UseOwnColumnSettings; }
@@ -110,6 +117,8 @@ public: // interface settings
     void setColorScheme(const QString& value);
     bool isCheckingColorStatus() const { return b_CheckingColorStatus; }
     void setCheckingColorStatus(const bool value) { b_CheckingColorStatus = value; }
+    bool isUseOwnReportSettings() const { return b_UseOwnReportSettings; }
+    void setUseOwnReportSettings(const bool value) { b_UseOwnReportSettings = value; }
 };
 
 } // namespace SDPO

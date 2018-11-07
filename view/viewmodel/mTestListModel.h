@@ -15,10 +15,11 @@ class TestListModel : public QAbstractTableModel
     Q_OBJECT
 
     QList<TNode*> m_list;
-    QColumnList m_columns;
+    QColumnList   m_columns;
     GColorProfile m_colorProfile;
-    bool m_recursive;
-    TNode *m_current;
+    bool          m_recursive;
+    TNode        *m_current;
+
 public:
     TestListModel(QObject *parent = 0);
     ~TestListModel();
@@ -41,7 +42,6 @@ public slots:
 private:
     void setProfile();
     void resetModel();
-    void updateList(TNode *item);
     QVariant getIcon(TNode *item) const;
     QVariant getColor(TNode *item) const;
     QVariant getBgColor(TNode *item) const;

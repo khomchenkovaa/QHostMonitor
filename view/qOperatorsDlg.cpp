@@ -1,6 +1,6 @@
 #include "qOperatorsDlg.h"
 #include "ui_qOperatorsDlg.h"
-#include "global/ioUserProfileLoader.h"
+#include "io/ioUserProfileLoader.h"
 #include "qFolderDlg.h"
 
 #include <QMenu>
@@ -248,7 +248,7 @@ void OperatorsDlg::on_btnFolder_clicked()
 {
     FolderDlg folderDlg;
     folderDlg.setWindowTitle(tr("Select folder"));
-    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML->rootItem(), FoldersAndViewsModel::FOLDERS);
+    FoldersAndViewsModel *model = new FoldersAndViewsModel(m_HML, FoldersAndViewsModel::FOLDERS);
     folderDlg.setModel(model, ui->editFolder->text());
     if (QDialog::Accepted == folderDlg.exec()) {
         ui->editFolder->setText(folderDlg.path());

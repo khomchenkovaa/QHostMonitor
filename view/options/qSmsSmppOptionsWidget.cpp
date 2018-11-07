@@ -15,68 +15,42 @@ SmsSmppOptionsWidget::~SmsSmppOptionsWidget()
     delete ui;
 }
 
-void SmsSmppOptionsWidget::init()
+void SmsSmppOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::SMS_SMPP1, Settings::Host, QVariant());
-        ui->editPrimaryHost->setText(value.toString());
+    ui->editPrimaryHost->setText(s->value(SKEY_SMSSMPP1_Host).toString());
+    ui->spinPrimaryPort->setValue(s->value(SKEY_SMSSMPP1_Port,2775).toInt());
+    ui->editPrimarySystemId->setText(s->value(SKEY_SMSSMPP1_ID).toString());
+    ui->editPrimaryPassword->setText(s->value(SKEY_SMSSMPP1_Pswd).toString());
+    ui->editPrimaryAddress->setText(s->value(SKEY_SMSSMPP1_SrcAddr).toString());
+    ui->cmbPrimaryTon->setCurrentIndex(s->value(SKEY_SMSSMPP1_TON,0).toInt());
+    ui->cmbPrimaryNpi->setCurrentIndex(s->value(SKEY_SMSSMPP1_NPI,0).toInt());
 
-    value = Settings::get(Settings::SMS_SMPP1, Settings::Port, QVariant(2775));
-        ui->spinPrimaryPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::SMS_SMPP1, Settings::ID, QVariant());
-        ui->editPrimarySystemId->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP1, Settings::Pswd, QVariant());
-        ui->editPrimaryPassword->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP1, Settings::SrcAddr, QVariant());
-        ui->editPrimaryAddress->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP1, Settings::TON, QVariant(0));
-        ui->cmbPrimaryTon->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::SMS_SMPP1, Settings::NPI, QVariant(0));
-        ui->cmbPrimaryNpi->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::Host, QVariant());
-        ui->editBackupHost->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::Port, QVariant(2775));
-        ui->spinBackupPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::ID, QVariant());
-        ui->editBackupSystemId->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::Pswd, QVariant());
-        ui->editBackupPassword->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::SrcAddr, QVariant());
-        ui->editBackupAddress->setText(value.toString());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::TON, QVariant(0));
-        ui->cmbBackupTon->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::SMS_SMPP2, Settings::NPI, QVariant(0));
-        ui->cmbBackupNpi->setCurrentIndex(value.toInt());
+    ui->editBackupHost->setText(s->value(SKEY_SMSSMPP2_Host).toString());
+    ui->spinBackupPort->setValue(s->value(SKEY_SMSSMPP2_Port,2775).toInt());
+    ui->editBackupSystemId->setText(s->value(SKEY_SMSSMPP2_ID).toString());
+    ui->editBackupPassword->setText(s->value(SKEY_SMSSMPP2_Pswd).toString());
+    ui->editBackupAddress->setText(s->value(SKEY_SMSSMPP2_SrcAddr).toString());
+    ui->cmbBackupTon->setCurrentIndex(s->value(SKEY_SMSSMPP2_TON,0).toInt());
+    ui->cmbBackupNpi->setCurrentIndex(s->value(SKEY_SMSSMPP2_NPI,0).toInt());
 }
 
-void SmsSmppOptionsWidget::prepareToSave()
+void SmsSmppOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::SMS_SMPP1, Settings::Host) = QVariant(ui->editPrimaryHost->text());
-    Settings::set(Settings::SMS_SMPP1, Settings::Port) = QVariant(ui->spinPrimaryPort->value());
-    Settings::set(Settings::SMS_SMPP1, Settings::ID) = QVariant(ui->editPrimarySystemId->text());
-    Settings::set(Settings::SMS_SMPP1, Settings::Pswd) = QVariant(ui->editPrimaryPassword->text());
-    Settings::set(Settings::SMS_SMPP1, Settings::SrcAddr) = QVariant(ui->editPrimaryAddress->text());
-    Settings::set(Settings::SMS_SMPP1, Settings::TON) = QVariant(ui->cmbBackupTon->currentIndex());
-    Settings::set(Settings::SMS_SMPP1, Settings::NPI) = QVariant(ui->cmbPrimaryNpi->currentIndex());
-    Settings::set(Settings::SMS_SMPP2, Settings::Host) = QVariant(ui->editBackupHost->text());
-    Settings::set(Settings::SMS_SMPP2, Settings::Port) = QVariant(ui->spinBackupPort->value());
-    Settings::set(Settings::SMS_SMPP2, Settings::ID) = QVariant(ui->editBackupSystemId->text());
-    Settings::set(Settings::SMS_SMPP2, Settings::Pswd) = QVariant(ui->editBackupPassword->text());
-    Settings::set(Settings::SMS_SMPP2, Settings::SrcAddr) = QVariant(ui->editBackupAddress->text());
-    Settings::set(Settings::SMS_SMPP2, Settings::TON) = QVariant(ui->cmbBackupTon->currentIndex());
-    Settings::set(Settings::SMS_SMPP2, Settings::NPI) = QVariant(ui->cmbBackupNpi->currentIndex());
+    s->setValue(SKEY_SMSSMPP1_Host, ui->editPrimaryHost->text());
+    s->setValue(SKEY_SMSSMPP1_Port, ui->spinPrimaryPort->value());
+    s->setValue(SKEY_SMSSMPP1_ID, ui->editPrimarySystemId->text());
+    s->setValue(SKEY_SMSSMPP1_Pswd, ui->editPrimaryPassword->text());
+    s->setValue(SKEY_SMSSMPP1_SrcAddr, ui->editPrimaryAddress->text());
+    s->setValue(SKEY_SMSSMPP1_TON, ui->cmbPrimaryTon->currentIndex());
+    s->setValue(SKEY_SMSSMPP1_NPI, ui->cmbPrimaryNpi->currentIndex());
 
+    s->setValue(SKEY_SMSSMPP2_Host, ui->editBackupHost->text());
+    s->setValue(SKEY_SMSSMPP2_Port, ui->spinBackupPort->value());
+    s->setValue(SKEY_SMSSMPP2_ID, ui->editBackupSystemId->text());
+    s->setValue(SKEY_SMSSMPP2_Pswd, ui->editBackupPassword->text());
+    s->setValue(SKEY_SMSSMPP2_SrcAddr, ui->editBackupAddress->text());
+    s->setValue(SKEY_SMSSMPP2_TON, ui->cmbBackupTon->currentIndex());
+    s->setValue(SKEY_SMSSMPP2_NPI, ui->cmbBackupNpi->currentIndex());
 }
 
 } // namespace SDPO

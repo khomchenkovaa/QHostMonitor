@@ -6,7 +6,7 @@
 #include "logger/htmlLogger.h"
 #include "logger/dbfLogger.h"
 #include "logger/odbcLogger.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 #include <QDebug>
 
@@ -118,7 +118,8 @@ void LogService::writeCommonLog(TTest *test)
              << test->property("TestMethod").toString()
              << test->property("TestID").toInt();
 
-    bool useBothLogs = Settings::get(Settings::Logging, Settings::UseBothLogs, QVariant(0)) == 1;
+    QSettings s;
+    bool useBothLogs = s.value(SKEY_LOGGING_UseBothLogs,0) == 1;
     if (!logWritten || useBothLogs) {
         writeBackupLog(test);
     }
@@ -263,7 +264,7 @@ bool LogService::needToWrite(const PLogProperties::LogMode mode, TTest *test) co
         }
         break;
     case PLogProperties::LM_REPLY : // write a record when test status or reply value changes
-        result = (test->getLastReply() != test->getReply() || test->status() != test->lastStatus());
+        result = (test->lastReply() != test->getReply() || test->status() != test->lastStatus());
         break;
     }
     return result;

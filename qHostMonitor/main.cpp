@@ -1,7 +1,7 @@
 #include <QtWidgets/QApplication>
 #include <QStyleFactory>
 #include "startup.h"
-#include "mSettings.h"
+#include "gSettings.h"
 
 int main(int argc, char *argv[])
 {

@@ -19,7 +19,7 @@ TActiveScript::TActiveScript(QObject *parent) :
 
 void TActiveScript::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -30,7 +30,6 @@ TTestMethod *TActiveScript::clone()
     TActiveScript *result = new TActiveScript(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_FileScript = a_FileScript;
     result->b_ScriptCriteria = b_ScriptCriteria;

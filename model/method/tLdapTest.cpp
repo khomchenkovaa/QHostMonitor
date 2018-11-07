@@ -20,7 +20,7 @@ TLdapTest::TLdapTest(QObject *parent) :
 
 void TLdapTest::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -31,7 +31,6 @@ TTestMethod *TLdapTest::clone()
     TLdapTest *result = new TLdapTest(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Host = a_Host;
     result->a_Port = a_Port;

@@ -75,18 +75,21 @@
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
        <property name="maximum">
-        <number>600000</number>
+        <number>600</number>
        </property>
        <property name="value">
-        <number>5000</number>
+        <number>5</number>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>msec</string>
+        <string>sec</string>
        </property>
       </widget>
      </item>

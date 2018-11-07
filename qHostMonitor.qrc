@@ -187,19 +187,43 @@
         <file>img/actions/Syslog.png</file>
         <file>resources/testMethod.json</file>
         <file>img/folder.png</file>
-        <file>img/status/bad.png</file>
-        <file>img/status/disabled.png</file>
-        <file>img/status/noAnswer.png</file>
-        <file>img/status/unknown.png</file>
-        <file>img/status/waitForMaster.png</file>
-        <file>img/status/warning.png</file>
-        <file>img/status/checking.png</file>
-        <file>img/status/pause.png</file>
         <file>resources/mailList.json</file>
         <file>resources/palettes.json</file>
         <file>resources/userVars.json</file>
         <file>resources/actions.json</file>
         <file>resources/logTemplate.dbf</file>
         <file>resources/users.json</file>
+        <file>img/status/lnkBad.png</file>
+        <file>img/status/lnkBadContents.png</file>
+        <file>img/status/lnkChecking.png</file>
+        <file>img/status/lnkDdisabled.png</file>
+        <file>img/status/lnkHostAlive.png</file>
+        <file>img/status/lnkNoAnswer.png</file>
+        <file>img/status/lnkNormal.png</file>
+        <file>img/status/lnkNotTested.png</file>
+        <file>img/status/lnkOk.png</file>
+        <file>img/status/lnkOutOfSchedule.png</file>
+        <file>img/status/lnkPaused.png</file>
+        <file>img/status/lnkResolving.png</file>
+        <file>img/status/lnkUnknown.png</file>
+        <file>img/status/lnkUnknownHost.png</file>
+        <file>img/status/lnkWaitForMaster.png</file>
+        <file>img/status/lnkWarning.png</file>
+        <file>img/status/tstBad.png</file>
+        <file>img/status/tstBadContents.png</file>
+        <file>img/status/tstChecking.png</file>
+        <file>img/status/tstDisabled.png</file>
+        <file>img/status/tstHostAlive.png</file>
+        <file>img/status/tstNoAnswer.png</file>
+        <file>img/status/tstNormal.png</file>
+        <file>img/status/tstNotTested.png</file>
+        <file>img/status/tstOk.png</file>
+        <file>img/status/tstOutOfSchedule.png</file>
+        <file>img/status/tstPaused.png</file>
+        <file>img/status/tstResolving.png</file>
+        <file>img/status/tstUnknown.png</file>
+        <file>img/status/tstUnknownHost.png</file>
+        <file>img/status/tstWaitForMaster.png</file>
+        <file>img/status/tstWarning.png</file>
     </qresource>
 </RCC>

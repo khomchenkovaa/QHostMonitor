@@ -61,7 +61,7 @@ GUserProfile GData::getCurrentUserProfile()
 {
      GUserProfile result;
      for (int i=0; i< userProfiles.count(); i++) {
-         if (currentUser == userProfiles.at(i).name) {
+         if (currentUser == userProfiles.at(i).id) {
              result = userProfiles.at(i);
          }
      }

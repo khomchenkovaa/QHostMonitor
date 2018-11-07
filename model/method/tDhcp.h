@@ -1,7 +1,39 @@
+/** The DHCP test allows you to monitor DHCP servers.
+ * HostMonitor verifies the DHCP server by sending request for IP address.
+ * HostMonitor sets “Host is alive” status when DHCP server properly responds within specified timeout, whatever it replies with NAK or ACK packet.
+ * Otherwise HostMonitor may set “Bad” (invalid reply from server) or “No answer” status.
+ *
+ * In addition to the common test parameters, the DHCP test has the following options:
+ *
+ * Host
+ * This is the domain name or IP address of the machine running the DHCP server that you wish to monitor.
+ *
+ * Timeout
+ * This is the amount of time in milliseconds the program will wait for a response from the server before the request fails.
+ *
+ * Request IP
+ * Here you may specify IP address that will be requested or keep default value <current local IP>
+ */
+/* Realization
+ * This test uses dhcping utility.
+ * For CentOS 6.* it available form the epel repository (yum install dhcping)
+ * don't forget install as setuid root:
+ * chmod 4755 /usr/bin/nmap
+ *
+ * Command:
+ * dhcping -s <Host> -t <Timeout> -c <Request IP>
+ *
+ * Return:
+ * 0 - Ok ("Host is alive")
+ * 1 - Something wrong
+ */
+
 #ifndef TDHCP_H
 #define TDHCP_H
 
 #include "tTestMethod.h"
+
+#define DHCP_CURRENT_LOCAL_IP "<current local IP>"
 
 namespace SDPO {
 
@@ -22,8 +54,13 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
+    virtual QString getCommand() const Q_DECL_OVERRIDE;
 
     virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+
+private:
+    QString currentLocalIP() const;
+    QString currentMacAddress() const;
 
 };
 

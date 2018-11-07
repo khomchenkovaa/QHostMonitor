@@ -28,40 +28,35 @@ void AccessMethodOptionsWidget::on_btnAccessProxy_clicked()
 
 /******************************************************************/
 
-void AccessMethodOptionsWidget::init()
+void AccessMethodOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::HostMon, Settings::AccessMethod, QVariant(0));
-            if (value.toInt() == 0)
-                ui->rbAccessUseRegistry->setChecked(true);
-            else if (value.toInt() == 1)
-                ui->rbAccessDirect->setChecked(true);
-            else if (value.toInt() == 2)
-                ui->rbAccessViaProxy->setChecked(true);
-            else if (value.toInt() == 3)
-                ui->rbAccessPreconfig->setChecked(true);
-       on_btnSelectAcessRetriveUrl();
-       connect(ui->rbAccessUseRegistry, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
-       connect(ui->rbAccessDirect, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
-       connect(ui->rbAccessViaProxy, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
-       connect(ui->rbAccessPreconfig, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
-
+    switch(s->value(SKEY_HOSTMON_AccessMethod, 0).toInt()) {
+        case 0: ui->rbAccessUseRegistry->setChecked(true); break;
+        case 1: ui->rbAccessDirect->setChecked(true); break;
+        case 2: ui->rbAccessViaProxy->setChecked(true); break;
+        case 3: ui->rbAccessPreconfig->setChecked(true); break;
+    }
+    on_btnSelectAcessRetriveUrl();
+    connect(ui->rbAccessUseRegistry, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
+    connect(ui->rbAccessDirect, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
+    connect(ui->rbAccessViaProxy, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
+    connect(ui->rbAccessPreconfig, SIGNAL(clicked()),this, SLOT(on_btnSelectAcessRetriveUrl()));
 }
 
 /******************************************************************/
 
-void AccessMethodOptionsWidget::prepareToSave()
+void AccessMethodOptionsWidget::prepareToSave(QSettings *s)
 {
-    int AccessMethods = 0;
-            if (ui->rbAccessUseRegistry->isChecked()?1:0)
-                AccessMethods = 0;
-            else if (ui->rbAccessDirect->isChecked()?1:0)
-                AccessMethods = 1;
-            else if (ui->rbAccessViaProxy->isChecked()?1:0)
-                AccessMethods = 2;
-            else if (ui->rbAccessPreconfig->isChecked()?1:0)
-                AccessMethods = 3;
-
-   Settings::set(Settings::HostMon, Settings::AccessMethod) = QVariant(AccessMethods);
+    int idx = 0;
+    if (ui->rbAccessUseRegistry->isChecked())
+        idx = 0;
+    else if (ui->rbAccessDirect->isChecked())
+        idx = 1;
+    else if (ui->rbAccessViaProxy->isChecked())
+        idx = 2;
+    else if (ui->rbAccessPreconfig->isChecked())
+        idx = 3;
+    s->setValue(SKEY_HOSTMON_AccessMethod, idx);
 }
 
 /******************************************************************/

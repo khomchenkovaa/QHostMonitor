@@ -1,6 +1,6 @@
 #include "qPingWidget.h"
 #include "ui_qPingWidget.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include "method/tPing.h"
 
 namespace SDPO {
@@ -75,11 +75,12 @@ void PingWidget::reset(QVariant data)
     TMethod method = TMethod::tMethodList.at((int)TMethodID::Ping);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
+    QSettings s;
     ui->cmbPingHost->clearEditText();
     ui->chkPingDontFragment->setChecked(false);
-    ui->sbPingTimeout->setValue(Settings::get(Settings::Ping_Trace, Settings::Timeout, QVariant(0)).toInt());
-    ui->sbPingPacketSize->setValue(Settings::get(Settings::Ping_Trace, Settings::PacketSize, QVariant(0)).toInt());
-    ui->sbPingPackets->setValue(Settings::get(Settings::Ping_Trace, Settings::Packets, QVariant(1)).toInt());
+    ui->sbPingTimeout->setValue(s.value(SKEY_PING_Timeout,0).toInt());
+    ui->sbPingPacketSize->setValue(s.value(SKEY_PING_PacketSize,0).toInt());
+    ui->sbPingPackets->setValue(s.value(SKEY_PING_Packets,1).toInt());
     ui->rbPingDisplayTime->setChecked(true);
     ui->rbPingDisplayLost->setChecked(false);
     ui->rbPingDisplayReceived->setChecked(false);

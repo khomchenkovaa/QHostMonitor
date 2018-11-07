@@ -20,10 +20,9 @@ ServiceOptionsWidget::~ServiceOptionsWidget()
 }
 
 /******************************************************************/
-void ServiceOptionsWidget::init()
+void ServiceOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Service, Settings::Logon, QVariant(1));
-    if (value.toInt() == 1) {
+    if (s->value(SKEY_SERVICE_Logon,1).toInt() == 1) {
         ui->rbServiceLocalAccount->setChecked(true);
     } else {
         ui->rbServiceUseAccount->setChecked(true);
@@ -32,33 +31,26 @@ void ServiceOptionsWidget::init()
     connect(ui->rbServiceLocalAccount, SIGNAL(clicked()), this, SLOT(onLogOnAsChanged()));
     connect(ui->rbServiceUseAccount, SIGNAL(clicked()), this, SLOT(onLogOnAsChanged()));
 
-    value = Settings::get(Settings::Service, Settings::User, QVariant());
-        ui->editServiceUser->setText(value.toString());
+    ui->editServiceUser->setText(s->value(SKEY_SERVICE_User).toString());
+    ui->editServicePassword->setText(s->value(SKEY_SERVICE_Pswd).toString());
+    ui->spinServiceStartupDelay->setValue(s->value(SKEY_SERVICE_Delay,0).toInt());
 
-    value = Settings::get(Settings::Service, Settings::Pswd, QVariant());
-        ui->editServicePassword->setText(value.toString());
-
-    value = Settings::get(Settings::Service, Settings::Delay, QVariant(0));
-        ui->spinServiceStartupDelay->setValue(value.toInt());
-
-    value = Settings::get(Settings::Service, Settings::SaveMode, QVariant(1));
-    if (value.toInt() == 1) {
+    if (s->value(SKEY_SERVICE_SaveMode,1).toInt() == 1) {
         ui->rbServiceSaveInHML->setChecked(true);
     } else {
         ui->rbServiceDiscardChanges->setChecked(true);
     }
-
 }
 
 /******************************************************************/
 
-void ServiceOptionsWidget::prepareToSave()
+void ServiceOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Service, Settings::Logon) = QVariant(ui->rbServiceLocalAccount->isChecked()?1:0);
-    Settings::set(Settings::Service, Settings::User) = QVariant(ui->editServiceUser->text());
-    Settings::set(Settings::Service, Settings::Pswd) = QVariant(ui->editServicePassword->text());
-    Settings::set(Settings::Service, Settings::Delay) = QVariant(ui->spinServiceStartupDelay->value());
-    Settings::set(Settings::Service, Settings::SaveMode) = QVariant(ui->rbServiceSaveInHML->isChecked()?1:0);
+    s->setValue(SKEY_SERVICE_Logon,ui->rbServiceLocalAccount->isChecked()?1:0);
+    s->setValue(SKEY_SERVICE_User,ui->editServiceUser->text());
+    s->setValue(SKEY_SERVICE_Pswd,ui->editServicePassword->text());
+    s->setValue(SKEY_SERVICE_Delay,ui->spinServiceStartupDelay->value());
+    s->setValue(SKEY_SERVICE_SaveMode,ui->rbServiceSaveInHML->isChecked()?1:0);
 }
 
 /******************************************************************/

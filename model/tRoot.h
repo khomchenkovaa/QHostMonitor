@@ -29,7 +29,6 @@ public:
     int totalCnt() { return foldersCnt() + viewsCnt() + testsCnt(); }
 
 signals:
-    void newFolder(QString path, QString name);
     void newView(QString name);
     void newTest(TNode *test);
     void newLink(TNode *link);
@@ -42,7 +41,6 @@ signals:
     void testUpdated(TNode *test);
 
 public slots:
-    void addNode(TNode* parent, TNode* item);
     void removeNode(TNode* item);
     void removeLink(QString path, TTest* test);
     void removeLink(TNode *parent, TTest* test);

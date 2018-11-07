@@ -1,6 +1,5 @@
 #include "qCompareFilesWidget.h"
 #include "ui_qCompareFilesWidget.h"
-#include "mSettings.h"
 #include "global/tMethod.h"
 #include "method/tCompareFiles.h"
 #include <QFileDialog>
@@ -17,6 +16,12 @@ CompareFilesWidget::CompareFilesWidget(QWidget *parent) :
     connect(ui->editFirstFile, SIGNAL(textEdited(QString)), this, SIGNAL(propertiesChanged()));
     connect(ui->editSecondFile, SIGNAL(textEdited(QString)), this, SIGNAL(propertiesChanged()));
     connect(ui->cmbAlert, SIGNAL(currentIndexChanged(int)), this, SIGNAL(propertiesChanged()));
+
+    ui->cmbStringCoding->clear();
+    ui->cmbStringCoding->addItem("<Default>", 0);
+    foreach(QTextCodec *codec, findCodecs()) {
+        ui->cmbStringCoding->addItem(codec->name(), codec->mibEnum());
+    }
 }
 
 /*****************************************************************/
@@ -41,7 +46,12 @@ void CompareFilesWidget::init(TTestMethod *item)
     ui->editSecondFile->setText(test->getSecondFile());
     ui->chkSecondFile->setChecked(test->isTranslateSecondMacros());
     ui->cmbString->setCurrentText(test->getString());
-    ui->cmbStringCoding->setCurrentText(test->getStringCoding());
+    for(int i=0; i<ui->cmbStringCoding->count(); i++) {
+        if (ui->cmbStringCoding->itemData(i).toInt() == test->getCodecMibEnum()) {
+            ui->cmbStringCoding->setCurrentIndex(i);
+            break;
+        }
+    }
     ui->chkCompareTime->setChecked(test->isTime());
     ui->chkCompareSize->setChecked(test->isSize());
     ui->chkCompareContents->setChecked(test->isContents());
@@ -59,13 +69,13 @@ TTestMethod *CompareFilesWidget::save(TTestMethod *item)
     } else {
         test = new TCompareFiles();
     }
-    test->setAlertWhen(ui->cmbAlert->currentIndex());
+    test->setAlertWhen((TCompareFiles::AlertMode)ui->cmbAlert->currentIndex());
     test->setFirstFile(ui->editFirstFile->text());
     test->setTranslateFirstMacros(ui->chkFirstFile->isChecked());
     test->setSecondFile(ui->editSecondFile->text());
     test->setTranslateSecondMacros(ui->chkSecondFile->isChecked());
     test->setString(ui->cmbString->currentText());
-    test->setStringCoding(ui->cmbStringCoding->currentText());
+    test->setCodecMibEnum(ui->cmbStringCoding->itemData(ui->cmbStringCoding->currentIndex()).toInt());
     test->setTime(ui->chkCompareTime->isChecked());
     test->setSize(ui->chkCompareSize->isChecked());
     test->setContents(ui->chkCompareContents->isChecked());
@@ -92,6 +102,7 @@ void CompareFilesWidget::reset(QVariant data)
     ui->chkCompareTime->setChecked(false);
     ui->chkCompareSize->setChecked(false);
     ui->chkCompareContents->setChecked(false);
+    ui->cmbStringCoding->setCurrentIndex(0);
 }
 
 /******************************************************************/
@@ -184,6 +195,38 @@ void CompareFilesWidget::on_btnSecondFile_clicked()
     if (!fileName.isEmpty()) {
         ui->editSecondFile->setText(fileName);
     }
+}
+
+/******************************************************************/
+
+QList<QTextCodec *> CompareFilesWidget::findCodecs()
+{
+    QMap<QString, QTextCodec *> codecMap;
+    QRegExp iso8859RegExp("ISO[- ]8859-([0-9]+).*");
+
+    foreach (int mib, QTextCodec::availableMibs()) {
+        QTextCodec *codec = QTextCodec::codecForMib(mib);
+
+        QString sortKey = codec->name().toUpper();
+        int rank;
+
+        if (sortKey.startsWith("UTF-8")) {
+            rank = 1;
+        } else if (sortKey.startsWith("UTF-16")) {
+            rank = 2;
+        } else if (iso8859RegExp.exactMatch(sortKey)) {
+            if (iso8859RegExp.cap(1).size() == 1)
+                rank = 3;
+            else
+                rank = 4;
+        } else {
+            rank = 5;
+        }
+        sortKey.prepend(QChar('0' + rank));
+
+        codecMap.insert(sortKey, codec);
+    }
+   return codecMap.values();
 }
 
 /******************************************************************/

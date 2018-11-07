@@ -17,6 +17,8 @@ class ActionService : public QObject
 {
     Q_OBJECT
 
+    BOOL_PROPERTY(RunningState)
+
     HMListService *m_HML;
 public:
     explicit ActionService(HMListService *hml, QObject *parent = 0);

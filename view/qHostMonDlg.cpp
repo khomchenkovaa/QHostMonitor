@@ -12,23 +12,25 @@
 #include "qMethodSelectDlg.h"
 #include "qLinksList.h"
 #include "qMacroEditorDlg.h"
-#include "mSettings.h"
+#include "gSettings.h"
 #include "tEnums.h"
 #include "tTest.h"
+#include "tRoot.h"
+#include "hmListService.h"
 #include "global/gMacroTranslator.h"
 
 namespace SDPO {
 
 /******************************************************************/
 
-HostMonDlg::HostMonDlg(QWidget *parent) :
+HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HostMonDlg),
-    m_root(0),
-    editItem(0)
+    m_HML(hml),
+    m_Item(0)
 {
     ui->setupUi(this);
-    m_data = QVariant();
+    m_Data = QVariant();
     changed = false;
 
     connect(ui->btnTestMethod, SIGNAL(clicked()), this, SLOT(openMethodSelectDialog()));
@@ -59,13 +61,6 @@ HostMonDlg::~HostMonDlg()
 
 /******************************************************************/
 
-void HostMonDlg::setRootNode(TNode *root)
-{
-    m_root = root;
-}
-
-/******************************************************************/
-
 void HostMonDlg::on_btnOk_clicked()
 {
     TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
@@ -79,8 +74,8 @@ void HostMonDlg::on_btnOk_clicked()
         return;
     }
     TTestMethod* test;
-    if (editItem) {
-        test = editItem->test();
+    if (m_Item) {
+        test = m_Item->method();
     } else {
         test = 0;
     }
@@ -129,7 +124,7 @@ void HostMonDlg::reset()
     ui->cmbDependencyMode->setCurrentIndex(0);
     MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
     if (masterTests) {
-        masterTests->reset(m_root);
+        masterTests->reset(m_HML->rootFolder());
     }
     ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
     if (expressionTests) {
@@ -155,7 +150,7 @@ void HostMonDlg::reset()
     for (int i=0; i<ui->stwTestMethod->count(); ++i) {
         TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
         if (widget) {
-            widget->reset(m_data);
+            widget->reset(m_Data);
         }
     }
 }
@@ -225,30 +220,30 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
 {
     QString testName = getTestName().trimmed();
     bool isNew = true;
-    if (editItem) {
+    if (m_Item) {
         isNew = false;
     } else {
-        editItem = new TTest(testName);
+        m_Item = new TTest(m_HML->nextID(), testName);
     }
 
-    editItem->setTest(testMethod);
-    editItem->updateSpecificProperties();
+    m_Item->setTest(testMethod);
+    m_Item->updateSpecificProperties();
 
     // main
     if (!testName.isEmpty())  {
-        editItem->setName(testName);
+        m_Item->setName(testName);
         ui->cmbTestName->addItem(testName);
     }
     QString taskComment = getTestComment().trimmed();
-    if (!taskComment.isEmpty()) editItem->setComment(taskComment);
+    if (!taskComment.isEmpty()) m_Item->setComment(taskComment);
     QString relatedUrl = ui->cmbTestRelatedURL->currentText().trimmed();
     if (!relatedUrl.isEmpty()) {
-        editItem->setRelatedURL(relatedUrl);
+        m_Item->setRelatedURL(relatedUrl);
         ui->cmbTestRelatedURL->addItem(relatedUrl);
     }
     // schedule
     if (ui->btnScheduleRegular->isChecked()) {
-        editItem->setRegularSchedule((ui->sbScheduleHours->value() * 60 +
+        m_Item->setRegularSchedule((ui->sbScheduleHours->value() * 60 +
                       ui->sbScheduleMin->value()) * 60 +
                       ui->sbScheduleSec->value(),
                       ui->cmbSchedule->currentText());
@@ -257,12 +252,12 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
         int schedDay = 0;
         if (idx == 1) schedDay = ui->cmbSchedDayOfWeek->currentIndex();
         else if (idx == 2) schedDay = ui->cmbSchedDayOfMonth->currentIndex();
-        editItem->setIrregularSchedule(
+        m_Item->setIrregularSchedule(
                     idx,schedDay,
                     ui->timeSchedIrregular->time()
                     );
     } else if (ui->btnScheduleByExpression->isChecked()) {
-        editItem->setByExpressionSchedule(
+        m_Item->setByExpressionSchedule(
                     ui->cmbScheduleExpr1->currentText(),
                     ui->cmbScheduleExpr2->currentText());
     }
@@ -270,44 +265,44 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
     // alerts
     AlertsEditWidget *alerts = qobject_cast<AlertsEditWidget*>(ui->grpAlerts);
     if (alerts) {
-        alerts->save(editItem);
+        alerts->save(m_Item);
     }
 
     // Log & reports
     LogReportsEditWidget *logReports = qobject_cast<LogReportsEditWidget*>(ui->grpLogsReports);
     if (logReports) {
-        logReports->save(editItem);
+        logReports->save(m_Item);
     }
 
     // Master tests
-    editItem->setDependencyMode(ui->cmbDependencyMode->currentIndex());
+    m_Item->setDependencyMode(ui->cmbDependencyMode->currentIndex());
     MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
     if (masterTests) {
-        masterTests->save(editItem);
+        masterTests->save(m_Item);
     }
     ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
     if (expressionTests) {
-        expressionTests->save(editItem);
+        expressionTests->save(m_Item);
     }
-    editItem->setSynchronizeCounters(ui->chkSynchronizeCounters->isChecked());
-    editItem->setSynchronizeStatusAlerts(ui->chkSynchronizeStatusAlerts->isChecked());
+    m_Item->setSynchronizeCounters(ui->chkSynchronizeCounters->isChecked());
+    m_Item->setSynchronizeStatusAlerts(ui->chkSynchronizeStatusAlerts->isChecked());
 
     // optional
-    editItem->setReverseAlert(ui->chkReverseAlert->isChecked());
-    editItem->setUnknownIsBad(ui->chkUnknownIsBad->isChecked());
-    editItem->setWarningIsBad(ui->chkWarningIsBad->isChecked());
-    editItem->setUseWarningScript(ui->chkUseWarningIf->isChecked());
-    editItem->setUseNormalScript(ui->chkUseNormalIf->isChecked());
-    editItem->setTuneUpReply(ui->chkTuneUpReply->isChecked());
-    editItem->setWarningScript(ui->cmbWarningCondition->currentText());
-    editItem->setNormalScript(ui->cmbNormalCondition->currentText());
-    editItem->setTuneUpScript(ui->cmbReply->currentText());
-    editItem->setEnabled(ui->cmbEnabled->currentIndex() == 0);    
+    m_Item->setReverseAlert(ui->chkReverseAlert->isChecked());
+    m_Item->setUnknownIsBad(ui->chkUnknownIsBad->isChecked());
+    m_Item->setWarningIsBad(ui->chkWarningIsBad->isChecked());
+    m_Item->setUseWarningScript(ui->chkUseWarningIf->isChecked());
+    m_Item->setUseNormalScript(ui->chkUseNormalIf->isChecked());
+    m_Item->setTuneUpReply(ui->chkTuneUpReply->isChecked());
+    m_Item->setWarningScript(ui->cmbWarningCondition->currentText());
+    m_Item->setNormalScript(ui->cmbNormalCondition->currentText());
+    m_Item->setTuneUpScript(ui->cmbReply->currentText());
+    m_Item->setEnabled(ui->cmbEnabled->currentIndex() == 0);
 
     if (isNew) {
-        emit testAdded(editItem);
+        emit testAdded(m_Item);
     } else {
-        emit testChanged(editItem);
+        emit testChanged(m_Item);
     }
 }
 
@@ -396,102 +391,102 @@ bool HostMonDlg::eventFilter(QObject *watched, QEvent *event)
 
 void HostMonDlg::init(TTest *item)
 {
-    editItem = item;
-    if(!editItem) {
+    m_Item = item;
+    if(!m_Item) {
         init(TMethodID::Ping);
         return;
     }
     // main
-    ui->cmbTestMethod->setCurrentIndex(editItem->testMethodId());
-    ui->cmbTestName->setCurrentText(editItem->testName());
-    ui->ledTestComment->setText(editItem->getComment());
-    ui->cmbTestRelatedURL->setCurrentText(editItem->getRelatedURL());
+    ui->cmbTestMethod->setCurrentIndex(m_Item->testMethodId());
+    ui->cmbTestName->setCurrentText(m_Item->testName());
+    ui->ledTestComment->setText(m_Item->getComment());
+    ui->cmbTestRelatedURL->setCurrentText(m_Item->getRelatedURL());
 
     // schedule
-    int hours = editItem->interval()/(60*60); // hours
-    int min = (editItem->interval() - hours*60*60) / 60; // minutes
-    int sec = (editItem->interval() - hours*60*60 - min*60); // sec
-    switch( editItem->scheduleMode() ) {
+    int hours = m_Item->interval()/(60*60); // hours
+    int min = (m_Item->interval() - hours*60*60) / 60; // minutes
+    int sec = (m_Item->interval() - hours*60*60 - min*60); // sec
+    switch( m_Item->scheduleMode() ) {
     case 0: // Regular
         on_btnScheduleRegular_clicked();
         ui->sbScheduleHours->setValue(hours);
         ui->sbScheduleMin->setValue(min);
         ui->sbScheduleSec->setValue(sec);
-        ui->cmbSchedule->setCurrentText(editItem->scheduleName());
+        ui->cmbSchedule->setCurrentText(m_Item->scheduleName());
         break;
     case 1: // Irregular - OneTestPerDay
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(0);
         on_cmbSchedIrregularMode_currentIndexChanged(0);
-        ui->timeSchedIrregular->setTime(editItem->scheduleTime());
+        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
         break;
     case 2: // Irregular - OneTestPerWeek
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(1);
         on_cmbSchedIrregularMode_currentIndexChanged(1);
-        ui->cmbSchedDayOfWeek->setCurrentIndex(editItem->scheduleDay());
-        ui->timeSchedIrregular->setTime(editItem->scheduleTime());
+        ui->cmbSchedDayOfWeek->setCurrentIndex(m_Item->scheduleDay());
+        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
         break;
     case 3: // Irregular - OneTestPerMonth
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(2);
         on_cmbSchedIrregularMode_currentIndexChanged(2);
-        ui->cmbSchedDayOfMonth->setCurrentIndex(editItem->scheduleDay());
-        ui->timeSchedIrregular->setTime(editItem->scheduleTime());
+        ui->cmbSchedDayOfMonth->setCurrentIndex(m_Item->scheduleDay());
+        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
         break;
     case 4: // By Expression
         on_btnScheduleByExpression_clicked();
-        ui->cmbScheduleExpr1->setCurrentText(editItem->scheduleExpr1());
-        ui->cmbScheduleExpr2->setCurrentText(editItem->scheduleExpr2());
+        ui->cmbScheduleExpr1->setCurrentText(m_Item->scheduleExpr1());
+        ui->cmbScheduleExpr2->setCurrentText(m_Item->scheduleExpr2());
         break;
     }
 
     // alerts
     AlertsEditWidget *alerts = qobject_cast<AlertsEditWidget*>(ui->grpAlerts);
     if (alerts) {
-        alerts->init(editItem);
+        alerts->init(m_Item);
     }
 
     // Log & reports
     LogReportsEditWidget *logReports = qobject_cast<LogReportsEditWidget*>(ui->grpLogsReports);
     if (logReports) {
-        logReports->init(editItem);
+        logReports->init(m_Item);
     }
 
     // Master tests
-    ui->cmbDependencyMode->setCurrentIndex(editItem->getDependencyMode());
+    ui->cmbDependencyMode->setCurrentIndex(m_Item->getDependencyMode());
     MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
     if (masterTests) {
-        masterTests->init(editItem);
+        masterTests->init(m_Item);
     }
     ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
     if (expressionTests) {
-        expressionTests->init(editItem);
+        expressionTests->init(m_Item);
     }
-    ui->chkSynchronizeCounters->setChecked(editItem->isSynchronizeCounters());
-    ui->chkSynchronizeStatusAlerts->setChecked(editItem->isSynchronizeStatusAlerts());
+    ui->chkSynchronizeCounters->setChecked(m_Item->isSynchronizeCounters());
+    ui->chkSynchronizeStatusAlerts->setChecked(m_Item->isSynchronizeStatusAlerts());
     ui->treeDependentTests->clear(); //! TODO
 
     // optional
-    ui->cmbEnabled->setCurrentIndex(editItem->isEnabled()?0:1);
-    ui->chkReverseAlert->setChecked(editItem->isReverseAlert());
-    ui->chkUnknownIsBad->setChecked(editItem->isUnknownIsBad());
-    ui->chkWarningIsBad->setChecked(editItem->isWarningIsBad());
-    ui->chkUseWarningIf->setChecked(editItem->isUseWarningScript());
-    ui->chkUseNormalIf->setChecked(editItem->isUseNormalScript());
-    ui->chkTuneUpReply->setChecked(editItem->isTuneUpReply());
-    ui->cmbWarningCondition->setCurrentText(editItem->getWarningScript());
-    ui->cmbNormalCondition->setCurrentText(editItem->getNormalScript());
-    ui->cmbReply->setCurrentText(editItem->getTuneUpScript());
-    ui->btnLinks->setVisible(editItem->linkCount() > 0);
+    ui->cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);
+    ui->chkReverseAlert->setChecked(m_Item->isReverseAlert());
+    ui->chkUnknownIsBad->setChecked(m_Item->isUnknownIsBad());
+    ui->chkWarningIsBad->setChecked(m_Item->isWarningIsBad());
+    ui->chkUseWarningIf->setChecked(m_Item->isUseWarningScript());
+    ui->chkUseNormalIf->setChecked(m_Item->isUseNormalScript());
+    ui->chkTuneUpReply->setChecked(m_Item->isTuneUpReply());
+    ui->cmbWarningCondition->setCurrentText(m_Item->getWarningScript());
+    ui->cmbNormalCondition->setCurrentText(m_Item->getNormalScript());
+    ui->cmbReply->setCurrentText(m_Item->getTuneUpScript());
+    ui->btnLinks->setVisible(m_Item->linkCount() > 0);
 
     emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
 
     TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
     if (widget) {
-        widget->init(editItem->test());
-        widget->setNamePattern(editItem->test()->getNamePattern());
-        widget->setCommentPattern(editItem->test()->getCommentPattern());
+        widget->init(m_Item->method());
+        widget->setNamePattern(m_Item->method()->getNamePattern());
+        widget->setCommentPattern(m_Item->method()->getCommentPattern());
         refreshName();
         refreshComment();
     }
@@ -501,8 +496,8 @@ void HostMonDlg::init(TTest *item)
 
 void HostMonDlg::init(TMethodID method, QVariant data)
 {
-    editItem = 0;
-    m_data = data;
+    m_Item = 0;
+    m_Data = data;
     reset();
     ui->cmbTestMethod->setCurrentIndex((int)method);
     emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
@@ -512,10 +507,10 @@ void HostMonDlg::init(TMethodID method, QVariant data)
 
 void HostMonDlg::on_btnLinks_clicked()
 {
-    if (!editItem) return;
-    if (editItem->linkCount() == 0) return;
+    if (!m_Item) return;
+    if (m_Item->linkCount() == 0) return;
 
-    LinksList linksDlg(editItem);
+    LinksList linksDlg(m_Item);
     linksDlg.setReadOnly();
     linksDlg.exec();
 }

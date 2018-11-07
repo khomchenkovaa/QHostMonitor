@@ -22,10 +22,8 @@ TFileExists::TFileExists(QObject *parent) :
 
 void TFileExists::run()
 {
-    TestStatus newStatus = TestStatus::Ok;
-    int newReplyInt = 0;
-    float newReplyFloat = 0;
-    QString newReply = QString();
+    TTestResult result;
+    result.status = TestStatus::Ok;
 
     QFileInfo fileInfo(a_FileName);
     bool fileExists = fileInfo.exists();
@@ -33,31 +31,28 @@ void TFileExists::run()
 
     if (b_FileExistsCriteria) { // Alert: file exists AND time criteria
         if (fileExists) {
-            newStatus = TestStatus::Bad;
+            result.status = TestStatus::Bad;
             if (b_FileOlderFlag && fileAge < a_FileOlderValue) {
-                newStatus = TestStatus::Ok;
+                result.status = TestStatus::Ok;
             }
             if (b_FileNewerFlag && fileAge > a_FileNewerValue) {
-                newStatus = TestStatus::Ok;
+                result.status = TestStatus::Ok;
             }
         }
     } else { // Alert: file does't exists OR time criteria
         if (!fileExists) {
-            newStatus = TestStatus::Bad;
+            result.status = TestStatus::Bad;
         } else {
             if (b_FileOlderFlag && fileAge > a_FileOlderValue) {
-                newStatus = TestStatus::Bad;
+                result.status = TestStatus::Bad;
             }
             if (b_FileNewerFlag && fileAge < a_FileNewerValue) {
-                newStatus = TestStatus::Bad;
+                result.status = TestStatus::Bad;
             }
         }
     }
 
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
 
     emit testSuccess();
 }
@@ -69,7 +64,6 @@ TTestMethod *TFileExists::clone()
     TFileExists *result = new TFileExists(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_FileName = a_FileName;
     result->b_TranslateMacros = b_TranslateMacros;

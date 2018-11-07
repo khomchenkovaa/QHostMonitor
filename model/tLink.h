@@ -13,7 +13,7 @@ class TLink : public TNode
 
     TTest *m_test;
 public:
-    explicit TLink(TTest *test, QObject *parent = 0);
+    explicit TLink(const int id, TTest *test, QObject *parent = 0);
 
     QVariant property(QString name) const Q_DECL_OVERRIDE;
     virtual QVariant getGlobal(Macro::Variable globalVar) const;

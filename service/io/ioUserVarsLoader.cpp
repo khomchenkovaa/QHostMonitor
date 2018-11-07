@@ -1,5 +1,5 @@
 #include "ioUserVarsLoader.h"
-#include "gUserVars.h"
+#include "global/gUserVars.h"
 #include <QDebug>
 
 namespace SDPO {

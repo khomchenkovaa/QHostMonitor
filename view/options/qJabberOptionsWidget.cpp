@@ -43,53 +43,36 @@ void JabberOptionsWidget::on_btnSwitchJabberAccount_clicked()
 
 /******************************************************************/
 
-void JabberOptionsWidget::init()
+void JabberOptionsWidget::init(QSettings *s)
 {
-    QVariant value = Settings::get(Settings::Jabber, Settings::PrimaryLoginServer, QVariant("jabber.org"));
-        ui->editPrimaryLoginServer->setText(value.toString());
+    ui->editPrimaryLoginServer->setText(s->value(SKEY_JABBER_PrimaryLoginServer, "jabber.org").toString());
+    ui->editPrimaryJabberID->setText(s->value(SKEY_JABBER_PrimaryUserName).toString());
+    ui->editPrimaryPassword->setText(s->value(SKEY_JABBER_PrimaryPswd).toString());
+    ui->cmbPrimarySslTls->setCurrentIndex(s->value(SKEY_JABBER_PrimarySslMode,0).toInt());
+    ui->spinPrimaryTcpPort->setValue(s->value(SKEY_JABBER_PrimaryLoginPort,5222).toInt());
 
-    value = Settings::get(Settings::Jabber, Settings::PrimaryUserName, QVariant());
-        ui->editPrimaryJabberID->setText(value.toString());
-
-    value = Settings::get(Settings::Jabber, Settings::PrimaryPswd, QVariant());
-        ui->editPrimaryPassword->setText(value.toString());
-
-    value = Settings::get(Settings::Jabber, Settings::PrimarySSLMode, QVariant(0));
-        ui->cmbPrimarySslTls->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Jabber, Settings::PrimaryLoginPort, QVariant(5222));
-        ui->spinPrimaryTcpPort->setValue(value.toInt());
-
-    value = Settings::get(Settings::Jabber, Settings::BackupLoginServer, QVariant("jabber.org"));
-        ui->editBackupLoginServer->setText(value.toString());
-
-    value = Settings::get(Settings::Jabber, Settings::BackupUserName, QVariant());
-        ui->editBackupJabberID->setText(value.toString());
-
-    value = Settings::get(Settings::Jabber, Settings::BackupPswd, QVariant());
-        ui->editBackupPassword->setText(value.toString());
-
-    value = Settings::get(Settings::Jabber, Settings::BackupSSLMode, QVariant(0));
-        ui->cmbBackupSslTls->setCurrentIndex(value.toInt());
-
-    value = Settings::get(Settings::Jabber, Settings::BackupLoginPort, QVariant(5222));
-        ui->spinBackupTcpPort->setValue(value.toInt());
+    ui->editBackupLoginServer->setText(s->value(SKEY_JABBER_BackupLoginServer, "jabber.org").toString());
+    ui->editBackupJabberID->setText(s->value(SKEY_JABBER_BackupUserName).toString());
+    ui->editBackupPassword->setText(s->value(SKEY_JABBER_BackupPswd).toString());
+    ui->cmbBackupSslTls->setCurrentIndex(s->value(SKEY_JABBER_BackupSslMode,0).toInt());
+    ui->spinBackupTcpPort->setValue(s->value(SKEY_JABBER_BackupLoginPort,5222).toInt());
 }
 
 /******************************************************************/
 
-void JabberOptionsWidget::prepareToSave()
+void JabberOptionsWidget::prepareToSave(QSettings *s)
 {
-    Settings::set(Settings::Jabber, Settings::PrimaryLoginServer) = QVariant(ui->editPrimaryLoginServer->text());
-    Settings::set(Settings::Jabber, Settings::PrimaryUserName) = QVariant(ui->editPrimaryJabberID->text());
-    Settings::set(Settings::Jabber, Settings::PrimaryPswd) = QVariant(ui->editPrimaryPassword->text());
-    Settings::set(Settings::Jabber, Settings::PrimarySSLMode) = QVariant(ui->cmbPrimarySslTls->currentIndex());
-    Settings::set(Settings::Jabber, Settings::PrimaryLoginPort) = QVariant(ui->spinPrimaryTcpPort->value());
-    Settings::set(Settings::Jabber, Settings::BackupLoginServer) = QVariant(ui->editBackupLoginServer->text());
-    Settings::set(Settings::Jabber, Settings::BackupUserName) = QVariant(ui->editBackupJabberID->text());
-    Settings::set(Settings::Jabber, Settings::BackupPswd) = QVariant(ui->editBackupPassword->text());
-    Settings::set(Settings::Jabber, Settings::BackupSSLMode) = QVariant(ui->cmbBackupSslTls->currentIndex());
-    Settings::set(Settings::Jabber, Settings::BackupLoginPort) = QVariant(ui->spinBackupTcpPort->value());
+    s->setValue(SKEY_JABBER_PrimaryLoginServer, ui->editPrimaryLoginServer->text());
+    s->setValue(SKEY_JABBER_PrimaryUserName, ui->editPrimaryJabberID->text());
+    s->setValue(SKEY_JABBER_PrimaryPswd, ui->editPrimaryPassword->text());
+    s->setValue(SKEY_JABBER_PrimarySslMode, ui->cmbPrimarySslTls->currentIndex());
+    s->setValue(SKEY_JABBER_PrimaryLoginPort, ui->spinPrimaryTcpPort->value());
+
+    s->setValue(SKEY_JABBER_BackupLoginServer, ui->editBackupLoginServer->text());
+    s->setValue(SKEY_JABBER_BackupUserName, ui->editBackupJabberID->text());
+    s->setValue(SKEY_JABBER_BackupPswd, ui->editBackupPassword->text());
+    s->setValue(SKEY_JABBER_BackupSslMode, ui->cmbBackupSslTls->currentIndex());
+    s->setValue(SKEY_JABBER_BackupLoginPort, ui->spinBackupTcpPort->value());
 }
 
 /******************************************************************/

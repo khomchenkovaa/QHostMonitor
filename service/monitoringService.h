@@ -15,7 +15,7 @@ class MonitoringService : public QObject
 {
     Q_OBJECT
 
-    BOOL_PROPERTY(Paused)
+    BOOL_PROPERTY(RunningState)
 
 public:
     explicit MonitoringService(int threadCount = QThread::idealThreadCount(), QObject *parent = 0);

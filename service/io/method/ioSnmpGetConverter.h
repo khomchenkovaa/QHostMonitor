@@ -3,12 +3,16 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_AGENT     = QStringLiteral("Agent");
-static QString SP_COMMUNITY = QStringLiteral("Community");
-static QString SP_OID       = QStringLiteral("OID");
+#define SP_AGENT     "Agent"
+#define SP_COMMUNITY "Community"
+#define SP_TIMEOUT   "Timeout"
+#define SP_RETRIES   "Retries"
+#define SP_OID       "OID"
+#define SP_VALUE     "Value"
+#define SP_CONDITION "Condition"
+
+namespace SDPO {
 
 class IOSnmpGetConverter : public IOTestMethodConverter
 {

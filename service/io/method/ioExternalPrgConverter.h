@@ -3,13 +3,14 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 //Specific parameters
-static QString SP_COMMANDLINE = QStringLiteral("CommandLine");
-static QString SP_ERRORLEVEL  = QStringLiteral("ErrorLevel");
-static QString SP_KILLAFTER   = QStringLiteral("KillAfter");
-static QString SP_WINDOWMODE  = QStringLiteral("WindowMode");
+#define SP_COMMANDLINE "CommandLine"
+#define SP_ERRORLEVEL  "ErrorLevel"
+#define SP_CONDITION   "Condition"
+#define SP_KILLAFTER   "KillAfter"
+#define SP_WINDOWMODE  "WindowMode"
+
+namespace SDPO {
 
 class IOExternalPrgConverter : public IOTestMethodConverter
 {

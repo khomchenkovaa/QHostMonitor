@@ -21,7 +21,7 @@ TDominantProcess::TDominantProcess(QObject *parent) :
 
 void TDominantProcess::run()
 {
-    m_Status = TestStatus::Ok;
+    m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }
 
@@ -32,7 +32,6 @@ TTestMethod *TDominantProcess::clone()
     TDominantProcess *result = new TDominantProcess(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_CheckProcessesOn = a_CheckProcessesOn;
     result->a_ExcludeProcesses = a_ExcludeProcesses;

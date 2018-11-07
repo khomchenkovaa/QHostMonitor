@@ -22,11 +22,11 @@ TSnmpGet::TSnmpGet(QObject *parent) :
 
 void TSnmpGet::run()
 {
-    clearResult();
+    m_Result.clear();
 
     QString command = getCommand();
     if (command.isEmpty()) {
-        m_ErrorString = "Command is empty";
+        m_Result.error = "Command is empty";
         emit testFailed();
         return;
     }
@@ -37,13 +37,13 @@ void TSnmpGet::run()
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(command);
     if (!process.waitForStarted()) {
-        m_Reply = getTestedObjectInfo() + " can not start";
+        m_Result.reply = getTestedObjectInfo() + " can not start";
         process.close();
         emit testFailed();
         return;
     }
     if(!process.waitForFinished()) {
-        m_Reply = getTestedObjectInfo() + " terminated";
+        m_Result.reply = getTestedObjectInfo() + " terminated";
         process.close();
         emit testFailed();
         return;
@@ -52,7 +52,7 @@ void TSnmpGet::run()
         parseResult(process.readAll().trimmed());
         emit testSuccess();
     } else {
-        m_ErrorString = process.errorString();
+        m_Result.error = process.errorString();
         emit testFailed();
     }
 }
@@ -75,8 +75,9 @@ QString TSnmpGet::getCommand() const
 
 void TSnmpGet::parseResult(QString data)
 {
+    TTestResult result;
     QString oidName = data.trimmed();
-    QString newReply = data.trimmed();
+    result.reply = oidName;
 //    qDebug() << "SNMP Get data:" << data;
     int idx = data.indexOf(" = ");
     if (idx != -1) {
@@ -94,67 +95,66 @@ void TSnmpGet::parseResult(QString data)
         } else {
             a_MibName = oidName;
         }
-        newReply = newReply.mid(idx + 3);
-        newReply = newReply.mid(newReply.indexOf(": ") + 2);
+        result.reply = result.reply.mid(idx + 3);
+        result.reply = result.reply.mid(result.reply.indexOf(": ") + 2);
     }
 
     bool isFloat = true;
-    float newReplyFloat = data.toFloat(&isFloat);
+    result.replyDouble = data.toFloat(&isFloat);
     float valueAsFloat = isFloat? a_Value.toFloat(&isFloat) : 0.0;
     bool isInt = true;
-    int newReplyInt = data.toInt(&isInt);
+    result.replyInt = data.toInt(&isInt);
     int valueAsInt = isInt? a_Value.toInt(&isInt) : 0;
 //    qDebug() << "Float:" << newReplyFloat << "Int:" << newReplyInt;
-    TestStatus newStatus = TestStatus::Unknown;
 
     switch (a_Condition) {
     case Condition::LessThan:
         if (isFloat) {
-            newStatus = (newReplyFloat < valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.replyDouble < valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
         } else if (isInt) {
-            newStatus = (newReplyInt < valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.replyInt < valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         } else {
-            newStatus = (newReply.compare(a_Value) < 0)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.reply.compare(a_Value) < 0)? TestStatus::Bad : TestStatus::Ok;
         }
         break;
     case Condition::MoreThan:
         if (isFloat) {
-            newStatus = (newReplyFloat > valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.replyDouble > valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
         } else if (isInt) {
-            newStatus = (newReplyInt > valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.replyInt > valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         } else {
-            newStatus = (newReply.compare(a_Value) > 0)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.reply.compare(a_Value) > 0)? TestStatus::Bad : TestStatus::Ok;
         }
         break;
     case Condition::EqualTo:
-        newStatus = (newReply.compare(a_Value) == 0)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.compare(a_Value) == 0)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DifferentFrom:
-        newStatus = (newReply.compare(a_Value) != 0)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.compare(a_Value) != 0)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::Contain:
-        newStatus = (newReply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::NotContain:
-        newStatus = (!newReply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
+        result.status = (!result.reply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncreaseBy:
-        newStatus = (newReplyInt + valueAsInt >= getReplyInt())? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.replyInt + valueAsInt >= m_Result.replyInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DecreaseBy:
-        newStatus = (newReplyInt + valueAsInt <= getReplyInt())? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.replyInt + valueAsInt <= m_Result.replyInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::ChangeBy:
-        newStatus = (qAbs(newReplyInt-getReplyInt()) >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (qAbs(result.replyInt-m_Result.replyInt) >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncByPercent:
-        newStatus = (100*(newReplyInt-getReplyInt())/getReplyInt() >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*(result.replyInt-m_Result.replyInt)/m_Result.replyInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DecByPercent:
-        newStatus = (100*(newReplyInt-getReplyInt())/getReplyInt() <= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*(result.replyInt-m_Result.replyInt)/m_Result.replyInt <= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::ChangeByPercent:
-        newStatus = (100*qAbs(newReplyInt-getReplyInt())/getReplyInt() >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*qAbs(result.replyInt-m_Result.replyInt)/m_Result.replyInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncSec:
         // TODO "Bad" status when average increase of the counter (per second) is greater than the specified limit
@@ -169,10 +169,7 @@ void TSnmpGet::parseResult(QString data)
         // abs(new value - old value)/elapsed time >= specified limit
         break;
     }
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
 }
 
 /******************************************************************/
@@ -182,7 +179,6 @@ TTestMethod *TSnmpGet::clone()
     TSnmpGet *result = new TSnmpGet(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Host = a_Host;
     result->a_Community = a_Community;

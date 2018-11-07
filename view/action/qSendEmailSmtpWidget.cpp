@@ -4,7 +4,7 @@
 #include "qOptionsForm.h"
 #include "action/tSendEmailSmtpAction.h"
 #include "gData.h"
-#include "global/ioMailProfileLoader.h"
+#include "io/ioMailProfileLoader.h"
 #include "qMailProfilesDlg.h"
 #include <QFileDialog>
 

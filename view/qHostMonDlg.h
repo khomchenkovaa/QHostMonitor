@@ -16,15 +16,22 @@ namespace SDPO {
 class TNode;
 class TTest;
 class TTestMethod;
+class HMListService;
 
 class HostMonDlg : public QDialog
 {
     Q_OBJECT
 
+    Ui::HostMonDlg *ui;
+    HMListService  *m_HML;
+    TTest          *m_Item;
+    QVariant        m_Data;
+    bool            changed;
+
 public:
-    explicit HostMonDlg(QWidget *parent = 0);
+    explicit HostMonDlg(HMListService *hml, QWidget *parent = 0);
     ~HostMonDlg();
-    void setRootNode(TNode *root);
+
 signals:
     void testAdded(TTest *test);
     void testChanged(TTest *test);
@@ -52,12 +59,6 @@ private slots:
     void on_btnTuneUpReply_clicked();
 
 private:
-    Ui::HostMonDlg *ui;
-    TNode *m_root;
-    TTest *editItem;
-    QVariant m_data;
-    bool changed;
-
     void saveTest(TTestMethod *testMethod);
     QString getTestName() const;
     QString getTestComment() const;

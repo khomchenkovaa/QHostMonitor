@@ -21,7 +21,7 @@ TFolderSize::TFolderSize(QObject *parent) :
 
 void TFolderSize::run()
 {
-    TestStatus newStatus = TestStatus::Unknown;
+    TTestResult result;
 
     qint64 folderSize = diskUsage(a_Path); // bytes
     if (a_Dimension.startsWith("K")) { // KB
@@ -32,20 +32,17 @@ void TFolderSize::run()
         folderSize = folderSize / 1024 / 1024 / 1024;
     }
 
-    int newReplyInt = (int)folderSize;
-    float newReplyFloat = folderSize;
-    QString newReply = QString::number(folderSize) + a_Dimension;
+    result.replyInt = (int)folderSize;
+    result.replyDouble = folderSize;
+    result.reply = QString::number(folderSize) + a_Dimension;
 
     if (folderSize > a_MaxSize) {
-        newStatus = TestStatus::Bad;
+        result.status = TestStatus::Bad;
     } else {
-        newStatus = TestStatus::Ok;
+        result.status = TestStatus::Ok;
     }
 
-    m_Status = newStatus;
-    m_Reply = newReply;
-    m_ReplyDouble = newReplyFloat;
-    m_ReplyInt = newReplyInt;
+    m_Result = result;
 
     emit testSuccess();
 }
@@ -57,7 +54,6 @@ TTestMethod *TFolderSize::clone()
     TFolderSize *result = new TFolderSize(parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
-    result->clearResult();
     // test specific
     result->a_Path = a_Path;
     result->b_IncludeSubfolders = b_IncludeSubfolders;

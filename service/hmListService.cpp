@@ -1,5 +1,6 @@
 #include "hmListService.h"
 #include "io/ioTextFile.h"
+#include "io/ioHMList.h"
 
 #include <QDebug>
 
@@ -10,11 +11,7 @@ namespace SDPO {
 HMListService::HMListService(QObject *parent) :
     QObject(parent),
     m_Root(new TRoot()),
-    m_GUID(QUuid::createUuid()),
-    m_Modified(false),
-    m_FileName(QString()),
-    m_FileSize(0),
-    m_StoreHistoricalData(true)
+    m_CurFolder(m_Root->rootFolder())
 {
 }
 
@@ -23,7 +20,36 @@ HMListService::HMListService(QObject *parent) :
 HMListService::~HMListService()
 {
     Utils::DestructorMsg(this);
+    m_CurFolder = 0;
     m_Root->deleteLater();
+}
+
+/******************************************************************/
+
+void HMListService::addNode(TNode *parent, TNode *item)
+{
+    if (item->getType() == TNode::ROOT) return;
+    parent->appendChild(item);
+    switch (item->getType()) {
+    case TNode::FOLDER :
+        emit folderAdded(item);
+        break;
+    case TNode::VIEW :
+        //! TODO fill view
+        emit viewAdded(item);
+        break;
+    case TNode::TEST :
+        //! TODO update views
+        connect(item,SIGNAL(readyRun(TNode*)),m_Root,SIGNAL(readyRun(TNode*)));
+        connect(item,SIGNAL(testDone(TNode*)),m_Root,SIGNAL(testUpdated(TNode*)));
+        emit testAdded(item);
+        break;
+    case TNode::LINK :
+        emit linkAdded(item);
+        break;
+    default: break;
+    }
+    m_Info.modified = true;
 }
 
 /******************************************************************/
@@ -34,11 +60,8 @@ bool HMListService::cmdNewTestList()
     delete m_Root;
 
     m_Root = new TRoot();
-    m_GUID = QUuid::createUuid();
-    m_Modified = false;
-    m_FileName.clear();
-    m_FileSize = 0;
-    m_StoreHistoricalData = true;
+    m_CurFolder = m_Root->rootFolder();
+    m_Info.clear();
 
     emit modelChanged();
     return true;
@@ -48,9 +71,22 @@ bool HMListService::cmdNewTestList()
 
 bool HMListService::cmdLoadTestList(QString fileName)
 {
-    m_FileName = fileName;
-    qDebug() << "TODO: cmdLoadTestList" << fileName;
-    return true;
+    IOHMList loader(this,fileName);
+    emit modelAboutToChange();
+
+    delete m_Root;
+    m_Root = new TRoot();
+
+    bool result = loader.load();\
+    if (result) {
+        m_Info.fileName = fileName;
+        m_Info.fileSize = QFile(fileName).size();
+    }
+    m_Info.modified = false;
+
+    emit modelChanged();
+
+    return result;
 }
 
 /******************************************************************/
@@ -82,13 +118,20 @@ bool HMListService::cmdImportFromFile(QString fileName, bool skipDuplicates, boo
 bool HMListService::cmdSaveTestList(QString fileName)
 {
     if (fileName.isEmpty()) {
-        fileName = m_FileName;
+        fileName = m_Info.fileName;
     }
     if (fileName.isEmpty()) {
         return false;
     }
-    qDebug() << "TODO: cmdSaveTestList" << fileName;
-    return true;
+    IOHMList saver(this, fileName);
+    bool result = saver.save();
+    if (result) {
+        m_Info.fileName = fileName;
+        m_Info.fileSize = QFile(fileName).size();
+        m_Info.modified = false;
+    }
+
+    return result;
 }
 
 /******************************************************************/
@@ -121,12 +164,70 @@ TNode *HMListService::cmdCreateFolder(QString path)
         }
         TNode *tmpNode = node->findChild(folderName);
         if (!tmpNode) {
-            tmpNode = new TFolder(folderName);
-            m_Root->addNode(node,tmpNode);
+            tmpNode = new TFolder(nextID(),folderName);
+            addNode(node,tmpNode);
         }
         node = tmpNode;
     }
     return node;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetFolderVariable(TNode *folder, QString varName, QString varValue, bool inheritPartly)
+{
+    qDebug() << "TODO: cmdSetFolderVariable" << folder->getName() << varName << varValue << inheritPartly;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetFolderAgent(TNode *folder, QString agentName, bool unlessInherited)
+{
+    qDebug() << "TODO: cmdSetFolderAgent" << folder->getName() << agentName << unlessInherited;
+    return true;
+}
+
+/******************************************************************/
+
+void HMListService::cmdAlertsEnable()
+{
+    emit alertsEnabled(true);
+}
+
+/******************************************************************/
+
+void HMListService::cmdAlertsDisable()
+{
+    emit alertsEnabled(false);
+}
+
+/******************************************************************/
+
+void HMListService::cmdAlertsPause(int interval)
+{
+    Q_UNUSED(interval);
+}
+
+/******************************************************************/
+
+void HMListService::cmdMonitoringStart()
+{
+    emit monitoringStarted(true);
+}
+
+/******************************************************************/
+
+void HMListService::cmdMonitoringStop()
+{
+    emit monitoringStarted(false);
+}
+
+/******************************************************************/
+
+void HMListService::cmdMonitoringPause(int interval)
+{
+    Q_UNUSED(interval);
 }
 
 /******************************************************************/

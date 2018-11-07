@@ -25,18 +25,15 @@ private slots:
     void on_optionsTree_currentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
     void on_backButton_clicked();
     void on_nextButton_clicked();
-    void on_PageControl_tabBarClicked(int index);
-    void on_FinishCancelHelpBtn_accepted();
 
 public slots:
     void setCurrentPage(const int idx);
-
-private:
-    Ui::OptionsForm *ui;
-
     void init();
     void prepareToSave();
     void selectOptionsTreeItem(const int idx);
+
+private:
+    Ui::OptionsForm *ui;
 };
 
 } // namespace SDPO

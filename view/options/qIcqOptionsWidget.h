@@ -17,8 +17,8 @@ public:
     explicit IcqOptionsWidget(QWidget *parent = 0);
     ~IcqOptionsWidget();
 
-    virtual void init() Q_DECL_OVERRIDE;
-    virtual void prepareToSave() Q_DECL_OVERRIDE;
+    virtual void init(QSettings *s);
+    virtual void prepareToSave(QSettings *s);
 
     private slots:
         void on_btnIcqAccountsSwitch_clicked();

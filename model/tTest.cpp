@@ -4,6 +4,7 @@
 #include "global/gUserVars.h"
 #include "global/gMacroTranslator.h"
 #include <QScriptEngine>
+#include <QDebug>
 
 namespace SDPO {
 
@@ -13,11 +14,11 @@ int TTest::failureCount = 0;
 
 /***********************************************/
 
-TTest::TTest(const QString &name, QObject *parent) :
-    TNode(name, TNode::TEST, parent),
+TTest::TTest(const int id, const QString &name, QObject *parent) :
+    TNode(id, name, TNode::TEST, parent),
     m_schedule(* new TSchedule())
 {
-    m_test = new TTestMethod(TMethodID::Empty);
+    m_TMethod = new TTestMethod(TMethodID::Empty);
 
     setEnabled(true);
     setPaused(false);
@@ -56,7 +57,7 @@ TTest::~TTest()
     delete &m_schedule;
     m_links.clear();
     delete m_agent;
-    delete m_test;
+    delete m_TMethod;
 }
 
 /***********************************************/
@@ -111,114 +112,68 @@ QVariant TTest::getGlobal(Macro::Variable globalVar) const
 void TTest::onTestPerformed()
 {
     // 1. (perform the test)
+    TTestResult testResult = m_TMethod->getResult();
+
     // 2. process "Reverse alert" option
-    TestStatus newStatus = processReverseAlertOption(m_test->getStatus());
+    if(b_ReverseAlert) {
+        testResult.reverse();
+    }
 
     // 3. set “suggested” macro variables (%SuggestedStatus%, %SuggestedSimpleStatus%, %SuggestedReply%,  %SuggestedRecurrences% and %FailureIteration%)
     // without touching regular counters (%Status%, %Reply%, %Recurrences%, etc);
-    setSuggestedVars(newStatus);
+    setSuggestedVars(testResult);
 
     // 4. check "Warning" and "Normal" expressions
-    newStatus = processUserStatusExpressions(newStatus);
+    processUserStatusExpressions(testResult);
 
     // 5. process “Tune up Reply” option
-    QString newReply = tuneUpReply(m_test->getReply());
+    tuneUpReply(testResult);
 
     // 6. modify current test status and statistisc counters (Status, Reply, Alive%, Passed tests, Failed tests, etc)
-    dynamicStatistics(newStatus, newReply, m_test->getReplyDouble(), m_test->getReplyInt());
+    dynamicStatistics(testResult);
 
-    m_schedule.start();
+    restart();
     emit testDone(this);
 }
 
 /******************************************************************/
 
-TestStatus TTest::processReverseAlertOption(const TestStatus originalStatus) const
+void TTest::restart()
 {
-    TestStatus result = originalStatus;
-    if(isReverseAlert()) {
-        switch (originalStatus) {
-        case TestStatus::HostAlive:   result = TestStatus::Bad; break;
-        case TestStatus::NoAnswer:    result = TestStatus::Ok;  break;
-        case TestStatus::Ok:          result = TestStatus::Bad; break;
-        case TestStatus::Bad:         result = TestStatus::Ok;  break;
-        case TestStatus::BadContents: result = TestStatus::Ok;  break;
-        default: break;
-        }
-    }
-    return result;
-}
-
-
-/******************************************************************/
-// Unknown, might be processed as “bad” statuses depending on “unknownIsBad” option
-
-SimpleStatusID TTest::produceSimpleStatus(const TestStatus status) const
-{
-    SimpleStatusID result = SimpleStatusID::UNKNOWN;
-    switch (status) {
-        case TestStatus::HostAlive:
-        case TestStatus::Ok:
-        case TestStatus::Normal:
-            result = SimpleStatusID::UP;
-            break;
-        case TestStatus::NoAnswer:
-        case TestStatus::Bad:
-        case TestStatus::BadContents:
-            result = SimpleStatusID::DOWN;
-            break;
-        case TestStatus::Warning:
-            result = SimpleStatusID::WARNING;
-            break;
-        default:
-            break;
-    }
-
-    // Unknown, might be processed as “bad” statuses depending on “unknownIsBad” option
-    if (isUnknownIsBad() && result==SimpleStatusID::UNKNOWN) result = SimpleStatusID::DOWN;
-
-    // Warning, might be processed as “bad” statuses depending on “warningIsBad” option
-    if (isWarningIsBad() && result==SimpleStatusID::WARNING) result = SimpleStatusID::DOWN;
-
-    return result;
+    m_schedule.start();
 }
 
 /******************************************************************/
 
-void TTest::setSuggestedVars(const TestStatus newStatus)
+void TTest::setSuggestedVars(const TTestResult testResult)
 {
-    m_SuggestedStatus = newStatus;
-    SimpleStatusID oldSimpleStatus = m_SuggestedSimpleStatusID;
-    m_SuggestedSimpleStatusID = produceSimpleStatus(newStatus);
-    a_SuggestedLastReply = a_SuggestedReply;
-    a_SuggestedReply = m_test->getReply();
-    a_SuggestedReply_Integer = m_test->getReplyInt();
+    m_SuggestedLastState = m_SuggestedState;
+    m_SuggestedState = testResult;
 
-    if (oldSimpleStatus == m_SuggestedSimpleStatusID) {
-        a_SuggestedRecurrences++;
+    if (testResult.simpleStatus(b_UnknownIsBad) == m_SuggestedLastState.simpleStatus(b_UnknownIsBad)) {
+        m_Recurences.suggestedSimpleStatus++;
     } else {
-        a_SuggestedRecurrences = 0;
+        m_Recurences.suggestedSimpleStatus = 0;
     }
 
-    if (m_SuggestedSimpleStatusID == SimpleStatusID::DOWN) {
-        a_FailureIteration++;
+    if (testResult.simpleStatus(b_UnknownIsBad) == SimpleStatusID::DOWN) {
+        m_Recurences.failure++;
     } else {
-        a_FailureIteration=0;
+        m_Recurences.failure=0;
     }
 }
 
 /******************************************************************/
 
-TestStatus TTest::processUserStatusExpressions(const TestStatus originalStatus)
+void TTest::processUserStatusExpressions(TTestResult &testResult)
 {
-    TestStatus result = originalStatus;
     if (b_UseWarningScript) {
         GMacroTranslator translator(a_WarningScript, this);
         QString script = translator.translate();
         QScriptEngine scriptEngine;
         QScriptValue value = scriptEngine.evaluate(script);
         if (value.isBool() && value.toBool()) {
-            result = TestStatus::Warning;
+            testResult.status = TestStatus::Warning;
         }
     }
 
@@ -228,106 +183,99 @@ TestStatus TTest::processUserStatusExpressions(const TestStatus originalStatus)
         QScriptEngine scriptEngine;
         QScriptValue value = scriptEngine.evaluate(script);
         if (value.isBool() && value.toBool()) {
-            result = TestStatus::Normal;
+            testResult.status = TestStatus::Normal;
         }
     }
-    return result;
 }
 
 /******************************************************************/
 
-QString TTest::tuneUpReply(const QString originalReply)
+void TTest::tuneUpReply(TTestResult &testResult)
 {
-    QString result = originalReply;
     if (b_TuneUpReply) {
         GMacroTranslator translator(a_TuneUpScript, this);
         QString script = translator.translate();
         QScriptEngine scriptEngine;
         QScriptValue value = scriptEngine.evaluate(script);
-        result = value.toString();
+        testResult.reply = value.toString();
     }
-    return result;
 }
 
 /******************************************************************/
 
-void TTest::dynamicStatistics(const TestStatus newStatus, const QString newReply, const double newReplyNumber, const int newReplyInt)
+void TTest::dynamicStatistics(const TTestResult testResult)
 {
     // helpers
-    QDateTime curTime = currentDateTime();
-    QDateTime lastTime = m_TestTime;
-    qint64 delta = curTime.toMSecsSinceEpoch() - lastTime.toMSecsSinceEpoch();
-    SimpleStatusID newSimpleStatus = produceSimpleStatus(newStatus);
-    bool statusChanged = (m_Status != newStatus);
-    bool simpleStatusChanged = (m_SimpleStatusID != newSimpleStatus);
+    bool statusChanged = (testResult.status != m_CurrentState.status);
+    SimpleStatusID simpleStatusID = testResult.simpleStatus(b_UnknownIsBad, b_WarningIsBad);
+    bool simpleStatusChanged = (simpleStatusID != m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad));
+    qint64 delta = testResult.date.toMSecsSinceEpoch() - m_CurrentState.date.toMSecsSinceEpoch();
+
+    // last state
+    m_LastState = m_CurrentState;
 
     // previous state
-    m_LastStatus = m_Status;
-    m_LastSimpleStatusID = m_SimpleStatusID;
-    a_LastReply = a_Reply;    
-    m_LastTestTime = m_TestTime;
     if (simpleStatusChanged) {
-        m_PreviousStatusID = m_Status;
-        m_PreviousStatusTime = m_StatusChangedTime;
-        m_PreviousStatusDuration = m_CurrentStatusDuration;
+        m_PreviousState = m_CurrentState;
     }
 
     // current test state
-    m_TestTime = curTime;
-    a_Reply = newReply;
-    a_Reply_Number = newReplyNumber;
-    a_Reply_Integer = newReplyInt;
-    m_Status = newStatus;
-    m_SimpleStatusID = newSimpleStatus;
+    m_CurrentState = testResult;
+
     if (statusChanged) {
-        a_CurrentStatusIteration = 0;
+        m_Recurences.currentStatus = 0;
     } else {
-        a_CurrentStatusIteration++;
+        m_Recurences.currentStatus++;
     }
+
     if (simpleStatusChanged) {
-        a_Recurrences = 0;
-        m_CurrentStatusDuration = 0;
-        m_StatusChangedTime = curTime;
-        a_StatusChangesCnt++;
-        if (m_SimpleStatusID == SimpleStatusID::UP) {
+        m_Recurences.currentSimpleStatus = 0;
+        m_Stat.previousDuration = m_Stat.currentDuration;
+        m_Stat.currentDuration = 0;
+        m_Stat.previousTime = m_Stat.changedTime;
+        m_Stat.changedTime = testResult.date;
+        m_Stat.changesCnt++;
+        if (simpleStatusID == SimpleStatusID::UP) {
             a_LastFailureID = a_FailureID;
             a_FailureID = 0;
         }
-        if (m_SimpleStatusID == SimpleStatusID::DOWN) {
+        if (simpleStatusID == SimpleStatusID::DOWN) {
             a_FailureID = ++failureCount;
         }
     } else {
-        a_Recurrences++;
-        m_CurrentStatusDuration = curTime.toMSecsSinceEpoch() - m_StatusChangedTime.toMSecsSinceEpoch();
+        m_Recurences.currentSimpleStatus++;
+        m_Stat.currentDuration = testResult.date.toMSecsSinceEpoch() - m_Stat.changedTime.toMSecsSinceEpoch();
     }
 
     // statistical information
-    a_TotalTests++;
-    m_TotalTime += delta;
-    switch (m_SimpleStatusID) {
+    m_Stat.totalTests++;
+    m_Stat.totalTime += delta;
+    switch (simpleStatusID) {
         case SimpleStatusID::UP:
-            a_PassedCnt++;
-            m_AliveTime += delta;
+            m_Stat.passedCnt++;
+            m_Stat.aliveTime += delta;
             break;
         case SimpleStatusID::WARNING:
         case SimpleStatusID::DOWN:
-            m_DeadTime += delta;
-            a_FailedCnt++;
+            m_Stat.deadTime += delta;
+            m_Stat.failedCnt++;
             break;
         case SimpleStatusID::UNKNOWN:
-            m_UnknownTime += delta;
-            a_UnknownCnt++;
+            m_Stat.unknownTime += delta;
+            m_Stat.unknownCnt++;
             break;
     }
 
-    m_AliveRatio = 100.0 * m_AliveTime / m_TotalTime;
-    m_DeadRatio = 100.0 * m_DeadTime / m_TotalTime;
-    m_UnknownRatio = 100.0 * m_UnknownTime / m_TotalTime;
-
-    if (m_SimpleStatusID == SimpleStatusID::UP) {
-        if (m_MinReply < newReplyNumber) m_MinReply = newReplyNumber;
-        if (m_MaxReply > newReplyNumber) m_MaxReply = newReplyNumber;
-        m_AverageReply = (m_AverageReply*(a_PassedCnt-1) + newReplyNumber) / a_PassedCnt;
+    if (simpleStatusID == SimpleStatusID::UP) {
+        if (m_Stat.passedCnt == 1) {
+            m_Stat.minReply = testResult.replyDouble;
+        } else if (m_Stat.minReply < testResult.replyDouble) {
+            m_Stat.minReply = testResult.replyDouble;
+        }
+        if (m_Stat.maxReply > testResult.replyDouble) {
+            m_Stat.maxReply = testResult.replyDouble;
+        }
+        m_Stat.avgReply = (m_Stat.avgReply*(m_Stat.passedCnt-1) + testResult.replyDouble) / m_Stat.passedCnt;
     }
 }
 
@@ -335,28 +283,28 @@ void TTest::dynamicStatistics(const TestStatus newStatus, const QString newReply
 
 void TTest::updateSpecificProperties()
 {
-    const QMetaObject *metaobject = m_test->metaObject();
+    const QMetaObject *metaobject = m_TMethod->metaObject();
     int count = metaobject->propertyCount();
     for (int i=0; i<count; ++i) {
         QMetaProperty metaproperty = metaobject->property(i);
         const char *name = metaproperty.name();
-        QVariant value = m_test->property(name);
+        QVariant value = m_TMethod->property(name);
         setProperty(name, value);
     }
 }
 
 /***********************************************/
 
-TTest *TTest::clone(const QString &newName)
+TTest *TTest::clone(const int newID, const QString &newName)
 {
-    TTest *result = new TTest(newName, parent());
+    TTest *result = new TTest(newID, newName, parent());
     // TNode properties
     result->m_Path = m_Path;
     result->m_Comment = m_Comment;
     // TTest properties
     result->b_Enabled = b_Enabled;
     result->b_Paused = b_Paused;
-    result->setTest(m_test->clone());
+    result->setTest(m_TMethod->clone());
     result->m_agent = m_agent;
     result->a_AlertProfileID = a_AlertProfileID;
     result->a_PrivateLog = a_PrivateLog;
@@ -391,13 +339,13 @@ TTest *TTest::clone(const QString &newName)
     case TSchedule::Regular:
         result->setRegularSchedule(m_schedule.getInterval(), m_schedule.getScheduleName());
         break;
-    case TSchedule::OneTestPerDay:
+    case TSchedule::OncePerDay:
         result->setIrregularSchedule(0,scheduleDay(),scheduleTime());
         break;
-    case TSchedule::OneTestPerWeek:
+    case TSchedule::OncePerWeek:
         result->setIrregularSchedule(1,scheduleDay(),scheduleTime());
         break;
-    case TSchedule::OneTestPerMonth:
+    case TSchedule::OncePerMonth:
         result->setIrregularSchedule(2,scheduleDay(),scheduleTime());
         break;
     case TSchedule::ByExpression:
@@ -413,7 +361,7 @@ TTest *TTest::clone(const QString &newName)
 QString TTest::testName() const
 {
     if (getName().isEmpty()) {
-        return m_test->getDafaultName();
+        return m_TMethod->getDafaultName();
     }
     return getName();
 }
@@ -454,9 +402,9 @@ void TTest::setRegularSchedule(const int interval, const QString schedName)
 void TTest::setIrregularSchedule(const int mode, const int schedDay, const QTime schedTime)
 {
     switch (mode) {
-    case 0: m_schedule.setOneTestPerDay(schedTime); break;
-    case 1: m_schedule.setOneTestPerWeek(schedDay, schedTime); break;
-    case 2: m_schedule.setOneTestPerMonth(schedDay, schedTime); break;
+    case 0: m_schedule.setOncePerDay(schedTime); break;
+    case 1: m_schedule.setOncePerWeek(schedDay, schedTime); break;
+    case 2: m_schedule.setOncePerMonth(schedDay, schedTime); break;
     }
 }
 
@@ -473,7 +421,7 @@ QString TTest::status() const
 {
     if (!isEnabled()) return TEnums::testStatus(TestStatus::Disabled);
     if (isPaused()) return TEnums::testStatus(TestStatus::Paused);
-    return TEnums::testStatus(m_Status);
+    return TEnums::testStatus(m_CurrentState.status);
 }
 /******************************************************************/
 
@@ -481,16 +429,18 @@ TestStatus TTest::getStatusID() const
 {
     if (!isEnabled()) return TestStatus::Disabled;
     if (isPaused()) return TestStatus::Paused;
-    return m_Status;
+    return m_CurrentState.status;
 }
 
 /******************************************************************/
 
 QString TTest::ackResponseTime() const
 {
-    if (m_SimpleStatusID == SimpleStatusID::UP) return QString();
+    if (m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad) == SimpleStatusID::UP) {
+        return QString();
+    }
     if (m_Acknowledged) {
-        return Utils::getTimeFromMs(m_AckResponseTime);
+        return Utils::getTimeFromMs(m_Acknowledge.time);
     } else {
         return "not acknowledged";
     }
@@ -505,30 +455,24 @@ void TTest::slotTimeout()
 
 /***********************************************/
 
-void TTest::setTest(TTestMethod *test)
+void TTest::setTest(TTestMethod *testMethod)
 {
-    if (m_test == test) return;
-    if (m_test) {
-        disconnect(m_test,SIGNAL(testSuccess()), this, SLOT(onTestPerformed()));
-        disconnect(m_test,SIGNAL(testFailed()), this, SLOT(onTestPerformed()));
-        delete m_test;
+    if (m_TMethod == testMethod) return;
+    if (m_TMethod) {
+        disconnect(m_TMethod,SIGNAL(testSuccess()), this, SLOT(onTestPerformed()));
+        disconnect(m_TMethod,SIGNAL(testFailed()), this, SLOT(onTestPerformed()));
+        delete m_TMethod;
     }
-    m_test = test;
-    connect(m_test,SIGNAL(testSuccess()), this, SLOT(onTestPerformed()));
-    connect(m_test,SIGNAL(testFailed()), this, SLOT(onTestPerformed()));
+    m_TMethod = testMethod;
+    connect(m_TMethod,SIGNAL(testSuccess()), this, SLOT(onTestPerformed()));
+    connect(m_TMethod,SIGNAL(testFailed()), this, SLOT(onTestPerformed()));
 }
 
 /***********************************************/
 
 void TTest::resetCurrentTestState()
 {
-    m_TestTime = QDateTime::currentDateTime();
-    a_Reply_Number = 0.0;
-    m_Status = TestStatus::NotTested;
-    m_SimpleStatusID = SimpleStatusID::UNKNOWN;
-    a_CurrentStatusIteration = 0;
-    a_Recurrences = 0;
-    m_CurrentStatusDuration = 0;
+    m_CurrentState.clear();
     a_FailureID = 0;
     a_LastFailureID = 0;
 }
@@ -537,11 +481,8 @@ void TTest::resetCurrentTestState()
 
 void TTest::resetSuggestedTestState()
 {
-    m_SuggestedStatus = TestStatus::NotTested;
-    m_SuggestedSimpleStatusID = SimpleStatusID::UNKNOWN;
-    a_SuggestedReply_Integer = 0;
-    a_SuggestedRecurrences = 0;
-    a_FailureIteration = 0;
+    m_SuggestedState.clear();
+    m_SuggestedLastState.clear();
 }
 
 /***********************************************/
@@ -549,41 +490,22 @@ void TTest::resetSuggestedTestState()
 void TTest::resetAcknowlegedInfo()
 {
     m_Acknowledged = false;
-    m_AckResponseTime = 0;
-    a_AckRecurrences = 0;
+    m_Acknowledge.clear();
 }
 
 /***********************************************/
 
 void TTest::resetPreviousStatusInfo()
 {
-    m_LastStatus = TestStatus::NotTested;
-    m_LastSimpleStatusID = SimpleStatusID::UNKNOWN;
-    m_PreviousStatusID = TestStatus::NotTested;
-    m_PreviousStatusTime = QDateTime::currentDateTime();
-    m_PreviousStatusDuration = 0;
+    m_LastState.clear();
+    m_PreviousState.clear();
 }
 
 /***********************************************/
 
 void TTest::resetStatistics()
 {
-    m_StatusChangedTime = QDateTime::currentDateTime();
-    a_StatusChangesCnt = 0;
-    a_TotalTests = 0;
-    m_TotalTime = 0;
-    a_FailedCnt = 0;
-    a_PassedCnt = 0;
-    a_UnknownCnt = 0;
-    m_AliveTime = 0;
-    m_DeadTime = 0;
-    m_UnknownTime = 0;
-    m_AliveRatio = 0.0;
-    m_DeadRatio = 0.0;
-    m_UnknownRatio = 0.0;
-    m_AverageReply = 0.0;
-    m_MinReply = 0.0;
-    m_MaxReply = 0.0;
+    m_Stat.clear();
 }
 
 /***********************************************/

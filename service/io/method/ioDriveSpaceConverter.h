@@ -3,11 +3,11 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
-
 // Specific parameters
-static QString SP_DRIVE          = QStringLiteral("Drive");
-static QString SP_MIN_FREE_SPACE = QStringLiteral("MinFreeSpace");
+#define SP_DRIVE          "Drive"
+#define SP_MIN_FREE_SPACE "MinFreeSpace"
+
+namespace SDPO {
 
 class IODriveSpaceConverter : public IOTestMethodConverter
 {

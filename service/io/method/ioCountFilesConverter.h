@@ -3,29 +3,33 @@
 
 #include "ioTestMethodConverter.h"
 
-namespace SDPO {
+#include <QMetaEnum>
 
 //Specific parameters
-static QString SP_FOLDER        = QStringLiteral("Folder");
-static QString SP_MASK          = QStringLiteral("Mask");
-static QString SP_COUNTMODE     = QStringLiteral("CountMode");
-static QString SP_COUNTVALUE    = QStringLiteral("CountValue");
-static QString SP_FILESLIMIT    = QStringLiteral("FilesLimit");
+#define SP_FOLDER     "Folder"
+#define SP_MASK       "Mask"
+#define SP_SUBFOLDERS "SubFolders"
+#define SP_USE_MACROS "UseMacros"
+#define SP_COUNTMODE  "CountMode"
+#define SP_COUNTVALUE "CountValue"
+#define SP_FILESLIMIT "FilesLimit"
+
+namespace SDPO {
 
 class IOCountFilesConverter : public IOTestMethodConverter
 {
     Q_OBJECT
 
-    QStringList m_countMode;
-
+    QMetaEnum m_CountConditionEnum;
 public:
     explicit IOCountFilesConverter(QObject *parent = 0);
 
-virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
+    virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
 
-virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
-
-virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
+    virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
+    virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
+    virtual QJsonObject toJsonObject() Q_DECL_OVERRIDE;
+    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
 
 };
 

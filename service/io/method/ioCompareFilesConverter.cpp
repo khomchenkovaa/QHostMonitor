@@ -1,11 +1,14 @@
 #include "ioCompareFilesConverter.h"
 
+#include <QTextCodec>
+
 namespace SDPO {
 
 IOCompareFilesConverter::IOCompareFilesConverter(QObject *parent) :
     IOTestMethodConverter(parent)
 {
-    m_alertMode << "FilesDifferent" << "FilesIdentical" << "ContainsFile" << "DoesntContainFile" << "ContainsString" << "DoesntContainString";
+    int idx = TCompareFiles::staticMetaObject.indexOfEnumerator("AlertMode");
+    m_AlertModeEnum = TCompareFiles::staticMetaObject.enumerator(idx);
 }
 
 /******************************************************************/
@@ -26,8 +29,8 @@ bool IOCompareFilesConverter::setValue(QString key, QString value)
     }
     TCompareFiles *test = qobject_cast<TCompareFiles*>(m_TestMethod);
     if (key == SP_ALERTMODE) {
-        int crAMode = m_alertMode.indexOf(value);
-        test->setAlertWhen(crAMode == -1 ? 0 : crAMode);
+        TCompareFiles::AlertMode crAMode = (TCompareFiles::AlertMode) m_AlertModeEnum.keyToValue(value.toStdString().data());
+        test->setAlertWhen(crAMode);
     } else if (key == SP_USE_MACROS_1) {
         test->setTranslateFirstMacros(value == "Yes");
     } else if (key == SP_USE_MACROS_2) {
@@ -39,7 +42,7 @@ bool IOCompareFilesConverter::setValue(QString key, QString value)
     } else if (key == SP_STRING) {
         test->setString(value);
     } else if (key == SP_ENCODING) {
-        test->setStringCoding(value);
+        test->setCodecMibEnum(getMibForCodecName(value));
     } else if (key == SP_WHOLEWORDS) {
         test->setWholeWordsOnly(value == "Yes");
     } else if (key == SP_CASESENSITIVE) {
@@ -65,22 +68,129 @@ void IOCompareFilesConverter::exportTo(QTextStream &out)
         return;
     }
     TCompareFiles*test = qobject_cast<TCompareFiles*>(m_TestMethod);
-    out << SP_ALERTMODE     << " = " << test->getAlertWhen()                         << endl;
-    out << SP_USE_MACROS_1  << " = " << (test->isTranslateFirstMacros()?"Yes":"No")  << endl;
-    out << SP_USE_MACROS_2  << " = " << (test->isTranslateSecondMacros()?"Yes":"No") << endl;
+    out << SP_ALERTMODE     << " = " << m_AlertModeEnum.key(test->getAlertWhen())    << endl;
     out << SP_FILE_1        << " = " << test->getFirstFile()                         << endl;
-    out << SP_FILE_2        << " = " << test->getSecondFile()                        << endl;
-    out << SP_STRING        << " = " << test->getString()                            << endl;
-    out << SP_ENCODING      << " = " << test->getStringCoding()                      << endl;
-    out << SP_CHECKTIME     << " = " << (test->isTime()?"Yes":"No")                  << endl;
-    out << SP_CHECKSIZE     << " = " << (test->isSize()?"Yes":"No")                  << endl;
-    out << SP_CHECKCONTENT  << " = " << (test->isContents()?"Yes":"No")              << endl;
-    out << SP_WHOLEWORDS    << " = " << (test->isWholeWordsOnly()?"Yes":"No")        << endl;
-    out << SP_CASESENSITIVE << " = " << (test->isCaseSensitive()?"Yes":"No")         << endl;
-
-
-
+    out << SP_USE_MACROS_1  << " = " << (test->isTranslateFirstMacros()?"Yes":"No")  << endl;
+    switch (test->getAlertWhen()) {
+    case TCompareFiles::FilesDifferent:
+    case TCompareFiles::FilesIdentical:
+        out << SP_FILE_2        << " = " << test->getSecondFile()                        << endl;
+        out << SP_USE_MACROS_2  << " = " << (test->isTranslateSecondMacros()?"Yes":"No") << endl;
+        out << SP_CHECKTIME     << " = " << (test->isTime()?"Yes":"No")                  << endl;
+        out << SP_CHECKSIZE     << " = " << (test->isSize()?"Yes":"No")                  << endl;
+        out << SP_CHECKCONTENT  << " = " << (test->isContents()?"Yes":"No")              << endl;
+        break;
+    case TCompareFiles::ContainsFile:
+    case TCompareFiles::DoesntContainFile:
+        out << SP_FILE_2        << " = " << test->getSecondFile()                        << endl;
+        out << SP_USE_MACROS_2  << " = " << (test->isTranslateSecondMacros()?"Yes":"No") << endl;
+        break;
+    case TCompareFiles::ContainsString:
+    case TCompareFiles::DoesntContainString:
+        out << SP_STRING        << " = " << test->getString()                            << endl;
+        out << SP_ENCODING      << " = " << getCodecNameForMib(test->getCodecMibEnum())  << endl;
+        out << SP_WHOLEWORDS    << " = " << (test->isWholeWordsOnly()?"Yes":"No")        << endl;
+        out << SP_CASESENSITIVE << " = " << (test->isCaseSensitive()?"Yes":"No")         << endl;
+        break;
+    }
 }
+
+/******************************************************************/
+
+QJsonObject IOCompareFilesConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCompare)) {
+        return jsonObj;
+    }
+    TCompareFiles* test = qobject_cast<TCompareFiles*>(m_TestMethod);
+    jsonObj.insert(SP_ALERTMODE, QJsonValue(m_AlertModeEnum.key(test->getAlertWhen())));
+    jsonObj.insert(SP_FILE_1, QJsonValue(test->getFirstFile()));
+    jsonObj.insert(SP_USE_MACROS_1, QJsonValue(test->isTranslateFirstMacros()));
+    switch (test->getAlertWhen()) {
+    case TCompareFiles::FilesDifferent:
+    case TCompareFiles::FilesIdentical:
+        jsonObj.insert(SP_FILE_2, QJsonValue(test->getSecondFile()));
+        jsonObj.insert(SP_USE_MACROS_2, QJsonValue(test->isTranslateSecondMacros()));
+        jsonObj.insert(SP_CHECKTIME, QJsonValue(test->isTime()));
+        jsonObj.insert(SP_CHECKSIZE, QJsonValue(test->isSize()));
+        jsonObj.insert(SP_CHECKCONTENT, QJsonValue(test->isContents()));
+        break;
+    case TCompareFiles::ContainsFile:
+    case TCompareFiles::DoesntContainFile:
+        jsonObj.insert(SP_FILE_2, QJsonValue(test->getSecondFile()));
+        jsonObj.insert(SP_USE_MACROS_2, QJsonValue(test->isTranslateSecondMacros()));
+        break;
+    case TCompareFiles::ContainsString:
+    case TCompareFiles::DoesntContainString:
+        jsonObj.insert(SP_STRING, QJsonValue(test->getString()));
+        jsonObj.insert(SP_ENCODING, QJsonValue(test->getCodecMibEnum()));
+        jsonObj.insert(SP_WHOLEWORDS, QJsonValue(test->isWholeWordsOnly()));
+        jsonObj.insert(SP_CASESENSITIVE, QJsonValue(test->isCaseSensitive()));
+        break;
+    }
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOCompareFilesConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TCompareFiles *test = qobject_cast<TCompareFiles*>(getTestMethod());
+    TCompareFiles::AlertMode crAMode = (TCompareFiles::AlertMode) m_AlertModeEnum.keyToValue(jsonObj.value(SP_ALERTMODE).toString().toStdString().data());
+    test->setAlertWhen(crAMode);
+    test->setFirstFile(jsonObj.value(SP_FILE_1).toString());
+    test->setTranslateFirstMacros(jsonObj.value(SP_USE_MACROS_1).toBool());
+    switch (test->getAlertWhen()) {
+    case TCompareFiles::FilesDifferent:
+    case TCompareFiles::FilesIdentical:
+        test->setSecondFile(jsonObj.value(SP_FILE_2).toString());
+        test->setTranslateSecondMacros(jsonObj.value(SP_USE_MACROS_2).toBool());
+        test->setTime(jsonObj.value(SP_CHECKTIME).toBool());
+        test->setSize(jsonObj.value(SP_CHECKSIZE).toBool());
+        test->setContents(jsonObj.value(SP_CHECKCONTENT).toBool());
+        break;
+    case TCompareFiles::ContainsFile:
+    case TCompareFiles::DoesntContainFile:
+        test->setSecondFile(jsonObj.value(SP_FILE_2).toString());
+        test->setTranslateSecondMacros(jsonObj.value(SP_USE_MACROS_2).toBool());
+        break;
+    case TCompareFiles::ContainsString:
+    case TCompareFiles::DoesntContainString:
+        test->setString(jsonObj.value(SP_STRING).toString());
+        test->setCodecMibEnum(jsonObj.value(SP_ENCODING).toInt());
+        test->setWholeWordsOnly(jsonObj.value(SP_WHOLEWORDS).toBool());
+        test->setCaseSensitive(jsonObj.value(SP_CASESENSITIVE).toBool());
+        break;
+    }
+
+    return test;
+}
+
+/******************************************************************/
+
+QString IOCompareFilesConverter::getCodecNameForMib(int mibEnum)
+{
+    QString result = "<Default>";
+    QTextCodec *codec = QTextCodec::codecForMib(mibEnum);
+    if (codec) {
+        result = codec->name();
+    }
+    return result;
+}
+
+/******************************************************************/
+
+int IOCompareFilesConverter::getMibForCodecName(QString name)
+{
+    int result = 0;
+    QTextCodec *codec = QTextCodec::codecForName(name.toLatin1());
+    if (codec) {
+        result = codec->mibEnum();
+    }
+    return result;
+}
+
 /******************************************************************/
 
 } //namespace SDPO

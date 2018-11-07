@@ -1,6 +1,5 @@
 #include "qActiveScriptWidget.h"
 #include "ui_qActiveScriptWidget.h"
-#include "mSettings.h"
 #include "global/tMethod.h"
 #include "method/tActiveScript.h"
 #include <QFileDialog>

@@ -58,7 +58,7 @@ class TFolder : public TNode
     Q_PROPERTY(QString FolderRecursive_AcknowledgedWarning READ testsWarningAcknowkegedRecursive)
 
 public:
-    explicit TFolder(const QString& name, QObject *parent = 0);
+    explicit TFolder(const int id, const QString& name, QObject *parent = 0);
 
     int testsTotal() const;
     int testsGood() const;
@@ -78,13 +78,23 @@ public:
     int testsUnknownAcknowkegedRecursive() const;
     int testsWarningAcknowkegedRecursive() const;
 
+    QList<TNode*> testList(bool recursive = true);
+    QList<TNode*> folderList(bool recursive = true);
+    QList<TNode*> viewList(bool recursive = false);
+
     QVariant property(QString name) const Q_DECL_OVERRIDE;
 
 private: // interface settings
+    // statistics
+    BOOL_PROPERTY(UseOwnStatSettings)
+
+    // regional
     BOOL_PROPERTY(UseOwnRegionalSettings)
     bool b_ApplyRemoteTimeToGui;
     bool b_ApplyRemoteTimeToSchedules;
     QString m_TimeZoneIanaId;
+
+    // specials
     BOOL_PROPERTY(TestStatusesNotAffectTrayIconColor)
     BOOL_PROPERTY(NonSimultaneouslyTestExecution)
 

@@ -1,8 +1,9 @@
 #ifndef QOPTIONSWIDGET_H
 #define QOPTIONSWIDGET_H
 
+#include "gSettings.h"
+
 #include <QWidget>
-#include "mSettings.h"
 
 namespace SDPO {
 
@@ -12,8 +13,8 @@ class OptionsWidget : public QWidget
 public:
     explicit OptionsWidget(QWidget *parent = 0);
 
-    virtual void init() {}
-    virtual void prepareToSave() {}
+    virtual void init(QSettings *s) { Q_UNUSED(s) }
+    virtual void prepareToSave(QSettings *s) { Q_UNUSED(s) }
 
 signals:
     void goToPage(const int idx);

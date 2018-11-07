@@ -1,38 +1,47 @@
-/*
+/*!
+ * \class SDPO::TCountFiles
+ * \brief Check number of files in the specified directory
+ *
  * This test allows you to check number of files in the specified directory.
  * Let`s say you have a mailserver that uses a spool directory.
  * If the mail server is running correctly, it should deliver the mail within 5 minutes to the internet.
  * Using Count Files test HostMonitor can check the number of files in the mail server`s spool directory and warn you when number of files exceed specified limit.
  * In addition to the common test parameters, the Count Files test has the following options:
  *
- * Folder
+ * \b Folder
+ *
  * Specify the directory in which you want to count the amount of files.
  *
- * File name mask
- * Specify file name mask. Usually mask contains wildcard characters, e.g. use ‘*.*’ mask to count all files in the folder; use ‘*.eml’ mask to count files with .EML extension.
+ * <b> File name mask </b>
+ *
+ * Specify file name mask. Usually mask contains wildcard characters, e.g. use <tt>‘*.*’</tt> mask to count all files in the folder; use <tt>‘*.eml’</tt> mask to count files with .EML extension.
  *
  * If you want to perform the test using an agent installed on UNIX-like system, you should have in mind:
- * • use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
- * • on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
- * • on Windows system file masks '*' and '*.*' represent any file. On UNIX-like system only '*' represents any file; '*.*' can be used for any file that has dot (.) in the name.
+ * \li use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
+ * \li on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
+ * \li on Windows system file masks '*' and '*.*' represent any file. On UNIX-like system only '*' represents any file; '*.*' can be used for any file that has dot (.) in the name.
  *
- * Translate macros
+ * <b> Translate macros </b>
+ *
  * With this option enabled you can use special date macro variables and User Defined Variables in the folder name and in the file name mask.
  *
- * Include sub-folders
+ * <b> Include sub-folders </b>
+ *
  * If the option is disabled, HostMonitor will count files directly in the specified folder.
  * If the option is enabled, files in the specified folder and in all of its descending subfolders will be counted.
  *
- * Conditions to count files
- * Specify additional condition to count files. Choose one of the options:
- * • Count all files
- * • Count files older than NN min
- * • Count files newer than NN min
- * • Count files bigger than NN bytes
- * • Count files smaller than NN bytes
- * • Count subfolder only
+ * <b> Conditions to count files </b>
  *
- * Alert when folder contains more than NN files
+ * Specify additional condition to count files. Choose one of the options:
+ * \li Count all files
+ * \li Count files older than NN min
+ * \li Count files newer than NN min
+ * \li Count files bigger than NN bytes
+ * \li Count files smaller than NN bytes
+ * \li Count subfolder only
+ *
+ * <b> Alert when folder contains more than NN files </b>
+ *
  * Specify limit for the file amount. When this limit is reached, HostMonitor will change test status to “Bad”.
  * If you need to start alert actions when file amount become lower than specified, use “Reverse alert” option.
  */
@@ -54,13 +63,14 @@ class TCountFiles : public TTestMethod
     Q_PROPERTY(QString Object READ getFolderMask())
 
 public:
+    //! Conditions to count files
     enum CountCondition {
-        AllFiles,
-        OlderThan,
-        NewerThan,
-        BiggerThan,
-        SmallerThan,
-        SubfolderOnly
+        AllFiles,      //!< Count all files
+        OlderThan,     //!< Count files older than NN min
+        NewerThan,     //!< Count files newer than NN min
+        BiggerThan,    //!< Count files bigger than NN bytes
+        SmallerThan,   //!< Count files smaller than NN bytes
+        SubfolderOnly  //!< Count subfolder only
     };
     Q_ENUM(CountCondition)
 

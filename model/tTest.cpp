@@ -361,7 +361,7 @@ TTest *TTest::clone(const int newID, const QString &newName)
 QString TTest::testName() const
 {
     if (getName().isEmpty()) {
-        return m_TMethod->getDafaultName();
+        return m_TMethod->getDefaultName();
     }
     return getName();
 }

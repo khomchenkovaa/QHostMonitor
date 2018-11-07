@@ -1,11 +1,15 @@
-/* This test is used to compare two files or to search a string in the file.
+/*!
+ * \class SDPO::TCompareFiles
+ * \brief Compare two files or search a string in the file
+ *
+ * This test is used to compare two files or to search a string in the file.
  * 6 alert conditions are available:
- * • alert when files are different
- * • alert when files are identical
- * • alert when 1st file contains 2nd (in any position)
- * • alert when 1st file does not contain 2nd
- * • alert when file contains a specified string
- * • alert when file does not contain a specified string
+ * \li alert when files are different
+ * \li alert when files are identical
+ * \li alert when 1st file contains 2nd (in any position)
+ * \li alert when 1st file does not contain 2nd
+ * \li alert when file contains a specified string
+ * \li alert when file does not contain a specified string
  *
  * You can specify one or more parameters to compare files: compare time, compare size, and compare contents.
  * If you set "compare contents" option but don't set "compare size" option, HostMonitor will consider two files to be identical when one file includes another one at offset 0 (one file can be smaller than another one).

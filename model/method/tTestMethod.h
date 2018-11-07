@@ -72,22 +72,23 @@ struct TTestResult {
     }
 };
 
-/***********************************************/
-
+/*!
+ * Base class for all tests
+ */
 class TTestMethod : public QObject
 {
     Q_OBJECT
 
-    // Represents short description of a testing method
+    //! Represents short description of a testing method
     Q_PROPERTY(QString TestMethod READ getTestMethod)
     Q_PROPERTY(QString MethodName READ getTestMethodName)
 
-    // Returns integer number that represents test method (test that has triggered action execution)
+    //! Returns integer number that represents test method (test that has triggered action execution)
     Q_PROPERTY(QString MethodID READ getTestMethodID)
 
-    // Provides information about tested object,
-    // variable returns string value like 'MS SQL database "MainLog" on 192.168.10.15'.
-    // This variable offers more information than %TestMethod% variable
+    //! Provides information about tested object,
+    //! variable returns string value like <tt>'MS SQL database "MainLog" on 192.168.10.15'</tt>.
+    //! This variable offers more information than <tt>%TestMethod%</tt> variable
     Q_PROPERTY(QString TestedObjectInfo READ getTestedObjectInfo)
 
 protected:
@@ -120,8 +121,8 @@ public:
     virtual void parseResult(QString data) { m_Result.reply = data; }
 
     virtual TTestMethod *clone();
-    QString getDafaultName() const;
-    QString getDafaultComments() const;
+    QString getDefaultName() const;
+    QString getDefaultComments() const;
 
 protected:
     QString getTranslated(const QString &name, const bool translate) const;

@@ -27,7 +27,7 @@ TTestMethod *TTestMethod::clone()
 
 /***********************************************/
 
-QString TTestMethod::getDafaultName() const
+QString TTestMethod::getDefaultName() const
 {
     GMacroTranslator translator(m_NamePattern);
     QStringList params = translator.parse();
@@ -40,7 +40,7 @@ QString TTestMethod::getDafaultName() const
 
 /***********************************************/
 
-QString TTestMethod::getDafaultComments() const
+QString TTestMethod::getDefaultComments() const
 {
     GMacroTranslator translator(m_CommentPattern);
     QStringList params = translator.parse();

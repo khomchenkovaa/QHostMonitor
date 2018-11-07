@@ -1,17 +1,23 @@
-/** The DHCP test allows you to monitor DHCP servers.
+/*!
+ * \class SDPO::TDhcp
+ * \brief The DHCP test allows you to monitor DHCP servers.
+ *
  * HostMonitor verifies the DHCP server by sending request for IP address.
  * HostMonitor sets “Host is alive” status when DHCP server properly responds within specified timeout, whatever it replies with NAK or ACK packet.
  * Otherwise HostMonitor may set “Bad” (invalid reply from server) or “No answer” status.
  *
  * In addition to the common test parameters, the DHCP test has the following options:
  *
- * Host
+ * \b Host
+ *
  * This is the domain name or IP address of the machine running the DHCP server that you wish to monitor.
  *
- * Timeout
+ * \b Timeout
+ *
  * This is the amount of time in milliseconds the program will wait for a response from the server before the request fails.
  *
- * Request IP
+ * <b> Request IP </b>
+ *
  * Here you may specify IP address that will be requested or keep default value <current local IP>
  */
 /* Realization

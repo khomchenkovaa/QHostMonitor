@@ -43,6 +43,7 @@ target_wrapper.*
 CMakeLists.txt.user*
 
 # Other
+doxy
 .settings/
 !Debug/
 !Release/

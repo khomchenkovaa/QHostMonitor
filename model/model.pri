@@ -90,7 +90,8 @@ HEADERS += \
     ../model/method/tLdapTest.h \
     ../model/method/tMailRelay.h \
     ../model/method/tMsSql.h \
-    ../model/method/tNtEventLog.h
+    ../model/method/tNtEventLog.h \
+    ../model/method/tNtpTest.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -177,4 +178,5 @@ SOURCES += \
     ../model/method/tLdapTest.cpp \
     ../model/method/tMailRelay.cpp \
     ../model/method/tMsSql.cpp \
-    ../model/method/tNtEventLog.cpp
+    ../model/method/tNtEventLog.cpp \
+    ../model/method/tNtpTest.cpp

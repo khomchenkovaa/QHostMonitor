@@ -1,3 +1,10 @@
+/*!
+ * \class SDPO::TDriveSpace
+ * \brief Check for low disk space
+ *
+ * To create a task to check for low disk space, choose "Drive Free Space" as the test type, select the drive to check, and specify the minimum free space value.
+ * To check available space on a drive elsewhere on the network, use a UNC test, or mount the drive on the local PC that is running HostMonitor.
+ */
 #ifndef TDRIVESPACE_H
 #define TDRIVESPACE_H
 

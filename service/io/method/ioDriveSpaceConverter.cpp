@@ -54,4 +54,30 @@ void IODriveSpaceConverter::exportTo(QTextStream &out)
 
 /***********************************************/
 
+QJsonObject IODriveSpaceConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::DriveSpace)) {
+        return jsonObj;
+    }
+    TDriveSpace* test = qobject_cast<TDriveSpace*>(m_TestMethod);
+    jsonObj.insert(SP_DRIVE, QJsonValue(test->getDrive()));
+    jsonObj.insert(SP_MIN_FREE_SPACE, QJsonValue(QString::number(test->getMinFreeSpace()) + test->getDimension()));
+    return jsonObj;
+}
+
+/***********************************************/
+
+TTestMethod *IODriveSpaceConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TDriveSpace *test = qobject_cast<TDriveSpace*>(getTestMethod());
+    test->setDrive(jsonObj.value(SP_DRIVE).toString());
+    GUnitConverter conv(jsonObj.value(SP_MIN_FREE_SPACE).toString());
+    test->setMinFreeSpace(conv.getValue());
+    test->setDimension(conv.getExt());
+    return test;
+}
+
+/***********************************************/
+
 } // namespace SDPO

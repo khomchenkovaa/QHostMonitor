@@ -23,7 +23,7 @@ QCron::QCron(const QString & pattern)
     _init();
     _parsePattern(pattern);
     if (_is_valid) {
-        _checkState();
+        checkState();
     }
 }
 
@@ -49,7 +49,7 @@ void QCron::_init()
 
 /******************************************************************************/
 
-void QCron::_checkState()
+void QCron::checkState()
 {
     int interval_ms = 0;
     if (match(QDateTime::currentDateTime()))
@@ -70,7 +70,7 @@ void QCron::_checkState()
     QTimer::singleShot(interval_ms,
                        Qt::VeryCoarseTimer,
                        this,
-                       SLOT(_checkState()));
+                       SLOT(checkState()));
 }
 
 /******************************************************************************/

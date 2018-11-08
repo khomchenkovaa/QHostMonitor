@@ -82,7 +82,8 @@ HEADERS += \
     $$PWD/action/tRunHmsScriptAction.h \
     $$PWD/method/tNtpTest.h \
     $$PWD/options/pLogProperties.h \
-    ../model/method/tPerformanceCounter.h
+    ../model/method/tPerformanceCounter.h \
+    ../model/method/tWmi.h
 
 
 SOURCES += \
@@ -162,5 +163,6 @@ SOURCES += \
     $$PWD/action/tRunHmsScriptAction.cpp \
     $$PWD/method/tNtpTest.cpp\
     $$PWD/options/pLogProperties.cpp \
-    ../model/method/tPerformanceCounter.cpp
+    ../model/method/tPerformanceCounter.cpp \
+    ../model/method/tWmi.cpp
 

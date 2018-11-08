@@ -19,6 +19,7 @@ NtpTestWidget::~NtpTestWidget()
 {
     delete ui;
 }
+
 /******************************************************************/
 
 void NtpTestWidget::init(TTestMethod *item)

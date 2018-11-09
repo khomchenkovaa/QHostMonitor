@@ -18,6 +18,7 @@ TTestMethod *IOCPUUsageConverter::getTestMethod()
     }
     return m_TestMethod;
 }
+
 /******************************************************************/
 
 bool IOCPUUsageConverter::setValue(QString key, QString value)
@@ -58,8 +59,43 @@ void IOCPUUsageConverter::exportTo(QTextStream &out)
         out << SP_USERNAME    << " = " << test->getLogin()          << endl;
         out << SP_PASSWORD    << " = " << test->getPassword()       << endl;
     }
-
 }
+
+/******************************************************************/
+
+QJsonObject IOCPUUsageConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::CPU)) {
+        return jsonObj;
+    }
+    TCpuUsage* test = qobject_cast<TCpuUsage*>(m_TestMethod);
+    jsonObj.insert(SP_COMPUTER, QJsonValue(test->getComputer()));
+    jsonObj.insert(SP_OS, QJsonValue(test->getOsSelect()));
+    jsonObj.insert(SP_MAXCPUUSAGE, QJsonValue(test->getAlertWhen()));
+    if (test->isConnectAs()) {
+        jsonObj.insert(SP_USERNAME, QJsonValue(test->getLogin()));
+        jsonObj.insert(SP_PASSWORD, QJsonValue(test->getPassword()));
+    }
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOCPUUsageConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TCpuUsage *test = qobject_cast<TCpuUsage*>(getTestMethod());
+    test->setComputer(jsonObj.value(SP_COMPUTER).toString());
+    test->setOsSelect(jsonObj.value(SP_OS).toString());
+    test->setAlertWhen(jsonObj.value(SP_MAXCPUUSAGE).toInt());
+    test->setConnectAs(jsonObj.contains(SP_USERNAME));
+    if (test->isConnectAs()) {
+        test->setLogin(jsonObj.value(SP_USERNAME).toString());
+        test->setPassword(jsonObj.value(SP_PASSWORD).toString());
+    }
+    return test;
+}
+
 /******************************************************************/
 
 } //namespace SDPO

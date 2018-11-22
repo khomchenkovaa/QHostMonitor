@@ -11,7 +11,7 @@
 #include <QJsonArray>
 #include <QJsonParseError>
 
-#define DT_FORMAT "yyyy.MM.dd HH:mm:ss"
+#define DT_FORMAT   "yyyy.MM.dd HH:mm:ss"
 
 // main sections
 #define SCT_HEAD       "head"

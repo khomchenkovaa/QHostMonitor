@@ -101,7 +101,7 @@ private:
     AUTO_PROPERTY(int, Packets)
     BOOL_PROPERTY(DontFragment)
     AUTO_PROPERTY(int, TimeToLive)
-    AUTO_PROPERTY(float, BadCriteria)
+    AUTO_PROPERTY(double, BadCriteria)
     AUTO_PROPERTY(DisplayMode, DisplayMode)
 
 public:

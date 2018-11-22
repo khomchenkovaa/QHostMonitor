@@ -37,7 +37,7 @@ Startup::Startup() :
     m_mainForm.init();
 
     connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
-    connect(m_HML.rootItem(), SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
+    connect(&m_HML, SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_actionService, SLOT(runActions(TNode*)));
     connect(m_HML.rootItem(), SIGNAL(testUpdated(TNode*)), &m_logService, SLOT(writeLog(TNode*)));
     connect(&m_logService,    SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));

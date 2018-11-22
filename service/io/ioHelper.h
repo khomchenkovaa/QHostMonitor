@@ -3,6 +3,8 @@
 
 #include "method/sdpoTestMethodConverters.h"
 
+#define TIME_FORMAT "HH:mm:ss"
+
 // Common required parameters
 #define PRM_METHOD "Method"
 #define PRM_TITLE  "Title"

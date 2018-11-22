@@ -120,7 +120,7 @@ class TTest : public TNode
 
     TTestMethod  *m_TMethod;
     TAgent       *m_agent;
-    TSchedule    &m_schedule;
+    TSchedule     m_schedule;
     QList<TNode*> m_links;
     AUTO_PROPERTY(QString, RelatedURL)
 
@@ -187,21 +187,19 @@ class TTest : public TNode
 public:
     // TTest methods
     TTestMethod *method() const { return m_TMethod; }
-    void setTest(TTestMethod *testMethod);
+    void setMethod(TTestMethod *testMethod);
 
     // TAgent methods
     TAgent* agent() { return m_agent; }
     void setAgent(TAgent* value) { m_agent = value; }
 
     // Schedule methods
-    void setRegularSchedule(const int interval, const QString schedName);
-    void setIrregularSchedule(const int mode, const int schedDay, const QTime schedTime);
-    void setByExpressionSchedule(const QString expr1, const QString expr2);
-    int scheduleMode() const { return (int)m_schedule.getMode(); }
-    int scheduleDay() const { return m_schedule.getScheduleDay(); }
-    QTime scheduleTime() const { return m_schedule.getScheduleTime(); }
-    QString scheduleExpr1() const { return m_schedule.getScheduleExpr1(); }
-    QString scheduleExpr2() const { return m_schedule.getScheduleExpr2(); }
+    TSchedule* schedule() { return &m_schedule; }
+    void setRegularSchedule(const int interval, const QString schedName) { m_schedule.setRegular(interval, schedName); }
+    void setOncePerDaySchedule(const QTime schedTime) { m_schedule.setOncePerDay(schedTime); }
+    void setOncePerWeekSchedule(const int schedDay, const QTime schedTime) { m_schedule.setOncePerWeek(schedDay, schedTime); }
+    void setOncePerMonthSchedule(const int schedDay, const QTime schedTime) { m_schedule.setOncePerMonth(schedDay, schedTime); }
+    void setByExpressionSchedule(const QString expr1, const QString expr2) { m_schedule.setByExpression(expr1, expr2); }
 
     // Links methods
     void addLink(TNode *node);
@@ -628,7 +626,6 @@ private:
     void resetSuggestedTestState();
     void resetAcknowlegedInfo();
     void resetPreviousStatusInfo();
-    void resetStatistics();
 };
 
 } // namespace SDPO

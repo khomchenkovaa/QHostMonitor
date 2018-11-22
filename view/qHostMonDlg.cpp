@@ -226,7 +226,7 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
         m_Item = new TTest(m_HML->nextID(), testName);
     }
 
-    m_Item->setTest(testMethod);
+    m_Item->setMethod(testMethod);
     m_Item->updateSpecificProperties();
 
     // main
@@ -248,14 +248,17 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
                       ui->sbScheduleSec->value(),
                       ui->cmbSchedule->currentText());
     } else if (ui->btnScheduleIrregular->isChecked()) {
-        int idx = ui->cmbSchedIrregularMode->currentIndex();
-        int schedDay = 0;
-        if (idx == 1) schedDay = ui->cmbSchedDayOfWeek->currentIndex();
-        else if (idx == 2) schedDay = ui->cmbSchedDayOfMonth->currentIndex();
-        m_Item->setIrregularSchedule(
-                    idx,schedDay,
-                    ui->timeSchedIrregular->time()
-                    );
+        switch (ui->cmbSchedIrregularMode->currentIndex()) {
+        case 0: // once per day
+            m_Item->setOncePerDaySchedule(ui->timeSchedIrregular->time());
+            break;
+        case 1: // once per week
+            m_Item->setOncePerWeekSchedule(ui->cmbSchedDayOfWeek->currentIndex(), ui->timeSchedIrregular->time());
+            break;
+        case 2: // once per month
+            m_Item->setOncePerMonthSchedule(ui->cmbSchedDayOfMonth->currentIndex(), ui->timeSchedIrregular->time());
+            break;
+        }
     } else if (ui->btnScheduleByExpression->isChecked()) {
         m_Item->setByExpressionSchedule(
                     ui->cmbScheduleExpr1->currentText(),
@@ -300,7 +303,8 @@ void HostMonDlg::saveTest(TTestMethod *testMethod)
     m_Item->setEnabled(ui->cmbEnabled->currentIndex() == 0);
 
     if (isNew) {
-        emit testAdded(m_Item);
+        m_HML->addNode(m_HML->currentFolder(),m_Item);
+        // emit testAdded(m_Item);
     } else {
         emit testChanged(m_Item);
     }
@@ -406,38 +410,38 @@ void HostMonDlg::init(TTest *item)
     int hours = m_Item->interval()/(60*60); // hours
     int min = (m_Item->interval() - hours*60*60) / 60; // minutes
     int sec = (m_Item->interval() - hours*60*60 - min*60); // sec
-    switch( m_Item->scheduleMode() ) {
-    case 0: // Regular
+    switch( m_Item->schedule()->getMode() ) {
+    case TSchedule::Regular : // Regular
         on_btnScheduleRegular_clicked();
         ui->sbScheduleHours->setValue(hours);
         ui->sbScheduleMin->setValue(min);
         ui->sbScheduleSec->setValue(sec);
-        ui->cmbSchedule->setCurrentText(m_Item->scheduleName());
+        ui->cmbSchedule->setCurrentText(m_Item->schedule()->getScheduleName());
         break;
-    case 1: // Irregular - OneTestPerDay
+    case TSchedule::OncePerDay : // Irregular - OneTestPerDay
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(0);
         on_cmbSchedIrregularMode_currentIndexChanged(0);
-        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
+        ui->timeSchedIrregular->setTime(m_Item->schedule()->getScheduleTime());
         break;
-    case 2: // Irregular - OneTestPerWeek
+    case TSchedule::OncePerWeek : // Irregular - OneTestPerWeek
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(1);
         on_cmbSchedIrregularMode_currentIndexChanged(1);
-        ui->cmbSchedDayOfWeek->setCurrentIndex(m_Item->scheduleDay());
-        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
+        ui->cmbSchedDayOfWeek->setCurrentIndex(m_Item->schedule()->getScheduleDay());
+        ui->timeSchedIrregular->setTime(m_Item->schedule()->getScheduleTime());
         break;
-    case 3: // Irregular - OneTestPerMonth
+    case TSchedule::OncePerMonth : // Irregular - OneTestPerMonth
         on_btnScheduleIrregular_clicked();
         ui->cmbSchedIrregularMode->setCurrentIndex(2);
         on_cmbSchedIrregularMode_currentIndexChanged(2);
-        ui->cmbSchedDayOfMonth->setCurrentIndex(m_Item->scheduleDay());
-        ui->timeSchedIrregular->setTime(m_Item->scheduleTime());
+        ui->cmbSchedDayOfMonth->setCurrentIndex(m_Item->schedule()->getScheduleDay());
+        ui->timeSchedIrregular->setTime(m_Item->schedule()->getScheduleTime());
         break;
-    case 4: // By Expression
+    case TSchedule::ByExpression : // By Expression
         on_btnScheduleByExpression_clicked();
-        ui->cmbScheduleExpr1->setCurrentText(m_Item->scheduleExpr1());
-        ui->cmbScheduleExpr2->setCurrentText(m_Item->scheduleExpr2());
+        ui->cmbScheduleExpr1->setCurrentText(m_Item->schedule()->getScheduleExpr1());
+        ui->cmbScheduleExpr2->setCurrentText(m_Item->schedule()->getScheduleExpr2());
         break;
     }
 

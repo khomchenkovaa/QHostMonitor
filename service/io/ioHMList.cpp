@@ -573,6 +573,8 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
 {
     QJsonArray result;
     TFolder *folder = qobject_cast<TFolder*>(m_HML->rootFolder());
+    int scheduleModeIdx = TSchedule::staticMetaObject.indexOfEnumerator("ScheduleMode");
+    QMetaEnum scheduleModeEnum = TSchedule::staticMetaObject.enumerator(scheduleModeIdx);
     foreach(TNode *node, folder->testList()) {
         if (node->getType() != TNode::TEST) continue;
         TTest *test = qobject_cast<TTest*>(node);
@@ -596,8 +598,40 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         jsonObj.insert("paused", QJsonValue(test->isPaused()));
         jsonObj.insert("pauseComment", QJsonValue(test->getPauseComment()));
 
+        // schedule
+        TSchedule::ScheduleMode scheduleMode = test->schedule()->getMode();
+        jsonObj.insert(PRM_SCHEDULE_MODE, QJsonValue(scheduleModeEnum.key(scheduleMode)));
+        switch(scheduleMode) {
+        case TSchedule::Regular :
+            jsonObj.insert(PRM_INTERVAL, QJsonValue(test->interval()));
+            jsonObj.insert(PRM_SCHEDULE, QJsonValue(test->scheduleName()));
+            break;
+        case TSchedule::OncePerDay :
+            jsonObj.insert(PRM_SCHEDULE_TIME, QJsonValue(test->schedule()->getScheduleTime().toString(TIME_FORMAT)));
+            break;
+        case TSchedule::OncePerWeek :
+        case TSchedule::OncePerMonth :
+            jsonObj.insert(PRM_SCHEDULE_DAY, QJsonValue(test->schedule()->getScheduleDay()));
+            jsonObj.insert(PRM_SCHEDULE_TIME, QJsonValue(test->schedule()->getScheduleTime().toString(TIME_FORMAT)));
+            break;
+        case TSchedule::ByExpression : {
+            QJsonArray expr;
+            if (!test->schedule()->getScheduleExpr1().isEmpty()) {
+                expr.append(QJsonValue(test->schedule()->getScheduleExpr1()));
+            }
+            if (!test->schedule()->getScheduleExpr2().isEmpty()) {
+                expr.append(QJsonValue(test->schedule()->getScheduleExpr2()));
+            }
+            jsonObj.insert(PRM_SCHEDULE_EXPR, QJsonValue(expr));
+            } break;
+        }
+
         // alert profile
-        jsonObj.insert(PRM_ALERTS, QJsonValue(test->getAlertProfileID()));
+        int alertProfileIdx = test->getAlertProfileID();
+        if (alertProfileIdx != -1) {
+            GActionProfile alertProfile = GData::actionProfiles.at(alertProfileIdx);
+            jsonObj.insert(PRM_ALERTS, QJsonValue(alertProfile.name));
+        }
 
         // Log & Reports options
         QJsonObject logObj;
@@ -667,6 +701,8 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
 void IOHMList::parseTestsSection(QJsonValue jsonValue)
 {
     TFolder *rootFolder = qobject_cast<TFolder*>(m_HML->rootFolder());
+    int scheduleModeIdx = TSchedule::staticMetaObject.indexOfEnumerator("ScheduleMode");
+    QMetaEnum scheduleModeEnum = TSchedule::staticMetaObject.enumerator(scheduleModeIdx);
     foreach(const QJsonValue &testValue, jsonValue.toArray()) {
         QJsonObject jsonObj = testValue.toObject();
         // node
@@ -682,7 +718,6 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
             QString msg = tr("Can not find dest folder '%1'").arg(destFolder);
             sendErrorMessage(msg);
         }
-        m_HML->addNode(parent,test);
 
         // method
         parseTestMethodSection(jsonObj.value(TSP_SPECIFIC),test);
@@ -692,8 +727,47 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
         test->setPaused(jsonObj.value("paused").toBool());
         test->setPauseComment(jsonObj.value("pauseComment").toString());
 
+        // schedule
+        QString schedModeString = jsonObj.value(PRM_SCHEDULE_MODE).toString();
+        TSchedule::ScheduleMode scheduleMode = (TSchedule::ScheduleMode)scheduleModeEnum.keyToValue(schedModeString.toStdString().data());
+        switch(scheduleMode) {
+        case TSchedule::Regular : {
+            int interval = jsonObj.value(PRM_INTERVAL).toInt();
+            QString scheduleName = jsonObj.value(PRM_SCHEDULE).toString();
+            test->setRegularSchedule(interval, scheduleName);
+            } break;
+        case TSchedule::OncePerDay : {
+            QTime time = QTime::fromString(jsonObj.value(PRM_SCHEDULE_TIME).toString(), TIME_FORMAT);
+            test->schedule()->setOncePerDay(time);
+            } break;
+        case TSchedule::OncePerWeek : {
+            QTime time = QTime::fromString(jsonObj.value(PRM_SCHEDULE_TIME).toString(), TIME_FORMAT);
+            int day = jsonObj.value(PRM_SCHEDULE_DAY).toInt();
+            test->schedule()->setOncePerWeek(day, time);
+            } break;
+        case TSchedule::OncePerMonth : {
+            QTime time = QTime::fromString(jsonObj.value(PRM_SCHEDULE_TIME).toString(), TIME_FORMAT);
+            int day = jsonObj.value(PRM_SCHEDULE_DAY).toInt();
+            test->schedule()->setOncePerMonth(day, time);
+            } break;
+        case TSchedule::ByExpression : {
+            QJsonArray jsonArray = jsonObj.value(PRM_SCHEDULE_EXPR).toArray();
+            QString expr1, expr2;
+            if (jsonArray.size()) {
+                expr1 = jsonArray.at(0).toString();
+            }
+            if (jsonArray.size() > 1) {
+                expr2 = jsonArray.at(1).toString();
+            }
+            test->setByExpressionSchedule(expr1, expr2);
+            } break;
+        }
+
         // alert profile
-        //!
+        if (jsonObj.contains(PRM_ALERTS)) {
+            int alertIdx = GData::getActionProfileIdx(jsonObj.value(PRM_ALERTS).toString());
+            test->setAlertProfileID(alertIdx);
+        }
 
         // Log & Reports options
         QJsonObject logObj = jsonObj.value("log").toObject();
@@ -733,6 +807,8 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
         if (test->isUseWarningScript()) {
             test->setTuneUpScript(optObj.value("TuneUpScript").toString());
         }
+
+        m_HML->addNode(parent,test);
 
         // Load statistics
 
@@ -1118,7 +1194,7 @@ void IOHMList::parseTestMethodSection(QJsonValue jsonValue, TTest *test)
     converter->deleteLater();
     method->setNamePattern(jsonObj.value(PRM_NAME_PATTERN).toString());
     method->setCommentPattern(jsonObj.value(PRM_CMNT_PATTERN).toString());
-    test->setTest(method);
+    test->setMethod(method);
 }
 
 /******************************************************************/

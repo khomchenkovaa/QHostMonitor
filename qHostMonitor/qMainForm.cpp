@@ -218,6 +218,7 @@ void MainForm::onTreeFolderChanged()
 {
     QModelIndex idx = ui->treeFolders->currentIndex();
     TNode *item = m_folders->itemFromIndex(idx);
+    m_HML->setCurrentFolder(item);
 
     ui->btnNewFolder->setEnabled(m_folders->parent(idx).isValid());
     ui->btnDelFolder->setEnabled(m_folders->parent(idx).isValid());

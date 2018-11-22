@@ -99,6 +99,7 @@ signals:
     void linkDeleted(TNode *folder, TNode* test);
     void monitoringStarted(bool value);
     void alertsEnabled(bool value);
+    void readyRun(TNode* test);
 
 public slots:
     void cmdAlertsEnable();

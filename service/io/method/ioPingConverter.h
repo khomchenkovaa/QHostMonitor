@@ -3,6 +3,8 @@
 
 #include "ioTestMethodConverter.h"
 
+#include <QMetaEnum>
+
 // Specific parameters
 #define SP_HOST           "Host"
 #define SP_TIMEOUT        "Timeout"
@@ -17,17 +19,16 @@ namespace SDPO {
 class IOPingConverter : public IOTestMethodConverter
 {
     Q_OBJECT
+
+    QMetaEnum m_DisplayModeEnum;
 public:
     explicit IOPingConverter(QObject *parent = 0);
 
     virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
     virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
-
     virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
-
-private:
-    QString displayModeToString(TPing::DisplayMode mode);
-
+    virtual QJsonObject toJsonObject() Q_DECL_OVERRIDE;
+    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
 };
 
 } // namespace SDPO

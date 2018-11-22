@@ -40,7 +40,7 @@ void HMListService::addNode(TNode *parent, TNode *item)
         break;
     case TNode::TEST :
         //! TODO update views
-        connect(item,SIGNAL(readyRun(TNode*)),m_Root,SIGNAL(readyRun(TNode*)));
+        connect(item,SIGNAL(readyRun(TNode*)),this,SIGNAL(readyRun(TNode*)));
         connect(item,SIGNAL(testDone(TNode*)),m_Root,SIGNAL(testUpdated(TNode*)));
         emit testAdded(item);
         break;

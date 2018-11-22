@@ -15,8 +15,7 @@ int TTest::failureCount = 0;
 /***********************************************/
 
 TTest::TTest(const int id, const QString &name, QObject *parent) :
-    TNode(id, name, TNode::TEST, parent),
-    m_schedule(* new TSchedule())
+    TNode(id, name, TNode::TEST, parent)
 {
     m_TMethod = new TTestMethod(TMethodID::Empty);
 
@@ -45,7 +44,7 @@ TTest::TTest(const int id, const QString &name, QObject *parent) :
     resetSuggestedTestState();
     resetAcknowlegedInfo();
     resetPreviousStatusInfo();
-    resetStatistics();
+    m_Stat.clear();
 
     connect(&m_schedule, &TSchedule::activated, this, &TTest::slotTimeout);
 }
@@ -54,7 +53,6 @@ TTest::TTest(const int id, const QString &name, QObject *parent) :
 
 TTest::~TTest()
 {
-    delete &m_schedule;
     m_links.clear();
     delete m_agent;
     delete m_TMethod;
@@ -304,7 +302,7 @@ TTest *TTest::clone(const int newID, const QString &newName)
     // TTest properties
     result->b_Enabled = b_Enabled;
     result->b_Paused = b_Paused;
-    result->setTest(m_TMethod->clone());
+    result->setMethod(m_TMethod->clone());
     result->m_agent = m_agent;
     result->a_AlertProfileID = a_AlertProfileID;
     result->a_PrivateLog = a_PrivateLog;
@@ -340,16 +338,16 @@ TTest *TTest::clone(const int newID, const QString &newName)
         result->setRegularSchedule(m_schedule.getInterval(), m_schedule.getScheduleName());
         break;
     case TSchedule::OncePerDay:
-        result->setIrregularSchedule(0,scheduleDay(),scheduleTime());
+        result->setOncePerDaySchedule(m_schedule.getScheduleTime());
         break;
     case TSchedule::OncePerWeek:
-        result->setIrregularSchedule(1,scheduleDay(),scheduleTime());
+        result->setOncePerWeekSchedule(m_schedule.getScheduleDay(),m_schedule.getScheduleTime());
         break;
     case TSchedule::OncePerMonth:
-        result->setIrregularSchedule(2,scheduleDay(),scheduleTime());
+        result->setOncePerMonthSchedule(m_schedule.getScheduleDay(),m_schedule.getScheduleTime());
         break;
     case TSchedule::ByExpression:
-        result->setByExpressionSchedule(scheduleExpr1(),scheduleExpr2());
+        result->setByExpressionSchedule(m_schedule.getScheduleExpr1(),m_schedule.getScheduleExpr2());
         break;
     }
     result->updateSpecificProperties();
@@ -392,37 +390,13 @@ QString TTest::masterTests() const
 
 /******************************************************************/
 
-void TTest::setRegularSchedule(const int interval, const QString schedName)
-{
-    m_schedule.setRegular(interval, schedName);
-}
-
-/******************************************************************/
-
-void TTest::setIrregularSchedule(const int mode, const int schedDay, const QTime schedTime)
-{
-    switch (mode) {
-    case 0: m_schedule.setOncePerDay(schedTime); break;
-    case 1: m_schedule.setOncePerWeek(schedDay, schedTime); break;
-    case 2: m_schedule.setOncePerMonth(schedDay, schedTime); break;
-    }
-}
-
-/******************************************************************/
-
-void TTest::setByExpressionSchedule(const QString expr1, const QString expr2)
-{
-    m_schedule.setByExpression(expr1, expr2);
-}
-
-/******************************************************************/
-
 QString TTest::status() const
 {
     if (!isEnabled()) return TEnums::testStatus(TestStatus::Disabled);
     if (isPaused()) return TEnums::testStatus(TestStatus::Paused);
     return TEnums::testStatus(m_CurrentState.status);
 }
+
 /******************************************************************/
 
 TestStatus TTest::getStatusID() const
@@ -455,7 +429,7 @@ void TTest::slotTimeout()
 
 /***********************************************/
 
-void TTest::setTest(TTestMethod *testMethod)
+void TTest::setMethod(TTestMethod *testMethod)
 {
     if (m_TMethod == testMethod) return;
     if (m_TMethod) {
@@ -499,13 +473,6 @@ void TTest::resetPreviousStatusInfo()
 {
     m_LastState.clear();
     m_PreviousState.clear();
-}
-
-/***********************************************/
-
-void TTest::resetStatistics()
-{
-    m_Stat.clear();
 }
 
 /***********************************************/

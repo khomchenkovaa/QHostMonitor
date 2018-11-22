@@ -226,15 +226,39 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     foreach (TNode *node, test->links()) {
         out << PRM_LINKED_TO  << " = " << node->getPath().replace("/","\\").mid(1) << endl;
     }
-    out << PRM_TITLE          << " = " << test->getName()                          << endl;
-    out << PRM_COMMENT        << " = " << test->getComment().replace("\n","^M")    << endl;
-    out << PRM_RELATED_URL    << " = " << test->getRelatedURL()                    << endl;
-    out << PRM_NAME_PATTERN   << " = " << test->method()->getNamePattern()           << endl;
-    out << PRM_CMNT_PATTERN   << " = " << test->method()->getCommentPattern()        << endl;
-    out << PRM_SCHEDULE_MODE  << " = " << m_ScheduleMode.at(test->scheduleMode())   << endl;
-    out << PRM_SCHEDULE       << " = " << test->scheduleName()                     << endl;
-    out << PRM_INTERVAL       << " = " << test->interval()                         << endl;
-    out << PRM_ALERTS         << " = " << endl; //!TODO
+    // properties
+    out << PRM_TITLE         << " = " << test->getName() << endl;
+    out << PRM_COMMENT       << " = " << test->getComment().replace("\n","^M") << endl;
+    out << PRM_RELATED_URL   << " = " << test->getRelatedURL() << endl;
+    out << PRM_NAME_PATTERN  << " = " << test->method()->getNamePattern() << endl;
+    out << PRM_CMNT_PATTERN  << " = " << test->method()->getCommentPattern() << endl;
+
+    // schedule
+    out << PRM_SCHEDULE_MODE << " = " << m_ScheduleMode.at(test->schedule()->getMode()) << endl;
+    switch (test->schedule()->getMode()) {
+    case TSchedule::Regular :
+        out << PRM_SCHEDULE << " = " << test->scheduleName() << endl;
+        out << PRM_INTERVAL << " = " << test->interval() << endl;
+        break;
+    case TSchedule::OncePerDay :
+        out << PRM_SCHEDULE_TIME << " = " << test->schedule()->getScheduleTime().toString(TIME_FORMAT) << endl;
+        break;
+    case TSchedule::OncePerWeek :
+    case TSchedule::OncePerMonth :
+        out << PRM_SCHEDULE_DAY  << " = " << test->schedule()->getScheduleDay() << endl;
+        out << PRM_SCHEDULE_TIME << " = " << test->schedule()->getScheduleTime().toString(TIME_FORMAT) << endl;
+        break;
+    case TSchedule::ByExpression :
+        out << PRM_SCHEDULE_EXPR << " = " << test->schedule()->getScheduleExpr1() << endl;
+        break;
+    }
+
+    // alert profile
+    int alertProfileIdx = test->getAlertProfileID();
+    if (alertProfileIdx != -1) {
+        out << PRM_ALERTS << " = " << GData::actionProfiles.at(alertProfileIdx).name << endl;
+    }
+
     out << PRM_REVERSE_ALERT  << " = " << (test->isReverseAlert()?"Yes":"No")      << endl;
     out << PRM_UNKNOWN_IS_BAD << " = " << (test->isUnknownIsBad()?"Yes":"No")      << endl;
     out << PRM_WARNING_IS_BAD << " = " << (test->isWarningIsBad()?"Yes":"No")      << endl;
@@ -291,7 +315,7 @@ void IOTextFile::addTest() {
     // find or create test
     cmd = m_testProps.take(PRM_TITLE);
     m_curTest = new TTest(m_HML->nextID(),cmd.value);
-    m_curTest->setTest(testMethod);
+    m_curTest->setMethod(testMethod);
     cmd = m_testProps.take(PRM_DEST_FOLDER);
     TNode *node = m_HML->cmdCreateFolder(cmd.value);
     m_HML->addNode(node,m_curTest);
@@ -327,6 +351,7 @@ void IOTextFile::setTestProperties()
         cmd = m_testProps.take(PRM_RELATED_URL);
         m_curTest->setRelatedURL(cmd.value);
     }
+
     // schedule
     TSchedule::ScheduleMode schMode = TSchedule::Regular;
     if (m_testProps.keys().contains(PRM_SCHEDULE_MODE)) {
@@ -339,42 +364,45 @@ void IOTextFile::setTestProperties()
             schMode = (TSchedule::ScheduleMode)idx;
         }
     }
+    int scheduleDay = 2;
+    if (m_testProps.keys().contains(PRM_SCHEDULE_DAY)) {
+        scheduleDay = m_testProps.take(PRM_SCHEDULE_DAY).value.toInt();
+    }
+    QTime scheduleTime(9,0,0);
+    if (m_testProps.keys().contains(PRM_SCHEDULE_TIME)) {
+        scheduleTime = QTime::fromString(m_testProps.take(PRM_SCHEDULE_TIME).value, TIME_FORMAT);
+    }
+    QString scheduleExpr;
+    if (m_testProps.keys().contains(PRM_SCHEDULE_EXPR)) {
+        scheduleExpr = m_testProps.take(PRM_SCHEDULE_EXPR).value;
+    }
     switch(schMode) {
     case TSchedule::Regular: {
         QString scheduleName = m_testProps.take(PRM_SCHEDULE).value;
         int interval = m_testProps.take(PRM_INTERVAL).value.toInt();
         m_curTest->setRegularSchedule(interval, scheduleName);
-    } break;
+        } break;
     case TSchedule::OncePerDay:
+        m_curTest->setOncePerDaySchedule(scheduleTime);
+        break;
     case TSchedule::OncePerWeek:
-    case TSchedule::OncePerMonth:{
-        int idx = ((int)schMode) - 1;
-        int scheduleDay = 2;
-        if (m_testProps.keys().contains(PRM_SCHEDULE_DAY)) {
-            scheduleDay = m_testProps.take(PRM_SCHEDULE_DAY).value.toInt();
-        }
-        QTime scheduleTime(9,0,0);
-        if (m_testProps.keys().contains(PRM_SCHEDULE_TIME)) {
-            scheduleTime = QTime::fromString(m_testProps.take(PRM_SCHEDULE_TIME).value,"hh:mm:ss");
-        }
-        m_curTest->setIrregularSchedule(idx,scheduleDay,scheduleTime);
-    } break;
-    case TSchedule::ByExpression: {
-        QString scheduleExpr;
-        if (m_testProps.keys().contains(PRM_SCHEDULE_EXPR)) {
-            scheduleExpr = m_testProps.take(PRM_SCHEDULE_EXPR).value;
-        }
+        m_curTest->setOncePerWeekSchedule(scheduleDay, scheduleTime);
+        break;
+    case TSchedule::OncePerMonth:
+        m_curTest->setOncePerMonthSchedule(scheduleDay,scheduleTime);
+        break;
+    case TSchedule::ByExpression:
         m_curTest->setByExpressionSchedule(scheduleExpr,QString());
-    } break;
+        break;
     }
-    // alerts
+
+    // alert profiles
     if (m_testProps.keys().contains(PRM_ALERTS)) {
         cmd = m_testProps.take(PRM_ALERTS);
         int idx = GData::getActionProfileIdx(cmd.value);
-        if (idx != -1) {
-            m_curTest->setAlertProfileID(idx);
-        }
+        m_curTest->setAlertProfileID(idx);
     }
+
     // Log & Reports
     if (m_testProps.keys().contains(PRM_USE_COMMON_LOG)) {
         cmd = m_testProps.take(PRM_USE_COMMON_LOG);

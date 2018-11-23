@@ -98,8 +98,6 @@ void TRoot::removeTest(TTest *test)
 {
     TNode* parent = test->parentNode();
     if (test->linkCount() == 0) {
-        disconnect(test,SIGNAL(testDone(TNode*)),this,SIGNAL(testUpdated(TNode*)));
-        disconnect(test,SIGNAL(readyRun(TNode*)),this,SIGNAL(readyRun(TNode*)));
         emit delTest(test);
         parent->removeChild(test);
     } else {

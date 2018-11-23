@@ -636,20 +636,20 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
         // Log & Reports options
         QJsonObject logObj;
         if (test->isUseCommonLog()) {
-            logObj.insert("commonLogMode", QJsonValue(test->getCommonLogMode()));
+            logObj.insert(PRM_COM_LOG_MODE, QJsonValue(test->getCommonLogMode()));
         }
         if (test->isUsePrivateLog()) {
-            logObj.insert("privateLogMode", QJsonValue(test->getPrivateLogMode()));
-            logObj.insert("privateLog", QJsonValue(test->getPrivateLog()));
+            logObj.insert(PRM_PRIV_LOG, QJsonValue(test->getPrivateLog()));
+            logObj.insert(PRM_PRIV_LOG_MODE, QJsonValue(test->getPrivateLogMode()));
         }
-        logObj.insert("ExcludeFromHtmlReport", QJsonValue(test->isExcludeFromHtmlReport()));
-        logObj.insert("ExcludeFromWmlReport", QJsonValue(test->isExcludeFromWmlReport()));
-        logObj.insert("ExcludeFromDbfReport", QJsonValue(test->isExcludeFromDbfReport()));
-        jsonObj.insert("log", QJsonValue(logObj));
+        logObj.insert(PRM_ExcludeFromHtmlReport, QJsonValue(test->isExcludeFromHtmlReport()));
+        logObj.insert(PRM_ExcludeFromWmlReport, QJsonValue(test->isExcludeFromWmlReport()));
+        logObj.insert(PRM_ExcludeFromDbfReport, QJsonValue(test->isExcludeFromDbfReport()));
+        jsonObj.insert(TSP_LOG, QJsonValue(logObj));
 
         // Dependencies
         QJsonObject dependencyObj;
-        dependencyObj.insert("mode", QJsonValue(test->getDependencyMode()));
+        dependencyObj.insert(PRM_DEPENDS_ON, QJsonValue(test->getDependencyMode()));
         if (!test->getMasterTests().isEmpty()) {
             QJsonArray masters;
             foreach (const TTestPair &pair, test->getMasterTests()) {
@@ -662,27 +662,27 @@ QJsonValue IOHMList::createTestsSection(const bool storeStatistics, const bool s
             }
             dependencyObj.insert("masters", QJsonValue(masters));
         }
-        dependencyObj.insert("expression", QJsonValue(test->getDependencyCondition()));
-        dependencyObj.insert("otherwiseStatus", QJsonValue(test->getDependencyOtherwiseStatus()));
-        dependencyObj.insert("synchronizeCounters", QJsonValue(test->isSynchronizeCounters()));
-        dependencyObj.insert("synchronizeAlerts", QJsonValue(test->isSynchronizeStatusAlerts()));
-        jsonObj.insert("dependencies", QJsonValue(dependencyObj));
+        dependencyObj.insert(PRM_DEPEND_EXPR, QJsonValue(test->getDependencyCondition()));
+        dependencyObj.insert(PRM_DEPEND_STATUS, QJsonValue(test->getDependencyOtherwiseStatus()));
+        dependencyObj.insert(PRM_SYNC_COUNTERS, QJsonValue(test->isSynchronizeCounters()));
+        dependencyObj.insert(PRM_SYNC_ALERTS, QJsonValue(test->isSynchronizeStatusAlerts()));
+        jsonObj.insert(TSP_DEPENDENCIES, QJsonValue(dependencyObj));
 
-        // optional
+        // Optional
         QJsonObject optionalObj;
-        optionalObj.insert("reverse", QJsonValue(test->isReverseAlert()));
-        optionalObj.insert("UnknownIsBad", QJsonValue(test->isUnknownIsBad()));
-        optionalObj.insert("WarningIsBad", QJsonValue(test->isWarningIsBad()));
+        optionalObj.insert(PRM_REVERSE_ALERT, QJsonValue(test->isReverseAlert()));
+        optionalObj.insert(PRM_UNKNOWN_IS_BAD, QJsonValue(test->isUnknownIsBad()));
+        optionalObj.insert(PRM_WARNING_IS_BAD, QJsonValue(test->isWarningIsBad()));
         if (test->isUseWarningScript()) {
-            optionalObj.insert("WarningScript", QJsonValue(test->getWarningScript()));
+            optionalObj.insert(PRM_WARNING_EXPR, QJsonValue(test->getWarningScript()));
         }
         if (test->isUseNormalScript()) {
-            optionalObj.insert("NormalScript", QJsonValue(test->getNormalScript()));
+            optionalObj.insert(PRM_NORMAL_EXPR, QJsonValue(test->getNormalScript()));
         }
         if (test->isTuneUpReply()) {
-            optionalObj.insert("TuneUpScript", QJsonValue(test->getTuneUpScript()));
+            optionalObj.insert(PRM_TUNE_REPLY_EXP, QJsonValue(test->getTuneUpScript()));
         }
-        jsonObj.insert("optional", QJsonValue(optionalObj));
+        jsonObj.insert(TSP_OPTIONAL, QJsonValue(optionalObj));
 
         if (storeStatistics) {
             // Store statistics
@@ -770,42 +770,42 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
         }
 
         // Log & Reports options
-        QJsonObject logObj = jsonObj.value("log").toObject();
-        if (logObj.contains("commonLogMode")) {
+        QJsonObject logObj = jsonObj.value(TSP_LOG).toObject();
+        if (logObj.contains(PRM_COM_LOG_MODE)) {
             test->setUseCommonLog(true);
-            test->setCommonLogMode(logObj.value("commonLogMode").toInt());
+            test->setCommonLogMode(logObj.value(PRM_COM_LOG_MODE).toInt());
         } else {
             test->setUseCommonLog(false);
         }
-        if (logObj.contains("privateLogMode")) {
+        if (logObj.contains(PRM_PRIV_LOG)) {
             test->setUsePrivateLog(true);
-            test->setPrivateLogMode(logObj.value("privateLogMode").toInt());
-            test->setPrivateLog(logObj.value("privateLog").toString());
+            test->setPrivateLogMode(logObj.value(PRM_PRIV_LOG_MODE).toInt());
+            test->setPrivateLog(logObj.value(PRM_PRIV_LOG).toString());
         } else {
             test->setUsePrivateLog(false);
         }
-        test->setExcludeFromHtmlReport(logObj.value("ExcludeFromHtmlReport").toBool());
-        test->setExcludeFromWmlReport(logObj.value("ExcludeFromWmlReport").toBool());
-        test->setExcludeFromDbfReport(logObj.value("ExcludeFromDbfReport").toBool());
+        test->setExcludeFromHtmlReport(logObj.value(PRM_ExcludeFromHtmlReport).toBool());
+        test->setExcludeFromWmlReport(logObj.value(PRM_ExcludeFromWmlReport).toBool());
+        test->setExcludeFromDbfReport(logObj.value(PRM_ExcludeFromDbfReport).toBool());
 
         // skip dependencies (wait for all tests load)
 
         // optional
-        QJsonObject optObj = jsonObj.value("optional").toObject();
-        test->setReverseAlert(optObj.value("reverse").toBool());
-        test->setUnknownIsBad(optObj.value("UnknownIsBad").toBool());
-        test->setWarningIsBad(optObj.value("WarningIsBad").toBool());
-        test->setUseWarningScript(optObj.contains("WarningScript"));
+        QJsonObject optObj = jsonObj.value(TSP_OPTIONAL).toObject();
+        test->setReverseAlert(optObj.value(PRM_REVERSE_ALERT).toBool());
+        test->setUnknownIsBad(optObj.value(PRM_UNKNOWN_IS_BAD).toBool());
+        test->setWarningIsBad(optObj.value(PRM_WARNING_IS_BAD).toBool());
+        test->setUseWarningScript(optObj.contains(PRM_WARNING_EXPR));
         if (test->isUseWarningScript()) {
-            test->setWarningScript(optObj.value("WarningScript").toString());
+            test->setWarningScript(optObj.value(PRM_WARNING_EXPR).toString());
         }
-        test->setUseNormalScript(optObj.contains("NormalScript"));
+        test->setUseNormalScript(optObj.contains(PRM_NORMAL_EXPR));
         if (test->isUseWarningScript()) {
-            test->setNormalScript(optObj.value("NormalScript").toString());
+            test->setNormalScript(optObj.value(PRM_NORMAL_EXPR).toString());
         }
-        test->setTuneUpReply(optObj.contains("TuneUpScript"));
+        test->setTuneUpReply(optObj.contains(PRM_TUNE_REPLY_EXP));
         if (test->isUseWarningScript()) {
-            test->setTuneUpScript(optObj.value("TuneUpScript").toString());
+            test->setTuneUpScript(optObj.value(PRM_TUNE_REPLY_EXP).toString());
         }
 
         m_HML->addNode(parent,test);
@@ -818,7 +818,7 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
     // load dependencies"expression"
     foreach(const QJsonValue &testValue, jsonValue.toArray()) {
         QJsonObject testObj = testValue.toObject();
-        QJsonObject depObj = testObj.value("dependencies").toObject();
+        QJsonObject depObj = testObj.value(TSP_DEPENDENCIES).toObject();
         Q_UNUSED(depObj)
         //! TODO
     }

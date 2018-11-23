@@ -259,12 +259,22 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
         out << PRM_ALERTS << " = " << GData::actionProfiles.at(alertProfileIdx).name << endl;
     }
 
+    // Log & Reports options
+    out << PRM_USE_COMMON_LOG << " = " << (test->isUseCommonLog()?"Yes":"No") << endl;
+    if (test->isUseCommonLog()) {
+        out << PRM_COM_LOG_MODE   << " = " << logMode.at(test->getCommonLogMode()) << endl;
+    }
+    if (test->isUsePrivateLog()) {
+        out << PRM_PRIV_LOG  << " = " << test->getPrivateLog() << endl;
+        out << PRM_PRIV_LOG_MODE  << " = " << logMode.at(test->getPrivateLogMode()) << endl;
+    }
+
+    // Dependencies
+
+    // Optional
     out << PRM_REVERSE_ALERT  << " = " << (test->isReverseAlert()?"Yes":"No")      << endl;
     out << PRM_UNKNOWN_IS_BAD << " = " << (test->isUnknownIsBad()?"Yes":"No")      << endl;
     out << PRM_WARNING_IS_BAD << " = " << (test->isWarningIsBad()?"Yes":"No")      << endl;
-    out << PRM_USE_COMMON_LOG << " = " << (test->isUseCommonLog()?"Yes":"No")      << endl;
-    out << PRM_PRIV_LOG_MODE  << " = " << logMode.at(test->getPrivateLogMode())    << endl;
-    out << PRM_COM_LOG_MODE   << " = " << logMode.at(test->getCommonLogMode())     << endl;
     out << ";--- Test specific properties ---" << endl;
     if (getConverter(test->methodId())) {
         m_curMethodConverter->setTestMethod(test->method());

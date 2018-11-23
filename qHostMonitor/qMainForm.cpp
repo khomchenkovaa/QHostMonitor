@@ -156,7 +156,7 @@ void MainForm::resetModel()
     connect(m_HML->rootItem(), SIGNAL(delTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(cutTest(TNode*)), m_model, SLOT(removeTest(TNode*)));
     connect(m_HML->rootItem(), SIGNAL(delLink(TNode*)), m_model, SLOT(removeTest(TNode*)));
-    connect(m_HML->rootItem(), SIGNAL(testUpdated(TNode*)), m_model, SLOT(updateTest(TNode*)));
+    connect(m_HML, SIGNAL(testUpdated(TNode*)), m_model, SLOT(updateTest(TNode*)));
     m_model->setCurrent(m_HML->rootFolder());
     m_filterModel = new TestListSortingModel(this);
     m_filterModel->setSourceModel(m_model);

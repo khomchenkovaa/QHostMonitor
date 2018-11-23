@@ -57,7 +57,6 @@ void TView::setupListeners()
     connect(root, SIGNAL(pasteTest(TNode*)),   this, SLOT(updateByCriteria(TNode*)));
     connect(root, SIGNAL(delTest(TNode*)),     this, SLOT(updateByCriteria(TNode*)));
     connect(root, SIGNAL(cutTest(TNode*)),     this, SLOT(updateByCriteria(TNode*)));
-    connect(root, SIGNAL(testUpdated(TNode*)), this, SLOT(updateByCriteria(TNode*)));
 }
 
 /***********************************************/

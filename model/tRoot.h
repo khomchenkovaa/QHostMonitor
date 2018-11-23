@@ -37,8 +37,6 @@ signals:
     void delLink(TNode *link); //! TODO
     void cutTest(TNode *test);
     void pasteTest(TNode *test);
-//    void readyRun(TNode *test);
-    void testUpdated(TNode *test);
 
 public slots:
     void removeNode(TNode* item);

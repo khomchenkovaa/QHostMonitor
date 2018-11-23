@@ -44,7 +44,13 @@
 #define FVS_CRITERIA "criteria"
 
 // test section params
-#define TSP_SPECIFIC "specificParams"
+#define TSP_SPECIFIC     "specificParams"
+#define TSP_LOG          "log"
+#define TSP_DEPENDENCIES "dependencies"
+#define TSP_OPTIONAL     "optional"
+#define PRM_ExcludeFromHtmlReport "ExcludeFromHtmlReport"
+#define PRM_ExcludeFromWmlReport  "ExcludeFromWmlReport"
+#define PRM_ExcludeFromDbfReport  "ExcludeFromDbfReport"
 
 // columns
 #define GRP_FIELDS  "fields"

@@ -26,6 +26,11 @@
 #define PRM_SCHEDULE_EXPR "ScheduleExpr"
 #define PRM_ALERTS        "Alerts"
 
+#define PRM_USE_COMMON_LOG "UseCommonLog"
+#define PRM_PRIV_LOG       "PrivateLog"
+#define PRM_PRIV_LOG_MODE  "PrivLogMode"
+#define PRM_COM_LOG_MODE   "CommLogMode"
+
 #define PRM_REVERSE_ALERT  "ReverseAlert"
 #define PRM_UNKNOWN_IS_BAD "UnknownIsBad"
 #define PRM_WARNING_IS_BAD "WarningIsBad"
@@ -35,11 +40,6 @@
 #define PRM_NORMAL_EXPR    "NormalExpr"
 #define PRM_TUNEUP_REPLY   "TuneupReply"
 #define PRM_TUNE_REPLY_EXP "TuneReplyExp"
-
-#define PRM_USE_COMMON_LOG "UseCommonLog"
-#define PRM_PRIV_LOG       "PrivateLog"
-#define PRM_PRIV_LOG_MODE  "PrivLogMode"
-#define PRM_COM_LOG_MODE   "CommLogMode"
 
 #define PRM_DEPENDS_ON                   "DependsOn"
 #define PRM_DEPEND_EXPR                  "DpExpression"

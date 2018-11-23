@@ -34,14 +34,17 @@ void HMListService::addNode(TNode *parent, TNode *item)
     case TNode::FOLDER :
         emit folderAdded(item);
         break;
-    case TNode::VIEW :
+    case TNode::VIEW : {
         //! TODO fill view
+            TView *view = qobject_cast<TView*>(item);
+            connect(this, SIGNAL(testUpdated(TNode*)), view, SLOT(updateByCriteria(TNode*)));
+        }
         emit viewAdded(item);
         break;
     case TNode::TEST :
         //! TODO update views
         connect(item,SIGNAL(readyRun(TNode*)),this,SIGNAL(readyRun(TNode*)));
-        connect(item,SIGNAL(testDone(TNode*)),m_Root,SIGNAL(testUpdated(TNode*)));
+        connect(item,SIGNAL(testDone(TNode*)),this,SIGNAL(testUpdated(TNode*)));
         emit testAdded(item);
         break;
     case TNode::LINK :

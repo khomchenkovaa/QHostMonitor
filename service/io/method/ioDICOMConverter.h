@@ -18,11 +18,12 @@ class IODICOMConverter : public IOTestMethodConverter
 public:
     explicit IODICOMConverter(QObject *parent = 0);
 
-virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
+    virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
 
-virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
-
-virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
+    virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
+    virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
+    virtual QJsonObject toJsonObject() Q_DECL_OVERRIDE;
+    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
 
 };
 

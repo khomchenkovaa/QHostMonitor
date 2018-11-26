@@ -66,4 +66,42 @@ void IOFileExistsConverter::exportTo(QTextStream &out)
 
 /***********************************************/
 
+QJsonObject IOFileExistsConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileExists)) {
+        return jsonObj;
+    }
+    TFileExists* test = qobject_cast<TFileExists*>(m_TestMethod);
+    jsonObj.insert(SP_FILE, QJsonValue(test->getFileName()));
+    jsonObj.insert(SP_OK_IF_EXISTS, QJsonValue(test->isFileExistsCriteria()));
+    jsonObj.insert(SP_USE_MACROS, QJsonValue(test->isTranslateMacros()));
+    if (test->isFileOlderFlag()) {
+        jsonObj.insert(SP_MAX_AGE, QJsonValue(test->getFileOlderValue()));
+        }
+    if (test->isFileNewerFlag()) {
+        jsonObj.insert(SP_MIN_AGE, QJsonValue(test->getFileNewerValue()));
+        }
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOFileExistsConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TFileExists *test = qobject_cast<TFileExists*>(getTestMethod());
+    test->setFileName(jsonObj.value(SP_FILE).toString());
+    test->setFileExistsCriteria(jsonObj.value(SP_OK_IF_EXISTS).toBool());
+    test->setTranslateMacros(jsonObj.value(SP_USE_MACROS).toBool());
+    if (test->isFileOlderFlag()) {
+        test->setFileOlderValue(jsonObj.value(SP_MAX_AGE).toInt());
+        }
+    if (test->isFileNewerFlag()) {
+        test->setFileNewerValue(jsonObj.value(SP_MIN_AGE).toInt());
+    }
+    return test;
+}
+
+/******************************************************************/
+
 } // namespace SDPO

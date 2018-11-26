@@ -60,4 +60,34 @@ void IOInterbaseConverter::exportTo(QTextStream &out)
 }
 /******************************************************************/
 
+QJsonObject IOInterbaseConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::Interbase)) {
+        return jsonObj;
+    }
+    TInterbase* test = qobject_cast<TInterbase*>(m_TestMethod);
+    jsonObj.insert(SP_SERVER, QJsonValue(test->getHost()));
+    jsonObj.insert(SP_DATABASE, QJsonValue(test->getDatabase()));
+    jsonObj.insert(SP_USER, QJsonValue(test->getLogin()));
+    jsonObj.insert(SP_PASSWORD, QJsonValue(test->getPassword()));
+    jsonObj.insert(SP_PROTOCOL, QJsonValue(test->getProtocol()));
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOInterbaseConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TInterbase *test = qobject_cast<TInterbase*>(getTestMethod());
+    test->setHost(jsonObj.value(SP_SERVER).toString());
+    test->setDatabase(jsonObj.value(SP_DATABASE).toString());
+    test->setLogin(jsonObj.value(SP_USER).toString());
+    test->setPassword(jsonObj.value(SP_PASSWORD).toString());
+    test->setProtocol(jsonObj.value(SP_PROTOCOL).toString());
+    return test;
+}
+
+/******************************************************************/
+
 } //namespace SDPO

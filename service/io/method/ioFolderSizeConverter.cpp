@@ -67,4 +67,34 @@ void IOFolderSizeConverter::exportTo(QTextStream &out)
 
 /******************************************************************/
 
+QJsonObject IOFolderSizeConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileSize)) {
+        return jsonObj;
+    }
+    TFolderSize* test = qobject_cast<TFolderSize*>(m_TestMethod);
+    jsonObj.insert(SP_FILE, QJsonValue(test->getPath()));
+    jsonObj.insert(SP_SUBFOLDERS, QJsonValue(test->isIncludeSubfolders()));
+    jsonObj.insert(SP_USE_MACROS, QJsonValue(test->isTranslateMacros()));
+    jsonObj.insert(SP_MAX_SIZE, QJsonValue(test->getMaxSize()));
+    jsonObj.insert(SP_DIMENSION, QJsonValue(test->getDimension()));
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOFolderSizeConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TFolderSize *test = qobject_cast<TFolderSize*>(getTestMethod());
+    test->setPath(jsonObj.value(SP_FILE).toString());
+    test->setIncludeSubfolders(jsonObj.value(SP_SUBFOLDERS).toBool());
+    test->setTranslateMacros(jsonObj.value(SP_USE_MACROS).toBool());
+    test->setMaxSize(jsonObj.value(SP_MAX_SIZE).toInt());
+    test->setDimension(jsonObj.value(SP_DIMENSION).toString());
+    return test;
+}
+
+/******************************************************************/
+
 } // namespace SDPO

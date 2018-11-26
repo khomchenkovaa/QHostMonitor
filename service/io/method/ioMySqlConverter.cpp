@@ -59,4 +59,34 @@ void IOMySqlConverter::exportTo(QTextStream &out)
 }
 /******************************************************************/
 
+QJsonObject IOMySqlConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::MySQL)) {
+        return jsonObj;
+    }
+    TMySql* test = qobject_cast<TMySql*>(m_TestMethod);
+    jsonObj.insert(SP_SERVER, QJsonValue(test->getHost()));
+    jsonObj.insert(SP_PORT, QJsonValue(test->getPort()));
+    jsonObj.insert(SP_DATABASE, QJsonValue(test->getDatabase()));
+    jsonObj.insert(SP_USER, QJsonValue(test->getLogin()));
+    jsonObj.insert(SP_PASSWORD, QJsonValue(test->getPassword()));
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOMySqlConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TMySql *test = qobject_cast<TMySql*>(getTestMethod());
+    test->setHost(jsonObj.value(SP_SERVER).toString());
+    test->setPort(jsonObj.value(SP_PORT).toInt());
+    test->setDatabase(jsonObj.value(SP_DATABASE).toString());
+    test->setLogin(jsonObj.value(SP_USER).toString());
+    test->setPassword(jsonObj.value(SP_PASSWORD).toString());
+    return test;
+}
+
+/******************************************************************/
+
 } //namespace SDPO

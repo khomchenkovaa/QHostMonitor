@@ -76,7 +76,7 @@ QJsonObject IOCPUUsageConverter::toJsonObject()
     if (test->isConnectAs()) {
         jsonObj.insert(SP_USERNAME, QJsonValue(test->getLogin()));
         jsonObj.insert(SP_PASSWORD, QJsonValue(test->getPassword()));
-    }
+        }
     return jsonObj;
 }
 

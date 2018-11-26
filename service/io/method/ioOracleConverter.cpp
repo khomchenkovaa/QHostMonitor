@@ -52,5 +52,31 @@ void IOOracleConverter::exportTo(QTextStream &out)
 }
 /******************************************************************/
 
+QJsonObject IOOracleConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::Oracle)) {
+        return jsonObj;
+    }
+    TOracle* test = qobject_cast<TOracle*>(m_TestMethod);
+    jsonObj.insert(SP_SERVER, QJsonValue(test->getDatabase()));
+    jsonObj.insert(SP_USER, QJsonValue(test->getLogin()));
+    jsonObj.insert(SP_PASSWORD, QJsonValue(test->getPassword()));
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOOracleConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TOracle *test = qobject_cast<TOracle*>(getTestMethod());
+    test->setDatabase(jsonObj.value(SP_SERVER).toString());
+    test->setLogin(jsonObj.value(SP_USER).toString());
+    test->setPassword(jsonObj.value(SP_PASSWORD).toString());
+    return test;
+}
+
+/******************************************************************/
+
 
 } // namespace SDPO

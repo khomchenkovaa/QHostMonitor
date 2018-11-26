@@ -49,6 +49,9 @@
           </item>
           <item>
            <widget class="QDateEdit" name="dateMonitoringPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="displayFormat">
              <string>dd.MM.yyyy</string>
             </property>
@@ -56,6 +59,9 @@
           </item>
           <item>
            <widget class="QTimeEdit" name="timeMonitoringPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="displayFormat">
              <string>hh:mm:ss</string>
             </property>
@@ -102,6 +108,9 @@
             </property>
             <item>
              <widget class="QComboBox" name="cmbMonitoringStopped">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <item>
                <property name="text">
                 <string/>
@@ -146,6 +155,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="btnMonitoringStopped">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -177,6 +189,9 @@
             </property>
             <item>
              <widget class="QComboBox" name="cmbMonitoringStarted">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <item>
                <property name="text">
                 <string/>
@@ -221,6 +236,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="btnMonitoringStarted">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -266,6 +284,9 @@
           </item>
           <item>
            <widget class="QDateEdit" name="dateAlertingPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="displayFormat">
              <string>dd.MM.yyyy</string>
             </property>
@@ -273,6 +294,9 @@
           </item>
           <item>
            <widget class="QTimeEdit" name="timeAlertingPause">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="displayFormat">
              <string>hh:mm:ss </string>
             </property>
@@ -319,6 +343,9 @@
             </property>
             <item>
              <widget class="QComboBox" name="cmbAlertingStopped">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <item>
                <property name="text">
                 <string/>
@@ -363,6 +390,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="btnAlertingStopped">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -394,6 +424,9 @@
             </property>
             <item>
              <widget class="QComboBox" name="cmbAlertingStarted">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <item>
                <property name="text">
                 <string/>
@@ -438,6 +471,9 @@
             </item>
             <item>
              <widget class="QToolButton" name="btnAlertingStarted">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
               <property name="text">
                <string>...</string>
               </property>
@@ -499,25 +535,8 @@
  </widget>
  <resources>
   <include location="../qHostMonitor.qrc"/>
-  <include location="../qHostMonitor.qrc"/>
  </resources>
  <connections>
-  <connection>
-   <sender>btnBoxPauseMonitoring</sender>
-   <signal>accepted()</signal>
-   <receiver>PauseMonitoringDlg</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>643</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>639</x>
-     <y>171</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>btnBoxPauseMonitoring</sender>
    <signal>rejected()</signal>
@@ -531,6 +550,198 @@
     <hint type="destinationlabel">
      <x>681</x>
      <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringPause</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateMonitoringPause</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>75</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>192</x>
+     <y>43</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringPause</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>timeMonitoringPause</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>38</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringStopped</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cmbMonitoringStopped</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>62</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>458</x>
+     <y>73</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringStopped</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnMonitoringStopped</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>280</x>
+     <y>66</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>576</x>
+     <y>69</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringStarted</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cmbMonitoringStarted</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>132</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>452</x>
+     <y>102</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkMonitoringStarted</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnMonitoringStarted</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>253</x>
+     <y>98</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>587</x>
+     <y>101</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingPause</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateAlertingPause</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>95</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>161</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingPause</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>timeAlertingPause</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>162</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>323</x>
+     <y>162</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingStopped</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cmbAlertingStopped</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>439</x>
+     <y>189</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingStarted</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cmbAlertingStarted</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>213</x>
+     <y>224</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>432</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingStopped</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnAlertingStopped</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>242</x>
+     <y>185</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>579</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>chkAlertingStarted</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>btnAlertingStarted</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>241</x>
+     <y>223</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>591</x>
+     <y>227</y>
     </hint>
    </hints>
   </connection>

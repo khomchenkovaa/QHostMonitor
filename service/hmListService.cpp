@@ -209,7 +209,7 @@ void HMListService::cmdAlertsDisable()
 
 void HMListService::cmdAlertsPause(int interval)
 {
-    Q_UNUSED(interval);
+    emit alertsPaused(interval);
 }
 
 /******************************************************************/
@@ -230,7 +230,7 @@ void HMListService::cmdMonitoringStop()
 
 void HMListService::cmdMonitoringPause(int interval)
 {
-    Q_UNUSED(interval);
+    emit monitoringPaused(interval);
 }
 
 /******************************************************************/

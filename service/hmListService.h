@@ -98,7 +98,9 @@ signals:
     void linkAboutToDelete(TNode *link);
     void linkDeleted(TNode *folder, TNode* test);
     void monitoringStarted(bool value);
+    void monitoringPaused(int interval);
     void alertsEnabled(bool value);
+    void alertsPaused(int interval);
     void readyRun(TNode* test);
 
 public slots:

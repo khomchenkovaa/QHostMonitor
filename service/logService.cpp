@@ -16,9 +16,10 @@ QStringList LogService::failedLogs;
 
 /***********************************************/
 
-LogService::LogService(QObject *parent) :
+LogService::LogService(HMListService *hml, QObject *parent) :
     QObject(parent)
 {
+    connect(hml, SIGNAL(testUpdated(TNode*)), SLOT(writeLog(TNode*)));
 }
 
 /***********************************************/

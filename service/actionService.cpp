@@ -10,12 +10,15 @@ namespace SDPO {
 
 /***********************************************/
 
-ActionService::ActionService(HMListService *hml, QObject *parent) :
-    QObject(parent),
-    b_RunningState(true),
-    m_HML(hml)
+ActionService::ActionService(HMListService *hml, LogService *log, QObject *parent) :
+    ManageableService(parent),
+    m_HML(hml),
+    m_Log(log)
 {
-    connect(m_HML,SIGNAL(alertsEnabled(bool)),SLOT(setRunningState(bool)));
+    connect(m_HML, SIGNAL(testUpdated(TNode*)), SLOT(runActions(TNode*)));
+    connect(m_HML, SIGNAL(alertsEnabled(bool)), SLOT(setRunningState(bool)));
+    connect(m_HML, SIGNAL(alertsPaused(int)), SLOT(pause(int)));
+    connect(m_Log, SIGNAL(logAlert(int,TTest*,bool)), SLOT(runProfile(int,TTest*,bool)));
 }
 
 /***********************************************/
@@ -36,7 +39,9 @@ void ActionService::clear()
 
 void ActionService::runActions(TNode *item)
 {
-    if(!b_RunningState) return;
+    checkState(isRunning());
+
+    if(!isRunning()) return;
 
     TTest *test = qobject_cast<TTest*>(item);
     if (test->getAlertProfileID() == -1) {
@@ -82,13 +87,13 @@ void ActionService::tryToRun(TTest *test, TestAction *action)
     } else if (action->getAction() == TActionID::LogRecord) {
         RecordSdpoLogAction *logRecord = qobject_cast<RecordSdpoLogAction*>(action);
         if (logRecord->isAddCommonLog()) {
-            emit actionWriteCommonLog(test);
+            m_Log->writeCommonLog(test);
         }
         if (logRecord->isAddPrivateLog()) {
-            emit actionWritePrivateLog(test);
+            m_Log->writePrivateLog(test);
         }
         if (logRecord->isAddSpecificLog()) {
-            emit actionWriteSpecificFileLog(test, logRecord->getSpecificLogFile());
+            m_Log->writeSpecificFileLog(test, logRecord->getSpecificLogFile());
         }
     } else if (action->getAction() == TActionID::RunScript) {
         RunHmsScriptAction *scriptAction = qobject_cast<RunHmsScriptAction*>(action);

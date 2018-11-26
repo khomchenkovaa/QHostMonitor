@@ -8,11 +8,13 @@ namespace SDPO {
 
 /***********************************************/
 
-MonitoringService::MonitoringService(int threadCount, QObject *parent) :
-    QObject(parent)
+MonitoringService::MonitoringService(HMListService *hml, int threadCount, QObject *parent) :
+    ManageableService(parent)
 {
-    b_RunningState = true;
     QThreadPool::globalInstance()->setMaxThreadCount(threadCount);
+    connect(hml, SIGNAL(monitoringStarted(bool)), SLOT(setRunningState(bool)));
+    connect(hml, SIGNAL(monitoringPaused(int)), SLOT(pause(int)));
+    connect(hml, SIGNAL(readyRun(TNode*)), SLOT(runTest(TNode*)));
 }
 
 /***********************************************/
@@ -38,7 +40,9 @@ void MonitoringService::runTest(TNode *item)
     if (item->getType() != TNode::TEST) return;
     TTest* test = qobject_cast<TTest*>(item);
 
-    if (!b_RunningState || !test->isEnabled() || test->isPaused()) {
+    checkState(isRunning());
+
+    if (!isRunning() || !test->isEnabled() || test->isPaused()) {
         test->restart();
         return;
     }

@@ -22,6 +22,7 @@ class FoldersAndViewsModel;
 class TestListModel;
 class TestListSortingModel;
 class HMListService;
+class ActionService;
 class TNode;
 class HostMonDlg;
 class OptionsForm;
@@ -31,14 +32,16 @@ class MainForm : public QMainWindow
 {
     Q_OBJECT
 
-    Ui::MainForm  *ui;
-    HMListService *m_HML;
-    HostMonDlg    *hostMonDlg;
+    Ui::MainForm      *ui;
+    HMListService     *m_HML;
+    ActionService     *m_ActionService;
+    MonitoringService *m_MonitoringService;
+    HostMonDlg        *hostMonDlg;
 
-    QMenu   *trayIconMenu;
-    QAction *showAction;
-    QAction *startStopAction;
-    QAction *quitAction;
+    QMenu           *trayIconMenu;
+    QAction         *showAction;
+    QAction         *startStopAction;
+    QAction         *quitAction;
     QSystemTrayIcon *trayIcon;
 
     TestListSortingModel *m_filterModel;
@@ -46,7 +49,7 @@ class MainForm : public QMainWindow
     FoldersAndViewsModel *m_folders;
     FoldersAndViewsModel *m_views;
 public:
-    explicit MainForm(HMListService *hml, QWidget *parent = 0);
+    explicit MainForm(HMListService *hml, ActionService *act, MonitoringService *monitoring, QWidget *parent = 0);
     ~MainForm();
 
     void setupFolders();

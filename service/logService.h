@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QStringList>
 #include "options/pLogProperties.h"
+#include "hmListService.h"
 
 namespace SDPO {
 
@@ -16,7 +17,7 @@ class LogService : public QObject
 
     static QStringList failedLogs;
 public:
-    explicit LogService(QObject *parent = 0);
+    explicit LogService(HMListService *hml, QObject *parent = 0);
     ~LogService();
 
 signals:

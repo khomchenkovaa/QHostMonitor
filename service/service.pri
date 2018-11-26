@@ -5,8 +5,9 @@ DEPENDPATH += $$PWD
 
 HEADERS += \
     $$PWD/monitoringTask.h \
-    $$PWD/monitoringService.h \
     $$PWD/actionTask.h \
+    $$PWD/manageableService.h \
+    $$PWD/monitoringService.h \
     $$PWD/actionService.h \
     $$PWD/hmListService.h \
     $$PWD/hmScriptRunner.h \
@@ -22,6 +23,7 @@ HEADERS += \
     $$PWD/io/ioColorProfileLoader.h \
     $$PWD/io/ioActionProfileLoader.h \
     $$PWD/io/ioUserProfileLoader.h \
+    $$PWD/io/ioHelper.h \
     $$PWD/io/ioTextFile.h \
     $$PWD/io/ioHMList.h \
     $$PWD/io/method/sdpoTestMethodConverters.h \
@@ -42,13 +44,13 @@ HEADERS += \
     $$PWD/io/method/ioDHCPConverter.h \
     $$PWD/io/method/ioCPUUsageConverter.h \
     $$PWD/io/method/ioCountFilesConverter.h \
-    $$PWD/io/method/ioCompareFilesConverter.h \
-    ../service/io/ioHelper.h
+    $$PWD/io/method/ioCompareFilesConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
-    $$PWD/monitoringService.cpp \
     $$PWD/actionTask.cpp \
+    $$PWD/manageableService.cpp \
+    $$PWD/monitoringService.cpp \
     $$PWD/actionService.cpp \
     $$PWD/hmListService.cpp \
     $$PWD/hmScriptRunner.cpp \
@@ -64,6 +66,7 @@ SOURCES += \
     $$PWD/io/ioColorProfileLoader.cpp \
     $$PWD/io/ioActionProfileLoader.cpp \
     $$PWD/io/ioUserProfileLoader.cpp \
+    $$PWD/io/ioHelper.cpp \
     $$PWD/io/ioTextFile.cpp \
     $$PWD/io/ioHMList.cpp \
     $$PWD/io/method/ioTestMethodConverter.cpp \
@@ -83,5 +86,4 @@ SOURCES += \
     $$PWD/io/method/ioDHCPConverter.cpp \
     $$PWD/io/method/ioCPUUsageConverter.cpp \
     $$PWD/io/method/ioCountFilesConverter.cpp \
-    $$PWD/io/method/ioCompareFilesConverter.cpp \
-    ../service/io/ioHelper.cpp
+    $$PWD/io/method/ioCompareFilesConverter.cpp

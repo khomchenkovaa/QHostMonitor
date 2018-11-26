@@ -4,21 +4,20 @@
 #include <QObject>
 #include <QThread>
 
-#include "PropertyHelper.h"
+#include "manageableService.h"
+#include "hmListService.h"
 
 namespace SDPO {
 
 class TTest;
 class TNode;
 
-class MonitoringService : public QObject
+class MonitoringService : public ManageableService
 {
     Q_OBJECT
 
-    BOOL_PROPERTY(RunningState)
-
 public:
-    explicit MonitoringService(int threadCount = QThread::idealThreadCount(), QObject *parent = 0);
+    explicit MonitoringService(HMListService *hml, int threadCount = QThread::idealThreadCount(), QObject *parent = 0);
     ~MonitoringService();
 
 public slots:

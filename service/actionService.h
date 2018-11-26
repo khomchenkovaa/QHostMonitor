@@ -4,8 +4,10 @@
 #include <QObject>
 #include <QThread>
 
+#include "manageableService.h"
 #include "gData.h"
 #include "hmListService.h"
+#include "logService.h"
 
 namespace SDPO {
 
@@ -13,15 +15,14 @@ class TNode;
 class TTest;
 class TestAction;
 
-class ActionService : public QObject
+class ActionService : public ManageableService
 {
     Q_OBJECT
 
-    BOOL_PROPERTY(RunningState)
-
     HMListService *m_HML;
+    LogService    *m_Log;
 public:
-    explicit ActionService(HMListService *hml, QObject *parent = 0);
+    explicit ActionService(HMListService *hml, LogService *log, QObject *parent = 0);
     ~ActionService();
 
 signals:

@@ -27,24 +27,14 @@ namespace SDPO {
 Startup::Startup() :
     QObject(NULL),
     m_HML(*new HMListService(this)),
-    m_logService(*new LogService()),
-    m_actionService(*new ActionService(&m_HML)),
-    m_testRunner(*new MonitoringService()),
-    m_mainForm(*new MainForm(&m_HML,NULL))
+    m_logService(*new LogService(&m_HML)),
+    m_actionService(*new ActionService(&m_HML, &m_logService)),
+    m_testRunner(*new MonitoringService(&m_HML)),
+    m_mainForm(*new MainForm(&m_HML, &m_actionService, &m_testRunner, NULL))
 {
     TEnums::init();
     load();
     m_mainForm.init();
-
-    connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
-    connect(&m_HML, SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
-    connect(&m_HML, SIGNAL(testUpdated(TNode*)), &m_actionService, SLOT(runActions(TNode*)));
-    connect(&m_HML, SIGNAL(testUpdated(TNode*)), &m_logService, SLOT(writeLog(TNode*)));
-    connect(&m_logService,    SIGNAL(logAlert(int,TTest*,bool)), &m_actionService, SLOT(runProfile(int,TTest*,bool)));
-    connect(&m_actionService, SIGNAL(actionWinPopup(TTest*)), &m_mainForm, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
-    connect(&m_actionService, SIGNAL(actionWriteCommonLog(TTest*)), &m_logService, SLOT(writeCommonLog(TTest*)), Qt::QueuedConnection);
-    connect(&m_actionService, SIGNAL(actionWritePrivateLog(TTest*)), &m_logService, SLOT(writePrivateLog(TTest*)), Qt::QueuedConnection);
-    connect(&m_actionService, SIGNAL(actionWriteSpecificFileLog(TTest*,QString)), &m_logService, SLOT(writeSpecificFileLog(TTest*,QString)), Qt::QueuedConnection);
 }
 
 /******************************************************************/

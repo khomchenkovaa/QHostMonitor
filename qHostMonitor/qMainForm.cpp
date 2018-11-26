@@ -43,6 +43,8 @@
 #include "io/ioColorProfileLoader.h"
 #include "io/ioActionProfileLoader.h"
 #include "hmScriptRunner.h"
+#include "actionService.h"
+#include "monitoringService.h"
 #include "qActionPopupEvent.h"
 
 #include "utils.h"
@@ -51,10 +53,12 @@ namespace SDPO {
 
 /******************************************************************/
 
-MainForm::MainForm(HMListService *hml, QWidget *parent) :
+MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *monitoring, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainForm),
     m_HML(hml),
+    m_ActionService(act),
+    m_MonitoringService(monitoring),
     hostMonDlg(new HostMonDlg(m_HML,this))
 {
     ui->setupUi(this);
@@ -65,6 +69,7 @@ MainForm::MainForm(HMListService *hml, QWidget *parent) :
     m_views = 0;
     m_model = 0;
 
+    connect(m_ActionService, SIGNAL(actionWinPopup(TTest*)), this, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
     connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
 
     ui->btnToolbarAdd->setMenu(ui->mnuTestAdd);
@@ -649,7 +654,7 @@ void MainForm::on_actExit_triggered()
 
 void MainForm::on_actPause_triggered()
 {
-    PauseMonitoringDlg dlg;
+    PauseMonitoringDlg dlg(m_MonitoringService, m_ActionService);
     dlg.exec();
 }
 

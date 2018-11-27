@@ -31,7 +31,12 @@ bool ManageableService::checkState(bool oldState)
     bool newState = isRunning();
 
     if (newState != oldState) {
-        emit stateChanged(newState?m_StartAction:m_StopAction, newState);
+        if (newState && m_UseStartAction) {
+            emit stateChanged(m_StartAction, true);
+        }
+        if (!newState && m_UseStopAction) {
+            emit stateChanged(m_StopAction, false);
+        }
     }
     return newState;
 }

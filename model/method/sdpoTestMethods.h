@@ -22,12 +22,15 @@
 #include "tMsSql.h"
 #include "tMySql.h"
 #include "tNtEventLog.h"
+#include "tNtpTest.h"
 #include "tOdbcQuery.h"
 #include "tOracle.h"
+#include "tPerformanceCounter.h"
 #include "tPing.h"
 #include "tPostgreSql.h"
 #include "tShellScript.h"
 #include "tSnmpGet.h"
 #include "tSybase.h"
+#include "tWmi.h"
 
 #endif // SDPOTESTMETHODS_H

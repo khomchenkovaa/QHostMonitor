@@ -182,6 +182,7 @@ TTestMethod *TSnmpGet::clone()
     // test specific
     result->a_Host = a_Host;
     result->a_Community = a_Community;
+    result->a_Condition = a_Condition;
     result->a_MibOid = a_MibOid;
     result->a_MibName = a_MibName;
     result->a_OidFullName = a_OidFullName;

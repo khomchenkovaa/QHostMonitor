@@ -65,4 +65,31 @@ void IOShellScriptConverter::exportTo(QTextStream &out)
 
 /******************************************************************/
 
+QJsonObject IOShellScriptConverter::toJsonObject()
+{
+    QJsonObject jsonObj;
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::ShellScript)) {
+        return jsonObj;
+    }
+    TShellScript* test = qobject_cast<TShellScript*>(m_TestMethod);
+    jsonObj.insert(SP_SCRIPT, QJsonValue(test->getName()));
+    jsonObj.insert(SP_PARAMS, QJsonValue(test->getParams()));
+    jsonObj.insert(SP_TIMEOUT, QJsonValue(test->getTimeout()));
+    jsonObj.insert(SP_USE_MACROS, QJsonValue(test->isTranslateMacros()));
+    return jsonObj;
+}
+
+/******************************************************************/
+
+TTestMethod *IOShellScriptConverter::fromJsonObject(QJsonObject jsonObj)
+{
+    TShellScript *test = qobject_cast<TShellScript*>(getTestMethod());
+    test->setName(jsonObj.value(SP_SCRIPT).toString());
+    test->setParams(jsonObj.value(SP_PARAMS).toString());
+    test->setTimeout(jsonObj.value(SP_TIMEOUT).toInt());
+    test->setTranslateMacros(jsonObj.value(SP_USE_MACROS).toBool());
+    return test;
+}
+/******************************************************************/
+
 } // namespace SDPO

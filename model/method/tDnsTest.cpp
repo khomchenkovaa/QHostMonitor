@@ -8,7 +8,7 @@ TDnsTest::TDnsTest(QObject *parent) :
     TTestMethod(TMethodID::DNS, parent)
 {
     a_Server = QString();
-    a_TimeOut = 50;
+    a_Timeout = 50;
     a_Protocol = QString("UDP");
     a_Port = 50;
     a_Request = QString();
@@ -34,7 +34,7 @@ TTestMethod *TDnsTest::clone()
     result->m_CommentPattern = m_CommentPattern;
     // test specific
     result->a_Server = a_Server;
-    result->a_TimeOut = a_TimeOut;
+    result->a_Timeout = a_Timeout;
     result->a_Protocol = a_Protocol;
     result->a_Port = a_Port;
     result->a_Request = a_Request;

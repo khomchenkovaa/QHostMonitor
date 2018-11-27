@@ -6,6 +6,8 @@
 #include "ioCPUUsageConverter.h"
 #include "ioDHCPConverter.h"
 #include "ioDICOMConverter.h"
+#include "ioDNSTestConverter.h"
+#include "ioDominantProcessConverter.h"
 #include "ioDriveSpaceConverter.h"
 #include "ioExternalPrgConverter.h"
 #include "ioFileExistsConverter.h"

@@ -44,7 +44,9 @@ HEADERS += \
     $$PWD/io/method/ioDHCPConverter.h \
     $$PWD/io/method/ioCPUUsageConverter.h \
     $$PWD/io/method/ioCountFilesConverter.h \
-    $$PWD/io/method/ioCompareFilesConverter.h
+    $$PWD/io/method/ioCompareFilesConverter.h \
+    ../service/io/method/ioDNSTestConverter.h \
+    ../service/io/method/ioDominantProcessConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -86,4 +88,6 @@ SOURCES += \
     $$PWD/io/method/ioDHCPConverter.cpp \
     $$PWD/io/method/ioCPUUsageConverter.cpp \
     $$PWD/io/method/ioCountFilesConverter.cpp \
-    $$PWD/io/method/ioCompareFilesConverter.cpp
+    $$PWD/io/method/ioCompareFilesConverter.cpp \
+    ../service/io/method/ioDNSTestConverter.cpp \
+    ../service/io/method/ioDominantProcessConverter.cpp

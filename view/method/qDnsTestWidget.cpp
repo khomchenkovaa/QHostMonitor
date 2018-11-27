@@ -30,7 +30,7 @@ void DnsTestWidget::init(TTestMethod *item)
     }
     TDnsTest* test = qobject_cast<TDnsTest*>(item);
     ui->cmbServer->setCurrentText(test->getServer());
-    ui->spinTimeout->setValue(test->getTimeOut());
+    ui->spinTimeout->setValue(test->getTimeout());
     ui->cmbProtocol->setCurrentText(test->getProtocol());
     ui->spinPort->setValue(test->getPort());
     ui->cmbRequest->setCurrentText(test->getRequest());
@@ -50,7 +50,7 @@ TTestMethod *DnsTestWidget::save(TTestMethod *item)
         test = new TDnsTest();
     }
     test->setServer(ui->cmbServer->currentText());
-    test->setTimeOut(ui->spinTimeout->value());
+    test->setTimeout(ui->spinTimeout->value());
     test->setProtocol(ui->cmbProtocol->currentText());
     test->setPort(ui->spinPort->value());
     test->setRequest(ui->cmbRequest->currentText());

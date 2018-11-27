@@ -13,7 +13,7 @@ class TDnsTest : public TTestMethod
     Q_PROPERTY(QString TestMode READ  getRequestType())
 
     AUTO_PROPERTY(QString, Server)
-    AUTO_PROPERTY(int, TimeOut)
+    AUTO_PROPERTY(int, Timeout)
     AUTO_PROPERTY(QString, Protocol)
     AUTO_PROPERTY(int, Port)
     AUTO_PROPERTY(QString, Request)

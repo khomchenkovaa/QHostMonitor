@@ -35,6 +35,7 @@ public slots:
     void clear();
     void runActions(TNode *item);
     void runProfile(const int profileId, TTest *test, const bool isBad);
+    void runProfile(QString profile, const bool isStarted);
 
 private:
     void tryToRun(TTest *test, TestAction *action);

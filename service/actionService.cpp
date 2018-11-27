@@ -3,6 +3,7 @@
 #include "actionTask.h"
 #include "action/sdpoTestActions.h"
 #include "hmScriptRunner.h"
+#include "gData.h"
 
 #include <QDebug>
 
@@ -19,6 +20,7 @@ ActionService::ActionService(HMListService *hml, LogService *log, QObject *paren
     connect(m_HML, SIGNAL(alertsEnabled(bool)), SLOT(setRunningState(bool)));
     connect(m_HML, SIGNAL(alertsPaused(int)), SLOT(pause(int)));
     connect(m_Log, SIGNAL(logAlert(int,TTest*,bool)), SLOT(runProfile(int,TTest*,bool)));
+    connect(this, SIGNAL(stateChanged(QString,bool)), SLOT(runProfile(QString,bool)));
 }
 
 /***********************************************/
@@ -73,6 +75,28 @@ void ActionService::runProfile(const int profileId, TTest *test, const bool isBa
     } else {
         foreach(TestAction *action, curProfile.onGood) {
             tryToRun(test, action);
+        }
+    }
+}
+
+/***********************************************/
+
+void ActionService::runProfile(QString profile, const bool isStarted)
+{
+    int profileId = GData::getActionProfileIdx(profile);
+    if (profileId == -1) return;
+    GActionProfile curProfile = GData::actionProfiles.at(profileId);
+    if (isStarted) {
+        foreach(TestAction *action, curProfile.onGood) {
+            qDebug() << "Action on service started:" << action->getName();
+            //! TODO run action without test
+            //tryToRun(test, action);
+        }
+    } else {
+        foreach(TestAction *action, curProfile.onBad) {
+            qDebug() << "Action on service stoped:" << action->getName();
+            //! TODO run action without test
+            //tryToRun(test, action);
         }
     }
 }

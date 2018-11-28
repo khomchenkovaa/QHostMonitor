@@ -50,7 +50,10 @@ HEADERS += \
     ../service/io/method/ioFileContentsConverter.h \
     ../service/io/method/ioHTTPConverter.h \
     ../service/io/method/ioIMAPTestConverter.h \
-    ../service/io/method/ioLDAPTestConverter.h
+    ../service/io/method/ioLDAPTestConverter.h \
+    ../service/io/method/ioMailRelayConverter.h \
+    ../service/io/method/ioMsSqlConverter.h \
+    ../service/io/method/ioNtEventLogConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -98,4 +101,7 @@ SOURCES += \
     ../service/io/method/ioFileContentsConverter.cpp \
     ../service/io/method/ioHTTPConverter.cpp \
     ../service/io/method/ioIMAPTestConverter.cpp \
-    ../service/io/method/ioLDAPTestConverter.cpp
+    ../service/io/method/ioLDAPTestConverter.cpp \
+    ../service/io/method/ioMailRelayConverter.cpp \
+    ../service/io/method/ioMsSqlConverter.cpp \
+    ../service/io/method/ioNtEventLogConverter.cpp

@@ -23,6 +23,12 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IODHCPConverter();
     case TMethodID::DICOM :
         return new IODICOMConverter();
+    case TMethodID::DNS :
+        return new IODNSTestConverter();
+    case TMethodID::DominantProcess :
+        return new IODominantProcessConverter();
+    case TMethodID::FileContents :
+        return new IOFileContentsConverter();
     case TMethodID::DriveSpace :
         return new IODriveSpaceConverter();
     case TMethodID::Externalprg :
@@ -31,10 +37,22 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IOFileExistsConverter();
     case TMethodID::FileSize :
         return new IOFolderSizeConverter();
+    case TMethodID::HTTP :
+        return new IOHTTPConverter();
+    case TMethodID::IMAP :
+        return new IOIMAPTestConverter();
     case TMethodID::Interbase :
         return new IOInterbaseConverter();
+    case TMethodID::Ldap :
+        return new IOLDAPTestConverter();
+    case TMethodID::MailRelay :
+        return new IOMailRelayConverter();
+    case TMethodID::MSSQL :
+        return new IOMsSqlConverter();
     case TMethodID::MySQL :
         return new IOMySqlConverter();
+    case TMethodID::NTLog :
+        return new IONtEventLogConverter();
     case TMethodID::ODBC :
         return new IOODBCConverter();
     case TMethodID::Oracle :
@@ -47,18 +65,6 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IOShellScriptConverter();
     case TMethodID::SNMP :
         return new IOSnmpGetConverter();
-    case TMethodID::DNS :
-        return new IODNSTestConverter();
-    case TMethodID::DominantProcess :
-        return new IODominantProcessConverter();
-    case TMethodID::FileContents :
-        return new IOFileContentsConverter();
-    case TMethodID::HTTP :
-        return new IOHTTPConverter();
-    case TMethodID::IMAP :
-        return new IOIMAPTestConverter();
-    case TMethodID::Ldap :
-        return new IOLDAPTestConverter();
     default:
         break;
     }

@@ -51,6 +51,14 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IODNSTestConverter();
     case TMethodID::DominantProcess :
         return new IODominantProcessConverter();
+    case TMethodID::FileContents :
+        return new IOFileContentsConverter();
+    case TMethodID::HTTP :
+        return new IOHTTPConverter();
+    case TMethodID::IMAP :
+        return new IOIMAPTestConverter();
+    case TMethodID::Ldap :
+        return new IOLDAPTestConverter();
     default:
         break;
     }

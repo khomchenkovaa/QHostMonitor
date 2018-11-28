@@ -46,7 +46,11 @@ HEADERS += \
     $$PWD/io/method/ioCountFilesConverter.h \
     $$PWD/io/method/ioCompareFilesConverter.h \
     ../service/io/method/ioDNSTestConverter.h \
-    ../service/io/method/ioDominantProcessConverter.h
+    ../service/io/method/ioDominantProcessConverter.h \
+    ../service/io/method/ioFileContentsConverter.h \
+    ../service/io/method/ioHTTPConverter.h \
+    ../service/io/method/ioIMAPTestConverter.h \
+    ../service/io/method/ioLDAPTestConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -90,4 +94,8 @@ SOURCES += \
     $$PWD/io/method/ioCountFilesConverter.cpp \
     $$PWD/io/method/ioCompareFilesConverter.cpp \
     ../service/io/method/ioDNSTestConverter.cpp \
-    ../service/io/method/ioDominantProcessConverter.cpp
+    ../service/io/method/ioDominantProcessConverter.cpp \
+    ../service/io/method/ioFileContentsConverter.cpp \
+    ../service/io/method/ioHTTPConverter.cpp \
+    ../service/io/method/ioIMAPTestConverter.cpp \
+    ../service/io/method/ioLDAPTestConverter.cpp

@@ -21,11 +21,14 @@
 #include "ioMsSqlConverter.h"
 #include "ioMySqlConverter.h"
 #include "ioNtEventLogConverter.h"
+#include "ioNtpTestConverter.h"
 #include "ioODBCConverter.h"
 #include "ioOracleConverter.h"
+#include "ioPerformanceCounterConverter.h"
 #include "ioPingConverter.h"
 #include "ioPostgreSqlConverter.h"
 #include "ioShellScriptConverter.h"
 #include "ioSnmpGetConverter.h"
+#include "ioSybaseConverter.h"
 
 #endif // SDPOTESTMETHODCONVERTERS_H

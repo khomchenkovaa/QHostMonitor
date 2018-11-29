@@ -53,10 +53,14 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IOMySqlConverter();
     case TMethodID::NTLog :
         return new IONtEventLogConverter();
+    case TMethodID::NTP :
+        return new IONtpTestConverter();
     case TMethodID::ODBC :
         return new IOODBCConverter();
     case TMethodID::Oracle :
         return new IOOracleConverter();
+    case TMethodID::PerfCounter :
+        return new IOPerformanceCounterConverter();
     case TMethodID::Ping :
         return new IOPingConverter();
     case TMethodID::Postgre :
@@ -65,6 +69,8 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IOShellScriptConverter();
     case TMethodID::SNMP :
         return new IOSnmpGetConverter();
+    case TMethodID::Sybase :
+        return new IOSybaseConverter();
     default:
         break;
     }

@@ -45,15 +45,18 @@ HEADERS += \
     $$PWD/io/method/ioCPUUsageConverter.h \
     $$PWD/io/method/ioCountFilesConverter.h \
     $$PWD/io/method/ioCompareFilesConverter.h \
-    ../service/io/method/ioDNSTestConverter.h \
-    ../service/io/method/ioDominantProcessConverter.h \
-    ../service/io/method/ioFileContentsConverter.h \
-    ../service/io/method/ioHTTPConverter.h \
-    ../service/io/method/ioIMAPTestConverter.h \
-    ../service/io/method/ioLDAPTestConverter.h \
-    ../service/io/method/ioMailRelayConverter.h \
-    ../service/io/method/ioMsSqlConverter.h \
-    ../service/io/method/ioNtEventLogConverter.h
+    $$PWD/io/method/ioDNSTestConverter.h \
+    $$PWD/io/method/ioDominantProcessConverter.h \
+    $$PWD/io/method/ioFileContentsConverter.h \
+    $$PWD/io/method/ioHTTPConverter.h \
+    $$PWD/io/method/ioIMAPTestConverter.h \
+    $$PWD/io/method/ioLDAPTestConverter.h \
+    $$PWD/io/method/ioMailRelayConverter.h \
+    $$PWD/io/method/ioMsSqlConverter.h \
+    $$PWD/io/method/ioNtEventLogConverter.h \
+    $$PWD/io/method/ioNtpTestConverter.h \
+    $$PWD/io/method/ioPerformanceCounterConverter.h \
+    $$PWD/io/method/ioSybaseConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -96,12 +99,15 @@ SOURCES += \
     $$PWD/io/method/ioCPUUsageConverter.cpp \
     $$PWD/io/method/ioCountFilesConverter.cpp \
     $$PWD/io/method/ioCompareFilesConverter.cpp \
-    ../service/io/method/ioDNSTestConverter.cpp \
-    ../service/io/method/ioDominantProcessConverter.cpp \
-    ../service/io/method/ioFileContentsConverter.cpp \
-    ../service/io/method/ioHTTPConverter.cpp \
-    ../service/io/method/ioIMAPTestConverter.cpp \
-    ../service/io/method/ioLDAPTestConverter.cpp \
-    ../service/io/method/ioMailRelayConverter.cpp \
-    ../service/io/method/ioMsSqlConverter.cpp \
-    ../service/io/method/ioNtEventLogConverter.cpp
+    $$PWD/io/method/ioDNSTestConverter.cpp \
+    $$PWD/io/method/ioDominantProcessConverter.cpp \
+    $$PWD/io/method/ioFileContentsConverter.cpp \
+    $$PWD/io/method/ioHTTPConverter.cpp \
+    $$PWD/io/method/ioIMAPTestConverter.cpp \
+    $$PWD/io/method/ioLDAPTestConverter.cpp \
+    $$PWD/io/method/ioMailRelayConverter.cpp \
+    $$PWD/io/method/ioMsSqlConverter.cpp \
+    $$PWD/io/method/ioNtEventLogConverter.cpp \
+    $$PWD/io/method/ioNtpTestConverter.cpp \
+    $$PWD/io/method/ioPerformanceCounterConverter.cpp \
+    $$PWD/io/method/ioSybaseConverter.cpp

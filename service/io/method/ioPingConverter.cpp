@@ -40,7 +40,7 @@ bool IOPingConverter::setValue(QString key, QString value)
     } else if (key == SP_DONT_FRAGMENT) {
         test->setDontFragment(value == "Yes");
     } else if (key == SP_MAX_LOST_RATIO) {
-        test->setBadCriteria(value.toFloat() / 100);
+        test->setBadCriteria(value.toInt());
     } else if (key == SP_DISPLAY_MODE) {
         if (value.compare("lost",Qt::CaseInsensitive) == 0) test->setDisplayMode(TPing::Lost);
         else if (value.compare("received",Qt::CaseInsensitive) == 0) test->setDisplayMode(TPing::Received);
@@ -63,7 +63,7 @@ void IOPingConverter::exportTo(QTextStream &out)
     out << SP_HOST           << " = " << test->getAddress() << endl;
     out << SP_TIMEOUT        << " = " << test->getTimeout() << endl;
     out << SP_RETRIES        << " = " << test->getPackets() << endl;
-    out << SP_MAX_LOST_RATIO << " = " << test->getBadCriteria() * 100 << endl;
+    out << SP_MAX_LOST_RATIO << " = " << test->getBadCriteria() << endl;
     out << SP_PACKET_SIZE    << " = " << test->getPacketSize() << endl;
     out << SP_DISPLAY_MODE   << " = " << m_DisplayModeEnum.key(test->getDisplayMode()) << endl;
     out << SP_DONT_FRAGMENT  << " = " << QString(test->isDontFragment()?"Yes":"No") << endl;
@@ -96,7 +96,7 @@ TTestMethod *IOPingConverter::fromJsonObject(QJsonObject jsonObj)
     test->setAddress(jsonObj.value(SP_HOST).toString());
     test->setTimeout(jsonObj.value(SP_TIMEOUT).toInt());
     test->setPackets(jsonObj.value(SP_RETRIES).toInt());
-    test->setBadCriteria(jsonObj.value(SP_MAX_LOST_RATIO).toDouble());
+    test->setBadCriteria(jsonObj.value(SP_MAX_LOST_RATIO).toInt());
     test->setPacketSize(jsonObj.value(SP_PACKET_SIZE).toInt());
     TPing::DisplayMode dispMode = (TPing::DisplayMode) m_DisplayModeEnum.keyToValue(jsonObj.value(SP_DISPLAY_MODE).toString().toStdString().data());
     test->setDisplayMode(dispMode);

@@ -99,6 +99,7 @@ protected:
 
 public:
     explicit TTestMethod(TMethodID methodId, QObject *parent = 0);
+    virtual ~TTestMethod();
 
     // properties
     int getTestMethodID() const { return (int)m_TMethodID; }

@@ -17,6 +17,13 @@ TTestMethod::TTestMethod(TMethodID methodId, QObject *parent) :
 
 /***********************************************/
 
+TTestMethod::~TTestMethod()
+{
+
+}
+
+/***********************************************/
+
 TTestMethod *TTestMethod::clone()
 {
     TTestMethod *result = new TTestMethod(m_TMethodID, parent());

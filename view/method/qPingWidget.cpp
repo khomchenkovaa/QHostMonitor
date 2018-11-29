@@ -36,6 +36,7 @@ void PingWidget::init(TTestMethod *item)
     ui->sbPingTimeout->setValue(ping->getTimeout());
     ui->sbPingPacketSize->setValue(ping->getPacketSize());
     ui->sbPingPackets->setValue(ping->getPackets());
+    ui->sbPingStatusBad->setValue(ping->getBadCriteria());
     switch (ping->getDisplayMode()) {
         case TPing::Time: ui->rbPingDisplayTime->setChecked(true); break;
         case TPing::Lost: ui->rbPingDisplayLost->setChecked(true); break;
@@ -60,6 +61,7 @@ TTestMethod *PingWidget::save(TTestMethod *item)
     ping->setTimeout(ui->sbPingTimeout->value());
     ping->setPacketSize(ui->sbPingPacketSize->value());
     ping->setPackets(ui->sbPingPackets->value());
+    ping->setBadCriteria(ui->sbPingStatusBad->value());
     TPing::DisplayMode mode = TPing::Time;
     if (ui->rbPingDisplayLost->isChecked()) mode = TPing::Lost;
     if (ui->rbPingDisplayReceived->isChecked()) mode = TPing::Received;
@@ -81,6 +83,7 @@ void PingWidget::reset(QVariant data)
     ui->sbPingTimeout->setValue(s.value(SKEY_PING_Timeout,0).toInt());
     ui->sbPingPacketSize->setValue(s.value(SKEY_PING_PacketSize,0).toInt());
     ui->sbPingPackets->setValue(s.value(SKEY_PING_Packets,1).toInt());
+    ui->sbPingStatusBad->setValue(90);
     ui->rbPingDisplayTime->setChecked(true);
     ui->rbPingDisplayLost->setChecked(false);
     ui->rbPingDisplayReceived->setChecked(false);

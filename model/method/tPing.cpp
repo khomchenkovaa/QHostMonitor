@@ -3,6 +3,8 @@
 #include "gSettings.h"
 #include <QProcess>
 
+#include <QDebug>
+
 namespace SDPO {
 
 /******************************************************************/
@@ -17,7 +19,7 @@ TPing::TPing(QString addr, QObject *parent) :
     a_PacketSize   = s.value(SKEY_PING_PacketSize, 0).toInt();
     a_TimeToLive   = s.value(SKEY_PING_TTL, 3).toInt();
     b_DontFragment = false;
-    a_BadCriteria  = 0.9;
+    a_BadCriteria  = 90;
     a_DisplayMode  = TPing::Time;
 }
 
@@ -34,8 +36,6 @@ void TPing::run()
         return;
     }
 
-//    qDebug() << getTestMethod() << ":" << command;
-
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
     process.start(command);
@@ -45,7 +45,7 @@ void TPing::run()
         emit testFailed();
         return;
     }
-    if(!process.waitForFinished(a_Timeout)) {
+    if(!process.waitForFinished(a_Timeout * a_Packets + a_Timeout)) {
         m_Result.reply = getTestedObjectInfo() + " terminated";
         process.close();
         emit testFailed();
@@ -64,13 +64,29 @@ void TPing::run()
 
 QString TPing::getCommand() const
 {
-    QString cmd = "ping";
+    PingProtocol protocol = PingProtocol::Unknown;
+    QString address = a_Address;
+    if (a_Address.endsWith("::ipv4")) {
+        protocol = PingProtocol::IPV4;
+        address = a_Address.left(a_Address.length()-6);
+    } else if (a_Address.endsWith("::ipv6")) {
+        protocol = PingProtocol::IPV6;
+        address = a_Address.left(a_Address.length()-6);
+    } else if (a_Address.contains("::")) {
+        protocol = PingProtocol::IPV6;
+    }
+
+    if (protocol == PingProtocol::Unknown) {
+        protocol = PingProtocol::IPV4;
+    }
+
+    QString cmd = (protocol == PingProtocol::IPV6) ? PING6_COMMAND : PING_COMMAND;
     if (a_Packets) cmd.append(QString(" -c %1").arg(a_Packets));
     if (a_TimeToLive) cmd.append(QString(" -t %1").arg(a_TimeToLive));
-//    if (a_Timeout > 0) cmd.append(QString(" -W %1").arg(a_Timeout));
+    if (a_Timeout) cmd.append(QString(" -W %1").arg(a_Timeout));
     if (a_PacketSize) cmd.append(QString(" -s %1").arg(a_PacketSize));
     if (b_DontFragment) cmd.append(" -M dont");
-    cmd.append(QString(" -q %1").arg(a_Address));
+    cmd.append(QString(" %1").arg(address));
     return cmd;
 }
 
@@ -83,72 +99,47 @@ void TPing::parseResult(QString data)
 
     QStringList result = data.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
-    if (result.count() > 2) {
-        // parse packets and time;
-        // "1 packets transmitted, 1 received, 0% packet loss, time 0ms"
-        // "1 packets transmitted, 0 received, +1 errors, 100% packet loss, time 5ms"
-        QStringList packs = result.at(2).split(',');
-        // "1 packets transmitted"
-        int packIdx = 0;
-        QString tmp = packs.at(packIdx).trimmed();
-        int transmitted = tmp.mid(0,tmp.indexOf(' ')).toInt();
-        Q_UNUSED(transmitted)
-        // "1 received"
-        ++packIdx;
-        tmp = packs.at(packIdx).trimmed();
-        int received = tmp.mid(0,tmp.indexOf(' ')).toInt();
-        Q_UNUSED(received)
-        // (optional) +1 errors
-        ++packIdx;
-        int errors = 0;
-        tmp = packs.at(packIdx).trimmed();
-        if (tmp.contains("errors")) {
-           errors = tmp.mid(0,tmp.indexOf(' ')).toInt();
-           ++packIdx;
+    PingStat pingStat;
+
+    foreach(const QString &line, result) {
+        if (errorScan(line, tResult)) {
+            tResult.reply = tResult.error;
+            tResult.status = TestStatus::Bad;
+            m_Result = tResult;
+            return;
         }
-        // 100% packet loss
-        tmp = packs.at(packIdx).trimmed();
-        int packetLoss = tmp.mid(0,tmp.indexOf('%')).toInt();
-        // time 5ms
-        ++packIdx;
-        tmp = packs.at(packs.count()-1).trimmed();
-        QString time = tmp.mid(tmp.indexOf(' '));
-
-        tResult.status = errors? TestStatus::Bad : TestStatus::Ok;
-
-        /*
-         * Parse rtt?
-         * // "rtt min/avg/max/mdev = 0.013/0.013/0.013/0.000 ms"
-           QString rtt = result.at(3).mid(result.at(3).lastIndexOf('=') + 2);
-           QStringList rttList = rtt.split('/');
-           newReply = rttList.at(1) + "ms";
-           newReplyFloat = rttList.at(1).toFloat();
-           newReplyInt = rttList.at(1).toInt();
-         */
-
-        switch(a_DisplayMode) {
-            case TPing::Time :
-                tResult.reply =  time;
-                tResult.replyInt = tResult.reply.remove(QRegExp("[^\\d]+")).toInt();
-                tResult.replyDouble = tResult.replyInt;
-                break;
-            case TPing::Lost :
-                tResult.replyInt = packetLoss;
-                tResult.replyDouble = packetLoss;
-                tResult.reply = QString("%1\%").arg(tResult.replyInt);
-                break;
-            case TPing::Received :
-                tResult.replyInt = 100 - packetLoss;
-                tResult.replyDouble = tResult.replyInt;
-                tResult.reply = QString("%1\%").arg(tResult.replyInt);
-                break;
+        if (getPercentLossStatistics(line, pingStat)) {
+//            qDebug() << tr("Ping: %1 packets transmitted, %2 received, %3% packet loss").arg(pingStat.transmitted).arg(pingStat.received).arg(pingStat.percentLoss);
+            continue;
+        }
+        if (getRoundTrip(line, pingStat)) {
+//            qDebug() << tr("Ping: rtt min/avg/max/mdev = %1/%2/%3/0.000 ms").arg(pingStat.rttMin).arg(pingStat.rttAvg).arg(pingStat.rttMax);
+            continue;
         }
     }
 
-    if (result.count() == 1) {
-        // ping: unknown host unknown.host.ru
-        tResult.status = TestStatus::Unknown;
-        tResult.reply = "unknown host";
+    if (pingStat.percentLoss < a_BadCriteria) {
+        tResult.status = TestStatus::Ok;
+    } else {
+        tResult.status = TestStatus::Bad;
+    }
+
+    switch(a_DisplayMode) {
+    case TPing::Time :
+        tResult.reply =  QString("%1ms").arg(pingStat.rttAvg);
+        tResult.replyInt = pingStat.rttAvg;
+        tResult.replyDouble = pingStat.rttAvg;
+        break;
+    case TPing::Lost :
+        tResult.reply = QString("%1%").arg(pingStat.percentLoss);
+        tResult.replyInt = pingStat.percentLoss;
+        tResult.replyDouble = pingStat.percentLoss;
+        break;
+    case TPing::Received :
+        tResult.reply = QString("%1\%").arg(100 - pingStat.percentLoss);
+        tResult.replyInt = 100 - pingStat.percentLoss;
+        tResult.replyDouble = 100 - pingStat.percentLoss;
+        break;
     }
 
     m_Result = tResult;
@@ -195,6 +186,122 @@ QString TPing::displayModeToString(TPing::DisplayMode mode)
     case TPing::Received: return "received";
     }
     return QString();
+}
+
+/******************************************************************/
+
+bool TPing::errorScan(const QString &line, TTestResult &result)
+{
+    bool match = false;
+    if (line.contains("Network is unreachable") || line.contains("Destination Net Unreachable")) {
+        result.error = tr("CRITICAL - Network Unreachable %1").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination Host Unreachable")) {
+        result.error = tr("CRITICAL - Host Unreachable %1").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination Port Unreachable")) {
+        result.error = tr("CRITICAL - Bogus ICMP: Port Unreachable (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination Protocol Unreachable")) {
+        result.error = tr("CRITICAL - Bogus ICMP: Protocol Unreachable (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination Net Prohibited")) {
+        result.error = tr("CRITICAL - Network Prohibited (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination Host Prohibited")) {
+        result.error = tr("CRITICAL - Host Prohibited (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Packet filtered")) {
+        result.error = tr("CRITICAL - Packet filtered (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("unknown host")) {
+        result.error = tr("CRITICAL - Host not found (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Time to live exceeded")) {
+        result.error = tr("CRITICAL - Time to live exceeded (%1)").arg(a_Address);
+        match = true;
+    } else if (line.contains("Destination unreachable: ")) {
+        result.error = tr("CRITICAL - Destination Unreachable (%1)").arg(a_Address);
+        match = true;
+    }
+    return match;
+}
+
+/******************************************************************/
+
+bool TPing::getPercentLossStatistics(const QString &line, PingStat &stat)
+{
+    bool match = false;
+    QStringList patterns = QStringList()
+            << "(\\d+) packets transmitted, (\\d+) packets received, \\+\\d+ errors, (\\d+)% packet loss"
+            << "(\\d+) packets transmitted, (\\d+) packets received, \\+\\d+ duplicates, (\\d+)% packet loss"
+            << "(\\d+) packets transmitted, (\\d+) received, \\+\\d+ duplicates, (\\d+)% packet loss"
+            << "(\\d+) packets transmitted, (\\d+) packets received, (\\d+)% packet loss"
+            << "(\\d+) packets transmitted, (\\d+) packets received, (\\d+)% loss, time"
+            << "(\\d+) packets transmitted, (\\d+) received, (\\d+)% loss, time"
+            << "(\\d+) packets transmitted, (\\d+) received, (\\d+)% packet loss, time"
+            << "(\\d+) packets transmitted, (\\d+) received, \\+\\d+ errors, (\\d+)% packet loss"
+            << "(\\d+) packets transmitted (\\d+) received, \\+\\d+ errors, (\\d+)% packet loss";
+
+    foreach (const QString &pattern, patterns) {
+        QRegExp rx(pattern);
+        if (rx.indexIn(line) != -1) {
+            stat.transmitted = rx.cap(1).toInt();
+            stat.received = rx.cap(2).toInt();
+            stat.percentLoss = rx.cap(3).toInt();
+            match = true;
+            break;
+        }
+    }
+    if (!match) {
+        QString pattern = "[^\\(]+\\((\\d+)%\\s*\\)[^\\)]+ ";
+        QRegExp rx(pattern);
+        if (rx.indexIn(line) != -1) {
+            stat.percentLoss = rx.cap(1).toInt();
+            match = true;
+        }
+    }
+
+    return match;
+}
+
+/******************************************************************/
+
+bool TPing::getRoundTrip(const QString &line, PingStat &stat)
+{
+    bool match = false;
+    QStringList patterns = QStringList()
+            << "round-trip min/avg/max = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip min/avg/max/mdev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip min/avg/max/sdev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip min/avg/max/stddev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip min/avg/max/std-dev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip (ms) min/avg/max = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "round-trip (ms) min/avg/max/stddev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)"
+            << "rtt min/avg/max/mdev = (\\d+\\.\\d+)/(\\d+\\.\\d+)/(\\d+\\.\\d+)";
+
+    foreach (const QString &pattern, patterns) {
+        QRegExp rx(pattern);
+        if (rx.indexIn(line) != -1) {
+            stat.rttMin = rx.cap(1).toDouble();
+            stat.rttAvg = rx.cap(2).toDouble();
+            stat.rttMax = rx.cap(3).toDouble();
+            match = true;
+            break;
+        }
+    }
+    if (!match) {
+        QString pattern = "[^=]* = (\\d+\\.\\d+)ms, [^=]* = (\\d+\\.\\d+)ms, [^=]* = (\\d+\\.\\d+)ms";
+        QRegExp rx(pattern);
+        if (rx.indexIn(line) != -1) {
+            stat.rttMin = rx.cap(1).toDouble();
+            stat.rttMax = rx.cap(2).toDouble();
+            stat.rttAvg = rx.cap(3).toDouble();
+            match = true;
+        }
+    }
+
+    return match;
 }
 
 /******************************************************************/

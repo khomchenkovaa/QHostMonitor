@@ -76,7 +76,28 @@
 
 #include "tTestMethod.h"
 
+#define PING_COMMAND  "/bin/ping -n -U"
+#define PING6_COMMAND "/bin/ping6 -n -U"
+
 namespace SDPO {
+
+struct PingStat {
+    int transmitted;
+    int received;
+    int percentLoss;
+    double rttMin;
+    double rttAvg;
+    double rttMax;
+
+    PingStat() {
+        transmitted = 0;
+        received = 0;
+        percentLoss = 200;
+        rttMin = -1.0;
+        rttAvg = -1.0;
+        rttMax = -1.0;
+    }
+};
 
 class TPing : public TTestMethod
 {
@@ -91,6 +112,8 @@ public:
     };
     Q_ENUMS(DisplayMode)
 
+    enum PingProtocol { Unknown, IPV4, IPV6 };
+
 private:
     Q_PROPERTY(QString Host READ getAddress)
     Q_PROPERTY(QString HostAddr READ getAddress)
@@ -101,7 +124,7 @@ private:
     AUTO_PROPERTY(int, Packets)
     BOOL_PROPERTY(DontFragment)
     AUTO_PROPERTY(int, TimeToLive)
-    AUTO_PROPERTY(double, BadCriteria)
+    AUTO_PROPERTY(int, BadCriteria)
     AUTO_PROPERTY(DisplayMode, DisplayMode)
 
 public:
@@ -120,6 +143,9 @@ public:
 
 private: // functions
     QString displayModeToString(DisplayMode mode);
+    bool errorScan(const QString &line, TTestResult &result);
+    bool getPercentLossStatistics(const QString &line, PingStat &stat);
+    bool getRoundTrip(const QString &line, PingStat &stat);
 
 
 };

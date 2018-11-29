@@ -9,7 +9,6 @@ class TWmi : public TTestMethod
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString Host READ  getHost())
     Q_PROPERTY(QString Path READ  getQuery())
     Q_PROPERTY(QString Object READ  getQuery())
     Q_PROPERTY(QString Object2 READ  getAlertIfCount())

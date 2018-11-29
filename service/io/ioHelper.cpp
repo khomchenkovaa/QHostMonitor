@@ -13,6 +13,8 @@ IOHelper::IOHelper()
 IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
 {
     switch (methodId) {
+    case TMethodID::Script :
+        return new IOActiveScriptConverter();
     case TMethodID::FileCompare :
         return new IOCompareFilesConverter();
     case TMethodID::CountFiles :
@@ -71,6 +73,8 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IOSnmpGetConverter();
     case TMethodID::Sybase :
         return new IOSybaseConverter();
+    case TMethodID::WMI :
+        return new IOWmiConverter();
     default:
         break;
     }

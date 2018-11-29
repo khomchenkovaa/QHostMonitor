@@ -56,7 +56,9 @@ HEADERS += \
     $$PWD/io/method/ioNtEventLogConverter.h \
     $$PWD/io/method/ioNtpTestConverter.h \
     $$PWD/io/method/ioPerformanceCounterConverter.h \
-    $$PWD/io/method/ioSybaseConverter.h
+    $$PWD/io/method/ioSybaseConverter.h \
+    $$PWD/io/method/ioWmiConverter.h \
+    $$PWD/io/method/ioActiveScriptConverter.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -110,4 +112,6 @@ SOURCES += \
     $$PWD/io/method/ioNtEventLogConverter.cpp \
     $$PWD/io/method/ioNtpTestConverter.cpp \
     $$PWD/io/method/ioPerformanceCounterConverter.cpp \
-    $$PWD/io/method/ioSybaseConverter.cpp
+    $$PWD/io/method/ioSybaseConverter.cpp \
+    $$PWD/io/method/ioWmiConverter.cpp \
+    $$PWD/io/method/ioActiveScriptConverter.cpp

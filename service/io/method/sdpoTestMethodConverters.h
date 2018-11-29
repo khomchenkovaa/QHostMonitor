@@ -1,6 +1,7 @@
 #ifndef SDPOTESTMETHODCONVERTERS_H
 #define SDPOTESTMETHODCONVERTERS_H
 
+#include "ioActiveScriptConverter.h"
 #include "ioCompareFilesConverter.h"
 #include "ioCountFilesConverter.h"
 #include "ioCPUUsageConverter.h"
@@ -30,5 +31,6 @@
 #include "ioShellScriptConverter.h"
 #include "ioSnmpGetConverter.h"
 #include "ioSybaseConverter.h"
+#include "ioWmiConverter.h"
 
 #endif // SDPOTESTMETHODCONVERTERS_H

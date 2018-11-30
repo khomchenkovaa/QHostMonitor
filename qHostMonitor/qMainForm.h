@@ -175,6 +175,8 @@ private slots:
     void on_actLoginAs_triggered();
     // Options menu
     void on_actOptions_triggered();
+    // Tools menu
+    void on_actToolsLocalInfo_triggered();
     // Help menu
     void on_actAbout_triggered();
     // Folder panel

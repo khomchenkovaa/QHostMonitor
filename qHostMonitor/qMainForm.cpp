@@ -11,7 +11,6 @@
 #include "qTestHistoryChartsDlg.h"
 #include "qAckDlg.h"
 #include "qPatternsDlg.h"
-#include "qOptionsForm.h"
 #include "qPalettesWin.h"
 #include "qMailProfilesDlg.h"
 #include "qReportProfilesDlg.h"
@@ -24,6 +23,8 @@
 #include "qHostMonDlg.h"
 #include "qLinksList.h"
 #include "qShellMng.h"
+#include "qOptionsForm.h"
+#include "qLocalSystemInfoDlg.h"
 #include "qAboutDlg.h"
 #include "qTestListProperties.h"
 #include "qFolderDlg.h"
@@ -1438,6 +1439,16 @@ void MainForm::on_actLoginAs_triggered()
 void MainForm::on_actOptions_triggered()
 {
     OptionsForm dlg;
+    dlg.exec();
+}
+
+/******************************************************************/
+// Tools menu
+/******************************************************************/
+
+void MainForm::on_actToolsLocalInfo_triggered()
+{
+    LocalSystemInfoDlg dlg;
     dlg.exec();
 }
 

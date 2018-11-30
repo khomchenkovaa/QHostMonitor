@@ -29,7 +29,8 @@ SOURCES += main.cpp\
      qTestHistoryChartsDlg.cpp \
      qMainInfoPaneWidget.cpp \
      qTestInfoDlg.cpp \
-     qTestPauseDialog.cpp
+     qTestPauseDialog.cpp \
+    qLocalSystemInfoDlg.cpp
 
 HEADERS  += \
     qMainForm.h \
@@ -45,7 +46,8 @@ HEADERS  += \
     qTestHistoryChartsDlg.h \
     qMainInfoPaneWidget.h \
     qTestInfoDlg.h \
-    qTestPauseDialog.h
+    qTestPauseDialog.h \
+    qLocalSystemInfoDlg.h
 
 FORMS    += qMainForm.ui \
     qAboutDlg.ui \
@@ -59,7 +61,8 @@ FORMS    += qMainForm.ui \
     qTestHistoryChartsDlg.ui \
     qMainInfoPaneWidget.ui \
     qTestInfoDlg.ui \
-    qTestPauseDialog.ui
+    qTestPauseDialog.ui \
+    qLocalSystemInfoDlg.ui
 
 RESOURCES += \
     ../qHostMonitor.qrc

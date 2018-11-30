@@ -3619,9 +3619,6 @@
    </property>
   </action>
   <action name="actToolsLocalInfo">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="icon">
     <iconset resource="../qHostMonitor.qrc">
      <normaloff>:/img/action/info.png</normaloff>:/img/action/info.png</iconset>

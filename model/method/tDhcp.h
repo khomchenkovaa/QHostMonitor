@@ -64,9 +64,8 @@ public:
 
     virtual TTestMethod *clone() Q_DECL_OVERRIDE;
 
-private:
-    QString currentLocalIP() const;
-    QString currentMacAddress() const;
+    static QString currentLocalIP();
+    static QString currentMacAddress();
 
 };
 

@@ -105,7 +105,7 @@ TTestMethod *TDhcp::clone()
 
 /******************************************************************/
 
-QString TDhcp::currentLocalIP() const
+QString TDhcp::currentLocalIP()
 {
     QString result;
 
@@ -126,7 +126,7 @@ QString TDhcp::currentLocalIP() const
 
 /******************************************************************/
 
-QString TDhcp::currentMacAddress() const
+QString TDhcp::currentMacAddress()
 {
     QString result;
     foreach (const QNetworkInterface& networkInterface, QNetworkInterface::allInterfaces()) {

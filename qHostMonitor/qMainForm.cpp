@@ -76,23 +76,21 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
     ui->btnToolbarAdd->setMenu(ui->mnuTestAdd);
     ui->btnToolbarRefresh->setMenu(ui->mnuTestRefresh);
     ui->btnToolbarReset->setMenu(ui->mnuTestReset);
+
+    connect(ui->actFoldersTree, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actViewsList, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actFolderLine, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actInfoPane, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actQuickLog, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actViewDebug, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actStatusBar, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
 }
 
 /******************************************************************/
 
 void MainForm::init() {
     setupFolders();
-
-    ui->pnlFoldersTree->setHidden(!ui->actFoldersTree->isChecked());
-    ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
-    ui->statusBar->setHidden(!ui->actStatusBar->isChecked());
-    if (ui->actQuickLog->isChecked()) {
-        ui->actInfoPane->setChecked(false);
-    }
-    ui->pnlInfoPane->setHidden(!ui->actInfoPane->isChecked());
-    ui->tblQuickLogView->setHidden(!ui->actQuickLog->isChecked());
-    ui->lvTestList->setHidden(true);
-
+    onViewPanelsChanged();
     resetScriptMenu();
 }
 
@@ -448,6 +446,33 @@ void MainForm::onTestListSelectionChanged()
         int testVisible = ui->trvTestList->model()->rowCount();
         ui->wMainInfoPane->folderInfo(m_HML, testVisible, testSelected);
     }
+}
+
+/******************************************************************/
+
+void MainForm::onViewPanelsChanged()
+{
+    // left (folders) panel
+    bool showFolderPanel = ui->actFoldersTree->isChecked() || ui->actViewsList->isChecked();
+    ui->tabFoldersTree->setTabEnabled(0, ui->actFoldersTree->isChecked());
+    ui->tabFoldersTree->setTabEnabled(1, ui->actViewsList->isChecked());
+    ui->pnlFoldersTree->setHidden(!showFolderPanel);
+
+    // folders line
+    ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
+
+    // info panel
+    bool showInfoPanel = ui->actInfoPane->isChecked() || ui->actQuickLog->isChecked() || ui->actViewDebug->isChecked();
+    ui->pnlInfo->setTabEnabled(0, ui->actInfoPane->isChecked());
+    ui->pnlInfo->setTabEnabled(1, ui->actQuickLog->isChecked());
+    ui->pnlInfo->setTabEnabled(2, ui->actViewDebug->isChecked());
+    ui->pnlInfo->setHidden(!showInfoPanel);
+
+    // test list
+    ui->lvTestList->setHidden(true);
+
+    // status bar
+    ui->statusBar->setHidden(!ui->actStatusBar->isChecked());
 }
 
 /******************************************************************/
@@ -1275,46 +1300,7 @@ void MainForm::on_actHistoryCharts_triggered()
 // View menu
 /******************************************************************/
 
-void MainForm::on_actFoldersTree_triggered(bool checked)
-{
-    ui->pnlFoldersTree->setHidden(!checked);
-}
 
-/******************************************************************/
-
-void MainForm::on_actFolderLine_triggered(bool checked)
-{
-    ui->pnlFoldersLine->setHidden(!checked);
-}
-
-/******************************************************************/
-
-void MainForm::on_actInfoPane_triggered(bool checked)
-{
-    ui->pnlInfoPane->setHidden(!checked);
-    if (checked) {
-        ui->actQuickLog->setChecked(false);
-        ui->tblQuickLogView->setHidden(true);
-    }
-}
-
-/******************************************************************/
-
-void MainForm::on_actQuickLog_triggered(bool checked)
-{
-    ui->tblQuickLogView->setHidden(!checked);
-    if (checked) {
-        ui->actInfoPane->setChecked(false);
-        ui->pnlInfoPane->setHidden(true);
-    }
-}
-
-/******************************************************************/
-
-void MainForm::on_actStatusBar_triggered(bool checked)
-{
-    ui->statusBar->setHidden(!checked);
-}
 
 /******************************************************************/
 // Profiles menu

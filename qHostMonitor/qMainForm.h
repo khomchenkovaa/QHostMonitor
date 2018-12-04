@@ -77,6 +77,7 @@ public slots:
 private slots:
     void onTestListContextMenu(const QPoint &pos);
     void onTestListSelectionChanged();
+    void onViewPanelsChanged();
     // File menu
     void on_actNewTestList_triggered();
     void on_actLoadTestList_triggered();
@@ -155,11 +156,6 @@ private slots:
     void on_actTestInfo_triggered();
     void on_actHistoryCharts_triggered();
     // View menu
-    void on_actFoldersTree_triggered(bool checked);
-    void on_actFolderLine_triggered(bool checked);
-    void on_actInfoPane_triggered(bool checked);
-    void on_actQuickLog_triggered(bool checked);
-    void on_actStatusBar_triggered(bool checked);
     // Profiles menu
     void on_actPatterns_triggered();
     void on_actConnectionManager_triggered();

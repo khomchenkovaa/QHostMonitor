@@ -1464,6 +1464,14 @@
                 <bool>true</bool>
                </property>
                <widget class="SDPO::MainInfoPaneWidget" name="wMainInfoPane">
+                <property name="geometry">
+                 <rect>
+                  <x>0</x>
+                  <y>0</y>
+                  <width>635</width>
+                  <height>180</height>
+                 </rect>
+                </property>
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                   <horstretch>0</horstretch>
@@ -1955,11 +1963,8 @@
     <addaction name="actSystemLog"/>
     <addaction name="separator"/>
     <addaction name="actFoldersTree"/>
-    <addaction name="actViewsList"/>
     <addaction name="actFolderLine"/>
     <addaction name="actInfoPane"/>
-    <addaction name="actQuickLog"/>
-    <addaction name="actViewDebug"/>
     <addaction name="actStatusBar"/>
    </widget>
    <widget class="QMenu" name="mnuReports">
@@ -2175,11 +2180,6 @@
    </property>
    <property name="iconVisibleInMenu">
     <bool>true</bool>
-   </property>
-  </action>
-  <action name="ImportfromfileonHMsystem">
-   <property name="text">
-    <string>Import from Text file on HM system...</string>
    </property>
   </action>
   <action name="actImportFromTxtFile">
@@ -3460,20 +3460,6 @@
     <string>Folders Tree</string>
    </property>
   </action>
-  <action name="actViewsList">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="checked">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Views Tree</string>
-   </property>
-   <property name="toolTip">
-    <string>Views Tree</string>
-   </property>
-  </action>
   <action name="actFolderLine">
    <property name="checkable">
     <bool>true</bool>
@@ -3491,14 +3477,6 @@
    </property>
    <property name="text">
     <string>Info pane</string>
-   </property>
-  </action>
-  <action name="actQuickLog">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Quick log</string>
    </property>
   </action>
   <action name="actStatusBar">
@@ -3884,41 +3862,6 @@
     <bool>true</bool>
    </property>
   </action>
-  <action name="actionFiles">
-   <property name="text">
-    <string>Files</string>
-   </property>
-  </action>
-  <action name="actionUNC_test">
-   <property name="text">
-    <string>UNC test</string>
-   </property>
-  </action>
-  <action name="actionFolder_File_Size">
-   <property name="text">
-    <string>Folder/File Size</string>
-   </property>
-  </action>
-  <action name="actionCount_Files">
-   <property name="text">
-    <string>Count Files</string>
-   </property>
-  </action>
-  <action name="actionFolder_File_Availability">
-   <property name="text">
-    <string>Folder/File Availability</string>
-   </property>
-  </action>
-  <action name="actionFile_Integrity">
-   <property name="text">
-    <string>File Integrity</string>
-   </property>
-  </action>
-  <action name="actionText_Log_test">
-   <property name="text">
-    <string>Text Log test</string>
-   </property>
-  </action>
   <action name="actOptions">
    <property name="text">
     <string>&amp;Options</string>
@@ -4005,11 +3948,6 @@
     <string>&amp;System info</string>
    </property>
   </action>
-  <action name="actionRelated_URL">
-   <property name="text">
-    <string>Related URL</string>
-   </property>
-  </action>
   <action name="RelatedURL1">
    <property name="icon">
     <iconset>
@@ -4063,17 +4001,6 @@
   <action name="actionFile_1">
    <property name="text">
     <string>file 1</string>
-   </property>
-  </action>
-  <action name="actViewDebug">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>Test output</string>
-   </property>
-   <property name="toolTip">
-    <string>Test output</string>
    </property>
   </action>
  </widget>

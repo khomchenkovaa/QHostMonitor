@@ -534,7 +534,8 @@ bool HMScriptRunner::runCreateFolder(const int num, const QString &cmdLine)
  *         <variable_value>
  *         [-inheritpartly]
  * If currently folder settings set to "inherit all variables from parent folder", this command will set "Use folder variables only" mode.
- * Unless you specify optional -inheritpartly parameter; in such case HostMonitor will set "Use inherited variables; folder variables may override inherited variables" option.
+ * Unless you specify optional -inheritpartly parameter; in such case HostMonitor will set "Use inherited variables;
+ * folder variables may override inherited variables" option.
  * Note: if you are using folder-level variables as parameters of some test items, this command will modify test settings automatically.
  *****************************************************************/
 
@@ -573,7 +574,6 @@ bool HMScriptRunner::runSetFolderVariable(const int num, const QString &cmdLine)
  * "Inherit agent from parent" option instead of changing folder-specific agent.
  * If "UnlessInherited" is not specified then HostMonitor will set specified agent regardless of parent agent.
  *****************************************************************/
-
 bool HMScriptRunner::runSetFolderAgent(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -679,7 +679,6 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
     return true;
 }
-
 /*****************************************************************
  * This command allows you to copy specified test item into set of folders.
  * You may select destination folders using logical expressions based on folder name or folder-level variables.
@@ -696,7 +695,6 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
  * Last optional parameter (-skipduplicates) tells HostMonitor to skip operation for the folder when target folder already has test with the same name.
  * Note: as usually HostMonitor will resolve folder-related variables that can be used as test parameters. This way single command can create set of tests for various servers.
  *****************************************************************/
-
 bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);

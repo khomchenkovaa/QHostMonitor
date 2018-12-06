@@ -3,52 +3,60 @@
 
 #include <QtWidgets>
 
+// common
+#include "gSettings.h"
+#include "utils.h"
+
+// model
 #include "tRoot.h"
-#include "qPauseMonitoringDlg.h"
-#include "qTestPauseDialog.h"
-#include "qTestPlannedPauseDlg.h"
-#include "qTestInfoDlg.h"
-#include "qTestHistoryChartsDlg.h"
-#include "qAckDlg.h"
-#include "qPatternsDlg.h"
-#include "qPalettesWin.h"
-#include "qMailProfilesDlg.h"
-#include "qReportProfilesDlg.h"
-#include "qGlobalUserVariables.h"
+
+// service
+#include "actionService.h"
+#include "hmScriptRunner.h"
+#include "monitoringService.h"
+#include "io/ioActionProfileLoader.h"
+#include "io/ioColorProfileLoader.h"
+#include "io/ioMailProfileLoader.h"
+#include "io/ioTextFile.h"
+#include "io/ioUserVarsLoader.h"
+
+// view
+#include "hIOShellScripts.h"
+#include "qActionPopupEvent.h"
 #include "qActionProfiles.h"
-#include "qConnectionManagerDlg.h"
-#include "qUserPreferencesDlg.h"
-#include "qOperatorsDlg.h"
-#include "qLoginAsDlg.h"
-#include "qHostMonDlg.h"
-#include "qLinksList.h"
-#include "qShellMng.h"
-#include "qOptionsForm.h"
-#include "qLocalSystemInfoDlg.h"
-#include "qAboutDlg.h"
-#include "qTestListProperties.h"
-#include "qFolderDlg.h"
 #include "qCommonViewPropertiesDlg.h"
+#include "qConnectionManagerDlg.h"
 #include "qDynamicViewPropertiesDlg.h"
 #include "qFolderPropertiesDlg.h"
-#include "qExportToTxtDlg.h"
-#include "qImportFromTxtFileDlg.h"
+#include "qGlobalUserVariables.h"
+#include "qHostMonDlg.h"
+#include "qLinksList.h"
+#include "qLoginAsDlg.h"
+#include "qMailProfilesDlg.h"
+#include "qOperatorsDlg.h"
+#include "qOptionsForm.h"
+#include "qPalettesWin.h"
+#include "qPatternsDlg.h"
+#include "qReportProfilesDlg.h"
+#include "qShellMng.h"
+#include "qUserPreferencesDlg.h"
 #include "viewmodel/mFoldersAndViewsModel.h"
 #include "viewmodel/mTestListModel.h"
 #include "viewmodel/mTestListSortingModel.h"
-#include "gSettings.h"
-#include "io/ioTextFile.h"
-#include "hIOShellScripts.h"
-#include "io/ioUserVarsLoader.h"
-#include "io/ioMailProfileLoader.h"
-#include "io/ioColorProfileLoader.h"
-#include "io/ioActionProfileLoader.h"
-#include "hmScriptRunner.h"
-#include "actionService.h"
-#include "monitoringService.h"
-#include "qActionPopupEvent.h"
 
-#include "utils.h"
+// main
+#include "qAboutDlg.h"
+#include "qAckDlg.h"
+#include "qExportToTxtDlg.h"
+#include "qFolderDlg.h"
+#include "qImportFromTxtFileDlg.h"
+#include "qLocalSystemInfoDlg.h"
+#include "qPauseMonitoringDlg.h"
+#include "qTestHistoryChartsDlg.h"
+#include "qTestInfoDlg.h"
+#include "qTestListProperties.h"
+#include "qTestPauseDialog.h"
+#include "qTestPlannedPauseDlg.h"
 
 namespace SDPO {
 
@@ -78,11 +86,8 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
     ui->btnToolbarReset->setMenu(ui->mnuTestReset);
 
     connect(ui->actFoldersTree, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actViewsList, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
     connect(ui->actFolderLine, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
     connect(ui->actInfoPane, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actQuickLog, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actViewDebug, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
     connect(ui->actStatusBar, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
 }
 
@@ -453,20 +458,13 @@ void MainForm::onTestListSelectionChanged()
 void MainForm::onViewPanelsChanged()
 {
     // left (folders) panel
-    bool showFolderPanel = ui->actFoldersTree->isChecked() || ui->actViewsList->isChecked();
-    ui->tabFoldersTree->setTabEnabled(0, ui->actFoldersTree->isChecked());
-    ui->tabFoldersTree->setTabEnabled(1, ui->actViewsList->isChecked());
-    ui->pnlFoldersTree->setHidden(!showFolderPanel);
+    ui->pnlFoldersTree->setHidden(!ui->actFoldersTree->isChecked());
 
     // folders line
     ui->pnlFoldersLine->setHidden(!ui->actFolderLine->isChecked());
 
     // info panel
-    bool showInfoPanel = ui->actInfoPane->isChecked() || ui->actQuickLog->isChecked() || ui->actViewDebug->isChecked();
-    ui->pnlInfo->setTabEnabled(0, ui->actInfoPane->isChecked());
-    ui->pnlInfo->setTabEnabled(1, ui->actQuickLog->isChecked());
-    ui->pnlInfo->setTabEnabled(2, ui->actViewDebug->isChecked());
-    ui->pnlInfo->setHidden(!showInfoPanel);
+    ui->pnlInfo->setHidden(!ui->actInfoPane->isChecked());
 
     // test list
     ui->lvTestList->setHidden(true);

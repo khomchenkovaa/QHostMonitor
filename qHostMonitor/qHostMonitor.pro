@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = qHostMonitor
@@ -15,54 +15,55 @@ include("../model/model.pri")
 include("../service/service.pri")
 include("../view/view.pri")
 
-SOURCES += main.cpp\
-     qMainForm.cpp \
-     qAboutDlg.cpp \
-     startup.cpp \
-     qFolderDlg.cpp \
-     qAckDlg.cpp \
-     qTestListProperties.cpp \
-     qExportToTxtDlg.cpp \
-     qImportFromTxtFileDlg.cpp \
-     qPauseMonitoringDlg.cpp \
-     qTestPlannedPauseDlg.cpp \
-     qTestHistoryChartsDlg.cpp \
-     qMainInfoPaneWidget.cpp \
-     qTestInfoDlg.cpp \
-     qTestPauseDialog.cpp \
-    qLocalSystemInfoDlg.cpp
-
 HEADERS  += \
-    qMainForm.h \
     qAboutDlg.h \
-    startup.h \
-    qFolderDlg.h \
     qAckDlg.h \
-    qTestListProperties.h \
     qExportToTxtDlg.h \
+    qFolderDlg.h \
     qImportFromTxtFileDlg.h \
-    qPauseMonitoringDlg.h \
-    qTestPlannedPauseDlg.h \
-    qTestHistoryChartsDlg.h \
+    qLocalSystemInfoDlg.h \
+    qMainForm.h \
     qMainInfoPaneWidget.h \
+    qPauseMonitoringDlg.h \
+    qTestHistoryChartsDlg.h \
     qTestInfoDlg.h \
+    qTestListProperties.h \
     qTestPauseDialog.h \
-    qLocalSystemInfoDlg.h
+    qTestPlannedPauseDlg.h \
+    startup.h
 
-FORMS    += qMainForm.ui \
+SOURCES += main.cpp \
+    qAboutDlg.cpp \
+    qAckDlg.cpp \
+    qExportToTxtDlg.cpp \
+    qFolderDlg.cpp \
+    qImportFromTxtFileDlg.cpp \
+    qLocalSystemInfoDlg.cpp \
+    qMainForm.cpp \
+    qMainInfoPaneWidget.cpp \
+    qPauseMonitoringDlg.cpp \
+    qTestHistoryChartsDlg.cpp \
+    qTestInfoDlg.cpp \
+    qTestListProperties.cpp \
+    qTestPauseDialog.cpp \
+    qTestPlannedPauseDlg.cpp \
+    startup.cpp
+
+FORMS    += \
     qAboutDlg.ui \
-    qFolderDlg.ui \
     qAckDlg.ui \
-    qTestListProperties.ui \
     qExportToTxtDlg.ui \
+    qFolderDlg.ui \
     qImportFromTxtFileDlg.ui \
-    qPauseMonitoringDlg.ui \
-    qTestPlannedPauseDlg.ui \
-    qTestHistoryChartsDlg.ui \
+    qLocalSystemInfoDlg.ui \
+    qMainForm.ui \
     qMainInfoPaneWidget.ui \
+    qPauseMonitoringDlg.ui \
+    qTestHistoryChartsDlg.ui \
     qTestInfoDlg.ui \
+    qTestListProperties.ui \
     qTestPauseDialog.ui \
-    qLocalSystemInfoDlg.ui
+    qTestPlannedPauseDlg.ui
 
 RESOURCES += \
     ../qHostMonitor.qrc

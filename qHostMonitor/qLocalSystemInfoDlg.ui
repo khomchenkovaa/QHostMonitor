@@ -149,7 +149,7 @@
         <item row="0" column="0">
          <widget class="QLabel" name="lblTotalPhysical">
           <property name="text">
-           <string>Total Physical</string>
+           <string>Total RAM</string>
           </property>
          </widget>
         </item>
@@ -163,7 +163,7 @@
         <item row="1" column="0">
          <widget class="QLabel" name="lblAvailPhysical">
           <property name="text">
-           <string>Avail Physical</string>
+           <string>Avail RAM</string>
           </property>
          </widget>
         </item>
@@ -177,7 +177,7 @@
         <item row="2" column="0">
          <widget class="QLabel" name="lblTotalPageFile">
           <property name="text">
-           <string>Total Pages of Memory</string>
+           <string>Total Swap</string>
           </property>
          </widget>
         </item>
@@ -191,7 +191,7 @@
         <item row="3" column="0">
          <widget class="QLabel" name="lblAvailPageFile">
           <property name="text">
-           <string>Avail Pages of Memory</string>
+           <string>Avail Swap</string>
           </property>
          </widget>
         </item>
@@ -205,7 +205,7 @@
         <item row="4" column="0">
          <widget class="QLabel" name="lblTotalVirtual">
           <property name="text">
-           <string>Total Virtual</string>
+           <string>Total Heigh</string>
           </property>
          </widget>
         </item>
@@ -219,7 +219,7 @@
         <item row="5" column="0">
          <widget class="QLabel" name="lblAvailVirtual">
           <property name="text">
-           <string>Avail Virtual</string>
+           <string>Avail Heigh</string>
           </property>
          </widget>
         </item>
@@ -233,7 +233,7 @@
         <item row="0" column="2" rowspan="2">
          <widget class="QLabel" name="piePhysical">
           <property name="text">
-           <string>Physical</string>
+           <string>RAM</string>
           </property>
           <property name="textInteractionFlags">
            <set>Qt::NoTextInteraction</set>
@@ -243,14 +243,14 @@
         <item row="2" column="2" rowspan="2">
          <widget class="QLabel" name="piePageFile">
           <property name="text">
-           <string>Page File</string>
+           <string>SWAP</string>
           </property>
          </widget>
         </item>
         <item row="4" column="2" rowspan="2">
          <widget class="QLabel" name="pieVirtual">
           <property name="text">
-           <string>Virtual</string>
+           <string>HEIGH</string>
           </property>
          </widget>
         </item>

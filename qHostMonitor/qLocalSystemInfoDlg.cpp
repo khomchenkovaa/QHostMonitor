@@ -1,3 +1,8 @@
+/**
+  https://www.tecmint.com/commands-to-collect-system-and-hardware-information-in-linux/
+ */
+
+
 #include "qLocalSystemInfoDlg.h"
 #include "ui_qLocalSystemInfoDlg.h"
 
@@ -6,6 +11,10 @@
 #include <QtWidgets>
 #include <QSysInfo>
 #include <QHostInfo>
+#include <QUdpSocket>
+
+// Linux specific
+#include <sys/sysinfo.h>
 
 namespace SDPO {
 
@@ -55,22 +64,34 @@ void LocalSystemInfoDlg::init()
     ui->valSysStatus->setText("???");
     ui->valIcmpImpl->setText("???");
     ui->valSocketMax->setText("???");
-    ui->valUdpSize->setText("???");
+
+    QUdpSocket udpSocket;
+    ui->valUdpSize->setText(QString::number(udpSocket.readBufferSize()));
+
     // Memory status
     ui->valTotalPhysical->setText("???");
     ui->valAvailPhysical->setText("???");
     ui->piePhysical->clear();
-    ui->piePhysical->setPicture(pie(2038,1534));
-    int pagesTotal = sysconf(_SC_PHYS_PAGES);
-    int pagesAvail = sysconf(_SC_AVPHYS_PAGES);
-    ui->valTotalPageFile->setText(QString::number(pagesTotal));
-    ui->valAvailPageFile->setText(QString::number(pagesAvail));
+    ui->valTotalPageFile->setText("???");
+    ui->valAvailPageFile->setText("???");
     ui->piePageFile->clear();
-    ui->piePageFile->setPicture(pie(pagesTotal,pagesAvail));
     ui->valTotalVirtual->setText("???");
     ui->valAvailVirtual->setText("???");
     ui->pieVirtual->clear();
-    ui->pieVirtual->setPicture(pie(2048,1984));
+
+    struct sysinfo sInfo;
+    int res = sysinfo(&sInfo);
+    if (!res) {
+        ui->valTotalPhysical->setText(QString("%1 MB").arg(sInfo.totalram/1024/1024));
+        ui->valAvailPhysical->setText(QString("%1 MB").arg(sInfo.freeram/1024/1024));
+        ui->piePhysical->setPicture(pie(sInfo.totalram,sInfo.freeram));
+        ui->valTotalPageFile->setText(QString("%1 MB").arg(sInfo.totalswap/1024/1024));
+        ui->valAvailPageFile->setText(QString("%1 MB").arg(sInfo.freeswap/1024/1024));
+        ui->piePageFile->setPicture(pie(sInfo.totalswap,sInfo.freeswap));
+        ui->valTotalVirtual->setText(QString("%1 MB").arg(sInfo.totalhigh/1024/1024));
+        ui->valAvailVirtual->setText(QString("%1 MB").arg(sInfo.freehigh/1024/1024));
+        ui->pieVirtual->setPicture(pie(sInfo.totalhigh,sInfo.freehigh));
+    }
     // Internet connection status
     ui->valConnection->setText("Unknown");
     ui->valUsesLan->setText("Unknown");

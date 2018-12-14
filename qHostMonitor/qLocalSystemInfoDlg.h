@@ -56,6 +56,10 @@ private slots:
 
 private:
     QPicture pie(double total, double value);
+    QString localIP();
+    bool isIPv6compatible();
+    bool hasProxy();
+    qint64 hddInfo(bool total);
 };
 
 } // namespace SDPO

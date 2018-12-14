@@ -109,34 +109,6 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="lblAppAdrMin">
-          <property name="text">
-           <string>Minimum application Address</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QLabel" name="valAppAdrMin">
-          <property name="text">
-           <string>00010000</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="lblAppAdrMax">
-          <property name="text">
-           <string>Maximum application Address</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLabel" name="valAppAdrMax">
-          <property name="text">
-           <string>7FFEFFFF</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </item>
@@ -175,56 +147,56 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="lblTotalPageFile">
+         <widget class="QLabel" name="lblTotalSwap">
           <property name="text">
            <string>Total Swap</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLabel" name="valTotalPageFile">
+         <widget class="QLabel" name="valTotalSwap">
           <property name="text">
            <string>3929 MB</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="lblAvailPageFile">
+         <widget class="QLabel" name="lblAvailSwap">
           <property name="text">
            <string>Avail Swap</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLabel" name="valAvailPageFile">
+         <widget class="QLabel" name="valAvailSwap">
           <property name="text">
            <string>3555 MB</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="lblTotalVirtual">
+         <widget class="QLabel" name="lblTotalHeigh">
           <property name="text">
            <string>Total Heigh</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLabel" name="valTotalVirtual">
+         <widget class="QLabel" name="valTotalHeigh">
           <property name="text">
            <string>2048 MB</string>
           </property>
          </widget>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="lblAvailVirtual">
+         <widget class="QLabel" name="lblAvailHaigh">
           <property name="text">
            <string>Avail Heigh</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QLabel" name="valAvailVirtual">
+         <widget class="QLabel" name="valAvailHeigh">
           <property name="text">
            <string>1984 MB</string>
           </property>
@@ -241,14 +213,14 @@
          </widget>
         </item>
         <item row="2" column="2" rowspan="2">
-         <widget class="QLabel" name="piePageFile">
+         <widget class="QLabel" name="pieSwap">
           <property name="text">
            <string>SWAP</string>
           </property>
          </widget>
         </item>
         <item row="4" column="2" rowspan="2">
-         <widget class="QLabel" name="pieVirtual">
+         <widget class="QLabel" name="pieHeigh">
           <property name="text">
            <string>HEIGH</string>
           </property>
@@ -258,9 +230,9 @@
       </widget>
      </item>
      <item row="1" column="0" rowspan="2">
-      <widget class="QGroupBox" name="grpSocket">
+      <widget class="QGroupBox" name="grpSystem">
        <property name="title">
-        <string>Socket</string>
+        <string>System</string>
        </property>
        <layout class="QFormLayout" name="formLayout_3">
         <item row="0" column="0">
@@ -292,58 +264,58 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLabel" name="lblSocketVer">
+         <widget class="QLabel" name="lblShell">
           <property name="text">
-           <string>Socket version</string>
+           <string>Shell</string>
           </property>
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLabel" name="valSocketVer">
+         <widget class="QLabel" name="valShell">
           <property name="text">
-           <string>2.2</string>
+           <string>/bin/bash</string>
           </property>
          </widget>
         </item>
         <item row="3" column="0">
-         <widget class="QLabel" name="lblDescription">
+         <widget class="QLabel" name="lblDesktop">
           <property name="text">
-           <string>Description</string>
+           <string>Desktop</string>
           </property>
          </widget>
         </item>
         <item row="3" column="1">
-         <widget class="QLabel" name="valDescription">
+         <widget class="QLabel" name="valDesktop">
           <property name="text">
-           <string>WinSock 2.2</string>
+           <string>Gnome</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0">
-         <widget class="QLabel" name="lblSysStatus">
+         <widget class="QLabel" name="lblTotalHDD">
           <property name="text">
-           <string>System status</string>
+           <string>Total disk space</string>
           </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLabel" name="valSysStatus">
+         <widget class="QLabel" name="valTotalHDD">
           <property name="text">
-           <string>Running</string>
+           <string>145 GB</string>
           </property>
          </widget>
         </item>
         <item row="5" column="0">
-         <widget class="QLabel" name="lblIcmpImpl">
+         <widget class="QLabel" name="lblAvailHDD">
           <property name="text">
-           <string>ICMP implementation</string>
+           <string>Avail Disk space</string>
           </property>
          </widget>
         </item>
         <item row="5" column="1">
-         <widget class="QLabel" name="valIcmpImpl">
+         <widget class="QLabel" name="valAvailHDD">
           <property name="text">
-           <string>IPHLPAPI.DLL</string>
+           <string>16 Gb</string>
           </property>
          </widget>
         </item>

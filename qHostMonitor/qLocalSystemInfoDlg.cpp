@@ -6,12 +6,11 @@
 #include "qLocalSystemInfoDlg.h"
 #include "ui_qLocalSystemInfoDlg.h"
 
-#include "method/tDhcp.h"
-
 #include <QtWidgets>
 #include <QSysInfo>
 #include <QHostInfo>
 #include <QUdpSocket>
+#include <QNetworkInterface>
 
 // Linux specific
 #include <sys/sysinfo.h>
@@ -49,35 +48,34 @@ void LocalSystemInfoDlg::init()
         .append(" ").append(QSysInfo::kernelType())
         .append(" ").append(QSysInfo::kernelVersion());
     ui->valOsVersion->setText(osVersion);
+
     // CPU
     ui->valProcNum->setText(QString::number(sysconf(_SC_NPROCESSORS_ONLN)));
     ui->valProcType->setText(QSysInfo::currentCpuArchitecture()); // system("cat /proc/cpuinfo | grep \"model name\"");
     ui->valPageSize->setText(QString::number(sysconf(_SC_PAGESIZE)));
     ui->valAllocationGranularity->setText(QString::number(sysconf(_SC_PAGESIZE))); // nearest equivalent of VirtualAlloc on Linux is mmap (the mapping will be created at a nearby page boundary).
-    ui->valAppAdrMin->setText("???");
-    ui->valAppAdrMax->setText("???");
-    // Socket
-    ui->valHostName->setText(QHostInfo::localHostName());
-    ui->valHostAdr->setText(TDhcp::currentLocalIP());
-    ui->valSocketVer->setText(qVersion());
-    ui->valDescription->setText("???");
-    ui->valSysStatus->setText("???");
-    ui->valIcmpImpl->setText("???");
-    ui->valSocketMax->setText("???");
 
+    // System
     QUdpSocket udpSocket;
+    ui->valHostName->setText(QHostInfo::localHostName());
+    ui->valHostAdr->setText(localIP());
+    ui->valShell->setText(getenv("SHELL"));
+    ui->valDesktop->setText(getenv("DESKTOP_SESSION"));
+    ui->valTotalHDD->setText(QString("%1 Gb").arg(hddInfo(true)/1024/1024/1024));
+    ui->valAvailHDD->setText(QString("%1 Gb").arg(hddInfo(false)/1024/1024/1024));
+    ui->valSocketMax->setText("???");
     ui->valUdpSize->setText(QString::number(udpSocket.readBufferSize()));
 
     // Memory status
     ui->valTotalPhysical->setText("???");
     ui->valAvailPhysical->setText("???");
     ui->piePhysical->clear();
-    ui->valTotalPageFile->setText("???");
-    ui->valAvailPageFile->setText("???");
-    ui->piePageFile->clear();
-    ui->valTotalVirtual->setText("???");
-    ui->valAvailVirtual->setText("???");
-    ui->pieVirtual->clear();
+    ui->valTotalSwap->setText("???");
+    ui->valAvailSwap->setText("???");
+    ui->pieSwap->clear();
+    ui->valTotalHeigh->setText("???");
+    ui->valAvailHeigh->setText("???");
+    ui->pieHeigh->clear();
 
     struct sysinfo sInfo;
     int res = sysinfo(&sInfo);
@@ -85,20 +83,21 @@ void LocalSystemInfoDlg::init()
         ui->valTotalPhysical->setText(QString("%1 MB").arg(sInfo.totalram/1024/1024));
         ui->valAvailPhysical->setText(QString("%1 MB").arg(sInfo.freeram/1024/1024));
         ui->piePhysical->setPicture(pie(sInfo.totalram,sInfo.freeram));
-        ui->valTotalPageFile->setText(QString("%1 MB").arg(sInfo.totalswap/1024/1024));
-        ui->valAvailPageFile->setText(QString("%1 MB").arg(sInfo.freeswap/1024/1024));
-        ui->piePageFile->setPicture(pie(sInfo.totalswap,sInfo.freeswap));
-        ui->valTotalVirtual->setText(QString("%1 MB").arg(sInfo.totalhigh/1024/1024));
-        ui->valAvailVirtual->setText(QString("%1 MB").arg(sInfo.freehigh/1024/1024));
-        ui->pieVirtual->setPicture(pie(sInfo.totalhigh,sInfo.freehigh));
+        ui->valTotalSwap->setText(QString("%1 MB").arg(sInfo.totalswap/1024/1024));
+        ui->valAvailSwap->setText(QString("%1 MB").arg(sInfo.freeswap/1024/1024));
+        ui->pieSwap->setPicture(pie(sInfo.totalswap,sInfo.freeswap));
+        ui->valTotalHeigh->setText(QString("%1 MB").arg(sInfo.totalhigh/1024/1024));
+        ui->valAvailHeigh->setText(QString("%1 MB").arg(sInfo.freehigh/1024/1024));
+        ui->pieHeigh->setPicture(pie(sInfo.totalhigh,sInfo.freehigh));
     }
-    // Internet connection status
+
+    // Network connection status
     ui->valConnection->setText("Unknown");
     ui->valUsesLan->setText("Unknown");
     ui->valUsesModem->setText("Unknown");
-    ui->valUsesProxy->setText("Unknown");
+    ui->valUsesProxy->setText(hasProxy()?"Yes":"No");
     // IP v6
-    ui->valIPv6->setText("Unknown");
+    ui->valIPv6->setText(isIPv6compatible()?"Yes":"No");
 }
 
 /******************************************************************/
@@ -141,6 +140,61 @@ QPicture LocalSystemInfoDlg::pie(double total, double value)
     p.end();
 
     return pi;
+}
+
+/******************************************************************/
+
+QString LocalSystemInfoDlg::localIP()
+{
+    foreach (const QNetworkInterface &netInterface, QNetworkInterface::allInterfaces()) {
+        QNetworkInterface::InterfaceFlags flags = netInterface.flags();
+        if( (bool)(flags & QNetworkInterface::IsRunning) && !(bool)(flags & QNetworkInterface::IsLoopBack)){
+            foreach (const QNetworkAddressEntry &address, netInterface.addressEntries()) {
+                if(address.ip().protocol() == QAbstractSocket::IPv4Protocol) {
+                    return address.ip().toString();
+                }
+            }
+        }
+    }
+    return QString();
+}
+
+/******************************************************************/
+/*!
+ * Linux kernel has IPv6 support since 1996. All you need to do is compile kernel with IPv6 networking support.
+ * However, there is easy way to find out if Linux kernel compiled with IPv6 or not.
+ * To check, whether your current running kernel supports IPv6, take a look into your /proc-file-system. Following entry must exists:
+ * $ cat /proc/net/if_inet6
+ */
+bool LocalSystemInfoDlg::isIPv6compatible()
+{
+    QString fName = "/proc/net/if_inet6";
+    QFileInfo fileInfo(fName);
+    return fileInfo.exists();
+}
+
+/******************************************************************/
+
+bool LocalSystemInfoDlg::hasProxy()
+{
+    QString http = getenv("http_proxy");
+    QString https = getenv("https_proxy");
+    return !http.isEmpty() || !https.isEmpty();
+}
+
+/******************************************************************/
+
+qint64 LocalSystemInfoDlg::hddInfo(bool total)
+{
+    qint64 result = 0;
+    foreach(const QStorageInfo &storage, QStorageInfo::mountedVolumes()) {
+        if (total) {
+            result += storage.bytesTotal();
+        } else {
+            result += storage.bytesAvailable();
+        }
+    }
+    return result;
 }
 
 /******************************************************************/

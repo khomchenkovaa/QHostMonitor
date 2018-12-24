@@ -173,6 +173,7 @@ void MainForm::resetModel()
     ui->lvTestList->setModel(m_filterModel);
     connect(ui->trvTestList->selectionModel(), SIGNAL(selectionChanged(QItemSelection,QItemSelection)),
             this, SLOT(onTestListSelectionChanged()));
+    connect(m_HML, SIGNAL(testUpdated(TNode*)), this, SLOT(onTestListSelectionChanged()));
 
     onTreeViewChanged();
     onTreeFolderChanged();
@@ -433,8 +434,14 @@ void MainForm::onTestListSelectionChanged()
     if (testSelected == 1) { // show test info
         QModelIndex index = ui->trvTestList->currentIndex();
         TNode* item = m_model->itemFromIndex(m_filterModel->mapToSource(index));
-        if (item->getType() == TNode::TEST || item->getType() == TNode::LINK) {
+        if (item->getType() == TNode::TEST) {
             ui->wMainInfoPane->testInfo(item);
+            TTest *test = qobject_cast<TTest*>(item);
+            ui->textTestDebug->setText(test->method()->getLog());
+        } else if (item->getType() == TNode::LINK) {
+            ui->wMainInfoPane->testInfo(item);
+            TLink *link = qobject_cast<TLink*>(item);
+            ui->textTestDebug->setText(link->getTest()->method()->getLog());
         } else {
             int testVisible = item->testsCount();
             ui->wMainInfoPane->folderInfo(m_HML, testVisible, testSelected);

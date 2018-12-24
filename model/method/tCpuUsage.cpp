@@ -20,6 +20,8 @@ TCpuUsage::TCpuUsage(QObject *parent) :
 void TCpuUsage::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("CPU usage method not implemented\n");
     emit testSuccess();
 }
 

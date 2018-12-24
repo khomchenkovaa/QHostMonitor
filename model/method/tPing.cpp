@@ -28,8 +28,10 @@ TPing::TPing(QString addr, QObject *parent) :
 void TPing::run()
 {
     m_Result.clear();
+    writeLogTitle();
 
     QString command = getCommand();
+    m_Log.append(QString("[Command]$ %1\n\n").arg(command));
     if (command.isEmpty()) {
         m_Result.error = "Command is empty";
         emit testFailed();
@@ -96,6 +98,7 @@ void TPing::parseResult(QString data)
 {
     TTestResult tResult;
     tResult.reply = "No answer";
+    m_Log.append(data).append("\n\n");
 
     QStringList result = data.split(QRegExp("[\r\n]"),QString::SkipEmptyParts);
 
@@ -103,24 +106,27 @@ void TPing::parseResult(QString data)
 
     foreach(const QString &line, result) {
         if (errorScan(line, tResult)) {
+            m_Log.append(tResult.error);
             tResult.reply = tResult.error;
             tResult.status = TestStatus::Bad;
             m_Result = tResult;
             return;
         }
         if (getPercentLossStatistics(line, pingStat)) {
-//            qDebug() << tr("Ping: %1 packets transmitted, %2 received, %3% packet loss").arg(pingStat.transmitted).arg(pingStat.received).arg(pingStat.percentLoss);
+            m_Log.append(tr("Ping stat: %1 packets transmitted, %2 received, %3% packet loss\n").arg(pingStat.transmitted).arg(pingStat.received).arg(pingStat.percentLoss));
             continue;
         }
         if (getRoundTrip(line, pingStat)) {
-//            qDebug() << tr("Ping: rtt min/avg/max/mdev = %1/%2/%3/0.000 ms").arg(pingStat.rttMin).arg(pingStat.rttAvg).arg(pingStat.rttMax);
+            m_Log.append(tr("Round trip: rtt min/avg/max/mdev = %1/%2/%3/0.000 ms\n").arg(pingStat.rttMin).arg(pingStat.rttAvg).arg(pingStat.rttMax));
             continue;
         }
     }
 
     if (pingStat.percentLoss < a_BadCriteria) {
+        m_Log.append(QString("Percent loss %1 < %2; status = OK\n").arg(pingStat.percentLoss).arg(a_BadCriteria));
         tResult.status = TestStatus::Ok;
     } else {
+        m_Log.append(QString("Percent loss %1 >= %2; status = BAD\n").arg(pingStat.percentLoss).arg(a_BadCriteria));
         tResult.status = TestStatus::Bad;
     }
 

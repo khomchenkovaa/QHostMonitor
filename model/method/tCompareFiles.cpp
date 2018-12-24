@@ -28,30 +28,44 @@ TCompareFiles::TCompareFiles(QObject *parent) :
 
 void TCompareFiles::run()
 {
+    writeLogTitle();
     switch (a_AlertWhen) {
     case AlertMode::FilesDifferent:
+        m_Log.append("Alert Mode: FilesDifferent\n");
         m_Result = compareFiles(true);
         break;
     case AlertMode::FilesIdentical:
+        m_Log.append("Alert Mode: FilesIdentical\n");
         m_Result = compareFiles(false);
         break;
     case AlertMode::ContainsFile:
+        m_Log.append("Alert Mode: ContainsFile\n");
         m_Result = containsFile(false);
         break;
     case AlertMode::DoesntContainFile:
+        m_Log.append("Alert Mode: DoesntContainFile\n");
         m_Result = containsFile(true);
         break;
     case AlertMode::ContainsString:
+        m_Log.append("Alert Mode: ContainsString\n");
         m_Result = containsString(false);
         break;
     case AlertMode::DoesntContainString:
+        m_Log.append("Alert Mode: DoesntContainString\n");
         m_Result = containsString(true);
         break;
     }
 
+    if (!m_Result.error.isEmpty()) {
+        m_Log.append("Error!!!\n");
+        m_Log.append(m_Result.error);
+    }
+
     if (m_Result.status == TestStatus::Ok) {
+        m_Log.append("Test OK");
         emit testSuccess();
     } else {
+        m_Log.append("Test Bad");
         emit testFailed();
     }
 }
@@ -103,18 +117,24 @@ TTestResult TCompareFiles::compareFiles(bool identical)
     }
 
     if (b_Time) {
+        m_Log.append("Comparing last modified time... ");
         if (fInfo1.lastModified() == fInfo2.lastModified()) {
+            m_Log.append("EQUALS\n");
             result.status = identical? TestStatus::Ok : TestStatus::Bad;
         } else {
+            m_Log.append("Different\n");
             result.status = identical? TestStatus::Bad : TestStatus::Ok;
             return result;
         }
     }
 
     if (b_Size) {
+        m_Log.append("Comparing file sizes...");
         if (fInfo1.size() == fInfo2.size()) {
+            m_Log.append("EQUALS\n");
             result.status = identical? TestStatus::Ok : TestStatus::Bad;
         } else {
+            m_Log.append("Different\n");
             result.status = identical? TestStatus::Bad : TestStatus::Ok;
             return result;
         }
@@ -152,9 +172,12 @@ TTestResult TCompareFiles::containsFile(bool contains)
     const QByteArray searchStr = file2.readAll();
     file2.close();
 
+    m_Log.append("Comparing file contents...");
     if (content.contains(searchStr)) {
+        m_Log.append("Contains\n");
         result.status = contains? TestStatus::Ok : TestStatus::Bad;
     } else {
+        m_Log.append("Does not\n");
         result.status = contains? TestStatus::Bad : TestStatus::Ok;
     }
     return result;
@@ -180,12 +203,15 @@ TTestResult TCompareFiles::containsString(bool contains)
     }
     QString decodedStr = in.readAll();
     file.close();
+    m_Log.append("Comparing file contents with string...");
     QString searchStr = b_WholeWordsOnly? "\\b" + a_String + "\\b" : a_String;
     Qt::CaseSensitivity cs = b_CaseSensitive? Qt::CaseSensitive : Qt::CaseInsensitive;
     QRegExp rx(searchStr,cs);
     if (decodedStr.contains(rx)) {
+        m_Log.append("Contains\n");
         result.status = contains? TestStatus::Ok : TestStatus::Bad;
     } else {
+        m_Log.append("Does not\n");
         result.status = contains? TestStatus::Bad : TestStatus::Ok;
     }
     return result;

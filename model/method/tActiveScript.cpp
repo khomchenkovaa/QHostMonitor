@@ -20,6 +20,8 @@ TActiveScript::TActiveScript(QObject *parent) :
 void TActiveScript::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("ActiveScript method not implemented\n");
     emit testSuccess();
 }
 

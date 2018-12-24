@@ -25,16 +25,20 @@ TCountFiles::TCountFiles(QObject *parent) :
 
 void TCountFiles::run()
 {
+    writeLogTitle();
     TTestResult result;
     QString folder = getTranslated(a_Folder, b_TranslateMacros);
     QDir dir(folder);
     if (!dir.exists()) {
-        result.error = tr("Path %1 does not exists").arg(folder);
+        QString errString = tr("Path %1 does not exists").arg(folder);
+        result.error = errString;
+        m_Log.append("Error!!! ").append(errString);
         m_Result = result;
         emit testFailed();
         return;
     }
     int count = countFiles(dir);
+    m_Log.append(QString("%1 files found").arg(count));
     result.replyInt = count;
     result.replyDouble = count;
     result.reply = QString::number(count);

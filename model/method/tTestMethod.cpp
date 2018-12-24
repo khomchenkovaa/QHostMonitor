@@ -24,6 +24,15 @@ TTestMethod::~TTestMethod()
 
 /***********************************************/
 
+void TTestMethod::run()
+{
+    writeLogTitle();
+    // Do nothing
+    m_Log.append("Warning!!! Test method not implemented\n");
+}
+
+/***********************************************/
+
 TTestMethod *TTestMethod::clone()
 {
     TTestMethod *result = new TTestMethod(m_TMethodID, parent());
@@ -67,6 +76,18 @@ QString TTestMethod::getTranslated(const QString &name, const bool translate) co
     }
     GMacroTranslator translator(name);
     return translator.translate();
+}
+
+/***********************************************/
+
+void TTestMethod::writeLogTitle()
+{
+    m_Log.clear();
+    m_Log.append("*************************************************************\n");
+    m_Log.append(QString("* Method type: %1\n").arg(getTestMethod()));
+    m_Log.append(QString("* Method name: %1\n").arg(getDefaultName()));
+    m_Log.append(QString("* Call time:   %1\n").arg(QDateTime::currentDateTime().toString()));
+    m_Log.append("*************************************************************\n\n");
 }
 
 /***********************************************/

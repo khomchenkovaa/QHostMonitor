@@ -96,6 +96,7 @@ protected:
     QString     m_NamePattern;
     QString     m_CommentPattern;
     TTestResult m_Result;
+    QString     m_Log;
 
 public:
     explicit TTestMethod(TMethodID methodId, QObject *parent = 0);
@@ -115,9 +116,10 @@ public:
     QString getCommentPattern() const { return m_CommentPattern; }
     void setCommentPattern(const QString value) { m_CommentPattern = value; }
     TTestResult getResult() const { return m_Result; }
+    QString getLog() const { return m_Log; }
 
     // command
-    virtual void run() {} // Do nothing
+    virtual void run();
     virtual QString getCommand() const { return QString(); }
     virtual void parseResult(QString data) { m_Result.reply = data; }
 
@@ -127,6 +129,7 @@ public:
 
 protected:
     QString getTranslated(const QString &name, const bool translate) const;
+    void writeLogTitle();
 
 signals:
     void testSuccess();

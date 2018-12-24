@@ -73,16 +73,16 @@ public:
 
     // commands
     bool cmdNewTestList();
-    bool cmdLoadTestList(QString fileName);                                                                 //! TODO
-    bool cmdAppendTestList(QString fileName);                                                               //! TODO
+    bool cmdLoadTestList(QString fileName);                                                                  //! TODO
+    bool cmdAppendTestList(QString fileName);                                                                //! TODO
     bool cmdImportFromFile(QString fileName, bool skipDuplicates = false, bool writeLog = false);
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
     TNode *cmdCreateFolder(QString path);
-    bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false); //! TODO
+    bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false);     //! TODO
     bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);                  //! TODO
-    bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);                                     //! TODO
-    bool cmdCopyTest(TNode* folder, QString fileName);                                                     //! TODO
+    bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);                                       //! TODO
+    bool cmdCopyTest(TNode* folder, QString fileName);                                                       //! TODO
     bool cmdCopyTestByID(TNode* folder, TNode *testid);
     bool cmdCopyAllTests(TNode* folder, bool r = false, bool skipduplicates = false);
     bool cmdCopyIntoSelectedFolders(TNode* folder, QString fileName, bool skipduplicates = false);

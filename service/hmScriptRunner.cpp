@@ -557,8 +557,7 @@ bool HMScriptRunner::runSetFolderVariable(const int num, const QString &cmdLine)
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no variable value\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString varValue = cmdList.takeFirst();
-
+    int varValue = cmdList.takeFirst().toInt();
     bool inheritPartly = cmdList.contains("-inheritpartly");
     m_HML->cmdSetFolderVariable(m_CurrentFolder, varName, varValue, inheritPartly);
     return true;
@@ -626,7 +625,30 @@ bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("")) {
+        found = m_HML->rootItem()->findChildRecursive(folder);
+    } else if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    } else {
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    QString folder2 = cmdList.takeFirst();
+    TNode *found2 = 0;
+    if (folder.contains("")) {
+        found = m_HML->rootItem()->findChildRecursive(folder);
+    } else if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    }
+    bool r = cmdList.contains("-r");
+    m_HML->cmdCopyFolder(found, found2, r);
     return true;
 }
 
@@ -643,7 +665,24 @@ bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
         return false;
     }
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    } else {
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdCopyTest(found, fileName);
     return true;
 }
 
@@ -659,7 +698,24 @@ bool HMScriptRunner::runCopyTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    } else {
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    QString testid = cmdList.takeFirst();
+    TNode *found2 = 0;
+    found2 = m_HML->rootItem()->findByID(testid.toInt());
+
+    m_HML->cmdCopyTestByID (found, found2);
     return true;
 }
 
@@ -676,9 +732,25 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    } else {
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    bool r = cmdList.contains("-r");
+    bool skipduplicates = cmdList.contains("-skipduplicates");
+    m_HML->cmdCopyAllTests (found, r, skipduplicates);
     return true;
-}
+ }
+
 /*****************************************************************
  * This command allows you to copy specified test item into set of folders.
  * You may select destination folders using logical expressions based on folder name or folder-level variables.
@@ -701,7 +773,33 @@ bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cm
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+        TNode *found2 = 0;
+        if (fileName.contains("/")) {
+            found2 = m_HML->rootItem()->findTest(fileName);
+        } else {
+            found2 = m_HML->rootItem()->findByID(fileName.toInt());
+        }
+    }
+
+    QString folder = cmdList.takeFirst();
+    TNode *found = 0;
+    if (folder.contains("/")) {
+        found = m_HML->rootItem()->findByPath(folder);
+    } else {
+        found = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+    bool skipduplicates = cmdList.contains("-skipduplicates");
+    m_HML->cmdCopyIntoSelectedFolders (found, fileName, skipduplicates);
     return true;
 }
 
@@ -768,7 +866,17 @@ bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdDisableTest(fileName);
     return true;
 }
 
@@ -782,7 +890,17 @@ bool HMScriptRunner::runEnableTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdDisableTest(fileName);
     return true;
 }
 
@@ -796,7 +914,17 @@ bool HMScriptRunner::runRefreshTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdDisableTest(fileName);
     return true;
 }
 
@@ -810,7 +938,17 @@ bool HMScriptRunner::runResetTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdDisableTest(fileName);
     return true;
 }
 
@@ -826,7 +964,22 @@ bool HMScriptRunner::runPauseTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    int interval = cmdList.takeFirst().toInt();
+    QString Comment = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        Comment = cmdList.takeFirst();
+    }
+    m_HML->cmdPauseTest(fileName, interval, Comment);
     return true;
 }
 
@@ -840,7 +993,17 @@ bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdDisableTest(fileName);
     return true;
 }
 
@@ -855,7 +1018,22 @@ bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    QString ParameterName;
+    if (!cmdList.isEmpty()) {
+        ParameterName = cmdList.takeFirst();
+    }
+    int Value = cmdList.takeFirst().toInt();
+    m_HML->cmdSetTestParam(fileName, ParameterName, Value);
     return true;
 }
 
@@ -874,7 +1052,23 @@ bool HMScriptRunner::runReplaceTestParam(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 4)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    QString ParameterName;
+    if (!cmdList.isEmpty()) {
+        ParameterName = cmdList.takeFirst();
+    }
+    int CurrValue = cmdList.takeFirst().toInt();
+    int NewValue = cmdList.takeFirst().toInt();
+    m_HML->cmdReplaceTestParam(fileName, ParameterName, CurrValue, NewValue);
     return true;
 }
 
@@ -890,7 +1084,25 @@ bool HMScriptRunner::runAckTestStatus(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    QString StopAlerts;
+    if (!cmdList.isEmpty()) {
+        StopAlerts = cmdList.takeFirst();
+    }
+    QString Comment = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        Comment = cmdList.takeFirst();
+    }
+    m_HML->cmdAckTestStatus(fileName, StopAlerts, Comment);
     return true;
 }
 
@@ -903,7 +1115,17 @@ bool HMScriptRunner::runResetAcknowledgements(const int num, const QString &cmdL
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdResetAcknowledgements(fileName);
     return true;
 }
 
@@ -921,7 +1143,17 @@ bool HMScriptRunner::runResetRecurrencesTest(const int num, const QString &cmdLi
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdResetRecurrencesTest(fileName);
     return true;
 }
 
@@ -950,7 +1182,17 @@ bool HMScriptRunner::runResetEventLogRefPoint(const int num, const QString &cmdL
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName;
+    if (!cmdList.isEmpty()) {
+        fileName = cmdList.takeFirst();
+    }
+    m_HML->cmdResetEventLogRefPoint(fileName);
     return true;
 }
 
@@ -964,7 +1206,18 @@ bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    m_HML->cmdDisableTestByID(found);
     return true;
 }
 
@@ -978,7 +1231,18 @@ bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
         return false;
     }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    m_HML->cmdEnableTestByID(found);
     return true;
 }
 
@@ -996,8 +1260,23 @@ bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    QString forcelog = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        forcelog = cmdList.takeFirst();
+    }
+    m_HML->cmdRefreshTestByID(found, forcelog);
+    return true;
 }
 /*****************************************************************
  * Command works similar to RefreshTestByID command - it tells HostMonitor to perform test probe immediately.
@@ -1011,8 +1290,23 @@ bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &c
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    QString forcelog = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        forcelog = cmdList.takeFirst();
+    }
+    m_HML->cmdRefreshIrregularTestByID(found, forcelog);
+    return true;
 }
 /*****************************************************************
  * Resets statistics test item specified by unique ID
@@ -1024,8 +1318,19 @@ bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    m_HML->cmdResetTestByID(found);
+    return true;
 }
 
 /*****************************************************************
@@ -1039,8 +1344,20 @@ bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    int interval_minutes = cmdList.takeFirst().toInt();
+    m_HML->cmdPauseTestByID(found, interval_minutes);
+    return true;
 }
 
 /*****************************************************************
@@ -1054,8 +1371,20 @@ bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    int interval_minutes = cmdList.takeFirst().toInt();
+    m_HML->cmdResumeTestByID(found, interval_minutes);
+    return true;
 }
 
 /*****************************************************************
@@ -1070,8 +1399,27 @@ bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    QString StopAlerts;
+    if (!cmdList.isEmpty()) {
+        StopAlerts = cmdList.takeFirst();
+    }
+    QString Comment = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        Comment = cmdList.takeFirst();
+    }
+    m_HML->cmdAckTestStatusbyID(found, StopAlerts, Comment);
+    return true;
 }
 
 /*****************************************************************
@@ -1084,8 +1432,19 @@ bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &
     if (!checkParams(num, cmdList, 1)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    m_HML->cmdResetAcknowledgementsByID(found);
+    return true;
 }
 
 /*****************************************************************
@@ -1100,8 +1459,24 @@ bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 3)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    QString ParameterName;
+    if (!cmdList.isEmpty()) {
+        ParameterName = cmdList.takeFirst();
+    }
+    int Value = cmdList.takeFirst().toInt();
+    m_HML->cmdSetTestParamByID(found, ParameterName, Value);
+    return true;
 }
 
 /*****************************************************************
@@ -1117,8 +1492,25 @@ bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLi
     if (!checkParams(num, cmdList, 4)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString fileName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+        found = m_HML->rootItem()->findByID(fileName.toInt());
+    }
+    QString ParameterName;
+    if (!cmdList.isEmpty()) {
+        ParameterName = cmdList.takeFirst();
+    }
+    int CurrValue = cmdList.takeFirst().toInt();
+    int NewValue = cmdList.takeFirst().toInt();
+    m_HML->cmdReplaceTestParamByID(found, ParameterName, CurrValue, NewValue);
+    return true;
 }
 
 /*****************************************************************
@@ -1132,8 +1524,20 @@ bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString VariableName = cmdList.takeFirst();
+    TNode *found = 0;
+    if (!cmdList.isEmpty()) {
+      found = m_HML->rootItem()->findTest(VariableName);
+    }
+    int VariableValue = cmdList.takeFirst().toInt();
+    m_HML->cmdSetUserVariable(found, VariableValue);
+    return true;
 }
 
 /*****************************************************************
@@ -1202,9 +1606,23 @@ bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 2)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString report_profile_name = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        report_profile_name = cmdList.takeFirst();
+    }
+    QString target_file_name = cmdList.takeFirst();
+    if (!cmdList.isEmpty()) {
+        target_file_name = cmdList.takeFirst();
+    }
+    m_HML->cmdCreateReport(report_profile_name, target_file_name);
+    return true;
 }
 
 /*****************************************************************
@@ -1217,8 +1635,18 @@ bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 1)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    QString CommandLine;
+    if (!cmdList.isEmpty()) {
+        CommandLine = cmdList.takeFirst();
+    }
+    m_HML->cmdStartProgram(CommandLine);
+    return true;
 }
 
 /*****************************************************************
@@ -1234,8 +1662,22 @@ bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 2)) {
          return false;
      }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    cmdList.removeFirst();
+
+    if (cmdList.isEmpty()) {
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return false;
+    }
+    int TimeToWait;
+    if (!cmdList.isEmpty()) {
+        TimeToWait = cmdList.takeFirst().toInt();
+    }
+    QString CommandLine;
+    if (!cmdList.isEmpty()) {
+        CommandLine = cmdList.takeFirst();
+    }
+    m_HML->cmdExecuteProgram(TimeToWait, CommandLine);
+    return true;
 }
 
 /*****************************************************************

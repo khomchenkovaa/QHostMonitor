@@ -177,7 +177,7 @@ TNode *HMListService::cmdCreateFolder(QString path)
 
 /******************************************************************/
 
-bool HMListService::cmdSetFolderVariable(TNode *folder, QString varName, QString varValue, bool inheritPartly)
+bool HMListService::cmdSetFolderVariable(TNode *folder, QString varName, int varValue, bool inheritPartly)
 {
     qDebug() << "TODO: cmdSetFolderVariable" << folder->getName() << varName << varValue << inheritPartly;
     return true;
@@ -231,6 +231,261 @@ void HMListService::cmdMonitoringStop()
 void HMListService::cmdMonitoringPause(int interval)
 {
     emit monitoringPaused(interval);
+}
+
+/******************************************************************/
+bool HMListService::cmdCopyFolder(TNode *folder, TNode* folder2, bool r)
+{
+    qDebug() << "TODO: cmdCopyFolder" << folder->getName() << folder2->getName() << r;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdCopyTest(TNode *folder, QString fileName)
+{
+    qDebug() << "TODO: cmdCopyTest" << folder->getName() << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdCopyTestByID(TNode *folder, TNode *testid)
+{
+    qDebug() << "TODO: cmdCopyTestByID" << folder->getName() << testid;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdCopyAllTests(TNode *folder, bool r, bool skipduplicates)
+{
+    qDebug() << "TODO: cmdCopyAllTests" << folder->getName() << r << skipduplicates;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdCopyIntoSelectedFolders(TNode *folder, QString fileName, bool skipduplicates)
+{
+    qDebug() << "TODO: cmdCopyIntoSelectedFolders" << folder->getName() << fileName << skipduplicates;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdDisableTest(QString fileName)
+{
+    qDebug() << "TODO: cmdDisableTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdEnableTest(QString fileName)
+{
+    qDebug() << "TODO: cmdDisableTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdRefreshTest(QString fileName)
+{
+    qDebug() << "TODO: cmdDisableTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetTest(QString fileName)
+{
+    qDebug() << "TODO: cmdDisableTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdPauseTest(QString fileName, int interval, QString Comment)
+{
+    qDebug() << "TODO: cmdPauseTest" << fileName << interval << Comment;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResumeTest(QString fileName)
+{
+    qDebug() << "TODO: cmdResumeTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetTestParam(QString fileName, QString ParameterName, int Value)
+{
+    qDebug() << "TODO: cmdSetTestParam" << fileName << ParameterName << Value;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdReplaceTestParam(QString fileName, QString ParameterName, int CurrValue, int NewValue)
+{
+    qDebug() << "TODO: cmdReplaceTestParam" << fileName << ParameterName << CurrValue << NewValue;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdAckTestStatus(QString fileName, QString StopAlerts, QString Comment)
+{
+    qDebug() << "TODO: cmdAckTestStatus" << fileName << StopAlerts << Comment;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetAcknowledgements(QString fileName)
+{
+    qDebug() << "TODO: cmdResetAcknowledgements" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetRecurrencesTest(QString fileName)
+{
+    qDebug() << "TODO: cmdResetRecurrencesTest" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetEventLogRefPoint(QString fileName)
+{
+    qDebug() << "TODO: cmdResetEventLogRefPoint" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdDisableTestByID(TNode* fileName)
+{
+    qDebug() << "TODO: cmdDisableTestByID" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdEnableTestByID(TNode* fileName)
+{
+    qDebug() << "TODO: cmdEnableTestByID" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdRefreshTestByID(TNode* fileName, QString forcelog)
+{
+    qDebug() << "TODO: cmdResfreshTestByID" << fileName << forcelog;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdRefreshIrregularTestByID(TNode* fileName, QString forcelog)
+{
+    qDebug() << "TODO: cmdResfreshIrregularTestByID" << fileName << forcelog;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetTestByID(TNode* fileName)
+{
+    qDebug() << "TODO: cmdResetTestByID" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdPauseTestByID(TNode* fileName, int inteval_minutes)
+{
+    qDebug() << "TODO: cmdPauseTestByID" << fileName << inteval_minutes;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResumeTestByID(TNode* fileName, int inteval_minutes)
+{
+    qDebug() << "TODO: cmdResumeTestByID" << fileName << inteval_minutes;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdAckTestStatusbyID(TNode* fileName, QString StopAlerts, QString Comment)
+{
+    qDebug() << "TODO: cmdAckTestStatusbyID" << fileName << StopAlerts << Comment;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdResetAcknowledgementsByID(TNode* fileName)
+{
+    qDebug() << "TODO: cmdResetAcknowledgementsByID" << fileName;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetTestParamByID(TNode* fileName, QString ParameterName, int Value)
+{
+    qDebug() << "TODO: cmdSetTestParamByID" << fileName << ParameterName << Value;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdReplaceTestParamByID(TNode* fileName, QString ParameterName, int CurrValue, int NewValue)
+{
+    qDebug() << "TODO: cmdReplaceTestParamByID" << fileName << ParameterName << CurrValue << NewValue;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdSetUserVariable(TNode* VariableName, int VariableValue)
+{
+    qDebug() << "TODO: cmdSetUserVariable" << VariableName << VariableValue;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdCreateReport(QString report_profile_name, QString target_file_name)
+{
+    qDebug() << "TODO: cmdCreateReport" << report_profile_name << target_file_name;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdStartProgram(QString CommandLine)
+{
+    qDebug() << "TODO: cmdStartProgram" << CommandLine;
+    return true;
+}
+
+/******************************************************************/
+
+bool HMListService::cmdExecuteProgram(int TimeToWait, QString CommandLine)
+{
+    qDebug() << "TODO: cmdExecuteProgram" << TimeToWait << CommandLine;
+    return true;
 }
 
 /******************************************************************/

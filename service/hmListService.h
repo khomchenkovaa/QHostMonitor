@@ -73,14 +73,46 @@ public:
 
     // commands
     bool cmdNewTestList();
-    bool cmdLoadTestList(QString fileName);                                                                  //! TODO
-    bool cmdAppendTestList(QString fileName);                                                                //! TODO
+    bool cmdLoadTestList(QString fileName);                                                                 //! TODO
+    bool cmdAppendTestList(QString fileName);                                                               //! TODO
     bool cmdImportFromFile(QString fileName, bool skipDuplicates = false, bool writeLog = false);
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
     TNode *cmdCreateFolder(QString path);
-    bool cmdSetFolderVariable(TNode* folder, QString varName, QString varValue, bool inheritPartly = false); //! TODO
+    bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false); //! TODO
     bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);                  //! TODO
+    bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);                                     //! TODO
+    bool cmdCopyTest(TNode* folder, QString fileName);                                                     //! TODO
+    bool cmdCopyTestByID(TNode* folder, TNode *testid);
+    bool cmdCopyAllTests(TNode* folder, bool r = false, bool skipduplicates = false);
+    bool cmdCopyIntoSelectedFolders(TNode* folder, QString fileName, bool skipduplicates = false);
+    bool cmdDisableTest(QString fileName);
+    bool cmdEnableTest(QString fileName);
+    bool cmdRefreshTest(QString fileName);
+    bool cmdResetTest(QString fileName);
+    bool cmdPauseTest(QString fileName, int interval, QString Comment);
+    bool cmdResumeTest(QString fileName);
+    bool cmdSetTestParam(QString fileName, QString ParameterName, int Value);
+    bool cmdReplaceTestParam(QString fileName, QString ParameterName, int CurrValue, int NewValue);
+    bool cmdAckTestStatus(QString fileName, QString StopAlerts, QString Comment);
+    bool cmdResetAcknowledgements(QString fileName);
+    bool cmdResetRecurrencesTest(QString fileName);
+    bool cmdResetEventLogRefPoint(QString fileName);
+    bool cmdDisableTestByID(TNode* fileName);
+    bool cmdEnableTestByID(TNode* fileName);
+    bool cmdRefreshTestByID(TNode* fileName, QString forcelog);
+    bool cmdRefreshIrregularTestByID(TNode* fileName, QString forcelog);
+    bool cmdResetTestByID(TNode* fileName);
+    bool cmdPauseTestByID(TNode* fileName, int inteval_minutes);
+    bool cmdResumeTestByID(TNode* fileName, int inteval_minutes);
+    bool cmdAckTestStatusbyID(TNode* fileName, QString StopAlerts, QString Comment);
+    bool cmdResetAcknowledgementsByID(TNode* fileName);
+    bool cmdSetTestParamByID(TNode* fileName, QString ParameterName, int Value);
+    bool cmdReplaceTestParamByID(TNode* fileName, QString ParameterName, int CurrValue, int NewValue);
+    bool cmdSetUserVariable(TNode* VariableName, int VariableValue);
+    bool cmdCreateReport(QString report_profile_name, QString target_file_name);
+    bool cmdStartProgram(QString CommandLine);
+    bool cmdExecuteProgram(int TimeToWait, QString CommandLine);
 
 signals:
     void modelAboutToChange();

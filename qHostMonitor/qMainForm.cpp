@@ -437,11 +437,11 @@ void MainForm::onTestListSelectionChanged()
         if (item->getType() == TNode::TEST) {
             ui->wMainInfoPane->testInfo(item);
             TTest *test = qobject_cast<TTest*>(item);
-            ui->textTestDebug->setText(test->method()->getLog());
+            ui->textTestDebug->setText(test->executionLog());
         } else if (item->getType() == TNode::LINK) {
             ui->wMainInfoPane->testInfo(item);
             TLink *link = qobject_cast<TLink*>(item);
-            ui->textTestDebug->setText(link->getTest()->method()->getLog());
+            ui->textTestDebug->setText(link->getTest()->executionLog());
         } else {
             int testVisible = item->testsCount();
             ui->wMainInfoPane->folderInfo(m_HML, testVisible, testSelected);

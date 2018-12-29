@@ -22,6 +22,8 @@ TDominantProcess::TDominantProcess(QObject *parent) :
 void TDominantProcess::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("Dominant process method not implemented\n");
     emit testSuccess();
 }
 

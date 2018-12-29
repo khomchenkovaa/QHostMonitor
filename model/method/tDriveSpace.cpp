@@ -19,12 +19,13 @@ TDriveSpace::TDriveSpace(QObject *parent) :
 void TDriveSpace::run()
 {
     TTestResult result;
-
+    writeLogTitle();
     QList<QStorageInfo> drives = QStorageInfo::mountedVolumes();
     foreach(QStorageInfo storage, drives) {
         if (m_Drive != QString(storage.device())) continue;
         float bytesFree = storage.bytesFree();
         float bytesTotal = storage.bytesTotal();
+        m_Log.append(QString("Drive %1: free=%2, total=%3\n\n").arg(m_Drive).arg(bytesFree).arg(bytesTotal));
         int testValue = 0;
         if (m_Dimension == "%") {
             testValue = (bytesFree / bytesTotal) * 100.0;

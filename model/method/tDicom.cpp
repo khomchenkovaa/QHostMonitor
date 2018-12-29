@@ -19,6 +19,8 @@ TDicom::TDicom(QObject *parent) :
 void TDicom::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("DICOM method not implemented\n");
     emit testSuccess();
 }
 

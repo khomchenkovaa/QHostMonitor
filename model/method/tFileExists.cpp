@@ -24,10 +24,13 @@ void TFileExists::run()
 {
     TTestResult result;
     result.status = TestStatus::Ok;
+    writeLogTitle();
 
     QFileInfo fileInfo(a_FileName);
     bool fileExists = fileInfo.exists();
     qint64 fileAge = fileExists ? fileInfo.lastModified().secsTo(QDateTime::currentDateTime()) / 60 : -1;
+    m_Log.append(QString("File %1 %2\n").arg(a_FileName).arg(fileExists?"exists":"doesn't exists"));
+    m_Log.append(QString("Last modified %1\n").arg(fileInfo.lastModified().toString()));
 
     if (b_FileExistsCriteria) { // Alert: file exists AND time criteria
         if (fileExists) {

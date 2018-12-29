@@ -356,6 +356,41 @@ TTest *TTest::clone(const int newID, const QString &newName)
 
 /***********************************************/
 
+QString TTest::executionLog() const
+{
+    QString log = m_TMethod->getLog();
+
+    TTestResult tmResult = m_TMethod->getResult();
+    log.append("\n****** Test Method Result ******\n");
+    log.append(QString("* status: %1\n").arg(TEnums::testStatus(tmResult.status)));
+    log.append(QString("* reply: %1\n").arg(tmResult.reply));
+    log.append(QString("* reply float: %1\n").arg(tmResult.replyDouble));
+    log.append(QString("* reply number: %1\n").arg(tmResult.replyInt));
+    log.append(QString("* error: %1\n").arg(tmResult.error));
+    log.append(QString("* date: %1\n").arg(tmResult.date.toString()));
+
+    log.append("\n****** Test Properties ******\n");
+    const QMetaObject *metaobject = metaObject();
+    int count = metaobject->propertyCount();
+    for (int i=0; i<count; ++i) {
+        QMetaProperty metaproperty = metaobject->property(i);
+        const char *name = metaproperty.name();
+        QVariant value = property(name);
+        switch (value.type()) {
+        case QMetaType::Int :
+        case QMetaType::Long :
+            log.append(QString("* %1: %2\n").arg(name).arg(value.toInt()));
+            break;
+        default:
+            log.append(QString("* %1: %2\n").arg(name).arg(value.toString()));
+        }
+    }
+
+    return log;
+}
+
+/***********************************************/
+
 QString TTest::testName() const
 {
     if (getName().isEmpty()) {

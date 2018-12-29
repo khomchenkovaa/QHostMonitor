@@ -223,7 +223,7 @@ private:
     Q_PROPERTY(QString HostID READ hostId)
 
     // Represents unique ID of the test. TestID is always unique within an HML file
-    Q_PROPERTY(QString TestID READ getID)
+    Q_PROPERTY(int TestID READ getID)
 
     // The time between two consecutive checks defined for the test
     Q_PROPERTY(QString Interval READ scheduleInterval)
@@ -334,7 +334,7 @@ private:
     Q_PROPERTY(QString Status READ status)
 
     // A 2 digits number that represents status of the test !!!!
-    Q_PROPERTY(QString StatusID READ statusID)
+    Q_PROPERTY(int StatusID READ statusID)
 
     // Return one of the following text values:
     // • "UP" for good statuses (Host is Alive, Ok);
@@ -610,6 +610,7 @@ public:
     virtual QVariant getGlobal(Macro::Variable globalVar) const;
     void updateSpecificProperties();
     TTest *clone(const int newID, const QString &newName);
+    QString executionLog() const;
 
 public slots:
     void onTestPerformed();

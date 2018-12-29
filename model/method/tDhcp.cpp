@@ -23,14 +23,15 @@ TDhcp::TDhcp(QObject *parent) :
 void TDhcp::run()
 {
     m_Result.clear();
+    writeLogTitle();
 
     QString command = getCommand();
+    m_Log.append(QString("[Command]$ %1\n\n").arg(command));
     if (command.isEmpty()) {
         m_Result.error = "Command is empty";
         emit testFailed();
         return;
     }
-    qDebug() << "cmd:" << command;
 
     QProcess process;
     process.setProcessChannelMode(QProcess::MergedChannels);
@@ -47,16 +48,23 @@ void TDhcp::run()
         emit testFailed();
         return;
     }
+
+    QString reply = process.readAll().trimmed();
+    m_Log.append(reply).append("\n\n");
+
     if( process.exitStatus() == QProcess::NormalExit && !process.exitCode()) {
+        m_Log.append("Status = HostAlive\n");
         m_Result.status = TestStatus::HostAlive;
         emit testSuccess();
     } else {
-        QString reply = process.readAll().trimmed();
         if (reply.contains("no answer",Qt::CaseInsensitive)) {
+            m_Log.append("Status = NoAnswer\n");
             m_Result.status = TestStatus::NoAnswer;
         } else {
+            m_Log.append("Status = Bad\n");
             m_Result.status = TestStatus::Bad;
         }
+        m_Log.append(QString("Error: %1\n").arg(process.errorString()));
         m_Result.error = process.errorString();
         emit testFailed();
     }

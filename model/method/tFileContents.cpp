@@ -18,6 +18,8 @@ TFileContents::TFileContents(QObject *parent) :
 void TFileContents::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("File contents method not implemented\n");
     emit testSuccess();
 }
 

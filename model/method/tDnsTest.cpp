@@ -22,6 +22,8 @@ TDnsTest::TDnsTest(QObject *parent) :
 void TDnsTest::run()
 {
     m_Result.status = TestStatus::Ok;
+    writeLogTitle();
+    m_Log.append("DNS test method not implemented\n");
     emit testSuccess();
 }
 

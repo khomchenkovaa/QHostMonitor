@@ -20,8 +20,10 @@ TExternalPrg::TExternalPrg(QObject *parent) :
 void TExternalPrg::run()
 {
     m_Result.clear();
+    writeLogTitle();
 
     QString command = getCommand();
+    m_Log.append(QString("[Command]$ %1\n\n").arg(command));
     if (command.isEmpty()) {
         m_Result.error = "Command is empty";
         emit testFailed();
@@ -45,6 +47,7 @@ void TExternalPrg::run()
         emit testFailed();
         return;
     }
+    m_Log.append(process.readAll());
     m_Result.status = testStatusByExitCode(process.exitCode());
     parseResult(process.readAll().trimmed());
 

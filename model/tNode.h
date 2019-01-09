@@ -3,6 +3,7 @@
 
 #include "PropertyHelper.h"
 #include "global/gProfiles.h"
+#include "global/tMethod.h"
 
 #include <QVariant>
 #include <QDateTime>
@@ -68,6 +69,7 @@ public: // node structure
     void clearTests();
     void clearAll();
     QList<TNode*> folders() { return m_childNodes; }
+    QList<TNode*> foldersRecursive();
     QList<TNode*> tests() { return m_childTests; }
     TNode *child(int idx, bool withTests = false);
     TNode *test(int idx);
@@ -76,6 +78,9 @@ public: // node structure
     TNode *findChildRecursive(QString nm);
     TNode *findByID(int id);
     TNode *findTest(QString nm);
+    TNode *testByID(int id);
+    QList<TNode*> testsByStatus(SimpleStatusID id, bool recurcive = false);
+    QList<TNode*> testsByMethod(TMethodID id, bool recurcive = false);
     int childCount(bool withTests = false) const;
     int foldersTotal() const;
     int viewsTotal() const;

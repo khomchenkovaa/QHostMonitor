@@ -122,11 +122,11 @@ private:
     bool runCreateFolder(const int num, const QString &cmdLine);
     bool runSetFolderVariable(const int num, const QString &cmdLine);
     bool runSetFolderAgent(const int num, const QString &cmdLine);
-    bool runCopyFolder(const int num, const QString &cmdLine);              //! TODO
-    bool runCopyTest(const int num, const QString &cmdLine);                //! TODO
-    bool runCopyTestByID(const int num, const QString &cmdLine);            //! TODO
-    bool runCopyAllTests(const int num, const QString &cmdLine);            //! TODO
-    bool runCopyIntoSelectedFolders(const int num, const QString &cmdLine); //! TODO
+    bool runCopyFolder(const int num, const QString &cmdLine);
+    bool runCopyTest(const int num, const QString &cmdLine);
+    bool runCopyTestByID(const int num, const QString &cmdLine);
+    bool runCopyAllTests(const int num, const QString &cmdLine);
+    bool runCopyIntoSelectedFolders(const int num, const QString &cmdLine);
 // Manipulation with tests
     bool runRefreshAll(const int num, const QString &cmdLine);                //! TODO
     bool runResetAll(const int num, const QString &cmdLine);                  //! TODO

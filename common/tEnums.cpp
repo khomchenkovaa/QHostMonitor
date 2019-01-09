@@ -84,6 +84,27 @@ QString TEnums::simpleStatus(SimpleStatusID status) {
 
 /*****************************************************************/
 
+SimpleStatusID TEnums::simpleStatusFromString(const QString &name, bool *ok)
+{
+    if (name == "Up" || name == "Good") {
+        if (ok) *ok = true;
+        return SimpleStatusID::UP;
+    } else if (name == "Down" || name == "Bad"){
+        if (ok) *ok = true;
+        return SimpleStatusID::DOWN;
+    } else if (name == "Unknown"){
+        if (ok) *ok = true;
+        return SimpleStatusID::UNKNOWN;
+    } else if (name == "Warning"){
+        if (ok) *ok = true;
+        return SimpleStatusID::WARNING;
+    }
+    if (ok) *ok = false;
+    return SimpleStatusID::UNKNOWN;
+}
+
+/*****************************************************************/
+
 QString TEnums::permissionName(const PermissionID id)
 {
     return permissions.at((int)id);

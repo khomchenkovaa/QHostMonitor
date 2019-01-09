@@ -1126,8 +1126,7 @@ void MainForm::on_actTestCopy_triggered()
     QString path = folderDlg.path();
     TNode *node = m_HML->nodeByPath(path);
     QString newName = test->testName() + "-copy";
-    TTest *newTest = test->clone(m_HML->nextID(), newName);
-    m_HML->addNode(node, newTest);
+    TTest *newTest = qobject_cast<TTest*>(m_HML->cmdCopyTest(node, newName, test));
 
     if (folderDlg.isDisabled()) {
         newTest->setEnabled(false);

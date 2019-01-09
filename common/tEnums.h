@@ -77,6 +77,7 @@ public:
     static QString testStatus(TestStatus status);
     static TestStatus testStatusFromString(const QString &name);
     static QString simpleStatus(SimpleStatusID status);
+    static SimpleStatusID simpleStatusFromString(const QString &name, bool *ok=0);
     static QString permissionName(const PermissionID id);
     static MVariablesStruct mVar(Macro::Variable mv);
     static Macro::Variable mvFromString(const QString name);

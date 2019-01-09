@@ -242,34 +242,17 @@ bool HMListService::cmdCopyFolder(TNode *folder, TNode* folder2, bool r)
 
 /******************************************************************/
 
-bool HMListService::cmdCopyTest(TNode *folder, QString fileName)
+TNode *HMListService::cmdCopyTest(TNode *destFolder, QString name, TNode *test, bool skipDuplicates)
 {
-    qDebug() << "TODO: cmdCopyTest" << folder->getName() << fileName;
-    return true;
-}
-
-/******************************************************************/
-
-bool HMListService::cmdCopyTestByID(TNode *folder, TNode *testid)
-{
-    qDebug() << "TODO: cmdCopyTestByID" << folder->getName() << testid;
-    return true;
-}
-
-/******************************************************************/
-
-bool HMListService::cmdCopyAllTests(TNode *folder, bool r, bool skipduplicates)
-{
-    qDebug() << "TODO: cmdCopyAllTests" << folder->getName() << r << skipduplicates;
-    return true;
-}
-
-/******************************************************************/
-
-bool HMListService::cmdCopyIntoSelectedFolders(TNode *folder, QString fileName, bool skipduplicates)
-{
-    qDebug() << "TODO: cmdCopyIntoSelectedFolders" << folder->getName() << fileName << skipduplicates;
-    return true;
+    if (destFolder->findTest(name)) {
+        if (skipDuplicates) return 0;
+        name = name.append("-copy");
+        return cmdCopyTest(destFolder, name, test, skipDuplicates);
+    }
+    TTest *srcTest = qobject_cast<TTest*>(test);
+    TTest *newTest = srcTest->clone(nextID(), name);
+    addNode(destFolder, newTest);
+    return newTest;
 }
 
 /******************************************************************/

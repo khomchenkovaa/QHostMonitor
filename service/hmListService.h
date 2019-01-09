@@ -82,10 +82,7 @@ public:
     bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false);     //! TODO
     bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);                  //! TODO
     bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);                                       //! TODO
-    bool cmdCopyTest(TNode* folder, QString fileName);                                                       //! TODO
-    bool cmdCopyTestByID(TNode* folder, TNode *testid);
-    bool cmdCopyAllTests(TNode* folder, bool r = false, bool skipduplicates = false);
-    bool cmdCopyIntoSelectedFolders(TNode* folder, QString fileName, bool skipduplicates = false);
+    TNode *cmdCopyTest(TNode* destFolder, QString name, TNode *test, bool skipDuplicates = false);
     bool cmdDisableTest(QString fileName);
     bool cmdEnableTest(QString fileName);
     bool cmdRefreshTest(QString fileName);

@@ -1,5 +1,8 @@
 #include "hmScriptRunner.h"
 
+#include "global/gMacroTranslator.h"
+
+#include <QScriptEngine>
 #include <QCoreApplication>
 #include <QFile>
 
@@ -610,15 +613,14 @@ bool HMScriptRunner::runSetFolderAgent(const int num, const QString &cmdLine)
 }
 
 /*****************************************************************
- * Optional parameter "-r" tells HostMonitor to copy folder with its subfolders.
+ * Copy Folder
  * Params: [-r]
  *         <srcname>|<id>|<fullpath>
  *         <newname>|<newfullpath>
- * Source folder can be specified by name (if this folder located within current parent folder - folder selected by
- * SetCurrentFolder command); folder ID or full path to the folder.
+ * Optional parameter "-r" tells HostMonitor to copy folder with its subfolders.
+ * Source folder can be specified by name (if this folder located within current parent folder - folder selected by SetCurrentFolder command); folder ID or full path to the folder.
  * Target folder can be specified by name or full path.
  *****************************************************************/
-
 bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -631,25 +633,57 @@ bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
         m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
         return false;
     }
+
+    bool r = false;
+    if (cmdList.first() == "-r") {
+        r = true;
+        cmdList.removeFirst();
+    }
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no source folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
     QString folder = cmdList.takeFirst();
-    TNode *found = 0;
-    if (folder.contains("")) {
-        found = m_HML->rootItem()->findChildRecursive(folder);
-    } else if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
-    } else {
-        found = m_HML->rootFolder()->findByID(folder.toInt());
+    TNode *fldSrc = 0;
+    if (folder.contains("/")) {
+        fldSrc = m_HML->rootItem()->findByPath(folder);
+    } else { //
+        bool ok;
+        int folderID = folder.toInt(&ok);
+        if (ok) {
+            fldSrc = m_HML->rootFolder()->findByID(folderID);
+        }
     }
+    if (!fldSrc) {
+        fldSrc = m_CurrentFolder->findChild(folder);
+    }
+
+    if (!fldSrc) {
+        m_Errors.append(tr("[WARNING] Line %1: source folder %2 not found\n").arg(num).arg(folder));
+        return false;
+    }
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no destination folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
     QString folder2 = cmdList.takeFirst();
-    TNode *found2 = 0;
-    if (folder.contains("")) {
-        found = m_HML->rootItem()->findChildRecursive(folder);
-    } else if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
+    TNode *fldDest = 0;
+    if (folder2.contains("/")) {
+        fldDest = m_HML->rootItem()->findByPath(folder2);
+    } else {
+        fldDest = m_CurrentFolder->findChild(folder2);
     }
-    bool r = cmdList.contains("-r");
-    m_HML->cmdCopyFolder(found, found2, r);
-    return true;
+
+    if (!fldSrc) {
+        m_Errors.append(tr("[WARNING] Line %1: destination folder %2 not found\n").arg(num).arg(folder2));
+        return false;
+    }
+
+    return m_HML->cmdCopyFolder(fldSrc, fldDest, r);
 }
 
 /*****************************************************************
@@ -658,7 +692,6 @@ bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
  *         <destfullpath>|<folderid>
  * Destination folder can be specified by full path or folder ID
  *****************************************************************/
-
 bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -668,21 +701,47 @@ bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no folder\n").arg(num).arg(cmdLine));
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no arguments\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString folder = cmdList.takeFirst();
-    TNode *found = 0;
-    if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
+
+    QString testName = cmdList.takeFirst();
+    QList<TNode*> tests;
+    if (testName.startsWith("_All")) {
+        testName = testName.remove(0,4);
+        bool ok;
+        SimpleStatusID ssIdx = TEnums::simpleStatusFromString(testName, &ok);
+        if (ok) {
+            tests = m_CurrentFolder->testsByStatus(ssIdx, m_IncludeSubfolders);
+        } else {
+            TMethodID mIdx = TMethod::fromString(testName);
+            if (mIdx != TMethodID::Empty) {
+                tests = m_CurrentFolder->testsByMethod(mIdx, m_IncludeSubfolders);
+            }
+        }
     } else {
-        found = m_HML->rootFolder()->findByID(folder.toInt());
+        TNode *test = m_CurrentFolder->findTest(testName);
+        if (test) {
+            tests.append(test);
+        }
     }
-    QString fileName;
-    if (!cmdList.isEmpty()) {
-        fileName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no destination folder\n").arg(num).arg(cmdLine));
+        return false;
     }
-    m_HML->cmdCopyTest(found, fileName);
+
+    QString folder = cmdList.takeFirst();
+    TNode *destFolder = 0;
+    if (folder.contains("/")) {
+        destFolder = m_HML->rootItem()->findByPath(folder);
+    } else {
+        destFolder = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+
+    foreach(TNode* test, tests) {
+        m_HML->cmdCopyTest(destFolder, test->getName(), test);
+    }
     return true;
 }
 
@@ -691,7 +750,6 @@ bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
  * Params: <testid>
  *         <destfullpath>|<folderid>
  *****************************************************************/
-
 bool HMScriptRunner::runCopyTestByID(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -701,21 +759,33 @@ bool HMScriptRunner::runCopyTestByID(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no arguments\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString folder = cmdList.takeFirst();
-    TNode *found = 0;
-    if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
-    } else {
-        found = m_HML->rootFolder()->findByID(folder.toInt());
-    }
-    QString testid = cmdList.takeFirst();
-    TNode *found2 = 0;
-    found2 = m_HML->rootItem()->findByID(testid.toInt());
 
-    m_HML->cmdCopyTestByID (found, found2);
+    QString testId = cmdList.takeFirst();
+
+    TNode *test = m_HML->rootFolder()->testByID(testId.toInt());
+
+    if (!test) {
+        m_Errors.append(tr("[WARNING] Line %1: test with id %2 not found\n").arg(num).arg(testId));
+        return false;
+    }
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no destination folder\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    QString folder = cmdList.takeFirst();
+    TNode *destFolder = 0;
+    if (folder.contains("/")) {
+        destFolder = m_HML->rootItem()->findByPath(folder);
+    } else {
+        destFolder = m_HML->rootFolder()->findByID(folder.toInt());
+    }
+
+    m_HML->cmdCopyTest(destFolder, test->getName(), test);
     return true;
 }
 
@@ -725,7 +795,6 @@ bool HMScriptRunner::runCopyTestByID(const int num, const QString &cmdLine)
  *         [-skipduplicates]
  *         <destfullpath>|<folderid>
  *****************************************************************/
-
 bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
@@ -734,20 +803,37 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
     }
     cmdList.removeFirst();
 
+    bool r = false;
+    if (cmdList.first() == "-r") {
+        r = true;
+        cmdList.removeFirst();
+    }
+
+    bool skipDuplicates = false;
+    if (cmdList.first() == "-skipduplicates") {
+        skipDuplicates = true;
+        cmdList.removeFirst();
+    }
+
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no destination folder\n").arg(num).arg(cmdLine));
+        return false;
     }
+
     QString folder = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *destFolder = 0;
     if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
+        destFolder = m_HML->rootItem()->findByPath(folder);
     } else {
-        found = m_HML->rootFolder()->findByID(folder.toInt());
+        destFolder = m_HML->rootFolder()->findByID(folder.toInt());
     }
-    bool r = cmdList.contains("-r");
-    bool skipduplicates = cmdList.contains("-skipduplicates");
-    m_HML->cmdCopyAllTests (found, r, skipduplicates);
+
+    TFolder *fld = qobject_cast<TFolder*>(m_CurrentFolder);
+    QList<TNode*> tests = fld->testList(r);
+
+    foreach(TNode* test, tests) {
+        m_HML->cmdCopyTest(destFolder, test->getName(), test, skipDuplicates);
+    }
     return true;
  }
 
@@ -770,36 +856,74 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
 bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cmdLine)
 {
     QStringList cmdList = parseCmd(cmdLine);
-    if (!checkParams(num, cmdList, 3)) {
+    if (!checkParams(num, cmdList, 100)) { // expression can contain spaces
         return false;
     }
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has no arguments\n").arg(num).arg(cmdLine));
+        return false;
     }
 
-    QString fileName;
-    if (!cmdList.isEmpty()) {
-        fileName = cmdList.takeFirst();
-        TNode *found2 = 0;
-        if (fileName.contains("/")) {
-            found2 = m_HML->rootItem()->findTest(fileName);
-        } else {
-            found2 = m_HML->rootItem()->findByID(fileName.toInt());
+    QString arg1 = cmdList.takeFirst();
+    TNode *test = 0;
+    bool ok;
+    int testID = arg1.toInt(&ok);
+    if (ok) {
+        test = m_HML->rootItem()->testByID(testID);
+    }
+    if (!test) {
+        test = m_CurrentFolder->findChild(arg1);
+    }
+    if (!test) {
+        m_Errors.append(tr("[WARNING] Line %1: no test found for name/id '%2'\n").arg(num).arg(arg1));
+        return false;
+    }
+
+    bool skipDuplicates = false;
+    if (cmdList.last() == "-skipduplicates") {
+        skipDuplicates = true;
+        cmdList.removeLast();
+    }
+
+    if(cmdList.count() < 4) {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has wrong arguments\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    if (cmdList.takeFirst() != "Below") {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has wrong syntax at expression part\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    QString topFolder = cmdList.takeFirst();
+    TNode *folder = 0;
+    if (topFolder.contains("/")) {
+        folder = m_HML->rootItem()->findByPath(topFolder);
+    } else {
+        folder = m_HML->rootItem()->findByID(topFolder.toInt());
+    }
+
+    if (cmdList.takeFirst() != "When") {
+        m_Errors.append(tr("[WARNING] Line %1: Command '%2' has wrong syntax at expression part\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    QString expression = cmdList.join(" ");
+
+    QList<TNode*> folders = folder->foldersRecursive();
+
+    foreach(TNode *destFolder, folders) {
+        if (destFolder->getType() != TNode::FOLDER) continue;
+        GMacroTranslator translator(expression, destFolder);
+        QString script = translator.translate();
+        QScriptEngine scriptEngine;
+        QScriptValue value = scriptEngine.evaluate(script);
+        if (value.isBool() && value.toBool()) {
+            m_HML->cmdCopyTest(destFolder, test->getName(), test, skipDuplicates);
         }
     }
-
-    QString folder = cmdList.takeFirst();
-    TNode *found = 0;
-    if (folder.contains("/")) {
-        found = m_HML->rootItem()->findByPath(folder);
-    } else {
-        found = m_HML->rootFolder()->findByID(folder.toInt());
-    }
-    bool skipduplicates = cmdList.contains("-skipduplicates");
-    m_HML->cmdCopyIntoSelectedFolders (found, fileName, skipduplicates);
     return true;
 }
 
@@ -1009,7 +1133,7 @@ bool HMScriptRunner::runResumeTest(const int num, const QString &cmdLine)
 
 /*****************************************************************
  * Params: <TestName>
- *         <ParameterName>
+ *         <ParameterName>const
  *         <Value>
  *****************************************************************/
 bool HMScriptRunner::runSetTestParam(const int num, const QString &cmdLine)

@@ -94,6 +94,17 @@ void TNode::clearAll()
 
 /*************************************************/
 
+QList<TNode *> TNode::foldersRecursive()
+{
+    QList<TNode *> result = m_childNodes;
+    foreach(TNode *fld, m_childNodes) {
+        result.append(fld->foldersRecursive());
+    }
+    return result;
+}
+
+/*************************************************/
+
 TNode *TNode::child(int idx, bool withTests)
 {
     if (idx < 0) {
@@ -180,6 +191,69 @@ TNode *TNode::findTest(QString nm)
     }
     return 0;
 
+}
+
+/*************************************************/
+
+TNode *TNode::testByID(int id)
+{
+    if(m_ID == id) return this;
+    foreach(TNode *node , m_childTests) {
+        if (node->getType() != TNode::TEST) continue;
+        TNode *found = node->testByID(id);
+        if (found) return found;
+    }
+    foreach(TNode *node , m_childNodes) {
+        TNode *found = node->testByID(id);
+        if (found) return found;
+    }
+    return 0;
+}
+
+/*************************************************/
+
+QList<TNode *> TNode::testsByStatus(SimpleStatusID id, bool recurcive)
+{
+    QList<TNode*> result;
+    foreach(TNode *node , m_childTests) {
+        if (node->getType() != TNode::TEST) {
+            continue;
+        }
+        TTest *test = qobject_cast<TTest*>(node);
+        if (test->simpleStatusID() == id) {
+            result.append(node);
+        }
+    }
+    if (recurcive) {
+        foreach(TNode *node , m_childNodes) {
+            result.append(node->testsByStatus(id,recurcive));
+        }
+    }
+
+    return result;
+}
+
+/*************************************************/
+
+QList<TNode *> TNode::testsByMethod(TMethodID id, bool recurcive)
+{
+    QList<TNode*> result;
+    foreach(TNode *node , m_childTests) {
+        if (node->getType() != TNode::TEST) {
+            continue;
+        }
+        TTest *test = qobject_cast<TTest*>(node);
+        if (test->methodId() == id) {
+            result.append(node);
+        }
+    }
+    if (recurcive) {
+        foreach(TNode *node , m_childNodes) {
+            result.append(node->testsByMethod(id,recurcive));
+        }
+    }
+
+    return result;
 }
 
 /*************************************************/

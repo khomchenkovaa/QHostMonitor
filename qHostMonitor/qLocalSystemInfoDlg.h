@@ -48,7 +48,7 @@ class LocalSystemInfoDlg : public QDialog
     int height;
 
 public:
-    explicit LocalSystemInfoDlg(QWidget *parent = 0);
+    explicit LocalSystemInfoDlg(QWidget *parent = nullptr);
     ~LocalSystemInfoDlg();
 
 private slots:

@@ -37,7 +37,7 @@ void UserPreferencesDlg::on_listUserProfiles_currentItemChanged(QListWidgetItem 
     }
     if (current) {
         load(ui->listUserProfiles->row(current));
-        on_trwMonitorColors_currentItemChanged(ui->trwMonitorColors->currentItem(), 0);
+        on_trwMonitorColors_currentItemChanged(ui->trwMonitorColors->currentItem(), nullptr);
     }
 }
 
@@ -85,7 +85,7 @@ void UserPreferencesDlg::on_btnCopy_clicked()
         // for each checked id
         foreach(int id, ids) {
             GUserProfile profile = m_userProfiles.at(id);
-            QString id = profile.id;
+            QString profileId = profile.id;
             QString name = profile.name;
             QString password = profile.password;
             bool enabled = profile.enabled;
@@ -93,7 +93,7 @@ void UserPreferencesDlg::on_btnCopy_clicked()
             QString pager = profile.pager;
             QString icq = profile.icq;
             GUserProfile newProfile = current.clone();
-            newProfile.id = id;
+            newProfile.id = profileId;
             newProfile.name = name;
             newProfile.password = password;
             newProfile.enabled = enabled;

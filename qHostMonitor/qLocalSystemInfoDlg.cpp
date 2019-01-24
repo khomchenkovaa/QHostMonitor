@@ -14,6 +14,7 @@
 
 // Linux specific
 #include <sys/sysinfo.h>
+#include <unistd.h>
 
 namespace SDPO {
 
@@ -50,10 +51,10 @@ void LocalSystemInfoDlg::init()
     ui->valOsVersion->setText(osVersion);
 
     // CPU
-    ui->valProcNum->setText(QString::number(sysconf(_SC_NPROCESSORS_ONLN)));
+    ui->valProcNum->setText(QString::number(get_nprocs()));
     ui->valProcType->setText(QSysInfo::currentCpuArchitecture()); // system("cat /proc/cpuinfo | grep \"model name\"");
-    ui->valPageSize->setText(QString::number(sysconf(_SC_PAGESIZE)));
-    ui->valAllocationGranularity->setText(QString::number(sysconf(_SC_PAGESIZE))); // nearest equivalent of VirtualAlloc on Linux is mmap (the mapping will be created at a nearby page boundary).
+    ui->valPageSize->setText(QString::number(getpagesize()));
+    ui->valAllocationGranularity->setText(QString::number(getpagesize())); // nearest equivalent of VirtualAlloc on Linux is mmap (the mapping will be created at a nearby page boundary).
 
     // System
     QUdpSocket udpSocket;

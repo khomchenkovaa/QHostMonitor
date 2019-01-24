@@ -232,7 +232,7 @@ QVariant TestListModel::getIcon( TNode *item) const
     }
 
     // icon by status
-    switch(test->statusID()) {
+    switch(test->getStatusID()) {
     case TestStatus::NotTested:
         return QIcon(isTest?":/img/status/tstNotTested.png":":/img/status/lnkNotTested.png");
     case TestStatus::HostAlive:

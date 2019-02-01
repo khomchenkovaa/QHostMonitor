@@ -74,9 +74,9 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
     this -> setTrayIconActions();
     this -> showTrayIcon();
 
-    m_folders = 0;
-    m_views = 0;
-    m_model = 0;
+    m_folders = nullptr;
+    m_views = nullptr;
+    m_model = nullptr;
 
     connect(m_ActionService, SIGNAL(actionWinPopup(TTest*)), this, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
     connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));

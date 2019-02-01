@@ -25,12 +25,12 @@ namespace SDPO {
 /******************************************************************/
 
 Startup::Startup() :
-    QObject(NULL),
+    QObject(nullptr),
     m_HML(*new HMListService(this)),
     m_logService(*new LogService(&m_HML)),
     m_actionService(*new ActionService(&m_HML, &m_logService)),
     m_testRunner(*new MonitoringService(&m_HML, &m_actionService)),
-    m_mainForm(*new MainForm(&m_HML, &m_actionService, &m_testRunner, NULL))
+    m_mainForm(*new MainForm(&m_HML, &m_actionService, &m_testRunner, nullptr))
 {
     TEnums::init();
     load();

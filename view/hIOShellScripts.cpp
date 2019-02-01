@@ -114,7 +114,7 @@ ShellScript *IOShellScripts::loadFromFile(const QString fileName)
         script->setScript(scrText);
         return script;
     }
-    return 0;
+    return nullptr;
 }
 
 void IOShellScripts::saveToFile(const QString fileName, const ShellScript *script)

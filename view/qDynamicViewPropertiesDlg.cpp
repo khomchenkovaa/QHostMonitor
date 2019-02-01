@@ -22,8 +22,8 @@ DynamicViewPropertiesDlg::DynamicViewPropertiesDlg(TView *view, HMListService *h
 
 DynamicViewPropertiesDlg::~DynamicViewPropertiesDlg()
 {
-    m_view = 0;
-    m_HML = 0;
+    m_view = nullptr;
+    m_HML = nullptr;
     delete ui;
 }
 

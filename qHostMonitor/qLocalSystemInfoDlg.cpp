@@ -149,7 +149,7 @@ QString LocalSystemInfoDlg::localIP()
 {
     foreach (const QNetworkInterface &netInterface, QNetworkInterface::allInterfaces()) {
         QNetworkInterface::InterfaceFlags flags = netInterface.flags();
-        if( (bool)(flags & QNetworkInterface::IsRunning) && !(bool)(flags & QNetworkInterface::IsLoopBack)){
+        if( static_cast<bool>(flags & QNetworkInterface::IsRunning) && !static_cast<bool>(flags & QNetworkInterface::IsLoopBack)){
             foreach (const QNetworkAddressEntry &address, netInterface.addressEntries()) {
                 if(address.ip().protocol() == QAbstractSocket::IPv4Protocol) {
                     return address.ip().toString();

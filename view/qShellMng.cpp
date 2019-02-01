@@ -11,7 +11,7 @@ ShellMng::ShellMng(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ShellMng),
     m_fsModel(new QFileSystemModel()),
-    m_process(0),
+    m_process(nullptr),
     m_current(new ShellScript())
 {
     ui->setupUi(this);
@@ -230,7 +230,7 @@ void ShellMng::onRunFinished(int exitCode)
     disconnect(m_process, SIGNAL(finished(int)), this, SLOT(onRunFinished(int)));
     disconnect(m_process, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     delete m_process;
-    m_process=0;
+    m_process=nullptr;
 }
 
 /******************************************************************/

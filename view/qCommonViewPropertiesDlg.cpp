@@ -20,8 +20,8 @@ CommonViewPropertiesDlg::CommonViewPropertiesDlg(TFolder *folder, HMListService 
 
 CommonViewPropertiesDlg::~CommonViewPropertiesDlg()
 {
-    m_folder = 0;
-    m_HML = 0;
+    m_folder = nullptr;
+    m_HML = nullptr;
     delete ui;
 }
 

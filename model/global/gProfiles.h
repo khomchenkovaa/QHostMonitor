@@ -136,8 +136,8 @@ struct GUserProfile
     QColumnList   columns;
     QSortPairList sort;
 
-    int  getStyle() const { return (int)style; }
-    void setStyle(const int value) { style = (TestListStyle)value; }
+    int  getStyle() const { return static_cast<int>(style); }
+    void setStyle(const int value) { style = static_cast<TestListStyle>(value); }
     int getColumnCount() const;
     TLColumn getColumn(const int idx) const;
     QString getColumnMacro(const int idx) const;

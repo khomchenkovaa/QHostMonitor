@@ -81,9 +81,9 @@ void OperatorsDlg::load(const int idx)
         ui->listAcceptRemoteConnection->addItem(item);
     }
     ui->listUserRights->clear();
-    for (int i = (int)PermissionID::PRM_CREATE; i <= (int)PermissionID::PRM_READ; i++) {
-        QListWidgetItem *item = new QListWidgetItem(TEnums::permissionName((PermissionID)i));
-        item->setCheckState( profile.hasPermission((PermissionID)i) ? Qt::Checked : Qt::Unchecked );
+    for (int i = static_cast<int>(PermissionID::PRM_CREATE); i <= static_cast<int>(PermissionID::PRM_READ); i++) {
+        QListWidgetItem *item = new QListWidgetItem(TEnums::permissionName(static_cast<PermissionID>(i)));
+        item->setCheckState( profile.hasPermission(static_cast<PermissionID>(i)) ? Qt::Checked : Qt::Unchecked );
         ui->listUserRights->addItem(item);
     }
     ui->chkRccLimit->setChecked(profile.rccLimit);
@@ -130,9 +130,9 @@ bool OperatorsDlg::save(const int idx)
         pair.first = item->text();
         pair.second = (item->checkState() == Qt::Checked);
     }
-    for (int i = (int)PermissionID::PRM_CREATE; i <= (int)PermissionID::PRM_READ; i++) {
+    for (int i = static_cast<int>(PermissionID::PRM_CREATE); i <= static_cast<int>(PermissionID::PRM_READ); i++) {
         QListWidgetItem *item = ui->listUserRights->item(i);
-        profile.setPermission((PermissionID)i, item->checkState() == Qt::Checked);
+        profile.setPermission(static_cast<PermissionID>(i), item->checkState() == Qt::Checked);
     }
     profile.rccLimit = ui->chkRccLimit->isChecked();
     profile.rccNumber = ui->spinRccLimit->value();

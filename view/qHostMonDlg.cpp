@@ -27,7 +27,7 @@ HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::HostMonDlg),
     m_HML(hml),
-    m_Item(0)
+    m_Item(nullptr)
 {
     ui->setupUi(this);
     m_Data = QVariant();
@@ -65,19 +65,19 @@ void HostMonDlg::on_btnOk_clicked()
 {
     TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
     if (!widget) {
-        QMessageBox::information(0,"Info", tr("Oops! Not implemented yet"));
+        QMessageBox::information(nullptr,"Info", tr("Oops! Not implemented yet"));
         return;
     }
     QStringList errors = widget->validate();
     if (!errors.isEmpty()) {
-        QMessageBox::warning(0,"Warning", errors.at(0));
+        QMessageBox::warning(nullptr,"Warning", errors.at(0));
         return;
     }
     TTestMethod* test;
     if (m_Item) {
         test = m_Item->method();
     } else {
-        test = 0;
+        test = nullptr;
     }
     test = widget->save(test);
     test->setNamePattern(widget->getNamePattern());
@@ -500,10 +500,10 @@ void HostMonDlg::init(TTest *item)
 
 void HostMonDlg::init(TMethodID method, QVariant data)
 {
-    m_Item = 0;
+    m_Item = nullptr;
     m_Data = data;
     reset();
-    ui->cmbTestMethod->setCurrentIndex((int)method);
+    ui->cmbTestMethod->setCurrentIndex(static_cast<int>(method));
     emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
 }
 

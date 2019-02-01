@@ -12,7 +12,7 @@ ActionPropertiesDialog::ActionPropertiesDialog(QWidget *parent) :
     ui(new Ui::ActionPropertiesDialog)
 {
     ui->setupUi(this);
-    m_item = 0;
+    m_item = nullptr;
     ui->cmbSelectMode->setCurrentIndex(0);
     ui->stcWidgetMode->setCurrentIndex(0);
 }
@@ -47,13 +47,13 @@ void ActionPropertiesDialog::setIndex(const int index)
 void ActionPropertiesDialog::init(TestAction *item)
 {
     m_item = item;
-    setIndex((int)m_item->getAction());
+    setIndex(static_cast<int>(m_item->getAction()));
     ActionWidget *widget = qobject_cast<ActionWidget*>(ui->stcWidgetActionParametrs->currentWidget());
     widget->init(m_item);
     ui->lnActionName->setText(m_item->getName());
     ui->cmbExecuteBy->setCurrentText(m_item->getAgent());
     ui->chkStoreActionResult->setChecked(m_item->isStoreResult());
-    ui->cmbSelectMode->setCurrentIndex((int)m_item->getMode());
+    ui->cmbSelectMode->setCurrentIndex(static_cast<int>(m_item->getMode()));
     ui->spinStartWhen->setValue(m_item->getStartAfter());
     if (m_item->getRetries() == -1) {
         ui->rbUntilStatusChanges->setChecked(true);
@@ -75,7 +75,7 @@ TestAction *ActionPropertiesDialog::getResult()
         m_item->setName(ui->lnActionName->text());
         m_item->setAgent(ui->cmbExecuteBy->currentText());
         m_item->setStoreResult(ui->chkStoreActionResult->isChecked());
-        m_item->setMode((TActionMode)ui->cmbSelectMode->currentIndex());
+        m_item->setMode(static_cast<TActionMode>(ui->cmbSelectMode->currentIndex()));
         m_item->setStartAfter(ui->spinStartWhen->value());
         m_item->setRetries(ui->spinRepeat->value());
         if (ui->rbUntilStatusChanges->isChecked()) {

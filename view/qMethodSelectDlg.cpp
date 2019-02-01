@@ -151,9 +151,9 @@ void MethodSelectDlg::createStandardItemModel()
 
 QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
 {
-    TMethod method = TMethod::tMethodList.at((int)methodId);
+    TMethod method = TMethod::tMethodList.at(static_cast<int>(methodId));
     QStandardItem *item = new QStandardItem(method.icon, method.text);
-    item->setData((int)method.id);
+    item->setData(static_cast<int>(method.id));
     return item;
 }
 

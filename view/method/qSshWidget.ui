@@ -50,26 +50,32 @@
       <number>2</number>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="lblHost">
        <property name="text">
         <string>Host | Port</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbHost</cstring>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QComboBox" name="comboBox_6">
+        <widget class="QComboBox" name="cmbHost">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_5">
+        <widget class="QSpinBox" name="spnPort">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -91,14 +97,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_12">
+        <widget class="QLabel" name="lblTimeout">
          <property name="text">
           <string>Timeout</string>
+         </property>
+         <property name="buddy">
+          <cstring>spnTimeout</cstring>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="spinBox_6">
+        <widget class="QSpinBox" name="spnTimeout">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -119,31 +128,40 @@
       </layout>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="label_13">
+      <widget class="QLabel" name="lblCommand">
        <property name="text">
         <string>Command</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbCommand</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QComboBox" name="comboBox_7">
+      <widget class="QComboBox" name="cmbCommand">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
       </widget>
      </item>
      <item row="2" column="0">
-      <widget class="QLabel" name="label_14">
+      <widget class="QLabel" name="lblCheckFor">
        <property name="text">
         <string>Check for</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmbCheckFor</cstring>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
-      <widget class="QComboBox" name="comboBox_8">
+      <widget class="QComboBox" name="cmbCheckFor">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
@@ -180,121 +198,99 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="ExitCode">
-      <layout class="QVBoxLayout" name="verticalLayout_4">
+     <widget class="QWidget" name="wgExitCode">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblAlertWhen">
+         <property name="text">
+          <string>Alert when exit code</string>
+         </property>
+         <property name="buddy">
+          <cstring>cmbExitCodeCriteria</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbExitCodeCriteria">
          <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
+          <property name="text">
+           <string>is &lt; then</string>
+          </property>
          </item>
          <item>
-          <widget class="QLabel" name="Label230">
-           <property name="text">
-            <string>Alert when exit code</string>
-           </property>
-          </widget>
+          <property name="text">
+           <string>is &gt; then</string>
+          </property>
          </item>
          <item>
-          <widget class="QComboBox" name="sshExitModeCombo">
-           <item>
-            <property name="text">
-             <string>is &lt; then</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>is &gt; then</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>is = to</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>is &lt;&gt; from</string>
-            </property>
-           </item>
-          </widget>
+          <property name="text">
+           <string>is = to</string>
+          </property>
          </item>
          <item>
-          <widget class="QSpinBox" name="sshExitCodeEdit">
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="maximum">
-            <number>99999</number>
-           </property>
-           <property name="value">
-            <number>0</number>
-           </property>
-          </widget>
+          <property name="text">
+           <string>is &lt;&gt; from</string>
+          </property>
          </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="spnExitCodeValue">
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+         <property name="maximum">
+          <number>99999</number>
+         </property>
+         <property name="value">
+          <number>0</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="TextOutput">
+     <widget class="QWidget" name="wgTextOutput">
       <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <property name="spacing">
-          <number>0</number>
-         </property>
-         <property name="topMargin">
-          <number>2</number>
-         </property>
-         <property name="bottomMargin">
-          <number>2</number>
-         </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QLabel" name="Label231">
+          <widget class="QLabel" name="lblAlertIf">
            <property name="text">
             <string>Alert if</string>
+           </property>
+           <property name="buddy">
+            <cstring>cmbCheckType</cstring>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="sshLookModeCombo">
+          <widget class="QComboBox" name="cmbCheckType">
            <item>
             <property name="text">
              <string>string present</string>
@@ -313,117 +309,88 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="sshTextEdit"/>
+          <widget class="QLineEdit" name="editValue"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="Panel8">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Panel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Sunken</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="topMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>0</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <spacer name="horizontalSpacer_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Preferred</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>6</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="sshCaseChk">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Case sensitive</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="sshWordsChk">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Whole words only</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="sshMacrosChk">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>Macros</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeType">
-             <enum>QSizePolicy::Fixed</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>6</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Preferred</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>13</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkCaseSensitive">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Case sensitive</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkWholeWordsOnly">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Whole words only</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chkMacros">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Macros</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>13</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="ShellScriptResult">
+     <widget class="QWidget" name="wgShellScriptResult">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <property name="spacing">
         <number>0</number>
@@ -441,75 +408,15 @@
         <number>0</number>
        </property>
        <item>
-        <widget class="QPlainTextEdit" name="Memo1">
-         <property name="palette">
-          <palette>
-           <active>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>238</red>
-               <green>234</green>
-               <blue>230</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </active>
-           <inactive>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>238</red>
-               <green>234</green>
-               <blue>230</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </inactive>
-           <disabled>
-            <colorrole role="Base">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>239</red>
-               <green>235</green>
-               <blue>231</blue>
-              </color>
-             </brush>
-            </colorrole>
-           </disabled>
-          </palette>
-         </property>
-         <property name="inputMethodHints">
-          <set>Qt::ImhMultiLine</set>
-         </property>
-         <property name="frameShape">
-          <enum>QFrame::Panel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Sunken</enum>
-         </property>
-         <property name="verticalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOff</enum>
-         </property>
-         <property name="sizeAdjustPolicy">
-          <enum>QAbstractScrollArea::AdjustIgnored</enum>
-         </property>
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-         <property name="plainText">
-          <string>Script output should be a text string like scriptres:&lt;test status&gt;:[&lt;reply value&gt;]
+        <widget class="QLabel" name="lblShellScriptResult">
+         <property name="text">
+          <string>Script output should be a text string like 
+scriptres:&lt;test status&gt;:[&lt;reply value&gt;]
 E.g. scriptres:Ok:120 Mb
 See manual for details</string>
          </property>
-         <property name="backgroundVisible">
-          <bool>false</bool>
-         </property>
-         <property name="centerOnScroll">
-          <bool>false</bool>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -520,5 +427,22 @@ See manual for details</string>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>cmbCheckFor</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>sshPageControl2</receiver>
+   <slot>setCurrentIndex(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>93</x>
+     <y>65</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>380</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

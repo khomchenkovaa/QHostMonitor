@@ -14,9 +14,9 @@ class ActiveScriptWidget : public TestWidget
     Q_OBJECT
 
 public:
-    explicit ActiveScriptWidget(QWidget *parent = 0);
-    ~ActiveScriptWidget();
-    virtual void init(TTestMethod *item = 0) Q_DECL_OVERRIDE;
+    explicit ActiveScriptWidget(QWidget *parent = nullptr);
+    ~ActiveScriptWidget() Q_DECL_OVERRIDE;
+    virtual void init(TTestMethod *item = nullptr) Q_DECL_OVERRIDE;
     virtual TTestMethod* save(TTestMethod *item) Q_DECL_OVERRIDE;
     virtual void reset(QVariant data = QVariant()) Q_DECL_OVERRIDE;
     virtual QStringList validate() Q_DECL_OVERRIDE;

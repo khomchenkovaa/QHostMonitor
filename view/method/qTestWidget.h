@@ -18,8 +18,8 @@ class TestWidget : public QWidget
     AUTO_PROPERTY(QString, CommentPattern)
 
 public:
-    explicit TestWidget(QWidget *parent = 0);
-    virtual void init(TTestMethod *item = 0) {  Q_UNUSED(item) }
+    explicit TestWidget(QWidget *parent = nullptr);
+    virtual void init(TTestMethod *item = nullptr) {  Q_UNUSED(item) }
     virtual TTestMethod* save(TTestMethod *item) { return item; }
     virtual void reset(QVariant data=QVariant()) { Q_UNUSED(data) }
     virtual QStringList validate() { return QStringList(); }

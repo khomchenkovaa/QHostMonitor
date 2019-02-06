@@ -69,7 +69,7 @@ TTestMethod *ActiveScriptWidget::save(TTestMethod *item)
 void ActiveScriptWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Script);
+    TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::Script));
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lnRunScript->clear();
@@ -97,7 +97,7 @@ QString ActiveScriptWidget::getTemplateValue(const QString var) const
 {
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
-    case Macro::MethodID : return QString::number((int)TMethodID::Script);
+    case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::Script));
     case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::Script);
     case Macro::TestMode : return ui->cmbLanguage->currentText();

@@ -10,7 +10,7 @@ TTestMethod::TTestMethod(TMethodID methodId, QObject *parent) :
     QObject(parent),
     m_TMethodID(methodId)
 {
-    TMethod method = TMethod::tMethodList.at((int)methodId);
+    TMethod method = TMethod::tMethodList.at(static_cast<int>(methodId));
     m_NamePattern = method.namePattern;
     m_CommentPattern = method.commentPattern;
 }

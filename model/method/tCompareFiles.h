@@ -63,7 +63,7 @@ private:
     BOOL_PROPERTY(WholeWordsOnly)
 
 public:
-    explicit TCompareFiles(QObject *parent = 0);
+    explicit TCompareFiles(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

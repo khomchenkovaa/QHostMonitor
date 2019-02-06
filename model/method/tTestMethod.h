@@ -99,11 +99,11 @@ protected:
     QString     m_Log;
 
 public:
-    explicit TTestMethod(TMethodID methodId, QObject *parent = 0);
+    explicit TTestMethod(TMethodID methodId, QObject *parent = nullptr);
     virtual ~TTestMethod();
 
     // properties
-    int getTestMethodID() const { return (int)m_TMethodID; }
+    int getTestMethodID() const { return static_cast<int>(m_TMethodID); }
     QString getTestMethodName() const { return TMethod::toName(m_TMethodID); }
     virtual QString getTestMethod() const { return TMethod::toName(m_TMethodID); }
     virtual QString getTestedObjectInfo() const { return QString(); }

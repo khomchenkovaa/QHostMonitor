@@ -93,7 +93,7 @@ void TShellScript::parseResult(QString data)
                 // • decimal_number + space + “ms” (like “100 ms”, “5400 ms”
                 tResult.reply = result.at(2);
                 tResult.replyInt = tResult.reply.mid(0,tResult.reply.indexOf(' ')).toInt();
-                tResult.replyDouble = tResult.reply.mid(0,tResult.reply.indexOf(' ')).toFloat();
+                tResult.replyDouble = tResult.reply.mid(0,tResult.reply.indexOf(' ')).toDouble();
             }
         }
     }

@@ -23,7 +23,7 @@ class TShellScript : public TTestMethod
     BOOL_PROPERTY(TranslateMacros)
 
 public:
-    explicit TShellScript(QObject *parent = 0);
+    explicit TShellScript(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

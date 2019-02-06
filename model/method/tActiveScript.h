@@ -21,7 +21,7 @@ class TActiveScript : public TTestMethod
     BOOL_PROPERTY(TranslateMacros)
 
 public:
-    explicit TActiveScript(QObject *parent = 0);
+    explicit TActiveScript(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

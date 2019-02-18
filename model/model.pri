@@ -15,23 +15,12 @@ HEADERS += \
     $$PWD/gData.h \
     $$PWD/global/tMethod.h \
     $$PWD/global/tAction.h \
+    $$PWD/global/gConnection.h \
     $$PWD/global/gUserVars.h \
     $$PWD/global/gProfiles.h \
     $$PWD/global/gMacroTranslator.h \
     $$PWD/method/sdpoTestMethods.h \
     $$PWD/method/tTestMethod.h \
-    $$PWD/method/tPing.h \
-    $$PWD/method/tDriveSpace.h \
-    $$PWD/method/tShellScript.h \
-    $$PWD/method/tFolderSize.h \
-    $$PWD/method/tFileExists.h \
-    $$PWD/method/tSnmpGet.h \
-    $$PWD/method/tExternalPrg.h \
-    $$PWD/method/tOdbcQuery.h \
-    $$PWD/method/tMySql.h \
-    $$PWD/method/tPostgreSql.h \
-    $$PWD/method/tOracle.h \
-    $$PWD/method/tInterbase.h \
     $$PWD/method/tActiveScript.h \
     $$PWD/method/tCompareFiles.h \
     $$PWD/method/tCountFiles.h \
@@ -40,14 +29,31 @@ HEADERS += \
     $$PWD/method/tDicom.h \
     $$PWD/method/tDnsTest.h \
     $$PWD/method/tDominantProcess.h \
+    $$PWD/method/tDriveSpace.h \
+    $$PWD/method/tExternalPrg.h \
     $$PWD/method/tFileContents.h \
+    $$PWD/method/tFileExists.h \
+    $$PWD/method/tFolderSize.h \
     $$PWD/method/tHttp.h \
     $$PWD/method/tImapTest.h \
+    $$PWD/method/tInterbase.h \
     $$PWD/method/tLdapTest.h \
     $$PWD/method/tMailRelay.h \
     $$PWD/method/tMsSql.h \
+    $$PWD/method/tMySql.h \
     $$PWD/method/tNtEventLog.h \
+    $$PWD/method/tNtpTest.h \
+    $$PWD/method/tOdbcQuery.h \
+    $$PWD/method/tOracle.h \
+    $$PWD/method/tPerformanceCounter.h \
+    $$PWD/method/tPing.h \
+    $$PWD/method/tPop3Test.h \
+    $$PWD/method/tPostgreSql.h \
+    $$PWD/method/tShellScript.h \
+    $$PWD/method/tSnmpGet.h \
+    $$PWD/method/tSshTest.h \
     $$PWD/method/tSybase.h \
+    $$PWD/method/tWmi.h \
     $$PWD/action/sdpoTestActions.h \
     $$PWD/action/tTestAction.h \
     $$PWD/action/tWinPopupAction.h \
@@ -80,13 +86,7 @@ HEADERS += \
     $$PWD/action/tRepeatTestAction.h \
     $$PWD/action/tChangeTestIntervalAction.h \
     $$PWD/action/tRunHmsScriptAction.h \
-    $$PWD/method/tNtpTest.h \
-    $$PWD/options/pLogProperties.h \
-    ../model/method/tPerformanceCounter.h \
-    ../model/method/tWmi.h \
-    $$PWD/method/tSshTest.h \
-    $$PWD/global/gConnection.h
-
+    $$PWD/options/pLogProperties.h
 
 SOURCES += \
     $$PWD/tNode.cpp \
@@ -165,7 +165,8 @@ SOURCES += \
     $$PWD/action/tRunHmsScriptAction.cpp \
     $$PWD/method/tNtpTest.cpp\
     $$PWD/options/pLogProperties.cpp \
-    ../model/method/tPerformanceCounter.cpp \
-    ../model/method/tWmi.cpp \
-    $$PWD/method/tSshTest.cpp
+    $$PWD/method/tPerformanceCounter.cpp \
+    $$PWD/method/tWmi.cpp \
+    $$PWD/method/tSshTest.cpp \
+    $$PWD/method/tPop3Test.cpp
 

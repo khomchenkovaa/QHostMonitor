@@ -43,7 +43,7 @@ struct TAcknowledge {
 struct TStatistics {
     qint64    currentDuration;
     QDateTime previousTime;
-    int       previousDuration;
+    qint64    previousDuration;
     QDateTime changedTime;
     int       changesCnt;
     int       totalTests;
@@ -81,15 +81,15 @@ struct TStatistics {
         maxReply = 0.0;
     }
 
-    double aliveRatio() {
+    double aliveRatio() const {
         return totalTime? (100.0 * aliveTime / totalTime) : 0.0;
     }
 
-    double deadRatio() {
+    double deadRatio() const {
         return totalTime? (100.0 * deadTime / totalTime) : 0.0;
     }
 
-    double unknownRatio() {
+    double unknownRatio() const {
         return totalTime? (100.0 * unknownTime / totalTime) : 0.0;
     }
 };
@@ -276,7 +276,7 @@ public:
     QString testName() const;
     QString hostId() const { return testName().remove(QRegExp("[^\\d]+")); }
     QString testMethod() const { return m_TMethod->getTestMethod(); }
-    int testMethodId() const { return (int)m_TMethod->getTMethodID(); }
+    int testMethodId() const { return static_cast<int>(m_TMethod->getTMethodID()); }
     TMethodID methodId() const { return m_TMethod->getTMethodID(); }
     QString testedObjectInfo() const { return m_TMethod->getTestedObjectInfo(); }
     QString scheduleInterval() const { return m_schedule.intervalAsStr(); }
@@ -376,7 +376,7 @@ public:
     double getReplyInteger() const { return m_CurrentState.replyInt; }
     QString status() const;
     TestStatus getStatusID() const;
-    int statusID() const { return (int)getStatusID(); }
+    int statusID() const { return static_cast<int>(getStatusID()); }
     QString simpleStatus() const { return TEnums::simpleStatus(m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad)); }
     SimpleStatusID simpleStatusID() const { return m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad); }
     int getCurrentStatusIteration() const { return m_Recurences.currentStatus; }
@@ -592,22 +592,22 @@ public:
     QString deadTime() const { return Utils::getTimeFromMs(m_Stat.deadTime); }
     QString unknownTime() const { return Utils::getTimeFromMs(m_Stat.unknownTime); }
     double getAliveRatio() { return m_Stat.aliveRatio(); }
-    QString getAliveRatioAsStr() { return QString("%1\%").arg(m_Stat.aliveRatio()); }
+    QString getAliveRatioAsStr() { return QString::number(m_Stat.aliveRatio(),'f',1).append('%'); }
     double getDeadRatio() { return m_Stat.deadRatio(); }
-    QString getDeadRatioAsStr() { return QString("%1\%").arg(m_Stat.deadRatio()); }
+    QString getDeadRatioAsStr() { return QString::number(m_Stat.deadRatio(),'f',1).append('%'); }
     double getUnknownRatio() { return m_Stat.unknownRatio(); }
-    QString getUnknownRatioAsStr() { return QString("%1\%").arg(m_Stat.unknownRatio()); }
+    QString getUnknownRatioAsStr() { return QString::number(m_Stat.unknownRatio(),'f',1).append('%');}
     QString averageReply() const { return QString("%1").arg(m_Stat.avgReply); }
     QString minReply() const { return QString("%1").arg(m_Stat.minReply); }
     QString maxReply() const { return QString("%1").arg(m_Stat.maxReply); }
 
 public:
 
-    TTest(const int id, const QString &name, QObject *parent = 0);
-    ~TTest();
+    TTest(const int id, const QString &name, QObject *parent = nullptr);
+    ~TTest() Q_DECL_OVERRIDE;
 
     QVariant property(QString name) const Q_DECL_OVERRIDE;
-    virtual QVariant getGlobal(Macro::Variable globalVar) const;
+    virtual QVariant getGlobal(Macro::Variable globalVar) const Q_DECL_OVERRIDE;
     void updateSpecificProperties();
     TTest *clone(const int newID, const QString &newName);
     QString executionLog() const;

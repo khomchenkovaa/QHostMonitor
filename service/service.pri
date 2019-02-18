@@ -58,7 +58,8 @@ HEADERS += \
     $$PWD/io/method/ioPerformanceCounterConverter.h \
     $$PWD/io/method/ioSybaseConverter.h \
     $$PWD/io/method/ioWmiConverter.h \
-    $$PWD/io/method/ioActiveScriptConverter.h
+    $$PWD/io/method/ioActiveScriptConverter.h \
+    $$PWD/io/ioConnectionLoader.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -114,4 +115,5 @@ SOURCES += \
     $$PWD/io/method/ioPerformanceCounterConverter.cpp \
     $$PWD/io/method/ioSybaseConverter.cpp \
     $$PWD/io/method/ioWmiConverter.cpp \
-    $$PWD/io/method/ioActiveScriptConverter.cpp
+    $$PWD/io/method/ioActiveScriptConverter.cpp \
+    $$PWD/io/ioConnectionLoader.cpp

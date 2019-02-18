@@ -1,7 +1,8 @@
 #ifndef TAGENT_H
 #define TAGENT_H
 
-#include <QObject>
+#include "PropertyHelper.h"
+
 #include <QMetaEnum>
 
 namespace SDPO {
@@ -12,32 +13,32 @@ namespace SDPO {
 class TAgent : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(TypeRMA)
-    Q_ENUMS(StatusRMA)
+
 public:
-    enum TypeRMA {
+    enum RmaType {
         HostMonitor,
-        PassiveRMA, // accepts requests from HostMonitor, performs test (or action) and provides information about test result back to HostMonitor
-        ActiveRMA // establishes connection with HostMonitor and RMA Manager
+        RmaPassive, // accepts requests from HostMonitor, performs test (or action) and provides information about test result back to HostMonitor
+        RmaActive // establishes connection with HostMonitor and RMA Manager
     };
-    enum StatusRMA {
-        OperableRMA,
-        NoAnswerRMA,
-        BadAnswerRMA
+
+    enum RmaStatus {
+        RmaOperable,
+        RmaNoAnswer,
+        RmaBadAnswer
     };
-    explicit TAgent(QObject *parent = 0);
+
+    explicit TAgent(QObject *parent = nullptr);
     ~TAgent();
 
     QString name() const { return _name; }
     void setName(const QString value) { _name = value; }
 
-signals:
-
-public slots:
-
 private:
+    Q_ENUMS(RmaType)
+    Q_ENUMS(RmaStatus)
+
     // connection parameters
-    TypeRMA _type;
+    RmaType _type;
     QString _address; // the host name or an IP address of the system where RMA is installed
     QString _name; // name of the agent. By default an address of an agent will be used as name for it
     int _port; // TCP port that will be used for communication between HostMonitor and the agent. (by default agent uses port #1055)
@@ -69,7 +70,7 @@ private:
      * If HostMonitor was not able to get proper information from an agent, it sets its` status to "no answer" (if no answer from agent received)
      * or "bad answer" (if some error code was received from an agent, e.g. wrong password).
      */
-    StatusRMA _status; //
+    RmaStatus _status; //
 
 };
 

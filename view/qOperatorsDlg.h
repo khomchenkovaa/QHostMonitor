@@ -30,7 +30,7 @@ class OperatorsDlg : public QDialog
     GUserProfileList m_userProfiles;
 
 public:
-    explicit OperatorsDlg(HMListService *hml = 0, QWidget *parent = 0);
+    explicit OperatorsDlg(HMListService *hml = nullptr, QWidget *parent = nullptr);
     ~OperatorsDlg();
 
 private slots:

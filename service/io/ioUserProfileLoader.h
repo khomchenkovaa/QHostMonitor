@@ -10,7 +10,7 @@ class IOUserProfileLoader : public IODataLoader
 {
     Q_OBJECT
 public:
-    explicit IOUserProfileLoader(QObject *parent = 0);
+    explicit IOUserProfileLoader(QObject *parent = nullptr);
 
     void load();
     void save();

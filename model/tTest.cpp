@@ -377,8 +377,7 @@ QString TTest::executionLog() const
         const char *name = metaproperty.name();
         QVariant value = property(name);
         switch (value.type()) {
-        case QMetaType::Int :
-        case QMetaType::Long :
+        case QVariant::Int :
             log.append(QString("* %1: %2\n").arg(name).arg(value.toInt()));
             break;
         default:

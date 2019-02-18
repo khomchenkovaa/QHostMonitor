@@ -14,7 +14,7 @@ class ReportProfilesDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit ReportProfilesDlg(QWidget *parent = 0);
+    explicit ReportProfilesDlg(QWidget *parent = nullptr);
     ~ReportProfilesDlg();
 
 private:

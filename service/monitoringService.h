@@ -18,7 +18,7 @@ class MonitoringService : public ManageableService
     Q_OBJECT
 
 public:
-    explicit MonitoringService(HMListService *hml, ActionService *act, int threadCount = QThread::idealThreadCount(), QObject *parent = 0);
+    explicit MonitoringService(int threadCount = QThread::idealThreadCount(), QObject *parent = nullptr);
     ~MonitoringService();
 
 public slots:

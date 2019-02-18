@@ -84,7 +84,8 @@ HEADERS += \
     $$PWD/options/pLogProperties.h \
     ../model/method/tPerformanceCounter.h \
     ../model/method/tWmi.h \
-    $$PWD/method/tSshTest.h
+    $$PWD/method/tSshTest.h \
+    $$PWD/global/gConnection.h
 
 
 SOURCES += \

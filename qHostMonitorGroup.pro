@@ -1,7 +1,8 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    qHostMonitor
+    qHostMonitor \
+    rma
 
 RESOURCES += \
     HostMonitor.qrc \

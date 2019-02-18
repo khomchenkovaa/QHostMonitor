@@ -29,9 +29,14 @@ Startup::Startup() :
     m_HML(*new HMListService(this)),
     m_logService(*new LogService(&m_HML)),
     m_actionService(*new ActionService(&m_HML, &m_logService)),
-    m_testRunner(*new MonitoringService(&m_HML, &m_actionService)),
+    m_testRunner(*new MonitoringService()),
     m_mainForm(*new MainForm(&m_HML, &m_actionService, &m_testRunner, nullptr))
 {
+    connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
+    connect(&m_HML, SIGNAL(monitoringPaused(int)), &m_testRunner, SLOT(pause(int)));
+    connect(&m_HML, SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
+    connect(&m_testRunner, SIGNAL(stateChanged(QString,bool)), &m_actionService, SLOT(runProfile(QString,bool)));
+
     TEnums::init();
     load();
     m_mainForm.init();

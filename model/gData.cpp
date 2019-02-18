@@ -24,6 +24,10 @@ QString GData::currentUser = "local";
 
 /*****************************************************************/
 
+GConnectionList GData::connections;
+
+/*****************************************************************/
+
 GData::GData(QObject *parent) :
     QObject(parent)
 {

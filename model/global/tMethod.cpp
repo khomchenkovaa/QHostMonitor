@@ -13,7 +13,7 @@ QVector<TMethod> TMethod::tMethodList;
 /*****************************************************************/
 
 QString TMethod::toName(TMethodID method) {
-    return TMethod::tMethodList.at((int)method).name;
+    return TMethod::tMethodList.at(static_cast<int>(method)).name;
 }
 
 /*****************************************************************/

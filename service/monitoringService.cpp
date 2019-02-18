@@ -8,14 +8,10 @@ namespace SDPO {
 
 /***********************************************/
 
-MonitoringService::MonitoringService(HMListService *hml, ActionService *act, int threadCount, QObject *parent) :
+MonitoringService::MonitoringService(int threadCount, QObject *parent) :
     ManageableService(parent)
 {
     QThreadPool::globalInstance()->setMaxThreadCount(threadCount);
-    connect(hml, SIGNAL(monitoringStarted(bool)), SLOT(setRunningState(bool)));
-    connect(hml, SIGNAL(monitoringPaused(int)), SLOT(pause(int)));
-    connect(hml, SIGNAL(readyRun(TNode*)), SLOT(runTest(TNode*)));
-    connect(this, SIGNAL(stateChanged(QString,bool)), act, SLOT(runProfile(QString,bool)));
 }
 
 /***********************************************/

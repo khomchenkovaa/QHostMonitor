@@ -14,7 +14,7 @@ class MailProfilesDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit MailProfilesDlg(QWidget *parent = 0);
+    explicit MailProfilesDlg(QWidget *parent = nullptr);
     ~MailProfilesDlg();
 
     void init(int row = 0);

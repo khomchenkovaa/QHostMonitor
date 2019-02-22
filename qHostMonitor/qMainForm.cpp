@@ -627,7 +627,8 @@ void MainForm::on_actExecuteScript_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this,tr("Execute script"),QString(),"HMScript(*.hms)");
     if (fileName.isEmpty()) return;
-    HMScriptRunner runner(m_HML,fileName);
+    HMScriptRunner runner(m_HML);
+    runner.loadScript(fileName);
     if(!runner.run()) {
         qDebug() << runner.scriptErrors();
     }

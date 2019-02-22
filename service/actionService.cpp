@@ -123,7 +123,8 @@ void ActionService::tryToRun(TTest *test, TestAction *action)
         RunHmsScriptAction *scriptAction = qobject_cast<RunHmsScriptAction*>(action);
         QString scriptFile = scriptAction->getScriptFile();
         qDebug() << "About to running script" << scriptFile;
-        HMScriptRunner runner(m_HML,scriptFile);
+        HMScriptRunner runner(m_HML);
+        runner.loadScript(scriptFile);
         if(!runner.run()) {
             qDebug() << runner.scriptErrors();
         }

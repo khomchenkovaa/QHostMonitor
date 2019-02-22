@@ -19,7 +19,7 @@ protected:
     QString   m_StopAction;
 
 public:
-    explicit ManageableService(QObject *parent = 0);
+    explicit ManageableService(QObject *parent = nullptr);
 
     bool isPaused() const { return m_Paused; }
     QDateTime pausedTil() const { return m_PausedTo; }

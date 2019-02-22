@@ -83,7 +83,7 @@ class HMScriptRunner : public QObject
     Q_OBJECT
 
     HMListService *m_HML;
-    QString        m_FileName;
+    QString        m_Path;
     QStringList    m_Errors;
     QStringList    m_Script;
     // options
@@ -93,19 +93,21 @@ class HMScriptRunner : public QObject
     bool           m_UseLinks;
 
 public:
-    explicit HMScriptRunner(HMListService *hml, QString &fileName, QObject *parent = 0);
+    explicit HMScriptRunner(HMListService *hml, QObject *parent = nullptr);
 
     bool run();
+    bool loadScript(const QString &fileName);
+    void setScript(const QString &script);
+    bool runCmd(const QString &cmd, const int num = 0);
     QStringList scriptErrors() { return m_Errors; }
 signals:
 
 public slots:
 
 private:
-    bool loadScript();
     QStringList parseCmd(const QString &cmd);
     bool checkParams(const int num, const QStringList &cmdList, const int maxParams);
-    bool runCmd(const int num, const QString &cmd);
+
 // TestList operations
     bool runNewTestList(const int num, const QString &cmdLine);
     bool runLoadTestList(const int num, const QString &cmdLine);

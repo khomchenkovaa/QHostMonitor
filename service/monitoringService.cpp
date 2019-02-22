@@ -4,6 +4,8 @@
 #include "tTest.h"
 #include "utils.h"
 
+#include <QDebug>
+
 namespace SDPO {
 
 /***********************************************/
@@ -34,6 +36,7 @@ void MonitoringService::clear()
 
 void MonitoringService::runTest(TNode *item)
 {
+    qDebug() << "Run test" << item->getName();
     if (item->getType() != TNode::TEST) return;
     TTest* test = qobject_cast<TTest*>(item);
 

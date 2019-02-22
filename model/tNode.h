@@ -26,7 +26,7 @@ public: // Enums
     enum NodeType { ROOT, FOLDER, VIEW, LINK, TEST };
     Q_ENUM(NodeType)
 
-    explicit TNode(const int id, const QString &name, const NodeType type, QObject *parent = 0);
+    explicit TNode(const int id, const QString &name, const NodeType type, QObject *parent = nullptr);
     ~TNode();
 
 signals:

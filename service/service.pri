@@ -59,7 +59,12 @@ HEADERS += \
     $$PWD/io/method/ioSybaseConverter.h \
     $$PWD/io/method/ioWmiConverter.h \
     $$PWD/io/method/ioActiveScriptConverter.h \
-    $$PWD/io/ioConnectionLoader.h
+    $$PWD/io/ioConnectionLoader.h \
+    $$PWD/servers/rci/rciServer.h \
+    $$PWD/servers/rci/rciConnection.h \
+    $$PWD/servers/tcp/tcpconnection.h \
+    $$PWD/servers/tcp/tcprunnable.h \
+    $$PWD/servers/tcp/tcpserver.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -116,4 +121,9 @@ SOURCES += \
     $$PWD/io/method/ioSybaseConverter.cpp \
     $$PWD/io/method/ioWmiConverter.cpp \
     $$PWD/io/method/ioActiveScriptConverter.cpp \
-    $$PWD/io/ioConnectionLoader.cpp
+    $$PWD/io/ioConnectionLoader.cpp \
+    $$PWD/servers/rci/rciServer.cpp \
+    $$PWD/servers/rci/rciConnection.cpp \
+    $$PWD/servers/tcp/tcpconnection.cpp \
+    $$PWD/servers/tcp/tcprunnable.cpp \
+    $$PWD/servers/tcp/tcpserver.cpp

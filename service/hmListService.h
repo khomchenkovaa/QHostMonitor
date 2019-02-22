@@ -43,7 +43,7 @@ class HMListService : public QObject
     TNode      *m_CurFolder;
 
 public:
-    explicit HMListService(QObject *parent = 0);
+    explicit HMListService(QObject *parent = nullptr);
     ~HMListService();
 
     // getters and setters
@@ -112,6 +112,70 @@ public:
     bool cmdExecuteProgram(int TimeToWait, QString CommandLine);
 
 signals:
+//    void HostMonitorStarted(); // 0 - HostMonitor started
+//    void MonitoringStarted();  // 1 - Monitoring started
+//    void MonitoringStoped();   // 2 - Monitoring stopped
+//    void AlertsEnabled();      // 3 - Alerts enabled
+//    void AlertsDisabled();     // 4 - Alerts disabled
+
+//    void HostMonitorWillBeTerminated();   //  6 - HostMonitor will be terminated
+//    void HostMonitorWillBeReloaded();     //  7 - HostMonitor will be reloaded
+//    void HostMonitorSettingsReloaded();   //  8 - HostMonitor settings reloaded
+//    void NewTestListCreated();            //  9 - New test list created
+//    void TestListLoaded();                // 10 - Test list loaded
+//    void NewSettingsApplied();            // 11 - New settings applied
+//    void ImportFromTextFile();            // 12 - Import from text file
+//    void MergedHmlFile();                 // 13 - Merged HML file
+//    void HMScriptStarted();               // 14 - HM Script started
+//    void HMScriptFinished();              // 15 - HM Script finished
+//    void TestListFilePropertiesChanged(); // 16 - Test list file properties changed
+
+//    void NewTestItem(); // 20 - New test item
+//    void NewTestLink(); // 21 - New test link
+
+// 22 - Test modified (single test modified)
+// 23 - Test modified (group of tests were modified)
+// 24 - Test parameter changed (parameter was changes by HM Script or Telnet)
+// 25 - Test moved (test moved from one folder to another)
+// 26 - Test deleted
+// 27 - Test link deleted
+
+// 28 - Test paused
+// 29 - Test resumed
+// 30 - Test scheduled to be paused
+// 31 - Test pause repealed
+// 32 - Test refreshed
+// 33 - Test statistics resetted
+// 34 - Test disabled
+// 35 - Test enabled
+// 36 - Test status acknowledged
+// 37 - Status acknowledged and alerts for this test stopped
+// 38 - Acknowledgement recalled
+// 39 - Test quick log cleaned
+
+// 50 - Entire folder refreshed
+// 51 - Entire folder resetted
+// 52 - Entire folder disabled
+// 53 - Entire folder enabled
+
+// 60 - Folder created
+// 61 - Folder edited
+// 62 - Folder renamed
+// 63 - Folder deleted
+// 64 - Folder moved
+// 65 - Folders resorted
+// 66 - Folder-specific agent changed
+// 67 - Folder variables changed
+
+// 70 - View created
+// 71 - View edited
+// 72 - View renamed
+// 73 - View deleted
+// 74 - View moved
+// 75 - Views resorted
+
+// 80 - Denomination
+
     void modelAboutToChange();
     void modelChanged();
     void folderAdded(TNode *folder);

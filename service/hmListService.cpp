@@ -20,7 +20,7 @@ HMListService::HMListService(QObject *parent) :
 HMListService::~HMListService()
 {
     Utils::DestructorMsg(this);
-    m_CurFolder = 0;
+    m_CurFolder = nullptr;
     m_Root->deleteLater();
 }
 
@@ -245,7 +245,7 @@ bool HMListService::cmdCopyFolder(TNode *folder, TNode* folder2, bool r)
 TNode *HMListService::cmdCopyTest(TNode *destFolder, QString name, TNode *test, bool skipDuplicates)
 {
     if (destFolder->findTest(name)) {
-        if (skipDuplicates) return 0;
+        if (skipDuplicates) return nullptr;
         name = name.append("-copy");
         return cmdCopyTest(destFolder, name, test, skipDuplicates);
     }

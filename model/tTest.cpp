@@ -131,6 +131,7 @@ void TTest::onTestPerformed()
     dynamicStatistics(testResult);
 
     restart();
+    qDebug() << "Test:" << getName() << "done" << endl;
     emit testDone(this);
 }
 
@@ -458,6 +459,7 @@ QString TTest::ackResponseTime() const
 
 void TTest::slotTimeout()
 {
+    qDebug() << "Test" << getName() << "ready run" << endl;
     emit readyRun(qobject_cast<TNode*>(this));
 }
 

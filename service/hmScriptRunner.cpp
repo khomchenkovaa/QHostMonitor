@@ -10,51 +10,63 @@ namespace SDPO {
 
 /*****************************************************************/
 
-HMScriptRunner::HMScriptRunner(HMListService *hml, QString &fileName, QObject *parent) :
+HMScriptRunner::HMScriptRunner(HMListService *hml, QObject *parent) :
     QObject(parent),
     m_HML(hml),
-    m_FileName(fileName)
+    m_Path("/")
 {
     m_ResolveMacros     = true;
     m_CurrentFolder     = m_HML->rootFolder();
     m_IncludeSubfolders = true;
     m_UseLinks          = false;
-    loadScript();
 }
 
 /*****************************************************************/
 
 bool HMScriptRunner::run()
 {
+    if (m_Script.isEmpty()) {
+        m_Errors.append(tr("[FATAL] HMScript is empty. Nothing to do\n"));
+    }
     if (!m_Errors.isEmpty()) return false;
     for(int i=0; i<m_Script.size();++i) { // we need line number
         QString cmd = m_Script.at(i).trimmed();
         if (cmd.isEmpty())       continue;
         if (cmd.startsWith(";")) continue;
-        if (!runCmd(i,cmd)) return false;
+        if (!runCmd(cmd,i)) return false;
     }
     return true;
 }
 
 /*****************************************************************/
 
-bool HMScriptRunner::loadScript()
+bool HMScriptRunner::loadScript(const QString &fileName)
 {
     m_Errors.clear();
-    QFile stdFile(m_FileName);
+    QFile stdFile(fileName);
     if (stdFile.exists()) {
         if (!stdFile.open(QFile::ReadOnly|QFile::Text)) {
-            m_Errors.append(tr("[FATAL] Could not open HMScript File '%1'\n").arg(m_FileName));
+            m_Errors.append(tr("[FATAL] Could not open HMScript File '%1'\n").arg(fileName));
         } else {
             QString script = stdFile.readAll();
             stdFile.close();
-            m_Script = script.split("\n");
+            setScript(script);
         }
     } else {
-        m_Errors.append(tr("[FATAL] HMScript File '%1' does not exists\n").arg(m_FileName));
+        m_Errors.append(tr("[FATAL] HMScript File '%1' does not exists\n").arg(fileName));
     }
 
+    int idx = fileName.lastIndexOf("/");
+    m_Path = fileName.mid(0,idx+1);
+
     return m_Errors.isEmpty();
+}
+
+/*****************************************************************/
+
+void HMScriptRunner::setScript(const QString &script)
+{
+    m_Script = script.split("\n");
 }
 
 /*****************************************************************/
@@ -93,7 +105,7 @@ bool HMScriptRunner::checkParams(const int num, const QStringList &cmdList, cons
 
 /*****************************************************************/
 
-bool HMScriptRunner::runCmd(const int num, const QString &cmd)
+bool HMScriptRunner::runCmd(const QString &cmd, const int num)
 {
     if (cmd.startsWith(TL_NEW, Qt::CaseInsensitive)) {
         return runNewTestList(num, cmd);
@@ -264,8 +276,7 @@ bool HMScriptRunner::runLoadTestList(const int num, const QString &cmdLine)
     QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
-        int idx = m_FileName.lastIndexOf("/");
-        fileName = m_FileName.mid(0,idx+1) + fileName;
+        fileName = m_Path + fileName;
     }
 
     return m_HML->cmdLoadTestList(fileName);
@@ -290,8 +301,7 @@ bool HMScriptRunner::runAppendTestList(const int num, const QString &cmdLine)
     QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
-        int idx = m_FileName.lastIndexOf("/");
-        fileName = m_FileName.mid(0,idx+1) + fileName;
+        fileName = m_Path + fileName;
     }
 
     return m_HML->cmdAppendTestList(fileName);
@@ -317,8 +327,7 @@ bool HMScriptRunner::runImportFromFile(const int num, const QString &cmdLine)
     }
     QString fileName = cmdList.takeFirst();
     if (!fileName.startsWith("/")) {
-        int idx = m_FileName.lastIndexOf("/");
-        fileName = m_FileName.mid(0,idx+1) + fileName;
+        fileName = m_Path + fileName;
     }
 
     bool skipDuplicates = cmdList.contains("SkipDuplicates");
@@ -346,8 +355,7 @@ bool HMScriptRunner::runSaveTestList(const int num, const QString &cmdLine)
     if (!cmdList.isEmpty()) {
         fileName = cmdList.takeFirst();
         if (!fileName.startsWith("/")) {
-            int idx = m_FileName.lastIndexOf("/");
-            fileName = m_FileName.mid(0,idx+1) + fileName;
+            fileName = m_Path + fileName;
         }
     }
 
@@ -376,8 +384,7 @@ bool HMScriptRunner::runExportHmlIntoText(const int num, const QString &cmdLine)
     QString fileName = cmdList.takeFirst();
 
     if (!fileName.startsWith("/")) {
-        int idx = m_FileName.lastIndexOf("/");
-        fileName = m_FileName.mid(0,idx+1) + fileName;
+        fileName = m_Path + fileName;
     }
 
     bool commentDestFolder = cmdList.contains("-SF");
@@ -435,7 +442,7 @@ bool HMScriptRunner::runSetCurrentFolder(const int num, const QString &cmdLine)
     QString folder = cmdList.takeFirst();
 
     TRoot *root = m_HML->rootItem();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (folder.contains("/")) { // find by path
         found = root->findByPath(folder);
     } else { // find by name

@@ -5,8 +5,6 @@
 #include <QThread>
 
 #include "manageableService.h"
-#include "actionService.h"
-#include "hmListService.h"
 
 namespace SDPO {
 

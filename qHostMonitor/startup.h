@@ -10,6 +10,7 @@ class MonitoringService;
 class ActionService;
 class LogService;
 class HMListService;
+class RCIServer;
 class TNode;
 
 class Startup : public QObject
@@ -25,6 +26,7 @@ private:
     LogService        &m_logService;
     ActionService     &m_actionService;
     MonitoringService &m_testRunner;
+    RCIServer         &m_RCIServer;
     MainForm          &m_mainForm;
 
     // singleton

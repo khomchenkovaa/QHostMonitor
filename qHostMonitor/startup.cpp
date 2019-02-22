@@ -4,6 +4,7 @@
 #include "actionService.h"
 #include "logService.h"
 #include "hmListService.h"
+#include "servers/rci/rciServer.h"
 #include "global/tAction.h"
 #include "io/ioActionProfileLoader.h"
 #include "io/ioTestMethodLoader.h"
@@ -30,6 +31,7 @@ Startup::Startup() :
     m_logService(*new LogService(&m_HML)),
     m_actionService(*new ActionService(&m_HML, &m_logService)),
     m_testRunner(*new MonitoringService()),
+    m_RCIServer(*new RCIServer(&m_HML)),
     m_mainForm(*new MainForm(&m_HML, &m_actionService, &m_testRunner, nullptr))
 {
     connect(&m_HML, SIGNAL(monitoringStarted(bool)), &m_testRunner, SLOT(setRunningState(bool)));
@@ -39,6 +41,13 @@ Startup::Startup() :
 
     TEnums::init();
     load();
+
+        m_RCIServer.setMode(TCPServer::MODE_THREADED);
+        m_RCIServer.setMaxConnections(4);
+        m_RCIServer.setConnectionTimeout(1000);
+        QHostAddress adr = QHostAddress::Any;
+        m_RCIServer.listen(adr, 1054);
+
     m_mainForm.init();
 }
 
@@ -48,7 +57,9 @@ Startup::~Startup()
 {
     Utils::DestructorMsg(this);
     m_testRunner.clear();
+    m_RCIServer.close();
     delete &m_mainForm;
+    delete &m_RCIServer;
     delete &m_testRunner;
     delete &m_actionService;
     delete &m_logService;

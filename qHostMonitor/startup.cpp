@@ -42,12 +42,6 @@ Startup::Startup() :
     TEnums::init();
     load();
 
-        m_RCIServer.setMode(TCPServer::MODE_THREADED);
-        m_RCIServer.setMaxConnections(4);
-        m_RCIServer.setConnectionTimeout(1000);
-        QHostAddress adr = QHostAddress::Any;
-        m_RCIServer.listen(adr, 1054);
-
     m_mainForm.init();
 }
 

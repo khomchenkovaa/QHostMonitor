@@ -15,8 +15,8 @@ TPing::TPing(QString addr, QObject *parent) :
     QSettings s;
     a_Address      = addr;
     a_Packets      = s.value(SKEY_PING_Packets, 1).toInt();
-    a_Timeout      = s.value(SKEY_PING_Timeout, 0).toInt();
-    a_PacketSize   = s.value(SKEY_PING_PacketSize, 0).toInt();
+    a_Timeout      = s.value(SKEY_PING_Timeout, 1000).toInt();
+    a_PacketSize   = s.value(SKEY_PING_PacketSize, 32).toInt();
     a_TimeToLive   = s.value(SKEY_PING_TTL, 3).toInt();
     b_DontFragment = false;
     a_BadCriteria  = 90;
@@ -133,7 +133,7 @@ void TPing::parseResult(QString data)
     switch(a_DisplayMode) {
     case TPing::Time :
         tResult.reply =  QString("%1ms").arg(pingStat.rttAvg);
-        tResult.replyInt = pingStat.rttAvg;
+        tResult.replyInt = static_cast<int>(round(pingStat.rttAvg));
         tResult.replyDouble = pingStat.rttAvg;
         break;
     case TPing::Lost :
@@ -142,7 +142,7 @@ void TPing::parseResult(QString data)
         tResult.replyDouble = pingStat.percentLoss;
         break;
     case TPing::Received :
-        tResult.reply = QString("%1\%").arg(100 - pingStat.percentLoss);
+        tResult.reply = QString("%1%").arg(100 - pingStat.percentLoss);
         tResult.replyInt = 100 - pingStat.percentLoss;
         tResult.replyDouble = 100 - pingStat.percentLoss;
         break;

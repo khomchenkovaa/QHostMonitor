@@ -100,6 +100,7 @@ public:
     void setScript(const QString &script);
     bool runCmd(const QString &cmd, const int num = 0);
     QStringList scriptErrors() { return m_Errors; }
+    void clearErrors() { m_Errors.clear(); }
 signals:
 
 public slots:

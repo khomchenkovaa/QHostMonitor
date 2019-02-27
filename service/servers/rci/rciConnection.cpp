@@ -34,14 +34,14 @@ void RCIConnection::readyRead()
     QByteArray response;
     bool result = m_HMScriptRunner.run();
 
-    QString page = result?"Done\n":"Fail\n";
+    response.append(result?"Done\n":"Fail\n");
     foreach(QString line, m_HMScriptRunner.scriptErrors()) {
         response.append(line + "\n");
     }
 
     socket->write(response);
     socket->waitForBytesWritten();
-    socket->close();
+    //socket->close();
 }
 
 /***********************************************/

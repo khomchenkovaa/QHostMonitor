@@ -128,11 +128,11 @@ private:
     AUTO_PROPERTY(DisplayMode, DisplayMode)
 
 public:
-    explicit TPing(QString addr, QObject *parent = 0);
+    explicit TPing(QString addr, QObject *parent = nullptr);
 
     // properties
-    virtual QString getTestMethod() const;
-    virtual QString getTestedObjectInfo() const;
+    virtual QString getTestMethod() const Q_DECL_OVERRIDE;
+    virtual QString getTestedObjectInfo() const Q_DECL_OVERRIDE;
 
     // command
     virtual void run() Q_DECL_OVERRIDE;

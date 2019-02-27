@@ -12,11 +12,22 @@ class RCIServer : public TCPServer
 
     HMListService *m_HML;
 
+    bool m_Enabled;
+    quint16 m_Port;
+
+    bool m_LogAccepted;
+    bool m_LogAcceptedWatchDog;
+    bool m_LogRejected;
+    bool m_LogRejectedWatchDog;
+    bool m_LogSuccess;
+    bool m_LogError;
+
 public:
     explicit RCIServer(HMListService *hml, QObject *parent = nullptr);
     ~RCIServer();
 
 public slots:
+    void readSettings();
     void accept(qintptr handle, TCPRunnable *runnable);
 
 };

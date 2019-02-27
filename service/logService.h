@@ -17,7 +17,7 @@ class LogService : public QObject
 
     static QStringList failedLogs;
 public:
-    explicit LogService(HMListService *hml, QObject *parent = 0);
+    explicit LogService(HMListService *hml, QObject *parent = nullptr);
     ~LogService();
 
 signals:

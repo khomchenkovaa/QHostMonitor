@@ -4,7 +4,7 @@
 #include <QSettings>
 
 #define ORGANIZATION_NAME "SNIIP"
-#define ORGANIZATION_DOMAIN "www.sniip.ru"
+#define ORGANIZATION_DOMAIN "sniip.ru"
 #define APPLICATION_NAME "SDPO"
 
 // HostMonitor

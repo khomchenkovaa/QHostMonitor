@@ -64,7 +64,11 @@ HEADERS += \
     $$PWD/servers/rci/rciConnection.h \
     $$PWD/servers/tcp/tcpconnection.h \
     $$PWD/servers/tcp/tcprunnable.h \
-    $$PWD/servers/tcp/tcpserver.h
+    $$PWD/servers/tcp/tcpserver.h \
+    $$PWD/servers/telnet/telnetLogic.h \
+    $$PWD/servers/telnet/telnetTcpClient.h \
+    $$PWD/servers/telnet/telnetTcpServer.h \
+    $$PWD/servers/telnet/qTelnetServer.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -126,4 +130,8 @@ SOURCES += \
     $$PWD/servers/rci/rciConnection.cpp \
     $$PWD/servers/tcp/tcpconnection.cpp \
     $$PWD/servers/tcp/tcprunnable.cpp \
-    $$PWD/servers/tcp/tcpserver.cpp
+    $$PWD/servers/tcp/tcpserver.cpp \
+    $$PWD/servers/telnet/telnetLogic.cpp \
+    $$PWD/servers/telnet/telnetTcpClient.cpp \
+    $$PWD/servers/telnet/telnetTcpServer.cpp \
+    $$PWD/servers/telnet/qTelnetServer.cpp

@@ -13,7 +13,6 @@ using namespace SDPO;
 RCIServer::RCIServer(HMListService *hml, QObject *parent) : TCPServer(parent),
     m_HML(hml)
 {
-    setMode(TCPServer::MODE_THREADED);
     readSettings();
     if(m_Enabled) {
         listen(QHostAddress::Any, m_Port);

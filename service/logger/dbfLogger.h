@@ -2,7 +2,7 @@
 #define DBFLOGGER_H
 
 #include <QObject>
-#include "qdbf/qdbftablemodel.h"
+#include "qdbftablemodel.h"
 
 namespace SDPO {
 
@@ -14,7 +14,7 @@ class DbfLogger : public QObject
     bool m_isStarted;
     QDbf::QDbfTableModel m_model;
 public:
-    explicit DbfLogger(QObject *parent = 0);
+    explicit DbfLogger(QObject *parent = nullptr);
     ~DbfLogger();
 
     bool startLog(const QString &logFileName);

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     QCommandLineOption iMode("i", "interactive mode");
     parser.addOption(iMode);
 
-    QCommandLineOption vMode("i", "verbose mode");
+    QCommandLineOption vMode("v", "verbose mode");
     parser.addOption(vMode);
 
     QCommandLineOption vdMode("vd", "verbose debugging mode");

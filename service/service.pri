@@ -3,6 +3,10 @@ QT += network script multimedia sql
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+include("io/io.pri")
+include("logger/logger.pri")
+include("servers/servers.pri")
+
 HEADERS += \
     $$PWD/monitoringTask.h \
     $$PWD/actionTask.h \
@@ -11,64 +15,7 @@ HEADERS += \
     $$PWD/actionService.h \
     $$PWD/hmListService.h \
     $$PWD/hmScriptRunner.h \
-    $$PWD/logService.h \
-    $$PWD/logger/textLogger.h \
-    $$PWD/logger/htmlLogger.h \
-    $$PWD/logger/dbfLogger.h \
-    $$PWD/logger/odbcLogger.h \
-    $$PWD/io/ioDataLoader.h \
-    $$PWD/io/ioTestMethodLoader.h \
-    $$PWD/io/ioUserVarsLoader.h \
-    $$PWD/io/ioMailProfileLoader.h \
-    $$PWD/io/ioColorProfileLoader.h \
-    $$PWD/io/ioActionProfileLoader.h \
-    $$PWD/io/ioUserProfileLoader.h \
-    $$PWD/io/ioHelper.h \
-    $$PWD/io/ioTextFile.h \
-    $$PWD/io/ioHMList.h \
-    $$PWD/io/method/sdpoTestMethodConverters.h \
-    $$PWD/io/method/ioTestMethodConverter.h \
-    $$PWD/io/method/ioDriveSpaceConverter.h \
-    $$PWD/io/method/ioFileExistsConverter.h \
-    $$PWD/io/method/ioPingConverter.h \
-    $$PWD/io/method/ioFolderSizeConverter.h \
-    $$PWD/io/method/ioShellScriptConverter.h \
-    $$PWD/io/method/ioSnmpGetConverter.h \
-    $$PWD/io/method/ioOracleConverter.h \
-    $$PWD/io/method/ioMySqlConverter.h \
-    $$PWD/io/method/ioPostgreSqlConverter.h \
-    $$PWD/io/method/ioInterbaseConverter.h \
-    $$PWD/io/method/ioODBCConverter.h \
-    $$PWD/io/method/ioExternalPrgConverter.h \
-    $$PWD/io/method/ioDICOMConverter.h \
-    $$PWD/io/method/ioDHCPConverter.h \
-    $$PWD/io/method/ioCPUUsageConverter.h \
-    $$PWD/io/method/ioCountFilesConverter.h \
-    $$PWD/io/method/ioCompareFilesConverter.h \
-    $$PWD/io/method/ioDNSTestConverter.h \
-    $$PWD/io/method/ioDominantProcessConverter.h \
-    $$PWD/io/method/ioFileContentsConverter.h \
-    $$PWD/io/method/ioHTTPConverter.h \
-    $$PWD/io/method/ioIMAPTestConverter.h \
-    $$PWD/io/method/ioLDAPTestConverter.h \
-    $$PWD/io/method/ioMailRelayConverter.h \
-    $$PWD/io/method/ioMsSqlConverter.h \
-    $$PWD/io/method/ioNtEventLogConverter.h \
-    $$PWD/io/method/ioNtpTestConverter.h \
-    $$PWD/io/method/ioPerformanceCounterConverter.h \
-    $$PWD/io/method/ioSybaseConverter.h \
-    $$PWD/io/method/ioWmiConverter.h \
-    $$PWD/io/method/ioActiveScriptConverter.h \
-    $$PWD/io/ioConnectionLoader.h \
-    $$PWD/servers/rci/rciServer.h \
-    $$PWD/servers/rci/rciConnection.h \
-    $$PWD/servers/tcp/tcpconnection.h \
-    $$PWD/servers/tcp/tcprunnable.h \
-    $$PWD/servers/tcp/tcpserver.h \
-    $$PWD/servers/telnet/telnetLogic.h \
-    $$PWD/servers/telnet/telnetTcpClient.h \
-    $$PWD/servers/telnet/telnetTcpServer.h \
-    $$PWD/servers/telnet/qTelnetServer.h
+    $$PWD/logService.h
 
 SOURCES += \
     $$PWD/monitoringTask.cpp \
@@ -78,60 +25,4 @@ SOURCES += \
     $$PWD/actionService.cpp \
     $$PWD/hmListService.cpp \
     $$PWD/hmScriptRunner.cpp \
-    $$PWD/logService.cpp \
-    $$PWD/logger/textLogger.cpp \
-    $$PWD/logger/htmlLogger.cpp \
-    $$PWD/logger/dbfLogger.cpp \
-    $$PWD/logger/odbcLogger.cpp \
-    $$PWD/io/ioDataLoader.cpp \
-    $$PWD/io/ioTestMethodLoader.cpp \
-    $$PWD/io/ioUserVarsLoader.cpp \
-    $$PWD/io/ioMailProfileLoader.cpp \
-    $$PWD/io/ioColorProfileLoader.cpp \
-    $$PWD/io/ioActionProfileLoader.cpp \
-    $$PWD/io/ioUserProfileLoader.cpp \
-    $$PWD/io/ioHelper.cpp \
-    $$PWD/io/ioTextFile.cpp \
-    $$PWD/io/ioHMList.cpp \
-    $$PWD/io/method/ioTestMethodConverter.cpp \
-    $$PWD/io/method/ioDriveSpaceConverter.cpp \
-    $$PWD/io/method/ioFileExistsConverter.cpp \
-    $$PWD/io/method/ioPingConverter.cpp \
-    $$PWD/io/method/ioFolderSizeConverter.cpp \
-    $$PWD/io/method/ioShellScriptConverter.cpp \
-    $$PWD/io/method/ioSnmpGetConverter.cpp \
-    $$PWD/io/method/ioOracleConverter.cpp \
-    $$PWD/io/method/ioMySqlConverter.cpp \
-    $$PWD/io/method/ioPostgreSqlConverter.cpp \
-    $$PWD/io/method/ioInterbaseConverter.cpp \
-    $$PWD/io/method/ioODBCConverter.cpp \
-    $$PWD/io/method/ioExternalPrgConverter.cpp \
-    $$PWD/io/method/ioDICOMConverter.cpp \
-    $$PWD/io/method/ioDHCPConverter.cpp \
-    $$PWD/io/method/ioCPUUsageConverter.cpp \
-    $$PWD/io/method/ioCountFilesConverter.cpp \
-    $$PWD/io/method/ioCompareFilesConverter.cpp \
-    $$PWD/io/method/ioDNSTestConverter.cpp \
-    $$PWD/io/method/ioDominantProcessConverter.cpp \
-    $$PWD/io/method/ioFileContentsConverter.cpp \
-    $$PWD/io/method/ioHTTPConverter.cpp \
-    $$PWD/io/method/ioIMAPTestConverter.cpp \
-    $$PWD/io/method/ioLDAPTestConverter.cpp \
-    $$PWD/io/method/ioMailRelayConverter.cpp \
-    $$PWD/io/method/ioMsSqlConverter.cpp \
-    $$PWD/io/method/ioNtEventLogConverter.cpp \
-    $$PWD/io/method/ioNtpTestConverter.cpp \
-    $$PWD/io/method/ioPerformanceCounterConverter.cpp \
-    $$PWD/io/method/ioSybaseConverter.cpp \
-    $$PWD/io/method/ioWmiConverter.cpp \
-    $$PWD/io/method/ioActiveScriptConverter.cpp \
-    $$PWD/io/ioConnectionLoader.cpp \
-    $$PWD/servers/rci/rciServer.cpp \
-    $$PWD/servers/rci/rciConnection.cpp \
-    $$PWD/servers/tcp/tcpconnection.cpp \
-    $$PWD/servers/tcp/tcprunnable.cpp \
-    $$PWD/servers/tcp/tcpserver.cpp \
-    $$PWD/servers/telnet/telnetLogic.cpp \
-    $$PWD/servers/telnet/telnetTcpClient.cpp \
-    $$PWD/servers/telnet/telnetTcpServer.cpp \
-    $$PWD/servers/telnet/qTelnetServer.cpp
+    $$PWD/logService.cpp

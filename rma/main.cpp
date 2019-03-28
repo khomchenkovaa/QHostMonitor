@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 
     bool debug = parser.isSet(vdMode);
     bool verbose = debug || parser.isSet(iMode);
+    Q_UNUSED(verbose)
 
     if (args.isEmpty()) {
         parser.showHelp(-1);

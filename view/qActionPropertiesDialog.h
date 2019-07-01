@@ -16,7 +16,7 @@ class ActionPropertiesDialog : public QDialog
 
     TestAction *m_item;
 public:
-    explicit ActionPropertiesDialog(QWidget *parent = 0);
+    explicit ActionPropertiesDialog(QWidget *parent = nullptr);
     ~ActionPropertiesDialog();
 
     void setAddFlag(const bool isBad);

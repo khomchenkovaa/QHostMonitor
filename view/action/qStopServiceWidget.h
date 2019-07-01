@@ -14,10 +14,10 @@ class StopServiceWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit StopServiceWidget(QWidget *parent = 0);
+    explicit StopServiceWidget(QWidget *parent = nullptr);
     ~StopServiceWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

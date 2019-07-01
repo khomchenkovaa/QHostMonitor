@@ -12,7 +12,7 @@ struct HMListInfo {
     QUuid   guid;
     bool    modified;
     QString fileName;
-    int     fileSize;
+    qint64  fileSize;
     bool    storeHistoricalData;
     int     count;
 
@@ -54,7 +54,7 @@ public:
     bool    isModelModified() const { return m_Info.modified; }
     QString currentFileName() const { return m_Info.fileName; }
     void    setFileName(const QString &value) { m_Info.fileName = value; }
-    int     fileSize() const { return m_Info.fileSize; }
+    qint64  fileSize() const { return m_Info.fileSize; }
     bool    isStoreHistoricalData() const { return m_Info.storeHistoricalData; }
     void    setStoreHistoricalData(const bool value) { m_Info.storeHistoricalData=value; }
     TNode  *currentFolder() { return m_CurFolder; }
@@ -73,43 +73,43 @@ public:
 
     // commands
     bool cmdNewTestList();
-    bool cmdLoadTestList(QString fileName);                                                                  //! TODO
-    bool cmdAppendTestList(QString fileName);                                                                //! TODO
+    bool cmdLoadTestList(QString fileName);
+    bool cmdAppendTestList(QString fileName);
     bool cmdImportFromFile(QString fileName, bool skipDuplicates = false, bool writeLog = false);
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
     TNode *cmdCreateFolder(QString path);
-    bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false);     //! TODO
-    bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);                  //! TODO
-    bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);                                       //! TODO
+    bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false);
+    bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);
+    bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);
     TNode *cmdCopyTest(TNode* destFolder, QString name, TNode *test, bool skipDuplicates = false);
-    bool cmdDisableTest(QString fileName);
-    bool cmdEnableTest(QString fileName);
-    bool cmdRefreshTest(QString fileName);
-    bool cmdResetTest(QString fileName);
-    bool cmdPauseTest(QString fileName, int interval, QString Comment);
-    bool cmdResumeTest(QString fileName);
-    bool cmdSetTestParam(QString fileName, QString ParameterName, int Value);
-    bool cmdReplaceTestParam(QString fileName, QString ParameterName, int CurrValue, int NewValue);
-    bool cmdAckTestStatus(QString fileName, QString StopAlerts, QString Comment);
-    bool cmdResetAcknowledgements(QString fileName);
-    bool cmdResetRecurrencesTest(QString fileName);
-    bool cmdResetEventLogRefPoint(QString fileName);
-    bool cmdDisableTestByID(TNode* fileName);
-    bool cmdEnableTestByID(TNode* fileName);
-    bool cmdRefreshTestByID(TNode* fileName, QString forcelog);
-    bool cmdRefreshIrregularTestByID(TNode* fileName, QString forcelog);
-    bool cmdResetTestByID(TNode* fileName);
-    bool cmdPauseTestByID(TNode* fileName, int inteval_minutes);
-    bool cmdResumeTestByID(TNode* fileName, int inteval_minutes);
-    bool cmdAckTestStatusbyID(TNode* fileName, QString StopAlerts, QString Comment);
-    bool cmdResetAcknowledgementsByID(TNode* fileName);
-    bool cmdSetTestParamByID(TNode* fileName, QString ParameterName, int Value);
-    bool cmdReplaceTestParamByID(TNode* fileName, QString ParameterName, int CurrValue, int NewValue);
-    bool cmdSetUserVariable(TNode* VariableName, int VariableValue);
-    bool cmdCreateReport(QString report_profile_name, QString target_file_name);
-    bool cmdStartProgram(QString CommandLine);
-    bool cmdExecuteProgram(int TimeToWait, QString CommandLine);
+    bool cmdDisableTest(QString testName);
+    bool cmdEnableTest(QString testName);
+    bool cmdRefreshTest(QString testName);
+    bool cmdResetTest(QString testName);
+    bool cmdPauseTest(QString testName, int interval, QString comment);
+    bool cmdResumeTest(QString testName);
+    bool cmdSetTestParam(QString testName, QString paramName, int value);
+    bool cmdReplaceTestParam(QString testName, QString paramName, int curValue, int newValue);
+    bool cmdAckTestStatus(QString testName, QString StopAlerts, QString Comment);
+    bool cmdResetAcknowledgements(QString testName);
+    bool cmdResetRecurrencesTest(QString testName);
+    bool cmdResetEventLogRefPoint(QString testName);
+    bool cmdDisableTestByID(TNode* test);
+    bool cmdEnableTestByID(TNode* test);
+    bool cmdRefreshTestByID(TNode* test, QString forcelog);
+    bool cmdRefreshIrregularTestByID(TNode* test, QString forcelog);
+    bool cmdResetTestByID(TNode* test);
+    bool cmdPauseTestByID(TNode* test, int inteval_minutes);
+    bool cmdResumeTestByID(TNode* test, int inteval_minutes);
+    bool cmdAckTestStatusbyID(TNode* test, QString StopAlerts, QString Comment);
+    bool cmdResetAcknowledgementsByID(TNode* test);
+    bool cmdSetTestParamByID(TNode* test, QString ParameterName, int Value);
+    bool cmdReplaceTestParamByID(TNode* test, QString ParameterName, int CurrValue, int NewValue);
+    bool cmdSetUserVariable(QString varName, QString varValue);
+    bool cmdCreateReport(QString reportProfileName, QString targetFileName);
+    bool cmdStartProgram(QString cmdLine);
+    bool cmdExecuteProgram(int timeToWait, QString cmdLine);
 
 signals:
 //    void HostMonitorStarted(); // 0 - HostMonitor started

@@ -14,10 +14,10 @@ class SendSmsSmppWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendSmsSmppWidget(QWidget *parent = 0);
+    explicit SendSmsSmppWidget(QWidget *parent = nullptr);
     ~SendSmsSmppWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual void reset();
     virtual TestAction *save(TestAction *item);
 

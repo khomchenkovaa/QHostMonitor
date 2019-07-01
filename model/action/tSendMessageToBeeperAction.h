@@ -15,7 +15,7 @@ class SendMessageToBeeperAction : public TestAction
     AUTO_PROPERTY(QString, TerminationString) // Termination String
 
 public:
-    explicit SendMessageToBeeperAction(QObject *parent = 0);
+    explicit SendMessageToBeeperAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

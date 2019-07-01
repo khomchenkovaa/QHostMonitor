@@ -16,7 +16,7 @@ class GenerateReportsAction : public TestAction
 
 
 public:
-    explicit GenerateReportsAction(QObject *parent = 0);
+    explicit GenerateReportsAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

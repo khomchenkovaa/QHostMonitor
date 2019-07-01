@@ -14,10 +14,10 @@ class RecordSdpoLogWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit RecordSdpoLogWidget(QWidget *parent = 0);
+    explicit RecordSdpoLogWidget(QWidget *parent = nullptr);
     ~RecordSdpoLogWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

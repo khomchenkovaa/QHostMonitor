@@ -19,7 +19,7 @@ class IODataLoader : public QObject
 
 
 public:
-    explicit IODataLoader(QString resFile, QObject *parent = 0);
+    explicit IODataLoader(QString resFile, QObject *parent = nullptr);
 
 signals:
     void notifyStatusMessage(QString msg);

@@ -596,7 +596,7 @@ bool HMScriptRunner::runSetFolderAgent(const int num, const QString &cmdLine)
         return false;
     }
     QString folder = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (folder.contains("/")) { // find by path
         found = m_HML->rootItem()->findByPath(folder);
     } else { // find by id
@@ -653,7 +653,7 @@ bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
     }
 
     QString folder = cmdList.takeFirst();
-    TNode *fldSrc = 0;
+    TNode *fldSrc = nullptr;
     if (folder.contains("/")) {
         fldSrc = m_HML->rootItem()->findByPath(folder);
     } else { //
@@ -678,7 +678,7 @@ bool HMScriptRunner::runCopyFolder(const int num, const QString &cmdLine)
     }
 
     QString folder2 = cmdList.takeFirst();
-    TNode *fldDest = 0;
+    TNode *fldDest = nullptr;
     if (folder2.contains("/")) {
         fldDest = m_HML->rootItem()->findByPath(folder2);
     } else {
@@ -739,7 +739,7 @@ bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
     }
 
     QString folder = cmdList.takeFirst();
-    TNode *destFolder = 0;
+    TNode *destFolder = nullptr;
     if (folder.contains("/")) {
         destFolder = m_HML->rootItem()->findByPath(folder);
     } else {
@@ -785,7 +785,7 @@ bool HMScriptRunner::runCopyTestByID(const int num, const QString &cmdLine)
     }
 
     QString folder = cmdList.takeFirst();
-    TNode *destFolder = 0;
+    TNode *destFolder = nullptr;
     if (folder.contains("/")) {
         destFolder = m_HML->rootItem()->findByPath(folder);
     } else {
@@ -828,7 +828,7 @@ bool HMScriptRunner::runCopyAllTests(const int num, const QString &cmdLine)
     }
 
     QString folder = cmdList.takeFirst();
-    TNode *destFolder = 0;
+    TNode *destFolder = nullptr;
     if (folder.contains("/")) {
         destFolder = m_HML->rootItem()->findByPath(folder);
     } else {
@@ -874,7 +874,7 @@ bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cm
     }
 
     QString arg1 = cmdList.takeFirst();
-    TNode *test = 0;
+    TNode *test = nullptr;
     bool ok;
     int testID = arg1.toInt(&ok);
     if (ok) {
@@ -905,7 +905,7 @@ bool HMScriptRunner::runCopyIntoSelectedFolders(const int num, const QString &cm
     }
 
     QString topFolder = cmdList.takeFirst();
-    TNode *folder = 0;
+    TNode *folder = nullptr;
     if (topFolder.contains("/")) {
         folder = m_HML->rootItem()->findByPath(topFolder);
     } else {
@@ -944,6 +944,7 @@ bool HMScriptRunner::runRefreshAll(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
         return false;
     }
+    //! TODO implement method runRefreshAll
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
     return true;
 }
@@ -957,6 +958,7 @@ bool HMScriptRunner::runResetAll(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
         return false;
     }
+    //! TODO implement method runResetAll
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
     return true;
 }
@@ -970,6 +972,7 @@ bool HMScriptRunner::runDisableAllTests(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
         return false;
     }
+    //! TODO implement method runDisableAllTests
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
     return true;
 }
@@ -983,6 +986,7 @@ bool HMScriptRunner::runEnableAllTests(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
         return false;
     }
+    //! TODO implement method runEnableAllTests
     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
     return true;
 }
@@ -999,15 +1003,11 @@ bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
     }
     cmdList.removeFirst();
 
-    if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
-    }
-    QString fileName;
+    QString testName;
     if (!cmdList.isEmpty()) {
-        fileName = cmdList.takeFirst();
+        testName = cmdList.takeFirst();
     }
-    m_HML->cmdDisableTest(fileName);
+    m_HML->cmdDisableTest(testName);
     return true;
 }
 
@@ -1344,7 +1344,7 @@ bool HMScriptRunner::runDisableTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1369,7 +1369,7 @@ bool HMScriptRunner::runEnableTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1398,7 +1398,7 @@ bool HMScriptRunner::runRefreshTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1428,7 +1428,7 @@ bool HMScriptRunner::runRefreshIrregularTestByID(const int num, const QString &c
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1456,7 +1456,7 @@ bool HMScriptRunner::runResetTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1482,7 +1482,7 @@ bool HMScriptRunner::runPauseTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1509,7 +1509,7 @@ bool HMScriptRunner::runResumeTestByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1537,7 +1537,7 @@ bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1570,7 +1570,7 @@ bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1597,7 +1597,7 @@ bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1630,7 +1630,7 @@ bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLi
     return false;
     }
     QString fileName = cmdList.takeFirst();
-    TNode *found = 0;
+    TNode *found = nullptr;
     if (!cmdList.isEmpty()) {
         found = m_HML->rootItem()->findByID(fileName.toInt());
     }
@@ -1658,16 +1658,18 @@ bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <VariableName>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString VariableName = cmdList.takeFirst();
-    TNode *found = 0;
-    if (!cmdList.isEmpty()) {
-      found = m_HML->rootItem()->findTest(VariableName);
+    QString varName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <VariableValue>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    int VariableValue = cmdList.takeFirst().toInt();
-    m_HML->cmdSetUserVariable(found, VariableValue);
+    QString varValue = cmdList.takeFirst();
+
+    m_HML->cmdSetUserVariable(varName, varValue);
     return true;
 }
 
@@ -1679,9 +1681,10 @@ bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    //! TODO implement method runSaveUserVariables
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return true;
 }
 
 /*****************************************************************
@@ -1692,9 +1695,10 @@ bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    //! TODO implement method runLoadUserVariables
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return true;
 }
 
 /*****************************************************************
@@ -1706,9 +1710,10 @@ bool HMScriptRunner::runFlushCommonLog(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    //! TODO implement method runFlushCommonLog
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return true;
 }
 
 /*****************************************************************
@@ -1722,9 +1727,10 @@ bool HMScriptRunner::runFlushPrivateLogs(const int num, const QString &cmdLine)
     QStringList cmdList = parseCmd(cmdLine);
     if (!checkParams(num, cmdList, 0)) {
          return false;
-     }
-     m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-     return true;
+    }
+    //! TODO implement method runFlushPrivateLogs
+    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+    return true;
 }
 
 /*****************************************************************
@@ -1741,18 +1747,18 @@ bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <report profile name>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString report_profile_name = cmdList.takeFirst();
-    if (!cmdList.isEmpty()) {
-        report_profile_name = cmdList.takeFirst();
+    QString reportProfileName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <target file name>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString target_file_name = cmdList.takeFirst();
-    if (!cmdList.isEmpty()) {
-        target_file_name = cmdList.takeFirst();
-    }
-    m_HML->cmdCreateReport(report_profile_name, target_file_name);
+    QString targetFileName = cmdList.takeFirst();
+
+    m_HML->cmdCreateReport(reportProfileName, targetFileName);
     return true;
 }
 
@@ -1769,14 +1775,12 @@ bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <CommandLine>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString CommandLine;
-    if (!cmdList.isEmpty()) {
-        CommandLine = cmdList.takeFirst();
-    }
-    m_HML->cmdStartProgram(CommandLine);
+    QString commandLine = cmdList.join(" ");
+
+    m_HML->cmdStartProgram(commandLine);
     return true;
 }
 
@@ -1796,18 +1800,18 @@ bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <TimeToWait>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    int TimeToWait;
-    if (!cmdList.isEmpty()) {
-        TimeToWait = cmdList.takeFirst().toInt();
+    int timeToWait = cmdList.takeFirst().toInt();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <CommandLine>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString CommandLine;
-    if (!cmdList.isEmpty()) {
-        CommandLine = cmdList.takeFirst();
-    }
-    m_HML->cmdExecuteProgram(TimeToWait, CommandLine);
+    QString commandLine = cmdList.join(" ");
+
+    m_HML->cmdExecuteProgram(timeToWait, commandLine);
     return true;
 }
 

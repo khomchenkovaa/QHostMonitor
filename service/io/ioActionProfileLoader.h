@@ -3,7 +3,7 @@
 
 #include <QTime>
 #include "ioDataLoader.h"
-#include "action/tTestAction.h"
+#include "tTestAction.h"
 
 namespace SDPO {
 
@@ -11,7 +11,7 @@ class IOActionProfileLoader : public IODataLoader
 {
     Q_OBJECT
 public:
-    explicit IOActionProfileLoader(QObject *parent = 0);
+    explicit IOActionProfileLoader(QObject *parent = nullptr);
 
     void load();
     void save();

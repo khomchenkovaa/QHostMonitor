@@ -19,7 +19,7 @@ class LogEventAction : public TestAction
     AUTO_PROPERTY(QString, Password) // Password
 
 public:
-    explicit LogEventAction(QObject *parent = 0);
+    explicit LogEventAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

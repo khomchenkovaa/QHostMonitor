@@ -13,7 +13,7 @@ class ExecuteExternalProgramAction : public TestAction
     AUTO_PROPERTY(QString, WindowMode) // Window mode
 
 public:
-    explicit ExecuteExternalProgramAction(QObject *parent = 0);
+    explicit ExecuteExternalProgramAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

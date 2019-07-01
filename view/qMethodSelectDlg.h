@@ -16,7 +16,7 @@ class MethodSelectDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit MethodSelectDlg(QWidget *parent = 0);
+    explicit MethodSelectDlg(QWidget *parent = nullptr);
     ~MethodSelectDlg();
 
     void setCurrent(const int methodId);

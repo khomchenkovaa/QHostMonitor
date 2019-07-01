@@ -9,7 +9,7 @@ class WinPopupAction : public TestAction
 {
     Q_OBJECT
 public:
-    explicit WinPopupAction(QObject *parent = 0);
+    explicit WinPopupAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

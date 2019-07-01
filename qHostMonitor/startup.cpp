@@ -39,7 +39,6 @@ Startup::Startup() :
     connect(&m_HML, SIGNAL(readyRun(TNode*)), &m_testRunner, SLOT(runTest(TNode*)));
     connect(&m_testRunner, SIGNAL(stateChanged(QString,bool)), &m_actionService, SLOT(runProfile(QString,bool)));
 
-    TEnums::init();
     load();
 
     m_mainForm.init();

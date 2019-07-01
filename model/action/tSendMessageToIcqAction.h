@@ -13,7 +13,7 @@ class SendMessageToIcqAction : public TestAction
     AUTO_PROPERTY(QString, MsgTemplate) // Message template
 
 public:
-    explicit SendMessageToIcqAction(QObject *parent = 0);
+    explicit SendMessageToIcqAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

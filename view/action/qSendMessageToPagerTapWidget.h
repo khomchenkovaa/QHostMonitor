@@ -14,10 +14,10 @@ class SendMessageToPagerTapWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendMessageToPagerTapWidget(QWidget *parent = 0);
+    explicit SendMessageToPagerTapWidget(QWidget *parent = nullptr);
     ~SendMessageToPagerTapWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual void reset();
     virtual TestAction *save(TestAction *item);
 

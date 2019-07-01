@@ -1,8 +1,10 @@
 #include "actionTask.h"
 #include "tTest.h"
-#include "action/tTestAction.h"
+#include "tTestAction.h"
 
 namespace SDPO {
+
+/******************************************************************/
 
 ActionTask::ActionTask(TTest *test, TestAction *act, QObject *parent) :
     QObject(parent),
@@ -11,9 +13,13 @@ ActionTask::ActionTask(TTest *test, TestAction *act, QObject *parent) :
 {
 }
 
+/******************************************************************/
+
 void ActionTask::run()
 {
     m_action->run(m_test);
 }
+
+/******************************************************************/
 
 } // namespace SDPO

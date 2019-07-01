@@ -49,6 +49,7 @@ protected:
     int m_ConnectionTimeout = 0;           //! Time out for idle connections, Zero is never
     QList<TCPRunnable*> m_Runnables;       //! List of runnables that are on different threads
     QTimer m_Timer;                        //! Timer for server operations
+    quint16 m_Port = 0;
 
     virtual void incomingConnection(qintptr handle);            //! Called when a connection is ready to be accepted
     virtual void startRunnable(TCPRunnable *runnable);          //! Connects the runnable and starts it

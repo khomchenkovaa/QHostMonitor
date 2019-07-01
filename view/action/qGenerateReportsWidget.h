@@ -14,10 +14,10 @@ class GenerateReportsWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit GenerateReportsWidget(QWidget *parent = 0);
+    explicit GenerateReportsWidget(QWidget *parent = nullptr);
     ~GenerateReportsWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

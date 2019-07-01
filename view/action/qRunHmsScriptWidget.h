@@ -14,10 +14,10 @@ class RunHmsScriptWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit RunHmsScriptWidget(QWidget *parent = 0);
+    explicit RunHmsScriptWidget(QWidget *parent = nullptr);
     ~RunHmsScriptWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

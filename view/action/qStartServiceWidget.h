@@ -14,10 +14,10 @@ class StartServiceWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit StartServiceWidget(QWidget *parent = 0);
+    explicit StartServiceWidget(QWidget *parent = nullptr);
     ~StartServiceWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

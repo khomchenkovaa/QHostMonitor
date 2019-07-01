@@ -17,7 +17,7 @@ class SendDataToTcpUdpPortAction : public TestAction
     AUTO_PROPERTY(QString, FinalPacket) // Final packet to send
 
 public:
-    explicit SendDataToTcpUdpPortAction(QObject *parent = 0);
+    explicit SendDataToTcpUdpPortAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

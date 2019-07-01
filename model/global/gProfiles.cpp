@@ -1,20 +1,31 @@
 #include "gProfiles.h"
+#include "tTestAction.h"
 #include <QDebug>
 
 namespace SDPO {
 
 /*****************************************************************/
 
+void GActionProfile::clearActions()
+{
+    qDeleteAll(onBad);
+    onBad.clear();
+    qDeleteAll(onGood);
+    onGood.clear();
+}
+
+/*****************************************************************/
+
 QColor GColorProfile::colorByStatus(const int status) const
 {
-    return getColorByTestStatus((TestStatus)status, false);
+    return getColorByTestStatus(static_cast<TestStatus>(status), false);
 }
 
 /*****************************************************************/
 
 QColor GColorProfile::bgColorByStatus(const int status) const
 {
-    return getColorByTestStatus((TestStatus)status, true);
+    return getColorByTestStatus(static_cast<TestStatus>(status), true);
 }
 
 /*****************************************************************/
@@ -95,7 +106,7 @@ QString GUserProfile::getColumnMacro(const int idx) const
 
 void GUserProfile::setPermission(const PermissionID id, const bool value)
 {
-    unsigned mask = 1U << (unsigned)id;
+    unsigned mask = 1U << static_cast<unsigned>(id);
     if (value) {
         permissions |= mask;
     } else {
@@ -107,7 +118,7 @@ void GUserProfile::setPermission(const PermissionID id, const bool value)
 
 bool GUserProfile::hasPermission(const PermissionID id) const
 {
-    unsigned mask = 1U << (unsigned)id;
+    unsigned mask = 1U << static_cast<unsigned>(id);
     return (permissions & mask);
 }
 

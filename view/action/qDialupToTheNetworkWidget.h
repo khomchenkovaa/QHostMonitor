@@ -14,10 +14,10 @@ class DialupToTheNetworkWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit DialupToTheNetworkWidget(QWidget *parent = 0);
+    explicit DialupToTheNetworkWidget(QWidget *parent = nullptr);
     ~DialupToTheNetworkWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

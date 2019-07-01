@@ -1,4 +1,5 @@
 #include "rciConnection.h"
+#include "qSimpleCrypt.hpp"
 
 #include <QDebug>
 
@@ -29,6 +30,10 @@ void RCIConnection::readyRead()
     if(!socket) return;
 
     QByteArray data = socket->readAll();
+//    SimpleCrypt crypt(128);
+//    qDebug() << "Encrypted:" << data;
+//    QString decrypted = crypt.decryptToString(data);
+//    qDebug() << "Decrypted:" << decrypted;
     m_HMScriptRunner.setScript(data);
 
     QByteArray response;

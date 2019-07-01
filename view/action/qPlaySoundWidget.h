@@ -14,10 +14,10 @@ class PlaySoundWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit PlaySoundWidget(QWidget *parent = 0);
+    explicit PlaySoundWidget(QWidget *parent = nullptr);
     ~PlaySoundWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

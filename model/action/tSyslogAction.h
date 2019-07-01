@@ -16,7 +16,7 @@ class SyslogAction : public TestAction
     AUTO_PROPERTY(int, Facility) // Facility
 
 public:
-    explicit SyslogAction(QObject *parent = 0);
+    explicit SyslogAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

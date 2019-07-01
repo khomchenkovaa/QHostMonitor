@@ -12,7 +12,7 @@ class RunHmsScriptAction : public TestAction
     AUTO_PROPERTY(QString, ScriptFile) // Script file
 
 public:
-    explicit RunHmsScriptAction(QObject *parent = 0);
+    explicit RunHmsScriptAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

@@ -16,7 +16,7 @@ class RebootLocalMachineAction : public TestAction
     BOOL_PROPERTY(ForceProcesses) // Force processes to terminate
 
 public:
-    explicit RebootLocalMachineAction(QObject *parent = 0);
+    explicit RebootLocalMachineAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

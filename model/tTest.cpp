@@ -1,6 +1,7 @@
 #include "tTest.h"
+#include "tTestAction.h"
 #include "gData.h"
-#include "method/sdpoTestMethods.h"
+#include "sdpoTestMethods.h"
 #include "global/gUserVars.h"
 #include "global/gMacroTranslator.h"
 #include <QScriptEngine>

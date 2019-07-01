@@ -14,10 +14,10 @@ class DisconnectDialupConnectionWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit DisconnectDialupConnectionWidget(QWidget *parent = 0);
+    explicit DisconnectDialupConnectionWidget(QWidget *parent = nullptr);
     ~DisconnectDialupConnectionWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

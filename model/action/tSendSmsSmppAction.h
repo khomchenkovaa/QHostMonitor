@@ -15,7 +15,7 @@ class SendSmsSmppAction : public TestAction
     AUTO_PROPERTY(QString, MsgTemplate) // Message template
 
 public:
-    explicit SendSmsSmppAction(QObject *parent = 0);
+    explicit SendSmsSmppAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

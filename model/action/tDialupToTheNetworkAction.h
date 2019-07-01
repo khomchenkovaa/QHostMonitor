@@ -18,7 +18,7 @@ class DialupToTheNetworkAction : public TestAction
 
 
 public:
-    explicit DialupToTheNetworkAction(QObject *parent = 0);
+    explicit DialupToTheNetworkAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

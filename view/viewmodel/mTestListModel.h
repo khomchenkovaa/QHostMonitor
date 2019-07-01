@@ -21,8 +21,8 @@ class TestListModel : public QAbstractTableModel
     TNode        *m_current;
 
 public:
-    TestListModel(QObject *parent = 0);
-    ~TestListModel();
+    TestListModel(QObject *parent = nullptr);
+    ~TestListModel() Q_DECL_OVERRIDE;
 
     virtual int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
     virtual int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;

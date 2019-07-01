@@ -13,7 +13,7 @@ class RepeatTestAction : public TestAction
     BOOL_PROPERTY(RecheckTest) // Recheck dependant test items
 
 public:
-    explicit RepeatTestAction(QObject *parent = 0);
+    explicit RepeatTestAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

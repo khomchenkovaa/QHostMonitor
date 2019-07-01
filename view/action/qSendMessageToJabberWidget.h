@@ -14,10 +14,10 @@ class SendMessageToJabberWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendMessageToJabberWidget(QWidget *parent = 0);
+    explicit SendMessageToJabberWidget(QWidget *parent = nullptr);
     ~SendMessageToJabberWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual void reset();
     virtual TestAction *save(TestAction *item);
 

@@ -14,10 +14,10 @@ class SyslogWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SyslogWidget(QWidget *parent = 0);
+    explicit SyslogWidget(QWidget *parent = nullptr);
     ~SyslogWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

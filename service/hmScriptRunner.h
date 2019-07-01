@@ -160,15 +160,15 @@ private:
     bool runSetTestParamByID(const int num, const QString &cmdLine);          //! TODO
     bool runReplaceTestParamByID(const int num, const QString &cmdLine);      //! TODO
 // Global Variable Commands
-    bool runSetUserVariable(const int num, const QString &cmdLine);   //! TODO
-    bool runSaveUserVariables(const int num, const QString &cmdLine); //! TODO
-    bool runLoadUserVariables(const int num, const QString &cmdLine); //! TODO
+    bool runSetUserVariable(const int num, const QString &cmdLine);
+    bool runSaveUserVariables(const int num, const QString &cmdLine);
+    bool runLoadUserVariables(const int num, const QString &cmdLine);
 // Other
-    bool runFlushCommonLog(const int num, const QString &cmdLine);   //! TODO
-    bool runFlushPrivateLogs(const int num, const QString &cmdLine); //! TODO
-    bool runCreateReport(const int num, const QString &cmdLine);     //! TODO
-    bool runStartProgram(const int num, const QString &cmdLine);     //! TODO
-    bool runExecuteProgram(const int num, const QString &cmdLine);   //! TODO
+    bool runFlushCommonLog(const int num, const QString &cmdLine);
+    bool runFlushPrivateLogs(const int num, const QString &cmdLine);
+    bool runCreateReport(const int num, const QString &cmdLine);
+    bool runStartProgram(const int num, const QString &cmdLine);
+    bool runExecuteProgram(const int num, const QString &cmdLine);
     bool runEnableAlerts(const int num, const QString &cmdLine);
     bool runDisableAlerts(const int num, const QString &cmdLine);
     bool runPauseAlerts(const int num, const QString &cmdLine);

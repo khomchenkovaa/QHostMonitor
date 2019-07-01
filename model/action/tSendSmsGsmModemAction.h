@@ -14,7 +14,7 @@ class SendSmsGsmModemAction : public TestAction
     AUTO_PROPERTY(QString, MsgTemplate) // Msg. template
 
 public:
-    explicit SendSmsGsmModemAction(QObject *parent = 0);
+    explicit SendSmsGsmModemAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

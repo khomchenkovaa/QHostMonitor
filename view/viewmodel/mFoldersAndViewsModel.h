@@ -20,7 +20,7 @@ private:
     TNode         *m_root;
     ModelMode      m_mode;
 public:
-    explicit FoldersAndViewsModel(HMListService *hml, ModelMode mode = ModelMode::FOLDERS_AND_VIEWS, QObject *parent = 0);
+    explicit FoldersAndViewsModel(HMListService *hml, ModelMode mode = ModelMode::FOLDERS_AND_VIEWS, QObject *parent = nullptr);
 
     QVariant    data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;

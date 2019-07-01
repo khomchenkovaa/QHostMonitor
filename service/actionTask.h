@@ -17,7 +17,7 @@ class ActionTask : public QObject, public QRunnable
     TestAction *m_action;
 
 public:
-    explicit ActionTask(TTest *test, TestAction *act, QObject *parent=0 );
+    explicit ActionTask(TTest *test, TestAction *act, QObject *parent=nullptr );
 
     void run(); // QRunnable interface
 };

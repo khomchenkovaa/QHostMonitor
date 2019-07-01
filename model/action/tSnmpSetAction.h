@@ -17,7 +17,7 @@ class SnmpSetAction : public TestAction
     AUTO_PROPERTY(QString, SetValue) // Set value
 
 public:
-    explicit SnmpSetAction(QObject *parent = 0);
+    explicit SnmpSetAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

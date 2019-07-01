@@ -14,10 +14,10 @@ class SnmpTrapWidgets : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SnmpTrapWidgets(QWidget *parent = 0);
+    explicit SnmpTrapWidgets(QWidget *parent = nullptr);
     ~SnmpTrapWidgets();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

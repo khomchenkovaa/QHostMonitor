@@ -12,7 +12,7 @@ class DisconnectDialupConnectionAction : public TestAction
     AUTO_PROPERTY(QString, DialUpConnection) // Dial-up connection
 
 public:
-    explicit DisconnectDialupConnectionAction(QObject *parent = 0);
+    explicit DisconnectDialupConnectionAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

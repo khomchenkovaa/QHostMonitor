@@ -17,7 +17,7 @@ class StartServiceAction : public TestAction
     AUTO_PROPERTY(QString, ConnectAsPassword) // Password
 
 public:
-    explicit StartServiceAction(QObject *parent = 0);
+    explicit StartServiceAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

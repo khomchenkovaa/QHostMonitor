@@ -17,7 +17,7 @@ class SendMessageToPagerTapAction : public TestAction
     AUTO_PROPERTY(QString, MsgTemplate) // Msg Template
 
 public:
-    explicit SendMessageToPagerTapAction(QObject *parent = 0);
+    explicit SendMessageToPagerTapAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

@@ -16,6 +16,13 @@ TestAction::TestAction(QObject *parent) :
 
 /***********************************************/
 
+TestAction::~TestAction()
+{
+
+}
+
+/***********************************************/
+
 void TestAction::run(TTest *test)
 {
     Q_UNUSED(test)
@@ -27,7 +34,7 @@ void TestAction::run(TTest *test)
 QStringList TestAction::description(bool isBad)
 {
     QStringList result;
-    TAction action = TAction::actionList.at((int)a_Action);
+    TAction action = TAction::actionList.at(static_cast<int>(a_Action));
     result.append(QString("Action: %1").arg(action.name));
     if (a_Mode == TActionMode::Standard) {
         result.append(QString("Start after: %1 consecutive '%2' result(s)").arg(a_StartAfter).arg(isBad? "bad":"good"));

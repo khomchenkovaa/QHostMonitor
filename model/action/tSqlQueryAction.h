@@ -16,7 +16,7 @@ class SqlQueryAction : public TestAction
     AUTO_PROPERTY(int, Timeout) // Timeout
 
 public:
-    explicit SqlQueryAction(QObject *parent = 0);
+    explicit SqlQueryAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

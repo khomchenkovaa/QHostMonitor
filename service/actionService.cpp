@@ -1,7 +1,7 @@
 #include "actionService.h"
 #include "utils.h"
 #include "actionTask.h"
-#include "action/sdpoTestActions.h"
+#include "sdpoTestActions.h"
 #include "hmScriptRunner.h"
 #include "gData.h"
 

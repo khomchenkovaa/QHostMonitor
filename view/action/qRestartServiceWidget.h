@@ -14,10 +14,10 @@ class RestartServiceWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit RestartServiceWidget(QWidget *parent = 0);
+    explicit RestartServiceWidget(QWidget *parent = nullptr);
     ~RestartServiceWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

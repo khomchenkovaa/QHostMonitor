@@ -14,10 +14,10 @@ class SendEmailSmtpWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendEmailSmtpWidget(QWidget *parent = 0);
+    explicit SendEmailSmtpWidget(QWidget *parent = nullptr);
     ~SendEmailSmtpWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
       virtual void reset();
     virtual TestAction *save(TestAction *item);
 

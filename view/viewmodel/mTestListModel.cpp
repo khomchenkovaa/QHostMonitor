@@ -15,7 +15,7 @@ TestListModel::TestListModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
     m_recursive = true;
-    m_current = 0;
+    m_current = nullptr;
     setProfile();
 }
 
@@ -99,7 +99,7 @@ Qt::ItemFlags TestListModel::flags(const QModelIndex &index) const
 TNode *TestListModel::itemFromIndex(const QModelIndex &index)
 {
     if (!index.isValid())
-        return 0;
+        return nullptr;
 
     return m_list.at(index.row());
 }

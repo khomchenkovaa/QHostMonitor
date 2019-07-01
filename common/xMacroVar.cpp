@@ -2,6 +2,8 @@
 
 namespace SDPO {
 
+/******************************************************************/
+
 extern const std::vector<MVGroupsStruct> mvGroupsList = {
     { Macro::TP, "Test properties" },
     { Macro::TS, "Test status" },
@@ -11,6 +13,8 @@ extern const std::vector<MVGroupsStruct> mvGroupsList = {
     { Macro::ST, "Statistics" },
     { Macro::SP, "Test methods specific variables" }
 };
+
+/******************************************************************/
 
 extern const std::vector<MVariablesStruct> mvVariablesList = {
     { Macro::Unknown, "Unknown", Macro::TP },
@@ -155,5 +159,7 @@ extern const std::vector<MVariablesStruct> mvVariablesList = {
     { Macro::TrapAllValues_NameValue,	"TrapAllValues_NameValue",	Macro::SP },
     { Macro::TrapAllValues_NameValueShort,	"TrapAllValues_NameValueShort",	Macro::SP }
 };
+
+/******************************************************************/
 
 } // namespace SDPO

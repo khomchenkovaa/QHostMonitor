@@ -34,7 +34,7 @@ QVariant FoldersAndViewsModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags FoldersAndViewsModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return 0;
+        return nullptr;
 
     return QAbstractItemModel::flags(index);
 }
@@ -53,7 +53,7 @@ QModelIndex FoldersAndViewsModel::index(int row, int column, const QModelIndex &
     else
         parentItem = static_cast<TNode*>(parent.internalPointer());
 
-    TNode *childItem = 0;
+    TNode *childItem = nullptr;
 
     if (!(parentItem->parentNode()) && m_mode == VIEWS) {
         childItem = parentItem->lastChild();
@@ -210,7 +210,7 @@ QModelIndex FoldersAndViewsModel::deleteView(const QModelIndex &view)
 TNode *FoldersAndViewsModel::itemFromIndex(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return 0;
+        return nullptr;
 
     TNode *item = static_cast<TNode*>(index.internalPointer());
     return item;

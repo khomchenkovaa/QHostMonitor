@@ -16,10 +16,10 @@ class ChangeTestIntervalWidget : public ActionWidget
 
 public:
     //QTime t;
-    explicit ChangeTestIntervalWidget(QWidget *parent = 0);
+    explicit ChangeTestIntervalWidget(QWidget *parent = nullptr);
     ~ChangeTestIntervalWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

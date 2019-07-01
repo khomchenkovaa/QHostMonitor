@@ -3,67 +3,59 @@
 namespace SDPO {
 
 /*****************************************************************/
+// Test Status
+const QStringList TEnums::testStatusList = QStringList()
+        << QObject::tr("Not tested")      // NotTested
+        << QObject::tr("Host is alive")   // HostAlive
+        << QObject::tr("No answer")       // NoAnswer
+        << QObject::tr("Unknown")         // Unknown
+        << QObject::tr("Unknown host")    // UnknownHost
+        << QObject::tr("Checking")        // Checking
+        << QObject::tr("Resolving")       // Resolving
+        << QObject::tr("Ok")              // Ok
+        << QObject::tr("Bad")             // Bad
+        << QObject::tr("Disabled")        // Disabled
+        << QObject::tr("Bad contents")    // BadContents
+        << QObject::tr("Wait for Master") // WaitForMaster
+        << QObject::tr("Out of schedule") // OutOfSchedule
+        << QObject::tr("Paused")          // Paused
+        << QObject::tr("Warning")         // Warning
+        << QObject::tr("Normal");         // Normal
 
-QStringList TEnums::testStatusList;
-QStringList TEnums::simpleStatusList;
-QStringList TEnums::permissions;
+/*****************************************************************/
+// Simple Status
+const QStringList TEnums::simpleStatusList = QStringList()
+        << QObject::tr("UP")
+        << QObject::tr("DOWN")
+        << QObject::tr("UNKNOWN")
+        << QObject::tr("WARNING");
 
 /*****************************************************************/
 
-void TEnums::init()
-{
-    // Test Status
-    if (testStatusList.count()) return;
-    testStatusList << QObject::tr("Not tested");      // NotTested
-    testStatusList << QObject::tr("Host is alive");   // HostAlive
-    testStatusList << QObject::tr("No answer");       // NoAnswer
-    testStatusList << QObject::tr("Unknown");         // Unknown
-    testStatusList << QObject::tr("Unknown host");    // UnknownHost
-    testStatusList << QObject::tr("Checking");        // Checking
-    testStatusList << QObject::tr("Resolving");       // Resolving
-    testStatusList << QObject::tr("Ok");              // Ok
-    testStatusList << QObject::tr("Bad");             // Bad
-    testStatusList << QObject::tr("Disabled");        // Disabled
-    testStatusList << QObject::tr("Bad contents");    // BadContents
-    testStatusList << QObject::tr("Wait for Master"); // WaitForMaster
-    testStatusList << QObject::tr("Out of schedule"); // OutOfSchedule
-    testStatusList << QObject::tr("Paused");          // Paused
-    testStatusList << QObject::tr("Warning");         // Warning
-    testStatusList << QObject::tr("Normal");          // Normal
-
-    // Simple Status
-    if (simpleStatusList.count()) return;
-    simpleStatusList << QObject::tr("UP");      // UP
-    simpleStatusList << QObject::tr("DOWN");    // DOWN
-    simpleStatusList << QObject::tr("UNKNOWN"); // UNKNOWN
-    simpleStatusList << QObject::tr("WARNING"); // WARNING
-
-    // User permissions
-    if (permissions.count()) return;
-    permissions << QObject::tr("add tests/folders");                 // PRM_CREATE
-    permissions << QObject::tr("configure tests/folders");           // PRM_EDIT
-    permissions << QObject::tr("remove tests/folders");              // PRM_DELETE
-    permissions << QObject::tr("disable/enable tests");              // PRM_DISABLE
-    permissions << QObject::tr("reset statistic");                   // PRM_STATISTIC
-    permissions << QObject::tr("start/stop monitoring");             // PRM_MONITORING
-    permissions << QObject::tr("change options");                    // PRM_OPTIONS
-    permissions << QObject::tr("manage schedules");                  // PRM_SCHEDULES
-    permissions << QObject::tr("manage mail profiles");              // PRM_MAIL_PROFILES
-    permissions << QObject::tr("manage color profiles");             // PRM_COLOR_PROFILES
-    permissions << QObject::tr("manage report profiles");            // PRM_REPORT_PROFILES
-    permissions << QObject::tr("manage action profiles");            // PRM_ACTION_PROFILES
-    permissions << QObject::tr("manage user profiles");              // PRM_USER_PROFILES
-    permissions << QObject::tr("acknowledge test status");           // PRM_ACKNOWLEDGE
-    permissions << QObject::tr("pause/resume tests");                // PRM_PAUSE
-    permissions << QObject::tr("edit GUI options for the account");  // PRM_GUI
-    permissions << QObject::tr("edit GUI options for ALL accounts"); // PRM_GUI_ALL
-    permissions << QObject::tr("view test settings (read-only)");    // PRM_READ
-}
+const QStringList TEnums::permissions = QStringList()
+        << QObject::tr("add tests/folders")                 // PRM_CREATE
+        << QObject::tr("configure tests/folders")           // PRM_EDIT
+        << QObject::tr("remove tests/folders")              // PRM_DELETE
+        << QObject::tr("disable/enable tests")              // PRM_DISABLE
+        << QObject::tr("reset statistic")                   // PRM_STATISTIC
+        << QObject::tr("start/stop monitoring")             // PRM_MONITORING
+        << QObject::tr("change options")                    // PRM_OPTIONS
+        << QObject::tr("manage schedules")                  // PRM_SCHEDULES
+        << QObject::tr("manage mail profiles")              // PRM_MAIL_PROFILES
+        << QObject::tr("manage color profiles")             // PRM_COLOR_PROFILES
+        << QObject::tr("manage report profiles")            // PRM_REPORT_PROFILES
+        << QObject::tr("manage action profiles")            // PRM_ACTION_PROFILES
+        << QObject::tr("manage user profiles")              // PRM_USER_PROFILES
+        << QObject::tr("acknowledge test status")           // PRM_ACKNOWLEDGE
+        << QObject::tr("pause/resume tests")                // PRM_PAUSE
+        << QObject::tr("edit GUI options for the account")  // PRM_GUI
+        << QObject::tr("edit GUI options for ALL accounts") // PRM_GUI_ALL
+        << QObject::tr("view test settings (read-only)");   // PRM_READ
 
 /*****************************************************************/
 
 QString TEnums::testStatus(TestStatus status) {
-    return testStatusList.at((int)status);
+    return testStatusList.at(static_cast<int>(status));
 }
 
 /*****************************************************************/
@@ -73,13 +65,13 @@ TestStatus TEnums::testStatusFromString(const QString &name) {
     if (idx == -1) {
         return TestStatus::Unknown;
     }
-    return (TestStatus)idx;
+    return static_cast<TestStatus>(idx);
 }
 
 /*****************************************************************/
 
 QString TEnums::simpleStatus(SimpleStatusID status) {
-    return simpleStatusList.at((int)status);
+    return simpleStatusList.at(static_cast<int>(status));
 }
 
 /*****************************************************************/
@@ -107,13 +99,13 @@ SimpleStatusID TEnums::simpleStatusFromString(const QString &name, bool *ok)
 
 QString TEnums::permissionName(const PermissionID id)
 {
-    return permissions.at((int)id);
+    return permissions.at(static_cast<int>(id));
 }
 
 /*****************************************************************/
 
 MVariablesStruct TEnums::mVar(Macro::Variable mv) {
-    if ((unsigned)mv >= mvVariablesList.size()) mv = Macro::Unknown;
+    if (static_cast<unsigned>(mv) >= mvVariablesList.size()) mv = Macro::Unknown;
     return mvVariablesList.at(mv);
 }
 

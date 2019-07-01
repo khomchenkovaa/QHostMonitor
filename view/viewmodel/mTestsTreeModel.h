@@ -11,7 +11,7 @@ class TestsTreeModel : public QAbstractItemModel {
 
     TNode *m_root;
 public:
-    explicit TestsTreeModel(TNode *root, QObject *parent = 0);
+    explicit TestsTreeModel(TNode *root, QObject *parent = nullptr);
 
     QVariant data(const QModelIndex &index, int role) const Q_DECL_OVERRIDE;
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;

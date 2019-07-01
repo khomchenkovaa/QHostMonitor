@@ -12,7 +12,7 @@ class SendMessageToJabberAction : public TestAction
     AUTO_PROPERTY(QString, MsgTemplate) // Message template
 
 public:
-    explicit SendMessageToJabberAction(QObject *parent = 0);
+    explicit SendMessageToJabberAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

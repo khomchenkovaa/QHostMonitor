@@ -21,7 +21,8 @@ TCPServer::~TCPServer()
 
 void TCPServer::listen(const QHostAddress &address, quint16 port)
 {
-    if(!QTcpServer::listen(address,port)) {
+    m_Port = port;
+    if(!QTcpServer::listen(address,m_Port)) {
         qCritical() << this << errorString();
         return;
     }
@@ -43,7 +44,7 @@ void TCPServer::close()
 
 quint16 TCPServer::port()
 {
-
+    return m_Port;
 }
 
 /*****************************************************************/

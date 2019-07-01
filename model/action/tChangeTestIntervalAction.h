@@ -17,7 +17,7 @@ class ChangeTestIntervalAction : public TestAction
     AUTO_PROPERTY(int, Percent) // Percent
 
 public:
-    explicit ChangeTestIntervalAction(QObject *parent = 0);
+    explicit ChangeTestIntervalAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

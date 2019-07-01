@@ -11,7 +11,7 @@
 #include "tNode.h"
 #include "tAgent.h"
 #include "tSchedule.h"
-#include "method/tTestMethod.h"
+#include "tTestMethod.h"
 
 namespace SDPO {
 

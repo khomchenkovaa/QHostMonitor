@@ -14,10 +14,10 @@ class SendSmsGsmModemWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendSmsGsmModemWidget(QWidget *parent = 0);
+    explicit SendSmsGsmModemWidget(QWidget *parent = nullptr);
     ~SendSmsGsmModemWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual void reset();
     virtual TestAction *save(TestAction *item);
 

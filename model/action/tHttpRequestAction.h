@@ -14,7 +14,7 @@ class HttpRequestAction : public TestAction
     AUTO_PROPERTY(QString, Request) // Request
 
 public:
-    explicit HttpRequestAction(QObject *parent = 0);
+    explicit HttpRequestAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

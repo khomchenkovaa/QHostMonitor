@@ -18,7 +18,7 @@ class SendEmailSmtpAction : public TestAction
     AUTO_PROPERTY(QString, AttachFileSelect) //Attach File Select
 
 public:
-    explicit SendEmailSmtpAction(QObject *parent = 0);
+    explicit SendEmailSmtpAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

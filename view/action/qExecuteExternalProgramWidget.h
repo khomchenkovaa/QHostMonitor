@@ -14,10 +14,10 @@ class ExecuteExternalProgramWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit ExecuteExternalProgramWidget(QWidget *parent = 0);
+    explicit ExecuteExternalProgramWidget(QWidget *parent = nullptr);
     ~ExecuteExternalProgramWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

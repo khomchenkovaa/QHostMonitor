@@ -14,7 +14,7 @@ class RecordSdpoLogAction : public TestAction
       BOOL_PROPERTY(AddSpecificLog) // Add record into specific log .txt, .htm or .dbf)
       AUTO_PROPERTY(QString, SpecificLogFile) // Select specific log file
 public:
-    explicit RecordSdpoLogAction(QObject *parent = 0);
+    explicit RecordSdpoLogAction(QObject *parent = nullptr);
 
       virtual void run(TTest *test);
       virtual QStringList description(bool isBad);

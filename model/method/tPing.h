@@ -43,11 +43,9 @@
  *
  * Time to Live parameter is common for all Ping tests; specify this parameters on <em>Ping/Trace page</em> in the <em>Options</em> dialog.
  *
- * <b> Status is bad when N (or more) % of packet lost </b>
+ * <b> Alert if loss ratio N% (or more)</b>
  *
  * A packet loss threshold can be specified for a Ping test, based on which the test status is determined.
- * That is, in HostMonitor version 1.xx a test was considered failed if no echo packets were received (100% loss).
- * Now you can set the packet loss limit.
  *
  * <b> Display mode </b>
  *
@@ -55,6 +53,14 @@
  * \li <tt>Reply time</tt> - the "Reply" field will represent average reply time.
  * \li <tt>% of lost</tt> - display percentage of lost packets
  * \li <tt>% of received</tt> - display percentage of received packets
+ *
+ * HostMonitor may set 6 statuses for Ping tests:
+ * \li <tt>"Ok"</tt> - this status used when "Jitter" option is enabled and Jitter time within specified limit (when "Alert if lost ratio" option enabled, it should be within specified limit as well)
+ * \li <tt>"Host is alive"</tt> - this status used when "Jitter" option was not enabled and loss ratio within specified limit
+ * \li <tt>"Bad"</tt> - this status means either Jitter or Loss ratio is out of the limits
+ * \li <tt>"No answer"</tt> - HostMonitor sets "no answer" status when does not receive any response from target system
+ * \li <tt>"Unknown host"</tt> - host name could not be resolved to IP address
+ * \li <tt>"Unknown"</tt> - test performed by Remote Monitoring Agent and there is some RMA related error (e.g. HostMonitor cannot connect to the agent)
  */
 /*
  * Other pingers: src: http://www.true-random.com/homepage/projects/pinger/index.html
@@ -146,7 +152,6 @@ private: // functions
     bool errorScan(const QString &line, TTestResult &result);
     bool getPercentLossStatistics(const QString &line, PingStat &stat);
     bool getRoundTrip(const QString &line, PingStat &stat);
-
 
 };
 

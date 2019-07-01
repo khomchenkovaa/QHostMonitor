@@ -1,10 +1,12 @@
+#include "tTestAction.h"
 #include "tNode.h"
 #include "tTest.h"
 #include "tLink.h"
 #include "utils.h"
-#include <QDebug>
 #include "gData.h"
 #include "gSettings.h"
+
+#include <QDebug>
 
 namespace SDPO {
 
@@ -15,7 +17,7 @@ TNode::TNode(const int id, const QString &name, const NodeType type, QObject *pa
     m_ID(id),
     m_Name(name),
     m_Type(type),
-    m_parentNode(0)
+    m_parentNode(nullptr)
 {
     m_Path = QString();
     m_CreatedAt =  QDateTime::currentDateTime();
@@ -108,7 +110,7 @@ QList<TNode *> TNode::foldersRecursive()
 TNode *TNode::child(int idx, bool withTests)
 {
     if (idx < 0) {
-        return 0;
+        return nullptr;
     }
     if (idx < m_childNodes.count()) {
         return m_childNodes.value(idx);
@@ -116,7 +118,7 @@ TNode *TNode::child(int idx, bool withTests)
     if (withTests && idx < (m_childTests.count() + m_childNodes.count())) {
         return m_childTests.value(idx - m_childNodes.count());
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -124,12 +126,12 @@ TNode *TNode::child(int idx, bool withTests)
 TNode *TNode::test(int idx)
 {
     if (idx < 0) {
-        return 0;
+        return nullptr;
     }
     if (idx < m_childTests.count()) {
         return m_childTests.value(idx);
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -139,7 +141,7 @@ TNode *TNode::lastChild()
     if (m_childNodes.count()) {
         return m_childNodes.value(m_childNodes.count()-1);
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -149,7 +151,7 @@ TNode *TNode::findChild(QString nm)
     foreach(TNode *node , m_childNodes) {
         if (node->getName() == nm) return node;
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -161,7 +163,7 @@ TNode *TNode::findChildRecursive(QString nm)
         TNode *found = node->findChildRecursive(nm);
         if (found) return found;
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -173,7 +175,7 @@ TNode *TNode::findByID(int id)
         TNode *found = node->findByID(id);
         if (found) return found;
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -189,7 +191,7 @@ TNode *TNode::findTest(QString nm)
         TNode *test = node->findTest(nm);
         if (test) return test;
     }
-    return 0;
+    return nullptr;
 
 }
 
@@ -207,7 +209,7 @@ TNode *TNode::testByID(int id)
         TNode *found = node->testByID(id);
         if (found) return found;
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/
@@ -344,7 +346,7 @@ TLink *TNode::findLinkByTest(TTest *test)
             return link;
         }
     }
-    return 0;
+    return nullptr;
 }
 
 /*************************************************/

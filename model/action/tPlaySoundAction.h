@@ -13,7 +13,7 @@ class PlaySoundAction : public TestAction
     BOOL_PROPERTY(WakeUp) // Show WakeUp window and plays sound repeatedly
 
 public:
-    explicit PlaySoundAction(QObject *parent = 0);
+    explicit PlaySoundAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

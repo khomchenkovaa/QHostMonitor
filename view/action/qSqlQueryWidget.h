@@ -14,10 +14,10 @@ class SqlQueryWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SqlQueryWidget(QWidget *parent = 0);
+    explicit SqlQueryWidget(QWidget *parent = nullptr);
     ~SqlQueryWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

@@ -14,10 +14,10 @@ class ShowPopupWindowWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit ShowPopupWindowWidget(QWidget *parent = 0);
+    explicit ShowPopupWindowWidget(QWidget *parent = nullptr);
     ~ShowPopupWindowWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction* save(TestAction *item);
 
 private slots:

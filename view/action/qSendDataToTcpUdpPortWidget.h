@@ -14,10 +14,10 @@ class SendDataToTcpUdpPortWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendDataToTcpUdpPortWidget(QWidget *parent = 0);
+    explicit SendDataToTcpUdpPortWidget(QWidget *parent = nullptr);
     ~SendDataToTcpUdpPortWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private slots:

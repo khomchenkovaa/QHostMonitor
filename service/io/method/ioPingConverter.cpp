@@ -98,7 +98,7 @@ TTestMethod *IOPingConverter::fromJsonObject(QJsonObject jsonObj)
     test->setPackets(jsonObj.value(SP_RETRIES).toInt());
     test->setBadCriteria(jsonObj.value(SP_MAX_LOST_RATIO).toInt());
     test->setPacketSize(jsonObj.value(SP_PACKET_SIZE).toInt());
-    TPing::DisplayMode dispMode = (TPing::DisplayMode) m_DisplayModeEnum.keyToValue(jsonObj.value(SP_DISPLAY_MODE).toString().toStdString().data());
+    TPing::DisplayMode dispMode = static_cast<TPing::DisplayMode> (m_DisplayModeEnum.keyToValue(jsonObj.value(SP_DISPLAY_MODE).toString().toStdString().data()));
     test->setDisplayMode(dispMode);
     test->setDontFragment(jsonObj.value(SP_DONT_FRAGMENT).toBool());
     return test;

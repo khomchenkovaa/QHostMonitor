@@ -14,10 +14,10 @@ class SendMessageToBeeperWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendMessageToBeeperWidget(QWidget *parent = 0);
+    explicit SendMessageToBeeperWidget(QWidget *parent = nullptr);
     ~SendMessageToBeeperWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

@@ -22,7 +22,7 @@ class ActionService : public ManageableService
     HMListService *m_HML;
     LogService    *m_Log;
 public:
-    explicit ActionService(HMListService *hml, LogService *log, QObject *parent = 0);
+    explicit ActionService(HMListService *hml, LogService *log, QObject *parent = nullptr);
     ~ActionService();
 
 signals:

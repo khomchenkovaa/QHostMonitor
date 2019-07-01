@@ -30,7 +30,7 @@ QVariant TestsTreeModel::data(const QModelIndex &index, int role) const
 Qt::ItemFlags TestsTreeModel::flags(const QModelIndex &index) const
 {
     if (!index.isValid())
-        return 0;
+        return nullptr;
 
     return QAbstractItemModel::flags(index);
 }

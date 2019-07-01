@@ -20,7 +20,7 @@ class SendMessageToPagerSnppAction : public TestAction
     AUTO_PROPERTY(QString, LoginAsPassword) // LoginAsPassword
 
 public:
-    explicit SendMessageToPagerSnppAction(QObject *parent = 0);
+    explicit SendMessageToPagerSnppAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

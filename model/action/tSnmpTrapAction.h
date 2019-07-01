@@ -20,7 +20,7 @@ class SnmpTrapAction : public TestAction
     AUTO_PROPERTY(QString, MibType) // MIB type
 
 public:
-    explicit SnmpTrapAction(QObject *parent = 0);
+    explicit SnmpTrapAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

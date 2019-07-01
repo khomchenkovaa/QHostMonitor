@@ -14,10 +14,10 @@ class RebootLocalMachineWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit RebootLocalMachineWidget(QWidget *parent = 0);
+    explicit RebootLocalMachineWidget(QWidget *parent = nullptr);
     ~RebootLocalMachineWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

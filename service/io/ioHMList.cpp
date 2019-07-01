@@ -729,7 +729,7 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
 
         // schedule
         QString schedModeString = jsonObj.value(PRM_SCHEDULE_MODE).toString();
-        TSchedule::ScheduleMode scheduleMode = (TSchedule::ScheduleMode)scheduleModeEnum.keyToValue(schedModeString.toStdString().data());
+        TSchedule::ScheduleMode scheduleMode = static_cast<TSchedule::ScheduleMode>(scheduleModeEnum.keyToValue(schedModeString.toStdString().data()));
         switch(scheduleMode) {
         case TSchedule::Regular : {
             int interval = jsonObj.value(PRM_INTERVAL).toInt();

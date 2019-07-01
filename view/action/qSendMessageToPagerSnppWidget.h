@@ -14,10 +14,10 @@ class SendMessageToPagerSnppWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit SendMessageToPagerSnppWidget(QWidget *parent = 0);
+    explicit SendMessageToPagerSnppWidget(QWidget *parent = nullptr);
     ~SendMessageToPagerSnppWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual void reset();
     virtual TestAction *save(TestAction *item);
 

@@ -14,10 +14,10 @@ class RebootRemoteSystemWidget : public ActionWidget
     Q_OBJECT
 
 public:
-    explicit RebootRemoteSystemWidget(QWidget *parent = 0);
+    explicit RebootRemoteSystemWidget(QWidget *parent = nullptr);
     ~RebootRemoteSystemWidget();
 
-    virtual void init(TestAction *item = 0);
+    virtual void init(TestAction *item = nullptr);
     virtual TestAction *save(TestAction *item);
 
 private:

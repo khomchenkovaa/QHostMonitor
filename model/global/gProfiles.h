@@ -10,7 +10,7 @@
 
 namespace SDPO {
 
-class TestAction;
+QT_FORWARD_DECLARE_CLASS(TestAction)
 
 /*****************************************************************/
 
@@ -21,12 +21,7 @@ struct GActionProfile
     QList<TestAction*> onGood;
     QStringList        comments;
 
-    void clearActions() {
-        qDeleteAll(onBad);
-        onBad.clear();
-        qDeleteAll(onGood);
-        onGood.clear();
-    }
+    void clearActions();
 };
 
 /*****************************************************************/

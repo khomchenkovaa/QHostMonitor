@@ -173,7 +173,7 @@ void ShellMng::on_btnApply_clicked()
 
 void ShellMng::on_btnUsage_clicked()
 {
-    //! TODO
+    //! TODO implement Shell Script usage dialog
 }
 
 /******************************************************************/

@@ -8,8 +8,6 @@
 
 namespace SDPO {
 
-class TTest;
-
 class TestAction : public QObject
 {
     Q_OBJECT
@@ -24,7 +22,8 @@ class TestAction : public QObject
     AUTO_PROPERTY(QString, Condition)
 
 public:
-    explicit TestAction(QObject *parent = 0);
+    explicit TestAction(QObject *parent = nullptr);
+    virtual ~TestAction();
 //    explicit TestAction(const TestAction &action);
 
     virtual void run(TTest *test);

@@ -64,7 +64,7 @@ class ActionsTreeModel : public QAbstractTableModel
     QList<TestAction*> m_data;
     QStringList m_header;
 public:
-    ActionsTreeModel(QObject *parent = 0);
+    ActionsTreeModel(QObject *parent = nullptr);
 
     virtual int rowCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;
     virtual int columnCount(const QModelIndex &parent) const Q_DECL_OVERRIDE;

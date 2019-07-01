@@ -13,8 +13,6 @@ class RCIServer : public TCPServer
     HMListService *m_HML;
 
     bool m_Enabled;
-    quint16 m_Port;
-
     bool m_LogAccepted;
     bool m_LogAcceptedWatchDog;
     bool m_LogRejected;

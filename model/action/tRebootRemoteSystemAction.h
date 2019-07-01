@@ -16,7 +16,7 @@ class RebootRemoteSystemAction : public TestAction
     BOOL_PROPERTY(ForceProcesses) // Force processes to terminate
 
 public:
-    explicit RebootRemoteSystemAction(QObject *parent = 0);
+    explicit RebootRemoteSystemAction(QObject *parent = nullptr);
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

@@ -16,7 +16,7 @@ class TRoot : public TNode
     TFolder *m_rootView;
 
 public:
-    explicit TRoot(QObject *parent = 0);
+    explicit TRoot(QObject *parent = nullptr);
     ~TRoot();
 
     // test list properties
@@ -33,8 +33,8 @@ signals:
     void newTest(TNode *test);
     void newLink(TNode *link);
     void delView(TNode *view);
-    void delTest(TNode *test); //! TODO
-    void delLink(TNode *link); //! TODO
+    void delTest(TNode *test); //! TODO delTest signal usage
+    void delLink(TNode *link); //! TODO delLink signal usage
     void cutTest(TNode *test);
     void pasteTest(TNode *test);
 

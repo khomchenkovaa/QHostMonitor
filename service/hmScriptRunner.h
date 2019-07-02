@@ -131,34 +131,34 @@ private:
     bool runCopyAllTests(const int num, const QString &cmdLine);
     bool runCopyIntoSelectedFolders(const int num, const QString &cmdLine);
 // Manipulation with tests
-    bool runRefreshAll(const int num, const QString &cmdLine);                //! TODO
-    bool runResetAll(const int num, const QString &cmdLine);                  //! TODO
-    bool runDisableAllTests(const int num, const QString &cmdLine);           //! TODO
-    bool runEnableAllTests(const int num, const QString &cmdLine);            //! TODO
-    bool runDisableTest(const int num, const QString &cmdLine);               //! TODO
-    bool runEnableTest(const int num, const QString &cmdLine);                //! TODO
-    bool runRefreshTest(const int num, const QString &cmdLine);               //! TODO
-    bool runResetTest(const int num, const QString &cmdLine);                 //! TODO
-    bool runPauseTest(const int num, const QString &cmdLine);                 //! TODO
-    bool runResumeTest(const int num, const QString &cmdLine);                //! TODO
-    bool runSetTestParam(const int num, const QString &cmdLine);              //! TODO
-    bool runReplaceTestParam(const int num, const QString &cmdLine);          //! TODO
-    bool runAckTestStatus(const int num, const QString &cmdLine);             //! TODO
-    bool runResetAcknowledgements(const int num, const QString &cmdLine);     //! TODO
-    bool runResetRecurrencesTest(const int num, const QString &cmdLine);      //! TODO
-    bool runResetRecurrencesAll(const int num, const QString &cmdLine);       //! TODO
-    bool runResetEventLogRefPoint(const int num, const QString &cmdLine);     //! TODO
-    bool runDisableTestByID(const int num, const QString &cmdLine);           //! TODO
-    bool runEnableTestByID(const int num, const QString &cmdLine);            //! TODO
-    bool runRefreshTestByID(const int num, const QString &cmdLine);           //! TODO
-    bool runRefreshIrregularTestByID(const int num, const QString &cmdLine);  //! TODO
-    bool runResetTestByID(const int num, const QString &cmdLine);             //! TODO
-    bool runPauseTestByID(const int num, const QString &cmdLine);             //! TODO
-    bool runResumeTestByID(const int num, const QString &cmdLine);            //! TODO
-    bool runAckTestStatusbyID(const int num, const QString &cmdLine);         //! TODO
-    bool runResetAcknowledgementsByID(const int num, const QString &cmdLine); //! TODO
-    bool runSetTestParamByID(const int num, const QString &cmdLine);          //! TODO
-    bool runReplaceTestParamByID(const int num, const QString &cmdLine);      //! TODO
+    bool runRefreshAll(const int num, const QString &cmdLine);
+    bool runResetAll(const int num, const QString &cmdLine);
+    bool runDisableAllTests(const int num, const QString &cmdLine);
+    bool runEnableAllTests(const int num, const QString &cmdLine);
+    bool runDisableTest(const int num, const QString &cmdLine);
+    bool runEnableTest(const int num, const QString &cmdLine);
+    bool runRefreshTest(const int num, const QString &cmdLine);
+    bool runResetTest(const int num, const QString &cmdLine);
+    bool runPauseTest(const int num, const QString &cmdLine);
+    bool runResumeTest(const int num, const QString &cmdLine);
+    bool runSetTestParam(const int num, const QString &cmdLine);
+    bool runReplaceTestParam(const int num, const QString &cmdLine);
+    bool runAckTestStatus(const int num, const QString &cmdLine);
+    bool runResetAcknowledgements(const int num, const QString &cmdLine);
+    bool runResetRecurrencesTest(const int num, const QString &cmdLine);
+    bool runResetRecurrencesAll(const int num, const QString &cmdLine);
+    bool runResetEventLogRefPoint(const int num, const QString &cmdLine);
+    bool runDisableTestByID(const int num, const QString &cmdLine);
+    bool runEnableTestByID(const int num, const QString &cmdLine);
+    bool runRefreshTestByID(const int num, const QString &cmdLine);
+    bool runRefreshIrregularTestByID(const int num, const QString &cmdLine);
+    bool runResetTestByID(const int num, const QString &cmdLine);
+    bool runPauseTestByID(const int num, const QString &cmdLine);
+    bool runResumeTestByID(const int num, const QString &cmdLine);
+    bool runAckTestStatusbyID(const int num, const QString &cmdLine);
+    bool runResetAcknowledgementsByID(const int num, const QString &cmdLine);
+    bool runSetTestParamByID(const int num, const QString &cmdLine);
+    bool runReplaceTestParamByID(const int num, const QString &cmdLine);
 // Global Variable Commands
     bool runSetUserVariable(const int num, const QString &cmdLine);
     bool runSaveUserVariables(const int num, const QString &cmdLine);

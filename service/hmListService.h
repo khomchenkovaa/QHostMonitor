@@ -49,16 +49,16 @@ public:
     // getters and setters
     HMListInfo info() const { return m_Info; }
     void       setInfo(const HMListInfo &in) { m_Info = in; }
-    QUuid   guid() const { return m_Info.guid; }
-    void    setGuid(const QUuid guid) { m_Info.guid = guid; }
-    bool    isModelModified() const { return m_Info.modified; }
-    QString currentFileName() const { return m_Info.fileName; }
-    void    setFileName(const QString &value) { m_Info.fileName = value; }
-    qint64  fileSize() const { return m_Info.fileSize; }
-    bool    isStoreHistoricalData() const { return m_Info.storeHistoricalData; }
-    void    setStoreHistoricalData(const bool value) { m_Info.storeHistoricalData=value; }
-    TNode  *currentFolder() { return m_CurFolder; }
-    void    setCurrentFolder(TNode* folder) { m_CurFolder = folder; }
+    QUuid      guid() const { return m_Info.guid; }
+    void       setGuid(const QUuid guid) { m_Info.guid = guid; }
+    bool       isModelModified() const { return m_Info.modified; }
+    QString    currentFileName() const { return m_Info.fileName; }
+    void       setFileName(const QString &value) { m_Info.fileName = value; }
+    qint64     fileSize() const { return m_Info.fileSize; }
+    bool       isStoreHistoricalData() const { return m_Info.storeHistoricalData; }
+    void       setStoreHistoricalData(const bool value) { m_Info.storeHistoricalData=value; }
+    TNode     *currentFolder() { return m_CurFolder; }
+    void       setCurrentFolder(TNode* folder) { m_CurFolder = folder; }
 
     // test list properties
     bool   isCurFileExists() const { return !m_Info.fileName.isEmpty(); }
@@ -71,18 +71,20 @@ public:
     // test list content
     void addNode(TNode* parent, TNode* item);
 
-    // commands
+    // TestList commands
     bool cmdNewTestList();
     bool cmdLoadTestList(QString fileName);
     bool cmdAppendTestList(QString fileName);
     bool cmdImportFromFile(QString fileName, bool skipDuplicates = false, bool writeLog = false);
     bool cmdSaveTestList(QString fileName = QString());
     bool cmdExportHmlIntoText(QString fileName, bool commentDestFolder = false, bool commentLinks = false);
+    // Folder commands
     TNode *cmdCreateFolder(QString path);
     bool cmdSetFolderVariable(TNode* folder, QString varName, int varValue, bool inheritPartly = false);
     bool cmdSetFolderAgent(TNode* folder, QString agentName, bool unlessInherited = false);
     bool cmdCopyFolder(TNode* folder, TNode* folder2, bool r = false);
     TNode *cmdCopyTest(TNode* destFolder, QString name, TNode *test, bool skipDuplicates = false);
+    // Test commands
     bool cmdDisableTest(QString testName);
     bool cmdEnableTest(QString testName);
     bool cmdRefreshTest(QString testName);
@@ -102,11 +104,11 @@ public:
     bool cmdResetTestByID(TNode* test);
     bool cmdPauseTestByID(TNode* test, int inteval_minutes);
     bool cmdResumeTestByID(TNode* test, int inteval_minutes);
-    bool cmdAckTestStatusbyID(TNode* test, QString StopAlerts, QString Comment);
-    bool cmdResetAcknowledgementsByID(TNode* test);
-    bool cmdSetTestParamByID(TNode* test, QString ParameterName, int Value);
-    bool cmdReplaceTestParamByID(TNode* test, QString ParameterName, int CurrValue, int NewValue);
-    bool cmdSetUserVariable(QString varName, QString varValue);
+    bool cmdAckTestStatusbyID(int testId, bool stopAlerts, QString comment);
+    bool cmdResetAcknowledgementsByID(int testId);
+    bool cmdSetTestParamById(int testId, QString paramName, QString value);
+    bool cmdReplaceTestParamById(int testId, QString paramName, QString curValue, QString newValue);
+    // Other commands
     bool cmdCreateReport(QString reportProfileName, QString targetFileName);
     bool cmdStartProgram(QString cmdLine);
     bool cmdExecuteProgram(int timeToWait, QString cmdLine);

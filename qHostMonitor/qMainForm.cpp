@@ -504,10 +504,10 @@ void MainForm::activateActions(const bool actionEnabled)
     ui->actLinkInfo->setEnabled(actionEnabled);
     ui->actTestRemove->setEnabled(actionEnabled);
     ui->actTestRemoveWithLinks->setEnabled(actionEnabled);
-    ui->actTestEnable->setEnabled(actionEnabled); //! TODO
-    ui->actTestDisable->setEnabled(actionEnabled); //! TODO
-    ui->actTestPause->setEnabled(actionEnabled); //! TODO
-    ui->actTestResume->setEnabled(actionEnabled); //! TODO
+    ui->actTestEnable->setEnabled(actionEnabled);  //! TODO use tests properties also
+    ui->actTestDisable->setEnabled(actionEnabled); //! TODO use tests properties also
+    ui->actTestPause->setEnabled(actionEnabled);   //! TODO use tests properties also
+    ui->actTestResume->setEnabled(actionEnabled);  //! TODO use tests properties also
     ui->actPlannedPause->setEnabled(actionEnabled);
     ui->actRefreshSelectedTests->setEnabled(actionEnabled);
     ui->actResetSelectedTests->setEnabled(actionEnabled);
@@ -1267,14 +1267,14 @@ void MainForm::on_actPlannedPause_triggered()
 
 void MainForm::on_actRefreshSelectedTests_triggered()
 {
-    //! TODO
+    //! TODO implement action actRefreshSelectedTests
 }
 
 /******************************************************************/
 
 void MainForm::on_actResetSelectedTests_triggered()
 {
-    //! TODO
+    //! TODO implement action actResetSelectedTests
 }
 
 /******************************************************************/

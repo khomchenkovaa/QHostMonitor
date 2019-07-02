@@ -96,21 +96,21 @@ int TFolder::testsWarning() const
 
 int TFolder::testsBadAcknowleged() const
 {
-    return 0; //! TODO
+    return 0; //! TODO implement method testsBadAcknowleged()
 }
 
 /*************************************************/
 
 int TFolder::testsUnknownAcknowkeged() const
 {
-    return 0; //! TODO
+    return 0; //! TODO implement method testsUnknownAcknowkeged()
 }
 
 /*************************************************/
 
 int TFolder::testsWarningAcknowkeged() const
 {
-    return 0; //! TODO
+    return 0; //! TODO implement method testsWarningAcknowkeged()
 }
 
 /*************************************************/

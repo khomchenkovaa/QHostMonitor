@@ -25,8 +25,7 @@ QString GUserVars::get(const QString &key)
 
 void GUserVars::replace(const QString &oldKey, const QString &newKey)
 {
-    QString value = variables.value(oldKey, QString());
-    variables.remove(oldKey);
+    QString value = variables.take(oldKey);
     variables[newKey] = value;
 }
 

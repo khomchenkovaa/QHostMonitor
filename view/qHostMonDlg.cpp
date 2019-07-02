@@ -469,7 +469,8 @@ void HostMonDlg::init(TTest *item)
     }
     ui->chkSynchronizeCounters->setChecked(m_Item->isSynchronizeCounters());
     ui->chkSynchronizeStatusAlerts->setChecked(m_Item->isSynchronizeStatusAlerts());
-    ui->treeDependentTests->clear(); //! TODO
+    ui->treeDependentTests->clear();
+    //! TODO implement DependentTests init
 
     // optional
     ui->cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);

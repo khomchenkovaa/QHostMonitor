@@ -432,47 +432,58 @@ bool HMListService::cmdResumeTestByID(TNode* fileName, int inteval_minutes)
 
 /******************************************************************/
 
-bool HMListService::cmdAckTestStatusbyID(TNode* fileName, QString StopAlerts, QString Comment)
+bool HMListService::cmdAckTestStatusbyID(int testId, bool stopAlerts, QString comment)
 {
+    TNode *test = m_Root->findByID(testId);
+    if (test == nullptr) {
+        return false;
+    }
     //! TODO implemet method cmdAckTestStatusbyID
-    qDebug() << "TODO: cmdAckTestStatusbyID" << fileName << StopAlerts << Comment;
+    qDebug() << "TODO: cmdAckTestStatusbyID" << test->getName() << stopAlerts << comment;
     return true;
 }
 
 /******************************************************************/
 
-bool HMListService::cmdResetAcknowledgementsByID(TNode* fileName)
+bool HMListService::cmdResetAcknowledgementsByID(int testId)
 {
+    TNode *test = m_Root->findByID(testId);
+    if (test == nullptr) {
+        return false;
+    }
     //! TODO implemet method cmdResetAcknowledgementsByID
-    qDebug() << "TODO: cmdResetAcknowledgementsByID" << fileName;
+    qDebug() << "TODO: cmdResetAcknowledgementsByID" << test->getName();
     return true;
 }
 
 /******************************************************************/
 
-bool HMListService::cmdSetTestParamByID(TNode* fileName, QString ParameterName, int Value)
+bool HMListService::cmdSetTestParamById(int testId, QString paramName, QString value)
 {
-    //! TODO implemet method cmdSetTestParamByID
-    qDebug() << "TODO: cmdSetTestParamByID" << fileName << ParameterName << Value;
+    TNode *test = m_Root->findByID(testId);
+    if (test == nullptr) {
+        return false;
+    }
+    //! TODO implemet method cmdSetTestParam
+    qDebug() << "TODO: cmdSetTestParamByID" << test->getName() << paramName << value;
+    //! NOTE there is no simple way to set param to test (like in QMap)
     return true;
 }
 
 /******************************************************************/
 
-bool HMListService::cmdReplaceTestParamByID(TNode* fileName, QString ParameterName, int CurrValue, int NewValue)
+bool HMListService::cmdReplaceTestParamById(int testId, QString paramName, QString curValue, QString newValue)
 {
-    //! TODO implemet method cmdReplaceTestParamByID
-    qDebug() << "TODO: cmdReplaceTestParamByID" << fileName << ParameterName << CurrValue << NewValue;
-    return true;
-}
+    TNode *test = m_Root->findByID(testId);
+    if (test == nullptr) {
+        return false;
+    }
+    QString value = test->property(paramName).toString();
+    if (value.compare(curValue)) { // not equals
+        return false;
+    }
 
-/******************************************************************/
-
-bool HMListService::cmdSetUserVariable(QString varName, QString varValue)
-{
-    //! TODO implemet method cmdSetUserVariable
-    qDebug() << "TODO: cmdSetUserVariable" << varName << varValue;
-    return true;
+    return cmdSetTestParamById(testId, paramName, newValue);
 }
 
 /******************************************************************/

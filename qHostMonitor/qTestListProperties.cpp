@@ -40,7 +40,7 @@ void TestListProperties::setGuid(const QUuid guid)
 
 /******************************************************************/
 
-void TestListProperties::setFileSize(const int bytes)
+void TestListProperties::setFileSize(const quint64 bytes)
 {
     ui->lblFileSizeValue->setText(QString::number(bytes));
 }

@@ -287,7 +287,7 @@ public:
     QString scheduleName() const { return m_schedule.getScheduleName(); }
     QString alertProfileName() const;
     QString agentName() const { return m_agent->name(); }
-    QString alertThreshold() const { return QString(); } //! TODO
+    QString alertThreshold() const { return QString(); } //! TODO implement method alertThreshold()
     QString masterTest() const { return (m_masterTests.isEmpty()? QString(): m_masterTests.at(0).first->testName()); }
     QString masterTests() const;
     QString commentId() const { return getComment().remove(QRegExp("[^\\d]+")); }
@@ -318,7 +318,7 @@ private:
     // Represents “Reply” field with some characters replaced by special sequences conforming
     // to C language standards: https://en.wikipedia.org/wiki/Escape_sequences_in_C
     // This variable could be useful for writing Java scripts (e.g. for Custom HTML report) or SQL Query for ODBC log.
-    Q_PROPERTY(QString Reply_CStyle READ getReply) //! TODO
+    Q_PROPERTY(QString Reply_CStyle READ getReply) //! TODO implement property Reply_CStyle
 
     // Represents actual numeric value of Reply field as a real number.
     // E.g. for the Reply field containing ’12.01 Kb’, %Reply_Number% will return ‘12298.24’.
@@ -503,7 +503,7 @@ private:
     Q_PROPERTY(QString LastReply READ lastReply)
 
     // Represents “LastReply” value returned by previous check with some characters replaced by special sequences conforming to C language standards
-    Q_PROPERTY(QString LastReply_CStyle READ lastReply) //! TODO
+    Q_PROPERTY(QString LastReply_CStyle READ lastReply) //! TODO implement property LastReply_CStyle
 
     // The status, which the test had before last status change
     Q_PROPERTY(QString PreviousStatus READ previousStatus)
@@ -526,7 +526,7 @@ public:
     QString previousStatus() const { return  TEnums::testStatus(m_PreviousState.status); }
     QString previousStatusTime() const { return m_Stat.previousTime.toString("hh:mm:ss"); }
     QString previousStatusDuration() const { return Utils::getTimeFromMs(m_Stat.previousDuration); }
-    int previousStatusDuration_Sec() const { return m_Stat.previousDuration / 1000; }
+    int previousStatusDuration_Sec() const { return static_cast<int>(m_Stat.previousDuration / 1000); }
 
     /****************************************************
      *              Statistical information             *

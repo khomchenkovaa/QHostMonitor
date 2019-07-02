@@ -72,7 +72,7 @@ void QCronStrNode::process(QCron *,
         QDateTime &,
         EField )
 {
-    // TODO
+    //! TODO implemet it
 }
 
 /******************************************************************************/

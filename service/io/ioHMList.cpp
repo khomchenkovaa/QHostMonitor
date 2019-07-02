@@ -810,17 +810,17 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
 
         m_HML->addNode(parent,test);
 
-        // Load statistics
+        //! TODO Load statistics
 
-        // Load iterations
+        //! TODO Load iterations
     }
 
-    // load dependencies"expression"
+    // load dependencies "expression"
     foreach(const QJsonValue &testValue, jsonValue.toArray()) {
         QJsonObject testObj = testValue.toObject();
         QJsonObject depObj = testObj.value(TSP_DEPENDENCIES).toObject();
         Q_UNUSED(depObj)
-        //! TODO
+        //! TODO implement load dependencies "expression"
     }
 }
 
@@ -828,7 +828,7 @@ void IOHMList::parseTestsSection(QJsonValue jsonValue)
 
 QJsonValue IOHMList::createHistorySection()
 {
-    //! TODO
+    //! TODO implement createHistorySection
     return QJsonValue();
 }
 
@@ -837,7 +837,7 @@ QJsonValue IOHMList::createHistorySection()
 void IOHMList::parseHistorySection(QJsonValue jsonValue)
 {
     Q_UNUSED(jsonValue)
-    //! TODO
+    //! TODO implement parseHistorySection
 }
 
 /******************************************************************/
@@ -916,7 +916,7 @@ QJsonValue IOHMList::createReportSettings(TNode *node)
 {
     QJsonObject result;
     Q_UNUSED(node)
-    //! TODO
+    //! TODO implement createReportSettings
     return QJsonValue(result);
 }
 
@@ -927,6 +927,7 @@ void IOHMList::parseReportSettings(QJsonValue jsonValue, TNode *node)
     QJsonObject jsonObj = jsonValue.toObject();
     Q_UNUSED(jsonObj)
     Q_UNUSED(node)
+    //! TODO implement parseReportSettings
 }
 
 /******************************************************************/
@@ -935,7 +936,7 @@ QJsonValue IOHMList::createStatSettings(TFolder *node)
 {
     QJsonObject result;
     Q_UNUSED(node)
-    //! TODO
+    //! TODO implement createStatSettings
     return QJsonValue(result);
 }
 
@@ -946,6 +947,7 @@ void IOHMList::parseStatSettings(QJsonValue jsonValue, TFolder *node)
     QJsonObject jsonObj = jsonValue.toObject();
     Q_UNUSED(jsonObj)
     Q_UNUSED(node)
+    //! TODO implement parseStatSettings
 }
 
 /******************************************************************/
@@ -975,7 +977,7 @@ QJsonValue IOHMList::createVarsSettings(TFolder *node)
 {
     QJsonObject result;
     Q_UNUSED(node)
-    //! TODO
+    //! TODO implement createVarsSettings
     return QJsonValue(result);
 }
 
@@ -986,6 +988,7 @@ void IOHMList::parseVarsSettings(QJsonValue jsonValue, TFolder *node)
     QJsonObject jsonObj = jsonValue.toObject();
     Q_UNUSED(jsonObj)
     Q_UNUSED(node)
+    //! TODO implement parseVarsSettings
 }
 
 /******************************************************************/

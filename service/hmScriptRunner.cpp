@@ -1,6 +1,8 @@
 #include "hmScriptRunner.h"
 
 #include "global/gMacroTranslator.h"
+#include "gUserVars.h"
+#include "ioUserVarsLoader.h"
 
 #include <QScriptEngine>
 #include <QCoreApplication>
@@ -1007,8 +1009,8 @@ bool HMScriptRunner::runDisableTest(const int num, const QString &cmdLine)
     if (!cmdList.isEmpty()) {
         testName = cmdList.takeFirst();
     }
-    m_HML->cmdDisableTest(testName);
-    return true;
+
+    return m_HML->cmdDisableTest(testName);
 }
 
 /*****************************************************************
@@ -1533,23 +1535,26 @@ bool HMScriptRunner::runAckTestStatusbyID(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString fileName = cmdList.takeFirst();
-    TNode *found = nullptr;
+    bool ok = true;
+    int testId = cmdList.takeFirst().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no valid <TestID>\n").arg(num).arg(cmdLine));
+        return false;
+    }
+
+    bool stopAlerts = false;
     if (!cmdList.isEmpty()) {
-        found = m_HML->rootItem()->findByID(fileName.toInt());
+        if (!cmdList.at(0).compare("StopAlerts")) {
+            stopAlerts = true;
+            cmdList.removeFirst();
+        }
     }
-    QString StopAlerts;
-    if (!cmdList.isEmpty()) {
-        StopAlerts = cmdList.takeFirst();
-    }
-    QString Comment = cmdList.takeFirst();
-    if (!cmdList.isEmpty()) {
-        Comment = cmdList.takeFirst();
-    }
-    m_HML->cmdAckTestStatusbyID(found, StopAlerts, Comment);
+    QString comment = cmdList.takeFirst();
+
+    m_HML->cmdAckTestStatusbyID(testId, stopAlerts, comment);
     return true;
 }
 
@@ -1566,15 +1571,17 @@ bool HMScriptRunner::runResetAcknowledgementsByID(const int num, const QString &
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString fileName = cmdList.takeFirst();
-    TNode *found = nullptr;
-    if (!cmdList.isEmpty()) {
-        found = m_HML->rootItem()->findByID(fileName.toInt());
+    bool ok = true;
+    int testId = cmdList.takeFirst().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no valid <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    m_HML->cmdResetAcknowledgementsByID(found);
+
+    m_HML->cmdResetAcknowledgementsByID(testId);
     return true;
 }
 
@@ -1593,21 +1600,29 @@ bool HMScriptRunner::runSetTestParamByID(const int num, const QString &cmdLine)
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString fileName = cmdList.takeFirst();
-    TNode *found = nullptr;
-    if (!cmdList.isEmpty()) {
-        found = m_HML->rootItem()->findByID(fileName.toInt());
+    bool ok = true;
+    int testId = cmdList.takeFirst().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no valid <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString ParameterName;
-    if (!cmdList.isEmpty()) {
-        ParameterName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <ParameterName>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    int Value = cmdList.takeFirst().toInt();
-    m_HML->cmdSetTestParamByID(found, ParameterName, Value);
-    return true;
+    QString paramName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <Value>\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString value = cmdList.takeFirst();
+
+    return m_HML->cmdSetTestParamById(testId, paramName, value);
 }
 
 /*****************************************************************
@@ -1626,22 +1641,35 @@ bool HMScriptRunner::runReplaceTestParamByID(const int num, const QString &cmdLi
     cmdList.removeFirst();
 
     if (cmdList.isEmpty()) {
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
-    return false;
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString fileName = cmdList.takeFirst();
-    TNode *found = nullptr;
-    if (!cmdList.isEmpty()) {
-        found = m_HML->rootItem()->findByID(fileName.toInt());
+    bool ok = true;
+    int testId = cmdList.takeFirst().toInt(&ok);
+    if (!ok) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no valid <TestID>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    QString ParameterName;
-    if (!cmdList.isEmpty()) {
-        ParameterName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <ParameterName>\n").arg(num).arg(cmdLine));
+        return false;
     }
-    int CurrValue = cmdList.takeFirst().toInt();
-    int NewValue = cmdList.takeFirst().toInt();
-    m_HML->cmdReplaceTestParamByID(found, ParameterName, CurrValue, NewValue);
-    return true;
+    QString paramName = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <Curr. value>\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString curValue = cmdList.takeFirst();
+
+    if (cmdList.isEmpty()) {
+        m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <New value>\n").arg(num).arg(cmdLine));
+        return false;
+    }
+    QString newValue = cmdList.takeFirst();
+
+    return m_HML->cmdReplaceTestParamById(testId, paramName, curValue, newValue);
 }
 
 /*****************************************************************
@@ -1667,9 +1695,10 @@ bool HMScriptRunner::runSetUserVariable(const int num, const QString &cmdLine)
         m_Errors.append(tr("[ERROR] Line %1: Command '%2' has no <VariableValue>\n").arg(num).arg(cmdLine));
         return false;
     }
-    QString varValue = cmdList.takeFirst();
+    QString varValue = cmdList.join(" "); // allow verbosity
 
-    m_HML->cmdSetUserVariable(varName, varValue);
+    GUserVars::add(varName, varValue);
+
     return true;
 }
 
@@ -1682,8 +1711,10 @@ bool HMScriptRunner::runSaveUserVariables(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
     }
-    //! TODO implement method runSaveUserVariables
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+
+    IOUserVarsLoader loader;
+    loader.save();
+
     return true;
 }
 
@@ -1696,8 +1727,10 @@ bool HMScriptRunner::runLoadUserVariables(const int num, const QString &cmdLine)
     if (!checkParams(num, cmdList, 0)) {
          return false;
     }
-    //! TODO implement method runLoadUserVariables
-    m_Errors.append(tr("[WARNING] Line %1: Command '%2' is not implemented").arg(num).arg(cmdLine));
+
+    IOUserVarsLoader loader;
+    loader.load();
+
     return true;
 }
 
@@ -1758,8 +1791,7 @@ bool HMScriptRunner::runCreateReport(const int num, const QString &cmdLine)
     }
     QString targetFileName = cmdList.takeFirst();
 
-    m_HML->cmdCreateReport(reportProfileName, targetFileName);
-    return true;
+    return m_HML->cmdCreateReport(reportProfileName, targetFileName);
 }
 
 /*****************************************************************
@@ -1780,8 +1812,7 @@ bool HMScriptRunner::runStartProgram(const int num, const QString &cmdLine)
     }
     QString commandLine = cmdList.join(" ");
 
-    m_HML->cmdStartProgram(commandLine);
-    return true;
+    return m_HML->cmdStartProgram(commandLine);
 }
 
 /*****************************************************************
@@ -1811,8 +1842,7 @@ bool HMScriptRunner::runExecuteProgram(const int num, const QString &cmdLine)
     }
     QString commandLine = cmdList.join(" ");
 
-    m_HML->cmdExecuteProgram(timeToWait, commandLine);
-    return true;
+    return m_HML->cmdExecuteProgram(timeToWait, commandLine);
 }
 
 /*****************************************************************

@@ -106,7 +106,7 @@ protected: // interface settings
     bool b_CheckingColorStatus;
     // reports
     bool b_UseOwnReportSettings;
-    //! TODO
+    //! TODO implement ReportSettings
 
 public: // interface settings
     bool isUseOwnColumnSettings() const { return b_UseOwnColumnSettings; }

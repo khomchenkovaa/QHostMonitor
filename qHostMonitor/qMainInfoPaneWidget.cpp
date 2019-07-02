@@ -51,8 +51,8 @@ void MainInfoPaneWidget::testInfo(const TNode *test)
     ui->valAverage->setText(test->getGlobal(Macro::AverageReply).toString());
     // time
     ui->valStatusChangedAt->setText(test->getGlobal(Macro::StatusChangedTime).toString());
-    ui->valDisabledAt->setText(QString()); //! TODO
-    ui->valDisabledBy->setText(QString()); //! TODO
+    ui->valDisabledAt->setText(QString()); //! TODO implement property DisabledAt
+    ui->valDisabledBy->setText(QString()); //! TODO implement property DisabledBy
     // statistics
     ui->valTotalTests->setText(test->getGlobal(Macro::TotalTests).toString());
     ui->valPassed->setText(test->getGlobal(Macro::PassedCnt).toString());
@@ -88,14 +88,14 @@ void MainInfoPaneWidget::folderInfo(HMListService *hml, const int testVisible, c
     ui->valLoadedFile->setText(hml->currentFileName());
     ui->valFolders->setText(QString::number(hml->rootItem()->foldersCnt()));
     ui->valTests->setText(QString::number(hml->rootItem()->testsCnt()));
-    ui->valVisibleTests->setText(QString("%1 in %2 folder(s)").arg(testVisible).arg(1)); //! TODO
+    ui->valVisibleTests->setText(QString("%1 in %2 folder(s)").arg(testVisible).arg(1)); //! TODO implement VisibleTests property
     ui->valSelectedTests->setText(QString::number(testSelected));
 
-    ui->valProgramStarted->setText(QString()); //! TODO
-    ui->valPerformedTests->setText(QString()); //! TODO
-    ui->valPerformedActions->setText(QString()); //! TODO
-    ui->valLogRecords->setText(QString()); //! TODO
-    ui->valLoggingPoolUsage->setText(QString("0.0%")); //! TODO
+    ui->valProgramStarted->setText(QString());         //! TODO implement ProgramStarted property
+    ui->valPerformedTests->setText(QString());         //! TODO implement PerformedTests property
+    ui->valPerformedActions->setText(QString());       //! TODO implement PerformedActions property
+    ui->valLogRecords->setText(QString());             //! TODO implement LogRecords property
+    ui->valLoggingPoolUsage->setText(QString("0.0%")); //! TODO implement LoggingPoolUsage property
 
 }
 

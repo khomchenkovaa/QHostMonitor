@@ -18,12 +18,12 @@ class TestListProperties : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestListProperties(QWidget *parent = 0);
+    explicit TestListProperties(QWidget *parent = nullptr);
     ~TestListProperties();
 
     void setFileName(const QString fileName);
     void setGuid(const QUuid guid);
-    void setFileSize(const int bytes);
+    void setFileSize(const quint64 bytes);
     void setFoldersCnt(const int foldersCnt);
     void setViewsCnt(const int viewsCnt);
     void setTestsCnt(const int testsCnt);

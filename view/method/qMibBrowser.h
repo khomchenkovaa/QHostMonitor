@@ -1,6 +1,8 @@
 #ifndef QMIBBROWSER_H
 #define QMIBBROWSER_H
 
+#include "mibtreemodel.h"
+
 #include <QDialog>
 
 QT_BEGIN_NAMESPACE
@@ -21,22 +23,19 @@ class MibBrowser : public QDialog
     Q_OBJECT
 
 public:
-    explicit MibBrowser(QWidget *parent = 0);
+    explicit MibBrowser(QWidget *parent = nullptr);
     ~MibBrowser();
 
     QString getOid() const;
     void setOid(const QString oid);
 
 private slots:
-    void updateFields(const QModelIndex& index);
+    void updateFields(const QModelIndex& proxyIndex);
 
 private:
-    QAbstractItemModel *modelFromFile(const QString& fileName);
-
-private:
-    Ui::MibBrowser *ui;
-    QAbstractItemModel *m_model;
-    QStandardItem *m_topitem;
+    Ui::MibBrowser    *ui;
+    MibTreeModel      *m_Model;
+    MibTreeProxyModel *m_Proxy;
 };
 
 } // namespace SDPO

@@ -2,6 +2,9 @@
 #include "ui_qSnmpGetWidget.h"
 #include "method/tSnmpGet.h"
 #include "qMibBrowser.h"
+
+#include "nsnmpget.h"
+
 #include <QProcess>
 #include <QDebug>
 
@@ -12,7 +15,7 @@ namespace SDPO {
 SnmpGetWidget::SnmpGetWidget(QWidget *parent) :
     TestWidget(parent),
     ui(new Ui::SnmpGetWidget),
-    m_process(0)
+    m_process(nullptr)
 {
     ui->setupUi(this);
     connect(ui->cmbHostPort, SIGNAL(editTextChanged(QString)), this, SIGNAL(propertiesChanged()));
@@ -40,7 +43,7 @@ void SnmpGetWidget::init(TTestMethod *item)
     ui->spinTimeout->setValue(t->getTimeout());
     ui->spinRetries->setValue(t->getRetries());
     ui->cmbOid->setCurrentText(t->getMibOid());
-    ui->cmbCriteria->setCurrentIndex((int)t->getCondition());
+    ui->cmbCriteria->setCurrentIndex(static_cast<int>(t->getCondition()));
     ui->cmbValue->setCurrentText(t->getValue());
 }
 
@@ -59,7 +62,7 @@ TTestMethod *SnmpGetWidget::save(TTestMethod *item)
     t->setTimeout(ui->spinTimeout->value());
     t->setRetries(ui->spinRetries->value());
     t->setMibOid(ui->cmbOid->currentText());
-    t->setCondition((TSnmpGet::Condition)ui->cmbCriteria->currentIndex());
+    t->setCondition(static_cast<TSnmpGet::Condition>(ui->cmbCriteria->currentIndex()));
     t->setValue(ui->cmbValue->currentText());
     return t;
 }
@@ -69,7 +72,7 @@ TTestMethod *SnmpGetWidget::save(TTestMethod *item)
 void SnmpGetWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::SNMP);
+    TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::SNMP));
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHostPort->setCurrentText("localhost");
@@ -95,7 +98,7 @@ QString SnmpGetWidget::getTemplateValue(const QString var) const
 {
     Macro::Variable globalVar = TEnums::mvFromString(var);
     switch (globalVar) {
-    case Macro::MethodID : return QString::number((int)TMethodID::SNMP);
+    case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::SNMP));
     case Macro::MethodName :
     case Macro::TestMethod : return TMethod::toName(TMethodID::SNMP);
     case Macro::Host :
@@ -130,6 +133,9 @@ void SnmpGetWidget::on_btnMibBrowser_clicked()
 
 void SnmpGetWidget::on_btnGetValue_clicked()
 {
+#define IFD_use_lib_method
+    ui->btnGetValue->setDisabled(true);
+
     // get values
     QString version = "v2c"; // from profile
     QString community = ui->cmbSnmpProfile->currentText(); // "public"
@@ -138,6 +144,20 @@ void SnmpGetWidget::on_btnGetValue_clicked()
     QString host = ui->cmbHostPort->currentText(); // port = 161
     QString oid = ui->cmbOid->currentText();
 
+    Q_UNUSED(timeout)
+
+#ifdef IFD_use_lib_method
+    NSnmpGet snmpGet;
+    snmpGet.setCommunity(community);
+    snmpGet.setRetries(retries);
+    snmpGet.setVersion(SnmpVersion::SNMPv2c);
+    snmpGet.setPeername(host);
+    if (snmpGet.request(oid)) {
+        ui->cmbValue->setCurrentText(snmpGet.response().first());
+    }
+#endif
+
+#ifdef IFD_use_process_comand
     // build command
     QString cmd = "snmpget -m ALL ";
     cmd += QString("-%1 ").arg(version);
@@ -164,7 +184,10 @@ void SnmpGetWidget::on_btnGetValue_clicked()
         qDebug() << "SNMP Get process cannot finished";
         return;
     }
+#endif
 
+    ui->btnGetValue->setEnabled(true);
+    ui->btnGetValue->setFocus();
 }
 
 /******************************************************************/
@@ -193,7 +216,7 @@ void SnmpGetWidget::onRunFinished(int exitCode)
     disconnect(m_process, SIGNAL(finished(int)), this, SLOT(onRunFinished(int)));
     disconnect(m_process, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
     delete m_process;
-    m_process=0;
+    m_process=nullptr;
 }
 
 /******************************************************************/

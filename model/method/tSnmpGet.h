@@ -46,10 +46,6 @@
  * to be continued...
  *
  */
-/* Realization notes:
- * 1. Use libsmi library from https://www.ibr.cs.tu-bs.de/projects/libsmi/index.html
- * 2. Use snmpget command
- */
 
 #ifndef TSNMPGET_H
 #define TSNMPGET_H

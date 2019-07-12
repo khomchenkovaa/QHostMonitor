@@ -1,5 +1,8 @@
 #include "tSnmpGet.h"
 #include "tEnums.h"
+
+#include "nsnmpget.h"
+
 #include <QProcess>
 
 namespace SDPO {
@@ -24,35 +27,15 @@ void TSnmpGet::run()
 {
     m_Result.clear();
 
-    QString command = getCommand();
-    if (command.isEmpty()) {
-        m_Result.error = "Command is empty";
-        emit testFailed();
-        return;
-    }
-
-//    qDebug() << getTestMethod() << ":" << command;
-
-    QProcess process;
-    process.setProcessChannelMode(QProcess::MergedChannels);
-    process.start(command);
-    if (!process.waitForStarted()) {
-        m_Result.reply = getTestedObjectInfo() + " can not start";
-        process.close();
-        emit testFailed();
-        return;
-    }
-    if(!process.waitForFinished()) {
-        m_Result.reply = getTestedObjectInfo() + " terminated";
-        process.close();
-        emit testFailed();
-        return;
-    }
-    if( process.exitStatus() == QProcess::NormalExit ) {
-        parseResult(process.readAll().trimmed());
+    NSnmpGet snmpGet;
+    snmpGet.setCommunity(a_Community);
+    snmpGet.setRetries(a_Retries);
+    snmpGet.setVersion(SnmpVersion::SNMPv2c);
+    snmpGet.setPeername(a_Host);
+    if (snmpGet.request(a_MibOid)) {
+        parseResult(snmpGet.response().first());
         emit testSuccess();
     } else {
-        m_Result.error = process.errorString();
         emit testFailed();
     }
 }
@@ -76,36 +59,14 @@ QString TSnmpGet::getCommand() const
 void TSnmpGet::parseResult(QString data)
 {
     TTestResult result;
-    QString oidName = data.trimmed();
-    result.reply = oidName;
-//    qDebug() << "SNMP Get data:" << data;
-    int idx = data.indexOf(" = ");
-    if (idx != -1) {
-        oidName.truncate(idx);
-        a_OidFullName = oidName;
-        if (oidName.endsWith(".0")) {
-            oidName.truncate(oidName.length()-2);
-        }
-        int lastDotIdx = oidName.lastIndexOf(".");
-        int dotDotIdx = oidName.lastIndexOf("::");
-        if (lastDotIdx > dotDotIdx) {
-            a_MibName = oidName.mid(lastDotIdx+1);
-        } else if (dotDotIdx >= 0) {
-            a_MibName = oidName.mid(dotDotIdx+2);
-        } else {
-            a_MibName = oidName;
-        }
-        result.reply = result.reply.mid(idx + 3);
-        result.reply = result.reply.mid(result.reply.indexOf(": ") + 2);
-    }
+    result.reply = data;
 
     bool isFloat = true;
-    result.replyDouble = data.toFloat(&isFloat);
-    float valueAsFloat = isFloat? a_Value.toFloat(&isFloat) : 0.0;
+    result.replyDouble = data.toDouble(&isFloat);
+    double valueAsFloat = isFloat? a_Value.toDouble(&isFloat) : 0.0;
     bool isInt = true;
     result.replyInt = data.toInt(&isInt);
     int valueAsInt = isInt? a_Value.toInt(&isInt) : 0;
-//    qDebug() << "Float:" << newReplyFloat << "Int:" << newReplyInt;
 
     switch (a_Condition) {
     case Condition::LessThan:
@@ -228,7 +189,7 @@ TSnmpGet::Condition TSnmpGet::conditionFromString(QString condStr, Condition con
     if (idx == -1) {
         return condDefault;
     }
-    return (TSnmpGet::Condition)idx;
+    return static_cast<TSnmpGet::Condition>(idx);
 }
 
 /******************************************************************/

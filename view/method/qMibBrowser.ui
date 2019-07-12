@@ -130,7 +130,6 @@
  </widget>
  <resources>
   <include location="../../qHostMonitor.qrc"/>
-  <include location="../../qHostMonitor.qrc"/>
  </resources>
  <connections>
   <connection>

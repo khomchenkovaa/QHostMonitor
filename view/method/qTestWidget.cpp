@@ -11,6 +11,13 @@ TestWidget::TestWidget(QWidget *parent) :
 
 /******************************************************************/
 
+TestWidget::~TestWidget()
+{
+
+}
+
+/******************************************************************/
+
 QMap<QString, QString> TestWidget::setTemplateVars(const QStringList &params) const
 {
     QMap<QString, QString> result;

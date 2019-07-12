@@ -18,9 +18,9 @@ class SnmpGetWidget : public TestWidget
     Q_OBJECT
 
 public:
-    explicit SnmpGetWidget(QWidget *parent = 0);
-    ~SnmpGetWidget();
-    virtual void init(TTestMethod *item = 0) Q_DECL_OVERRIDE;
+    explicit SnmpGetWidget(QWidget *parent = nullptr);
+    virtual ~SnmpGetWidget() Q_DECL_OVERRIDE;
+    virtual void init(TTestMethod *item = nullptr) Q_DECL_OVERRIDE;
     virtual TTestMethod* save(TTestMethod *item) Q_DECL_OVERRIDE;
     virtual void reset(QVariant data = QVariant()) Q_DECL_OVERRIDE;
     virtual QStringList validate() Q_DECL_OVERRIDE;

@@ -19,6 +19,7 @@ class TestWidget : public QWidget
 
 public:
     explicit TestWidget(QWidget *parent = nullptr);
+    virtual ~TestWidget();
     virtual void init(TTestMethod *item = nullptr) {  Q_UNUSED(item) }
     virtual TTestMethod* save(TTestMethod *item) { return item; }
     virtual void reset(QVariant data=QVariant()) { Q_UNUSED(data) }

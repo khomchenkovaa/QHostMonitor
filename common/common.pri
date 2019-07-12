@@ -4,6 +4,7 @@ DEPENDPATH += $$PWD
 include("lib/qcron/qcron.pri")
 include("lib/qdbf/qdbf.pri")
 include("lib/qsimplecrypt/qsimplecrypt.pri")
+include("lib/net-snmp/net-snmp.pri")
 
 HEADERS += \
     $$PWD/tEnums.h \

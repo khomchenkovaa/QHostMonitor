@@ -1,10 +1,10 @@
 #include "qMibBrowser.h"
 #include "ui_qMibBrowser.h"
+#include "qMibGetValuedlg.h"
 
 #include <QtWidgets>
-#include <QProcess>
 
-namespace SDPO {
+using namespace SDPO;
 
 /******************************************************************/
 
@@ -161,4 +161,45 @@ void MibBrowser::updateFields(const QModelIndex &proxyIndex)
 
 /******************************************************************/
 
-} // namespace SDPO
+void MibBrowser::on_btnGet_clicked()
+{
+    QMibGetValueDlg dlg;
+    dlg.setOid(ui->editOid->text());
+    dlg.exec();
+}
+
+/******************************************************************/
+
+void MibBrowser::on_btnGetTable_clicked()
+{
+
+}
+
+/******************************************************************/
+
+void MibBrowser::on_btnFindName_clicked()
+{
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("Find Name"),tr("Name (e.g. sysUptime)"), QLineEdit::Normal, QString(), &ok);
+    if (ok) {
+        QModelIndex idxSource = m_Model->findByName(name, m_Model->index(0,0));
+        if (idxSource.isValid()) {
+            QModelIndex idxProxy = m_Proxy->mapFromSource(idxSource);
+            ui->treeMibs->setCurrentIndex(idxProxy);
+            updateFields(idxProxy);
+        }
+    }
+}
+
+/******************************************************************/
+
+void MibBrowser::on_btnFindOid_clicked()
+{
+    bool ok;
+    QString oid = QInputDialog::getText(this, tr("Find OID"),tr("OID (e.g. 1.3.6.1.2.1.1.1)"), QLineEdit::Normal, QString(), &ok);
+    if (ok) {
+        setOid(oid);
+    }
+}
+
+/******************************************************************/

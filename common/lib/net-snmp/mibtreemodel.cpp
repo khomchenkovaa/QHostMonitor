@@ -187,6 +187,24 @@ QModelIndex MibTreeModel::indexFromNode(SnmpMibTree *node) const
 
 /*****************************************************************/
 
+QModelIndex MibTreeModel::findByName(const QString &name, const QModelIndex &parent) const
+{
+    int childCount = rowCount(parent);
+    for (int i=0; i<childCount; i++) {
+        QModelIndex idx = findByName(name, index(i,0,parent));
+        if (idx.isValid()) {
+            return idx;
+        }
+    }
+    SnmpMibTree *node = static_cast<SnmpMibTree *>(parent.internalPointer());
+    if (name.compare(node->label, Qt::CaseInsensitive) == 0) {
+        return parent;
+    }
+    return QModelIndex();
+}
+
+/*****************************************************************/
+
 MibTreeProxyModel::MibTreeProxyModel(QObject *parent)
     : QSortFilterProxyModel(parent)
 {

@@ -32,6 +32,7 @@ public:
 
     QModelIndex indexFromOid(QString oid) const;
     QModelIndex indexFromNode(SnmpMibTree *node) const;
+    QModelIndex findByName(const QString& name, const QModelIndex& parent) const;
 
 private:
     SnmpMibTree *m_Root;

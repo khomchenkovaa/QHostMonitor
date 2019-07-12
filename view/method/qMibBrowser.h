@@ -11,7 +11,6 @@ class QStandardItem;
 class QModelIndex;
 QT_END_NAMESPACE
 
-
 namespace Ui {
 class MibBrowser;
 }
@@ -31,6 +30,11 @@ public:
 
 private slots:
     void updateFields(const QModelIndex& proxyIndex);
+
+    void on_btnGet_clicked();
+    void on_btnGetTable_clicked();
+    void on_btnFindName_clicked();
+    void on_btnFindOid_clicked();
 
 private:
     Ui::MibBrowser    *ui;

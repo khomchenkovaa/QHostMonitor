@@ -5,7 +5,6 @@
 
 #include "nsnmpget.h"
 
-#include <QProcess>
 #include <QDebug>
 
 namespace SDPO {
@@ -14,8 +13,7 @@ namespace SDPO {
 
 SnmpGetWidget::SnmpGetWidget(QWidget *parent) :
     TestWidget(parent),
-    ui(new Ui::SnmpGetWidget),
-    m_process(nullptr)
+    ui(new Ui::SnmpGetWidget)
 {
     ui->setupUi(this);
     connect(ui->cmbHostPort, SIGNAL(editTextChanged(QString)), this, SIGNAL(propertiesChanged()));
@@ -133,7 +131,6 @@ void SnmpGetWidget::on_btnMibBrowser_clicked()
 
 void SnmpGetWidget::on_btnGetValue_clicked()
 {
-#define IFD_use_lib_method
     ui->btnGetValue->setDisabled(true);
 
     // get values
@@ -146,7 +143,6 @@ void SnmpGetWidget::on_btnGetValue_clicked()
 
     Q_UNUSED(timeout)
 
-#ifdef IFD_use_lib_method
     NSnmpGet snmpGet;
     snmpGet.setCommunity(community);
     snmpGet.setRetries(retries);
@@ -155,68 +151,9 @@ void SnmpGetWidget::on_btnGetValue_clicked()
     if (snmpGet.request(oid)) {
         ui->cmbValue->setCurrentText(snmpGet.response().first());
     }
-#endif
-
-#ifdef IFD_use_process_comand
-    // build command
-    QString cmd = "snmpget -m ALL ";
-    cmd += QString("-%1 ").arg(version);
-    cmd += QString("-c %1 ").arg(community);
-    cmd += QString("-t %1 ").arg(timeout);
-    cmd += QString("-r %1 ").arg(retries);
-    cmd += host + " ";
-    cmd += oid;
-
-    // debug
-    qDebug() << cmd;
-
-    // execute command
-    m_process = new QProcess();
-    m_process->setProcessChannelMode(QProcess::MergedChannels);
-    connect(m_process, SIGNAL(finished(int)), this, SLOT(onRunFinished(int)));
-    connect(m_process, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    m_process->start(cmd);
-    if (!m_process->waitForStarted()) {
-        qDebug() << "SNMP Get process cannot start";
-        return;
-    }
-    if (!m_process->waitForFinished()) {
-        qDebug() << "SNMP Get process cannot finished";
-        return;
-    }
-#endif
 
     ui->btnGetValue->setEnabled(true);
     ui->btnGetValue->setFocus();
-}
-
-/******************************************************************/
-
-void SnmpGetWidget::onReadyRead()
-{
-    QString data;
-    data.append(m_process->readAll());
-    qDebug() << "SNMP Get data:" << data;
-    int idx = data.indexOf(" = ");
-    if (idx != -1) {
-        data = data.mid(idx + 3);
-        data = data.mid(data.indexOf(": ") + 2);
-    }
-    ui->cmbValue->setCurrentText(data);
-}
-
-/******************************************************************/
-
-void SnmpGetWidget::onRunFinished(int exitCode)
-{
-    qDebug() << "SNMP Get process finished:" << exitCode;
-    if( exitCode ) {
-        ui->cmbValue->setCurrentText(m_process->errorString());
-    }
-    disconnect(m_process, SIGNAL(finished(int)), this, SLOT(onRunFinished(int)));
-    disconnect(m_process, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-    delete m_process;
-    m_process=nullptr;
 }
 
 /******************************************************************/

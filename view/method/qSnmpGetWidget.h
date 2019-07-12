@@ -3,10 +3,6 @@
 
 #include "qTestWidget.h"
 
-QT_BEGIN_NAMESPACE
-class QProcess;
-QT_END_NAMESPACE
-
 namespace Ui {
 class SnmpGetWidget;
 }
@@ -30,12 +26,9 @@ private slots:
     void on_btnSnmpCredentials_clicked();
     void on_btnMibBrowser_clicked();
     void on_btnGetValue_clicked();
-    void onReadyRead();
-    void onRunFinished(int exitCode);
 
 private:
     Ui::SnmpGetWidget *ui;
-    QProcess *m_process;
 };
 
 } // namespace SDPO

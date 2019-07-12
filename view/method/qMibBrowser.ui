@@ -10,6 +10,11 @@
     <height>571</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>9</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>MIB Browser</string>
   </property>
@@ -117,14 +122,75 @@
     </layout>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="btnBoxMibBrowser">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QDialogButtonBox" name="btnBoxMibBrowser">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="standardButtons">
+        <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnGet">
+       <property name="text">
+        <string>Get Value</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/test/snmp_get.png</normaloff>:/img/test/snmp_get.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnGetTable">
+       <property name="text">
+        <string>Get Table</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/test/snmp_table.png</normaloff>:/img/test/snmp_table.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnFindName">
+       <property name="text">
+        <string>Find name</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/action/find.png</normaloff>:/img/action/find.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnFindOid">
+       <property name="text">
+        <string>Find OID</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../qHostMonitor.qrc">
+         <normaloff>:/img/action/find.png</normaloff>:/img/action/find.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>

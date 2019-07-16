@@ -1,7 +1,7 @@
 #include "qMibGetValuedlg.h"
 #include "ui_qMibGetValuedlg.h"
 
-#include "nsnmpget.h"
+#include "netsnmpget.h"
 
 using namespace SDPO;
 
@@ -49,20 +49,39 @@ void SDPO::QMibGetValueDlg::on_btnGet_clicked()
 
     Q_UNUSED(timeout)
 
-    NSnmpGet snmpGet;
+    NetSnmpGet snmpGet;
     snmpGet.setCommunity(community);
     snmpGet.setRetries(retries);
     snmpGet.setVersion(SnmpVersion::SNMPv2c);
     snmpGet.setPeername(host);
-    if (snmpGet.request(oid)) {
-        ui->textResult->appendPlainText(snmpGet.response().first());
-    }
+    SnmpValue value = snmpGet.get(oid);
+    ui->textResult->appendPlainText(value.toString());
 }
 
 /*****************************************************************/
 
 void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
 {
+    // get values
+    QString version = "v2c"; // from profile
+    QString community = "public"; // from profile
+    int timeout = ui->spinTimeout->value(); // "2" / "1"
+    int retries = ui->spinRetries->value(); // "1" / "5"
+    QString host = ui->cmbHost->currentText(); // port = 161
+    QString oid = ui->cmbOid->currentText();
+
+    Q_UNUSED(timeout)
+
+    NetSnmpGet snmpGet;
+    snmpGet.setCommunity(community);
+    snmpGet.setRetries(retries);
+    snmpGet.setVersion(SnmpVersion::SNMPv2c);
+    snmpGet.setPeername(host);
+    QList<SDPO::SnmpValue> values = snmpGet.getRow(oid);
+    foreach (const SnmpValue& val, values) {
+        ui->textResult->appendPlainText(val.toString());
+        ui->cmbOid->setCurrentText(val.nameAsStr());
+    }
 
 }
 
@@ -70,7 +89,27 @@ void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
 
 void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
 {
+    // get values
+    QString version = "v2c"; // from profile
+    QString community = "public"; // from profile
+    int timeout = ui->spinTimeout->value(); // "2" / "1"
+    int retries = ui->spinRetries->value(); // "1" / "5"
+    QString host = ui->cmbHost->currentText(); // port = 161
+    QString oid = ui->cmbOid->currentText();
+    int cnt = ui->spinGetNext->value();
 
+    Q_UNUSED(timeout)
+
+    NetSnmpGet snmpGet;
+    snmpGet.setCommunity(community);
+    snmpGet.setRetries(retries);
+    snmpGet.setVersion(SnmpVersion::SNMPv2c);
+    snmpGet.setPeername(host);
+    QList<SDPO::SnmpValue> values = snmpGet.getNext(oid, cnt);
+    foreach (const SnmpValue& val, values) {
+        ui->textResult->appendPlainText(val.toString());
+        ui->cmbOid->setCurrentText(val.nameAsStr());
+    }
 }
 
 /*****************************************************************/

@@ -1,5 +1,6 @@
 #include "mibtreemodel.h"
 
+#include <QIcon>
 #include <QDebug>
 
 using namespace SDPO;
@@ -26,9 +27,9 @@ QModelIndex MibTreeModel::index(int row, int column, const QModelIndex &parent) 
     if(!m_Root)
         return QModelIndex();
 
-    SnmpMibTree *parentNode = nodeFromIndex(parent);
+    MibTree *parentNode = nodeFromIndex(parent);
 
-    SnmpMibTree *child = parentNode? parentNode->child_list : m_Root;
+    MibTree *child = parentNode? parentNode->child_list : m_Root;
     for(int cnt = 0; cnt != row; ++cnt ) {
         child = child->next_peer;
         if (!child) {
@@ -43,20 +44,20 @@ QModelIndex MibTreeModel::index(int row, int column, const QModelIndex &parent) 
 
 QModelIndex MibTreeModel::parent(const QModelIndex &index) const
 {
-    SnmpMibTree *node = nodeFromIndex(index);
+    MibTree *node = nodeFromIndex(index);
 
     if(!node)
         return QModelIndex();
 
-    SnmpMibTree *parentNode = node->parent;
+    MibTree *parentNode = node->parent;
 
     if(!parentNode)
         return QModelIndex();
 
-    SnmpMibTree *grandParentNode = parentNode->parent;
+    MibTree *grandParentNode = parentNode->parent;
 
     int row = 0;
-    SnmpMibTree *child = grandParentNode ? grandParentNode->child_list : m_Root;
+    MibTree *child = grandParentNode ? grandParentNode->child_list : m_Root;
     for(; child != parentNode; child = child->next_peer) {
         if (!child) {
             break;
@@ -72,13 +73,13 @@ QModelIndex MibTreeModel::parent(const QModelIndex &index) const
 
 int MibTreeModel::rowCount(const QModelIndex &parent) const
 {
-    SnmpMibTree *parentNode = nodeFromIndex(parent);
+    MibTree *parentNode = nodeFromIndex(parent);
 
     if(!parentNode)
         return 1;
 
     int cnt = 0;
-    for(SnmpMibTree *child = parentNode->child_list; child; child = child->next_peer) {
+    for(MibTree *child = parentNode->child_list; child; child = child->next_peer) {
         cnt++;
     }
 
@@ -98,16 +99,33 @@ int MibTreeModel::columnCount(const QModelIndex &parent) const
 
 QVariant MibTreeModel::data(const QModelIndex &index, int role) const
 {
-    if(role != Qt::DisplayRole)
+    if (!index.isValid()) {
         return QVariant();
+    }
 
-    SnmpMibTree *node = nodeFromIndex(index);
-
-    if(!node)
+    if (index.column() != 0) {
         return QVariant();
+    }
 
-    if(index.column() == 0) {
+    MibTree *node = nodeFromIndex(index);
+    if(!node) {
+        return QVariant();
+    }
+
+    switch (role) {
+    case Qt::DisplayRole:
         return QString("%1 (%2)").arg(node->label).arg(node->subid);
+    case Qt::DecorationRole:
+        if (node->child_list) {
+            if (node->child_list->indexes) {
+                return QIcon(":/img/test/snmp_table.png");
+            }
+            return QIcon(":/img/folder.png");
+        }
+        if (node->type == MibTypeNotif || node->type == MibTypeTrap) {
+            return QIcon(":/img/test/snmp_trap.png");
+        }
+        return QIcon(":/img/test/snmp_get.png");
     }
 
     return QVariant();
@@ -125,7 +143,7 @@ QVariant MibTreeModel::headerData(int section, Qt::Orientation orientation, int 
 
 /*****************************************************************/
 
-void MibTreeModel::setRoot(SnmpMibTree *root)
+void MibTreeModel::setRoot(MibTree *root)
 {
     beginResetModel();
     m_Root = root;
@@ -134,9 +152,9 @@ void MibTreeModel::setRoot(SnmpMibTree *root)
 
 /*****************************************************************/
 
-SnmpMibTree *MibTreeModel::nodeFromIndex(const QModelIndex &index) const
+MibTree *MibTreeModel::nodeFromIndex(const QModelIndex &index) const
 {
-    return index.isValid() ? static_cast<SnmpMibTree *> (index.internalPointer()) : nullptr;
+    return index.isValid() ? static_cast<MibTree *> (index.internalPointer()) : nullptr;
 }
 
 /*****************************************************************/
@@ -148,10 +166,10 @@ QModelIndex MibTreeModel::indexFromOid(QString oid) const
         return index(0,0);
     }
     ids.removeFirst();
-    SnmpMibTree *tp = m_Root;
+    MibTree *tp = m_Root;
     foreach(QString id, ids) {
         u_long subId = id.toULong();
-        SnmpMibTree *child = tp->child_list;
+        MibTree *child = tp->child_list;
         for(; child; child = child->next_peer) {
             if (subId == child->subid) {
                 break;
@@ -167,14 +185,14 @@ QModelIndex MibTreeModel::indexFromOid(QString oid) const
 
 /*****************************************************************/
 
-QModelIndex MibTreeModel::indexFromNode(SnmpMibTree *node) const
+QModelIndex MibTreeModel::indexFromNode(MibTree *node) const
 {
     if (node == m_Root) {
         return index(0, 0);
     } else {
         QModelIndex parentIndex = indexFromNode(node->parent);
         int row = 0;
-        SnmpMibTree *child = node->parent ? node->parent->child_list : m_Root;
+        MibTree *child = node->parent ? node->parent->child_list : m_Root;
         for(; child != node; child = child->next_peer) {
             if (!child) {
                 break;
@@ -196,7 +214,7 @@ QModelIndex MibTreeModel::findByName(const QString &name, const QModelIndex &par
             return idx;
         }
     }
-    SnmpMibTree *node = static_cast<SnmpMibTree *>(parent.internalPointer());
+    MibTree *node = static_cast<MibTree *>(parent.internalPointer());
     if (name.compare(node->label, Qt::CaseInsensitive) == 0) {
         return parent;
     }
@@ -215,8 +233,8 @@ MibTreeProxyModel::MibTreeProxyModel(QObject *parent)
 
 bool MibTreeProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    SnmpMibTree *leftNode = static_cast<SnmpMibTree *>(left.internalPointer());
-    SnmpMibTree *rightNode = static_cast<SnmpMibTree *>(right.internalPointer());
+    MibTree *leftNode = static_cast<MibTree *>(left.internalPointer());
+    MibTree *rightNode = static_cast<MibTree *>(right.internalPointer());
 
     return leftNode->subid < rightNode->subid;
 }

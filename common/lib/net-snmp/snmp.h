@@ -5,15 +5,28 @@
 #include <net-snmp/net-snmp-includes.h>
 
 #include <QString>
+#include <QVariant>
+#include <QVector>
 
 namespace SDPO {
+
+/**
+ * @brief SNMP defaults
+ */
+typedef enum SnmpDefaultsEnum {
+    SnmpPort      = SNMP_PORT,       /**< standard UDP port for SNMP agents to receive requests*/
+    SnmpTrapPort  = SNMP_TRAP_PORT,  /**< standard UDP port for SNMP managers to receive notification*/
+    SnmpMaxLen    = SNMP_MAX_LEN,    /**< typical maximum message size */
+    SnmpMinMaxLen = SNMP_MIN_MAX_LEN /**< minimum maximum message size */
+} SnmpDefaults;
+
 /**
  * @brief SNMP version to be used
  */
 typedef enum SnmpVersionEnum {
-    SNMPv1  = SNMP_VERSION_1,  /**< SNMP version 1 */
-    SNMPv2c = SNMP_VERSION_2c, /**< SNMP version 2 */
-    SNMPv3  = SNMP_VERSION_3   /**< SNMP version 3 */
+    SNMPv1  = SNMP_VERSION_1,  /**< SNMP version 1 (=0) */
+    SNMPv2c = SNMP_VERSION_2c, /**< SNMP version 2 (=1) */
+    SNMPv3  = SNMP_VERSION_3   /**< SNMP version 3 (=3) */
 } SnmpVersion;
 
 /**
@@ -30,16 +43,6 @@ typedef enum SnmpPduTypeEnum {
     SnmpPduTrap2    = SNMP_MSG_TRAP2,    /**< Trap message (v2, v3) */
     SnmpPduReport   = SNMP_MSG_REPORT    /**< Report message */
 } SnmpPduType;
-
-/**
- * @brief SNMP response status to be used
- */
-typedef enum SnmpResponseStatusEnum {
-    SnmpRespStatUnknown = -1,           /**< SNMP response not set */
-    SnmpRespStatSuccess = STAT_SUCCESS, /**< SNMP response success */
-    SnmpRespStatError   = STAT_ERROR,   /**< SNMP response with errors */
-    SnmpRespStatTimeout = STAT_TIMEOUT  /**< SNMP response timeout */
-} SnmpResponseStatus;
 
 /**
  * @brief SNMP Data type to PDU object
@@ -59,6 +62,41 @@ typedef enum SnmpDataTypeEnum {
     SnmpDataGauge       = ASN_GAUGE,        /**< Gauge type */
     SnmpDataTimeTicks   = ASN_TIMETICKS     /**< Time Ticks type*/
 } SnmpDataType;
+
+/**
+ * @brief SNMP response status to be used
+ */
+typedef enum SnmpResponseStatusEnum {
+    SnmpRespStatUnknown = -1,           /**< SNMP response not set */
+    SnmpRespStatSuccess = STAT_SUCCESS, /**< SNMP response success */
+    SnmpRespStatError   = STAT_ERROR,   /**< SNMP response with errors */
+    SnmpRespStatTimeout = STAT_TIMEOUT  /**< SNMP response timeout */
+} SnmpResponseStatus;
+
+/**
+ * @brief Current status to MIB object
+ * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00188
+ */
+typedef enum MibStatusEnum {
+    MibStatusMandatory  = MIB_STATUS_MANDATORY,  /**< Mandatory status */
+    MibStatusOptional   = MIB_STATUS_OPTIONAL,   /**< Optional status */
+    MibStatusObsolete   = MIB_STATUS_OBSOLETE,   /**< Obsolete status */
+    MibStatusDeprecated = MIB_STATUS_DEPRECATED, /**< Deprecated status */
+    MibStatusCurrent    = MIB_STATUS_CURRENT     /**< Current status */
+} MibStatus;
+
+/**
+ * @brief Access mode to MIB object
+ * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00181
+ */
+typedef enum MibAccessEnum {
+    MibAccessReadOnly  = MIB_ACCESS_READONLY,  /**< Read-Only access */
+    MibAccessReadWrite = MIB_ACCESS_READWRITE, /**< Read-Write access */
+    MibAccessWriteOnly = MIB_ACCESS_WRITEONLY, /**< Write-Only access */
+    MibAccessNoAccess  = MIB_ACCESS_NOACCESS,  /**< Not Accessible */
+    MibAccessNotify    = MIB_ACCESS_NOTIFY,    /**< Accessible for notify */
+    MibAccessCreate    = MIB_ACCESS_CREATE     /**< Read-create access */
+} MibAccess;
 
 /**
  * @brief SNMP Data type to PDU object
@@ -91,37 +129,11 @@ typedef enum MibTypeEnum {
     MibTypeObjIdentity = TYPE_OBJIDENTITY
 } MibType;
 
-
-/**
- * @brief Access mode to MIB object
- * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00181
- */
-typedef enum MibAccessEnum {
-    MibAccessReadOnly  = MIB_ACCESS_READONLY,  /**< Read-Only access */
-    MibAccessReadWrite = MIB_ACCESS_READWRITE, /**< Read-Write access */
-    MibAccessWriteOnly = MIB_ACCESS_WRITEONLY, /**< Write-Only access */
-    MibAccessNoAccess  = MIB_ACCESS_NOACCESS,  /**< Not Accessible */
-    MibAccessNotify    = MIB_ACCESS_NOTIFY,    /**< Accessible for notify */
-    MibAccessCreate    = MIB_ACCESS_CREATE     /**< Read-create access */
-} MibAccess;
-
-/**
- * @brief Current status to MIB object
- * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00188
- */
-typedef enum MibStatusEnum {
-    MibStatusMandatory  = MIB_STATUS_MANDATORY,  /**< Mandatory status */
-    MibStatusOptional   = MIB_STATUS_OPTIONAL,   /**< Optional status */
-    MibStatusObsolete   = MIB_STATUS_OBSOLETE,   /**< Obsolete status */
-    MibStatusDeprecated = MIB_STATUS_DEPRECATED, /**< Deprecated status */
-    MibStatusCurrent    = MIB_STATUS_CURRENT     /**< Current status */
-} MibStatus;
-
 /**
  * @brief Net-SNMP data value
  * More details in http://www.net-snmp.org/dev/agent/unionnetsnmp__vardata.html
  */
-typedef netsnmp_vardata SnmpValue;
+typedef netsnmp_vardata SnmpVarData;
 
 /**
  * @brief Net-SNMP session with agent
@@ -145,7 +157,21 @@ typedef netsnmp_variable_list SnmpVariableList;
  * @brief Net-SNMP MIB tree
  * More details in http://www.net-snmp.org/dev/agent/structtree.html
  */
-typedef struct tree SnmpMibTree;
+typedef struct tree MibTree;
+
+struct SnmpValue {
+    QVector<oid> name;
+    SnmpDataType type;
+    QString      val;
+
+    SnmpValue() {
+        type = SnmpDataUnknown;
+    }
+
+    void setName(oid *numOID, size_t oid_len);
+    QString nameAsStr() const;
+    QString toString() const;
+};
 
 class NetSNMP {
 public:
@@ -155,11 +181,14 @@ public:
      */
     static NetSNMP *instance();
 
-    SnmpMibTree *allMibs();
+    MibTree *allMibs();
     QString moduleName(int modId);
-    QString mibTypeName(MibType type);
-    QString mibAccessName(MibAccess access);
-    QString mibStatusName(MibStatus status);
+    static QString mibTypeName(MibType type);
+    static QString mibAccessName(MibAccess access);
+    static QString mibStatusName(MibStatus status);
+    static QString valueTypeName(SnmpDataType type);
+    static SnmpValue valueFrom(SnmpVariableList *vars);
+    static QString oidToString(oid *numOID, size_t oid_len);
 
 private:
     NetSNMP();

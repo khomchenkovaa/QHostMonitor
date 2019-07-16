@@ -3,10 +3,12 @@ DEPENDPATH += $$PWD
 
 HEADERS += \
     $$PWD/mibtreemodel.h \
-    $$PWD/nsnmpget.h \
+    $$PWD/netsnmpget.h \
+    $$PWD/netsnmptable.h \
     $$PWD/snmp.h
 
 SOURCES += \
     $$PWD/mibtreemodel.cpp \
-    $$PWD/nsnmpget.cpp \
+    $$PWD/netsnmpget.cpp \
+    $$PWD/netsnmptable.cpp \
     $$PWD/snmp.cpp

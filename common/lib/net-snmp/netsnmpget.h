@@ -7,12 +7,12 @@
 
 namespace SDPO {
 
-class NSnmpGet : public QObject
+class NetSnmpGet : public QObject
 {
     Q_OBJECT
 public:
-    explicit NSnmpGet(QObject *parent = nullptr);
-    ~NSnmpGet();
+    explicit NetSnmpGet(QObject *parent = nullptr);
+    ~NetSnmpGet();
 
     void setPeername(const QString& host);
     void setVersion(SnmpVersion version);
@@ -20,19 +20,12 @@ public:
     void setTimeout(const int timeout);
     void setRetries(const int retries);
 
-    bool request(const QString& oidStr);
-    QStringList response() const;
-    QString status() const;
-
-signals:
-
-public slots:
+    SnmpValue get(const QString& oidStr);
+    QList<SnmpValue> getNext(const QString &oidStr, int cnt=1);
+    QList<SnmpValue> getRow(const QString &oidStr);
 
 private:
-    SnmpSession        session, *ss;
-    SnmpPdu           *pdu;
-    SnmpPdu           *pduResponse;
-    SnmpResponseStatus responseStatus;
+    SnmpSession session, *ss;
 
 };
 

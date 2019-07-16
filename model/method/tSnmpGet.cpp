@@ -1,7 +1,7 @@
 #include "tSnmpGet.h"
 #include "tEnums.h"
 
-#include "nsnmpget.h"
+#include "netsnmpget.h"
 
 #include <QProcess>
 
@@ -27,13 +27,14 @@ void TSnmpGet::run()
 {
     m_Result.clear();
 
-    NSnmpGet snmpGet;
+    NetSnmpGet snmpGet;
     snmpGet.setCommunity(a_Community);
     snmpGet.setRetries(a_Retries);
     snmpGet.setVersion(SnmpVersion::SNMPv2c);
     snmpGet.setPeername(a_Host);
-    if (snmpGet.request(a_MibOid)) {
-        parseResult(snmpGet.response().first());
+    SnmpValue value = snmpGet.get(a_MibOid);
+    if (value.type != SnmpDataUnknown) {
+        parseResult(value.val);
         emit testSuccess();
     } else {
         emit testFailed();

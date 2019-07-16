@@ -15,7 +15,7 @@ MibBrowser::MibBrowser(QWidget *parent) :
     m_Proxy(new MibTreeProxyModel)
 {
     ui->setupUi(this);
-    SnmpMibTree *root = NetSNMP::instance()->allMibs();
+    MibTree *root = NetSNMP::instance()->allMibs();
     m_Proxy->setSourceModel(m_Model);
     m_Model->setRoot(root);
     ui->treeMibs->setModel(m_Proxy);
@@ -90,7 +90,7 @@ void MibBrowser::updateFields(const QModelIndex &proxyIndex)
     ui->txtDescription->clear();
 
     QModelIndex index = m_Proxy->mapToSource(proxyIndex);
-    SnmpMibTree *node = static_cast<SnmpMibTree *>(index.internalPointer());
+    MibTree *node = static_cast<MibTree *>(index.internalPointer());
 
     // build name
     QString name = QString("%1::%2").arg(NetSNMP::instance()->moduleName(node->modid)).arg(node->label);
@@ -99,7 +99,7 @@ void MibBrowser::updateFields(const QModelIndex &proxyIndex)
     // build oid
     QString oid = QString(".%1").arg(node->subid);
     bool has_children = node->child_list != nullptr;
-    SnmpMibTree *oidNode = node;
+    MibTree *oidNode = node;
     while ((oidNode = oidNode->parent)) {
         oid = QString(".%1").arg(oidNode->subid) + oid;
     }

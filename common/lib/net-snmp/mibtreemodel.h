@@ -27,15 +27,15 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void setRoot(SnmpMibTree *root);
-    SnmpMibTree *nodeFromIndex(const QModelIndex& index) const;
+    void setRoot(MibTree *root);
+    MibTree *nodeFromIndex(const QModelIndex& index) const;
 
     QModelIndex indexFromOid(QString oid) const;
-    QModelIndex indexFromNode(SnmpMibTree *node) const;
+    QModelIndex indexFromNode(MibTree *node) const;
     QModelIndex findByName(const QString& name, const QModelIndex& parent) const;
 
 private:
-    SnmpMibTree *m_Root;
+    MibTree *m_Root;
 };
 
 class MibTreeProxyModel : public QSortFilterProxyModel

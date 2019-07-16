@@ -3,7 +3,7 @@
 #include "method/tSnmpGet.h"
 #include "qMibBrowser.h"
 
-#include "nsnmpget.h"
+#include "netsnmpget.h"
 
 #include <QDebug>
 
@@ -143,14 +143,13 @@ void SnmpGetWidget::on_btnGetValue_clicked()
 
     Q_UNUSED(timeout)
 
-    NSnmpGet snmpGet;
+    NetSnmpGet snmpGet;
     snmpGet.setCommunity(community);
     snmpGet.setRetries(retries);
     snmpGet.setVersion(SnmpVersion::SNMPv2c);
     snmpGet.setPeername(host);
-    if (snmpGet.request(oid)) {
-        ui->cmbValue->setCurrentText(snmpGet.response().first());
-    }
+    SnmpValue value = snmpGet.get(oid);
+    ui->cmbValue->setCurrentText(value.val);
 
     ui->btnGetValue->setEnabled(true);
     ui->btnGetValue->setFocus();

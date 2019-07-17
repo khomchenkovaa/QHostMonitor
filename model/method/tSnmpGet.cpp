@@ -27,11 +27,13 @@ void TSnmpGet::run()
 {
     m_Result.clear();
 
+    SnmpProfile profile;
+    profile.community = a_Community;
+
     NetSnmpGet snmpGet;
-    snmpGet.setCommunity(a_Community);
+    snmpGet.setProfile(profile);
     snmpGet.setRetries(a_Retries);
-    snmpGet.setVersion(SnmpVersion::SNMPv2c);
-    snmpGet.setPeername(a_Host);
+    snmpGet.setHost(a_Host);
     SnmpValue value = snmpGet.get(a_MibOid);
     if (value.type != SnmpDataUnknown) {
         parseResult(value.val);

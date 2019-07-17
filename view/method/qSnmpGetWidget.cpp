@@ -134,8 +134,8 @@ void SnmpGetWidget::on_btnGetValue_clicked()
     ui->btnGetValue->setDisabled(true);
 
     // get values
-    QString version = "v2c"; // from profile
-    QString community = ui->cmbSnmpProfile->currentText(); // "public"
+    SnmpProfile profile;
+    profile.community = ui->cmbSnmpProfile->currentText(); // "public"
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHostPort->currentText(); // port = 161
@@ -143,11 +143,11 @@ void SnmpGetWidget::on_btnGetValue_clicked()
 
     Q_UNUSED(timeout)
 
+
     NetSnmpGet snmpGet;
-    snmpGet.setCommunity(community);
+    snmpGet.setProfile(profile);
     snmpGet.setRetries(retries);
-    snmpGet.setVersion(SnmpVersion::SNMPv2c);
-    snmpGet.setPeername(host);
+    snmpGet.setHost(host);
     SnmpValue value = snmpGet.get(oid);
     ui->cmbValue->setCurrentText(value.val);
 

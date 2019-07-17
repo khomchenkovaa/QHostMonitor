@@ -1,6 +1,7 @@
 #include "qMibBrowser.h"
 #include "ui_qMibBrowser.h"
-#include "qMibGetValuedlg.h"
+#include "qMibGetValueDlg.h"
+#include "qMibGetTableDlg.h"
 
 #include <QtWidgets>
 
@@ -172,7 +173,9 @@ void MibBrowser::on_btnGet_clicked()
 
 void MibBrowser::on_btnGetTable_clicked()
 {
-
+    QMibGetTableDlg dlg;
+    dlg.setOid(ui->editOid->text());
+    dlg.exec();
 }
 
 /******************************************************************/

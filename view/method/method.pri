@@ -2,7 +2,8 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
-    $$PWD/qMibGetValuedlg.h \
+    $$PWD/qMibGetTableDlg.h \
+    $$PWD/qMibGetValueDlg.h \
     $$PWD/qTestWidget.h \
     $$PWD/qPingWidget.h \
     $$PWD/qTcpWidget.h \
@@ -65,7 +66,8 @@ HEADERS += \
     $$PWD/qMibBrowser.h
 
 SOURCES += \
-    $$PWD/qMibGetValuedlg.cpp \
+    $$PWD/qMibGetTableDlg.cpp \
+    $$PWD/qMibGetValueDlg.cpp \
     $$PWD/qTestWidget.cpp \
     $$PWD/qPingWidget.cpp \
     $$PWD/qTcpWidget.cpp \
@@ -128,7 +130,8 @@ SOURCES += \
     $$PWD/qMibBrowser.cpp
 
 FORMS    += \
-    $$PWD/qMibGetValuedlg.ui \
+    $$PWD/qMibGetTableDlg.ui \
+    $$PWD/qMibGetValueDlg.ui \
     $$PWD/qPingWidget.ui \
     $$PWD/qTcpWidget.ui \
     $$PWD/qUrlWidget.ui \

@@ -14,9 +14,8 @@ public:
     explicit NetSnmpGet(QObject *parent = nullptr);
     ~NetSnmpGet();
 
-    void setPeername(const QString& host);
-    void setVersion(SnmpVersion version);
-    void setCommunity(const QString& community);
+    void setHost(const QString& host);
+    void setProfile(const SnmpProfile& profile);
     void setTimeout(const int timeout);
     void setRetries(const int retries);
 
@@ -25,7 +24,15 @@ public:
     QList<SnmpValue> getRow(const QString &oidStr);
 
 private:
-    SnmpSession session, *ss;
+    void snmpSessionInit(SnmpSession *session);
+    void snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
+
+private:
+    QString     m_Host;
+    SnmpVersion m_Version;
+    QString     m_Community;
+    int         m_Timeout;
+    int         m_Retries;
 
 };
 

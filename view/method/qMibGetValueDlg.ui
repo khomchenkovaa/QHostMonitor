@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>SNMP Get</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_3">
    <item>

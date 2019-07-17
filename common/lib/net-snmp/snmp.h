@@ -10,6 +10,8 @@
 
 namespace SDPO {
 
+/*****************************************************************/
+
 /**
  * @brief SNMP defaults
  */
@@ -28,6 +30,14 @@ typedef enum SnmpVersionEnum {
     SNMPv2c = SNMP_VERSION_2c, /**< SNMP version 2 (=1) */
     SNMPv3  = SNMP_VERSION_3   /**< SNMP version 3 (=3) */
 } SnmpVersion;
+
+enum SnmpSecAuth {
+    AuthNone, AuthMD5, AuthSHA
+};
+
+enum SnmpSecPrivType {
+    PrivNone, PrivDes, Priv3Des, PrivAes
+};
 
 /**
  * @brief PDU type to be encapsulated into SNMP message
@@ -129,6 +139,8 @@ typedef enum MibTypeEnum {
     MibTypeObjIdentity = TYPE_OBJIDENTITY
 } MibType;
 
+/*****************************************************************/
+
 /**
  * @brief Net-SNMP data value
  * More details in http://www.net-snmp.org/dev/agent/unionnetsnmp__vardata.html
@@ -159,6 +171,8 @@ typedef netsnmp_variable_list SnmpVariableList;
  */
 typedef struct tree MibTree;
 
+/*****************************************************************/
+
 struct SnmpValue {
     QVector<oid> name;
     SnmpDataType type;
@@ -173,11 +187,33 @@ struct SnmpValue {
     QString toString() const;
 };
 
+/*****************************************************************/
+
+struct SnmpProfile {
+    QString         name;
+    SnmpVersion     version;
+    QString         community;
+    // SNMP v3 fields
+    QString         context;
+    SnmpSecAuth     auth;
+    QString         authPwd;
+    SnmpSecPrivType privType;
+    QString         privPwd;
+
+    SnmpProfile() {
+        version  = SNMPv2c;
+        auth     = AuthNone;
+        privType = PrivNone;
+    }
+};
+
+/*****************************************************************/
+
 class NetSNMP {
 public:
     /**
-     * @brief Get a SNMP instance
-     * @return  pointer to instance of SNMP class
+     * @brief Get a NetSNMP instance
+     * @return pointer to instance of NetSNMP class
      */
     static NetSNMP *instance();
 
@@ -196,6 +232,8 @@ private:
     NetSNMP& operator=(const NetSNMP&) { return *this; }
     ~NetSNMP() {}
 };
+
+/*****************************************************************/
 
 } // namespace SDPO
 

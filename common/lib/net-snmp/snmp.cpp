@@ -137,11 +137,27 @@ SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
         result.val = vars->val.counter64? QString("%1 %2").arg(vars->val.counter64->high).arg(vars->val.counter64->low) : "nullptr";
         break;
     case SnmpDataBitString:
-        result.val = vars->val.bitstring? QString(reinterpret_cast<const char *>(vars->val.bitstring)) : "nullptr";
+        if (vars->val.string) {
+            char *sp = static_cast<char *>(malloc(1 + vars->val_len));
+            memcpy(sp, vars->val.bitstring, vars->val_len);
+            sp[vars->val_len] = '\0';
+            result.val = QString(sp);
+            free(sp);
+        } else {
+            result.val = "nullptr";
+        }
         break;
     case SnmpDataOctetString:
     case SnmpDataIPAddress:
-        result.val = vars->val.string? QString(reinterpret_cast<const char *>(vars->val.string)) : "nullptr";
+        if (vars->val.string) {
+            char *sp = static_cast<char *>(malloc(1 + vars->val_len));
+            memcpy(sp, vars->val.string, vars->val_len);
+            sp[vars->val_len] = '\0';
+            result.val = QString(sp);
+            free(sp);
+        } else {
+            result.val = "nullptr";
+        }
         break;
     case SnmpDataObjectId:
         result.val = oidToString(static_cast<oid*>(vars->val.objid), vars->val_len / sizeof (oid));

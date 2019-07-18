@@ -25,6 +25,8 @@ private slots:
     void on_btnGetRow_clicked();
     void on_btnGetNext_clicked();
 
+    void on_btnSet_clicked();
+
 private:
     Ui::QMibGetValueDlg *ui;
 };

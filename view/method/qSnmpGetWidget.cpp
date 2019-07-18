@@ -2,6 +2,7 @@
 #include "ui_qSnmpGetWidget.h"
 #include "method/tSnmpGet.h"
 #include "qMibBrowser.h"
+#include "gData.h"
 
 #include "netsnmpget.h"
 
@@ -37,7 +38,7 @@ void SnmpGetWidget::init(TTestMethod *item)
     }
     TSnmpGet *t = qobject_cast<TSnmpGet*>(item);
     ui->cmbHostPort->setCurrentText(t->getHost());
-    ui->cmbSnmpProfile->setCurrentText(t->getCommunity());
+    ui->cmbSnmpProfile->setCurrentText(t->getSnmpProfile());
     ui->spinTimeout->setValue(t->getTimeout());
     ui->spinRetries->setValue(t->getRetries());
     ui->cmbOid->setCurrentText(t->getMibOid());
@@ -56,7 +57,7 @@ TTestMethod *SnmpGetWidget::save(TTestMethod *item)
         t = new TSnmpGet();
     }
     t->setHost(ui->cmbHostPort->currentText());
-    t->setCommunity(ui->cmbSnmpProfile->currentText());
+    t->setSnmpProfile(ui->cmbSnmpProfile->currentText());
     t->setTimeout(ui->spinTimeout->value());
     t->setRetries(ui->spinRetries->value());
     t->setMibOid(ui->cmbOid->currentText());
@@ -73,11 +74,15 @@ void SnmpGetWidget::reset(QVariant data)
     TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::SNMP));
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
+    ui->cmbSnmpProfile->clear();
+    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+        ui->cmbSnmpProfile->addItem(profile.name);
+    }
     ui->cmbHostPort->setCurrentText("localhost");
-    ui->cmbSnmpProfile->setCurrentText("public");
+    ui->cmbSnmpProfile->setCurrentIndex(0);
     ui->spinTimeout->setValue(2);
     ui->spinRetries->setValue(1);
-    ui->cmbOid->setCurrentText(".1.3.6.1.2.1.1.3.0");
+    ui->cmbOid->setCurrentText(".1.3.6.1.2.1.1.1.0");
     ui->cmbCriteria->setCurrentIndex(0);
     ui->cmbValue->setCurrentText("");
 }

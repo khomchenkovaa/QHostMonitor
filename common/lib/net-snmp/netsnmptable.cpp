@@ -5,11 +5,8 @@
 /*****************************************************************/
 
 SDPO::NetSnmpTable::NetSnmpTable(QObject *parent)
-    : QObject(parent),
-      m_Timeout(2000),
-      m_Retries(1)
+    : NetSnmpCommon(parent)
 {
-    init_snmp("SDPO");
 }
 
 /*****************************************************************/
@@ -19,39 +16,6 @@ SDPO::NetSnmpTable::~NetSnmpTable()
     // clear columns
     qDeleteAll(m_Columns);
     m_Columns.clear();
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::setHost(const QString &host)
-{
-    m_Host = host;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::setProfile(const SDPO::SnmpProfile &profile)
-{
-    m_Version   = profile.version;
-    m_Community = profile.community;
-
-    if (profile.version == SNMPv3) {
-        //! TODO fields for SNMPv3
-    }
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::setTimeout(const int timeout)
-{
-    m_Timeout = timeout;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::setRetries(const int retries)
-{
-    m_Retries = retries;
 }
 
 /*****************************************************************/
@@ -105,18 +69,18 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
     snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
 
+    oid      name[MAX_OID_LEN];
+    size_t   namelen = m_RootLen + 1;
+    for (size_t i=0; i<m_RootLen; ++i) {
+        name[i] = m_Root[i];
+    }
+
     SOCK_STARTUP;
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
         snmpSessionLogError(LOG_ERR, "ack", &session);
         SOCK_CLEANUP;
         return result;
-    }
-
-    oid      name[MAX_OID_LEN];
-    size_t   namelen = m_RootLen + 1;
-    for (size_t i=0; i<m_RootLen; ++i) {
-        name[i] = m_Root[i];
     }
 
     bool running = true;
@@ -180,29 +144,6 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
     SOCK_CLEANUP;
 
     return result;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::snmpSessionInit(SDPO::SnmpSession *session)
-{
-    session->peername = strdup(m_Host.toLatin1());
-    session->version = static_cast<long>(m_Version);
-    session->community = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
-    session->community_len = static_cast<size_t>(m_Community.size());
-    session->retries = m_Retries;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpTable::snmpSessionLogError(int priority, const QString &prog, SDPO::SnmpSession *ss)
-{
-    char *err;
-    snmp_error(ss, nullptr, nullptr, &err);
-    qDebug() << prog << ": " << err;
-    Q_UNUSED(priority)
-//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
-    SNMP_FREE(err);
 }
 
 /*****************************************************************/

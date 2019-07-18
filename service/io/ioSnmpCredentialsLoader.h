@@ -1,15 +1,15 @@
-#ifndef IOMAILPROFILELOADER_H
-#define IOMAILPROFILELOADER_H
+#ifndef IOSNMPCREDENTIALSLOADER_H
+#define IOSNMPCREDENTIALSLOADER_H
 
 #include "ioDataLoader.h"
 
 namespace SDPO {
 
-class IOMailProfileLoader : public IODataLoader
+class IOSnmpCredentialsLoader : public IODataLoader
 {
     Q_OBJECT
 public:
-    explicit IOMailProfileLoader(QObject *parent = nullptr);
+    IOSnmpCredentialsLoader(QObject *parent = nullptr);
 
     void load();
     void save();
@@ -17,9 +17,8 @@ public:
 private:
     void parseJsonData(QJsonDocument json_doc);
     QJsonDocument createJsonDocument();
-
 };
 
 } // namespace SDPO
 
-#endif // IOMAILPROFILELOADER_H
+#endif // IOSNMPCREDENTIALSLOADER_H

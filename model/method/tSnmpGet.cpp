@@ -1,9 +1,8 @@
 #include "tSnmpGet.h"
 #include "tEnums.h"
+#include "gData.h"
 
 #include "netsnmpget.h"
-
-#include <QProcess>
 
 namespace SDPO {
 
@@ -13,7 +12,7 @@ TSnmpGet::TSnmpGet(QObject *parent) :
     TTestMethod(TMethodID::SNMP, parent)
 {
     a_Host = "localhost";
-    a_Community = "public";
+    a_SnmpProfile = "public v2";
     a_Timeout = 2;
     a_Retries = 1;
     a_MibOid = ".1.3.6.1.2.1.1.3.0";
@@ -27,8 +26,7 @@ void TSnmpGet::run()
 {
     m_Result.clear();
 
-    SnmpProfile profile;
-    profile.community = a_Community;
+    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
 
     NetSnmpGet snmpGet;
     snmpGet.setProfile(profile);
@@ -41,20 +39,6 @@ void TSnmpGet::run()
     } else {
         emit testFailed();
     }
-}
-
-/******************************************************************/
-
-QString TSnmpGet::getCommand() const
-{
-    QString cmd = "snmpget -m ALL ";
-    cmd += QString("-%1 ").arg(a_Version);
-    cmd += QString("-c %1 ").arg(a_Community);
-    cmd += QString("-t %1 ").arg(a_Timeout);
-    cmd += QString("-r %1 ").arg(a_Retries);
-    cmd += a_Host + " ";
-    cmd += a_MibOid;
-    return cmd;
 }
 
 /******************************************************************/
@@ -145,7 +129,7 @@ TTestMethod *TSnmpGet::clone()
     result->m_CommentPattern = m_CommentPattern;
     // test specific
     result->a_Host = a_Host;
-    result->a_Community = a_Community;
+    result->a_SnmpProfile = a_SnmpProfile;
     result->a_Condition = a_Condition;
     result->a_MibOid = a_MibOid;
     result->a_MibName = a_MibName;

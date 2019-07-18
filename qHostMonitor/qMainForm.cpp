@@ -1328,6 +1328,13 @@ void MainForm::on_actProfilesScriptManager_triggered()
 
 /******************************************************************/
 
+void MainForm::on_actSnmpCredentials_triggered()
+{
+    qDebug() << "SNMP Credentials called";
+}
+
+/******************************************************************/
+
 void MainForm::on_actColorSchemes_triggered()
 {
     IOColorProfileLoader loader;
@@ -1667,3 +1674,4 @@ void MainForm::on_trvTestList_doubleClicked(const QModelIndex &index)
 /******************************************************************/
 
 } // namespace SDPO
+

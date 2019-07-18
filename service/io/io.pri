@@ -6,6 +6,7 @@ include("method/method.pri")
 HEADERS += \
     $$PWD/ioConnectionLoader.h \
     $$PWD/ioDataLoader.h \
+    $$PWD/ioSnmpCredentialsLoader.h \
     $$PWD/ioTestMethodLoader.h \
     $$PWD/ioUserVarsLoader.h \
     $$PWD/ioMailProfileLoader.h \
@@ -19,6 +20,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/ioConnectionLoader.cpp \
     $$PWD/ioDataLoader.cpp \
+    $$PWD/ioSnmpCredentialsLoader.cpp \
     $$PWD/ioTestMethodLoader.cpp \
     $$PWD/ioUserVarsLoader.cpp \
     $$PWD/ioMailProfileLoader.cpp \

@@ -2,6 +2,9 @@
 #include "ui_qMibGetValueDlg.h"
 
 #include "netsnmpget.h"
+#include "netsnmpset.h"
+
+#include <QInputDialog>
 
 using namespace SDPO;
 
@@ -146,6 +149,35 @@ void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
         ui->textResult->appendPlainText(val.toString());
         ui->cmbOid->setCurrentText(val.nameAsStr());
     }
+}
+
+/*****************************************************************/
+
+void SDPO::QMibGetValueDlg::on_btnSet_clicked()
+{
+    // get values
+    SnmpProfile profile;
+    profile.community = "private";
+    int timeout = ui->spinTimeout->value(); // "2" / "1"
+    int retries = ui->spinRetries->value(); // "1" / "5"
+    QString host = ui->cmbHost->currentText(); // port = 161
+    QString oid = ui->cmbOid->currentText();
+    Q_UNUSED(timeout)
+
+    QString newValue = QInputDialog::getText(this,"SNMP Set","Set new value");
+
+    if (newValue.isEmpty()) {
+        return;
+    }
+
+    ui->textResult->appendPlainText("set " + oid + " = " + newValue);
+
+    NetSnmpSet snmpSet;
+    snmpSet.setProfile(profile);
+    snmpSet.setRetries(retries);
+    snmpSet.setHost(host);
+    SnmpValue value = snmpSet.set(oid, newValue);
+    ui->textResult->appendPlainText(value.toString());
 }
 
 /*****************************************************************/

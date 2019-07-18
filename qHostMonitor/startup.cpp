@@ -12,6 +12,7 @@
 #include "io/ioMailProfileLoader.h"
 #include "io/ioColorProfileLoader.h"
 #include "io/ioUserProfileLoader.h"
+#include "io/ioSnmpCredentialsLoader.h"
 #include "tNode.h"
 #include "tView.h"
 #include "utils.h"
@@ -77,6 +78,7 @@ void Startup::load() {
     loadColorProfiles();
     loadUserProfiles();
     GData::currentUser = "local";
+    loadSnmpCredentials();
     checkScriptsDir();
     loadFoldersModel();
 }
@@ -126,6 +128,14 @@ void Startup::loadColorProfiles()
 void Startup::loadUserProfiles()
 {
     IOUserProfileLoader loader;
+    loader.load();
+}
+
+/******************************************************************/
+
+void Startup::loadSnmpCredentials()
+{
+    IOSnmpCredentialsLoader loader;
     loader.load();
 }
 

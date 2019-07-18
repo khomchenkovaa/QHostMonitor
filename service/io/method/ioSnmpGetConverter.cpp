@@ -30,7 +30,7 @@ bool IOSnmpGetConverter::setValue(QString key, QString value)
     if (key == SP_AGENT) {
         test->setHost(value);
     } else if (key == SP_COMMUNITY) {
-        test->setCommunity(value);
+        test->setSnmpProfile(value);
     } else if (key == SP_TIMEOUT) {
         test->setTimeout(value.toInt());
     } else if (key == SP_RETRIES) {
@@ -60,7 +60,7 @@ void IOSnmpGetConverter::exportTo(QTextStream &out)
     TSnmpGet *test = qobject_cast<TSnmpGet*>(m_TestMethod);
 
     out << SP_AGENT     << " = " << test->getHost()                               << endl;
-    out << SP_COMMUNITY << " = " << test->getCommunity()                          << endl;
+    out << SP_COMMUNITY << " = " << test->getSnmpProfile()                          << endl;
     out << SP_TIMEOUT   << " = " << test->getTimeout() * 1000                     << endl;
     out << SP_OID       << " = " << test->getMibOid()                             << endl;
     out << SP_RETRIES   << " = " << test->getRetries()                            << endl;
@@ -78,7 +78,7 @@ QJsonObject IOSnmpGetConverter::toJsonObject()
     }
     TSnmpGet* test = qobject_cast<TSnmpGet*>(m_TestMethod);
     jsonObj.insert(SP_AGENT, QJsonValue(test->getHost()));
-    jsonObj.insert(SP_COMMUNITY, QJsonValue(test->getCommunity()));
+    jsonObj.insert(SP_COMMUNITY, QJsonValue(test->getSnmpProfile()));
     jsonObj.insert(SP_TIMEOUT, QJsonValue(test->getTimeout()));
     jsonObj.insert(SP_RETRIES, QJsonValue(test->getRetries()));
     jsonObj.insert(SP_VALUE, QJsonValue(test->getValue()));
@@ -93,7 +93,7 @@ TTestMethod *IOSnmpGetConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TSnmpGet *test = qobject_cast<TSnmpGet*>(getTestMethod());
     test->setHost(jsonObj.value(SP_AGENT).toString());
-    test->setCommunity(jsonObj.value(SP_COMMUNITY).toString());
+    test->setSnmpProfile(jsonObj.value(SP_COMMUNITY).toString());
     test->setTimeout(jsonObj.value(SP_TIMEOUT).toInt());
     test->setRetries(jsonObj.value(SP_RETRIES).toInt());
     test->setValue(jsonObj.value(SP_VALUE).toString());

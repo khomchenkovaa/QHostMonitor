@@ -224,3 +224,81 @@ QString SnmpValue::toString() const
 }
 
 /*****************************************************************/
+// NetSnmpCommon
+/*****************************************************************/
+
+NetSnmpCommon::NetSnmpCommon(QObject *parent)
+    : QObject(parent),
+      m_Host("localhost"),
+      m_Version(SNMPv2c),
+      m_Community("public"),
+      m_Timeout(2000),
+      m_Retries(1)
+{
+    init_snmp("SDPO");
+}
+
+/*****************************************************************/
+
+NetSnmpCommon::~NetSnmpCommon()
+{
+
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::setHost(const QString &host)
+{
+    m_Host = host;
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::setProfile(const SnmpProfile &profile)
+{
+    m_Version   = profile.version;
+    m_Community = profile.community;
+
+    if (profile.version == SNMPv3) {
+        //! TODO fields for SNMPv3
+    }
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::setTimeout(const int timeout)
+{
+    m_Timeout = timeout;
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::setRetries(const int retries)
+{
+    m_Retries = retries;
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::snmpSessionInit(SnmpSession *session)
+{
+    session->peername = strdup(m_Host.toLatin1());
+    session->version = static_cast<long>(m_Version);
+    session->community = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
+    session->community_len = static_cast<size_t>(m_Community.size());
+    session->retries = m_Retries;
+}
+
+/*****************************************************************/
+
+void NetSnmpCommon::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
+{
+    char *err;
+    snmp_error(ss, nullptr, nullptr, &err);
+    qDebug() << prog << ": " << err;
+    Q_UNUSED(priority)
+//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
+    SNMP_FREE(err);
+}
+
+/*****************************************************************/

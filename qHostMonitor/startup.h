@@ -41,6 +41,7 @@ private:
     void loadMailProfiles();
     void loadColorProfiles();
     void loadUserProfiles();
+    void loadSnmpCredentials();
     void checkScriptsDir();
     void loadFoldersModel();
 };

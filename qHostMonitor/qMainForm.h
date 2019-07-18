@@ -160,6 +160,7 @@ private slots:
     void on_actPatterns_triggered();
     void on_actConnectionManager_triggered();
     void on_actProfilesScriptManager_triggered();
+    void on_actSnmpCredentials_triggered();
     void on_actColorSchemes_triggered();
     void on_actMailProfiles_triggered();
     void on_actReportProfiles_triggered();

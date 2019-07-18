@@ -235,6 +235,33 @@ private:
 
 /*****************************************************************/
 
+class NetSnmpCommon : public QObject
+{
+    Q_OBJECT
+public:
+    explicit NetSnmpCommon(QObject *parent = nullptr);
+    ~NetSnmpCommon();
+
+    void setHost(const QString& host);
+    void setProfile(const SnmpProfile& profile);
+    void setTimeout(const int timeout);
+    void setRetries(const int retries);
+
+protected:
+    void snmpSessionInit(SnmpSession *session);
+    void snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
+
+protected:
+    QString     m_Host;
+    SnmpVersion m_Version;
+    QString     m_Community;
+    int         m_Timeout;
+    int         m_Retries;
+
+};
+
+/*****************************************************************/
+
 } // namespace SDPO
 
 #endif // SDPO_NET_SNMP_H

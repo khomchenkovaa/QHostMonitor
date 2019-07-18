@@ -5,11 +5,8 @@
 /*****************************************************************/
 
 SDPO::NetSnmpGet::NetSnmpGet(QObject *parent)
-    : QObject(parent),
-      m_Timeout(2000),
-      m_Retries(1)
+    : NetSnmpCommon(parent)
 {
-    init_snmp("SDPO");
 }
 
 /*****************************************************************/
@@ -20,48 +17,27 @@ SDPO::NetSnmpGet::~NetSnmpGet()
 
 /*****************************************************************/
 
-void SDPO::NetSnmpGet::setHost(const QString &host)
-{
-    m_Host = host;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpGet::setProfile(const SDPO::SnmpProfile &profile)
-{
-    m_Version   = profile.version;
-    m_Community = profile.community;
-
-    if (profile.version == SNMPv3) {
-        //! TODO fields for SNMPv3
-    }
-
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpGet::setTimeout(const int timeout)
-{
-    m_Timeout = timeout;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpGet::setRetries(const int retries)
-{
-    m_Retries = retries;
-}
-
-/*****************************************************************/
-
 SDPO::SnmpValue SDPO::NetSnmpGet::get(const QString& oidStr)
 {
     SDPO::SnmpValue result;
+
+    oid      anOID[MAX_OID_LEN];
+    size_t   anOID_len = MAX_OID_LEN;
+
+    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
+        int xerr = snmp_errno;
+        const char *str = snmp_api_errstring(xerr);
+        qDebug() << oidStr << ": " << str;
+        return result;
+    }
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
     snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
+
+    SnmpPdu *pdu = snmp_pdu_create(SnmpPduGet);
+    snmp_add_null_var(pdu, anOID, anOID_len);
 
     SOCK_STARTUP;
     SnmpSession *ss = snmp_open(&session); // establish the session
@@ -70,21 +46,6 @@ SDPO::SnmpValue SDPO::NetSnmpGet::get(const QString& oidStr)
         SOCK_CLEANUP;
         return result;
     }
-
-    SnmpPdu *pdu = snmp_pdu_create(SnmpPduGet);
-    oid      anOID[MAX_OID_LEN];
-    size_t   anOID_len = MAX_OID_LEN;
-
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
-//        snmp_log(LOG_ERR, "%s: %s\n", static_cast<const char *>(oidStr.toLatin1()), str);
-        snmp_close(ss);
-        SOCK_CLEANUP;
-        return result;
-    }
-    snmp_add_null_var(pdu, anOID, anOID_len);
 
     SnmpPdu    *pduResponse = nullptr;
     SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
@@ -120,6 +81,15 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
 {
     QList<SDPO::SnmpValue> result;
 
+    oid    anOID[MAX_OID_LEN];
+    size_t anOID_len = MAX_OID_LEN;
+    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
+        int xerr = snmp_errno;
+        const char *str = snmp_api_errstring(xerr);
+        qDebug() << oidStr << ": " << str;
+        return result;
+    }
+
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
     snmp_sess_init( &session ); // setup defaults
@@ -129,18 +99,6 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
         snmpSessionLogError(LOG_ERR, "ack", &session);
-        SOCK_CLEANUP;
-        return result;
-    }
-
-    oid    anOID[MAX_OID_LEN];
-    size_t anOID_len = MAX_OID_LEN;
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
-//        snmp_log(LOG_ERR, "%s: %s\n", static_cast<const char *>(oidStr.toLatin1()), str);
-        snmp_close(ss);
         SOCK_CLEANUP;
         return result;
     }
@@ -189,6 +147,15 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
 {
     QList<SDPO::SnmpValue> result;
 
+    oid    anOID[MAX_OID_LEN];
+    size_t anOID_len = MAX_OID_LEN;
+    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
+        int xerr = snmp_errno;
+        const char *str = snmp_api_errstring(xerr);
+        qDebug() << oidStr << ": " << str;
+        return result;
+    }
+
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
     snmp_sess_init( &session ); // setup defaults
@@ -198,18 +165,6 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
         snmpSessionLogError(LOG_ERR, "ack", &session);
-        SOCK_CLEANUP;
-        return result;
-    }
-
-    oid    anOID[MAX_OID_LEN];
-    size_t anOID_len = MAX_OID_LEN;
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
-//        snmp_log(LOG_ERR, "%s: %s\n", static_cast<const char *>(oidStr.toLatin1()), str);
-        snmp_close(ss);
         SOCK_CLEANUP;
         return result;
     }
@@ -275,29 +230,6 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
     SOCK_CLEANUP;
 
     return result;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpGet::snmpSessionInit(SnmpSession *session)
-{
-    session->peername = strdup(m_Host.toLatin1());
-    session->version = static_cast<long>(m_Version);
-    session->community = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
-    session->community_len = static_cast<size_t>(m_Community.size());
-    session->retries = m_Retries;
-}
-
-/*****************************************************************/
-
-void SDPO::NetSnmpGet::snmpSessionLogError(int priority, const QString &prog, SDPO::SnmpSession *ss)
-{
-    char *err;
-    snmp_error(ss, nullptr, nullptr, &err);
-    qDebug() << prog << ": " << err;
-    Q_UNUSED(priority)
-//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
-    SNMP_FREE(err);
 }
 
 /*****************************************************************/

@@ -224,5 +224,6 @@
         <file>img/status/tstUnknownHost.png</file>
         <file>img/status/tstWaitForMaster.png</file>
         <file>img/status/tstWarning.png</file>
+        <file>resources/snmpCredentials.json</file>
     </qresource>
 </RCC>

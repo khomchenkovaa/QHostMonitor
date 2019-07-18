@@ -74,7 +74,7 @@ private:
     Q_PROPERTY(QString MibNameShort READ getMibName)
 
     AUTO_PROPERTY(QString, Host)
-    AUTO_PROPERTY(QString, Community)
+    AUTO_PROPERTY(QString, SnmpProfile)
     AUTO_PROPERTY(QString, MibOid)
     AUTO_PROPERTY(QString, MibName)
     AUTO_PROPERTY(QString, OidFullName)
@@ -98,7 +98,6 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual QString getCommand() const Q_DECL_OVERRIDE;
     virtual void parseResult(QString data) Q_DECL_OVERRIDE;
 
     virtual TTestMethod *clone() Q_DECL_OVERRIDE;

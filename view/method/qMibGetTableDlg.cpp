@@ -1,7 +1,9 @@
 #include "qMibGetTableDlg.h"
 #include "ui_qMibGetTableDlg.h"
 
+#include "gData.h"
 #include "netsnmptable.h"
+#include "qSnmpCredentialsDlg.h"
 
 using namespace SDPO;
 
@@ -12,6 +14,10 @@ QMibGetTableDlg::QMibGetTableDlg(QWidget *parent) :
     ui(new Ui::QMibGetTableDlg)
 {
     ui->setupUi(this);
+    ui->cmbProfile->clear();
+    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+        ui->cmbProfile->addItem(profile.name);
+    }
 }
 
 /*****************************************************************/
@@ -33,8 +39,8 @@ void QMibGetTableDlg::setOid(const QString &oid)
 void SDPO::QMibGetTableDlg::on_btnGet_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "public";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -66,6 +72,21 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     }
 
 
+}
+
+/*****************************************************************/
+
+void SDPO::QMibGetTableDlg::on_btnProfile_clicked()
+{
+    QSnmpCredentialsDlg dlg;
+    dlg.init(ui->cmbProfile->currentIndex());
+    if (dlg.exec() == QDialog::Accepted) {
+        ui->cmbProfile->clear();
+        foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+            ui->cmbProfile->addItem(profile.name);
+        }
+        ui->cmbProfile->setCurrentIndex(dlg.getSelected());
+    }
 }
 
 /*****************************************************************/

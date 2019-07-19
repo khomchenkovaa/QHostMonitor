@@ -317,7 +317,7 @@ TestAction *IOActionProfileLoader::parseAction(QJsonObject json_obj)
         SnmpSetAction *SnmpSet = new SnmpSetAction();
         SnmpSet->setAgentAddress(json_obj["agentAddress"].toString());
         SnmpSet->setTimeout(json_obj["timeout"].toInt());
-        SnmpSet->setCommunity(json_obj["community"].toString());
+        SnmpSet->setSnmpProfile(json_obj["community"].toString());
         SnmpSet->setRetries(json_obj["retries"].toInt());
         SnmpSet->setOid(json_obj["oid"].toString());
         SnmpSet->setSetValue(json_obj["setValue"].toString());
@@ -363,7 +363,7 @@ TestAction *IOActionProfileLoader::parseAction(QJsonObject json_obj)
     result->setName(json_obj["name"].toString());
     result->setAgent(json_obj["agent"].toString());
     result->setStoreResult(json_obj["storeResult"].toBool());
-    result->setMode((TActionMode)(json_obj["mode"].toInt()));
+    result->setMode(static_cast<TActionMode>(json_obj["mode"].toInt()));
     result->setStartAfter(json_obj["startAfter"].toInt());
     result->setRetries(json_obj["retries"].toInt());
     result->setCondition(json_obj["condition"].toString());
@@ -412,7 +412,7 @@ QJsonValue IOActionProfileLoader::createActionValue(TestAction *action)
     jsonObj.insert("name", QJsonValue(action->getName()));
     jsonObj.insert("agent", QJsonValue(action->getAgent()));
     jsonObj.insert("storeResult", QJsonValue(action->isStoreResult()));
-    jsonObj.insert("mode", QJsonValue((int)(action->getMode())));
+    jsonObj.insert("mode", QJsonValue(static_cast<int>(action->getMode())));
     jsonObj.insert("startAfter", QJsonValue(action->getStartAfter()));
     jsonObj.insert("retries", QJsonValue(action->getRetries()));
     jsonObj.insert("condition", QJsonValue(action->getCondition()));
@@ -608,7 +608,7 @@ QJsonValue IOActionProfileLoader::createActionValue(TestAction *action)
         SnmpSetAction *SnmpSet = qobject_cast<SnmpSetAction*>(action);
         jsonObj.insert("agentAddress", QJsonValue(SnmpSet->getAgentAddress()));
         jsonObj.insert("timeout", QJsonValue(SnmpSet->getTimeout()));
-        jsonObj.insert("community", QJsonValue(SnmpSet->getCommunity()));
+        jsonObj.insert("community", QJsonValue(SnmpSet->getSnmpProfile()));
         jsonObj.insert("retries", QJsonValue(SnmpSet->getRetries()));
         jsonObj.insert("oid", QJsonValue(SnmpSet->getOid()));
         jsonObj.insert("setValue", QJsonValue(SnmpSet->getSetValue()));

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>455</width>
-    <height>145</height>
+    <height>154</height>
    </rect>
   </property>
   <property name="font">
@@ -53,15 +53,12 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QComboBox" name="cmbCommunity">
+    <widget class="QComboBox" name="cmbSnmpProfile">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
-     </property>
-     <property name="editable">
-      <bool>true</bool>
      </property>
      <item>
       <property name="text">
@@ -153,12 +150,12 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="lblCommunity">
+    <widget class="QLabel" name="lblSnmpProfile">
      <property name="text">
-      <string>Community</string>
+      <string>SNMP profile</string>
      </property>
      <property name="buddy">
-      <cstring>cmbCommunity</cstring>
+      <cstring>cmbSnmpProfile</cstring>
      </property>
     </widget>
    </item>

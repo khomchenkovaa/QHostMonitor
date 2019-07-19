@@ -1,4 +1,6 @@
 #include "tSnmpSetAction.h"
+#include "netsnmpset.h"
+#include "gData.h"
 
 namespace SDPO {
 
@@ -15,15 +17,22 @@ SnmpSetAction::SnmpSetAction(QObject *parent) :
 void SnmpSetAction::run(TTest *test)
 {
     Q_UNUSED(test)
+    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
+    NetSnmpSet snmpSet;
+    snmpSet.setProfile(profile);
+    snmpSet.setRetries(a_Retries);
+    snmpSet.setHost(a_AgentAddress);
+    SnmpValue value = snmpSet.set(a_Oid, a_SetValue);
 }
 
 /******************************************************************/
 
 QStringList SnmpSetAction::description(bool isBad)
 {
+    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
     QStringList result = TestAction::description(isBad);
     result.append(QString("Agent: %1").arg(a_AgentAddress));
-    result.append(QString("Community: %1").arg(a_Community));
+    result.append(QString("Community: %1").arg(profile.community));
     result.append(QString("OID: %1").arg(a_Oid));
     result.append(QString("Value: %1").arg(a_SetValue));
     result.append(QString("Timeout: %1").arg(a_Timeout));
@@ -39,7 +48,7 @@ TestAction *SnmpSetAction::clone()
     copyProperties(result);
     result->setAgentAddress(a_AgentAddress);
     result->setTimeout(a_Timeout);
-    result->setCommunity(a_Community);
+    result->setSnmpProfile(a_SnmpProfile);
     result->setRetries(a_Retries);
     result->setOid(a_Oid);
     result->setSetValue(a_SetValue);

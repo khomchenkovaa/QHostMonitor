@@ -133,11 +133,8 @@ void MailProfilesDlg::on_btnRename_clicked()
                              QString("Mail template '%1' already exists").arg(newName));
         return;
     }
-    GMailProfile newProfile;
+    GMailProfile newProfile(profile);
     newProfile.name = newName;
-    newProfile.type = profile.type;
-    newProfile.charset = profile.charset;
-    newProfile.body = profile.body;
     GData::mailProfiles.replace(idx,newProfile);
     ui->listProfiles->currentItem()->setText(newName);
     ui->listProfiles->setCurrentRow(idx);

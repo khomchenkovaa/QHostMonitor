@@ -9,10 +9,10 @@ namespace SDPO {
 
 ActionPropertiesDialog::ActionPropertiesDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ActionPropertiesDialog)
+    ui(new Ui::ActionPropertiesDialog),
+    m_item(nullptr)
 {
     ui->setupUi(this);
-    m_item = nullptr;
     ui->cmbSelectMode->setCurrentIndex(0);
     ui->stcWidgetMode->setCurrentIndex(0);
 }
@@ -35,11 +35,11 @@ void ActionPropertiesDialog::setAddFlag(const bool isBad)
 
 /******************************************************************/
 
-void ActionPropertiesDialog::setIndex(const int index)
+void ActionPropertiesDialog::setIndex(int index)
 {
-    ui->stcWidgetActionParametrs->setCurrentIndex(index);
     ui->cmbActionType->setCurrentIndex(index);
-    ui->lnActionName->setText(ui->cmbActionType->currentText());
+    actionTypeChanged(index);
+    connect(ui->cmbActionType, SIGNAL(currentIndexChanged(int)), this, SLOT(actionTypeChanged(int)));
 }
 
 /******************************************************************/
@@ -50,6 +50,7 @@ void ActionPropertiesDialog::init(TestAction *item)
     setIndex(static_cast<int>(m_item->getAction()));
     ActionWidget *widget = qobject_cast<ActionWidget*>(ui->stcWidgetActionParametrs->currentWidget());
     widget->init(m_item);
+    ui->cmbActionType->setEnabled(false);
     ui->lnActionName->setText(m_item->getName());
     ui->cmbExecuteBy->setCurrentText(m_item->getAgent());
     ui->chkStoreActionResult->setChecked(m_item->isStoreResult());
@@ -126,8 +127,16 @@ void ActionPropertiesDialog::on_btnAdvancedMode_clicked()
 
 /******************************************************************/
 
+void ActionPropertiesDialog::actionTypeChanged(int index)
+{
+    ui->stcWidgetActionParametrs->setCurrentIndex(index);
+    ui->lnActionName->setText(ui->cmbActionType->currentText());
+    if (m_item == nullptr) {
+        ActionWidget *widget = qobject_cast<ActionWidget*>(ui->stcWidgetActionParametrs->currentWidget());
+        widget->reset();
+    }
+}
+
+/******************************************************************/
+
 } // namespace SDPO
-
-
-
-

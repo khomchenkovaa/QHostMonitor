@@ -11,7 +11,7 @@ class SnmpSetAction : public TestAction
 
     AUTO_PROPERTY(QString, AgentAddress) // Agent address
     AUTO_PROPERTY(int, Timeout) // Timeout
-    AUTO_PROPERTY(QString, Community) // Community
+    AUTO_PROPERTY(QString, SnmpProfile) // Community
     AUTO_PROPERTY(int, Retries) // Retries
     AUTO_PROPERTY(QString, Oid) // OID
     AUTO_PROPERTY(QString, SetValue) // Set value

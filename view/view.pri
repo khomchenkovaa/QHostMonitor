@@ -23,6 +23,7 @@ HEADERS += \
     $$PWD/qMacroEditorDlg.h \
     $$PWD/qGlobalUserVariables.h \
     $$PWD/qConnectionManagerDlg.h \
+    $$PWD/qSnmpCredentialsDlg.h \
     $$PWD/qUserPreferencesDlg.h \
     $$PWD/qOperatorsDlg.h \
     $$PWD/qLoginAsDlg.h \
@@ -52,6 +53,7 @@ SOURCES += \
     $$PWD/qMacroEditorDlg.cpp \
     $$PWD/qGlobalUserVariables.cpp \
     $$PWD/qConnectionManagerDlg.cpp \
+    $$PWD/qSnmpCredentialsDlg.cpp \
     $$PWD/qUserPreferencesDlg.cpp \
     $$PWD/qOperatorsDlg.cpp \
     $$PWD/qLoginAsDlg.cpp \
@@ -80,6 +82,7 @@ FORMS    += \
     $$PWD/qMacroEditorDlg.ui \
     $$PWD/qGlobalUserVariables.ui \
     $$PWD/qConnectionManagerDlg.ui \
+    $$PWD/qSnmpCredentialsDlg.ui \
     $$PWD/qUserPreferencesDlg.ui \
     $$PWD/qOperatorsDlg.ui \
     $$PWD/qLoginAsDlg.ui \

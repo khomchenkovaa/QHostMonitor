@@ -25,7 +25,7 @@ class UserPreferencesDlg : public QDialog
     QList<QColor> m_Colors;
 
 public:
-    explicit UserPreferencesDlg(QWidget *parent = 0);
+    explicit UserPreferencesDlg(QWidget *parent = nullptr);
     ~UserPreferencesDlg();
 
 private slots:

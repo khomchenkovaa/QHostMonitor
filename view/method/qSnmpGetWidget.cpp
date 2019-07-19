@@ -2,6 +2,7 @@
 #include "ui_qSnmpGetWidget.h"
 #include "method/tSnmpGet.h"
 #include "qMibBrowser.h"
+#include "qSnmpCredentialsDlg.h"
 #include "gData.h"
 
 #include "netsnmpget.h"
@@ -118,7 +119,15 @@ QString SnmpGetWidget::getTemplateValue(const QString var) const
 
 void SnmpGetWidget::on_btnSnmpCredentials_clicked()
 {
-
+    QSnmpCredentialsDlg dlg;
+    dlg.init(ui->cmbSnmpProfile->currentIndex());
+    if (dlg.exec() == QDialog::Accepted) {
+        ui->cmbSnmpProfile->clear();
+        foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+            ui->cmbSnmpProfile->addItem(profile.name);
+        }
+        ui->cmbSnmpProfile->setCurrentIndex(dlg.getSelected());
+    }
 }
 
 /******************************************************************/
@@ -139,8 +148,8 @@ void SnmpGetWidget::on_btnGetValue_clicked()
     ui->btnGetValue->setDisabled(true);
 
     // get values
-    SnmpProfile profile;
-    profile.community = ui->cmbSnmpProfile->currentText(); // "public"
+    QString snmpProfile = ui->cmbSnmpProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHostPort->currentText(); // port = 161

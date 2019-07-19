@@ -199,12 +199,14 @@ struct SnmpProfile {
     QString         authPwd;
     SnmpSecPrivType privType;
     QString         privPwd;
+    bool            chkOpaque;
 
-    SnmpProfile() {
-        version  = SNMPv2c;
-        auth     = AuthNone;
-        privType = PrivNone;
-    }
+    SnmpProfile() :
+        version(SNMPv2c),
+        auth(AuthNone),
+        privType(PrivNone),
+        chkOpaque(false)
+    {}
 };
 
 /*****************************************************************/

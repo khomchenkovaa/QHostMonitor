@@ -18,7 +18,11 @@ public:
     ~SnmpSetWidget();
 
     virtual void init(TestAction *item = nullptr);
+    virtual void reset();
     virtual TestAction *save(TestAction *item);
+
+private slots:
+    void on_btnGetCurrentValue_clicked();
 
 private:
     Ui::SnmpSetWidget *ui;

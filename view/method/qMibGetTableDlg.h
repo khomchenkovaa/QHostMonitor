@@ -22,6 +22,8 @@ public:
 private slots:
     void on_btnGet_clicked();
 
+    void on_btnProfile_clicked();
+
 private:
     Ui::QMibGetTableDlg *ui;
 };

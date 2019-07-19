@@ -14,22 +14,23 @@ class ActionPropertiesDialog : public QDialog
 {
     Q_OBJECT
 
-    TestAction *m_item;
 public:
     explicit ActionPropertiesDialog(QWidget *parent = nullptr);
     ~ActionPropertiesDialog();
 
     void setAddFlag(const bool isBad);
-    void setIndex(const int index);
-    void init(TestAction *item);
+    void setIndex(int index);
+    void init(TestAction *item = nullptr);
     TestAction *getResult();
+
 private slots:
     void on_cmbSelectMode_currentIndexChanged(int index);
-
     void on_btnAdvancedMode_clicked();
+    void actionTypeChanged(int index);
 
 private:
     Ui::ActionPropertiesDialog *ui;
+    TestAction *m_item;
 
 };
 

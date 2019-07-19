@@ -23,22 +23,23 @@
 // view
 #include "hIOShellScripts.h"
 #include "qActionPopupEvent.h"
-#include "qActionProfiles.h"
 #include "qCommonViewPropertiesDlg.h"
-#include "qConnectionManagerDlg.h"
 #include "qDynamicViewPropertiesDlg.h"
 #include "qFolderPropertiesDlg.h"
-#include "qGlobalUserVariables.h"
 #include "qHostMonDlg.h"
 #include "qLinksList.h"
 #include "qLoginAsDlg.h"
-#include "qMailProfilesDlg.h"
 #include "qOperatorsDlg.h"
 #include "qOptionsForm.h"
-#include "qPalettesWin.h"
 #include "qPatternsDlg.h"
-#include "qReportProfilesDlg.h"
 #include "qShellMng.h"
+#include "qSnmpCredentialsDlg.h"
+#include "qConnectionManagerDlg.h"
+#include "qPalettesWin.h"
+#include "qMailProfilesDlg.h"
+#include "qReportProfilesDlg.h"
+#include "qGlobalUserVariables.h"
+#include "qActionProfiles.h"
 #include "qUserPreferencesDlg.h"
 #include "viewmodel/mFoldersAndViewsModel.h"
 #include "viewmodel/mTestListModel.h"
@@ -1330,7 +1331,9 @@ void MainForm::on_actProfilesScriptManager_triggered()
 
 void MainForm::on_actSnmpCredentials_triggered()
 {
-    qDebug() << "SNMP Credentials called";
+    QSnmpCredentialsDlg dlg;
+    dlg.init();
+    dlg.exec();
 }
 
 /******************************************************************/

@@ -1,8 +1,10 @@
 #include "qMibGetValueDlg.h"
 #include "ui_qMibGetValueDlg.h"
 
+#include "gData.h"
 #include "netsnmpget.h"
 #include "netsnmpset.h"
+#include "qSnmpCredentialsDlg.h"
 
 #include <QInputDialog>
 
@@ -15,6 +17,10 @@ QMibGetValueDlg::QMibGetValueDlg(QWidget *parent) :
     ui(new Ui::QMibGetValueDlg)
 {
     ui->setupUi(this);
+    ui->cmbProfile->clear();
+    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+        ui->cmbProfile->addItem(profile.name);
+    }
 }
 
 /*****************************************************************/
@@ -36,8 +42,8 @@ void QMibGetValueDlg::setOid(const QString &oid)
 void SDPO::QMibGetValueDlg::on_btnSysInfo_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "public";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -82,8 +88,8 @@ void SDPO::QMibGetValueDlg::on_btnSysInfo_clicked()
 void SDPO::QMibGetValueDlg::on_btnGet_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "public";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -104,8 +110,8 @@ void SDPO::QMibGetValueDlg::on_btnGet_clicked()
 void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "public";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -130,8 +136,8 @@ void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
 void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "public";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -156,8 +162,8 @@ void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
 void SDPO::QMibGetValueDlg::on_btnSet_clicked()
 {
     // get values
-    SnmpProfile profile;
-    profile.community = "private";
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -178,6 +184,21 @@ void SDPO::QMibGetValueDlg::on_btnSet_clicked()
     snmpSet.setHost(host);
     SnmpValue value = snmpSet.set(oid, newValue);
     ui->textResult->appendPlainText(value.toString());
+}
+
+/*****************************************************************/
+
+void SDPO::QMibGetValueDlg::on_btnProfile_clicked()
+{
+    QSnmpCredentialsDlg dlg;
+    dlg.init(ui->cmbProfile->currentIndex());
+    if (dlg.exec() == QDialog::Accepted) {
+        ui->cmbProfile->clear();
+        foreach(const SnmpProfile& profile, GData::snmpCredentials) {
+            ui->cmbProfile->addItem(profile.name);
+        }
+        ui->cmbProfile->setCurrentIndex(dlg.getSelected());
+    }
 }
 
 /*****************************************************************/

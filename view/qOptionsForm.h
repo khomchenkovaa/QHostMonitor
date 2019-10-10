@@ -18,7 +18,7 @@ class OptionsForm : public QDialog
     Q_OBJECT
 
 public:
-    explicit OptionsForm(QWidget *parent = 0);
+    explicit OptionsForm(QWidget *parent = nullptr);
     ~OptionsForm();
 
 private slots:
@@ -31,6 +31,9 @@ public slots:
     void init();
     void prepareToSave();
     void selectOptionsTreeItem(const int idx);
+
+private:
+    void setAutostart(bool autostart);
 
 private:
     Ui::OptionsForm *ui;

@@ -11,7 +11,7 @@ class OptionsWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit OptionsWidget(QWidget *parent = 0);
+    explicit OptionsWidget(QWidget *parent = nullptr);
 
     virtual void init(QSettings *s) { Q_UNUSED(s) }
     virtual void prepareToSave(QSettings *s) { Q_UNUSED(s) }

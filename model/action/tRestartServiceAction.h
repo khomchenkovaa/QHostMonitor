@@ -18,15 +18,11 @@ class RestartServiceAction : public TestAction
 
 public:
     explicit RestartServiceAction(QObject *parent = nullptr);
+    virtual ~RestartServiceAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 }// namespace SDPO

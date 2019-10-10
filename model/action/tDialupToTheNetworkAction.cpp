@@ -15,8 +15,8 @@ DialupToTheNetworkAction::DialupToTheNetworkAction(QObject *parent) :
 
 void DialupToTheNetworkAction::run(TTest *test)
 {
-        Q_UNUSED(test)
-    // Do nothig
+    Q_UNUSED(test)
+    // TODO DialupToTheNetworkAction::run implementation
 }
 
 /******************************************************************/

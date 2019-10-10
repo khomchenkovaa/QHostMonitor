@@ -14,7 +14,7 @@ class MailerSettingsWidget : public OptionsWidget
     Q_OBJECT
 
 public:
-    explicit MailerSettingsWidget(QWidget *parent = 0);
+    explicit MailerSettingsWidget(QWidget *parent = nullptr);
     ~MailerSettingsWidget();
 
     virtual void init(QSettings *s);

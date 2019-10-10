@@ -30,9 +30,9 @@ void ServiceOptionsWidget::init(QSettings *s)
     onLogOnAsChanged();
     connect(ui->rbServiceLocalAccount, SIGNAL(clicked()), this, SLOT(onLogOnAsChanged()));
     connect(ui->rbServiceUseAccount, SIGNAL(clicked()), this, SLOT(onLogOnAsChanged()));
-
     ui->editServiceUser->setText(s->value(SKEY_SERVICE_User).toString());
     ui->editServicePassword->setText(s->value(SKEY_SERVICE_Pswd).toString());
+
     ui->spinServiceStartupDelay->setValue(s->value(SKEY_SERVICE_Delay,0).toInt());
 
     if (s->value(SKEY_SERVICE_SaveMode,1).toInt() == 1) {
@@ -46,10 +46,13 @@ void ServiceOptionsWidget::init(QSettings *s)
 
 void ServiceOptionsWidget::prepareToSave(QSettings *s)
 {
+    // Logon as
     s->setValue(SKEY_SERVICE_Logon,ui->rbServiceLocalAccount->isChecked()?1:0);
     s->setValue(SKEY_SERVICE_User,ui->editServiceUser->text());
     s->setValue(SKEY_SERVICE_Pswd,ui->editServicePassword->text());
+
     s->setValue(SKEY_SERVICE_Delay,ui->spinServiceStartupDelay->value());
+
     s->setValue(SKEY_SERVICE_SaveMode,ui->rbServiceSaveInHML->isChecked()?1:0);
 }
 

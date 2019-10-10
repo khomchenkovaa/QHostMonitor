@@ -1,0 +1,41 @@
+QT += network
+DEFINES += BUILD_QXT_WEB
+
+INCLUDEPATH += $$PWD
+DEPENDPATH += $$PWD
+
+SOURCES += $$PWD/qxtabstracthttpconnector.cpp
+SOURCES += $$PWD/qxtabstractwebservice.cpp
+SOURCES += $$PWD/qxtabstractwebsessionmanager.cpp
+SOURCES += $$PWD/qxthtmltemplate.cpp
+SOURCES += $$PWD/qxthttpserverconnector.cpp
+SOURCES += $$PWD/qxthttpsessionmanager.cpp
+SOURCES += $$PWD/qxtscgiserverconnector.cpp
+SOURCES += $$PWD/qxtwebcgiservice.cpp
+SOURCES += $$PWD/qxtwebcontent.cpp
+SOURCES += $$PWD/qxtwebevent.cpp
+SOURCES += $$PWD/qxtwebjsonrpcservice.cpp
+SOURCES += $$PWD/qxtwebservicedirectory.cpp
+SOURCES += $$PWD/qxtwebslotservice.cpp
+SOURCES += $$PWD/qhttpheader.cpp
+#SOURCES += qxtwebtemplate.cpp
+
+HEADERS += $$PWD/qxtabstracthttpconnector.h
+HEADERS += $$PWD/qxtabstractwebservice.h
+HEADERS += $$PWD/qxtabstractwebsessionmanager.h
+HEADERS += $$PWD/qxtabstractwebsessionmanager_p.h
+HEADERS += $$PWD/qxthtmltemplate.h
+HEADERS += $$PWD/qxthttpsessionmanager.h
+HEADERS += $$PWD/qxtwebcgiservice.h
+HEADERS += $$PWD/qxtwebcgiservice_p.h
+HEADERS += $$PWD/qxtwebcontent.h
+HEADERS += $$PWD/qxtwebevent.h
+HEADERS += $$PWD/qxtweb.h
+HEADERS += $$PWD/qxtwebjsonrpcservice.h
+HEADERS += $$PWD/qxtwebjsonrpcservice_p.h
+HEADERS += $$PWD/qxtwebservicedirectory.h
+HEADERS += $$PWD/qxtwebservicedirectory_p.h
+HEADERS += $$PWD/qxtwebslotservice.h
+HEADERS += $$PWD/qhttpheader.h
+#HEADERS += qxtwebtemplate.h
+#HEADERS += qxtwebtemplate_p.h

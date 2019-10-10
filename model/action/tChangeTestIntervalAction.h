@@ -18,15 +18,11 @@ class ChangeTestIntervalAction : public TestAction
 
 public:
     explicit ChangeTestIntervalAction(QObject *parent = nullptr);
+    virtual ~ChangeTestIntervalAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

@@ -24,6 +24,7 @@ StartupOptionsWidget::~StartupOptionsWidget()
 
 void StartupOptionsWidget::init(QSettings *s)
 {
+    // Monitoring
     switch (s->value(SKEY_STARTUP_StartStopMode,2).toInt()) {
     case 0: ui->rbStartupMonitoringStart->setChecked(true); break;
     case 1: ui->rbStartupMonitoringStop->setChecked(true); break;
@@ -31,6 +32,7 @@ void StartupOptionsWidget::init(QSettings *s)
         ui->rbStartupMonitoringRestore->setChecked(true);
     }
 
+    // Windows status
     switch (s->value(SKEY_STARTUP_WinStatusMode,3).toInt()) {
     case 0: ui->rbStartupWindowMin->setChecked(true); break;
     case 1: ui->rbStartupWindowMax->setChecked(true); break;
@@ -39,18 +41,20 @@ void StartupOptionsWidget::init(QSettings *s)
         ui->rbStartupWindowRestore->setChecked(true);
     }
 
+    // Test List
     switch (s->value(SKEY_STARTUP_FileLoadMode,2).toInt()) {
     case 0: ui->rbStartupEmptyList->setChecked(true); break;
     case 1: ui->rbnStartupLoadList->setChecked(true); break;
     default: // case 2:
         ui->rbStartupRestoreList->setChecked(true);
     }
-
+    ui->editStartupFileName->setText(s->value(SKEY_STARTUP_LoadFileName).toString());
     onTestListChanged();
     connect(ui->rbStartupEmptyList, SIGNAL(clicked()), this, SLOT(onTestListChanged()));
     connect(ui->rbnStartupLoadList, SIGNAL(clicked()), this, SLOT(onTestListChanged()));
     connect(ui->rbStartupRestoreList, SIGNAL(clicked()), this, SLOT(onTestListChanged()));
 
+    // Error Handler
     switch (s->value(SKEY_STARTUP_ErrorHandlerMode,1).toInt()) {
     case 0: ui->rbErrorNormal->setChecked(true); break;
     case 2: ui->rbErrorQuit->setChecked(true); break;
@@ -59,7 +63,6 @@ void StartupOptionsWidget::init(QSettings *s)
     }
 
     ui->StartupChk->setChecked(s->value(SKEY_STARTUP_StartupRun,0) == 1);
-    ui->editStartupFileName->setText(s->value(SKEY_STARTUP_LoadFileName).toString());
 }
 
 /******************************************************************/
@@ -108,22 +111,13 @@ void StartupOptionsWidget::prepareToSave(QSettings *s)
 
 void StartupOptionsWidget::onTestListChanged()
 {
-    if(ui->rbStartupEmptyList->isChecked())
-    {
+    if (ui->rbnStartupLoadList->isChecked()) {
+        ui->editStartupFileName->setEnabled(true);
+        ui->btnStartupFileDlg->setEnabled(true);
+    } else {
         ui->editStartupFileName->setDisabled(true);
         ui->editStartupFileName->clear();
         ui->btnStartupFileDlg->setDisabled(true);
-    }
-    else if (ui->rbnStartupLoadList->isChecked())
-    {
-        ui->editStartupFileName->setEnabled(true);
-        ui->btnStartupFileDlg->setEnabled(true);
-    }
-    else if (ui->rbStartupRestoreList->isChecked())
-    {
-         ui->editStartupFileName->setDisabled(true);
-         ui->editStartupFileName->clear();
-         ui->btnStartupFileDlg->setDisabled(true);
     }
 }
 

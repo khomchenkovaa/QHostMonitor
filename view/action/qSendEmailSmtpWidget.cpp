@@ -51,7 +51,7 @@ void SendEmailSmtpWidget::init(TestAction *item)
     ui->cmbSubject->setCurrentText(action->getSubject());
     ui->cmbBodyTemplate->setCurrentText(action->getBodyTemplate());
     ui->chkAttachFile->setChecked(action->isAttachFile());
-    ui->lineAttachFile->setText(action->getAttachFileSelect());
+    ui->lineAttachFile->setText(action->getAttachedFileName());
 }
 
 /******************************************************************/
@@ -68,7 +68,7 @@ TestAction *SendEmailSmtpWidget::save(TestAction *item)
     action->setSubject(ui->cmbSubject->currentText());
     action->setBodyTemplate(ui->cmbBodyTemplate->currentText());
     action->setAttachFile(ui->chkAttachFile->isChecked());
-    action->setAttachFileSelect(ui->lineAttachFile->text());
+    action->setAttachedFileName(ui->lineAttachFile->text());
     return action;
 }
 

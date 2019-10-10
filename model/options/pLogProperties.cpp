@@ -21,10 +21,10 @@ PLogProperties::PLogProperties(bool primary, QObject *parent) :
 void PLogProperties::getPrimaryLogSettings()
 {
     QSettings s;
-    a_Target = (LogTarget) s.value(SKEY_LOG1_Target,1).toInt();
-    a_SaveMode = (LogMode) s.value(SKEY_LOG1_SaveMode,2).toInt();
-    a_Format = (LogFormat) s.value(SKEY_LOG1_LogFormat,0).toInt();
-    a_NameMethod = (LogName) s.value(SKEY_LOG1_LogNameMethod,0).toInt();
+    a_Target = static_cast<LogTarget>(s.value(SKEY_LOG1_Target,1).toInt());
+    a_SaveMode = static_cast<LogMode>(s.value(SKEY_LOG1_SaveMode,2).toInt());
+    a_Format = static_cast<LogFormat>(s.value(SKEY_LOG1_LogFormat,0).toInt());
+    a_NameMethod = static_cast<LogName>(s.value(SKEY_LOG1_LogNameMethod,0).toInt());
     a_File2Name = s.value(SKEY_LOG1_File2Name).toString();
     b_UseDeadAction = s.value(SKEY_LOG1_UseDeadAction,0).toInt() == 1;
     a_DeadActionID = s.value(SKEY_LOG1_DeadActionID,-1).toInt();
@@ -42,10 +42,10 @@ void PLogProperties::getPrimaryLogSettings()
 void PLogProperties::getBackupLogSettings()
 {
     QSettings s;
-    a_Target = (LogTarget) s.value(SKEY_LOG2_Target,1).toInt();
-    a_SaveMode = (LogMode) s.value(SKEY_LOG2_SaveMode,2).toInt();
-    a_Format = (LogFormat) s.value(SKEY_LOG2_LogFormat,0).toInt();
-    a_NameMethod = (LogName) s.value(SKEY_LOG2_LogNameMethod,0).toInt();
+    a_Target = static_cast<LogTarget>(s.value(SKEY_LOG2_Target,1).toInt());
+    a_SaveMode = static_cast<LogMode>(s.value(SKEY_LOG2_SaveMode,2).toInt());
+    a_Format = static_cast<LogFormat>(s.value(SKEY_LOG2_LogFormat,0).toInt());
+    a_NameMethod = static_cast<LogName>(s.value(SKEY_LOG2_LogNameMethod,0).toInt());
     a_File2Name = s.value(SKEY_LOG2_File2Name).toString();
     b_UseDeadAction = s.value(SKEY_LOG2_UseDeadAction,0).toInt() == 1;
     a_DeadActionID = s.value(SKEY_LOG2_DeadActionID,-1).toInt();

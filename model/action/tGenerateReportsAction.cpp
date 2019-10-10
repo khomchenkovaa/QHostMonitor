@@ -15,7 +15,7 @@ GenerateReportsAction::GenerateReportsAction(QObject *parent) :
 void GenerateReportsAction::run(TTest *test)
 {
     Q_UNUSED(test)
-    // Do nothing
+    // TODO GenerateReportsAction::run implementation
 }
 
 /******************************************************************/
@@ -23,10 +23,11 @@ void GenerateReportsAction::run(TTest *test)
 QStringList GenerateReportsAction::description(bool isBad)
 {
     QStringList result = TestAction::description(isBad);
-        if (b_GenerateReportFolder)
+        if (b_GenerateReportFolder) {
             result.append(QString("Use contains folder"));
-        else if (b_GenerateReportSpecificFolder)
+        } else if (b_GenerateReportSpecificFolder) {
             result.append(QString("Folder:%1").arg(a_ReportSelect));
+        }
         result.append(QString("Recursion:%1").arg(a_RecursiveMode));
     return result;
 }

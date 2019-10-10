@@ -14,15 +14,11 @@ class ExecuteExternalProgramAction : public TestAction
 
 public:
     explicit ExecuteExternalProgramAction(QObject *parent = nullptr);
+    virtual ~ExecuteExternalProgramAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

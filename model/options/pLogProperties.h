@@ -43,7 +43,7 @@ private:
     AUTO_PROPERTY(int, OdbcTimeout)
 
 public:
-    explicit PLogProperties(bool primary = true, QObject *parent = 0);
+    explicit PLogProperties(bool primary = true, QObject *parent = nullptr);
     void getPrimaryLogSettings();
     void getBackupLogSettings();
     QString getFileNameByDate(const QDateTime date) const;

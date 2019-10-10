@@ -14,9 +14,9 @@ class WmiWidget : public TestWidget
     Q_OBJECT
 
 public:
-    explicit WmiWidget(QWidget *parent = 0);
+    explicit WmiWidget(QWidget *parent = nullptr);
     ~WmiWidget();
-    virtual void init(TTestMethod *item = 0) Q_DECL_OVERRIDE;
+    virtual void init(TTestMethod *item = nullptr) Q_DECL_OVERRIDE;
     virtual TTestMethod* save(TTestMethod *item) Q_DECL_OVERRIDE;
     virtual void reset(QVariant data = QVariant()) Q_DECL_OVERRIDE;
     virtual QStringList validate() Q_DECL_OVERRIDE;

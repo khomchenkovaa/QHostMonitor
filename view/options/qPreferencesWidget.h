@@ -14,7 +14,7 @@ class PreferencesWidget : public OptionsWidget
     Q_OBJECT
 
 public:
-    explicit PreferencesWidget(QWidget *parent = 0);
+    explicit PreferencesWidget(QWidget *parent = nullptr);
     ~PreferencesWidget();
 
     virtual void init(QSettings *s);

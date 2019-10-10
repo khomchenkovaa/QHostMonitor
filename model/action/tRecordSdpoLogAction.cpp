@@ -18,7 +18,7 @@ RecordSdpoLogAction::RecordSdpoLogAction(QObject *parent) :
 void RecordSdpoLogAction::run(TTest *test)
 {
     Q_UNUSED(test)
-     // Do nothing
+    // Action runs from ActionService
 }
 
 /******************************************************************/

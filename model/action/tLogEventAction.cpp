@@ -14,7 +14,8 @@ LogEventAction::LogEventAction(QObject *parent) :
 
 void LogEventAction::run(SDPO::TTest *test)
 {
-     Q_UNUSED(test)
+    Q_UNUSED(test)
+    // TODO LogEventAction::run implementation
 }
 
 /******************************************************************/

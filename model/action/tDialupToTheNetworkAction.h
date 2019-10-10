@@ -19,14 +19,11 @@ class DialupToTheNetworkAction : public TestAction
 
 public:
     explicit DialupToTheNetworkAction(QObject *parent = nullptr);
+    virtual ~DialupToTheNetworkAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
 
 };
 

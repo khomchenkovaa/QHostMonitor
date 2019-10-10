@@ -17,7 +17,7 @@ class GMacroTranslator
     QStringList m_params;
     QMap<QString, QString> m_values;
 public:
-    explicit GMacroTranslator(QString source, TNode *item = 0);
+    explicit GMacroTranslator(QString source, TNode *item = nullptr);
 
     QStringList parse();
     void setValues(const QMap<QString, QString> &values);

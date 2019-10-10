@@ -15,6 +15,7 @@ DisconnectDialupConnectionAction::DisconnectDialupConnectionAction(QObject *pare
 void DisconnectDialupConnectionAction::run(TTest *test)
 {
     Q_UNUSED(test)
+    // TODO DisconnectDialupConnectionAction::run implementation
 }
 
 /******************************************************************/

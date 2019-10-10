@@ -14,7 +14,7 @@ class StartupOptionsWidget : public OptionsWidget
     Q_OBJECT
 
 public:
-    explicit StartupOptionsWidget(QWidget *parent = 0);
+    explicit StartupOptionsWidget(QWidget *parent = nullptr);
     ~StartupOptionsWidget();
     int s;
 

@@ -28,11 +28,21 @@ void RebootLocalMachineWidget::init(TestAction *item)
         return;
     }
     RebootLocalMachineAction *action = qobject_cast<RebootLocalMachineAction *>(item);
-        ui->rdLogout->setChecked(action->isLogout());
-        ui->rdReboot->setChecked(action->isReboot());
-        ui->rdShutdown->setChecked(action->isShutdown());
-        ui->rdPowerOff->setChecked(action->isPowerOff());
-        ui->chkForceProcessesToTerminate->setChecked(action->isForceProcesses());
+    switch(action->getShutdownMethod()) {
+    case RebootLocalMachineAction::ST_LOGOUT:
+        ui->rdLogout->setChecked(true);
+        break;
+    case RebootLocalMachineAction::ST_REBOOT:
+        ui->rdReboot->setChecked(true);
+        break;
+    case RebootLocalMachineAction::ST_SHUTDOWN:
+        ui->rdShutdown->setChecked(true);
+        break;
+    case RebootLocalMachineAction::ST_POWEROFF:
+        ui->rdPowerOff->setChecked(true);
+        break;
+    }
+    ui->chkForceProcessesToTerminate->setChecked(action->isForceProcesses());
 }
 
 /******************************************************************/
@@ -43,10 +53,15 @@ TestAction *RebootLocalMachineWidget::save(TestAction *item)
             item = new RebootLocalMachineAction();
         }
     RebootLocalMachineAction *action = qobject_cast<RebootLocalMachineAction *>(item);
-    action->setLogout(ui->rdLogout->isChecked());
-    action->setReboot(ui->rdReboot->isChecked());
-    action->setShutdown(ui->rdShutdown->isChecked());
-    action->setPowerOff(ui->rdPowerOff->isChecked());
+    if (ui->rdLogout->isChecked()) {
+        action->setShutdownMethod(RebootLocalMachineAction::ST_LOGOUT);
+    } else if (ui->rdReboot->isChecked()) {
+        action->setShutdownMethod(RebootLocalMachineAction::ST_REBOOT);
+    } else if (ui->rdShutdown->isChecked()) {
+        action->setShutdownMethod(RebootLocalMachineAction::ST_SHUTDOWN);
+    } else if (ui->rdPowerOff->isChecked()) {
+        action->setShutdownMethod(RebootLocalMachineAction::ST_POWEROFF);
+    }
     action->setForceProcesses(ui->chkForceProcessesToTerminate->isChecked());
     return action;
 }

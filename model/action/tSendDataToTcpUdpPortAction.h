@@ -18,14 +18,11 @@ class SendDataToTcpUdpPortAction : public TestAction
 
 public:
     explicit SendDataToTcpUdpPortAction(QObject *parent = nullptr);
+    virtual ~SendDataToTcpUdpPortAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
 
 };
 

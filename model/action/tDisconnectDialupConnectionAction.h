@@ -13,6 +13,7 @@ class DisconnectDialupConnectionAction : public TestAction
 
 public:
     explicit DisconnectDialupConnectionAction(QObject *parent = nullptr);
+    virtual ~DisconnectDialupConnectionAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

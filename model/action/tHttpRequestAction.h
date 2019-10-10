@@ -15,15 +15,11 @@ class HttpRequestAction : public TestAction
 
 public:
     explicit HttpRequestAction(QObject *parent = nullptr);
+    virtual ~HttpRequestAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

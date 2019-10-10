@@ -134,6 +134,7 @@ protected:
 signals:
     void testSuccess();
     void testFailed();
+    void testStarted();
 
 private:
     QMap<QString, QString> setVars(const QStringList &params) const;

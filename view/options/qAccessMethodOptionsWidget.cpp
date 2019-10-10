@@ -63,20 +63,9 @@ void AccessMethodOptionsWidget::prepareToSave(QSettings *s)
 
 void AccessMethodOptionsWidget::on_btnSelectAcessRetriveUrl()
 {
-    if(ui->rbAccessUseRegistry->isChecked())
-    {
-        ui->btnAccessProxy->setDisabled(true);
-    }
-    else if (ui->rbAccessDirect->isChecked())
-    {
-        ui->btnAccessProxy->setDisabled(true);
-    }
-    else if (ui->rbAccessViaProxy->isChecked())
-    {
+    if (ui->rbAccessViaProxy->isChecked()) {
         ui->btnAccessProxy->setDisabled(false);
-    }
-    else if (ui->rbAccessPreconfig->isChecked())
-    {
+    } else {
         ui->btnAccessProxy->setDisabled(true);
     }
 }

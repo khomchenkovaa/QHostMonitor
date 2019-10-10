@@ -28,7 +28,7 @@ class TImapTest : public TTestMethod
 
 
 public:
-    explicit TImapTest(QObject *parent = 0);
+    explicit TImapTest(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

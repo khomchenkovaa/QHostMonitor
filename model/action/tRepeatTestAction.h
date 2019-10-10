@@ -14,15 +14,11 @@ class RepeatTestAction : public TestAction
 
 public:
     explicit RepeatTestAction(QObject *parent = nullptr);
+    virtual ~RepeatTestAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

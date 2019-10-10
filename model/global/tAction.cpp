@@ -58,7 +58,7 @@ void TAction::append(TActionID actionId, QString actionCode, QString actionName)
 
 QString TAction::toCode(TActionID id)
 {
-    return TAction::actionList.at((int)id).code;
+    return TAction::actionList.at(static_cast<int>(id)).code;
 }
 
 /*****************************************************************/

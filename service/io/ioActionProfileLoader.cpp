@@ -164,7 +164,7 @@ TestAction *IOActionProfileLoader::parseAction(QJsonObject json_obj)
         MsgEmail->setSubject(json_obj["subject"].toString());
         MsgEmail->setBodyTemplate(json_obj["bodyTemplate"].toString());
         MsgEmail->setAttachFile(json_obj["attachFile"].toBool());
-        MsgEmail->setAttachFileSelect(json_obj["attachFileSelect"].toString());
+        MsgEmail->setAttachedFileName(json_obj["attachFileSelect"].toString());
         result = MsgEmail;
         } break;
     case TActionID::MsgIcq: {
@@ -237,10 +237,7 @@ TestAction *IOActionProfileLoader::parseAction(QJsonObject json_obj)
         } break;
     case TActionID::RebootLocal: {
         RebootLocalMachineAction *RebootLocal = new RebootLocalMachineAction();
-        RebootLocal->setLogout(json_obj["logout"].toBool());
-        RebootLocal->setReboot(json_obj["reboot"].toBool());
-        RebootLocal->setShutdown(json_obj["shutdown"].toBool());
-        RebootLocal->setPowerOff(json_obj["powerOff"].toBool());
+        RebootLocal->setMethodFromString(json_obj["method"].toString());
         RebootLocal->setForceProcesses(json_obj["forceProcesses"].toBool());
         result = RebootLocal;
         } break;
@@ -473,7 +470,7 @@ QJsonValue IOActionProfileLoader::createActionValue(TestAction *action)
         jsonObj.insert("subject", QJsonValue(MsgEmail->getSubject()));
         jsonObj.insert("bodyTemplate", QJsonValue(MsgEmail->getBodyTemplate()));
         jsonObj.insert("attachFile", QJsonValue(MsgEmail->isAttachFile()));
-        jsonObj.insert("attachFileSelect", QJsonValue(MsgEmail->getAttachFileSelect()));
+        jsonObj.insert("attachFileSelect", QJsonValue(MsgEmail->getAttachedFileName()));
     } break;
     case TActionID::MsgIcq: {
         SendMessageToIcqAction *MsgIcq = qobject_cast<SendMessageToIcqAction*>(action);
@@ -537,10 +534,7 @@ QJsonValue IOActionProfileLoader::createActionValue(TestAction *action)
     } break;
     case TActionID::RebootLocal: {
         RebootLocalMachineAction *RebootLocal = qobject_cast<RebootLocalMachineAction*>(action);
-        jsonObj.insert("logout", QJsonValue(RebootLocal->isLogout()));
-        jsonObj.insert("reboot", QJsonValue(RebootLocal->isReboot()));
-        jsonObj.insert("shutdown", QJsonValue(RebootLocal->isShutdown()));
-        jsonObj.insert("powerOff", QJsonValue(RebootLocal->isPowerOff()));
+        jsonObj.insert("method", QJsonValue(RebootLocal->methodAsString()));
         jsonObj.insert("forceProcesses", QJsonValue(RebootLocal->isForceProcesses()));
     } break;
     case TActionID::DialUpConnect: {

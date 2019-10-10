@@ -14,7 +14,7 @@ GMacroTranslator::GMacroTranslator(QString source, TNode *item) :
     if (m_item) {
         m_root = m_item->getRoot();
     } else {
-        m_root = 0;
+        m_root = nullptr;
     }
 }
 

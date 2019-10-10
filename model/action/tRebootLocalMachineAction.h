@@ -9,23 +9,22 @@ class RebootLocalMachineAction : public TestAction
 {
     Q_OBJECT
 
-    BOOL_PROPERTY(Logout) // Logout
-    BOOL_PROPERTY(Reboot) // Reboot
-    BOOL_PROPERTY(Shutdown) // Shutdown
-    BOOL_PROPERTY(PowerOff) // PowerOff
+public:
+    enum SDType { ST_LOGOUT, ST_REBOOT, ST_SHUTDOWN, ST_POWEROFF };
+
+private:
+    AUTO_PROPERTY(SDType, ShutdownMethod)
     BOOL_PROPERTY(ForceProcesses) // Force processes to terminate
 
 public:
     explicit RebootLocalMachineAction(QObject *parent = nullptr);
+    virtual ~RebootLocalMachineAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
+    QString methodAsString() const;
+    void setMethodFromString(const QString& method);
 };
 
 } // namespace SDPO

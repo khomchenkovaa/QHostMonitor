@@ -20,6 +20,7 @@ class LogEventAction : public TestAction
 
 public:
     explicit LogEventAction(QObject *parent = nullptr);
+    virtual ~LogEventAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);

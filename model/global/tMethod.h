@@ -61,6 +61,8 @@ enum class TMethodID {
     Empty
 };
 
+/*****************************************************************/
+
 class TGroup
 {
 public:
@@ -73,6 +75,7 @@ public:
     static QVector<TGroup> tGroupList;
 };
 
+/*****************************************************************/
 
 class TMethod
 {
@@ -94,6 +97,8 @@ public:
     static QString toName(TMethodID method);
     static TMethodID fromString(const QString name);
 };
+
+/*****************************************************************/
 
 } // namespace SDPO
 

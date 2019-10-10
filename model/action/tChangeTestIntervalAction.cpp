@@ -15,6 +15,7 @@ ChangeTestIntervalAction::ChangeTestIntervalAction(QObject *parent) :
 void ChangeTestIntervalAction::run(TTest *test)
 {
     Q_UNUSED(test)
+    // TODO ChangeTestIntervalAction::run implementation
 }
 
 /******************************************************************/

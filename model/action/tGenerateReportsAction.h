@@ -14,18 +14,13 @@ class GenerateReportsAction : public TestAction
     AUTO_PROPERTY(QString, RecursiveMode) // To (recipients)
     BOOL_PROPERTY(UseReportPool) // To (recipients)
 
-
 public:
     explicit GenerateReportsAction(QObject *parent = nullptr);
+    virtual ~GenerateReportsAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

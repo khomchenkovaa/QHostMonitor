@@ -1,5 +1,9 @@
 #include "tPop3Test.h"
 
+#include "qxtpop3.h"
+
+#include <QSslSocket>
+
 namespace SDPO {
 
 TPop3Test::TPop3Test(QObject *parent) :
@@ -21,6 +25,19 @@ TPop3Test::TPop3Test(QObject *parent) :
 
 void TPop3Test::run()
 {
+    writeLogTitle();
+    TTestResult result;
+    QxtPop3 pop;
+    pop.sslSocket()->setProtocol(QSsl::TlsV1_0);
+    pop.sslSocket()->setPeerVerifyMode(QSslSocket::QueryPeer);
+    pop.setUsername(a_Login.toLocal8Bit());
+    pop.setPassword(a_Password.toLocal8Bit());
+    if (a_TLS == "none") {
+        pop.connectToHost(a_Server.toLocal8Bit(), a_Port);
+    } else {
+        pop.connectToSecureHost(a_Server.toLocal8Bit(), a_Port);
+    }
+    // TODO TPop3Test::run implementation
     m_Result.status = TestStatus::Ok;
     emit testSuccess();
 }

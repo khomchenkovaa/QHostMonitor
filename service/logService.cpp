@@ -62,7 +62,7 @@ void LogService::writePrivateLog(TTest *test)
     // Private log type - files only
     logSettings.setTarget(PLogProperties::LT_FILE);
     logSettings.setFormatByFileExt(test->getPrivateLog());
-    logSettings.setSaveModeByTestProps((PLogProperties::LogModeTest)test->getPrivateLogMode());
+    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getPrivateLogMode()));
     logSettings.setFile2Name(test->getPrivateLog());
     logSettings.setUseGoodAction(false);
     logSettings.setUseDeadAction(false);
@@ -88,7 +88,7 @@ void LogService::writeCommonLog(TTest *test)
 {    
     PLogProperties logSettings(true);
 
-    logSettings.setSaveModeByTestProps((PLogProperties::LogModeTest)test->getCommonLogMode());
+    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getCommonLogMode()));
     if (!needToWrite(logSettings.getSaveMode(), test)) {
         return;
     }
@@ -160,7 +160,7 @@ void LogService::writeBackupLog(TTest *test)
 {
     PLogProperties logSettings(false);
 
-    logSettings.setSaveModeByTestProps((PLogProperties::LogModeTest)test->getCommonLogMode());
+    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getCommonLogMode()));
     if (!needToWrite(logSettings.getSaveMode(), test)) {
         return;
     }

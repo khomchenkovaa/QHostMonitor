@@ -15,7 +15,7 @@ WinPopupAction::WinPopupAction(QObject *parent) :
 void WinPopupAction::run(TTest* test)
 {
     Q_UNUSED(test)
-    //! TODO implement me
+    // Action runs from ActionService
 }
 
 /******************************************************************/

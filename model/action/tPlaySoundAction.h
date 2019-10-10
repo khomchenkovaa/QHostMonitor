@@ -14,15 +14,11 @@ class PlaySoundAction : public TestAction
 
 public:
     explicit PlaySoundAction(QObject *parent = nullptr);
+    virtual ~PlaySoundAction() {}
 
     virtual void run(TTest *test);
     virtual QStringList description(bool isBad);
     virtual TestAction *clone();
-
-signals:
-
-public slots:
-
 };
 
 } // namespace SDPO

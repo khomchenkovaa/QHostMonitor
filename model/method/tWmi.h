@@ -23,7 +23,7 @@ class TWmi : public TTestMethod
     AUTO_PROPERTY(QString, IfInstanChanged)
 
 public:
-    explicit TWmi(QObject *parent = 0);
+    explicit TWmi(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

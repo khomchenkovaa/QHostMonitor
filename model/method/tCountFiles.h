@@ -83,7 +83,7 @@ public:
     AUTO_PROPERTY(int, AlertWhen)
 
 public:
-    explicit TCountFiles(QObject *parent = 0);
+    explicit TCountFiles(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;
@@ -91,7 +91,7 @@ public:
     QString getHostAddr() const { return "localhost"; }
 
     // getters and setters
-    QString getFolderMask() const { return QString("%1\%2").arg(a_Folder).arg(a_FileNameMask); }
+    QString getFolderMask() const { return QString("%1/%2").arg(a_Folder).arg(a_FileNameMask); }
 
     // command
     virtual void run() Q_DECL_OVERRIDE;

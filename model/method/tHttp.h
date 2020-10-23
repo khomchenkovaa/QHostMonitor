@@ -20,7 +20,7 @@ class THttp : public TTestMethod
     AUTO_PROPERTY(int, Timeout)
 
 public:
-    explicit THttp(QObject *parent = 0);
+    explicit THttp(QObject *parent = nullptr);
 
     // properties
     virtual QString getTestMethod() const Q_DECL_OVERRIDE;

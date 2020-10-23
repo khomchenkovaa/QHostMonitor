@@ -133,7 +133,7 @@ void TPing::parseResult(QString data)
     switch(a_DisplayMode) {
     case TPing::Time :
         tResult.reply =  QString("%1ms").arg(pingStat.rttAvg);
-        tResult.replyInt = static_cast<int>(round(pingStat.rttAvg));
+        tResult.replyInt = qRound(pingStat.rttAvg);
         tResult.replyDouble = pingStat.rttAvg;
         break;
     case TPing::Lost :

@@ -45,9 +45,7 @@ void SnmpSetWidget::init(TestAction *item)
 void SnmpSetWidget::reset()
 {
     ui->cmbSnmpProfile->clear();
-    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
-        ui->cmbSnmpProfile->addItem(profile.name);
-    }
+    ui->cmbSnmpProfile->addItems(SnmpProfile::names());
 }
 
 /******************************************************************/
@@ -75,7 +73,7 @@ void SnmpSetWidget::on_btnGetCurrentValue_clicked()
 
     // get values
     QString snmpProfile = ui->cmbSnmpProfile->currentText();
-    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbAgentAddress->currentText(); // port = 161

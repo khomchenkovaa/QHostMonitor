@@ -1,7 +1,7 @@
 #include "qMibGetTableDlg.h"
 #include "ui_qMibGetTableDlg.h"
 
-#include "gData.h"
+#include "snmp.h"
 #include "netsnmptable.h"
 #include "qSnmpCredentialsDlg.h"
 
@@ -15,9 +15,7 @@ QMibGetTableDlg::QMibGetTableDlg(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->cmbProfile->clear();
-    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
-        ui->cmbProfile->addItem(profile.name);
-    }
+    ui->cmbProfile->addItems(SnmpProfile::names());
 }
 
 /*****************************************************************/
@@ -40,7 +38,7 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
-    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
@@ -82,9 +80,7 @@ void SDPO::QMibGetTableDlg::on_btnProfile_clicked()
     dlg.init(ui->cmbProfile->currentIndex());
     if (dlg.exec() == QDialog::Accepted) {
         ui->cmbProfile->clear();
-        foreach(const SnmpProfile& profile, GData::snmpCredentials) {
-            ui->cmbProfile->addItem(profile.name);
-        }
+        ui->cmbProfile->addItems(SnmpProfile::names());
         ui->cmbProfile->setCurrentIndex(dlg.getSelected());
     }
 }

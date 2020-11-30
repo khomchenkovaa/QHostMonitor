@@ -26,7 +26,7 @@ void TSnmpGet::run()
 {
     m_Result.clear();
 
-    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(a_SnmpProfile);
 
     NetSnmpGet snmpGet;
     snmpGet.setProfile(profile);

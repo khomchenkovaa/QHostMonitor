@@ -5,6 +5,34 @@ using namespace SDPO;
 
 /*****************************************************************/
 
+GSnmpCredentials SnmpProfile::credentials;
+
+/*****************************************************************/
+
+SnmpProfile SnmpProfile::findByName(const QString &name)
+{
+    int idx = 1; // not found
+    for (int i=0; i< credentials.count(); i++) {
+        if (name == credentials.at(i).name) {
+            idx = i;
+        }
+    }
+    return credentials.at(idx);
+}
+
+/*****************************************************************/
+
+QStringList SnmpProfile::names()
+{
+    QStringList result;
+    foreach(const SnmpProfile& item, credentials) {
+        result.append(item.name);
+    }
+    return result;
+}
+
+/*****************************************************************/
+
 NetSNMP *NetSNMP::instance()
 {
     // Meyers implementation of Singleton pattern, thread-safe in C++11

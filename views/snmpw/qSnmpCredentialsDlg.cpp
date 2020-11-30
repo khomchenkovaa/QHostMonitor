@@ -1,7 +1,7 @@
 #include "qSnmpCredentialsDlg.h"
 #include "ui_qSnmpCredentialsDlg.h"
 
-#include "io/ioSnmpCredentialsLoader.h"
+#include "ioSnmpCredentialsLoader.h"
 
 #include <QtWidgets>
 
@@ -29,7 +29,7 @@ void QSnmpCredentialsDlg::init(int idx)
 {
      ui->listProfiles->clear();
      m_Profiles.clear();
-     foreach (const SnmpProfile &profile, GData::snmpCredentials) {
+     foreach (const SnmpProfile &profile, SnmpProfile::credentials) {
          m_Profiles.append(SnmpProfile(profile));
          ui->listProfiles->addItem(profile.name);
      }
@@ -211,16 +211,16 @@ void SDPO::QSnmpCredentialsDlg::on_btnBox_accepted()
         save(idx);
     }
     // if something removed
-    while(m_Profiles.count() < GData::snmpCredentials.count()) {
-        GData::snmpCredentials.removeLast();
+    while(m_Profiles.count() < SnmpProfile::credentials.count()) {
+        SnmpProfile::credentials.removeLast();
     }
     // if something edited or added
     for (int i=0; i< m_Profiles.count(); i++) {
         SnmpProfile profile = m_Profiles.at(i);
-        if (i < GData::userProfiles.count()) {
-            GData::snmpCredentials.replace(i, profile);
+        if (i < SnmpProfile::credentials.count()) {
+            SnmpProfile::credentials.replace(i, profile);
         } else {
-            GData::snmpCredentials.append(profile);
+            SnmpProfile::credentials.append(profile);
         }
     }
     // save all

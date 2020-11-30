@@ -1,9 +1,9 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+include("../../views/snmpw/snmpw.pri")
+
 HEADERS += \
-    $$PWD/qMibGetTableDlg.h \
-    $$PWD/qMibGetValueDlg.h \
     $$PWD/qTestWidget.h \
     $$PWD/qPingWidget.h \
     $$PWD/qTcpWidget.h \
@@ -62,12 +62,9 @@ HEADERS += \
     $$PWD/qDicomWidget.h \
     $$PWD/qDominantProcessWidget.h \
     $$PWD/qDhcpWidget.h \
-    $$PWD/qSdpoMonitorWidget.h \
-    $$PWD/qMibBrowser.h
+    $$PWD/qSdpoMonitorWidget.h
 
 SOURCES += \
-    $$PWD/qMibGetTableDlg.cpp \
-    $$PWD/qMibGetValueDlg.cpp \
     $$PWD/qTestWidget.cpp \
     $$PWD/qPingWidget.cpp \
     $$PWD/qTcpWidget.cpp \
@@ -126,12 +123,9 @@ SOURCES += \
     $$PWD/qDicomWidget.cpp \
     $$PWD/qDominantProcessWidget.cpp \
     $$PWD/qDhcpWidget.cpp \
-    $$PWD/qSdpoMonitorWidget.cpp \
-    $$PWD/qMibBrowser.cpp
+    $$PWD/qSdpoMonitorWidget.cpp
 
 FORMS    += \
-    $$PWD/qMibGetTableDlg.ui \
-    $$PWD/qMibGetValueDlg.ui \
     $$PWD/qPingWidget.ui \
     $$PWD/qTcpWidget.ui \
     $$PWD/qUrlWidget.ui \
@@ -189,5 +183,4 @@ FORMS    += \
     $$PWD/qDicomWidget.ui \
     $$PWD/qDominantProcessWidget.ui \
     $$PWD/qDhcpWidget.ui \
-    $$PWD/qSdpoMonitorWidget.ui \
-    $$PWD/qMibBrowser.ui
+    $$PWD/qSdpoMonitorWidget.ui

@@ -1,5 +1,5 @@
 #include "ioSnmpCredentialsLoader.h"
-#include "gData.h"
+#include "snmp.h"
 
 using namespace SDPO;
 
@@ -19,14 +19,14 @@ IOSnmpCredentialsLoader::IOSnmpCredentialsLoader(QObject *parent)
 
 void IOSnmpCredentialsLoader::load()
 {
-    GData::mailProfiles.clear();
+    SnmpProfile::credentials.clear();
     QString rawJson = readJsonFile();
     if (rawJson.size() == 0) return;
 
     QPair<QJsonDocument, QJsonParseError> jsonResult = getJsonDocument(rawJson);
     QJsonParseError jsonError = jsonResult.second;
     if (jsonError.error != QJsonParseError::NoError) {
-        QString msg = tr("Error parsing JSON Mail List file at %1: %2").arg(jsonError.offset).arg(jsonError.errorString());
+        QString msg = tr("Error parsing JSON Snmp Profile List file at %1: %2").arg(jsonError.offset).arg(jsonError.errorString());
         sendErrorMessage(msg);
         return;
     }
@@ -63,7 +63,7 @@ void IOSnmpCredentialsLoader::parseJsonData(QJsonDocument json_doc)
         if (profile.version == SNMPv3) {
             //! TODO parse SNMP v3 properties
         }
-        GData::snmpCredentials.append(profile);
+        SnmpProfile::credentials.append(profile);
     }
 }
 
@@ -72,7 +72,7 @@ void IOSnmpCredentialsLoader::parseJsonData(QJsonDocument json_doc)
 QJsonDocument IOSnmpCredentialsLoader::createJsonDocument()
 {
     QJsonArray jsonArray;
-    foreach (const SnmpProfile &profile, GData::snmpCredentials) {
+    foreach (const SnmpProfile &profile, SnmpProfile::credentials) {
          QJsonObject jsonObj;
          jsonObj.insert("name",QJsonValue(profile.name));
          QString version = IO_SNMP_VERSION_2c;

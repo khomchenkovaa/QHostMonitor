@@ -1,7 +1,7 @@
 #ifndef QSNMPCREDENTIALSDLG_H
 #define QSNMPCREDENTIALSDLG_H
 
-#include "gData.h"
+#include "snmp.h"
 
 #include <QDialog>
 #include <QListWidgetItem>

@@ -10,6 +10,12 @@
     <height>571</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="font">
    <font>
     <pointsize>9</pointsize>
@@ -24,105 +30,17 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QTreeView" name="treeMibs"/>
-     </item>
-     <item>
-      <layout class="QGridLayout" name="gridLayout" columnstretch="0,1,3,0" columnminimumwidth="0,0,0,0">
-       <property name="horizontalSpacing">
-        <number>10</number>
-       </property>
-       <item row="1" column="0">
-        <widget class="QLabel" name="lblOID">
-         <property name="text">
-          <string>OID</string>
-         </property>
-         <property name="buddy">
-          <cstring>editOid</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="editAccess">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="lblStatus">
-         <property name="text">
-          <string>STATUS</string>
-         </property>
-         <property name="buddy">
-          <cstring>editStatus</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1" colspan="3">
-        <widget class="QLineEdit" name="editOid"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lblMIB">
-         <property name="text">
-          <string>MIB</string>
-         </property>
-         <property name="buddy">
-          <cstring>editMib</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="lblAccess">
-         <property name="text">
-          <string>ACCESS</string>
-         </property>
-         <property name="buddy">
-          <cstring>editAccess</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="editSyntax">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLineEdit" name="editStatus">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="3">
-        <widget class="QLineEdit" name="editMib"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lblSyntax">
-         <property name="text">
-          <string>SYNTAX</string>
-         </property>
-         <property name="buddy">
-          <cstring>editSyntax</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="2" rowspan="3" colspan="2">
-        <widget class="QPlainTextEdit" name="txtDescription">
-         <property name="readOnly">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="SDPO::MibBrowserWidget" name="MibBrowserWidget" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QDialogButtonBox" name="btnBoxMibBrowser">
        <property name="orientation">
@@ -194,6 +112,14 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SDPO::MibBrowserWidget</class>
+   <extends>QWidget</extends>
+   <header>mibbrowserwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../qHostMonitor.qrc"/>
  </resources>

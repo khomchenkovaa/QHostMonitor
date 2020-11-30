@@ -17,7 +17,7 @@ SnmpSetAction::SnmpSetAction(QObject *parent) :
 void SnmpSetAction::run(TTest *test)
 {
     Q_UNUSED(test)
-    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(a_SnmpProfile);
     NetSnmpSet snmpSet;
     snmpSet.setProfile(profile);
     snmpSet.setRetries(a_Retries);
@@ -29,7 +29,7 @@ void SnmpSetAction::run(TTest *test)
 
 QStringList SnmpSetAction::description(bool isBad)
 {
-    SnmpProfile profile = GData::getSnmpProfile(a_SnmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(a_SnmpProfile);
     QStringList result = TestAction::description(isBad);
     result.append(QString("Agent: %1").arg(a_AgentAddress));
     result.append(QString("Community: %1").arg(profile.community));

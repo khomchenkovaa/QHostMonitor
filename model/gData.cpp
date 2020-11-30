@@ -28,10 +28,6 @@ GConnectionList GData::connections;
 
 /*****************************************************************/
 
-GSnmpCredentials GData::snmpCredentials;
-
-/*****************************************************************/
-
 GData::GData(QObject *parent) :
     QObject(parent)
 {
@@ -61,19 +57,6 @@ int GData::getActionProfileIdx(const QString name)
         }
     }
     return idx;
-}
-
-/*****************************************************************/
-
-SnmpProfile GData::getSnmpProfile(const QString &name)
-{
-    int idx = 1; // not found
-    for (int i=0; i< snmpCredentials.count(); i++) {
-        if (name == snmpCredentials.at(i).name) {
-            idx = i;
-        }
-    }
-    return snmpCredentials.at(idx);
 }
 
 /*****************************************************************/

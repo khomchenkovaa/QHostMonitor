@@ -207,7 +207,15 @@ struct SnmpProfile {
         privType(PrivNone),
         chkOpaque(false)
     {}
+
+    static SnmpProfile findByName(const QString& name);
+    static QStringList names();
+    static QList<SnmpProfile> credentials;
 };
+
+/*****************************************************************/
+
+typedef QList<SnmpProfile> GSnmpCredentials;
 
 /*****************************************************************/
 

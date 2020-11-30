@@ -76,9 +76,7 @@ void SnmpGetWidget::reset(QVariant data)
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbSnmpProfile->clear();
-    foreach(const SnmpProfile& profile, GData::snmpCredentials) {
-        ui->cmbSnmpProfile->addItem(profile.name);
-    }
+    ui->cmbSnmpProfile->addItems(SnmpProfile::names());
     ui->cmbHostPort->setCurrentText("localhost");
     ui->cmbSnmpProfile->setCurrentIndex(0);
     ui->spinTimeout->setValue(2);
@@ -123,9 +121,7 @@ void SnmpGetWidget::on_btnSnmpCredentials_clicked()
     dlg.init(ui->cmbSnmpProfile->currentIndex());
     if (dlg.exec() == QDialog::Accepted) {
         ui->cmbSnmpProfile->clear();
-        foreach(const SnmpProfile& profile, GData::snmpCredentials) {
-            ui->cmbSnmpProfile->addItem(profile.name);
-        }
+        ui->cmbSnmpProfile->addItems(SnmpProfile::names());
         ui->cmbSnmpProfile->setCurrentIndex(dlg.getSelected());
     }
 }
@@ -149,7 +145,7 @@ void SnmpGetWidget::on_btnGetValue_clicked()
 
     // get values
     QString snmpProfile = ui->cmbSnmpProfile->currentText();
-    SnmpProfile profile = GData::getSnmpProfile(snmpProfile);
+    SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHostPort->currentText(); // port = 161

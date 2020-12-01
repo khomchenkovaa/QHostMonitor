@@ -1,7 +1,7 @@
 #include "qSnmpGetWidget.h"
 #include "ui_qSnmpGetWidget.h"
 #include "method/tSnmpGet.h"
-#include "qMibBrowser.h"
+#include "mibbrowserdlg.h"
 #include "qSnmpCredentialsDlg.h"
 #include "gData.h"
 
@@ -130,7 +130,7 @@ void SnmpGetWidget::on_btnSnmpCredentials_clicked()
 
 void SnmpGetWidget::on_btnMibBrowser_clicked()
 {
-    MibBrowser dlg;
+    MibBrowserDlg dlg;
     dlg.setOid(ui->cmbOid->currentText());
     if (dlg.exec() == QDialog::Accepted) {
         ui->cmbOid->setCurrentText(dlg.getOid());

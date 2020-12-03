@@ -125,6 +125,12 @@ QVariant MibTreeModel::data(const QModelIndex &index, int role) const
         if (node->type == MibTypeNotif || node->type == MibTypeTrap) {
             return QIcon(":/img/test/snmp_trap.png");
         }
+        if (node->access == MibAccessReadWrite) {
+            return QIcon(":/img/action/enableTest.png");
+        }
+        if (node->access == MibAccessNoAccess) {
+            return QIcon(":/img/action/key.png");
+        }
         return QIcon(":/img/test/snmp_get.png");
     }
 

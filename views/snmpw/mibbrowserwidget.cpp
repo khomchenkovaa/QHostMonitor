@@ -1,5 +1,7 @@
 #include "mibbrowserwidget.h"
 #include "mibtreemodel.h"
+#include "qMibGetValueDlg.h"
+#include "qMibGetTableDlg.h"
 
 #include <QtWidgets>
 
@@ -137,11 +139,86 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
 
 /******************************************************************/
 
+void MibBrowserWidget::updateActions(const QModelIndex &proxyIndex)
+{
+    if (!proxyIndex.isValid()) return;
+    QModelIndex index = m_Proxy->mapToSource(proxyIndex);
+    MibTree *node = static_cast<MibTree *>(index.internalPointer());
+    actChart->setDisabled(true);
+    actGetValue->setDisabled(true);
+    actGetRow->setDisabled(true);
+    actGetTable->setDisabled(true);
+
+    if (node->child_list) {
+        actGetTable->setEnabled( node->child_list->indexes );
+    } else {
+        actChart->setEnabled(true);
+        if (node->access == MibAccessReadOnly ||
+            node->access == MibAccessReadWrite) {
+            actGetValue->setEnabled(true);
+        }
+        if (node->parent->parent->child_list->indexes) {
+            actGetRow->setEnabled(true);
+        }
+    }
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::getValueDld()
+{
+    QMibGetValueDlg dlg;
+    dlg.setOid(getOid());
+    dlg.exec();
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::getTableDlg()
+{
+    QMibGetTableDlg dlg;
+    dlg.setOid(getOid());
+    dlg.exec();
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::findNameDlg()
+{
+    bool ok;
+    QString name = QInputDialog::getText(this, tr("Find Name"),tr("Name (e.g. sysUptime)"), QLineEdit::Normal, QString(), &ok);
+    if (ok) {
+        findByName(name);
+    }
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::findOidDlg()
+{
+    bool ok;
+    QString oid = QInputDialog::getText(this, tr("Find OID"),tr("OID (e.g. 1.3.6.1.2.1.1.1)"), QLineEdit::Normal, QString(), &ok);
+    if (ok) {
+        setOid(oid);
+    }
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::contextMenu(QPoint pos)
+{
+    ctxMenu->popup(treeMibs->viewport()->mapToGlobal(pos));
+}
+
+/******************************************************************/
+
 void MibBrowserWidget::setupUI()
 {
     treeMibs->setHeaderHidden(true);
     treeMibs->setSortingEnabled(true);
     treeMibs->sortByColumn(0, Qt::AscendingOrder);
+    treeMibs->setContextMenuPolicy(Qt::CustomContextMenu);
+    setupActions();
 
     editSyntax->setReadOnly(true);
     editAccess->setReadOnly(true);
@@ -185,6 +262,43 @@ void MibBrowserWidget::setupUI()
 
 /******************************************************************/
 
+void MibBrowserWidget::setupActions()
+{
+    actSysInfo  = new QAction(tr("System &info..."),this);
+    actGetValue = new QAction(QIcon(":/img/test/snmp_get.png"),tr("Get Value..."),this);
+    actGetNext  = new QAction(tr("Get Next..."),this);
+    actGetRow   = new QAction(tr("Get Row..."),this);
+    actGetTable = new QAction(QIcon(":/img/test/snmp_table.png"), tr("&Table..."),this);
+    actChart    = new QAction(tr("C&hart"),this);
+    actFindName = new QAction(QIcon(":/img/action/find.png"),tr("Find name..."),this);
+    actFindNext = new QAction(QIcon(":/img/action/findNext.png"),tr("Search next"),this);
+    actFindOid  = new QAction(QIcon(":/img/action/findBad.png"),tr("Find OID..."),this);
+
+    actFindName->setShortcuts(QKeySequence::Find);
+    actFindNext->setShortcuts(QKeySequence::FindNext);
+
+    ctxMenu = new QMenu(this);
+    ctxMenu->addAction(actGetValue);
+    ctxMenu->addAction(actGetNext);
+    ctxMenu->addSeparator();
+    ctxMenu->addAction(actGetRow);
+    ctxMenu->addAction(actGetTable);
+    ctxMenu->addAction(actChart);
+    ctxMenu->addSeparator();
+    ctxMenu->addAction(actFindName);
+    ctxMenu->addAction(actFindOid);
+
+    connect(actSysInfo,  &QAction::triggered, this, &MibBrowserWidget::getValueDld);
+    connect(actGetValue, &QAction::triggered, this, &MibBrowserWidget::getValueDld);
+    connect(actGetNext,  &QAction::triggered, this, &MibBrowserWidget::getValueDld);
+    connect(actGetTable, &QAction::triggered, this, &MibBrowserWidget::getTableDlg);
+    connect(actFindName, &QAction::triggered, this, &MibBrowserWidget::findNameDlg);
+    connect(actFindOid,  &QAction::triggered, this, &MibBrowserWidget::findOidDlg);
+
+}
+
+/******************************************************************/
+
 void MibBrowserWidget::init()
 {
     MibTree *root = NetSNMP::instance()->allMibs();
@@ -193,6 +307,10 @@ void MibBrowserWidget::init()
     treeMibs->setModel(m_Proxy);
     QObject::connect(treeMibs, &QTreeView::clicked,
                      this, &MibBrowserWidget::updateFields);
+    QObject::connect(treeMibs, &QTreeView::clicked,
+                     this, &MibBrowserWidget::updateActions);
+    QObject::connect(treeMibs, &QTreeView::customContextMenuRequested,
+                     this, &MibBrowserWidget::contextMenu);
 }
 
 /******************************************************************/

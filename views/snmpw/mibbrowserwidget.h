@@ -8,6 +8,8 @@ class QModelIndex;
 class QTreeView;
 class QLineEdit;
 class QPlainTextEdit;
+class QAction;
+class QMenu;
 QT_END_NAMESPACE
 
 namespace SDPO {
@@ -25,11 +27,28 @@ public:
     void setOid(const QString& oid);
     void findByName(const QString& name);
 
+    QAction *actionSysInfo()  { return actSysInfo; }
+    QAction *actionGetValue() { return actGetValue; }
+    QAction *actionGetNext()  { return actGetNext; }
+    QAction *actionGetRow()   { return actGetRow; }
+    QAction *actionGetTable() { return actGetTable; }
+    QAction *actionChart()    { return actChart; }
+    QAction *actionFindName() { return actFindName; }
+    QAction *actionFindNext() { return actFindNext; }
+    QAction *actionFindOid()  { return actFindOid; }
+
 private slots:
     void updateFields(const QModelIndex& proxyIndex);
+    void updateActions(const QModelIndex& proxyIndex);
+    void getValueDld();
+    void getTableDlg();
+    void findNameDlg();
+    void findOidDlg();
+    void contextMenu(QPoint pos);
 
 private:
     void setupUI();
+    void setupActions();
     void init();
 
 private:
@@ -42,6 +61,18 @@ private:
     QLineEdit         *editAccess;
     QLineEdit         *editStatus;
     QPlainTextEdit    *txtDescription;
+
+    QAction *actSysInfo;
+    QAction *actGetValue;
+    QAction *actGetNext;
+    QAction *actGetRow;
+    QAction *actGetTable;
+    QAction *actChart;
+    QAction *actFindName;
+    QAction *actFindNext;
+    QAction *actFindOid;
+
+    QMenu   *ctxMenu;
 };
 
 } // namespace SDPO

@@ -6,6 +6,3 @@ SUBDIRS += \
     rma \
     HMTelnetService
 
-RESOURCES += \
-    HostMonitor.qrc \
-    ../qhostmonitor/qHostMonitor.qrc

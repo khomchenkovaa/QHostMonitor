@@ -89,17 +89,29 @@ void MibBrowserDlg::setupUI()
     QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
     sizePolicy.setHorizontalStretch(0);
     sizePolicy.setVerticalStretch(0);
-    sizePolicy.setHeightForWidth(mibBrowserWidget->sizePolicy().hasHeightForWidth());
+    sizePolicy.setHeightForWidth(false);
     mibBrowserWidget->setSizePolicy(sizePolicy);
 
     QDialogButtonBox *btnBox = new QDialogButtonBox(this);
     btnBox->setOrientation(Qt::Vertical);
     btnBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
-    QPushButton *btnGetValue = new QPushButton(QIcon(":/img/test/snmp_get.png"), "Get Value", this);
-    QPushButton *btnGetTable = new QPushButton(QIcon(":/img/test/snmp_table.png"), "Get Table", this);
-    QPushButton *btnFindName = new QPushButton(QIcon(":/img/test/find.png"), "Find Name", this);
-    QPushButton *btnFindOid  = new QPushButton(QIcon(":/img/test/find.png"), "Find OID", this);
+    QToolButton *btnGetValue = new QToolButton(this);
+    btnGetValue->setDefaultAction(mibBrowserWidget->actionGetValue());
+    btnGetValue->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btnGetValue->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
+    QToolButton *btnGetTable = new QToolButton(this);
+    btnGetTable->setDefaultAction(mibBrowserWidget->actionGetTable());
+    btnGetTable->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btnGetTable->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
+    QToolButton *btnFindName = new QToolButton(this);
+    btnFindName->setDefaultAction(mibBrowserWidget->actionFindName());
+    btnFindName->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btnFindName->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
+    QToolButton *btnFindOid = new QToolButton(this);
+    btnFindOid->setDefaultAction(mibBrowserWidget->actionFindOid());
+    btnFindOid->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    btnFindOid->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
 
     QVBoxLayout *verticalLayout = new QVBoxLayout();
     verticalLayout->addWidget(btnBox);
@@ -115,10 +127,10 @@ void MibBrowserDlg::setupUI()
 
     connect(btnBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(btnBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-    connect(btnGetValue, &QPushButton::clicked, this, &MibBrowserDlg::openGetValueDlg);
-    connect(btnGetTable, &QPushButton::clicked, this, &MibBrowserDlg::openGetTableDlg);
-    connect(btnFindName, &QPushButton::clicked, this, &MibBrowserDlg::openFindNameDlg);
-    connect(btnFindOid, &QPushButton::clicked, this, &MibBrowserDlg::openFindOidDlg);
+//    connect(btnGetValue, &QPushButton::clicked, this, &MibBrowserDlg::openGetValueDlg);
+//    connect(btnGetTable, &QPushButton::clicked, this, &MibBrowserDlg::openGetTableDlg);
+//    connect(btnFindName, &QPushButton::clicked, this, &MibBrowserDlg::openFindNameDlg);
+//    connect(btnFindOid, &QPushButton::clicked, this, &MibBrowserDlg::openFindOidDlg);
 }
 
 /******************************************************************/

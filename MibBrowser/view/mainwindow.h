@@ -15,12 +15,6 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void getValueDld();
-    void getTableDlg();
-    void findNameDlg();
-    void findOidDlg();
-
 private:
     void setupUI();
     void setupActions();

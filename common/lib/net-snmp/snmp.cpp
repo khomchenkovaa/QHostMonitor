@@ -52,7 +52,7 @@ MibTree *NetSNMP::allMibs()
 
 QString NetSNMP::moduleName(int modId)
 {
-    struct module *mp = find_module(modId);
+    module *mp = find_module(modId);
 
     if (mp) {
         return mp->name;
@@ -63,7 +63,7 @@ QString NetSNMP::moduleName(int modId)
 
 /*****************************************************************/
 
-QString NetSNMP::mibTypeName(MibType type)
+QString NetSNMP::mibTypeName(int type)
 {
     switch (type) {
     case MibTypeObjId       : return "OBJECT IDENTIFIER";
@@ -79,7 +79,7 @@ QString NetSNMP::mibTypeName(MibType type)
     case MibTypeCounter64   : return "Counter64";
     case MibTypeBitString   : return "BITS";
     case MibTypeNsapAddress : return "NsapAddress";
-    case MibTypeUInreger    : return "UInteger32";
+    case MibTypeUInteger    : return "UInteger32";
     case MibTypeUnsigned32  : return "Unsigned32";
     case MibTypeInteger32   : return "Integer32";
     case MibTypeTrap        : return "Trap Type";
@@ -97,7 +97,7 @@ QString NetSNMP::mibTypeName(MibType type)
 
 /*****************************************************************/
 
-QString NetSNMP::mibAccessName(MibAccess access)
+QString NetSNMP::mibAccessName(int access)
 {
     switch (access) {
     case MibAccessReadOnly  : return "read-only";
@@ -112,7 +112,7 @@ QString NetSNMP::mibAccessName(MibAccess access)
 
 /*****************************************************************/
 
-QString NetSNMP::mibStatusName(MibStatus status)
+QString NetSNMP::mibStatusName(int status)
 {
     switch (status) {
     case MibStatusMandatory  : return "mandatory";
@@ -149,6 +149,7 @@ QString NetSNMP::valueTypeName(SnmpDataType type)
 
 SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
 {
+    // TODO display value according to Mib info
     SnmpValue result;
     result.setName(vars->name, vars->name_length);
     result.type = static_cast<SnmpDataType>(vars->type);
@@ -165,27 +166,24 @@ SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
         result.val = vars->val.counter64? QString("%1 %2").arg(vars->val.counter64->high).arg(vars->val.counter64->low) : "nullptr";
         break;
     case SnmpDataBitString:
-        if (vars->val.string) {
-            char *sp = static_cast<char *>(malloc(1 + vars->val_len));
-            memcpy(sp, vars->val.bitstring, vars->val_len);
-            sp[vars->val_len] = '\0';
-            result.val = QString(sp);
-            free(sp);
+        if (vars->val.bitstring) {
+            QByteArray tmp = QByteArray::fromRawData((const char *)vars->val.bitstring, vars->val_len);
+            result.val = QString(tmp);
         } else {
             result.val = "nullptr";
         }
         break;
     case SnmpDataOctetString:
-    case SnmpDataIPAddress:
         if (vars->val.string) {
-            char *sp = static_cast<char *>(malloc(1 + vars->val_len));
-            memcpy(sp, vars->val.string, vars->val_len);
-            sp[vars->val_len] = '\0';
-            result.val = QString(sp);
-            free(sp);
+            QByteArray tmp = QByteArray::fromRawData((const char *)vars->val.string, vars->val_len);
+            result.val = QString(tmp);
+            // TODO if OctetString wothout ranges => display as hex
         } else {
             result.val = "nullptr";
         }
+        break;
+    case SnmpDataIPAddress:
+        result.val = ipToString(vars->val.string, vars->val_len);
         break;
     case SnmpDataObjectId:
         result.val = oidToString(static_cast<oid*>(vars->val.objid), vars->val_len / sizeof (oid));
@@ -209,6 +207,17 @@ QString NetSNMP::oidToString(oid *numOID, size_t oid_len)
         result.append(QString(".%1").arg(numOID[i]));
     }
     return result;
+}
+
+/*****************************************************************/
+
+QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
+{
+    QStringList result;
+    for (size_t i=0; i < ip_len; ++i) {
+        result.append(QString::number(ip[i]));
+    }
+    return result.join('.');
 }
 
 /*****************************************************************/

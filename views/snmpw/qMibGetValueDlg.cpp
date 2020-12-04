@@ -16,9 +16,7 @@ QMibGetValueDlg::QMibGetValueDlg(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::QMibGetValueDlg)
 {
-    ui->setupUi(this);
-    ui->cmbProfile->clear();
-    ui->cmbProfile->addItems(SnmpProfile::names());
+    setupUI();
 }
 
 /*****************************************************************/
@@ -37,7 +35,24 @@ void QMibGetValueDlg::setOid(const QString &oid)
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnSysInfo_clicked()
+void QMibGetValueDlg::runCmd(const QString &cmd)
+{
+    if (cmd == CMD_SNMP_SYS_INFO) {
+        cmdSysInfo();
+    } else if (cmd == CMD_SNMP_GET_VALUE) {
+        cmdGetValue();
+    } else if (cmd == CMD_SNMP_GET_ROW) {
+        cmdGetRow();
+    } else if (cmd == CMD_SNMP_GET_NEXT) {
+        cmdGetNext();
+    } else if (cmd == CMD_SNMP_SET_VALUE) {
+        cmdSetValue();
+    }
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::cmdSysInfo()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -72,18 +87,18 @@ void SDPO::QMibGetValueDlg::on_btnSysInfo_clicked()
     // OUT: getRow .1.3.6.1.2.1.2.2.1.16 (IF-MIB::ifOutOctets)
     QList<SDPO::SnmpValue> outVals = snmpGet.getRow(".1.3.6.1.2.1.2.2.1.16");
     for (int i=0; i<rowVals.size(); ++i) {
-        QString text = QString("%1\t%2\t%3 in %4 out")
-                .arg(rowVals.at(i).val)
-                .arg(descrVals.at(i).val)
-                .arg(inVals.at(i).val)       // to Kb
-                .arg(outVals.at(i).val);     // to Kb
+        QString rowVal   = i < rowVals.size() ? rowVals.at(i).val : QString();
+        QString descrVal = i < descrVals.size() ? descrVals.at(i).val : QString();
+        QString inVal    = i < inVals.size() ? inVals.at(i).val : QString(); // TODO convert to Kb
+        QString outVal   = i < outVals.size() ? outVals.at(i).val : QString(); // TODO convert to Kb
+        QString text = QString("%1\t%2\t%3 in %4 out").arg(rowVal, descrVal, inVal, outVal);
         ui->textResult->appendPlainText(text);
     }
 }
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnGet_clicked()
+void QMibGetValueDlg::cmdGetValue()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -105,7 +120,7 @@ void SDPO::QMibGetValueDlg::on_btnGet_clicked()
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
+void QMibGetValueDlg::cmdGetRow()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -131,7 +146,7 @@ void SDPO::QMibGetValueDlg::on_btnGetRow_clicked()
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
+void QMibGetValueDlg::cmdGetNext()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -157,7 +172,7 @@ void SDPO::QMibGetValueDlg::on_btnGetNext_clicked()
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnSet_clicked()
+void QMibGetValueDlg::cmdSetValue()
 {
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -186,7 +201,7 @@ void SDPO::QMibGetValueDlg::on_btnSet_clicked()
 
 /*****************************************************************/
 
-void SDPO::QMibGetValueDlg::on_btnProfile_clicked()
+void QMibGetValueDlg::openSnmpCredentialsDlg()
 {
     QSnmpCredentialsDlg dlg;
     dlg.init(ui->cmbProfile->currentIndex());
@@ -195,6 +210,21 @@ void SDPO::QMibGetValueDlg::on_btnProfile_clicked()
         ui->cmbProfile->addItems(SnmpProfile::names());
         ui->cmbProfile->setCurrentIndex(dlg.getSelected());
     }
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::setupUI()
+{
+    ui->setupUi(this);
+    ui->cmbProfile->clear();
+    ui->cmbProfile->addItems(SnmpProfile::names());
+    connect(ui->btnSysInfo, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSysInfo);
+    connect(ui->btnGet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetValue);
+    connect(ui->btnGetRow, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetRow);
+    connect(ui->btnGetNext, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetNext);
+    connect(ui->btnSet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSetValue);
+    connect(ui->btnProfile, &QPushButton::clicked, this, &QMibGetValueDlg::openSnmpCredentialsDlg);
 }
 
 /*****************************************************************/

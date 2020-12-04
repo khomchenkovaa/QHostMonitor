@@ -46,7 +46,7 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
     case MibTypeTimeTicks   : dataType = 't'; break;
     case MibTypeCounter64   : dataType = 'C'; break;
     case MibTypeBitString   : dataType = 'b'; break;
-    case MibTypeUInreger    : dataType = 'u'; break;
+    case MibTypeUInteger    : dataType = 'u'; break;
     case MibTypeUnsigned32  : dataType = 'u'; break;
     case MibTypeInteger32   : dataType = 'i'; break;
     default: break;

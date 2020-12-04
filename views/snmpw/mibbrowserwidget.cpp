@@ -87,9 +87,9 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
     editOid->setText(oid);
 
     // build syntax
-    QString syntax = NetSNMP::instance()->mibTypeName(static_cast<MibType>(node->type));
+    QString syntax = NetSNMP::mibTypeName(node->type);
     if (node->ranges) {
-        struct range_list *rp = node->ranges;
+        range_list *rp = node->ranges;
         QStringList ranges;
         while(rp) {
             switch (node->type) {
@@ -101,7 +101,7 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
             case MibTypeUnsigned32:
             case MibTypeOctetStr:
             case MibTypeGauge:
-            case MibTypeUInreger:
+            case MibTypeUInteger:
                 ranges.append( rp->low == rp->high ? QString::number(static_cast<unsigned>(rp->low)) :
                                                   QString("%1..%2").arg(static_cast<unsigned>(rp->low)).arg(static_cast<unsigned>(rp->high)) );
                 break;
@@ -111,7 +111,7 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
         syntax.append( QString(" (%1)").arg(ranges.join(" | ")) );
     }
     if (node->enums) {
-        struct enum_list *ep = node->enums;
+        enum_list *ep = node->enums;
         QStringList enums;
         while (ep) {
             enums.append( QString("%1(%2)").arg(ep->label).arg(ep->value) );
@@ -122,12 +122,12 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
     editSyntax->setText(syntax);
 
     // build access
-    QString access = NetSNMP::instance()->mibAccessName(static_cast<MibAccess>(node->access));
+    QString access = NetSNMP::mibAccessName(node->access);
     editAccess->setText(access);
 
     // build status
     if (node->status) {
-        QString status = NetSNMP::instance()->mibStatusName(static_cast<MibStatus>(node->status));
+        QString status = NetSNMP::mibStatusName(node->status);
         editStatus->setText(status);
     }
 
@@ -165,10 +165,11 @@ void MibBrowserWidget::updateActions(const QModelIndex &proxyIndex)
 
 /******************************************************************/
 
-void MibBrowserWidget::getValueDld()
+void MibBrowserWidget::getValueDld(const QString &cmd)
 {
     QMibGetValueDlg dlg;
     dlg.setOid(getOid());
+    dlg.runCmd(cmd);
     dlg.exec();
 }
 
@@ -288,13 +289,21 @@ void MibBrowserWidget::setupActions()
     ctxMenu->addAction(actFindName);
     ctxMenu->addAction(actFindOid);
 
-    connect(actSysInfo,  &QAction::triggered, this, &MibBrowserWidget::getValueDld);
-    connect(actGetValue, &QAction::triggered, this, &MibBrowserWidget::getValueDld);
-    connect(actGetNext,  &QAction::triggered, this, &MibBrowserWidget::getValueDld);
+    connect(actSysInfo,  &QAction::triggered, this, [this](){
+        getValueDld(CMD_SNMP_SYS_INFO);
+    });
+    connect(actGetValue, &QAction::triggered, this, [this](){
+        getValueDld(CMD_SNMP_GET_VALUE);
+    });
+    connect(actGetNext,  &QAction::triggered, this, [this](){
+        getValueDld(CMD_SNMP_GET_NEXT);
+    });
+    connect(actGetRow,  &QAction::triggered, this, [this](){
+        getValueDld(CMD_SNMP_GET_ROW);
+    });
     connect(actGetTable, &QAction::triggered, this, &MibBrowserWidget::getTableDlg);
     connect(actFindName, &QAction::triggered, this, &MibBrowserWidget::findNameDlg);
     connect(actFindOid,  &QAction::triggered, this, &MibBrowserWidget::findOidDlg);
-
 }
 
 /******************************************************************/

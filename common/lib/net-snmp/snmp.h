@@ -126,7 +126,7 @@ typedef enum MibTypeEnum {
     MibTypeCounter64   = TYPE_COUNTER64,
     MibTypeBitString   = TYPE_BITSTRING,
     MibTypeNsapAddress = TYPE_NSAPADDRESS,
-    MibTypeUInreger    = TYPE_UINTEGER,
+    MibTypeUInteger    = TYPE_UINTEGER,
     MibTypeUnsigned32  = TYPE_UNSIGNED32,
     MibTypeInteger32   = TYPE_INTEGER32,
     MibTypeTrap        = TYPE_TRAPTYPE,
@@ -229,12 +229,13 @@ public:
 
     MibTree *allMibs();
     QString moduleName(int modId);
-    static QString mibTypeName(MibType type);
-    static QString mibAccessName(MibAccess access);
-    static QString mibStatusName(MibStatus status);
+    static QString mibTypeName(int type);
+    static QString mibAccessName(int access);
+    static QString mibStatusName(int status);
     static QString valueTypeName(SnmpDataType type);
     static SnmpValue valueFrom(SnmpVariableList *vars);
     static QString oidToString(oid *numOID, size_t oid_len);
+    static QString ipToString(u_char *ip, size_t ip_len);
 
 private:
     NetSNMP();

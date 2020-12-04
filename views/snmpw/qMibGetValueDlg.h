@@ -3,6 +3,12 @@
 
 #include <QDialog>
 
+#define CMD_SNMP_SYS_INFO  "cmdSysInfo"
+#define CMD_SNMP_GET_VALUE "cmdGetValue"
+#define CMD_SNMP_GET_ROW   "cmdGetRow"
+#define CMD_SNMP_GET_NEXT  "cmdGetNext"
+#define CMD_SNMP_SET_VALUE "cmdSetValue"
+
 namespace Ui {
 class QMibGetValueDlg;
 }
@@ -18,16 +24,18 @@ public:
     ~QMibGetValueDlg();
 
     void setOid(const QString& oid);
+    void runCmd(const QString& cmd = QString());
 
 private slots:
-    void on_btnSysInfo_clicked();
-    void on_btnGet_clicked();
-    void on_btnGetRow_clicked();
-    void on_btnGetNext_clicked();
+    void cmdSysInfo();
+    void cmdGetValue();
+    void cmdGetRow();
+    void cmdGetNext();
+    void cmdSetValue();
+    void openSnmpCredentialsDlg();
 
-    void on_btnSet_clicked();
-
-    void on_btnProfile_clicked();
+private:
+    void setupUI();
 
 private:
     Ui::QMibGetValueDlg *ui;

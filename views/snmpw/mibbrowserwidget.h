@@ -40,7 +40,7 @@ public:
 private slots:
     void updateFields(const QModelIndex& proxyIndex);
     void updateActions(const QModelIndex& proxyIndex);
-    void getValueDld();
+    void getValueDld(const QString& cmd = QString());
     void getTableDlg();
     void findNameDlg();
     void findOidDlg();

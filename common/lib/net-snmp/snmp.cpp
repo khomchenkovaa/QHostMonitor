@@ -4,6 +4,251 @@
 using namespace SDPO;
 
 /*****************************************************************/
+// MibTreeWrapper
+/*****************************************************************/
+
+MibNode::MibNode(MibTree *node)
+{
+    this->node = node;
+}
+
+/*****************************************************************/
+
+MibNode MibNode::childList() const
+{
+    return node->child_list;
+}
+
+/*****************************************************************/
+
+MibNode MibNode::nextPeer() const
+{
+    return node->next_peer;
+}
+
+/*****************************************************************/
+
+MibNode MibNode::parent() const
+{
+    return node->parent;
+}
+
+/*****************************************************************/
+
+QString MibNode::label() const
+{
+    return node->label;
+}
+
+/*****************************************************************/
+
+ulong MibNode::id() const
+{
+    return node->subid;
+}
+
+/*****************************************************************/
+
+int MibNode::numModules() const
+{
+    return node->number_modules;
+}
+
+/*****************************************************************/
+
+QVector<int> MibNode::moduleList() const
+{
+    QVector<int> result(node->number_modules);
+    for (int i=0; i < node->number_modules; ++i) {
+        result.append(node->module_list[i]);
+    }
+    return result;
+}
+
+/*****************************************************************/
+
+int MibNode::tcIndex() const
+{
+    return node->tc_index;
+}
+
+/*****************************************************************/
+
+MibType MibNode::type() const
+{
+    return static_cast<MibType>(node->type);
+}
+
+/*****************************************************************/
+
+MibAccess MibNode::access() const
+{
+    return static_cast<MibAccess>(node->access);
+}
+
+/*****************************************************************/
+
+MibStatus MibNode::status() const
+{
+    return static_cast<MibStatus>(node->status);
+}
+
+/*****************************************************************/
+
+bool MibNode::hasChildren() const
+{
+    return node->child_list != nullptr;
+}
+
+/*****************************************************************/
+
+QString MibNode::name() const
+{
+    return QString("%1::%2").arg(moduleName(), label());
+}
+
+/*****************************************************************/
+
+QString MibNode::moduleName() const
+{
+    module *mp = find_module(node->modid);
+
+    if (mp) {
+        return mp->name;
+    } else {
+        return QString("#%1").arg(node->modid);
+    }
+}
+
+/*****************************************************************/
+
+QString MibNode::oid() const
+{
+    QString oid = QString(".%1").arg(node->subid);
+    MibTree *oidNode = node;
+    while ((oidNode = oidNode->parent)) {
+        oid = QString(".%1").arg(oidNode->subid) + oid;
+    }
+    if (!hasChildren()) {
+        oid += ".0";
+    }
+    return oid;
+}
+
+/*****************************************************************/
+
+QString MibNode::syntax() const
+{
+    QString syntax = typeName();
+    if (node->ranges) {
+        range_list *rp = node->ranges;
+        QStringList ranges;
+        while(rp) {
+            switch (node->type) {
+            case MibTypeInteger:
+            case MibTypeInteger32:
+                ranges.append( rp->low == rp->high ? QString::number(rp->low) :
+                                                  QString("%1..%2").arg(rp->low).arg(rp->high) );
+                break;
+            case MibTypeUnsigned32:
+            case MibTypeOctetStr:
+            case MibTypeGauge:
+            case MibTypeUInteger:
+                ranges.append( rp->low == rp->high ? QString::number(static_cast<unsigned>(rp->low)) :
+                                                  QString("%1..%2").arg(static_cast<unsigned>(rp->low)).arg(static_cast<unsigned>(rp->high)) );
+                break;
+            }
+            rp = rp->next;
+        }
+        syntax.append( QString(" (%1)").arg(ranges.join(" | ")) );
+    }
+    if (node->enums) {
+        enum_list *ep = node->enums;
+        QStringList enums;
+        while (ep) {
+            enums.append( QString("%1(%2)").arg(ep->label).arg(ep->value) );
+            ep = ep->next;
+        }
+        syntax.append( QString(" {%1}").arg(enums.join(", ")) );
+    }
+    return syntax;
+}
+
+/*****************************************************************/
+
+QString MibNode::typeName() const
+{
+    switch (node->type) {
+    case MibTypeObjId       : return "OBJECT IDENTIFIER";
+    case MibTypeOctetStr    : return "OCTET STRING";
+    case MibTypeInteger     : return "INTEGER";
+    case MibTypeNetAddr     : return "NetworkAddress";
+    case MibTypeIpAddr      : return "IpAddress";
+    case MibTypeCounter     : return "Counter32";
+    case MibTypeGauge       : return "Gauge32";
+    case MibTypeTimeTicks   : return "TimeTicks";
+    case MibTypeOpaque      : return "Opaque";
+    case MibTypeNull        : return "NULL";
+    case MibTypeCounter64   : return "Counter64";
+    case MibTypeBitString   : return "BITS";
+    case MibTypeNsapAddress : return "NsapAddress";
+    case MibTypeUInteger    : return "UInteger32";
+    case MibTypeUnsigned32  : return "Unsigned32";
+    case MibTypeInteger32   : return "Integer32";
+    case MibTypeTrap        : return "Trap Type";
+    case MibTypeNotif       : return "Notif Type";
+    case MibTypeObjGroup    : return "Obj Group";
+    case MibTypeNotifGroup  : return "Notif Group";
+    case MibTypeModId       : return "Mod Id";
+    case MibTypeAgentCap    : return "Agent Cap";
+    case MibTypeModComp     : return "Mod Comp";
+    case MibTypeObjIdentity : return "Obj Identity";
+    default: break;
+    }
+    return QString();
+}
+
+/*****************************************************************/
+
+QString MibNode::statusName() const
+{
+    switch (node->status) {
+    case MibStatusMandatory  : return "mandatory";
+    case MibStatusOptional   : return "optional";
+    case MibStatusObsolete   : return "obsolete";
+    case MibStatusDeprecated : return "deprecated";
+    case MibStatusCurrent    : return "current";
+    }
+    return QString();
+}
+
+/*****************************************************************/
+
+QString MibNode::accessName() const
+{
+    switch (node->access) {
+    case MibAccessReadOnly  : return "read-only";
+    case MibAccessReadWrite : return "read-write";
+    case MibAccessWriteOnly : return "write-only";
+    case MibAccessNoAccess  : return "not-accessible";
+    case MibAccessNotify    : return "accessible-for-notify";
+    case MibAccessCreate    : return "read-create";
+    }
+    return QString();
+}
+
+/*****************************************************************/
+
+QString MibNode::description() const
+{
+    QString description(node->description);
+    QRegExp sp("\\s+");
+    return description.replace(sp," ");
+}
+
+/*****************************************************************/
+// SnmpProfile
+/*****************************************************************/
 
 GSnmpCredentials SnmpProfile::credentials;
 
@@ -46,82 +291,6 @@ NetSNMP *NetSNMP::instance()
 MibTree *NetSNMP::allMibs()
 {
     return read_all_mibs();
-}
-
-/*****************************************************************/
-
-QString NetSNMP::moduleName(int modId)
-{
-    module *mp = find_module(modId);
-
-    if (mp) {
-        return mp->name;
-    } else {
-        return QString("#%1").arg(modId);
-    }
-}
-
-/*****************************************************************/
-
-QString NetSNMP::mibTypeName(int type)
-{
-    switch (type) {
-    case MibTypeObjId       : return "OBJECT IDENTIFIER";
-    case MibTypeOctetStr    : return "OCTET STRING";
-    case MibTypeInteger     : return "INTEGER";
-    case MibTypeNetAddr     : return "NetworkAddress";
-    case MibTypeIpAddr      : return "IpAddress";
-    case MibTypeCounter     : return "Counter32";
-    case MibTypeGauge       : return "Gauge32";
-    case MibTypeTimeTicks   : return "TimeTicks";
-    case MibTypeOpaque      : return "Opaque";
-    case MibTypeNull        : return "NULL";
-    case MibTypeCounter64   : return "Counter64";
-    case MibTypeBitString   : return "BITS";
-    case MibTypeNsapAddress : return "NsapAddress";
-    case MibTypeUInteger    : return "UInteger32";
-    case MibTypeUnsigned32  : return "Unsigned32";
-    case MibTypeInteger32   : return "Integer32";
-    case MibTypeTrap        : return "Trap Type";
-    case MibTypeNotif       : return "Notif Type";
-    case MibTypeObjGroup    : return "Obj Group";
-    case MibTypeNotifGroup  : return "Notif Group";
-    case MibTypeModId       : return "Mod Id";
-    case MibTypeAgentCap    : return "Agent Cap";
-    case MibTypeModComp     : return "Mod Comp";
-    case MibTypeObjIdentity : return "Obj Identity";
-    default: break;
-    }
-    return QString();
-}
-
-/*****************************************************************/
-
-QString NetSNMP::mibAccessName(int access)
-{
-    switch (access) {
-    case MibAccessReadOnly  : return "read-only";
-    case MibAccessReadWrite : return "read-write";
-    case MibAccessWriteOnly : return "write-only";
-    case MibAccessNoAccess  : return "not-accessible";
-    case MibAccessNotify    : return "accessible-for-notify";
-    case MibAccessCreate    : return "read-create";
-    }
-    return QString();
-}
-
-/*****************************************************************/
-
-QString NetSNMP::mibStatusName(int status)
-{
-    switch (status) {
-    case MibStatusMandatory  : return "mandatory";
-    case MibStatusOptional   : return "optional";
-    case MibStatusObsolete   : return "obsolete";
-    case MibStatusDeprecated : return "deprecated";
-    case MibStatusCurrent    : return "current";
-    }
-    return QString();
 }
 
 /*****************************************************************/

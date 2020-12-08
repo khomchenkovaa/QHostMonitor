@@ -62,79 +62,16 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
 {
     if (!proxyIndex.isValid()) return;
 
-    editSyntax->clear();
-    editAccess->clear();
-    editStatus->clear();
-    txtDescription->clear();
-
     QModelIndex index = m_Proxy->mapToSource(proxyIndex);
     MibTree *node = static_cast<MibTree *>(index.internalPointer());
+    MibNode item(node);
 
-    // build name
-    QString name = QString("%1::%2").arg(NetSNMP::instance()->moduleName(node->modid)).arg(node->label);
-    editMib->setText(name);
-
-    // build oid
-    QString oid = QString(".%1").arg(node->subid);
-    bool has_children = node->child_list != nullptr;
-    MibTree *oidNode = node;
-    while ((oidNode = oidNode->parent)) {
-        oid = QString(".%1").arg(oidNode->subid) + oid;
-    }
-    if (!has_children) {
-        oid += ".0";
-    }
-    editOid->setText(oid);
-
-    // build syntax
-    QString syntax = NetSNMP::mibTypeName(node->type);
-    if (node->ranges) {
-        range_list *rp = node->ranges;
-        QStringList ranges;
-        while(rp) {
-            switch (node->type) {
-            case MibTypeInteger:
-            case MibTypeInteger32:
-                ranges.append( rp->low == rp->high ? QString::number(rp->low) :
-                                                  QString("%1..%2").arg(rp->low).arg(rp->high) );
-                break;
-            case MibTypeUnsigned32:
-            case MibTypeOctetStr:
-            case MibTypeGauge:
-            case MibTypeUInteger:
-                ranges.append( rp->low == rp->high ? QString::number(static_cast<unsigned>(rp->low)) :
-                                                  QString("%1..%2").arg(static_cast<unsigned>(rp->low)).arg(static_cast<unsigned>(rp->high)) );
-                break;
-            }
-            rp = rp->next;
-        }
-        syntax.append( QString(" (%1)").arg(ranges.join(" | ")) );
-    }
-    if (node->enums) {
-        enum_list *ep = node->enums;
-        QStringList enums;
-        while (ep) {
-            enums.append( QString("%1(%2)").arg(ep->label).arg(ep->value) );
-            ep = ep->next;
-        }
-        syntax.append( QString(" {%1}").arg(enums.join(", ")) );
-    }
-    editSyntax->setText(syntax);
-
-    // build access
-    QString access = NetSNMP::mibAccessName(node->access);
-    editAccess->setText(access);
-
-    // build status
-    if (node->status) {
-        QString status = NetSNMP::mibStatusName(node->status);
-        editStatus->setText(status);
-    }
-
-    // build description
-    QString description(node->description);
-    QRegExp sp("\\s+");
-    txtDescription->setPlainText(description.replace(sp," "));
+    editMib->setText(item.name());
+    editOid->setText(item.oid());
+    editSyntax->setText(item.syntax());
+    editAccess->setText(item.accessName());
+    editStatus->setText(item.statusName());
+    txtDescription->setPlainText(item.description());
 }
 
 /******************************************************************/

@@ -165,11 +165,54 @@ typedef struct snmp_pdu SnmpPdu;
  */
 typedef netsnmp_variable_list SnmpVariableList;
 
+typedef QList<QPair<int, QString> > MibEnumList; // value, label
+
+typedef QList<QPair<int, int> > MibRangeList; // low, high
+
+typedef QList<QPair<QString, QChar> > MibIndexList; // ilabel, isimplied
+
+typedef QStringList MibVarbindList;
+
 /**
  * @brief Net-SNMP MIB tree
  * More details in http://www.net-snmp.org/dev/agent/structtree.html
  */
 typedef struct tree MibTree;
+
+/**
+* @brief Net-SNMP MIB tree wrapper
+* More details in http://www.net-snmp.org/dev/agent/structtree.html
+*/
+struct MibNode {
+    MibTree *node;
+
+    MibNode(MibTree *node);
+    // main data
+    MibNode childList() const; /**< Linked list of children of this node */
+    MibNode nextPeer() const;  /**< Next node in list of peers */
+    MibNode next() const;      /**< Next node in hashed list of names */
+    MibNode parent() const;
+    QString label() const;     /**< This node's textual name */
+    ulong   id() const;        /**< This node's integer subidentifier */
+    int     moduleId() const;  /**< The module containing this node */
+    int     numModules() const;
+    QVector<int> moduleList() const; /**< To handle multiple modules */
+    int     tcIndex() const;   /**< (?) index into tclist (-1 if NA) */
+    MibType type() const;      /**< This node's object type */
+    MibAccess access() const;  /**< This nodes access */
+    MibStatus status() const;  /**< This nodes status */
+
+    bool hasChildren() const;
+    QString name() const;
+    QString moduleName() const;
+    QString oid() const;
+    QString syntax() const;
+    QString typeName() const;
+    QString statusName() const;
+    QString accessName() const;
+    QString description() const;
+};
+
 
 /*****************************************************************/
 
@@ -228,10 +271,6 @@ public:
     static NetSNMP *instance();
 
     MibTree *allMibs();
-    QString moduleName(int modId);
-    static QString mibTypeName(int type);
-    static QString mibAccessName(int access);
-    static QString mibStatusName(int status);
     static QString valueTypeName(SnmpDataType type);
     static SnmpValue valueFrom(SnmpVariableList *vars);
     static QString oidToString(oid *numOID, size_t oid_len);

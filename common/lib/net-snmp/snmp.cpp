@@ -1,59 +1,53 @@
-#include "snmp.h"
+﻿#include "snmp.h"
 #include <QDebug>
 
 using namespace SDPO;
 
 /*****************************************************************/
+
+MibOid::MibOid(oid *numOID, size_t oid_len)
+{
+    oidLen = oid_len;
+    for (size_t i=0; i<oidLen; ++i) {
+        oidNum[i] = numOID[i];
+    }
+}
+
+/*****************************************************************/
+
+QString MibOid::toString() const
+{
+    if (hasError()) {
+        return oidStr;
+    }
+    QString result;
+    for (size_t i=0; i<oidLen; ++i) {
+        result.append(QString(".%1").arg(oidNum[i]));
+    }
+    return result;
+}
+
+/*****************************************************************/
+
+QString MibOid::errString() const
+{
+    return snmp_api_errstring(errNo);
+}
+
+/*****************************************************************/
+
+MibOid MibOid::parse(const QString &oidStr)
+{
+    MibOid result;
+    result.oidStr = oidStr;
+    if (!snmp_parse_oid(oidStr.toLatin1(), result.oidNum, &result.oidLen)) {
+        result.errNo = snmp_errno;
+    }
+    return result;
+}
+
+/*****************************************************************/
 // MibTreeWrapper
-/*****************************************************************/
-
-MibNode::MibNode(MibTree *node)
-{
-    this->node = node;
-}
-
-/*****************************************************************/
-
-MibNode MibNode::childList() const
-{
-    return node->child_list;
-}
-
-/*****************************************************************/
-
-MibNode MibNode::nextPeer() const
-{
-    return node->next_peer;
-}
-
-/*****************************************************************/
-
-MibNode MibNode::parent() const
-{
-    return node->parent;
-}
-
-/*****************************************************************/
-
-QString MibNode::label() const
-{
-    return node->label;
-}
-
-/*****************************************************************/
-
-ulong MibNode::id() const
-{
-    return node->subid;
-}
-
-/*****************************************************************/
-
-int MibNode::numModules() const
-{
-    return node->number_modules;
-}
-
 /*****************************************************************/
 
 QVector<int> MibNode::moduleList() const
@@ -63,34 +57,6 @@ QVector<int> MibNode::moduleList() const
         result.append(node->module_list[i]);
     }
     return result;
-}
-
-/*****************************************************************/
-
-int MibNode::tcIndex() const
-{
-    return node->tc_index;
-}
-
-/*****************************************************************/
-
-MibType MibNode::type() const
-{
-    return static_cast<MibType>(node->type);
-}
-
-/*****************************************************************/
-
-MibAccess MibNode::access() const
-{
-    return static_cast<MibAccess>(node->access);
-}
-
-/*****************************************************************/
-
-MibStatus MibNode::status() const
-{
-    return static_cast<MibStatus>(node->status);
 }
 
 /*****************************************************************/
@@ -176,6 +142,27 @@ QString MibNode::syntax() const
 
 /*****************************************************************/
 
+char MibNode::typeChar() const
+{
+    switch(node->type) {
+    case MibTypeObjId       : return 'o';
+    case MibTypeOctetStr    : return 's';
+    case MibTypeInteger     : return 'i';
+    case MibTypeIpAddr      : return 'a';
+    case MibTypeCounter     : return 'c';
+    case MibTypeTimeTicks   : return 't';
+    case MibTypeCounter64   : return 'C';
+    case MibTypeBitString   : return 'b';
+    case MibTypeUInteger    : return 'u';
+    case MibTypeUnsigned32  : return 'u';
+    case MibTypeInteger32   : return 'i';
+    default: break;
+    }
+    return '=';
+}
+
+/*****************************************************************/
+
 QString MibNode::typeName() const
 {
     switch (node->type) {
@@ -247,55 +234,43 @@ QString MibNode::description() const
 }
 
 /*****************************************************************/
-// SnmpProfile
-/*****************************************************************/
 
-GSnmpCredentials SnmpProfile::credentials;
-
-/*****************************************************************/
-
-SnmpProfile SnmpProfile::findByName(const QString &name)
+MibNode MibNode::getRoot()
 {
-    int idx = 1; // not found
-    for (int i=0; i< credentials.count(); i++) {
-        if (name == credentials.at(i).name) {
-            idx = i;
-        }
+    static MibNode mRoot;
+    if (mRoot.node == nullptr) {
+        NetSNMP::init();
+        mRoot.node = read_all_mibs();
     }
-    return credentials.at(idx);
+    return mRoot;
 }
 
 /*****************************************************************/
+// SnmpValue
+/*****************************************************************/
 
-QStringList SnmpProfile::names()
+void SnmpValue::setName(const MibOid &mibOid)
 {
-    QStringList result;
-    foreach(const SnmpProfile& item, credentials) {
-        result.append(item.name);
-    }
-    return result;
+    name = mibOid;
 }
 
 /*****************************************************************/
 
-NetSNMP *NetSNMP::instance()
+void SnmpValue::setName(oid *numOID, size_t oid_len)
 {
-    // Meyers implementation of Singleton pattern, thread-safe in C++11
-    static NetSNMP instance;
-
-    return &instance;
+    name = MibOid(numOID, oid_len);
 }
 
 /*****************************************************************/
 
-MibTree *NetSNMP::allMibs()
+QString SnmpValue::nameAsStr() const
 {
-    return read_all_mibs();
+    return name.toString();
 }
 
 /*****************************************************************/
 
-QString NetSNMP::valueTypeName(SnmpDataType type)
+QString SnmpValue::dataTypeName() const
 {
     switch (type) {
     case SnmpDataUnknown     : return "Unknown";
@@ -316,7 +291,17 @@ QString NetSNMP::valueTypeName(SnmpDataType type)
 
 /*****************************************************************/
 
-SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
+QString SnmpValue::toString() const
+{
+    return QString("[%1] = %2: %3")
+            .arg(nameAsStr())
+            .arg(dataTypeName())
+            .arg(val);
+}
+
+/*****************************************************************/
+
+SnmpValue SnmpValue::fromVar(SnmpVariableList *vars)
 {
     // TODO display value according to Mib info
     SnmpValue result;
@@ -352,11 +337,12 @@ SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
         }
         break;
     case SnmpDataIPAddress:
-        result.val = ipToString(vars->val.string, vars->val_len);
+        result.val = NetSNMP::ipToString(vars->val.string, vars->val_len);
         break;
-    case SnmpDataObjectId:
-        result.val = oidToString(static_cast<oid*>(vars->val.objid), vars->val_len / sizeof (oid));
-        break;
+    case SnmpDataObjectId: {
+        MibOid oidObj(static_cast<oid*>(vars->val.objid), vars->val_len / sizeof (oid));
+        result.val = oidObj.toString();
+    } break;
     case SnmpDataNull:
         result.val = "NULL";
         break;
@@ -365,17 +351,76 @@ SnmpValue NetSNMP::valueFrom(SnmpVariableList *vars)
         break;
     }
     return result;
+
 }
 
 /*****************************************************************/
 
-QString NetSNMP::oidToString(oid *numOID, size_t oid_len)
+SnmpValue SnmpValue::fromError(const MibOid &mibOid, const QString &err)
 {
-    QString result;
-    for (size_t i=0; i<oid_len; ++i) {
-        result.append(QString(".%1").arg(numOID[i]));
+    SnmpValue result;
+    result.setName(mibOid);
+    result.val = err;
+    return result;
+}
+
+/*****************************************************************/
+// SnmpProfile
+/*****************************************************************/
+
+GSnmpCredentials SnmpProfile::credentials;
+
+/*****************************************************************/
+
+SnmpProfile SnmpProfile::findByName(const QString &name)
+{
+    int idx = defaultIdx(); // not found
+    for (int i=0; i< credentials.count(); i++) {
+        if (name == credentials.at(i).name) {
+            idx = i;
+        }
+    }
+    return credentials.at(idx);
+}
+
+/*****************************************************************/
+
+QStringList SnmpProfile::names()
+{
+    QStringList result;
+    foreach(const SnmpProfile& item, credentials) {
+        result.append(item.name);
     }
     return result;
+}
+
+/*****************************************************************/
+
+int SnmpProfile::defaultIdx()
+{
+    int idx = -1;
+    for (int i=0; i< credentials.count(); i++) {
+        if (idx == -1) idx = i;
+        if (credentials.at(i).version == SNMPv2c) {
+            idx = i;
+            break;
+        }
+    }
+    return idx;
+}
+
+/*****************************************************************/
+
+void NetSNMP::init(const QString sessName)
+{
+    static bool initialized = false;
+    if (!initialized) {
+        snmp_set_mib_warnings(0);
+        snmp_set_mib_errors(0);
+        snmp_set_save_descriptions(1);
+        init_snmp(sessName.toLatin1());
+        initialized = true;
+    }
 }
 
 /*****************************************************************/
@@ -390,46 +435,6 @@ QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
 }
 
 /*****************************************************************/
-
-NetSNMP::NetSNMP()
-{
-    snmp_set_mib_warnings(0);
-    snmp_set_mib_errors(0);
-    snmp_set_save_descriptions(1);
-    init_snmp("SDPO");
-}
-
-/*****************************************************************/
-
-void SnmpValue::setName(oid *numOID, size_t oid_len)
-{
-    for (size_t i=0; i<oid_len; ++i) {
-        name.append(numOID[i]);
-    }
-}
-
-/*****************************************************************/
-
-QString SnmpValue::nameAsStr() const
-{
-    QString result;
-    for (int i=0; i<name.size(); ++i) {
-        result.append(QString(".%1").arg(name.at(i)));
-    }
-    return result;
-}
-
-/*****************************************************************/
-
-QString SnmpValue::toString() const
-{
-    return QString("[%1] = %2: %3")
-            .arg(nameAsStr())
-            .arg(NetSNMP::valueTypeName(type))
-            .arg(val);
-}
-
-/*****************************************************************/
 // NetSnmpCommon
 /*****************************************************************/
 
@@ -441,21 +446,7 @@ NetSnmpCommon::NetSnmpCommon(QObject *parent)
       m_Timeout(2000),
       m_Retries(1)
 {
-    init_snmp("SDPO");
-}
-
-/*****************************************************************/
-
-NetSnmpCommon::~NetSnmpCommon()
-{
-
-}
-
-/*****************************************************************/
-
-void NetSnmpCommon::setHost(const QString &host)
-{
-    m_Host = host;
+    NetSNMP::init();
 }
 
 /*****************************************************************/
@@ -472,39 +463,29 @@ void NetSnmpCommon::setProfile(const SnmpProfile &profile)
 
 /*****************************************************************/
 
-void NetSnmpCommon::setTimeout(const int timeout)
-{
-    m_Timeout = timeout;
-}
-
-/*****************************************************************/
-
-void NetSnmpCommon::setRetries(const int retries)
-{
-    m_Retries = retries;
-}
-
-/*****************************************************************/
-
 void NetSnmpCommon::snmpSessionInit(SnmpSession *session)
 {
-    session->peername = strdup(m_Host.toLatin1());
-    session->version = static_cast<long>(m_Version);
-    session->community = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
+    snmp_sess_init(session); // setup defaults
+    session->peername      = m_Host.toLatin1().data();
+    session->version       = static_cast<long>(m_Version);
+    session->community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
     session->community_len = static_cast<size_t>(m_Community.size());
-    session->retries = m_Retries;
+    session->retries       = m_Retries;
 }
 
 /*****************************************************************/
 
-void NetSnmpCommon::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
+QString NetSnmpCommon::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
 {
+    Q_UNUSED(priority)
     char *err;
     snmp_error(ss, nullptr, nullptr, &err);
+    QString result(err);
     qDebug() << prog << ": " << err;
-    Q_UNUSED(priority)
 //    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
     SNMP_FREE(err);
+    return result;
 }
 
 /*****************************************************************/
+

@@ -219,6 +219,7 @@ void QMibGetValueDlg::setupUI()
     ui->setupUi(this);
     ui->cmbProfile->clear();
     ui->cmbProfile->addItems(SnmpProfile::names());
+    ui->cmbProfile->setCurrentIndex(SnmpProfile::defaultIdx());
     connect(ui->btnSysInfo, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSysInfo);
     connect(ui->btnGet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetValue);
     connect(ui->btnGetRow, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetRow);

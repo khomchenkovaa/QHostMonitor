@@ -2,67 +2,65 @@
 
 #include <QDebug>
 
+using namespace SDPO;
+
 /*****************************************************************/
 
-SDPO::NetSnmpGet::NetSnmpGet(QObject *parent)
+NetSnmpGet::NetSnmpGet(QObject *parent)
     : NetSnmpCommon(parent)
 {
 }
 
 /*****************************************************************/
 
-SDPO::NetSnmpGet::~NetSnmpGet()
+NetSnmpGet::~NetSnmpGet()
 {
 }
 
 /*****************************************************************/
 
-SDPO::SnmpValue SDPO::NetSnmpGet::get(const QString& oidStr)
+SnmpValue NetSnmpGet::get(const QString& oidStr)
 {
-    SDPO::SnmpValue result;
+    SnmpValue result;
 
-    oid      anOID[MAX_OID_LEN];
-    size_t   anOID_len = MAX_OID_LEN;
+    MibOid anOID = MibOid::parse(oidStr);
+    result.setName(anOID);
 
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
-        return result;
+    if (anOID.hasError()) {
+        return SnmpValue::fromError(anOID, anOID.errString());
     }
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
 
     SnmpPdu *pdu = snmp_pdu_create(SnmpPduGet);
-    snmp_add_null_var(pdu, anOID, anOID_len);
+    snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
     SOCK_STARTUP;
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
-        snmpSessionLogError(LOG_ERR, "ack", &session);
+        QString err = snmpSessionLogError(LOG_ERR, "netsnmpget", &session);
         SOCK_CLEANUP;
-        return result;
+        return SnmpValue::fromError(anOID, err);
     }
 
-    SnmpPdu    *pduResponse = nullptr;
+    SnmpPdu *pduResponse = nullptr;
     SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
 
     if (status == SnmpRespStatSuccess) {
         if (pduResponse->errstat == SNMP_ERR_NOERROR) {
             for(SnmpVariableList *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
-                result = NetSNMP::valueFrom(vars);
+                result = SnmpValue::fromVar(vars);
             }
         } else {
-            result.val = snmp_errstring(static_cast<int>(pduResponse->errstat));
+            result = SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat)));
         }
     } else if (status == SnmpRespStatTimeout) {
-        result.val = QString("Timeout: No Response from %1.").arg(session.peername);
+        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername));
     } else {                    /* status == SnmpRespStatError */
-        result.val = QString("Error in Response from %1.").arg(session.peername);
-        snmpSessionLogError(LOG_ERR, "GET", &session);
+        QString err = snmpSessionLogError(LOG_ERR, "netsnmpget", ss);
+        result = SnmpValue::fromError(anOID, err);
     }
 
     // Cleanup
@@ -77,22 +75,18 @@ SDPO::SnmpValue SDPO::NetSnmpGet::get(const QString& oidStr)
 
 /*****************************************************************/
 
-QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
+QList<SnmpValue> NetSnmpGet::getNext(const QString &oidStr, int cnt)
 {
-    QList<SDPO::SnmpValue> result;
+    QList<SnmpValue> result;
 
-    oid    anOID[MAX_OID_LEN];
-    size_t anOID_len = MAX_OID_LEN;
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
+    MibOid anOID = MibOid::parse(oidStr);
+    if (anOID.hasError()) {
+        result.append(SnmpValue::fromError(anOID, anOID.errString()));
         return result;
     }
 
     // Initialize a "session" that defines who we're going to talk to
-    SnmpSession session;
-    snmp_sess_init( &session ); // setup defaults
+    SnmpSession session;   
     snmpSessionInit( &session );
 
     SOCK_STARTUP;
@@ -100,13 +94,14 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
     if (!ss) {
         snmpSessionLogError(LOG_ERR, "ack", &session);
         SOCK_CLEANUP;
+        result.append(SnmpValue::fromError(anOID, "Cannot open the session"));
         return result;
     }
 
     for(int i=0;i<cnt;i++) {
 
         SnmpPdu *pdu = snmp_pdu_create(SnmpPduGetNext);
-        snmp_add_null_var(pdu, anOID, anOID_len);
+        snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
         SnmpPdu *pduResponse = nullptr;
         SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
@@ -114,19 +109,17 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
         if (status == SnmpRespStatSuccess) {
             if (pduResponse->errstat == SNMP_ERR_NOERROR) {
                 for(netsnmp_variable_list *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
-                    result.append(NetSNMP::valueFrom(vars));
-                    for (size_t j=0; j<vars->name_length; ++j) {
-                        anOID[j] = vars->name[j];
-                    }
-                    anOID_len = vars->name_length;
+                    SnmpValue snmpValue = SnmpValue::fromVar(vars);
+                    result.append(snmpValue);
+                    anOID = snmpValue.name;
                 }
             } else {
-                qDebug() << snmp_errstring(static_cast<int>(pduResponse->errstat));
+                result.append(SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat))));
             }
         } else if (status == SnmpRespStatTimeout) {
-            qDebug() << QString("Timeout: No Response from %1.").arg(session.peername);
+            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername)));
         } else {                    /* status == SnmpRespStatError */
-            qDebug() << QString("Error in Response from %1.").arg(session.peername);
+            result.append(SnmpValue::fromError(anOID, QString("Error in Response from %1.").arg(session.peername)));
             snmpSessionLogError(LOG_ERR, "GETNEXT", &session);
         }
 
@@ -143,22 +136,18 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getNext(const QString &oidStr, int cnt)
 
 /*****************************************************************/
 
-QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
+QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
 {
-    QList<SDPO::SnmpValue> result;
+    QList<SnmpValue> result;
 
-    oid    anOID[MAX_OID_LEN];
-    size_t anOID_len = MAX_OID_LEN;
-    if (!snmp_parse_oid(oidStr.toLatin1(), anOID, &anOID_len)) {
-        int xerr = snmp_errno;
-        const char *str = snmp_api_errstring(xerr);
-        qDebug() << oidStr << ": " << str;
+    MibOid anOID = MibOid::parse(oidStr);
+    if (anOID.hasError()) {
+        result.append(SnmpValue::fromError(anOID, anOID.errString()));
         return result;
     }
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
 
     SOCK_STARTUP;
@@ -166,6 +155,7 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
     if (!ss) {
         snmpSessionLogError(LOG_ERR, "ack", &session);
         SOCK_CLEANUP;
+        result.append(SnmpValue::fromError(anOID, "Cannot open the session"));
         return result;
     }
 
@@ -175,7 +165,7 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
     while(curRow) {
 
         SnmpPdu *pdu = snmp_pdu_create(SnmpPduGetNext);
-        snmp_add_null_var(pdu, anOID, anOID_len);
+        snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
         SnmpPdu *pduResponse = nullptr;
         SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
@@ -185,16 +175,13 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
                 for(netsnmp_variable_list *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
                     if (firstValue) {
                         firstValue = false;
-                        for (size_t j=0; j<vars->name_length; ++j) {
-                            anOID[j] = vars->name[j];
-                        }
-                        anOID_len = vars->name_length;
-                    } else { // end of the row criteria
-                        if (anOID_len != vars->name_length) {
+                        anOID = MibOid(vars->name, vars->name_length);
+                    } else { // end of the table criteria
+                        if (anOID.oidLen != vars->name_length) {
                             curRow = false;
-                        } else {
+                        } else { // end of the row criteria
                             for (size_t i=0; i<vars->name_length-1; ++i) {
-                                if (anOID[i] != vars->name[i]) {
+                                if (anOID.oidNum[i] != vars->name[i]) {
                                     curRow = false;
                                     break;
                                 }
@@ -202,21 +189,20 @@ QList<SDPO::SnmpValue> SDPO::NetSnmpGet::getRow(const QString &oidStr)
                         }
                     }
                     if (curRow) {
-                        result.append(NetSNMP::valueFrom(vars));
-                        for (size_t j=0; j<vars->name_length; ++j) {
-                            anOID[j] = vars->name[j];
-                        }
-                        anOID_len = vars->name_length;
+                        SnmpValue snmpValue = SnmpValue::fromVar(vars);
+                        result.append(snmpValue);
+                        anOID = snmpValue.name;
                     }
                 }
             } else {
-                qDebug() << snmp_errstring(static_cast<int>(pduResponse->errstat));
+                result.append(SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat))));
+                curRow = false;
             }
         } else if (status == SnmpRespStatTimeout) {
-            qDebug() << QString("Timeout: No Response from %1.").arg(session.peername);
+            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername)));
             curRow = false; // break;
         } else {                    /* status == SnmpRespStatError */
-            qDebug() << QString("Error in Response from %1.").arg(session.peername);
+            result.append(SnmpValue::fromError(anOID, QString("Error in Response from %1.").arg(session.peername)));
             snmpSessionLogError(LOG_ERR, "GETROW", &session);
             curRow = false; // break;
         }

@@ -10,6 +10,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = qHostMonitor
 TEMPLATE = app
 
+QMAKE_CXXFLAGS += -Wdeprecated
+DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x051000
+
+CONFIG += c++11
+
 include("../common/common.pri")
 include("../model/model.pri")
 include("../service/service.pri")

@@ -66,7 +66,6 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
 
     oid      name[MAX_OID_LEN];
@@ -115,7 +114,7 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
                     entries++;
                     QList<SDPO::SnmpValue> entry;
                     for(; vars != nullptr; vars = vars->next_variable) {
-                        entry.append(NetSNMP::valueFrom(vars));
+                        entry.append(SnmpValue::fromVar(vars));
                     }
                     result.append(entry);
                 }

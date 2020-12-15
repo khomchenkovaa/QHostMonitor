@@ -54,7 +54,6 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmp_sess_init( &session ); // setup defaults
     snmpSessionInit( &session );
 
     SnmpPdu *pdu = snmp_pdu_create(SnmpPduSet);
@@ -81,7 +80,7 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
     if (status == SnmpRespStatSuccess) {
         if (pduResponse->errstat == SNMP_ERR_NOERROR) {
             for(SnmpVariableList *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
-                result = NetSNMP::valueFrom(vars);
+                result = SnmpValue::fromVar(vars);
             }
         } else {
             result.val = snmp_errstring(static_cast<int>(pduResponse->errstat));

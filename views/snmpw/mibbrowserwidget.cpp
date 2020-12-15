@@ -247,9 +247,9 @@ void MibBrowserWidget::setupActions()
 
 void MibBrowserWidget::init()
 {
-    MibTree *root = NetSNMP::instance()->allMibs();
+//    MibTree *root = NetSNMP::instance()->allMibs();
     m_Proxy->setSourceModel(m_Model);
-    m_Model->setRoot(root);
+    m_Model->setRoot(MibNode::getRoot().node);
     treeMibs->setModel(m_Proxy);
     QObject::connect(treeMibs, &QTreeView::clicked,
                      this, &MibBrowserWidget::updateFields);

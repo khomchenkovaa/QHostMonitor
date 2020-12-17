@@ -32,28 +32,28 @@ QList<SDPO::SnmpColumn*> SDPO::NetSnmpTable::readColumns(const QString& oidStr)
         qDebug() << oidStr << ": " << str;
         return m_Columns;
     }
-    MibTree *tbl = get_tree(m_Root, m_RootLen, get_tree_head());
+    MibNode tbl = get_tree(m_Root, m_RootLen, get_tree_head());
     if (tbl) { // get table entry
-        tbl = tbl->child_list;
+        tbl = tbl.childList();
     }
     if (!tbl) { // no entry - not a table
         return m_Columns;
     }
-    m_Root[m_RootLen++] = tbl->subid; // add entry id
-    tbl = tbl->child_list; // get first field
+    m_Root[m_RootLen++] = tbl.id(); // add entry id
+    tbl = tbl.childList(); // get first field
     if (!tbl) { // no fields - not a table
         return m_Columns;
     }
 
     do {
-        if (tbl->access == MIB_ACCESS_NOACCESS) {
+        if (tbl.access() == MIB_ACCESS_NOACCESS) {
             continue;
         }
         SnmpColumn* col = new SnmpColumn();
-        col->subid = tbl->subid;
-        col->label = QString(tbl->label);
+        col->subid = tbl.id();
+        col->label = QString(tbl.label());
         m_Columns.prepend(col);
-    } while ((tbl = tbl->next_peer));
+    } while ((tbl = tbl.nextPeer()));
 
     return m_Columns;
 }

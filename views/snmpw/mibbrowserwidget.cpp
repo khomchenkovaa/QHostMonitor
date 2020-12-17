@@ -63,8 +63,7 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
     if (!proxyIndex.isValid()) return;
 
     QModelIndex index = m_Proxy->mapToSource(proxyIndex);
-    MibTree *node = static_cast<MibTree *>(index.internalPointer());
-    MibNode item(node);
+    MibNode item = index.internalPointer();
 
     editMib->setText(item.name());
     editOid->setText(item.oid());
@@ -80,21 +79,21 @@ void MibBrowserWidget::updateActions(const QModelIndex &proxyIndex)
 {
     if (!proxyIndex.isValid()) return;
     QModelIndex index = m_Proxy->mapToSource(proxyIndex);
-    MibTree *node = static_cast<MibTree *>(index.internalPointer());
+    MibNode item = index.internalPointer();
     actChart->setDisabled(true);
     actGetValue->setDisabled(true);
     actGetRow->setDisabled(true);
     actGetTable->setDisabled(true);
 
-    if (node->child_list) {
-        actGetTable->setEnabled( node->child_list->indexes );
+    if (item.childList().isValid()) {
+        actGetTable->setEnabled( item.childList().node->indexes );
     } else {
         actChart->setEnabled(true);
-        if (node->access == MibAccessReadOnly ||
-            node->access == MibAccessReadWrite) {
+        if (item.access() == MibAccessReadOnly ||
+            item.access() == MibAccessReadWrite) {
             actGetValue->setEnabled(true);
         }
-        if (node->parent->parent->child_list->indexes) {
+        if (item.parent().parent().childList().node->indexes) {
             actGetRow->setEnabled(true);
         }
     }
@@ -249,7 +248,7 @@ void MibBrowserWidget::init()
 {
 //    MibTree *root = NetSNMP::instance()->allMibs();
     m_Proxy->setSourceModel(m_Model);
-    m_Model->setRoot(MibNode::getRoot().node);
+    m_Model->setRoot(MibNode::getRoot());
     treeMibs->setModel(m_Proxy);
     QObject::connect(treeMibs, &QTreeView::clicked,
                      this, &MibBrowserWidget::updateFields);

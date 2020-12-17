@@ -167,13 +167,13 @@ typedef struct snmp_pdu SnmpPdu;
  */
 typedef netsnmp_variable_list SnmpVariableList;
 
-typedef QList<QPair<int, QString> > MibEnumList; // value, label
+//typedef QList<QPair<int, QString> > MibEnumList; // value, label
 
-typedef QList<QPair<int, int> > MibRangeList; // low, high
+//typedef QList<QPair<int, int> > MibRangeList; // low, high
 
-typedef QList<QPair<QString, QChar> > MibIndexList; // ilabel, isimplied
+//typedef QList<QPair<QString, QChar> > MibIndexList; // ilabel, isimplied
 
-typedef QStringList MibVarbindList;
+//typedef QStringList MibVarbindList;
 
 /**
 * @brief Net-SNMP oid array wrapper
@@ -197,21 +197,24 @@ struct MibOid {
 };
 
 /**
- * @brief Net-SNMP MIB tree
- * More details in http://www.net-snmp.org/dev/agent/structtree.html
- */
-typedef struct tree MibTree;
-
-/**
 * @brief Net-SNMP MIB tree wrapper
 * More details in http://www.net-snmp.org/dev/agent/structtree.html
 */
 struct MibNode {
-    MibTree *node;
+    tree *node = nullptr;
 
-    MibNode(MibTree *node = nullptr) {
-        this->node = node;
+    MibNode(tree *pointer) {
+        this->node = pointer;
     }
+
+    MibNode(void *pointer = nullptr) {
+        this->node = static_cast<tree *>(pointer);
+    }
+
+    bool isValid() const {
+        return (node != nullptr);
+    }
+
     // main data
     /** Linked list of children of this node */
     MibNode childList() const {
@@ -266,7 +269,12 @@ struct MibNode {
     }
 
     bool hasChildren() const;
+    MibNode childAt(int idx) const;
+    int indexOf() const;
+    int childCount() const;
     QString name() const;
+    QString labelAndId() const;
+    bool isTable() const;
     QString moduleName() const;
     QString oid() const;
     QString syntax() const;
@@ -277,7 +285,18 @@ struct MibNode {
     QString description() const;
 
     static MibNode getRoot();
-};
+    static MibNode findByOid(const MibOid& mibOid);
+
+    operator bool() const {
+        return isValid();
+    }
+    bool operator== (const MibNode &rhs) {
+        return (this->node == rhs.node);
+    }
+    bool operator!= (const MibNode &rhs) {
+        return (this->node != rhs.node);
+    }
+ };
 
 
 /*****************************************************************/

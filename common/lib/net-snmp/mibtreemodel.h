@@ -14,7 +14,6 @@ class MibTreeModel : public QAbstractItemModel
 
 public:
     explicit MibTreeModel(QObject *parent = nullptr);
-    ~MibTreeModel() Q_DECL_OVERRIDE;
 
     // Basic functionality:
     QModelIndex index(int row, int column,
@@ -27,15 +26,15 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    void setRoot(MibTree *root);
-    MibTree *nodeFromIndex(const QModelIndex& index) const;
+    void setRoot(const MibNode &root);
+    MibNode nodeFromIndex(const QModelIndex& index) const;
 
-    QModelIndex indexFromOid(QString oid) const;
-    QModelIndex indexFromNode(MibTree *node) const;
+    QModelIndex indexFromOid(const QString& oid) const;
+    QModelIndex indexFromNode(const MibNode& node) const;
     QModelIndex findByName(const QString& name, const QModelIndex& parent) const;
 
 private:
-    MibTree *m_Root;
+    MibNode m_Root;
 };
 
 class MibTreeProxyModel : public QSortFilterProxyModel

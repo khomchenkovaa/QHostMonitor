@@ -8,82 +8,52 @@ using namespace SDPO;
 /*****************************************************************/
 
 MibTreeModel::MibTreeModel(QObject *parent)
-    : QAbstractItemModel(parent),
-      m_Root(nullptr)
+    : QAbstractItemModel(parent)
 {
-}
-
-/*****************************************************************/
-
-MibTreeModel::~MibTreeModel()
-{
-    m_Root = nullptr;
 }
 
 /*****************************************************************/
 
 QModelIndex MibTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if(!m_Root)
+    if(!m_Root.isValid())
         return QModelIndex();
 
-    MibTree *parentNode = nodeFromIndex(parent);
+    MibNode parentNode = nodeFromIndex(parent);
+    MibNode child = parentNode.childAt(row);
 
-    MibTree *child = parentNode? parentNode->child_list : m_Root;
-    for(int cnt = 0; cnt != row; ++cnt ) {
-        child = child->next_peer;
-        if (!child) {
-            break;
-        }
-    }
-
-    return createIndex(row, column, child);
+    return createIndex(row, column, child.node);
 }
 
 /*****************************************************************/
 
 QModelIndex MibTreeModel::parent(const QModelIndex &index) const
 {
-    MibTree *node = nodeFromIndex(index);
+    MibNode node = nodeFromIndex(index);
 
-    if(!node)
+    if(!node.isValid())
         return QModelIndex();
 
-    MibTree *parentNode = node->parent;
+    MibNode parentNode = node.parent();
 
-    if(!parentNode)
+    if(!parentNode.isValid())
         return QModelIndex();
 
-    MibTree *grandParentNode = parentNode->parent;
+    int row = parentNode.indexOf();
 
-    int row = 0;
-    MibTree *child = grandParentNode ? grandParentNode->child_list : m_Root;
-    for(; child != parentNode; child = child->next_peer) {
-        if (!child) {
-            break;
-        }
-        ++row;
-    }
-
-    return createIndex(row, index.column(), parentNode);
-
+    return createIndex(row, index.column(), parentNode.node);
 }
 
 /*****************************************************************/
 
 int MibTreeModel::rowCount(const QModelIndex &parent) const
 {
-    MibTree *parentNode = nodeFromIndex(parent);
+    MibNode parentNode = nodeFromIndex(parent);
 
-    if(!parentNode)
+    if(!parentNode.isValid())
         return 1;
 
-    int cnt = 0;
-    for(MibTree *child = parentNode->child_list; child; child = child->next_peer) {
-        cnt++;
-    }
-
-    return cnt;
+    return parentNode.childCount();
 }
 
 /*****************************************************************/
@@ -107,28 +77,28 @@ QVariant MibTreeModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    MibTree *node = nodeFromIndex(index);
-    if(!node) {
+    MibNode node = nodeFromIndex(index);
+    if(!node.isValid()) {
         return QVariant();
     }
 
     switch (role) {
     case Qt::DisplayRole:
-        return QString("%1 (%2)").arg(node->label).arg(node->subid);
+        return node.labelAndId();
     case Qt::DecorationRole:
-        if (node->child_list) {
-            if (node->child_list->indexes) {
-                return QIcon(":/img/test/snmp_table.png");
-            }
+        if (node.isTable()) {
+            return QIcon(":/img/test/snmp_table.png");
+        }
+        if (node.hasChildren()) {
             return QIcon(":/img/folder.png");
         }
-        if (node->type == MibTypeNotif || node->type == MibTypeTrap) {
+        if (node.type() == MibTypeNotif || node.type() == MibTypeTrap) {
             return QIcon(":/img/test/snmp_trap.png");
         }
-        if (node->access == MibAccessReadWrite) {
+        if (node.access() == MibAccessReadWrite) {
             return QIcon(":/img/action/enableTest.png");
         }
-        if (node->access == MibAccessNoAccess) {
+        if (node.access() == MibAccessNoAccess) {
             return QIcon(":/img/action/key.png");
         }
         return QIcon(":/img/test/snmp_get.png");
@@ -149,7 +119,7 @@ QVariant MibTreeModel::headerData(int section, Qt::Orientation orientation, int 
 
 /*****************************************************************/
 
-void MibTreeModel::setRoot(MibTree *root)
+void MibTreeModel::setRoot(const MibNode& root)
 {
     beginResetModel();
     m_Root = root;
@@ -158,53 +128,33 @@ void MibTreeModel::setRoot(MibTree *root)
 
 /*****************************************************************/
 
-MibTree *MibTreeModel::nodeFromIndex(const QModelIndex &index) const
+MibNode MibTreeModel::nodeFromIndex(const QModelIndex &index) const
 {
-    return index.isValid() ? static_cast<MibTree *> (index.internalPointer()) : nullptr;
+    return index.isValid() ? index.internalPointer() : nullptr;
 }
 
 /*****************************************************************/
 
-QModelIndex MibTreeModel::indexFromOid(QString oid) const
+QModelIndex MibTreeModel::indexFromOid(const QString &oid) const
 {
-    QStringList ids = oid.split(".",QString::SkipEmptyParts);
-    if (ids.isEmpty()) {
-        return index(0,0);
-    }
-    ids.removeFirst();
-    MibTree *tp = m_Root;
-    foreach(QString id, ids) {
-        u_long subId = id.toULong();
-        MibTree *child = tp->child_list;
-        for(; child; child = child->next_peer) {
-            if (subId == child->subid) {
-                break;
-            }
-        }
-        if (!child) {
-            break;
-        }
-        tp = child;
-    }
-    return indexFromNode(tp);
+    MibOid mibOid = MibOid::parse(oid);
+    if (mibOid.hasError())
+        return QModelIndex();
+    MibNode node = MibNode::findByOid(mibOid);
+    if (!node.isValid())
+        return QModelIndex();
+    return indexFromNode(node);
 }
 
 /*****************************************************************/
 
-QModelIndex MibTreeModel::indexFromNode(MibTree *node) const
+QModelIndex MibTreeModel::indexFromNode(const MibNode& node) const
 {
     if (node == m_Root) {
         return index(0, 0);
     } else {
-        QModelIndex parentIndex = indexFromNode(node->parent);
-        int row = 0;
-        MibTree *child = node->parent ? node->parent->child_list : m_Root;
-        for(; child != node; child = child->next_peer) {
-            if (!child) {
-                break;
-            }
-            ++row;
-        }
+        QModelIndex parentIndex = indexFromNode(node.parent());
+        int row = node.indexOf();
         return index(row,0,parentIndex);
     }
 }
@@ -220,8 +170,8 @@ QModelIndex MibTreeModel::findByName(const QString &name, const QModelIndex &par
             return idx;
         }
     }
-    MibTree *node = static_cast<MibTree *>(parent.internalPointer());
-    if (name.compare(node->label, Qt::CaseInsensitive) == 0) {
+    MibNode node = parent.internalPointer();
+    if (name.compare(node.label(), Qt::CaseInsensitive) == 0) {
         return parent;
     }
     return QModelIndex();
@@ -239,10 +189,10 @@ MibTreeProxyModel::MibTreeProxyModel(QObject *parent)
 
 bool MibTreeProxyModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
 {
-    MibTree *leftNode = static_cast<MibTree *>(left.internalPointer());
-    MibTree *rightNode = static_cast<MibTree *>(right.internalPointer());
+    MibNode leftNode = left.internalPointer();
+    MibNode rightNode = right.internalPointer();
 
-    return leftNode->subid < rightNode->subid;
+    return leftNode.oid() < rightNode.oid();
 }
 
 /*****************************************************************/

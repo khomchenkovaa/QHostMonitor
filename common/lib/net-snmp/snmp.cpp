@@ -68,9 +68,66 @@ bool MibNode::hasChildren() const
 
 /*****************************************************************/
 
+MibNode MibNode::childAt(int idx) const
+{
+    MibNode child = isValid() ? childList() : getRoot();
+    for(int i = 0; i != idx; ++i ) {
+        child = child.nextPeer();
+        if (!child.isValid()) {
+            break;
+        }
+    }
+    return child;
+}
+
+/*****************************************************************/
+
+int MibNode::indexOf() const
+{
+    int idx = 0;
+    MibNode parentNode = parent();
+    MibNode child = parentNode.isValid()? parentNode.childList() : getRoot();
+    for(; child != parentNode; child = child.nextPeer()) {
+        if (!child) {
+            break;
+        }
+        ++idx;
+    }
+    return idx;
+}
+
+/*****************************************************************/
+
+int MibNode::childCount() const
+{
+    int cnt = 0;
+    if (!isValid())
+        return cnt;
+    for(MibNode child = childList(); child.isValid(); child = child.nextPeer()) {
+        cnt++;
+    }
+    return cnt;
+}
+
+/*****************************************************************/
+
 QString MibNode::name() const
 {
     return QString("%1::%2").arg(moduleName(), label());
+}
+
+/*****************************************************************/
+
+QString MibNode::labelAndId() const
+{
+    return QString("%1 (%2)").arg(label()).arg(id());
+}
+
+/*****************************************************************/
+
+bool MibNode::isTable() const
+{
+    return (hasChildren() && childList().node->indexes);
 }
 
 /*****************************************************************/
@@ -91,9 +148,9 @@ QString MibNode::moduleName() const
 QString MibNode::oid() const
 {
     QString oid = QString(".%1").arg(node->subid);
-    MibTree *oidNode = node;
-    while ((oidNode = oidNode->parent)) {
-        oid = QString(".%1").arg(oidNode->subid) + oid;
+    MibNode oidNode = node;
+    while ((oidNode = oidNode.parent())) {
+        oid = QString(".%1").arg(oidNode.id()) + oid;
     }
     if (!hasChildren()) {
         oid += ".0";
@@ -243,6 +300,13 @@ MibNode MibNode::getRoot()
         mRoot.node = read_all_mibs();
     }
     return mRoot;
+}
+
+/*****************************************************************/
+
+MibNode MibNode::findByOid(const MibOid &mibOid)
+{
+    return get_tree(mibOid.oidNum, mibOid.oidLen, get_tree_head());;
 }
 
 /*****************************************************************/

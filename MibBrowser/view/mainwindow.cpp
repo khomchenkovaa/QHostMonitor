@@ -99,6 +99,15 @@ void MainWindow::setupActions()
     menuHelp->addAction(actAbout);
     menuBar->addAction(menuHelp->menuAction());
 
+    actAppendMib->setDisabled(true);
+    actLoadDb->setDisabled(true);
+    actSaveDb->setDisabled(true);
+    actClear->setDisabled(true);
+    actStat->setDisabled(true);
+    actHelp->setDisabled(true);
+    actSupport->setDisabled(true);
+    actAbout->setDisabled(true);
+
     setMenuBar(menuBar);
 }
 

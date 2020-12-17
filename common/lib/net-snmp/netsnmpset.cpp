@@ -30,27 +30,13 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
         return result;
     }
 
-    MibTree *tbl = get_tree(anOID, anOID_len, get_tree_head());
+    MibNode tbl = get_tree(anOID, anOID_len, get_tree_head());
     if (!tbl) {
         qDebug() << "Can not get MibTree for" << oidStr;
         return result;
     }
 
-    char dataType = '=';
-    switch(static_cast<MibType>(tbl->type)) {
-    case MibTypeObjId       : dataType = 'o'; break;
-    case MibTypeOctetStr    : dataType = 's'; break;
-    case MibTypeInteger     : dataType = 'i'; break;
-    case MibTypeIpAddr      : dataType = 'a'; break;
-    case MibTypeCounter     : dataType = 'c'; break;
-    case MibTypeTimeTicks   : dataType = 't'; break;
-    case MibTypeCounter64   : dataType = 'C'; break;
-    case MibTypeBitString   : dataType = 'b'; break;
-    case MibTypeUInteger    : dataType = 'u'; break;
-    case MibTypeUnsigned32  : dataType = 'u'; break;
-    case MibTypeInteger32   : dataType = 'i'; break;
-    default: break;
-    }
+    char dataType = tbl.typeChar();
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;

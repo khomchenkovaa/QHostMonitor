@@ -21,7 +21,7 @@ void SnmpSetAction::run(TTest *test)
     NetSnmpSet snmpSet;
     snmpSet.setProfile(profile);
     snmpSet.setRetries(a_Retries);
-    snmpSet.setHost(a_AgentAddress);
+    snmpSet.setDestHost(a_AgentAddress);
     SnmpValue value = snmpSet.set(a_Oid, a_SetValue);
 }
 

@@ -120,7 +120,7 @@ QString MibNode::name() const
 
 QString MibNode::labelAndId() const
 {
-    return QString("%1 (%2)").arg(label()).arg(id());
+    return QString("%1 (%2)").arg(label()).arg(subID());
 }
 
 /*****************************************************************/
@@ -145,12 +145,12 @@ QString MibNode::moduleName() const
 
 /*****************************************************************/
 
-QString MibNode::oid() const
+QString MibNode::objectID() const
 {
     QString oid = QString(".%1").arg(node->subid);
     MibNode oidNode = node;
     while ((oidNode = oidNode.parent())) {
-        oid = QString(".%1").arg(oidNode.id()) + oid;
+        oid = QString(".%1").arg(oidNode.subID()) + oid;
     }
     if (!hasChildren()) {
         oid += ".0";
@@ -296,7 +296,7 @@ MibNode MibNode::getRoot()
 {
     static MibNode mRoot;
     if (mRoot.node == nullptr) {
-        NetSNMP::init();
+        NetSNMP::initMib();
         mRoot.node = read_all_mibs();
     }
     return mRoot;
@@ -371,6 +371,7 @@ SnmpValue SnmpValue::fromVar(SnmpVariableList *vars)
     SnmpValue result;
     result.setName(vars->name, vars->name_length);
     result.type = static_cast<SnmpDataType>(vars->type);
+    result.mibNode = MibNode::findByOid(result.name);
 
     switch(vars->type) {
     case SnmpDataInteger:
@@ -475,7 +476,7 @@ int SnmpProfile::defaultIdx()
 
 /*****************************************************************/
 
-void NetSNMP::init(const QString sessName)
+void NetSNMP::initMib(const QString sessName)
 {
     static bool initialized = false;
     if (!initialized) {
@@ -498,58 +499,5 @@ QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
     return result.join('.');
 }
 
-/*****************************************************************/
-// NetSnmpCommon
-/*****************************************************************/
 
-NetSnmpCommon::NetSnmpCommon(QObject *parent)
-    : QObject(parent),
-      m_Host("localhost"),
-      m_Version(SNMPv2c),
-      m_Community("public"),
-      m_Timeout(2000),
-      m_Retries(1)
-{
-    NetSNMP::init();
-}
-
-/*****************************************************************/
-
-void NetSnmpCommon::setProfile(const SnmpProfile &profile)
-{
-    m_Version   = profile.version;
-    m_Community = profile.community;
-
-    if (profile.version == SNMPv3) {
-        //! TODO fields for SNMPv3
-    }
-}
-
-/*****************************************************************/
-
-void NetSnmpCommon::snmpSessionInit(SnmpSession *session)
-{
-    snmp_sess_init(session); // setup defaults
-    session->peername      = m_Host.toLatin1().data();
-    session->version       = static_cast<long>(m_Version);
-    session->community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
-    session->community_len = static_cast<size_t>(m_Community.size());
-    session->retries       = m_Retries;
-}
-
-/*****************************************************************/
-
-QString NetSnmpCommon::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
-{
-    Q_UNUSED(priority)
-    char *err;
-    snmp_error(ss, nullptr, nullptr, &err);
-    QString result(err);
-    qDebug() << prog << ": " << err;
-//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
-    SNMP_FREE(err);
-    return result;
-}
-
-/*****************************************************************/
 

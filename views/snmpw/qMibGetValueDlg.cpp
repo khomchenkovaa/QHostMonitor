@@ -1,8 +1,7 @@
 #include "qMibGetValueDlg.h"
 #include "ui_qMibGetValueDlg.h"
 
-#include "snmp.h"
-#include "netsnmpget.h"
+#include "netsnmpsession.h"
 #include "netsnmpset.h"
 #include "qSnmpCredentialsDlg.h"
 
@@ -63,29 +62,29 @@ void QMibGetValueDlg::cmdSysInfo()
 
     Q_UNUSED(timeout)
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
     ui->textResult->appendPlainText("\n" + host);
     // System: get .1.3.6.1.2.1.1.1.0 (SNMPv2-MIB::sysDescr)
-    SnmpValue value = snmpGet.get(".1.3.6.1.2.1.1.1.0");
+    SnmpValue value = ss.get(".1.3.6.1.2.1.1.1.0");
     ui->textResult->appendPlainText("System:\t" + value.val);
     // Uptime: get .1.3.6.1.2.1.1.3.0 (DISMAN-EVENT-MIB::sysUpTimeInstance)
-    value = snmpGet.get(".1.3.6.1.2.1.1.3.0");
+    value = ss.get(".1.3.6.1.2.1.1.3.0");
     ui->textResult->appendPlainText("Uptime:\t" + value.val); // to hh:mm:ss
     // Interfaces: get .1.3.6.1.2.1.2.1.0 (IF-MIB::ifNumber)
-    value = snmpGet.get(".1.3.6.1.2.1.2.1.0");
+    value = ss.get(".1.3.6.1.2.1.2.1.0");
     ui->textResult->appendPlainText(value.val + " interfaces");
 
     // Int row: getRow .1.3.6.1.2.1.2.2.1.1 (IF-MIB::ifIndex)
-    QList<SDPO::SnmpValue> rowVals = snmpGet.getRow(".1.3.6.1.2.1.2.2.1.1");
+    QList<SDPO::SnmpValue> rowVals = ss.getRow(".1.3.6.1.2.1.2.2.1.1");
     // Int name: getRow .1.3.6.1.2.1.2.2.1.2 (IF-MIB::ifDescr)
-    QList<SDPO::SnmpValue> descrVals = snmpGet.getRow(".1.3.6.1.2.1.2.2.1.2");
+    QList<SDPO::SnmpValue> descrVals = ss.getRow(".1.3.6.1.2.1.2.2.1.2");
     // IN: getRow .1.3.6.1.2.1.2.2.1.10 (IF-MIB::ifInOctets)
-    QList<SDPO::SnmpValue> inVals = snmpGet.getRow(".1.3.6.1.2.1.2.2.1.10");
+    QList<SDPO::SnmpValue> inVals = ss.getRow(".1.3.6.1.2.1.2.2.1.10");
     // OUT: getRow .1.3.6.1.2.1.2.2.1.16 (IF-MIB::ifOutOctets)
-    QList<SDPO::SnmpValue> outVals = snmpGet.getRow(".1.3.6.1.2.1.2.2.1.16");
+    QList<SDPO::SnmpValue> outVals = ss.getRow(".1.3.6.1.2.1.2.2.1.16");
     for (int i=0; i<rowVals.size(); ++i) {
         QString rowVal   = i < rowVals.size() ? rowVals.at(i).val : QString();
         QString descrVal = i < descrVals.size() ? descrVals.at(i).val : QString();
@@ -110,11 +109,11 @@ void QMibGetValueDlg::cmdGetValue()
 
     Q_UNUSED(timeout)
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
-    SnmpValue value = snmpGet.get(oid);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    SnmpValue value = ss.get(oid);
     ui->textResult->appendPlainText(value.toString());
 }
 
@@ -132,11 +131,11 @@ void QMibGetValueDlg::cmdGetRow()
 
     Q_UNUSED(timeout)
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
-    QList<SDPO::SnmpValue> values = snmpGet.getRow(oid);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    QList<SDPO::SnmpValue> values = ss.getRow(oid);
     foreach (const SnmpValue& val, values) {
         ui->textResult->appendPlainText(val.toString());
         ui->cmbOid->setCurrentText(val.nameAsStr());
@@ -159,11 +158,11 @@ void QMibGetValueDlg::cmdGetNext()
 
     Q_UNUSED(timeout)
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
-    QList<SDPO::SnmpValue> values = snmpGet.getNext(oid, cnt);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    QList<SDPO::SnmpValue> values = ss.getNext(oid, cnt);
     foreach (const SnmpValue& val, values) {
         ui->textResult->appendPlainText(val.toString());
         ui->cmbOid->setCurrentText(val.nameAsStr());
@@ -194,7 +193,7 @@ void QMibGetValueDlg::cmdSetValue()
     NetSnmpSet snmpSet;
     snmpSet.setProfile(profile);
     snmpSet.setRetries(retries);
-    snmpSet.setHost(host);
+    snmpSet.setDestHost(host);
     SnmpValue value = snmpSet.set(oid, newValue);
     ui->textResult->appendPlainText(value.toString());
 }

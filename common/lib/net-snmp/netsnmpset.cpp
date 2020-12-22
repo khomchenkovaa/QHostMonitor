@@ -5,7 +5,7 @@
 /*****************************************************************/
 
 SDPO::NetSnmpSet::NetSnmpSet(QObject *parent)
-    : NetSnmpCommon(parent)
+    : m_Session(new NetSnmpSession(parent))
 {
 }
 
@@ -13,6 +13,7 @@ SDPO::NetSnmpSet::NetSnmpSet(QObject *parent)
 
 SDPO::NetSnmpSet::~NetSnmpSet()
 {
+    m_Session->deleteLater();
 }
 
 /*****************************************************************/
@@ -40,7 +41,7 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmpSessionInit( &session );
+    m_Session->snmpSessionInit( &session );
 
     SnmpPdu *pdu = snmp_pdu_create(SnmpPduSet);
     int xerr = snmp_add_var(pdu,anOID, anOID_len, dataType, oidValue.toLatin1());
@@ -51,11 +52,11 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
     }
 
     SOCK_STARTUP;
-    putenv(strdup("POSIXLY_CORRECT=1"));
+    putenv("POSIXLY_CORRECT=1");
 
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
-        snmpSessionLogError(LOG_ERR, "ack", &session);
+        m_Session->snmpSessionLogError(LOG_ERR, "ack", &session);
         SOCK_CLEANUP;
         return result;
     }
@@ -75,7 +76,7 @@ SDPO::SnmpValue SDPO::NetSnmpSet::set(const QString &oidStr, const QString &oidV
         result.val = QString("Timeout: No Response from %1.").arg(session.peername);
     } else {                    /* status == SnmpRespStatError */
         result.val = QString("Error in Response from %1.").arg(session.peername);
-        snmpSessionLogError(LOG_ERR, "GET", &session);
+        m_Session->snmpSessionLogError(LOG_ERR, "GET", &session);
     }
 
     // Cleanup

@@ -50,7 +50,7 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     NetSnmpTable snmpGet;
     snmpGet.setProfile(profile);
     snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
+    snmpGet.setDestHost(host);
     QList<SDPO::SnmpColumn*> columns = snmpGet.readColumns(oid);
     if (columns.size()) {
         ui->tableWidget->setColumnCount(columns.size());

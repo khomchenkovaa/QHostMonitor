@@ -192,7 +192,7 @@ bool MibTreeProxyModel::lessThan(const QModelIndex &left, const QModelIndex &rig
     MibNode leftNode = left.internalPointer();
     MibNode rightNode = right.internalPointer();
 
-    return leftNode.oid() < rightNode.oid();
+    return leftNode.subID() < rightNode.subID();
 }
 
 /*****************************************************************/

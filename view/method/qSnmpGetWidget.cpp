@@ -5,7 +5,7 @@
 #include "qSnmpCredentialsDlg.h"
 #include "gData.h"
 
-#include "netsnmpget.h"
+#include "netsnmpsession.h"
 
 #include <QDebug>
 
@@ -153,12 +153,11 @@ void SnmpGetWidget::on_btnGetValue_clicked()
 
     Q_UNUSED(timeout)
 
-
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
-    SnmpValue value = snmpGet.get(oid);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    SnmpValue value = ss.get(oid);
     ui->cmbValue->setCurrentText(value.val);
 
     ui->btnGetValue->setEnabled(true);

@@ -5,7 +5,6 @@
 #include <net-snmp/net-snmp-includes.h>
 
 #include <QString>
-#include <QVariant>
 #include <QVector>
 
 #define SNMP_INIT_DEFAULT_NAME "SDPO"
@@ -18,16 +17,19 @@ namespace SDPO {
  * @brief SNMP defaults
  */
 enum SnmpDefaults {
-    SnmpPort      = SNMP_PORT,       /**< standard UDP port for SNMP agents to receive requests*/
-    SnmpTrapPort  = SNMP_TRAP_PORT,  /**< standard UDP port for SNMP managers to receive notification*/
-    SnmpMaxLen    = SNMP_MAX_LEN,    /**< typical maximum message size */
-    SnmpMinMaxLen = SNMP_MIN_MAX_LEN /**< minimum maximum message size */
+    SnmpPort      = SNMP_PORT,            /**< standard UDP port for SNMP agents to receive requests*/
+    SnmpTrapPort  = SNMP_TRAP_PORT,       /**< standard UDP port for SNMP managers to receive notification*/
+    SnmpMaxLen    = SNMP_MAX_LEN,         /**< typical maximum message size */
+    SnmpMinMaxLen = SNMP_MIN_MAX_LEN,     /**< minimum maximum message size */
+    SnmpTimeout   = SNMP_DEFAULT_TIMEOUT,
+    SnmpRetries   = SNMP_DEFAULT_RETRIES
 };
 
 /**
  * @brief SNMP version to be used
  */
 enum SnmpVersion {
+    SNMPvDefault = SNMP_DEFAULT_VERSION,
     SNMPv1  = SNMP_VERSION_1,  /**< SNMP version 1 (=0) */
     SNMPv2c = SNMP_VERSION_2c, /**< SNMP version 2 (=1) */
     SNMPv3  = SNMP_VERSION_3   /**< SNMP version 3 (=3) */
@@ -237,7 +239,7 @@ struct MibNode {
         return node->label;
     }
     /** This node's integer subidentifier */
-    ulong id() const {
+    ulong subID() const {
         return node->subid;
     }
     /** The main module containing this node */
@@ -276,7 +278,7 @@ struct MibNode {
     QString labelAndId() const;
     bool isTable() const;
     QString moduleName() const;
-    QString oid() const;
+    QString objectID() const;          /**< dotted decimal fully qualified OID */
     QString syntax() const;
     char    typeChar() const;
     QString typeName() const;
@@ -302,9 +304,10 @@ struct MibNode {
 /*****************************************************************/
 
 struct SnmpValue {
-    MibOid name;
+    MibOid       name;
     SnmpDataType type;
     QString      val;
+    MibNode      mibNode;
 
     SnmpValue() {
         type = SnmpDataUnknown;
@@ -355,41 +358,10 @@ typedef QList<SnmpProfile> GSnmpCredentials;
 
 class NetSNMP {
 public:
-    static void init(const QString name = SNMP_INIT_DEFAULT_NAME);
+    static void initMib(const QString name = SNMP_INIT_DEFAULT_NAME);
     static QString ipToString(u_char *ip, size_t ip_len);
 };
 
-/*****************************************************************/
-
-class NetSnmpCommon : public QObject
-{
-    Q_OBJECT
-public:
-    explicit NetSnmpCommon(QObject *parent = nullptr);
-
-    void setHost(const QString& host) {
-        m_Host = host;
-    }
-    void setProfile(const SnmpProfile& profile);
-    void setTimeout(const int timeout) {
-       m_Timeout = timeout;
-    }
-    void setRetries(const int retries) {
-        m_Retries = retries;
-    }
-
-protected:
-    void snmpSessionInit(SnmpSession *session);
-    QString snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
-
-protected:
-    QString     m_Host;
-    SnmpVersion m_Version;
-    QString     m_Community;
-    int         m_Timeout;
-    int         m_Retries;
-
-};
 
 /*****************************************************************/
 

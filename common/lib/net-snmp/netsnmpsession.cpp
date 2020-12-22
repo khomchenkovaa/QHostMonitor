@@ -1,52 +1,97 @@
-#include "netsnmpget.h"
+#include "netsnmpsession.h"
 
 #include <QDebug>
 
 using namespace SDPO;
 
-/*****************************************************************/
-
-NetSnmpGet::NetSnmpGet(QObject *parent)
-    : NetSnmpCommon(parent)
+NetSnmpSession::NetSnmpSession(QObject *parent)
+    : QObject(parent),
+      m_SessPtr    (nullptr),
+      m_DestHost   (DEST_HOST_DEFAULT),
+      m_Community  (COMMUNITY_DEFAULT),
+      m_Version    (SnmpVersion::SNMPvDefault),
+      m_RemotePort (SnmpDefaults::SnmpPort),
+      m_Timeout    (SnmpDefaults::SnmpTimeout),
+      m_Retries    (SnmpDefaults::SnmpRetries)
 {
+    NetSNMP::initMib();
 }
 
 /*****************************************************************/
 
-NetSnmpGet::~NetSnmpGet()
+NetSnmpSession::~NetSnmpSession()
 {
+    close();
 }
 
 /*****************************************************************/
 
-SnmpValue NetSnmpGet::get(const QString& oidStr)
+bool NetSnmpSession::open()
 {
-    SnmpValue result;
+    if (m_SessPtr) { // already opened
+        return true;
+    }
 
+    // Initialize a "session" that defines who we're going to talk to
+    netsnmp_session session;
+    snmp_sess_init(&session); // setup defaults
+    session.peername      = m_DestHost.toLatin1().data();
+    session.version       = static_cast<long>(m_Version);
+    session.community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
+    session.community_len = static_cast<size_t>(m_Community.size());
+    session.retries       = m_Retries;
+
+    SOCK_STARTUP;
+    m_SessPtr = snmp_open(&session); // establish the session
+
+    if (!m_SessPtr) {
+        char *err;
+        snmp_error(&session, nullptr, nullptr, &err);
+        m_ErrorStr = QString(err);
+        SNMP_FREE(err);
+        SOCK_CLEANUP;
+        return false;
+    }
+    return true;
+}
+
+/*****************************************************************/
+
+void NetSnmpSession::close()
+{
+    if (m_SessPtr) {
+        snmp_close(m_SessPtr);
+        SOCK_CLEANUP;
+    }
+}
+
+/*****************************************************************/
+
+SnmpValue NetSnmpSession::get(const QString &oidStr)
+{
     MibOid anOID = MibOid::parse(oidStr);
-    result.setName(anOID);
-
     if (anOID.hasError()) {
         return SnmpValue::fromError(anOID, anOID.errString());
     }
 
-    // Initialize a "session" that defines who we're going to talk to
-    SnmpSession session;
-    snmpSessionInit( &session );
+    if (!open()) {
+        return SnmpValue::fromError(anOID, m_ErrorStr);
+    }
 
+    return get(anOID);
+}
+
+/*****************************************************************/
+
+SnmpValue NetSnmpSession::get(const MibOid &anOID)
+{
     SnmpPdu *pdu = snmp_pdu_create(SnmpPduGet);
     snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
-    SOCK_STARTUP;
-    SnmpSession *ss = snmp_open(&session); // establish the session
-    if (!ss) {
-        QString err = snmpSessionLogError(LOG_ERR, "netsnmpget", &session);
-        SOCK_CLEANUP;
-        return SnmpValue::fromError(anOID, err);
-    }
+    SnmpValue result;
+    SnmpPdu  *pduResponse = nullptr;
 
-    SnmpPdu *pduResponse = nullptr;
-    SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
+    SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
     if (status == SnmpRespStatSuccess) {
         if (pduResponse->errstat == SNMP_ERR_NOERROR) {
@@ -57,25 +102,22 @@ SnmpValue NetSnmpGet::get(const QString& oidStr)
             result = SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat)));
         }
     } else if (status == SnmpRespStatTimeout) {
-        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername));
+        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost));
     } else {                    /* status == SnmpRespStatError */
-        QString err = snmpSessionLogError(LOG_ERR, "netsnmpget", ss);
-        result = SnmpValue::fromError(anOID, err);
+        result = SnmpValue::fromError(anOID, errorStr());
     }
 
     // Cleanup
     if (pduResponse) {
       snmp_free_pdu(pduResponse);
     }
-    snmp_close(ss);
-    SOCK_CLEANUP;
 
     return result;
 }
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpGet::getNext(const QString &oidStr, int cnt)
+QList<SnmpValue> NetSnmpSession::getNext(const QString &oidStr, int cnt)
 {
     QList<SnmpValue> result;
 
@@ -85,18 +127,11 @@ QList<SnmpValue> NetSnmpGet::getNext(const QString &oidStr, int cnt)
         return result;
     }
 
-    // Initialize a "session" that defines who we're going to talk to
-    SnmpSession session;   
-    snmpSessionInit( &session );
-
-    SOCK_STARTUP;
-    SnmpSession *ss = snmp_open(&session); // establish the session
-    if (!ss) {
-        snmpSessionLogError(LOG_ERR, "ack", &session);
-        SOCK_CLEANUP;
-        result.append(SnmpValue::fromError(anOID, "Cannot open the session"));
+    if (!open()) {
+        result.append(SnmpValue::fromError(anOID, m_ErrorStr));
         return result;
     }
+
 
     for(int i=0;i<cnt;i++) {
 
@@ -104,7 +139,7 @@ QList<SnmpValue> NetSnmpGet::getNext(const QString &oidStr, int cnt)
         snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
         SnmpPdu *pduResponse = nullptr;
-        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
+        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {
             if (pduResponse->errstat == SNMP_ERR_NOERROR) {
@@ -117,26 +152,21 @@ QList<SnmpValue> NetSnmpGet::getNext(const QString &oidStr, int cnt)
                 result.append(SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat))));
             }
         } else if (status == SnmpRespStatTimeout) {
-            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername)));
+            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost)));
         } else {                    /* status == SnmpRespStatError */
-            result.append(SnmpValue::fromError(anOID, QString("Error in Response from %1.").arg(session.peername)));
-            snmpSessionLogError(LOG_ERR, "GETNEXT", &session);
+            result.append(SnmpValue::fromError(anOID, errorStr()));
         }
 
         if (pduResponse) {
           snmp_free_pdu(pduResponse);
         }
     }
-
-    snmp_close(ss);
-    SOCK_CLEANUP;
-
     return result;
 }
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
+QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
 {
     QList<SnmpValue> result;
 
@@ -146,16 +176,8 @@ QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
         return result;
     }
 
-    // Initialize a "session" that defines who we're going to talk to
-    SnmpSession session;
-    snmpSessionInit( &session );
-
-    SOCK_STARTUP;
-    SnmpSession *ss = snmp_open(&session); // establish the session
-    if (!ss) {
-        snmpSessionLogError(LOG_ERR, "ack", &session);
-        SOCK_CLEANUP;
-        result.append(SnmpValue::fromError(anOID, "Cannot open the session"));
+    if (!open()) {
+        result.append(SnmpValue::fromError(anOID, m_ErrorStr));
         return result;
     }
 
@@ -168,7 +190,7 @@ QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
         snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
 
         SnmpPdu *pduResponse = nullptr;
-        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
+        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {
             if (pduResponse->errstat == SNMP_ERR_NOERROR) {
@@ -199,11 +221,10 @@ QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
                 curRow = false;
             }
         } else if (status == SnmpRespStatTimeout) {
-            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(session.peername)));
+            result.append(SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost)));
             curRow = false; // break;
         } else {                    /* status == SnmpRespStatError */
-            result.append(SnmpValue::fromError(anOID, QString("Error in Response from %1.").arg(session.peername)));
-            snmpSessionLogError(LOG_ERR, "GETROW", &session);
+            result.append(SnmpValue::fromError(anOID, errorStr()));
             curRow = false; // break;
         }
 
@@ -212,9 +233,58 @@ QList<SnmpValue> NetSnmpGet::getRow(const QString &oidStr)
         }
     }
 
-    snmp_close(ss);
-    SOCK_CLEANUP;
+    return result;
+}
 
+/*****************************************************************/
+
+QString NetSnmpSession::errorStr()
+{
+    if (!m_SessPtr) {
+        return m_ErrorStr;
+    }
+    char *err;
+    snmp_error(m_SessPtr, nullptr, nullptr, &err);
+    QString result(err);
+    SNMP_FREE(err);
+    return result;
+}
+
+/*****************************************************************/
+
+void NetSnmpSession::setProfile(const SnmpProfile &profile)
+{
+    m_Version   = profile.version;
+    m_Community = profile.community;
+
+    if (profile.version == SNMPv3) {
+        //! TODO fields for SNMPv3
+    }
+}
+
+/*****************************************************************/
+
+void NetSnmpSession::snmpSessionInit(SnmpSession *session)
+{
+    snmp_sess_init(session); // setup defaults
+    session->peername      = m_DestHost.toLatin1().data();
+    session->version       = static_cast<long>(m_Version);
+    session->community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
+    session->community_len = static_cast<size_t>(m_Community.size());
+    session->retries       = m_Retries;
+}
+
+/*****************************************************************/
+
+QString NetSnmpSession::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
+{
+    Q_UNUSED(priority)
+    char *err;
+    snmp_error(ss, nullptr, nullptr, &err);
+    QString result(err);
+    qDebug() << prog << ": " << err;
+//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
+    SNMP_FREE(err);
     return result;
 }
 

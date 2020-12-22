@@ -66,7 +66,7 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
     MibNode item = index.internalPointer();
 
     editMib->setText(item.name());
-    editOid->setText(item.oid());
+    editOid->setText(item.objectID());
     editSyntax->setText(item.syntax());
     editAccess->setText(item.accessName());
     editStatus->setText(item.statusName());

@@ -5,7 +5,7 @@
 /*****************************************************************/
 
 SDPO::NetSnmpTable::NetSnmpTable(QObject *parent)
-    : NetSnmpCommon(parent)
+    : m_Session(new NetSnmpSession(parent))
 {
 }
 
@@ -16,6 +16,7 @@ SDPO::NetSnmpTable::~NetSnmpTable()
     // clear columns
     qDeleteAll(m_Columns);
     m_Columns.clear();
+    m_Session->deleteLater();
 }
 
 /*****************************************************************/
@@ -39,7 +40,7 @@ QList<SDPO::SnmpColumn*> SDPO::NetSnmpTable::readColumns(const QString& oidStr)
     if (!tbl) { // no entry - not a table
         return m_Columns;
     }
-    m_Root[m_RootLen++] = tbl.id(); // add entry id
+    m_Root[m_RootLen++] = tbl.subID(); // add entry id
     tbl = tbl.childList(); // get first field
     if (!tbl) { // no fields - not a table
         return m_Columns;
@@ -50,7 +51,7 @@ QList<SDPO::SnmpColumn*> SDPO::NetSnmpTable::readColumns(const QString& oidStr)
             continue;
         }
         SnmpColumn* col = new SnmpColumn();
-        col->subid = tbl.id();
+        col->subid = tbl.subID();
         col->label = QString(tbl.label());
         m_Columns.prepend(col);
     } while ((tbl = tbl.nextPeer()));
@@ -66,7 +67,7 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
 
     // Initialize a "session" that defines who we're going to talk to
     SnmpSession session;
-    snmpSessionInit( &session );
+    m_Session->snmpSessionInit( &session );
 
     oid      name[MAX_OID_LEN];
     size_t   namelen = m_RootLen + 1;
@@ -77,7 +78,7 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
     SOCK_STARTUP;
     SnmpSession *ss = snmp_open(&session); // establish the session
     if (!ss) {
-        snmpSessionLogError(LOG_ERR, "ack", &session);
+        m_Session->snmpSessionLogError(LOG_ERR, "ack", &session);
         SOCK_CLEANUP;
         return result;
     }
@@ -129,7 +130,7 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
             running = false;
         } else {                    /* status == SnmpRespStatError */
             qDebug() << QString("Error in Response from %1.").arg(session.peername);
-            snmpSessionLogError(LOG_ERR, "GETNEXT", &session);
+            m_Session->snmpSessionLogError(LOG_ERR, "GETNEXT", &session);
             running = false;
         }
 

@@ -2,7 +2,7 @@
 #include "tEnums.h"
 #include "gData.h"
 
-#include "netsnmpget.h"
+#include "netsnmpsession.h"
 
 namespace SDPO {
 
@@ -28,11 +28,11 @@ void TSnmpGet::run()
 
     SnmpProfile profile = SnmpProfile::findByName(a_SnmpProfile);
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(a_Retries);
-    snmpGet.setHost(a_Host);
-    SnmpValue value = snmpGet.get(a_MibOid);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(a_Retries);
+    ss.setDestHost(a_Host);
+    SnmpValue value = ss.get(a_MibOid);
     if (value.type != SnmpDataUnknown) {
         parseResult(value.val);
         emit testSuccess();
@@ -152,7 +152,7 @@ QString TSnmpGet::getTestMethod() const
 
 QString TSnmpGet::getTestedObjectInfo() const
 {
-    return QString("SNMP Get %1 from %2").arg(a_MibName).arg(a_Host);
+    return QString("SNMP Get %1 from %2").arg(a_MibName, a_Host);
 }
 
 /******************************************************************/

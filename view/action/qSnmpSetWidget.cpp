@@ -2,7 +2,7 @@
 #include "ui_qSnmpSetWidget.h"
 #include "action/tSnmpSetAction.h"
 #include "gData.h"
-#include "netsnmpget.h"
+#include "netsnmpsession.h"
 
 using namespace SDPO;
 
@@ -82,11 +82,11 @@ void SnmpSetWidget::on_btnGetCurrentValue_clicked()
     Q_UNUSED(timeout)
 
 
-    NetSnmpGet snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setHost(host);
-    SnmpValue value = snmpGet.get(oid);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    SnmpValue value = ss.get(oid);
     ui->cmbSetValue->setCurrentText(value.val);
 
     ui->btnGetCurrentValue->setEnabled(true);

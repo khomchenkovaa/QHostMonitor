@@ -358,9 +358,7 @@ QString SnmpValue::dataTypeName() const
 QString SnmpValue::toString() const
 {
     return QString("[%1] = %2: %3")
-            .arg(nameAsStr())
-            .arg(dataTypeName())
-            .arg(val);
+            .arg(nameAsStr(), dataTypeName(), val);
 }
 
 /*****************************************************************/
@@ -475,17 +473,86 @@ int SnmpProfile::defaultIdx()
 }
 
 /*****************************************************************/
+// NetSnmp Core
+/*****************************************************************/
 
-void NetSNMP::initMib(const QString sessName)
+int NetSNMP::autoInitMib = 1;
+int NetSNMP::useLongNames = 0;
+int NetSNMP::useSprintValue = 0;
+int NetSNMP::useEnums = 0;
+int NetSNMP::useNumeric = 0;
+MibNode NetSNMP::mibRoot;
+int NetSNMP::verbose = 0;
+int NetSNMP::debugging = 0;
+int NetSNMP::dumpPacket = 0;
+int NetSNMP::saveDescriptions = 0;
+int NetSNMP::bestGuess = 0;
+int NetSNMP::nonIncreasing = 0;
+int NetSNMP::replaceNewer = 0;
+
+/*****************************************************************/
+
+void NetSNMP::registerDebugTokens(const QString &tokens)
 {
-    static bool initialized = false;
-    if (!initialized) {
-        snmp_set_mib_warnings(0);
-        snmp_set_mib_errors(0);
-        snmp_set_save_descriptions(1);
-        init_snmp(sessName.toLatin1());
-        initialized = true;
+    debug_register_tokens(tokens.toLatin1().data());
+    snmp_set_do_debugging(1);
+}
+
+/*****************************************************************/
+
+QVariant NetSNMP::getEnv(const QString &name)
+{
+    return QString(netsnmp_getenv(name.toLatin1().data()));
+}
+
+/*****************************************************************/
+
+int NetSNMP::setEnv(const QString &envName, const QVariant &envVal, int overwrite)
+{
+    return netsnmp_setenv(envName.toLatin1().data(),
+                          envVal.toString().toLatin1().data(),
+                          overwrite);
+}
+
+/*****************************************************************/
+
+void NetSNMP::initMib()
+{
+    initSnmp(SNMP_INIT_DEFAULT_NAME);
+}
+
+
+/*****************************************************************/
+
+bool NetSNMP::addMibDirs(const QStringList &mibDirs)
+{
+    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    foreach(const QString& mibDir, mibDirs) {
+        if (!addMibDir(mibDir)) return false;
     }
+    return true;
+}
+
+/*****************************************************************/
+
+bool NetSNMP::addMibFiles(const QStringList &mibFiles)
+{
+    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    foreach(const QString& mibFile, mibFiles) {
+        if (!readMib(mibFile)) return false;
+    }
+    return true;
+}
+
+/*****************************************************************/
+
+bool NetSNMP::loadModules(const QStringList &mibModules)
+{
+    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    foreach(const QString& module, mibModules) {
+        if (!readModule(module)) return false;
+    }
+    return true;
 }
 
 /*****************************************************************/
@@ -498,6 +565,105 @@ QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
     }
     return result.join('.');
 }
+
+/*****************************************************************/
+
+void NetSNMP::initSnmp(const QString &appName)
+{
+    librariesInit(appName);
+}
+
+/*****************************************************************/
+
+void NetSNMP::librariesInit(const QString &appName)
+{
+    static bool haveInited = false;
+
+    if (haveInited)
+        return;
+    haveInited = 1;
+
+    SOCK_STARTUP;
+
+    netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID,
+                           NETSNMP_DS_LIB_QUICK_PRINT, 1);
+//    snmp_set_mib_warnings(0);
+//    snmp_set_mib_errors(0);
+    snmp_set_save_descriptions(1);
+    init_snmp(appName.toLatin1());
+
+    netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID,
+                           NETSNMP_DS_LIB_DONT_BREAKDOWN_OIDS, 1);
+    netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID,
+                       NETSNMP_DS_LIB_PRINT_SUFFIX_ONLY, 1);
+    netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID,
+                       NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_SUFFIX);
+}
+
+/*****************************************************************/
+
+bool NetSNMP::addMibDir(const QString &mibDir)
+{
+    int result = 0;      /* Avoid use of uninitialized variable below. */
+    if (!mibDir.isEmpty()) {
+        result = add_mibdir(mibDir.toLatin1());
+    }
+    if (result) {
+       if (verbose) qWarning() << "snmp_add_mib_dir: Added mib dir" <<  mibDir;
+    } else {
+       if (verbose) qWarning() << "snmp_add_mib_dir: Failed to add" << mibDir;
+    }
+    return result;
+}
+
+/*****************************************************************/
+
+bool NetSNMP::readMib(const QString &mibFile)
+{
+    if (mibFile.isEmpty()) {
+        if (get_tree_head() == NULL) {
+            if (verbose) qWarning() << "snmp_read_mib: initializing MIB";
+            netsnmp_init_mib();
+            if (get_tree_head()) {
+                if (verbose) qWarning() << "done";
+            } else {
+                if (verbose) qWarning() << "failed";
+            }
+        }
+    } else {
+        if (verbose) qWarning() << "snmp_read_mib: reading MIB: " << mibFile;
+        if (mibFile != "ALL") {
+            read_mib(mibFile.toLatin1());
+        } else {
+            read_all_mibs();
+        }
+        if (get_tree_head()) {
+            if (verbose) qWarning() << "done";
+        } else {
+            if (verbose) qWarning() << "failed";
+        }
+    }
+    return get_tree_head();
+}
+
+/*****************************************************************/
+
+bool NetSNMP::readModule(const QString &module)
+{
+    if (module == "ALL") {
+        read_all_mibs();
+    } else {
+        netsnmp_read_module(module.toLatin1());
+    }
+    if (get_tree_head()) {
+       if (verbose) qWarning() << "Read " << module;
+    } else {
+       if (verbose) qWarning() <<"Failed reading " << module;
+    }
+    return get_tree_head();
+}
+
+/*****************************************************************/
 
 
 

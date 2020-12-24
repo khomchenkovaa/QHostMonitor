@@ -2,7 +2,6 @@
 #include "ui_qMibGetValueDlg.h"
 
 #include "netsnmpsession.h"
-#include "netsnmpset.h"
 #include "qSnmpCredentialsDlg.h"
 
 #include <QInputDialog>
@@ -190,11 +189,11 @@ void QMibGetValueDlg::cmdSetValue()
 
     ui->textResult->appendPlainText("set " + oid + " = " + newValue);
 
-    NetSnmpSet snmpSet;
-    snmpSet.setProfile(profile);
-    snmpSet.setRetries(retries);
-    snmpSet.setDestHost(host);
-    SnmpValue value = snmpSet.set(oid, newValue);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    SnmpValue value = ss.set(oid, newValue);
     ui->textResult->appendPlainText(value.toString());
 }
 

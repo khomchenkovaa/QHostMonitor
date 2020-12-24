@@ -1,5 +1,5 @@
 #include "tSnmpSetAction.h"
-#include "netsnmpset.h"
+#include "netsnmpsession.h"
 #include "gData.h"
 
 namespace SDPO {
@@ -18,11 +18,11 @@ void SnmpSetAction::run(TTest *test)
 {
     Q_UNUSED(test)
     SnmpProfile profile = SnmpProfile::findByName(a_SnmpProfile);
-    NetSnmpSet snmpSet;
-    snmpSet.setProfile(profile);
-    snmpSet.setRetries(a_Retries);
-    snmpSet.setDestHost(a_AgentAddress);
-    SnmpValue value = snmpSet.set(a_Oid, a_SetValue);
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(a_Retries);
+    ss.setDestHost(a_AgentAddress);
+    SnmpValue value = ss.set(a_Oid, a_SetValue);
 }
 
 /******************************************************************/

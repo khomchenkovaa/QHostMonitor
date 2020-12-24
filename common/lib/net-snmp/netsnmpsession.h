@@ -10,6 +10,12 @@
 
 namespace SDPO {
 
+struct SnmpColumn {
+    oid     subid;
+    QString label;
+    QString fmt;
+};
+
 class NetSnmpSession : public QObject
 {
     Q_OBJECT
@@ -27,6 +33,8 @@ public:
     SnmpValue get(const MibOid& anOID);
     QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
     QList<SnmpValue> getRow(const QString& oidStr);
+    SnmpValue set(const QString& oidStr, const QVariant& oidValue);
+    QList<QList<SnmpValue> > getTable();
 
     QString errorStr();
 
@@ -46,6 +54,9 @@ public:
 
     void snmpSessionInit(SnmpSession *session);
     static QString snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
+
+private:
+    QList<SnmpColumn*> readColumns(const QString &oidStr);
 
 private:
     QString     m_DestHost;   /**< default 'localhost', hostname or ip addr of SNMP agent */

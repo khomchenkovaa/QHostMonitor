@@ -4,6 +4,8 @@
 
 using namespace SDPO;
 
+/*****************************************************************/
+
 NetSnmpSession::NetSnmpSession(QObject *parent)
     : QObject(parent),
       m_SessPtr    (nullptr),
@@ -238,6 +240,72 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
 
 /*****************************************************************/
 
+SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
+{
+    MibOid anOID = MibOid::parse(oidStr);
+    if (anOID.hasError()) {
+        return SnmpValue::fromError(anOID, anOID.errString());
+    }
+
+    MibNode mibNode = MibNode::findByOid(anOID);
+    if (!mibNode.isValid()) {
+        return SnmpValue::fromError(anOID, QString("Can not get MibTree for %1").arg(oidStr));
+    }
+
+    char dataType = mibNode.typeChar();
+
+    SnmpPdu *pdu = snmp_pdu_create(SnmpPduSet);
+    int xerr = snmp_add_var(pdu, anOID.oidNum, anOID.oidLen, dataType, oidValue.toString().toLatin1());
+    if (xerr) {
+        QString serr = QString(snmp_api_errstring(xerr));
+        if (pdu) {
+          snmp_free_pdu(pdu);
+        }
+        return SnmpValue::fromError(anOID, serr);
+    }
+
+    putenv(QString("POSIXLY_CORRECT=1").toLatin1().data());
+
+    if (!open()) {
+        return SnmpValue::fromError(anOID, m_ErrorStr);
+    }
+
+    SnmpValue result;
+    SnmpPdu  *pduResponse = nullptr;
+    SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
+
+    if (status == SnmpRespStatSuccess) {
+        if (pduResponse->errstat == SNMP_ERR_NOERROR) {
+            for(SnmpVariableList *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
+                result = SnmpValue::fromVar(vars);
+            }
+        } else {
+            result.val = snmp_errstring(static_cast<int>(pduResponse->errstat));
+        }
+    } else if (status == SnmpRespStatTimeout) {
+        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost));
+    } else {                    /* status == SnmpRespStatError */
+        result = SnmpValue::fromError(anOID, errorStr());
+    }
+
+    // Cleanup
+    if (pduResponse) {
+      snmp_free_pdu(pduResponse);
+    }
+
+    return result;
+}
+
+/*****************************************************************/
+
+QList<QList<SnmpValue> > NetSnmpSession::getTable()
+{
+    // TODO NetSnmpSession::getTable()
+    return QList<QList<SnmpValue>>();
+}
+
+/*****************************************************************/
+
 QString NetSnmpSession::errorStr()
 {
     if (!m_SessPtr) {
@@ -285,6 +353,30 @@ QString NetSnmpSession::snmpSessionLogError(int priority, const QString &prog, S
     qDebug() << prog << ": " << err;
 //    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
     SNMP_FREE(err);
+    return result;
+}
+
+/*****************************************************************/
+
+QList<SnmpColumn *> NetSnmpSession::readColumns(const QString &oidStr)
+{
+    QList<SnmpColumn*> result;
+
+    MibOid anOID = MibOid::parse(oidStr);
+    if (anOID.hasError()) {
+        return result;
+    }
+
+    MibNode mibNode = MibNode::findByOid(anOID);
+    if (mibNode.isValid()) { // get table entry
+        mibNode = mibNode.childList();
+    }
+    if (!mibNode.isValid()) { // no entry - not a table
+        return result;
+    }
+
+    // TODO NetSnmpSession::readColumns()
+
     return result;
 }
 

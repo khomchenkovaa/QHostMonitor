@@ -5,12 +5,6 @@
 
 namespace SDPO {
 
-struct SnmpColumn {
-    oid     subid;
-    QString label;
-    QString fmt;
-};
-
 class NetSnmpTable : public QObject
 {
     Q_OBJECT

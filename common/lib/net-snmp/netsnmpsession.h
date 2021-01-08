@@ -8,6 +8,16 @@
 #define DEST_HOST_DEFAULT "localhost"
 #define COMMUNITY_DEFAULT "public"
 
+#define NET_SNMP_SESSION_DESTHOST   "DestHost"
+#define NET_SNMP_SESSION_COMMUNITY  "Community"
+#define NET_SNMP_SESSION_VERSION    "Version"
+#define NET_SNMP_SESSION_TIMEOUT    "Timeout"
+#define NET_SNMP_SESSION_RETRIES    "Retries"
+#define NET_SNMP_SESSION_REMOTEPORT "RemotePort"
+#define NET_SNMP_SESSION_LOCALPORT  "LocalPort"
+
+#define NET_SNMP_CMD_OIDS           "oids"
+
 namespace SDPO {
 
 struct SnmpColumn {
@@ -24,6 +34,7 @@ class NetSnmpSession : public QObject
 
 public:
     explicit NetSnmpSession(QObject *parent = nullptr);
+    explicit NetSnmpSession(const QVariantMap& map, QObject *parent = nullptr);
     ~NetSnmpSession();
 
     bool open();
@@ -31,6 +42,7 @@ public:
 
     SnmpValue get(const QString& oidStr);
     SnmpValue get(const MibOid& anOID);
+    QList<SnmpValue> get(const QVariantMap& map);
     QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
     QList<SnmpValue> getRow(const QString& oidStr);
     SnmpValue set(const QString& oidStr, const QVariant& oidValue);

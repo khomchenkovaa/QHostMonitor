@@ -1,50 +1,21 @@
 ﻿#include "snmp.h"
+#include "oidstring.h"
+#include "netsnmpsession.h"
+
+#include <QRegularExpression>
+
 #include <QDebug>
 
+#define MAX_TYPE_NAME_LEN 32
+#define STR_BUF_SIZE (MAX_TYPE_NAME_LEN * MAX_OID_LEN)
+
+#define USE_NUMERIC_OIDS 0x08
+#define NON_LEAF_NAME 0x04
+#define USE_LONG_NAMES 0x02
+#define FAIL_ON_NULL_IID 0x01
+#define NO_FLAGS 0x00
+
 using namespace SDPO;
-
-/*****************************************************************/
-
-MibOid::MibOid(oid *numOID, size_t oid_len)
-{
-    oidLen = oid_len;
-    for (size_t i=0; i<oidLen; ++i) {
-        oidNum[i] = numOID[i];
-    }
-}
-
-/*****************************************************************/
-
-QString MibOid::toString() const
-{
-    if (hasError()) {
-        return oidStr;
-    }
-    QString result;
-    for (size_t i=0; i<oidLen; ++i) {
-        result.append(QString(".%1").arg(oidNum[i]));
-    }
-    return result;
-}
-
-/*****************************************************************/
-
-QString MibOid::errString() const
-{
-    return snmp_api_errstring(errNo);
-}
-
-/*****************************************************************/
-
-MibOid MibOid::parse(const QString &oidStr)
-{
-    MibOid result;
-    result.oidStr = oidStr;
-    if (!snmp_parse_oid(oidStr.toLatin1(), result.oidNum, &result.oidLen)) {
-        result.errNo = snmp_errno;
-    }
-    return result;
-}
 
 /*****************************************************************/
 // MibTreeWrapper
@@ -111,6 +82,20 @@ int MibNode::childCount() const
 
 /*****************************************************************/
 
+MibNode MibNode::getNextNode() const
+{
+    if (node->child_list) return(node->child_list);
+    if (node->next_peer) return(node->next_peer);
+    tree *tp = node->parent;
+    while ( tp ) {
+        if (tp->next_peer) return tp->next_peer;
+        tp = tp->parent;
+    }
+    return MibNode();
+}
+
+/*****************************************************************/
+
 QString MibNode::name() const
 {
     return QString("%1::%2").arg(moduleName(), label());
@@ -156,6 +141,19 @@ QString MibNode::objectID() const
         oid += ".0";
     }
     return oid;
+}
+
+/*****************************************************************/
+
+MibOid MibNode::mibOid() const
+{
+    MibOid curOid;
+    if (node->parent) {
+        MibNode par = parent();
+        curOid = par.mibOid(); // recource
+    }
+    curOid.addOid(subID());
+    return curOid;
 }
 
 /*****************************************************************/
@@ -307,6 +305,20 @@ MibNode MibNode::getRoot()
 MibNode MibNode::findByOid(const MibOid &mibOid)
 {
     return get_tree(mibOid.oidNum, mibOid.oidLen, get_tree_head());;
+}
+
+/*****************************************************************/
+
+MibNode MibNode::findNode(const QString &label)
+{
+    return find_tree_node(label.toLatin1(), -1);
+}
+
+/*****************************************************************/
+
+void MibNode::clearTreeFlags()
+{
+    clear_tree_flags(get_tree_head());
 }
 
 /*****************************************************************/
@@ -476,8 +488,8 @@ int SnmpProfile::defaultIdx()
 // NetSnmp Core
 /*****************************************************************/
 
-int NetSNMP::autoInitMib = 1;
-int NetSNMP::useLongNames = 0;
+bool NetSNMP::autoInitMib = true;
+bool NetSNMP::useLongNames = false;
 int NetSNMP::useSprintValue = 0;
 int NetSNMP::useEnums = 0;
 int NetSNMP::useNumeric = 0;
@@ -515,7 +527,10 @@ int NetSNMP::setEnv(const QString &envName, const QVariant &envVal, int overwrit
 }
 
 /*****************************************************************/
-
+/*!
+ * \brief initMib is equivalent to calling the snmp library init_mib if Mib is NULL
+ * if Mib is already loaded this function does nothing
+ */
 void NetSNMP::initMib()
 {
     initSnmp(SNMP_INIT_DEFAULT_NAME);
@@ -523,7 +538,11 @@ void NetSNMP::initMib()
 
 
 /*****************************************************************/
-
+/*!
+ * \brief NetSNMP::addMibDirs adds directories to search path when a module is requested to be loaded
+ * \param mibDirs - thelist of dirs
+ * \return success or not
+ */
 bool NetSNMP::addMibDirs(const QStringList &mibDirs)
 {
     initSnmp(SNMP_INIT_DEFAULT_NAME);
@@ -534,7 +553,11 @@ bool NetSNMP::addMibDirs(const QStringList &mibDirs)
 }
 
 /*****************************************************************/
-
+/*!
+ * \brief NetSNMP::addMibFiles adds mib definitions to currently loaded mib database from file(s) supplied
+ * \param mibFiles - the list of files
+ * \return success or not
+ */
 bool NetSNMP::addMibFiles(const QStringList &mibFiles)
 {
     initSnmp(SNMP_INIT_DEFAULT_NAME);
@@ -545,7 +568,13 @@ bool NetSNMP::addMibFiles(const QStringList &mibFiles)
 }
 
 /*****************************************************************/
-
+/*!
+ * \brief loadModules adds mib module definitions to currently loaded mib database.
+ * Modules will be searched from previously defined mib search dirs
+ * Passing and arg of 'ALL' will cause all known modules to be loaded
+ * \param mibModules the list of modules.
+ * \return success or not
+ */
 bool NetSNMP::loadModules(const QStringList &mibModules)
 {
     initSnmp(SNMP_INIT_DEFAULT_NAME);
@@ -553,6 +582,59 @@ bool NetSNMP::loadModules(const QStringList &mibModules)
         if (!readModule(module)) return false;
     }
     return true;
+}
+
+/*****************************************************************/
+/*!
+ * \brief Translate object identifier(tag or numeric) into alternate representation
+ * \details Translate object identifier(tag or numeric) into alternate representation
+ * (i.e., sysDescr => '.1.3.6.1.2.1.1.1' and '.1.3.6.1.2.1.1.1' => sysDescr)
+ * when NetSNMP::useLongNames or second arg is non-zero the translation will return longer textual identifiers (e.g., system.sysDescr).
+ * An optional third argument of non-zero will cause the module name to be prepended to the text name (e.g. 'SNMPv2-MIB::sysDescr').
+ * If no Mib is loaded when called and NetSNMP::autoInitMib is enabled then the Mib will be loaded. Will return 'undef' upon failure.
+ * \param obj object identifier
+ * \param toLongName use long name flag
+ * \param includeModuleName include module name flag
+ * \return translation result
+ */
+QString NetSNMP::translateObj(const QString &obj, bool toLongName, bool includeModuleName)
+{
+    bool longNames = toLongName || useLongNames;
+    OidString oidString(obj);
+    if (oidString.isEmpty()) {
+        return QString();
+    }
+    QString result;
+    QRegularExpression re("(\\.\\d+)*$");
+    QRegularExpressionMatch reMatch = re.match(obj);
+
+    if (oidString.isNumeric()) {
+       result = oidString.translateToTag(longNames, autoInitMib, includeModuleName);
+    } else if (reMatch.hasMatch() && bestGuess == 0) {
+        QString tail = reMatch.captured(1);
+        QString name = obj;
+        name.chop(tail.size());
+        result = oidString.translateToOid(autoInitMib, 0);
+        if (!result.isEmpty()) result.append(tail);
+    } else if (bestGuess) {
+        result = oidString.translateToOid(autoInitMib, bestGuess);
+    }
+
+    return result;
+}
+
+/*****************************************************************/
+/*!
+ * \brief NetSNMP::get short form of NetSnmpSestion::get method
+ * Sometimes quicker to code but is less efficient since the Session is created and destroyed with each call.
+ * Takes all the parameters of both NetSnmpSestion constructor and NetSnmpSestion::get
+ * \param map paremeters
+ * \return The list of values
+ */
+QList<SnmpValue> NetSNMP::get(const QVariantMap &map)
+{
+    NetSnmpSession sess(map);
+    return sess.get(map);
 }
 
 /*****************************************************************/

@@ -21,6 +21,22 @@ NetSnmpSession::NetSnmpSession(QObject *parent)
 
 /*****************************************************************/
 
+NetSnmpSession::NetSnmpSession(const QVariantMap &map, QObject *parent)
+    : QObject(parent),
+      m_SessPtr(nullptr)
+{
+    m_DestHost   = map.value(NET_SNMP_SESSION_DESTHOST, DEST_HOST_DEFAULT).toString();
+    m_Community  = map.value(NET_SNMP_SESSION_COMMUNITY, COMMUNITY_DEFAULT).toString();
+    m_Version    = static_cast<SnmpVersion>(map.value(NET_SNMP_SESSION_VERSION, SnmpVersion::SNMPvDefault).toInt());
+    m_RemotePort = map.value(NET_SNMP_SESSION_REMOTEPORT, SnmpDefaults::SnmpPort).toInt();
+    m_Timeout    = map.value(NET_SNMP_SESSION_TIMEOUT, SnmpDefaults::SnmpTimeout).toInt();
+    m_Retries    = map.value(NET_SNMP_SESSION_RETRIES, SnmpDefaults::SnmpRetries).toInt();
+
+    NetSNMP::initMib();
+}
+
+/*****************************************************************/
+
 NetSnmpSession::~NetSnmpSession()
 {
     close();
@@ -115,6 +131,14 @@ SnmpValue NetSnmpSession::get(const MibOid &anOID)
     }
 
     return result;
+}
+
+/*****************************************************************/
+
+QList<SnmpValue> NetSnmpSession::get(const QVariantMap &map)
+{
+    // TODO implement me
+    return QList<SnmpValue>();
 }
 
 /*****************************************************************/

@@ -8,6 +8,8 @@
 #include <QVariant>
 #include <QVector>
 
+#include "miboid.h"
+
 #define SNMP_INIT_DEFAULT_NAME "SDPO"
 
 namespace SDPO {
@@ -92,13 +94,13 @@ enum SnmpResponseStatus {
  * @brief Current status to MIB object
  * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00188
  */
-typedef enum MibStatusEnum {
+enum MibStatus {
     MibStatusMandatory  = MIB_STATUS_MANDATORY,  /**< Mandatory status */
     MibStatusOptional   = MIB_STATUS_OPTIONAL,   /**< Optional status */
     MibStatusObsolete   = MIB_STATUS_OBSOLETE,   /**< Obsolete status */
     MibStatusDeprecated = MIB_STATUS_DEPRECATED, /**< Deprecated status */
     MibStatusCurrent    = MIB_STATUS_CURRENT     /**< Current status */
-} MibStatus;
+};
 
 /**
  * @brief Access mode to MIB object
@@ -144,6 +146,19 @@ enum MibType {
     MibTypeObjIdentity = TYPE_OBJIDENTITY
 };
 
+/*!
+ * \brief The OidOptionFlag enum
+ */
+enum OidOptionFlag {
+    NoFlags        = 0x00,
+    FailOnNullOid  = 0x01,
+    UseLongNames   = 0x02,
+    NonLeafName    = 0x04,
+    UseNumericOids = 0x08
+};
+Q_DECLARE_FLAGS(OidOptions, OidOptionFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
+
 /*****************************************************************/
 
 /**
@@ -177,27 +192,6 @@ typedef netsnmp_variable_list SnmpVariableList;
 //typedef QList<QPair<QString, QChar> > MibIndexList; // ilabel, isimplied
 
 //typedef QStringList MibVarbindList;
-
-/**
-* @brief Net-SNMP oid array wrapper
-*/
-struct MibOid {
-    oid    oidNum[MAX_OID_LEN];
-    size_t oidLen = MAX_OID_LEN;
-    QString oidStr;
-    int    errNo = 0;
-
-    explicit MibOid() {}
-    explicit MibOid(oid *numOID, size_t oid_len);
-
-    bool hasError() const {
-        return errNo;
-    }
-    QString toString() const;
-    QString errString() const;
-
-    static MibOid parse(const QString& oidStr);
-};
 
 /**
 * @brief Net-SNMP MIB tree wrapper
@@ -260,7 +254,7 @@ struct MibNode {
     }
     /** This node's object type */
     MibType type() const {
-        return static_cast<MibType>(node->type);
+        return (isValid()? static_cast<MibType>(node->type) : MibType::MibTypeOther);
     }
     /** This nodes access */
     MibAccess access() const {
@@ -275,11 +269,13 @@ struct MibNode {
     MibNode childAt(int idx) const;
     int indexOf() const;
     int childCount() const;
+    MibNode getNextNode() const;
     QString name() const;
     QString labelAndId() const;
     bool isTable() const;
     QString moduleName() const;
     QString objectID() const;          /**< dotted decimal fully qualified OID */
+    MibOid  mibOid() const;
     QString syntax() const;
     char    typeChar() const;
     QString typeName() const;
@@ -289,6 +285,8 @@ struct MibNode {
 
     static MibNode getRoot();
     static MibNode findByOid(const MibOid& mibOid);
+    static MibNode findNode(const QString& label);
+    static void clearTreeFlags();
 
     operator bool() const {
         return isValid();
@@ -359,8 +357,8 @@ typedef QList<SnmpProfile> GSnmpCredentials;
 
 class NetSNMP {
 public:
-    static int autoInitMib;      ///< enable automatic MIB loading at session creation time
-    static int useLongNames;     ///< non-zero to prefer longer mib textual identifiers rather than just leaf indentifiers
+    static bool autoInitMib;      ///< enable automatic MIB loading at session creation time
+    static bool useLongNames;     ///< non-zero to prefer longer mib textual identifiers rather than just leaf indentifiers
     static int useSprintValue;   ///< non-zero to enable formatting of response values using the snmp libraries "snprint_value"
     static int useEnums;         ///< non-zero to return integers as enums and allow sets using enums where appropriate
     static int useNumeric;       ///< non-zero to return object tags as numeric OID's instead of converting to textual representations.
@@ -376,23 +374,14 @@ public:
     static void registerDebugTokens(const QString& tokens);
     static QVariant getEnv(const QString& name);
     static int setEnv(const QString& envName, const QVariant& envVal, int overwrite);
-    /*!
-     * \brief initMib is equivalent to calling the snmp library init_mib if Mib is NULL
-     * if Mib is already loaded this function does nothing
-     */
     static void initMib();
-    //! adds directories to search path when a module is requested to be loaded
     static bool addMibDirs(const QStringList& mibDirs);
-    //! adds mib definitions to currently loaded mib database from file(s) supplied
     static bool addMibFiles(const QStringList& mibFiles);
-    /*!
-     * \brief loadModules adds mib module definitions to currently loaded mib database.
-     * Modules will be searched from previously defined mib search dirs
-     * Passing and arg of 'ALL' will cause all known modules to be loaded
-     * \param mibModules the list of modules.
-     * \return success or not
-     */
     static bool loadModules(const QStringList& mibModules);
+    static QString translateObj(const QString& obj, bool toLongName = false, bool includeModuleName = true);
+    static QList<SnmpValue> get(const QVariantMap& map);
+
+
     static QString ipToString(u_char *ip, size_t ip_len);
 
 private:

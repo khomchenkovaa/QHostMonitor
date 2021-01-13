@@ -40,8 +40,11 @@ public:
     bool open();
     void close();
 
+    SnmpPdu synchResponse(const SnmpPdu& request);
+
     SnmpValue get(const QString& oidStr);
     SnmpValue get(const MibOid& anOID);
+    QList<SnmpValue> get(const QStringList& oids);
     QList<SnmpValue> get(const QVariantMap& map);
     QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
     QList<SnmpValue> getRow(const QString& oidStr);
@@ -49,6 +52,7 @@ public:
     QList<QList<SnmpValue> > getTable();
 
     QString errorStr();
+    SnmpValue errorValue(const MibOid& anOid, const SnmpPdu& pdu);
 
     void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
         m_DestHost = host;

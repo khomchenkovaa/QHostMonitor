@@ -304,7 +304,7 @@ MibNode MibNode::getRoot()
 
 MibNode MibNode::findByOid(const MibOid &mibOid)
 {
-    return get_tree(mibOid.oidNum, mibOid.oidLen, get_tree_head());;
+    return get_tree(mibOid.numOid, mibOid.length, get_tree_head());;
 }
 
 /*****************************************************************/

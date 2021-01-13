@@ -16,8 +16,8 @@ namespace SDPO {
 
 /*****************************************************************/
 
-/**
- * @brief SNMP defaults
+/*!
+ * \brief SNMP defaults
  */
 enum SnmpDefaults {
     SnmpPort      = SNMP_PORT,            /**< standard UDP port for SNMP agents to receive requests*/
@@ -28,8 +28,8 @@ enum SnmpDefaults {
     SnmpRetries   = SNMP_DEFAULT_RETRIES
 };
 
-/**
- * @brief SNMP version to be used
+/*!
+ * \brief SNMP version to be used
  */
 enum SnmpVersion {
     SNMPvDefault = SNMP_DEFAULT_VERSION,
@@ -46,8 +46,8 @@ enum SnmpSecPrivType {
     PrivNone, PrivDes, Priv3Des, PrivAes
 };
 
-/**
- * @brief PDU type to be encapsulated into SNMP message
+/*!
+ * \brief PDU type to be encapsulated into SNMP message
  */
 enum SnmpPduType {
     SnmpPduGet      = SNMP_MSG_GET,      /**< GET request */
@@ -61,8 +61,8 @@ enum SnmpPduType {
     SnmpPduReport   = SNMP_MSG_REPORT    /**< Report message */
 };
 
-/**
- * @brief SNMP Data type to PDU object
+/*!
+ * \brief SNMP Data type to PDU object
  */
 enum SnmpDataType {
     SnmpDataUnknown     = -1,               /**< Unknown type */
@@ -80,8 +80,8 @@ enum SnmpDataType {
     SnmpDataTimeTicks   = ASN_TIMETICKS     /**< Time Ticks type*/
 };
 
-/**
- * @brief SNMP response status to be used
+/*!
+ * \brief SNMP response status to be used
  */
 enum SnmpResponseStatus {
     SnmpRespStatUnknown = -1,           /**< SNMP response not set */
@@ -90,8 +90,8 @@ enum SnmpResponseStatus {
     SnmpRespStatTimeout = STAT_TIMEOUT  /**< SNMP response timeout */
 };
 
-/**
- * @brief Current status to MIB object
+/*!
+ * \brief Current status to MIB object
  * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00188
  */
 enum MibStatus {
@@ -102,8 +102,8 @@ enum MibStatus {
     MibStatusCurrent    = MIB_STATUS_CURRENT     /**< Current status */
 };
 
-/**
- * @brief Access mode to MIB object
+/*!
+ * \brief Access mode to MIB object
  * Defined in www.net-snmp.org/dev/agent/parse_8h_source.html#l00181
  */
 enum MibAccess {
@@ -115,8 +115,8 @@ enum MibAccess {
     MibAccessCreate    = MIB_ACCESS_CREATE     /**< Read-create access */
 };
 
-/**
- * @brief SNMP Data type to PDU object
+/*!
+ * \brief SNMP Data type to PDU object
  */
 enum MibType {
     MibTypeOther       = TYPE_OTHER,
@@ -161,26 +161,64 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
 
 /*****************************************************************/
 
-/**
- * @brief Net-SNMP data value
+/*!
+ * \brief Net-SNMP data value
  * More details in http://www.net-snmp.org/dev/agent/unionnetsnmp__vardata.html
  */
 typedef netsnmp_vardata SnmpVarData;
 
-/**
- * @brief Net-SNMP session with agent
+/*!
+ * \brief Net-SNMP session with agent
  * More details in http://www.net-snmp.org/dev/agent/structsnmp__session.html
  */
 typedef netsnmp_session SnmpSession;
 
-/**
- * @brief Net-SNMP request/response PDU
+/*!
+ * \brief Net-SNMP request/response PDU wrapper
  * More details in http://www.net-snmp.org/dev/agent/structsnmp__pdu.html
  */
-typedef struct snmp_pdu SnmpPdu;
+struct SnmpPdu {
+    snmp_pdu *ptr = nullptr;
+    SnmpResponseStatus status = SnmpRespStatUnknown;
 
-/**
- * @brief Net-SNMP variable list
+    SnmpPdu(void *pointer = nullptr) {
+        this->ptr = static_cast<snmp_pdu*>(pointer);
+    }
+
+    bool noError() {
+        if (status == SnmpRespStatSuccess) {
+            return (ptr->errstat == SNMP_ERR_NOERROR);
+        }
+        return false;
+    }
+
+    void cleanup() {
+        if (ptr) {
+            snmp_free_pdu(ptr);
+        }
+    }
+
+    void addNullVar(const MibOid& mibOid) {
+        snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
+    }
+
+    static SnmpPdu create(SnmpPduType type) {
+        return SnmpPdu(snmp_pdu_create(type));
+    }
+
+    static SnmpPdu create(SnmpPduType type, const QList<MibOid>& oids) {
+        SnmpPdu result = create(type);
+        foreach(const MibOid& mibOid, oids) {
+            result.addNullVar(mibOid);
+        }
+        return result;
+    }
+};
+
+/*****************************************************************/
+
+/*!
+ * \brief Net-SNMP variable list
  * More details in http://www.net-snmp.org/dev/agent/structvariable__list.html
  */
 typedef netsnmp_variable_list SnmpVariableList;
@@ -193,8 +231,8 @@ typedef netsnmp_variable_list SnmpVariableList;
 
 //typedef QStringList MibVarbindList;
 
-/**
-* @brief Net-SNMP MIB tree wrapper
+/*!
+* \brief Net-SNMP MIB tree wrapper
 * More details in http://www.net-snmp.org/dev/agent/structtree.html
 */
 struct MibNode {

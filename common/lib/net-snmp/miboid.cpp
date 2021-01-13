@@ -9,21 +9,21 @@ using namespace SDPO;
 
 /*****************************************************************/
 
-MibOid::MibOid(QVector<oid> *numOID)
+MibOid::MibOid(QVector<oid> *oidNum)
 {
-    oidLen = numOID->size();
-    for (size_t i=0; i < oidLen; ++i) {
-        oidNum[i] = numOID->at(i);
+    length = oidNum->size();
+    for (size_t i=0; i < length; ++i) {
+        numOid[i] = oidNum->at(i);
     }
 }
 
 /*****************************************************************/
 
-MibOid::MibOid(oid *numOID, size_t oid_len)
+MibOid::MibOid(oid *oidNum, size_t oidLen)
 {
-    oidLen = oid_len;
-    for (size_t i=0; i<oidLen; ++i) {
-        oidNum[i] = numOID[i];
+    length = oidLen;
+    for (size_t i=0; i<length; ++i) {
+        numOid[i] = oidNum[i];
     }
 }
 
@@ -31,17 +31,17 @@ MibOid::MibOid(oid *numOID, size_t oid_len)
 
 void MibOid::addOid(oid item)
 {
-    oidNum[oidLen] = item;
-    oidLen++;
+    numOid[length] = item;
+    length++;
 }
 
 /*****************************************************************/
 
 bool MibOid::getNode(const QString &tag)
 {
-    oidLen = MAX_OID_LEN;
+    length = MAX_OID_LEN;
     oidStr = tag;
-    int res = get_node(oidStr.toLatin1(), oidNum, &oidLen);
+    int res = get_node(oidStr.toLatin1(), numOid, &length);
     if (!res) {
         errNo = snmp_errno;
     }
@@ -52,9 +52,9 @@ bool MibOid::getNode(const QString &tag)
 
 bool MibOid::getWildNode(const QString &tag)
 {
-    oidLen = MAX_OID_LEN;
+    length = MAX_OID_LEN;
     oidStr = tag;
-    int res = get_wild_node(oidStr.toLatin1(), oidNum, &oidLen);
+    int res = get_wild_node(oidStr.toLatin1(), numOid, &length);
     if (!res) {
         errNo = snmp_errno;
     }
@@ -65,9 +65,9 @@ bool MibOid::getWildNode(const QString &tag)
 
 bool MibOid::readObjid(const QString &tag)
 {
-    oidLen = MAX_OID_LEN;
+    length = MAX_OID_LEN;
     oidStr = tag;
-    int res = read_objid(oidStr.toLatin1(), oidNum, &oidLen);
+    int res = read_objid(oidStr.toLatin1(), numOid, &length);
     if (!res) {
         errNo = snmp_errno;
     }
@@ -76,12 +76,12 @@ bool MibOid::readObjid(const QString &tag)
 
 /*****************************************************************/
 
-bool MibOid::concatOidStr(const QString &oidStr)
+bool MibOid::concatOidStr(const QString &tag)
 {
-    if (oidStr.isEmpty()) {
+    if (tag.isEmpty()) {
         return true; // successfully added nothing
     }
-    QStringList strList = oidStr.split('.', QString::SkipEmptyParts);
+    QStringList strList = tag.split('.', QString::SkipEmptyParts);
     if (strList.isEmpty()) {
         return false;
     }
@@ -99,8 +99,8 @@ QString MibOid::toString() const
         return oidStr;
     }
     QString result;
-    for (size_t i=0; i<oidLen; ++i) {
-        result.append(QString(".%1").arg(oidNum[i]));
+    for (size_t i=0; i<length; ++i) {
+        result.append(QString(".%1").arg(numOid[i]));
     }
     return result;
 }
@@ -111,7 +111,7 @@ QString MibOid::snprintObjId() const
 {
     char str_buf_temp[STR_BUF_SIZE];
     str_buf_temp[0] = '\0';
-    snprint_objid(str_buf_temp, sizeof(str_buf_temp), oidNum, oidLen);
+    snprint_objid(str_buf_temp, sizeof(str_buf_temp), numOid, length);
     return QString(str_buf_temp);
 }
 
@@ -124,12 +124,12 @@ QString MibOid::errString() const
 
 /*****************************************************************/
 
-MibOid MibOid::parse(const QString &oidStr)
+MibOid MibOid::parse(const QString &objid)
 {
     MibOid result;
-    result.oidLen = MAX_OID_LEN;
-    result.oidStr = oidStr;
-    if (!snmp_parse_oid(oidStr.toLatin1(), result.oidNum, &result.oidLen)) {
+    result.length = MAX_OID_LEN;
+    result.oidStr = objid;
+    if (!snmp_parse_oid(objid.toLatin1(), result.numOid, &result.length)) {
         result.errNo = snmp_errno;
     }
     return result;
@@ -137,20 +137,20 @@ MibOid MibOid::parse(const QString &oidStr)
 
 /*****************************************************************/
 
-MibOid MibOid::scanNumOid(const QString &numOid)
+MibOid MibOid::scanNumOid(const QString &objid)
 {
     MibOid result;
-    result.oidLen = MAX_OID_LEN;
-    result.oidStr = numOid;
+    result.length = MAX_OID_LEN;
+    result.oidStr = objid;
     QRegularExpression re("^\\.?(\\d+\\.)*\\d+$");
-    QRegularExpressionMatch match = re.match(numOid);
+    QRegularExpressionMatch match = re.match(objid);
     if (match.hasMatch()) {
-        QStringList oidList = numOid.split('.', QString::SkipEmptyParts);
+        QStringList oidList = objid.split('.', QString::SkipEmptyParts);
         foreach(const QString oidPart, oidList) {
             result.addOid(oidPart.toULong());
         }
     } else {
-        result.oidLen = 0;
+        result.length = 0;
     }
     return result;
 }

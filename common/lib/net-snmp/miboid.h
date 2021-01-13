@@ -15,10 +15,10 @@ namespace SDPO {
 class MibOid
 {
 public:
-    oid    oidNum[MAX_OID_LEN];
-    size_t oidLen = 0;
+    oid     numOid[MAX_OID_LEN];
+    size_t  length = 0;
     QString oidStr;
-    int    errNo = 0;
+    int     errNo = 0;
 
 public:
     /*!
@@ -28,19 +28,19 @@ public:
 
     /*!
      * \brief MibOid constructor
-     * \param numOID vector of integers that represents the OID numeric notation
+     * \param oidNum vector of integers that represents the OID numeric notation
      */
-    explicit MibOid(QVector<oid> *numOID);
+    explicit MibOid(QVector<oid> *oidNum);
 
     /*!
      * \brief MibOid constructor
-     * \param numOID array of integers that represents the OID numeric notation
-     * \param oid_len array length
+     * \param oidNum array of integers that represents the OID numeric notation
+     * \param oidLen array size
      */
-    explicit MibOid(oid *numOID, size_t oid_len);
+    explicit MibOid(oid *oidNum, size_t oidLen);
 
     bool isValid() {
-        return oidLen > 0;
+        return length > 0;
     }
     bool hasError() const {
         return errNo;
@@ -49,13 +49,13 @@ public:
     bool getNode(const QString& tag);
     bool getWildNode(const QString& tag);
     bool readObjid(const QString& tag);
-    bool concatOidStr(const QString& oidStr);
+    bool concatOidStr(const QString& tag);
     QString toString() const;
     QString snprintObjId() const;
     QString errString() const;
 
-    static MibOid parse(const QString& oidStr);
-    static MibOid scanNumOid(const QString& numOid);
+    static MibOid parse(const QString& objid);
+    static MibOid scanNumOid(const QString& objid);
 };
 
 } // namespace SDPO

@@ -85,6 +85,15 @@ void NetSnmpSession::close()
 
 /*****************************************************************/
 
+SnmpPdu NetSnmpSession::synchResponse(const SnmpPdu &request)
+{
+    SnmpPdu response;
+    response.status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, request.ptr, &response.ptr));
+    return response;
+}
+
+/*****************************************************************/
+
 SnmpValue NetSnmpSession::get(const QString &oidStr)
 {
     MibOid anOID = MibOid::parse(oidStr);
@@ -103,42 +112,41 @@ SnmpValue NetSnmpSession::get(const QString &oidStr)
 
 SnmpValue NetSnmpSession::get(const MibOid &anOID)
 {
-    SnmpPdu *pdu = snmp_pdu_create(SnmpPduGet);
-    snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
+    QList<MibOid> oids;
+    oids.append(anOID);
 
+    SnmpPdu pdu = SnmpPdu::create(SnmpPduGet, oids);
+    SnmpPdu pduResponse = this->synchResponse(pdu);
     SnmpValue result;
-    SnmpPdu  *pduResponse = nullptr;
 
-    SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
-
-    if (status == SnmpRespStatSuccess) {
-        if (pduResponse->errstat == SNMP_ERR_NOERROR) {
-            for(SnmpVariableList *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
-                result = SnmpValue::fromVar(vars);
-            }
-        } else {
-            result = SnmpValue::fromError(anOID, snmp_errstring(static_cast<int>(pduResponse->errstat)));
+    if (pduResponse.noError()) {
+        for(SnmpVariableList *vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
+            result = SnmpValue::fromVar(vars);
         }
-    } else if (status == SnmpRespStatTimeout) {
-        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost));
-    } else {                    /* status == SnmpRespStatError */
-        result = SnmpValue::fromError(anOID, errorStr());
+    } else {
+        result = this->errorValue(anOID, pduResponse);
     }
 
-    // Cleanup
-    if (pduResponse) {
-      snmp_free_pdu(pduResponse);
-    }
+    pduResponse.cleanup();
 
     return result;
 }
 
 /*****************************************************************/
 
+QList<SnmpValue> NetSnmpSession::get(const QStringList &oids)
+{
+    // TODO implement NetSnmpSession::get(const QStringList &oids)
+    return QList<SnmpValue>();
+
+}
+
+/*****************************************************************/
+
 QList<SnmpValue> NetSnmpSession::get(const QVariantMap &map)
 {
-    // TODO implement me
-    return QList<SnmpValue>();
+    QStringList oids = map.value(NET_SNMP_CMD_OIDS, QStringList()).toStringList();
+    return get(oids);
 }
 
 /*****************************************************************/
@@ -161,10 +169,10 @@ QList<SnmpValue> NetSnmpSession::getNext(const QString &oidStr, int cnt)
 
     for(int i=0;i<cnt;i++) {
 
-        SnmpPdu *pdu = snmp_pdu_create(SnmpPduGetNext);
-        snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
+        snmp_pdu *pdu = snmp_pdu_create(SnmpPduGetNext);
+        snmp_add_null_var(pdu, anOID.numOid, anOID.length);
 
-        SnmpPdu *pduResponse = nullptr;
+        snmp_pdu *pduResponse = nullptr;
         SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {
@@ -212,10 +220,10 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
 
     while(curRow) {
 
-        SnmpPdu *pdu = snmp_pdu_create(SnmpPduGetNext);
-        snmp_add_null_var(pdu, anOID.oidNum, anOID.oidLen);
+        snmp_pdu *pdu = snmp_pdu_create(SnmpPduGetNext);
+        snmp_add_null_var(pdu, anOID.numOid, anOID.length);
 
-        SnmpPdu *pduResponse = nullptr;
+        snmp_pdu *pduResponse = nullptr;
         SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {
@@ -225,11 +233,11 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
                         firstValue = false;
                         anOID = MibOid(vars->name, vars->name_length);
                     } else { // end of the table criteria
-                        if (anOID.oidLen != vars->name_length) {
+                        if (anOID.length != vars->name_length) {
                             curRow = false;
                         } else { // end of the row criteria
                             for (size_t i=0; i<vars->name_length-1; ++i) {
-                                if (anOID.oidNum[i] != vars->name[i]) {
+                                if (anOID.numOid[i] != vars->name[i]) {
                                     curRow = false;
                                     break;
                                 }
@@ -278,8 +286,8 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
 
     char dataType = mibNode.typeChar();
 
-    SnmpPdu *pdu = snmp_pdu_create(SnmpPduSet);
-    int xerr = snmp_add_var(pdu, anOID.oidNum, anOID.oidLen, dataType, oidValue.toString().toLatin1());
+    snmp_pdu *pdu = snmp_pdu_create(SnmpPduSet);
+    int xerr = snmp_add_var(pdu, anOID.numOid, anOID.length, dataType, oidValue.toString().toLatin1());
     if (xerr) {
         QString serr = QString(snmp_api_errstring(xerr));
         if (pdu) {
@@ -295,7 +303,7 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
     }
 
     SnmpValue result;
-    SnmpPdu  *pduResponse = nullptr;
+    snmp_pdu  *pduResponse = nullptr;
     SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
 
     if (status == SnmpRespStatSuccess) {
@@ -339,6 +347,23 @@ QString NetSnmpSession::errorStr()
     snmp_error(m_SessPtr, nullptr, nullptr, &err);
     QString result(err);
     SNMP_FREE(err);
+    return result;
+}
+
+/*****************************************************************/
+
+SnmpValue NetSnmpSession::errorValue(const MibOid &anOid, const SnmpPdu &pdu)
+{
+    SnmpValue result;
+    if (pdu.status == SnmpRespStatSuccess) {
+        if (pdu.ptr->errstat != SNMP_ERR_NOERROR) {
+            result = SnmpValue::fromError(anOid, snmp_errstring(static_cast<int>(pdu.ptr->errstat)));
+        }
+    } else if (pdu.status == SnmpRespStatTimeout) {
+        result = SnmpValue::fromError(anOid, QString("Timeout: No Response from %1.").arg(m_DestHost));
+    } else { /* status == SnmpRespStatError */
+        result = SnmpValue::fromError(anOid, errorStr());
+    }
     return result;
 }
 

@@ -90,14 +90,14 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
     while (running && (entries < MaxEntries)) {
 
         // create pdu with column ids
-        SnmpPdu *pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
+        snmp_pdu *pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
         for (int i = 0; i < m_Columns.size(); i++) {
             name[m_RootLen] = m_Columns.at(i)->subid;
             snmp_add_null_var(pdu, name, namelen);
 
         }
 
-        SnmpPdu *pduResponse = nullptr;
+        snmp_pdu *pduResponse = nullptr;
         SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {

@@ -96,36 +96,66 @@ SnmpPdu NetSnmpSession::synchResponse(const SnmpPdu &request)
 
 SnmpValue NetSnmpSession::get(const QString &oidStr)
 {
+    QList<MibOid> mibOids;
     MibOid anOID = MibOid::parse(oidStr);
     if (anOID.hasError()) {
         return SnmpValue::fromError(anOID, anOID.errString());
     }
+    mibOids.append(anOID);
 
     if (!open()) {
         return SnmpValue::fromError(anOID, m_ErrorStr);
     }
 
-    return get(anOID);
+    return get(mibOids).first();
 }
 
 /*****************************************************************/
 
-SnmpValue NetSnmpSession::get(const MibOid &anOID)
+QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
 {
-    QList<MibOid> oids;
-    oids.append(anOID);
-
+    QList<SnmpValue> result;
     SnmpPdu pdu = SnmpPdu::create(SnmpPduGet, oids);
-    SnmpPdu pduResponse = this->synchResponse(pdu);
-    SnmpValue result;
+    SnmpPdu pduResponse;
 
-    if (pduResponse.noError()) {
-        for(SnmpVariableList *vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
-            result = SnmpValue::fromVar(vars);
+    bool fixPdu = true; // TODO find place for argument
+    bool retry = false;
+
+    do {
+        retry = false;
+        pduResponse = this->synchResponse(pdu);
+
+        if (pduResponse.status == SnmpRespStatSuccess) {
+            if (pduResponse.ptr->errstat == SNMP_ERR_NOERROR) {
+                for(SnmpVariableList *vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
+                    result.append(SnmpValue::fromVar(vars));
+                }
+            } else {
+                emit error(QString("Error in packet\nReason: %1\n").arg(
+                                    snmp_errstring(pduResponse.ptr->errstat)));
+                if (pduResponse.ptr->errindex != 0) {
+                    int count = 1;
+                    for (SnmpVariableList * vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
+                        if (count == pduResponse.ptr->errindex) {
+                            emit error(QString("Failed object: %1\n").arg(
+                                                MibOid(vars->name, vars->name_length).toString()));
+                            break; // exit for
+                        }
+                    }
+                }
+                if (fixPdu) {
+                    pdu = pduResponse.fix(SnmpPduGet);
+                    pduResponse.cleanup();
+                    retry = pdu.isValid();
+                }
+            }
+
+
+        } else {
+            result.append(this->errorValue(oids.first(), pduResponse));
         }
-    } else {
-        result = this->errorValue(anOID, pduResponse);
-    }
+
+    } while (retry);
 
     pduResponse.cleanup();
 
@@ -136,9 +166,18 @@ SnmpValue NetSnmpSession::get(const MibOid &anOID)
 
 QList<SnmpValue> NetSnmpSession::get(const QStringList &oids)
 {
-    // TODO implement NetSnmpSession::get(const QStringList &oids)
-    return QList<SnmpValue>();
+    QList<MibOid> mibOids;
+    foreach(const QString& oidStr, oids) {
+        MibOid anOid = MibOid::parse(oidStr);
+        if (anOid.hasError()) {
+            QList<SnmpValue> errResult;
+            errResult.append(SnmpValue::fromError(anOid, anOid.errString()));
+            return errResult;
+        }
+        mibOids.append(anOid);
+    }
 
+    return get(mibOids);
 }
 
 /*****************************************************************/

@@ -75,6 +75,7 @@ void QMibGetValueDlg::cmdSysInfo()
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
+    connect(&ss, &NetSnmpSession::error, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
 
     ui->textResult->appendPlainText("\n" + host);
     // System: get .1.3.6.1.2.1.1.1.0 (SNMPv2-MIB::sysDescr)
@@ -123,6 +124,8 @@ void QMibGetValueDlg::cmdGetValue()
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
+    connect(&ss, &NetSnmpSession::error, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
+
     SnmpValue value = ss.get(oid);
     ui->textResult->appendPlainText(value.toString());
 }

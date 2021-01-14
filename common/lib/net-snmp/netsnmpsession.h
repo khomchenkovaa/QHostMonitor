@@ -43,7 +43,7 @@ public:
     SnmpPdu synchResponse(const SnmpPdu& request);
 
     SnmpValue get(const QString& oidStr);
-    SnmpValue get(const MibOid& anOID);
+    QList<SnmpValue> get(const QList<MibOid>& oids);
     QList<SnmpValue> get(const QStringList& oids);
     QList<SnmpValue> get(const QVariantMap& map);
     QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
@@ -70,6 +70,9 @@ public:
 
     void snmpSessionInit(SnmpSession *session);
     static QString snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
+
+signals:
+    void error(const QString& msg);
 
 private:
     QList<SnmpColumn*> readColumns(const QString &oidStr);

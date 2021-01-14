@@ -185,6 +185,10 @@ struct SnmpPdu {
         this->ptr = static_cast<snmp_pdu*>(pointer);
     }
 
+    bool isValid() {
+        return (ptr != nullptr);
+    }
+
     bool noError() {
         if (status == SnmpRespStatSuccess) {
             return (ptr->errstat == SNMP_ERR_NOERROR);
@@ -195,11 +199,17 @@ struct SnmpPdu {
     void cleanup() {
         if (ptr) {
             snmp_free_pdu(ptr);
+            ptr = nullptr;
         }
+        status = SnmpRespStatUnknown;
     }
 
     void addNullVar(const MibOid& mibOid) {
         snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
+    }
+
+    SnmpPdu fix(SnmpPduType type) {
+        return snmp_fix_pdu(ptr, type);
     }
 
     static SnmpPdu create(SnmpPduType type) {

@@ -50,6 +50,7 @@ QxtWeb uses QxtWebContent as an abstraction for streaming data.
 #include <string.h>
 #include <QUrl>
 #include <QCoreApplication>
+#include <QAbstractEventDispatcher>
 #include <QThread>
 
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
@@ -217,7 +218,7 @@ void QxtWebContent::waitForAllContent()
 {
     while(qxt_d().bytesNeeded != 0 && !qxt_d().ignoreRemaining){
 	// Still need data ... yield processing
-	if(QCoreApplication::hasPendingEvents())
+    if(QCoreApplication::eventDispatcher()->hasPendingEvents())
 	    QCoreApplication::processEvents();
 	if(this->thread() != QThread::currentThread())
 	    QThread::yieldCurrentThread();

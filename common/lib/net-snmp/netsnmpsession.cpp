@@ -7,12 +7,11 @@ using namespace SDPO;
 /*****************************************************************/
 
 NetSnmpSession::NetSnmpSession(QObject *parent)
-    : QObject(parent),
-      m_SessPtr    (nullptr),
+    : QObject (parent),
+      m_SessPtr (nullptr),
       m_DestHost   (DEST_HOST_DEFAULT),
       m_Community  (COMMUNITY_DEFAULT),
       m_Version    (SnmpVersion::SNMPvDefault),
-      m_RemotePort (SnmpDefaults::SnmpPort),
       m_Timeout    (SnmpDefaults::SnmpTimeout),
       m_Retries    (SnmpDefaults::SnmpRetries)
 {
@@ -28,7 +27,6 @@ NetSnmpSession::NetSnmpSession(const QVariantMap &map, QObject *parent)
     m_DestHost   = map.value(NET_SNMP_SESSION_DESTHOST, DEST_HOST_DEFAULT).toString();
     m_Community  = map.value(NET_SNMP_SESSION_COMMUNITY, COMMUNITY_DEFAULT).toString();
     m_Version    = static_cast<SnmpVersion>(map.value(NET_SNMP_SESSION_VERSION, SnmpVersion::SNMPvDefault).toInt());
-    m_RemotePort = map.value(NET_SNMP_SESSION_REMOTEPORT, SnmpDefaults::SnmpPort).toInt();
     m_Timeout    = map.value(NET_SNMP_SESSION_TIMEOUT, SnmpDefaults::SnmpTimeout).toInt();
     m_Retries    = map.value(NET_SNMP_SESSION_RETRIES, SnmpDefaults::SnmpRetries).toInt();
 
@@ -47,13 +45,17 @@ NetSnmpSession::~NetSnmpSession()
 bool NetSnmpSession::open()
 {
     if (m_SessPtr) { // already opened
-        return true;
+        if (m_Reopen) {
+            close();
+        } else {
+            return true;
+        }
     }
 
     // Initialize a "session" that defines who we're going to talk to
     netsnmp_session session;
     snmp_sess_init(&session); // setup defaults
-    session.peername      = m_DestHost.toLatin1().data();
+    session.peername      = m_DestHost.toLocal8Bit().data();
     session.version       = static_cast<long>(m_Version);
     session.community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
     session.community_len = static_cast<size_t>(m_Community.size());
@@ -81,6 +83,7 @@ void NetSnmpSession::close()
         snmp_close(m_SessPtr);
         SOCK_CLEANUP;
     }
+    m_Reopen = false;
 }
 
 /*****************************************************************/
@@ -107,7 +110,11 @@ SnmpValue NetSnmpSession::get(const QString &oidStr)
         return SnmpValue::fromError(anOID, m_ErrorStr);
     }
 
-    return get(mibOids).first();
+    QList<SnmpValue> values = get(mibOids);
+    if (!values.isEmpty()) {
+        return values.first();
+    }
+    return SnmpValue();
 }
 
 /*****************************************************************/
@@ -410,38 +417,12 @@ SnmpValue NetSnmpSession::errorValue(const MibOid &anOid, const SnmpPdu &pdu)
 
 void NetSnmpSession::setProfile(const SnmpProfile &profile)
 {
-    m_Version   = profile.version;
-    m_Community = profile.community;
+    setVersion(profile.version);
+    setCommunity(profile.community);
 
     if (profile.version == SNMPv3) {
         //! TODO fields for SNMPv3
     }
-}
-
-/*****************************************************************/
-
-void NetSnmpSession::snmpSessionInit(SnmpSession *session)
-{
-    snmp_sess_init(session); // setup defaults
-    session->peername      = m_DestHost.toLatin1().data();
-    session->version       = static_cast<long>(m_Version);
-    session->community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
-    session->community_len = static_cast<size_t>(m_Community.size());
-    session->retries       = m_Retries;
-}
-
-/*****************************************************************/
-
-QString NetSnmpSession::snmpSessionLogError(int priority, const QString &prog, SnmpSession *ss)
-{
-    Q_UNUSED(priority)
-    char *err;
-    snmp_error(ss, nullptr, nullptr, &err);
-    QString result(err);
-    qDebug() << prog << ": " << err;
-//    snmp_log(priority, "%s: %s\n", static_cast<const char *>(prog.toLatin1()), err);
-    SNMP_FREE(err);
-    return result;
 }
 
 /*****************************************************************/

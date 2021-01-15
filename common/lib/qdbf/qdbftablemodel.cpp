@@ -327,7 +327,7 @@ Qt::ItemFlags QDbfTableModel::flags(const QModelIndex &index) const
     const QVariant &value = d->m_records.at(index.row()).value(index.column());
 
     if (value.type() == QVariant::Bool) {
-        flags |= Qt::ItemIsTristate;
+        flags |= Qt::ItemIsUserTristate;
     }
 
     if (!d->m_readOnly) {

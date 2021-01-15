@@ -98,7 +98,7 @@ void BackupLogOptionsWidget::on_btnBackupLogOdbcTest_clicked()
         db.close();
     } else {
         QMessageBox::warning(this,tr("Warning"),
-              tr("Error code: %1\n%2").arg(db.lastError().number()).arg(db.lastError().text()));
+              tr("Error code: %1\n%2").arg(db.lastError().nativeErrorCode(), db.lastError().text()));
     }
 }
 

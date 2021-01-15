@@ -221,7 +221,7 @@ void OdbcQueryDlg::on_btnOdbcTest_clicked()
     bool ok = db.open();
     if (!ok) {
         QMessageBox::warning(this,tr("Connection error"),
-              tr("Error code: %1\n%2").arg(db.lastError().number()).arg(db.lastError().text()));
+              tr("Error code: %1\n%2").arg(db.lastError().nativeErrorCode(), db.lastError().text()));
         return;
     }
     if (ui->rbConnectionOnly->isChecked()) {
@@ -233,7 +233,7 @@ void OdbcQueryDlg::on_btnOdbcTest_clicked()
     bool result = query.exec(ui->txtSqlQuery->toPlainText());
     if (!result) {
         QMessageBox::warning(this,tr("Query error"),
-             tr("Error code: %1\n%2").arg(query.lastError().number()).arg(query.lastError().text()));
+             tr("Error code: %1\n%2").arg(query.lastError().nativeErrorCode(), query.lastError().text()));
     } else {
         QMessageBox::information(this,tr("Information"),tr("Query executed successfully"));
     }

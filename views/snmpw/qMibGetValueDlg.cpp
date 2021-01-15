@@ -124,7 +124,7 @@ void QMibGetValueDlg::cmdGetValue()
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
-    connect(&ss, &NetSnmpSession::error, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
+    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
 
     SnmpValue value = ss.get(oid);
     ui->textResult->appendPlainText(value.toString());

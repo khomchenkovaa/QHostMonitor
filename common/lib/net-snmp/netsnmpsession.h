@@ -13,7 +13,6 @@
 #define NET_SNMP_SESSION_VERSION    "Version"
 #define NET_SNMP_SESSION_TIMEOUT    "Timeout"
 #define NET_SNMP_SESSION_RETRIES    "Retries"
-#define NET_SNMP_SESSION_REMOTEPORT "RemotePort"
 #define NET_SNMP_SESSION_LOCALPORT  "LocalPort"
 
 #define NET_SNMP_CMD_OIDS           "oids"
@@ -26,6 +25,10 @@ struct SnmpColumn {
     QString fmt;
 };
 
+/*!
+ * \brief Net-SNMP session with agent wrapper
+ * More details in http://www.net-snmp.org/dev/agent/structsnmp__session.html
+ */
 class NetSnmpSession : public QObject
 {
     Q_OBJECT
@@ -39,6 +42,9 @@ public:
 
     bool open();
     void close();
+    netsnmp_session *ss() {
+        return m_SessPtr;
+    }
 
     SnmpPdu synchResponse(const SnmpPdu& request);
 
@@ -53,23 +59,36 @@ public:
 
     QString errorStr();
     SnmpValue errorValue(const MibOid& anOid, const SnmpPdu& pdu);
-
-    void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
-        m_DestHost = host;
-    }
-    void setCommunity(const QString& community = COMMUNITY_DEFAULT) {
-        m_Community = community;
-    }
     void setProfile(const SnmpProfile& profile);
-    void setTimeout(const int timeout) {
-       m_Timeout = timeout;
+
+    /*! snmp version */
+    void setVersion(SnmpVersion version) {
+        m_Version = version;
+        m_Reopen = true;
     }
+    /*! Number of retries before timeout */
     void setRetries(const int retries) {
         m_Retries = retries;
+        m_Reopen = true;
     }
-
-    void snmpSessionInit(SnmpSession *session);
-    static QString snmpSessionLogError(int priority, const QString& prog, SnmpSession *ss);
+    /*! Number of uS until first timeout, then exponential backoff */
+    void setTimeout(const long timeout) {
+        m_Timeout = timeout;
+        m_Reopen = true;
+    }
+    /*! name or address of default peer (may include transport specifier and/or port number) */
+    void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
+        m_DestHost = host.toLocal8Bit().data();
+        m_Reopen = true;
+    }
+    QString destHost() const {
+        return m_DestHost;
+    }
+    /*! community for outgoing requests (SNMPv1 & SNMPv2c field) */
+    void setCommunity(const QString& community) {
+        m_Community = community;
+        m_Reopen = true;
+    }
 
 signals:
     void error(const QString& msg);
@@ -78,15 +97,15 @@ private:
     QList<SnmpColumn*> readColumns(const QString &oidStr);
 
 private:
-    QString     m_DestHost;   /**< default 'localhost', hostname or ip addr of SNMP agent */
-    QString     m_Community;  /**< default 'public', SNMP community string (used for both R/W) */
-    SnmpVersion m_Version;    /**< default taken from library configuration - probably 3 [1, 2 (same as 2c), 2c, 3] */
-    int         m_RemotePort; /**< default '161', allow remote UDP port to be overriden */
-    int         m_Timeout;    /**< default '1000000', micro-seconds before retry */
-    int         m_Retries;    /**< default '5', retries before failure */
-    QString     m_ErrorStr;   /**< read-only, holds the error message assoc. w/ last request */
-    int         m_ErrorNum;   /**< read-only, holds the snmp_err or status of last request */
-    int         m_ErrorInd;   /**< read-only, holds the snmp_err_index when appropriate */
+    bool        m_Reopen = false;
+    QString     m_DestHost;     /**< default 'localhost', hostname or ip addr of SNMP agent */
+    QString     m_Community;    /**< default 'public', SNMP community string (used for both R/W) */
+    SnmpVersion m_Version;      /**< default taken from library configuration - probably 3 [1, 2 (same as 2c), 2c, 3] */
+    int         m_Timeout;      /**< default '1000000', micro-seconds before retry */
+    int         m_Retries;      /**< default '1', retries before failure */
+    QString     m_ErrorStr;     /**< read-only, holds the error message assoc. w/ last request */
+    int         m_ErrorNum = 0; /**< read-only, holds the snmp_err or status of last request */
+    int         m_ErrorInd = 0; /**< read-only, holds the snmp_err_index when appropriate */
 
 };
 

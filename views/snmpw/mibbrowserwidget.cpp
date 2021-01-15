@@ -105,7 +105,7 @@ void MibBrowserWidget::getValueDld(const QString &cmd)
 {
     QMibGetValueDlg dlg;
     dlg.setOid(getOid());
-    dlg.runCmd(cmd);
+//    dlg.runCmd(cmd);
     dlg.exec();
 }
 

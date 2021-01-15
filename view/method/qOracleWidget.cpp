@@ -115,7 +115,7 @@ void OracleWidget::on_btnTest_clicked()
     bool ok = db.open();
     if (!ok) {
         QMessageBox::warning(this,tr("Connection error"),
-              tr("Error code: %1\n%2").arg(db.lastError().number()).arg(db.lastError().text()));
+              tr("Error code: %1\n%2").arg(db.lastError().nativeErrorCode(), db.lastError().text()));
     } else {
         QMessageBox::information(this,tr("Information"),tr("Test completed successfully"));
         db.close();

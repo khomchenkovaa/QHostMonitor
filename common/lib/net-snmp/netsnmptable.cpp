@@ -65,21 +65,17 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
 {
     QList<QList<SDPO::SnmpValue>> result;
 
-    // Initialize a "session" that defines who we're going to talk to
-    SnmpSession session;
-    m_Session->snmpSessionInit( &session );
-
     oid      name[MAX_OID_LEN];
     size_t   namelen = m_RootLen + 1;
     for (size_t i=0; i<m_RootLen; ++i) {
         name[i] = m_Root[i];
     }
 
-    SOCK_STARTUP;
-    SnmpSession *ss = snmp_open(&session); // establish the session
-    if (!ss) {
-        m_Session->snmpSessionLogError(LOG_ERR, "ack", &session);
-        SOCK_CLEANUP;
+    // Initialize a "session" that defines who we're going to talk to
+    if (!m_Session->open()) {
+        QList<SnmpValue> err;
+        err.append(SnmpValue::fromError(MibOid(name, namelen), m_Session->errorStr()));
+        result.append(err);
         return result;
     }
 
@@ -98,7 +94,7 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
         }
 
         snmp_pdu *pduResponse = nullptr;
-        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(ss, pdu, &pduResponse));
+        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_Session->ss(), pdu, &pduResponse));
 
         if (status == SnmpRespStatSuccess) {
             if (pduResponse->errstat == SNMP_ERR_NOERROR) {
@@ -126,11 +122,11 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
                 running = false;
             }
         } else if (status == SnmpRespStatTimeout) {
-            qDebug() << QString("Timeout: No Response from %1.").arg(session.peername);
+            qDebug() << QString("Timeout: No Response from %1.").arg(m_Session->destHost());
             running = false;
         } else {                    /* status == SnmpRespStatError */
-            qDebug() << QString("Error in Response from %1.").arg(session.peername);
-            m_Session->snmpSessionLogError(LOG_ERR, "GETNEXT", &session);
+            qDebug() << QString("Error in Response from %1.").arg(m_Session->destHost());
+            m_Session->errorStr();
             running = false;
         }
 
@@ -139,9 +135,6 @@ QList<QList<SDPO::SnmpValue>> SDPO::NetSnmpTable::getTableEntries()
         }
 
     }
-
-    snmp_close(ss);
-    SOCK_CLEANUP;
 
     return result;
 }

@@ -168,12 +168,6 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
 typedef netsnmp_vardata SnmpVarData;
 
 /*!
- * \brief Net-SNMP session with agent
- * More details in http://www.net-snmp.org/dev/agent/structsnmp__session.html
- */
-typedef netsnmp_session SnmpSession;
-
-/*!
  * \brief Net-SNMP request/response PDU wrapper
  * More details in http://www.net-snmp.org/dev/agent/structsnmp__pdu.html
  */

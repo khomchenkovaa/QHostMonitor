@@ -65,41 +65,42 @@ public:
 
     /*! snmp version */
     void setVersion(SnmpVersion version) {
+        m_Reopen = (m_Version != version);
         m_Version = version;
-        m_Reopen = true;
     }
     /*! Number of retries before timeout */
     void setRetries(const int retries) {
+        m_Reopen = (m_Retries != retries);
         m_Retries = retries;
-        m_Reopen = true;
     }
     /*! Number of uS until first timeout, then exponential backoff */
     void setTimeout(const long timeout) {
+        m_Reopen = (m_Timeout != timeout);
         m_Timeout = timeout;
-        m_Reopen = true;
     }
     /*! name or address of default peer (may include transport specifier and/or port number) */
     void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
-        m_DestHost = host.toLocal8Bit().data();
-        m_Reopen = true;
+        m_Reopen = (m_DestHost != host);
+        m_DestHost = host;
     }
     QString destHost() const {
         return m_DestHost;
     }
     /*! community for outgoing requests (SNMPv1 & SNMPv2c field) */
     void setCommunity(const QString& community) {
+        m_Reopen = (m_Community != community);
         m_Community = community;
-        m_Reopen = true;
     }
 
 signals:
     void error(const QString& msg);
 
 private:
-    QList<SnmpColumn*> readColumns(const QString &oidStr);
+    QList<SnmpColumn*> readColumns(const QString &oidStr);    
 
 private:
     bool        m_Reopen = false;
+    bool        m_FixPdu = true; // FIXME no setter
     QString     m_DestHost;     /**< default 'localhost', hostname or ip addr of SNMP agent */
     QString     m_Community;    /**< default 'public', SNMP community string (used for both R/W) */
     SnmpVersion m_Version;      /**< default taken from library configuration - probably 3 [1, 2 (same as 2c), 2c, 3] */

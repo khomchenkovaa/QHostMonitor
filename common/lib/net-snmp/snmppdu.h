@@ -45,15 +45,25 @@ struct SnmpPdu {
         this->ptr = static_cast<snmp_pdu*>(pointer);
     }
 
-    bool isValid() {
+    bool isValid() const {
         return (ptr != nullptr);
     }
 
-    bool noError() {
+    bool noError() const {
         if (status == SnmpRespStatSuccess) {
             return (ptr->errstat == SNMP_ERR_NOERROR);
         }
         return false;
+    }
+
+    QString errorString() const {
+        QString result;
+        if (status == SnmpRespStatSuccess) {
+            if (ptr->errstat != SNMP_ERR_NOERROR) {
+                result = snmp_errstring(static_cast<int>(ptr->errstat));
+            }
+        }
+        return result;
     }
 
     void cleanup() {
@@ -76,10 +86,16 @@ struct SnmpPdu {
         return SnmpPdu(snmp_pdu_create(type));
     }
 
+    static SnmpPdu create(SnmpPduType type, const MibOid& anOid) {
+        SnmpPdu result = SnmpPdu(snmp_pdu_create(type));
+        result.addNullVar(anOid);
+        return result;
+    }
+
     static SnmpPdu create(SnmpPduType type, const QList<MibOid>& oids) {
         SnmpPdu result = create(type);
-        foreach(const MibOid& mibOid, oids) {
-            result.addNullVar(mibOid);
+        foreach(const MibOid& anOid, oids) {
+            result.addNullVar(anOid);
         }
         return result;
     }

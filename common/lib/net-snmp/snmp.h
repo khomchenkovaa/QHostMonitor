@@ -300,6 +300,8 @@ public:
 
     static QString ipToString(u_char *ip, size_t ip_len);
 
+    static QString pError(const QString& progString);
+
 private:
     static void initSnmp(const QString& appName = SNMP_INIT_DEFAULT_NAME);
     static void librariesInit(const QString& appName);

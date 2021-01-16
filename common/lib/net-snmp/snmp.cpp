@@ -605,6 +605,15 @@ QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
 
 /*****************************************************************/
 
+QString NetSNMP::pError(const QString &progString)
+{
+    int xerr = snmp_errno; /*MTCRITICAL_RESOURCE */
+    QString str = snmp_api_errstring(xerr);
+    return QString("%1: %2").arg(progString, str);
+}
+
+/*****************************************************************/
+
 void NetSNMP::initSnmp(const QString &appName)
 {
     librariesInit(appName);

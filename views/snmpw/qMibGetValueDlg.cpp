@@ -1,7 +1,6 @@
 #include "qMibGetValueDlg.h"
 #include "ui_qMibGetValueDlg.h"
 
-#include "netsnmpsession.h"
 #include "qSnmpCredentialsDlg.h"
 
 #include <QInputDialog>
@@ -71,11 +70,9 @@ void QMibGetValueDlg::cmdSysInfo()
 
     Q_UNUSED(timeout)
 
-    NetSnmpSession ss;
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
-    connect(&ss, &NetSnmpSession::error, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
 
     ui->textResult->appendPlainText("\n" + host);
     // System: get .1.3.6.1.2.1.1.1.0 (SNMPv2-MIB::sysDescr)
@@ -120,11 +117,9 @@ void QMibGetValueDlg::cmdGetValue()
 
     Q_UNUSED(timeout)
 
-    NetSnmpSession ss;
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
-    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
 
     SnmpValue value = ss.get(oid);
     ui->textResult->appendPlainText(value.toString());
@@ -144,7 +139,6 @@ void QMibGetValueDlg::cmdGetRow()
 
     Q_UNUSED(timeout)
 
-    NetSnmpSession ss;
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
@@ -171,10 +165,10 @@ void QMibGetValueDlg::cmdGetNext()
 
     Q_UNUSED(timeout)
 
-    NetSnmpSession ss;
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
+
     QList<SDPO::SnmpValue> values = ss.getNext(oid, cnt);
     foreach (const SnmpValue& val, values) {
         ui->textResult->appendPlainText(val.toString());
@@ -203,7 +197,6 @@ void QMibGetValueDlg::cmdSetValue()
 
     ui->textResult->appendPlainText("set " + oid + " = " + newValue);
 
-    NetSnmpSession ss;
     ss.setProfile(profile);
     ss.setRetries(retries);
     ss.setDestHost(host);
@@ -238,6 +231,7 @@ void QMibGetValueDlg::setupUI()
     connect(ui->btnGetNext, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetNext);
     connect(ui->btnSet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSetValue);
     connect(ui->btnProfile, &QPushButton::clicked, this, &QMibGetValueDlg::openSnmpCredentialsDlg);
+    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
 }
 
 /*****************************************************************/

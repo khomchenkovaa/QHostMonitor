@@ -1,6 +1,8 @@
 #ifndef QMIBGETVALUEDLG_H
 #define QMIBGETVALUEDLG_H
 
+#include "netsnmpsession.h"
+
 #include <QDialog>
 
 #define CMD_SNMP_SYS_INFO  "cmdSysInfo"
@@ -39,6 +41,7 @@ private:
 
 private:
     Ui::QMibGetValueDlg *ui;
+    NetSnmpSession ss;
 };
 
 } // namespace SDPO

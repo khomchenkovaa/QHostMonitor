@@ -29,39 +29,6 @@ enum SnmpDefaults {
 };
 
 /*!
- * \brief SNMP version to be used
- */
-enum SnmpVersion {
-    SNMPvDefault = SNMP_DEFAULT_VERSION,
-    SNMPv1  = SNMP_VERSION_1,  /**< SNMP version 1 (=0) */
-    SNMPv2c = SNMP_VERSION_2c, /**< SNMP version 2 (=1) */
-    SNMPv3  = SNMP_VERSION_3   /**< SNMP version 3 (=3) */
-};
-
-enum SnmpSecAuth {
-    AuthNone, AuthMD5, AuthSHA
-};
-
-enum SnmpSecPrivType {
-    PrivNone, PrivDes, Priv3Des, PrivAes
-};
-
-/*!
- * \brief PDU type to be encapsulated into SNMP message
- */
-enum SnmpPduType {
-    SnmpPduGet      = SNMP_MSG_GET,      /**< GET request */
-    SnmpPduGetNext  = SNMP_MSG_GETNEXT,  /**< GET NEXT request */
-    SnmpPduResponse = SNMP_MSG_RESPONSE, /**< Response */
-    SnmpPduSet      = SNMP_MSG_SET,      /**< SET request */
-    SnmpPduTrap     = SNMP_MSG_TRAP,     /**< Trap message (v1) */
-    SnmpPduGetBulk  = SNMP_MSG_GETBULK,  /**< GET BULK request */
-    SnmpPduInform   = SNMP_MSG_INFORM,   /**< Inform message */
-    SnmpPduTrap2    = SNMP_MSG_TRAP2,    /**< Trap message (v2, v3) */
-    SnmpPduReport   = SNMP_MSG_REPORT    /**< Report message */
-};
-
-/*!
  * \brief SNMP Data type to PDU object
  */
 enum SnmpDataType {
@@ -78,16 +45,6 @@ enum SnmpDataType {
     SnmpDataCounter64   = ASN_COUNTER64,    /**< 64 bits Counter type */
     SnmpDataGauge       = ASN_GAUGE,        /**< Gauge type */
     SnmpDataTimeTicks   = ASN_TIMETICKS     /**< Time Ticks type*/
-};
-
-/*!
- * \brief SNMP response status to be used
- */
-enum SnmpResponseStatus {
-    SnmpRespStatUnknown = -1,           /**< SNMP response not set */
-    SnmpRespStatSuccess = STAT_SUCCESS, /**< SNMP response success */
-    SnmpRespStatError   = STAT_ERROR,   /**< SNMP response with errors */
-    SnmpRespStatTimeout = STAT_TIMEOUT  /**< SNMP response timeout */
 };
 
 /*!
@@ -166,58 +123,6 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
  * More details in http://www.net-snmp.org/dev/agent/unionnetsnmp__vardata.html
  */
 typedef netsnmp_vardata SnmpVarData;
-
-/*!
- * \brief Net-SNMP request/response PDU wrapper
- * More details in http://www.net-snmp.org/dev/agent/structsnmp__pdu.html
- */
-struct SnmpPdu {
-    snmp_pdu *ptr = nullptr;
-    SnmpResponseStatus status = SnmpRespStatUnknown;
-
-    SnmpPdu(void *pointer = nullptr) {
-        this->ptr = static_cast<snmp_pdu*>(pointer);
-    }
-
-    bool isValid() {
-        return (ptr != nullptr);
-    }
-
-    bool noError() {
-        if (status == SnmpRespStatSuccess) {
-            return (ptr->errstat == SNMP_ERR_NOERROR);
-        }
-        return false;
-    }
-
-    void cleanup() {
-        if (ptr) {
-            snmp_free_pdu(ptr);
-            ptr = nullptr;
-        }
-        status = SnmpRespStatUnknown;
-    }
-
-    void addNullVar(const MibOid& mibOid) {
-        snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
-    }
-
-    SnmpPdu fix(SnmpPduType type) {
-        return snmp_fix_pdu(ptr, type);
-    }
-
-    static SnmpPdu create(SnmpPduType type) {
-        return SnmpPdu(snmp_pdu_create(type));
-    }
-
-    static SnmpPdu create(SnmpPduType type, const QList<MibOid>& oids) {
-        SnmpPdu result = create(type);
-        foreach(const MibOid& mibOid, oids) {
-            result.addNullVar(mibOid);
-        }
-        return result;
-    }
-};
 
 /*****************************************************************/
 
@@ -363,37 +268,6 @@ struct SnmpValue {
     static SnmpValue fromVar(SnmpVariableList *vars);
     static SnmpValue fromError(const MibOid& mibOid, const QString& err);
 };
-
-/*****************************************************************/
-
-struct SnmpProfile {
-    QString         name;
-    SnmpVersion     version;
-    QString         community;
-    // SNMP v3 fields
-    QString         context;
-    SnmpSecAuth     auth;
-    QString         authPwd;
-    SnmpSecPrivType privType;
-    QString         privPwd;
-    bool            chkOpaque;
-
-    SnmpProfile() :
-        version(SNMPv2c),
-        auth(AuthNone),
-        privType(PrivNone),
-        chkOpaque(false)
-    {}
-
-    static SnmpProfile findByName(const QString& name);
-    static QStringList names();
-    static int defaultIdx();
-    static QList<SnmpProfile> credentials;
-};
-
-/*****************************************************************/
-
-typedef QList<SnmpProfile> GSnmpCredentials;
 
 /*****************************************************************/
 

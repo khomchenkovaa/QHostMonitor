@@ -2,6 +2,7 @@
 #define QSNMPCREDENTIALSDLG_H
 
 #include "snmp.h"
+#include "snmpprofile.h"
 
 #include <QDialog>
 #include <QListWidgetItem>

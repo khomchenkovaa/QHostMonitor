@@ -7,7 +7,9 @@ HEADERS += \
     $$PWD/netsnmpsession.h \
     $$PWD/netsnmptable.h \
     $$PWD/oidstring.h \
-    $$PWD/snmp.h
+    $$PWD/snmp.h \
+    $$PWD/snmppdu.h \
+    $$PWD/snmpprofile.h
 
 SOURCES += \
     $$PWD/miboid.cpp \
@@ -15,4 +17,5 @@ SOURCES += \
     $$PWD/netsnmpsession.cpp \
     $$PWD/netsnmptable.cpp \
     $$PWD/oidstring.cpp \
-    $$PWD/snmp.cpp
+    $$PWD/snmp.cpp \
+    $$PWD/snmpprofile.cpp

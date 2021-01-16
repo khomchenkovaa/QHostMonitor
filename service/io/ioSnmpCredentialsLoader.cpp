@@ -1,5 +1,6 @@
 #include "ioSnmpCredentialsLoader.h"
 #include "snmp.h"
+#include "snmpprofile.h"
 
 using namespace SDPO;
 

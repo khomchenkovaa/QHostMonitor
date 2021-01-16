@@ -2,6 +2,8 @@
 #define NETSNMPSESSION_H
 
 #include "snmp.h"
+#include "snmppdu.h"
+#include "snmpprofile.h"
 
 #include <QObject>
 

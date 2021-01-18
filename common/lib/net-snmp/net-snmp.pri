@@ -9,7 +9,8 @@ HEADERS += \
     $$PWD/oidstring.h \
     $$PWD/snmp.h \
     $$PWD/snmppdu.h \
-    $$PWD/snmpprofile.h
+    $$PWD/snmpprofile.h \
+    $$PWD/snmpvar.h
 
 SOURCES += \
     $$PWD/miboid.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/netsnmptable.cpp \
     $$PWD/oidstring.cpp \
     $$PWD/snmp.cpp \
-    $$PWD/snmpprofile.cpp
+    $$PWD/snmpprofile.cpp \
+    $$PWD/snmpvar.cpp

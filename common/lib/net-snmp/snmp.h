@@ -9,6 +9,7 @@
 #include <QVector>
 
 #include "miboid.h"
+#include "snmpvar.h"
 
 #define SNMP_INIT_DEFAULT_NAME "SDPO"
 
@@ -26,25 +27,6 @@ enum SnmpDefaults {
     SnmpMinMaxLen = SNMP_MIN_MAX_LEN,     /**< minimum maximum message size */
     SnmpTimeout   = SNMP_DEFAULT_TIMEOUT,
     SnmpRetries   = SNMP_DEFAULT_RETRIES
-};
-
-/*!
- * \brief SNMP Data type to PDU object
- */
-enum SnmpDataType {
-    SnmpDataUnknown     = -1,               /**< Unknown type */
-    SnmpDataNull        = ASN_NULL,         /**< Null type */
-    SnmpDataInteger     = ASN_INTEGER,      /**< Signed Integer type */
-    SnmpDataUnsigned    = ASN_UNSIGNED,     /**< Unsigned Integer type */
-    SnmpDataOctetString = ASN_OCTET_STR,    /**< Octet String type */
-    SnmpDataBits        = ASN_BIT8,         /**< Bits type */
-    SnmpDataBitString   = ASN_BIT_STR,      /**< BitString type */
-    SnmpDataObjectId    = ASN_OBJECT_ID,    /**< OID type */
-    SnmpDataIPAddress   = ASN_IPADDRESS,    /**< IP Address type */
-    SnmpDataCounter     = ASN_COUNTER,      /**< Counter type */
-    SnmpDataCounter64   = ASN_COUNTER64,    /**< 64 bits Counter type */
-    SnmpDataGauge       = ASN_GAUGE,        /**< Gauge type */
-    SnmpDataTimeTicks   = ASN_TIMETICKS     /**< Time Ticks type*/
 };
 
 /*!
@@ -117,28 +99,6 @@ Q_DECLARE_FLAGS(OidOptions, OidOptionFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
 
 /*****************************************************************/
-
-/*!
- * \brief Net-SNMP data value
- * More details in http://www.net-snmp.org/dev/agent/unionnetsnmp__vardata.html
- */
-typedef netsnmp_vardata SnmpVarData;
-
-/*****************************************************************/
-
-/*!
- * \brief Net-SNMP variable list
- * More details in http://www.net-snmp.org/dev/agent/structvariable__list.html
- */
-typedef netsnmp_variable_list SnmpVariableList;
-
-//typedef QList<QPair<int, QString> > MibEnumList; // value, label
-
-//typedef QList<QPair<int, int> > MibRangeList; // low, high
-
-//typedef QList<QPair<QString, QChar> > MibIndexList; // ilabel, isimplied
-
-//typedef QStringList MibVarbindList;
 
 /*!
 * \brief Net-SNMP MIB tree wrapper
@@ -265,7 +225,7 @@ struct SnmpValue {
     QString dataTypeName() const;
     QString toString() const;
 
-    static SnmpValue fromVar(SnmpVariableList *vars);
+    static SnmpValue fromVar(SnmpVar var);
     static SnmpValue fromError(const MibOid& mibOid, const QString& err);
 };
 
@@ -296,9 +256,6 @@ public:
     static bool loadModules(const QStringList& mibModules);
     static QString translateObj(const QString& obj, bool toLongName = false, bool includeModuleName = true);
     static QList<SnmpValue> get(const QVariantMap& map);
-
-
-    static QString ipToString(u_char *ip, size_t ip_len);
 
     static QString pError(const QString& progString);
 

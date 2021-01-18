@@ -5,6 +5,7 @@
 #include <net-snmp/net-snmp-includes.h>
 
 #include "miboid.h"
+#include "snmpvar.h"
 
 namespace SDPO {
 
@@ -56,6 +57,14 @@ struct SnmpPdu {
         return false;
     }
 
+    long errStat() const {
+        return ptr->errstat;
+    }
+
+    long errIndex() const {
+        return ptr->errindex;
+    }
+
     QString errorString() const {
         QString result;
         if (status == SnmpRespStatSuccess) {
@@ -80,6 +89,25 @@ struct SnmpPdu {
 
     SnmpPdu fix(SnmpPduType type) {
         return snmp_fix_pdu(ptr, type);
+    }
+
+    SnmpVar variables() {
+        if (ptr) {
+            return ptr->variables;
+        }
+        return nullptr;
+    }
+
+    SnmpVar failedObject() {
+        if (ptr->errindex != 0) {
+            int count = 1;
+            for (SnmpVar var = ptr->variables; var.isValid(); var = var.nextVariable()) {
+                if (count == ptr->errindex) {
+                    return var;
+                }
+            }
+        }
+        return nullptr;
     }
 
     static SnmpPdu create(SnmpPduType type) {

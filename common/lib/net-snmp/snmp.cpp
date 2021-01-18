@@ -375,58 +375,15 @@ QString SnmpValue::toString() const
 
 /*****************************************************************/
 
-SnmpValue SnmpValue::fromVar(SnmpVariableList *vars)
+SnmpValue SnmpValue::fromVar(SnmpVar var)
 {
-    // TODO display value according to Mib info
     SnmpValue result;
-    result.setName(vars->name, vars->name_length);
-    result.type = static_cast<SnmpDataType>(vars->type);
+    result.setName(var.mibOid());
+    result.type = var.type();
     result.mibNode = MibNode::findByOid(result.name);
+    result.val = var.value().toString();
 
-    switch(vars->type) {
-    case SnmpDataInteger:
-    case SnmpDataUnsigned:
-    case SnmpDataBits:
-    case SnmpDataCounter:
-    case SnmpDataTimeTicks:
-        result.val = vars->val.integer? QString::number(*(vars->val.integer)) : "nullptr";
-        break;
-    case SnmpDataCounter64:
-        result.val = vars->val.counter64? QString("%1 %2").arg(vars->val.counter64->high).arg(vars->val.counter64->low) : "nullptr";
-        break;
-    case SnmpDataBitString:
-        if (vars->val.bitstring) {
-            QByteArray tmp = QByteArray::fromRawData((const char *)vars->val.bitstring, vars->val_len);
-            result.val = QString(tmp);
-        } else {
-            result.val = "nullptr";
-        }
-        break;
-    case SnmpDataOctetString:
-        if (vars->val.string) {
-            QByteArray tmp = QByteArray::fromRawData((const char *)vars->val.string, vars->val_len);
-            result.val = QString(tmp);
-            // TODO if OctetString wothout ranges => display as hex
-        } else {
-            result.val = "nullptr";
-        }
-        break;
-    case SnmpDataIPAddress:
-        result.val = NetSNMP::ipToString(vars->val.string, vars->val_len);
-        break;
-    case SnmpDataObjectId: {
-        MibOid oidObj(static_cast<oid*>(vars->val.objid), vars->val_len / sizeof (oid));
-        result.val = oidObj.toString();
-    } break;
-    case SnmpDataNull:
-        result.val = "NULL";
-        break;
-    default:
-        result.val = "Unknown";
-        break;
-    }
     return result;
-
 }
 
 /*****************************************************************/
@@ -590,17 +547,6 @@ QList<SnmpValue> NetSNMP::get(const QVariantMap &map)
 {
     NetSnmpSession sess(map);
     return sess.get(map);
-}
-
-/*****************************************************************/
-
-QString NetSNMP::ipToString(u_char *ip, size_t ip_len)
-{
-    QStringList result;
-    for (size_t i=0; i < ip_len; ++i) {
-        result.append(QString::number(ip[i]));
-    }
-    return result.join('.');
 }
 
 /*****************************************************************/

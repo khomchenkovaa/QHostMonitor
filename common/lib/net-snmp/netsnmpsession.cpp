@@ -1,4 +1,5 @@
 #include "netsnmpsession.h"
+#include "snmpvar.h"
 
 #include <QDebug>
 
@@ -150,23 +151,19 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
         pduResponse = this->synchResponse(pdu);
 
         if (pduResponse.status == SnmpRespStatSuccess) {
-            if (pduResponse.ptr->errstat == SNMP_ERR_NOERROR) {
-                for(SnmpVariableList *vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
-                    result.append(SnmpValue::fromVar(vars));
+            if (pduResponse.errStat() == SNMP_ERR_NOERROR) {
+                for(SnmpVar var = pduResponse.variables(); var.isValid(); var = var.nextVariable()) {
+                    result.append(SnmpValue::fromVar(var));
                 }
             } else {
-                emit error(QString("Error in packet\nReason: %1").arg(
-                                    pduResponse.errorString()));
-                if (pduResponse.ptr->errindex != 0) {
-                    int count = 1;
-                    for (SnmpVariableList * vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
-                        if (count == pduResponse.ptr->errindex) {
-                            emit error(QString("Failed object: %1\n").arg(
-                                                MibOid(vars->name, vars->name_length).toString()));
-                            break; // exit for
-                        }
-                    }
+                QString errString
+                        = QString("Error in packet\nReason: %1\n").arg(pduResponse.errorString());
+                SnmpVar errVar = pduResponse.failedObject();
+                if (errVar.isValid()) {
+                    errString.append(QString("Failed object: %1\n").arg(errVar.mibOid().toString()));
                 }
+                emit error(errString);
+
                 if (m_FixPdu) {
                     pdu = pduResponse.fix(SnmpPduGet);
                     pduResponse.cleanup();
@@ -237,11 +234,11 @@ QList<SnmpValue> NetSnmpSession::getNext(const QString &oidStr, int cnt)
         SnmpPdu pduResponse = this->synchResponse(pdu);
 
         if (pduResponse.status == SnmpRespStatSuccess) {
-            if (pduResponse.ptr->errstat == SNMP_ERR_NOERROR) {
-                for(netsnmp_variable_list *vars = pduResponse.ptr->variables; vars != nullptr; vars = vars->next_variable) {
-                    SnmpValue snmpValue = SnmpValue::fromVar(vars);
+            if (pduResponse.errStat() == SNMP_ERR_NOERROR) {
+                for(SnmpVar var = pduResponse.variables(); var.isValid(); var = var.nextVariable()) {
+                    anOid = var.mibOid();
+                    SnmpValue snmpValue = SnmpValue::fromVar(var);
                     result.append(snmpValue);
-                    anOid = snmpValue.name;
                 }
             } else {
                 emit error(QString("Error in packet\nReason: %1").arg(
@@ -372,8 +369,8 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
 
     if (status == SnmpRespStatSuccess) {
         if (pduResponse->errstat == SNMP_ERR_NOERROR) {
-            for(SnmpVariableList *vars = pduResponse->variables; vars != nullptr; vars = vars->next_variable) {
-                result = SnmpValue::fromVar(vars);
+            for(SnmpVar var = pduResponse->variables; var.isValid(); var = var.nextVariable()) {
+                result = SnmpValue::fromVar(var);
             }
         } else {
             result.val = snmp_errstring(static_cast<int>(pduResponse->errstat));

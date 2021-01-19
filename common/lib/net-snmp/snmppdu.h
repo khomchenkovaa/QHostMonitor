@@ -50,6 +50,26 @@ struct SnmpPdu {
         return (ptr != nullptr);
     }
 
+    SnmpPdu clone() const {
+        return snmp_clone_pdu(ptr);
+    }
+
+    SnmpPdu fix(SnmpPduType type) {
+        return snmp_fix_pdu(ptr, type);
+    }
+
+    void cleanup() {
+        if (ptr) {
+            snmp_free_pdu(ptr);
+            ptr = nullptr;
+        }
+        status = SnmpRespStatUnknown;
+    }
+
+    void addNullVar(const MibOid& mibOid) {
+        snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
+    }
+
     bool noError() const {
         if (status == SnmpRespStatSuccess) {
             return (ptr->errstat == SNMP_ERR_NOERROR);
@@ -73,22 +93,6 @@ struct SnmpPdu {
             }
         }
         return result;
-    }
-
-    void cleanup() {
-        if (ptr) {
-            snmp_free_pdu(ptr);
-            ptr = nullptr;
-        }
-        status = SnmpRespStatUnknown;
-    }
-
-    void addNullVar(const MibOid& mibOid) {
-        snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
-    }
-
-    SnmpPdu fix(SnmpPduType type) {
-        return snmp_fix_pdu(ptr, type);
     }
 
     SnmpVar variables() {

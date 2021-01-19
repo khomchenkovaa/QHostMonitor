@@ -214,6 +214,17 @@ char MibNode::typeChar() const
     default: break;
     }
     return '=';
+
+/*
+    case '3':
+    case 'x':
+    case 'd':
+#ifdef NETSNMP_WITH_OPAQUE_SPECIAL_TYPES
+    case 'I':
+    case 'U':
+    case 'F':
+    case 'D':
+    */
 }
 
 /*****************************************************************/

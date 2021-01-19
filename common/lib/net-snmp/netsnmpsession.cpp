@@ -267,12 +267,12 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
 
     MibOid anOID = MibOid::parse(oidStr);
     if (anOID.hasError()) {
-        result.append(SnmpValue::fromError(anOID, anOID.errString()));
+        emit error(QString("%1: %2").arg(oidStr, anOID.errString()));
         return result;
     }
 
     if (!open()) {
-        result.append(SnmpValue::fromError(anOID, m_ErrorStr));
+        emit error(m_ErrorStr);
         return result;
     }
 
@@ -331,56 +331,58 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
 
 SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
 {
+    SnmpValue result;
+
     MibOid anOID = MibOid::parse(oidStr);
     if (anOID.hasError()) {
-        return SnmpValue::fromError(anOID, anOID.errString());
+        emit error(QString("%1: %2").arg(oidStr, anOID.errString()));
+        return result;
     }
 
     MibNode mibNode = MibNode::findByOid(anOID);
     if (!mibNode.isValid()) {
-        return SnmpValue::fromError(anOID, QString("Can not get MibTree for %1").arg(oidStr));
+        emit error(QString("Can not get MibTree for %1").arg(oidStr));
+        return result;
     }
 
     char dataType = mibNode.typeChar();
 
-    snmp_pdu *pdu = snmp_pdu_create(SnmpPduSet);
-    int xerr = snmp_add_var(pdu, anOID.numOid, anOID.length, dataType, oidValue.toString().toLatin1());
+    SnmpPdu pdu = SnmpPdu::create(SnmpPduSet);
+    int xerr = pdu.addVar(anOID, dataType, oidValue.toString());
     if (xerr) {
-        QString serr = QString(snmp_api_errstring(xerr));
-        if (pdu) {
-          snmp_free_pdu(pdu);
-        }
-        return SnmpValue::fromError(anOID, serr);
+        emit error(NetSNMP::apiErrstring(xerr));
+        pdu.cleanup();
+        return result;
     }
-
-    putenv(QString("POSIXLY_CORRECT=1").toLatin1().data());
 
     if (!open()) {
-        return SnmpValue::fromError(anOID, m_ErrorStr);
+        emit error(m_ErrorStr);
+        return result;
     }
 
-    SnmpValue result;
-    snmp_pdu  *pduResponse = nullptr;
-    SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
+    SnmpPdu response = this->synchResponse(pdu);
 
-    if (status == SnmpRespStatSuccess) {
-        if (pduResponse->errstat == SNMP_ERR_NOERROR) {
-            for(SnmpVar var = pduResponse->variables; var.isValid(); var = var.nextVariable()) {
+    if (response.status == SnmpRespStatSuccess) {
+        if (response.errStat() == SNMP_ERR_NOERROR) {
+            for(SnmpVar var = response.variables(); var.isValid(); var = var.nextVariable()) {
                 result = SnmpValue::fromVar(var);
             }
         } else {
-            result.val = snmp_errstring(static_cast<int>(pduResponse->errstat));
+            QString errString
+                    = QString("Error in packet\nReason: %1\n").arg(response.errorString());
+            SnmpVar errVar = response.failedObject();
+            if (errVar.isValid()) {
+                errString.append(QString("Failed object: %1\n").arg(errVar.mibOid().toString()));
+            }
+            emit error(errString);
         }
-    } else if (status == SnmpRespStatTimeout) {
-        result = SnmpValue::fromError(anOID, QString("Timeout: No Response from %1.").arg(m_DestHost));
-    } else {                    /* status == SnmpRespStatError */
-        result = SnmpValue::fromError(anOID, errorStr());
+    } else if (response.status == SnmpRespStatTimeout) {
+        emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+    } else { // status == SnmpRespStatError
+        emit error(errorStr());
     }
 
-    // Cleanup
-    if (pduResponse) {
-      snmp_free_pdu(pduResponse);
-    }
+    response.cleanup();
 
     return result;
 }

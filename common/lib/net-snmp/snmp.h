@@ -258,6 +258,9 @@ public:
     static QList<SnmpValue> get(const QVariantMap& map);
 
     static QString pError(const QString& progString);
+    static QString apiErrstring(int errCode) {
+        return snmp_api_errstring(errCode);
+    }
 
 private:
     static void initSnmp(const QString& appName = SNMP_INIT_DEFAULT_NAME);

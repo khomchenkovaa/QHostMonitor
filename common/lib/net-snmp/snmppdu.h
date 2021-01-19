@@ -66,8 +66,12 @@ struct SnmpPdu {
         status = SnmpRespStatUnknown;
     }
 
-    void addNullVar(const MibOid& mibOid) {
-        snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
+    SnmpVar addNullVar(const MibOid& mibOid) {
+        return snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
+    }
+
+    int addVar(const MibOid& mibOid, char typeChar, const QString value) {
+        return snmp_add_var(ptr, mibOid.numOid, mibOid.length, typeChar, value.toLocal8Bit());
     }
 
     bool noError() const {

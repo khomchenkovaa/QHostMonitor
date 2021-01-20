@@ -9,6 +9,8 @@ class QMibGetTableDlg;
 
 namespace SDPO {
 
+class SnmpTableModel;
+
 class QMibGetTableDlg : public QDialog
 {
     Q_OBJECT
@@ -26,6 +28,7 @@ private slots:
 
 private:
     Ui::QMibGetTableDlg *ui;
+    SnmpTableModel *model;
 };
 
 } // namespace SDPO

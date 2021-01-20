@@ -179,7 +179,11 @@ struct MibNode {
     MibNode getNextNode() const;
     QString name() const;
     QString labelAndId() const;
+
     bool isTable() const;
+    MibNode tableEntry() const;
+    QList<MibNode> tableColumns() const;
+
     QString moduleName() const;
     QString objectID() const;          /**< dotted decimal fully qualified OID */
     MibOid  mibOid() const;
@@ -228,6 +232,9 @@ struct SnmpValue {
     static SnmpValue fromVar(SnmpVar var);
     static SnmpValue fromError(const MibOid& mibOid, const QString& err);
 };
+
+typedef QList<SnmpValue> SnmpValueList;
+typedef QList<SnmpValueList> SnmpValueTable;
 
 /*****************************************************************/
 

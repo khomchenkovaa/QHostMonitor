@@ -2,7 +2,8 @@
 #include "ui_qMibGetTableDlg.h"
 
 #include "snmp.h"
-#include "netsnmptable.h"
+#include "netsnmpsession.h"
+#include "snmptablemodel.h"
 #include "qSnmpCredentialsDlg.h"
 
 using namespace SDPO;
@@ -11,17 +12,22 @@ using namespace SDPO;
 
 QMibGetTableDlg::QMibGetTableDlg(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::QMibGetTableDlg)
+    ui(new Ui::QMibGetTableDlg),
+    model(new SnmpTableModel)
 {
     ui->setupUi(this);
     ui->cmbProfile->clear();
     ui->cmbProfile->addItems(SnmpProfile::names());
+    ui->tableView->setModel(model);
+    ui->lblError->clear();
+    ui->lblError->setHidden(true);
 }
 
 /*****************************************************************/
 
 QMibGetTableDlg::~QMibGetTableDlg()
 {
+    model->deleteLater();
     delete ui;
 }
 
@@ -45,31 +51,24 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     QString oid = ui->cmbOid->currentText();
 
     Q_UNUSED(timeout)
-    ui->tableWidget->clear();
+    model->clear();
+    ui->lblError->clear();
+    ui->lblError->setHidden(true);
 
-    NetSnmpTable snmpGet;
-    snmpGet.setProfile(profile);
-    snmpGet.setRetries(retries);
-    snmpGet.setDestHost(host);
-    QList<SDPO::SnmpColumn*> columns = snmpGet.readColumns(oid);
-    if (columns.size()) {
-        ui->tableWidget->setColumnCount(columns.size());
-        for(int i=0; i<columns.size(); ++i) {
-            QTableWidgetItem *item = new QTableWidgetItem(columns.at(i)->label);
-            ui->tableWidget->setHorizontalHeaderItem(i, item);
-        }
-        QList<QList<SnmpValue>> values = snmpGet.getTableEntries();
-        ui->tableWidget->setRowCount(values.size());
-        for(int i=0; i<values.size(); ++i ) {
-            QList<SnmpValue> row = values.at(i);
-            for (int j=0; j<row.size(); ++j) {
-                QTableWidgetItem *item = new QTableWidgetItem(row.at(j).val);
-                ui->tableWidget->setItem(i,j,item);
-            }
-        }
+    NetSnmpSession ss;
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){
+        ui->lblError->setHidden(false);
+        ui->lblError->setText(msg);
+    });
+
+    QList<MibNode> columns = ss.readColumns(oid);
+    model->setHeaders(columns);
+    if (model->columnCount()) {
+        model->setValues(ss.getTableEntries(columns));
     }
-
-
 }
 
 /*****************************************************************/

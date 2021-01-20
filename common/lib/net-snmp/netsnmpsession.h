@@ -21,11 +21,12 @@
 
 namespace SDPO {
 
-struct SnmpColumn {
+struct SnmpTableColumn {
     oid     subid;
     QString label;
     QString fmt;
 };
+
 
 /*!
  * \brief Net-SNMP session with agent wrapper
@@ -57,7 +58,7 @@ public:
     QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
     QList<SnmpValue> getRow(const QString& oidStr);
     SnmpValue set(const QString& oidStr, const QVariant& oidValue);
-    QList<QList<SnmpValue> > getTable();
+    QList<QList<SnmpValue> > getTable(const QString& oidStr, const QVariantMap& options = QVariantMap());
 
     QString errorStr();
     SnmpValue errorValue(const MibOid& anOid, const SnmpPdu& pdu);
@@ -95,8 +96,9 @@ public:
 signals:
     void error(const QString& msg);
 
-private:
-    QList<SnmpColumn*> readColumns(const QString &oidStr);    
+public:
+    QList<MibNode> readColumns(const QString &oidStr);
+    QList<QList<SnmpValue>> getTableEntries(const QList<MibNode>& columns, const QVariantMap& options = QVariantMap());
 
 private:
     bool        m_Reopen = false;

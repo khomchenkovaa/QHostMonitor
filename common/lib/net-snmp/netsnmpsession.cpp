@@ -389,10 +389,21 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
 
 /*****************************************************************/
 
-QList<QList<SnmpValue> > NetSnmpSession::getTable()
+QList<QList<SnmpValue> > NetSnmpSession::getTable(const QString &oidStr, const QVariantMap &options)
 {
+    QList<QList<SnmpValue>> result;
+
+    MibOid rootOID = MibOid::parse(oidStr);
+    if (rootOID.hasError()) {
+        emit error(QString("%1: %2").arg(oidStr, rootOID.errString()));
+        return result;
+    }
+    // read options
+
+
+
     // TODO NetSnmpSession::getTable()
-    return QList<QList<SnmpValue>>();
+    return result;
 }
 
 /*****************************************************************/
@@ -438,24 +449,95 @@ void NetSnmpSession::setProfile(const SnmpProfile &profile)
 
 /*****************************************************************/
 
-QList<SnmpColumn *> NetSnmpSession::readColumns(const QString &oidStr)
+QList<MibNode> NetSnmpSession::readColumns(const QString &oidStr)
 {
-    QList<SnmpColumn*> result;
-
     MibOid anOID = MibOid::parse(oidStr);
     if (anOID.hasError()) {
-        return result;
+        emit error(QString("%1: %2").arg(oidStr, anOID.errString()));
+        return QList<MibNode>();
     }
 
     MibNode mibNode = MibNode::findByOid(anOID);
-    if (mibNode.isValid()) { // get table entry
-        mibNode = mibNode.childList();
-    }
-    if (!mibNode.isValid()) { // no entry - not a table
+    return mibNode.tableColumns();
+}
+
+/*****************************************************************/
+
+QList<QList<SnmpValue> > NetSnmpSession::getTableEntries(const QList<MibNode> &columns, const QVariantMap &options)
+{
+    QList<QList<SDPO::SnmpValue>> result;
+
+    if (columns.isEmpty()) {
+        emit error("No columns - not a table");
         return result;
     }
 
-    // TODO NetSnmpSession::readColumns()
+    MibOid rootOid = columns.last().parent().mibOid();
+    oid      name[MAX_OID_LEN];
+    size_t   namelen = rootOid.length + 1;
+    for (size_t i=0; i<rootOid.length; ++i) {
+        name[i] = rootOid.numOid[i];
+    }
+
+    // Initialize a "session" that defines who we're going to talk to
+    if (!open()) {
+        emit error(errorStr());
+        return result;
+    }
+
+    bool running = true;
+    int entries = 0;
+    const int MaxEntries = 20;
+    // while (!end of table) {
+    while (running && (entries < MaxEntries)) {
+
+        // create pdu with column ids
+        snmp_pdu *pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
+        for (int i = 0; i < columns.size(); i++) {
+            name[rootOid.length] = columns.at(i).subID();
+            snmp_add_null_var(pdu, name, namelen);
+        }
+
+        snmp_pdu *pduResponse = nullptr;
+        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
+
+        if (status == SnmpRespStatSuccess) {
+            if (pduResponse->errstat == SNMP_ERR_NOERROR) {
+                netsnmp_variable_list *vars = pduResponse->variables;
+                if (!entries) {
+                    namelen++;
+                } else {
+                    if ((namelen != vars->name_length) || (name[namelen-1] >= vars->name[namelen-1])) {
+                        running = false;
+                    }
+                }
+                if (running) {
+                    name[namelen-1] = vars->name[namelen-1];
+                    entries++;
+                    QList<SDPO::SnmpValue> entry;
+                    for(; vars != nullptr; vars = vars->next_variable) {
+                        entry.append(SnmpValue::fromVar(vars));
+                    }
+                    result.append(entry);
+                }
+            } else if (pduResponse->errstat == SNMP_ERR_NOSUCHNAME) {
+                running = false; // end of table
+            } else {
+                emit error(snmp_errstring(static_cast<int>(pduResponse->errstat)));
+                running = false;
+            }
+        } else if (status == SnmpRespStatTimeout) {
+            emit error(QString("Timeout: No Response from %1.").arg(destHost()));
+            running = false;
+        } else { // status == SnmpRespStatError
+            emit error(errorStr());
+            running = false;
+        }
+
+        if (pduResponse) {
+          snmp_free_pdu(pduResponse);
+        }
+    }
 
     return result;
 }

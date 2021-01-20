@@ -117,6 +117,38 @@ bool MibNode::isTable() const
 
 /*****************************************************************/
 
+MibNode MibNode::tableEntry() const
+{
+    if (isValid()) {
+        return childList();
+    }
+    return MibNode();
+}
+
+/*****************************************************************/
+
+QList<MibNode> MibNode::tableColumns() const
+{
+    QList<MibNode> result;
+    MibNode node = tableEntry(); // get table entry
+    if (!node.isValid()) { // no entry - not a table
+        return result;
+    }
+    node = node.childList(); // get first field
+    if (!node.isValid()) { // no fields - not a table
+        return result;
+    }
+    do {
+        if (node.access() == MIB_ACCESS_NOACCESS) {
+            continue;
+        }
+        result.prepend(node);
+    } while ((node = node.nextPeer()));
+    return result;
+}
+
+/*****************************************************************/
+
 QString MibNode::moduleName() const
 {
     module *mp = find_module(node->modid);

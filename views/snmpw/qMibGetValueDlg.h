@@ -7,6 +7,7 @@
 
 #define CMD_SNMP_SYS_INFO  "cmdSysInfo"
 #define CMD_SNMP_GET_VALUE "cmdGetValue"
+#define CMD_SNMP_BULK_GET  "cmdBulkGet"
 #define CMD_SNMP_GET_ROW   "cmdGetRow"
 #define CMD_SNMP_GET_NEXT  "cmdGetNext"
 #define CMD_SNMP_SET_VALUE "cmdSetValue"
@@ -31,6 +32,7 @@ public:
 private slots:
     void cmdSysInfo();
     void cmdGetValue();
+    void cmdBulkGet();
     void cmdGetRow();
     void cmdGetNext();
     void cmdSetValue();

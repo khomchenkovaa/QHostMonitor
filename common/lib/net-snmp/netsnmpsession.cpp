@@ -408,6 +408,56 @@ QList<QList<SnmpValue> > NetSnmpSession::getTable(const QString &oidStr, const Q
 
 /*****************************************************************/
 
+QList<SnmpValue> NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepeaters, int maxRepetitions)
+{
+    QList<SnmpValue> result;
+
+    if (names.isEmpty()) {
+        emit error("Missing object names");
+        return result;
+    }
+
+    if (!open()) {
+        emit error(m_ErrorStr);
+        return result;
+    }
+
+    SnmpPdu pdu = SnmpPdu::create(SnmpPduGetBulk);
+    pdu.setNonRepeaters(nonRepeaters);
+    pdu.setMaxRepetitions(maxRepetitions);
+    foreach(const MibOid& name, names) {
+        pdu.addNullVar(name);
+    }
+
+    SnmpPdu response = this->synchResponse(pdu);
+
+    if (response.status == SnmpRespStatSuccess) {
+        if (response.errStat() == SNMP_ERR_NOERROR) {
+            for(SnmpVar var = response.variables(); var.isValid(); var = var.nextVariable()) {
+                result.append(SnmpValue::fromVar(var));
+            }
+        } else {
+            QString errString
+                    = QString("Error in packet\nReason: %1\n").arg(response.errorString());
+            SnmpVar errVar = response.failedObject();
+            if (errVar.isValid()) {
+                errString.append(QString("Failed object: %1\n").arg(errVar.mibOid().toString()));
+            }
+            emit error(errString);
+        }
+    } else if (response.status == SnmpRespStatTimeout) {
+        emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+    } else { // status == SnmpRespStatError
+        emit error(errorStr());
+    }
+
+    response.cleanup();
+
+    return result;
+}
+
+/*****************************************************************/
+
 QString NetSnmpSession::errorStr()
 {
     if (!m_SessPtr) {

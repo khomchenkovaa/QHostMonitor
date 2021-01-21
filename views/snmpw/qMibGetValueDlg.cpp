@@ -38,6 +38,8 @@ void QMibGetValueDlg::runCmd(const QString &cmd)
         cmdSysInfo();
     } else if (cmd == CMD_SNMP_GET_VALUE) {
         cmdGetValue();
+    } else if (cmd == CMD_SNMP_BULK_GET) {
+        cmdBulkGet();
     } else if (cmd == CMD_SNMP_GET_ROW) {
         cmdGetRow();
     } else if (cmd == CMD_SNMP_GET_NEXT) {
@@ -124,6 +126,41 @@ void QMibGetValueDlg::cmdGetValue()
     SnmpValue value = ss.get(oid);
     ui->textResult->appendPlainText(NetSNMP::translateObj(oid));
     ui->textResult->appendPlainText(value.toString());
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::cmdBulkGet()
+{
+    // get values
+    QString snmpProfile = ui->cmbProfile->currentText();
+    SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
+    int timeout = ui->spinTimeout->value(); // "2" / "1"
+    int retries = ui->spinRetries->value(); // "1" / "5"
+    QString host = ui->cmbHost->currentText(); // port = 161
+    QString oidStr = ui->cmbOid->currentText();
+
+    Q_UNUSED(timeout)
+
+    ss.setProfile(profile);
+    ss.setRetries(retries);
+    ss.setDestHost(host);
+
+    ui->textResult->appendPlainText(QString("SnmpGetBulk: %1").arg(NetSNMP::translateObj(oidStr)));
+
+    MibOid anOid = MibOid::parse(oidStr);
+    if (anOid.hasError()) {
+        ui->textResult->appendPlainText(QString("%1: %2").arg(oidStr, anOid.errString()));
+        return;
+    }
+
+    QList<MibOid> mibOids;
+    mibOids.append(anOid);
+
+    QList<SnmpValue> values = ss.bulkGet(mibOids);
+    foreach(const SnmpValue& value, values) {
+        ui->textResult->appendPlainText(value.toString());
+    }
 }
 
 /*****************************************************************/
@@ -228,6 +265,7 @@ void QMibGetValueDlg::setupUI()
     ui->cmbProfile->setCurrentIndex(SnmpProfile::defaultIdx());
     connect(ui->btnSysInfo, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSysInfo);
     connect(ui->btnGet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetValue);
+    connect(ui->btnBulkGet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdBulkGet);
     connect(ui->btnGetRow, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetRow);
     connect(ui->btnGetNext, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetNext);
     connect(ui->btnSet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSetValue);

@@ -182,6 +182,13 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="btnBulkGet">
+       <property name="text">
+        <string>Bulk Get</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="btnGetRow">
        <property name="text">
         <string>Get Row</string>

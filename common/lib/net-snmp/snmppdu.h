@@ -66,6 +66,14 @@ struct SnmpPdu {
         status = SnmpRespStatUnknown;
     }
 
+    void setNonRepeaters(int nonRepeaters) {
+        ptr->non_repeaters = nonRepeaters;
+    }
+
+    void setMaxRepetitions(int maxRepetitions) {
+        ptr->max_repetitions = maxRepetitions;
+    }
+
     SnmpVar addNullVar(const MibOid& mibOid) {
         return snmp_add_null_var(ptr, mibOid.numOid, mibOid.length);
     }

@@ -2,6 +2,7 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
+    $$PWD/mibnode.h \
     $$PWD/miboid.h \
     $$PWD/mibtreemodel.h \
     $$PWD/netsnmpsession.h \
@@ -13,6 +14,7 @@ HEADERS += \
     $$PWD/snmpvar.h
 
 SOURCES += \
+    $$PWD/mibnode.cpp \
     $$PWD/miboid.cpp \
     $$PWD/mibtreemodel.cpp \
     $$PWD/netsnmpsession.cpp \

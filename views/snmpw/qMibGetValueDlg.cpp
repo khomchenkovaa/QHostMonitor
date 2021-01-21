@@ -122,6 +122,7 @@ void QMibGetValueDlg::cmdGetValue()
     ss.setDestHost(host);
 
     SnmpValue value = ss.get(oid);
+    ui->textResult->appendPlainText(NetSNMP::translateObj(oid));
     ui->textResult->appendPlainText(value.toString());
 }
 

@@ -60,6 +60,8 @@ public:
     SnmpValue set(const QString& oidStr, const QVariant& oidValue);
     QList<QList<SnmpValue> > getTable(const QString& oidStr, const QVariantMap& options = QVariantMap());
     QList<SnmpValue> bulkGet(const QList<MibOid>& names, int nonRepeaters = 0, int maxRepetitions = 10);
+    QList<SnmpValue> bulkWalk(const MibOid& rootOid, int nonRepeaters = 0, int maxRepetitions = 10,
+                              bool checkLexicographic = false, bool includeRequested = true);
 
     QString errorStr();
     SnmpValue errorValue(const MibOid& anOid, const SnmpPdu& pdu);

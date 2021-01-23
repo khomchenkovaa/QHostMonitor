@@ -50,6 +50,8 @@ public:
     bool getWildNode(const QString& tag);
     bool readObjid(const QString& tag);
     bool concatOidStr(const QString& tag);
+    bool isPartOfSubtree(const MibOid& root) const;
+    int compare(const MibOid& right) const;
     QString toString() const;
     QString snprintObjId() const;
     QString errString() const;

@@ -458,6 +458,92 @@ QList<SnmpValue> NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepe
 
 /*****************************************************************/
 
+QList<SnmpValue> NetSnmpSession::bulkWalk(const MibOid &rootOid, int nonRepeaters, int maxRepetitions, bool checkLexicographic, bool includeRequested)
+{
+    QList<SnmpValue> result;
+
+    if (!open()) {
+        emit error(m_ErrorStr);
+        return result;
+    }
+
+    if (includeRequested) {
+        QList<MibOid> names;
+        names.append(rootOid);
+        result.append(this->get(names));
+    }
+
+    SnmpResponseStatus status = SnmpResponseStatus::SnmpRespStatUnknown;
+
+    MibOid runOid = rootOid;
+    bool running = true;
+    while(running) {
+        SnmpPdu pdu = SnmpPdu::create(SnmpPduGetBulk);
+        pdu.setNonRepeaters(nonRepeaters);
+        pdu.setMaxRepetitions(maxRepetitions);
+        pdu.addNullVar(runOid);
+
+        SnmpPdu response = this->synchResponse(pdu);
+        status = response.status;
+
+        if (status == SnmpRespStatSuccess) {
+            if (response.errStat() == SNMP_ERR_NOERROR) {
+                for(SnmpVar var = response.variables(); var.isValid(); var = var.nextVariable()) {
+                    MibOid curOid = var.mibOid();
+                    if (!curOid.isPartOfSubtree(rootOid)) {
+                        // not part of this subtree
+                        running = 0;
+                        continue;
+                    }
+                    result.append(SnmpValue::fromVar(var));
+
+                    if (!var.isExceptionValue()) {
+                        if (checkLexicographic && runOid.compare(curOid) >= 0) {
+                            QString errString("Error: OID not increasing: %1 >= %2");
+                            emit error (errString.arg(runOid.toString(), curOid.toString()));
+                            running = 0;
+                        }
+                        // Check if last variable, and if so, save for next request.
+                        if (!var.nextVariable().isValid()) {
+                            runOid = curOid;
+                        }
+                    } else {
+                        // an exception value, so stop
+                        running = 0;
+                    }
+                }
+            } else {
+                QString errString
+                        = QString("Error in packet\nReason: %1\n").arg(response.errorString());
+                SnmpVar errVar = response.failedObject();
+                if (errVar.isValid()) {
+                    errString.append(QString("Failed object: %1\n").arg(errVar.mibOid().toString()));
+                }
+                emit error(errString);
+            }
+        } else if (status == SnmpRespStatTimeout) {
+            emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+            running = false;
+        } else { // status == SnmpRespStatError
+            emit error(errorStr());
+            running = false;
+        }
+
+        response.cleanup();
+    }
+
+    if (result.isEmpty() && status == STAT_SUCCESS) {
+        // no printed successful results, which may mean we were pointed at an only existing instance.
+        // Attempt a GET, just for get measure.
+        QList<MibOid> names;
+        names.append(rootOid);
+        result.append(this->get(names));
+    }
+    return result;
+}
+
+/*****************************************************************/
+
 QString NetSnmpSession::errorStr()
 {
     if (!m_SessPtr) {

@@ -93,6 +93,26 @@ bool MibOid::concatOidStr(const QString &tag)
 
 /*****************************************************************/
 
+bool MibOid::isPartOfSubtree(const MibOid &root) const
+{
+    if (length < root.length) return false;
+    for(size_t i=0; i < root.length; ++i) {
+        if (numOid[i] != root.numOid[i]) return false;
+    }
+    return true;
+}
+
+/*****************************************************************/
+
+int MibOid::compare(const MibOid &right) const
+{
+    return snmp_oid_compare(numOid, length,
+                            right.numOid,
+                            right.length);
+}
+
+/*****************************************************************/
+
 QString MibOid::toString() const
 {
     if (hasError()) {

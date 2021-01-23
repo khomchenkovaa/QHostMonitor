@@ -27,7 +27,10 @@ enum SnmpDataType {
     SnmpDataCounter     = ASN_COUNTER,      /**< Counter type */
     SnmpDataCounter64   = ASN_COUNTER64,    /**< 64 bits Counter type */
     SnmpDataGauge       = ASN_GAUGE,        /**< Gauge type */
-    SnmpDataTimeTicks   = ASN_TIMETICKS     /**< Time Ticks type*/
+    SnmpDataTimeTicks   = ASN_TIMETICKS,    /**< Time Ticks type*/
+    SnmpNoSuchObject    = SNMP_NOSUCHOBJECT,
+    SnmpNoSuchInstance  = SNMP_NOSUCHINSTANCE,
+    SnmpEndOfMibView    = SNMP_ENDOFMIBVIEW
 };
 
 /*****************************************************************/
@@ -70,6 +73,13 @@ public:
 
     bool isValid() const {
         return (ptr != nullptr);
+    }
+
+    bool isExceptionValue() const {
+        SnmpDataType tp = type();
+        return (tp == SnmpNoSuchObject ||
+                tp == SnmpNoSuchInstance ||
+                tp == SnmpEndOfMibView);
     }
 
     SnmpVar nextVariable() {

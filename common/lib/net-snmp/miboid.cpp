@@ -104,11 +104,18 @@ bool MibOid::isPartOfSubtree(const MibOid &root) const
 
 /*****************************************************************/
 
-int MibOid::compare(const MibOid &right) const
+int MibOid::compare(const MibOid &rOid) const
 {
     return snmp_oid_compare(numOid, length,
-                            right.numOid,
-                            right.length);
+                            rOid.numOid,
+                            rOid.length);
+}
+
+/*****************************************************************/
+
+bool MibOid::equals(const MibOid &rOid) const
+{
+    return (compare(rOid) == 0);
 }
 
 /*****************************************************************/

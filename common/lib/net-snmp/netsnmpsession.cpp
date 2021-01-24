@@ -85,7 +85,9 @@ void NetSnmpSession::close()
     if (m_SessPtr) {
         snmp_close(m_SessPtr);
         SOCK_CLEANUP;
+        m_SessPtr = nullptr;
     }
+    m_AddrString.clear();
     m_Reopen = false;
 }
 
@@ -144,10 +146,10 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
     SnmpPdu pdu = SnmpPdu::create(SnmpPduGet, oids);
     SnmpPdu response;
 
-    bool retry = false;
+    bool running = true;
 
-    do {
-        retry = false;
+    while (running) {
+        running = false;
         response = this->synchResponse(pdu);
 
         if (response.status == SnmpRespStatSuccess) {
@@ -167,10 +169,9 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
                 if (m_FixPdu) {
                     pdu = response.fix(SnmpPduGet);
                     response.cleanup();
-                    retry = pdu.isValid();
+                    running = pdu.isValid();
                 }
             }
-
 
         } else if (response.status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
@@ -178,7 +179,11 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
             emit error(errorStr());
         }
 
-    } while (retry);
+    }
+
+    // fix session address
+    SnmpTransport transport = snmp_sess_transport(snmp_sess_pointer(m_SessPtr));
+    m_AddrString = transport.addrString(pdu);
 
     response.cleanup();
 
@@ -212,13 +217,18 @@ QList<SnmpValue> NetSnmpSession::get(const QVariantMap &map)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::getNext(const QString &oidStr, int cnt)
+QList<SnmpValue> NetSnmpSession::getNext(const QList<MibOid> &oids)
 {
     QList<SnmpValue> result;
 
-    MibOid anOid = MibOid::parse(oidStr);
-    if (anOid.hasError()) {
-        emit error(QString("%1: %2").arg(oidStr, anOid.errString()));
+    if (oids.isEmpty()) {
+        emit error("Missing object names");
+        return result;
+    }
+
+    if (oids.size() > SNMP_MAX_CMDLINE_OIDS) {
+        emit error(QString("Too many object identifiers specified.\n"
+             "Only %1 allowed in one request.").arg(SNMP_MAX_CMDLINE_OIDS));
         return result;
     }
 
@@ -227,34 +237,45 @@ QList<SnmpValue> NetSnmpSession::getNext(const QString &oidStr, int cnt)
         return result;
     }
 
+    SnmpPdu pdu = SnmpPdu::create(SnmpPduGetNext, oids);
+    SnmpPdu response;
 
-    for(int i=0;i<cnt;i++) {
+    bool running = true;
 
-        SnmpPdu pdu = SnmpPdu::create(SnmpPduGetNext, anOid);
-        SnmpPdu response = this->synchResponse(pdu);
+    while (running) {
+        running = false;
+        response = this->synchResponse(pdu);
 
         if (response.status == SnmpRespStatSuccess) {
             if (response.errStat() == SNMP_ERR_NOERROR) {
                 for(SnmpVar var = response.variables(); var.isValid(); var = var.nextVariable()) {
-                    anOid = var.mibOid();
-                    SnmpValue snmpValue = SnmpValue::fromVar(var);
-                    result.append(snmpValue);
+                    result.append(SnmpValue::fromVar(var));
                 }
             } else {
-                emit error(QString("Error in packet\nReason: %1").arg(
-                                    response.errorString()));
-                break;
+                QString errString
+                        = QString("Error in packet\nReason: %1\n").arg(response.errorString());
+                SnmpVar errVar = response.failedObject();
+                if (errVar.isValid()) {
+                    errString.append(QString("Failed object: %1\n").arg(errVar.mibOid().toString()));
+                }
+                emit error(errString);
+
+                if (m_FixPdu) {
+                    pdu = response.fix(SnmpPduGetNext);
+                    response.cleanup();
+                    running = pdu.isValid();
+                }
             }
+
         } else if (response.status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
-            break;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
-            break;
         }
 
-        response.cleanup();
     }
+
+    response.cleanup();
 
     return result;
 }

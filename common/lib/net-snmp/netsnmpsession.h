@@ -37,6 +37,7 @@ class NetSnmpSession : public QObject
     Q_OBJECT
 
     netsnmp_session *m_SessPtr; /**< Net-SNMP session with agent */
+    QString m_AddrString;
 
 public:
     explicit NetSnmpSession(QObject *parent = nullptr);
@@ -55,7 +56,7 @@ public:
     QList<SnmpValue> get(const QList<MibOid>& oids);
     QList<SnmpValue> get(const QStringList& oids);
     QList<SnmpValue> get(const QVariantMap& map);
-    QList<SnmpValue> getNext(const QString& oidStr, int cnt = 1);
+    QList<SnmpValue> getNext(const QList<MibOid>& oids);
     QList<SnmpValue> getRow(const QString& oidStr);
     SnmpValue set(const QString& oidStr, const QVariant& oidValue);
     QList<QList<SnmpValue> > getTable(const QString& oidStr, const QVariantMap& options = QVariantMap());
@@ -63,6 +64,9 @@ public:
     QList<SnmpValue> bulkWalk(const MibOid& rootOid, int nonRepeaters = 0, int maxRepetitions = 10,
                               bool checkLexicographic = false, bool includeRequested = true);
 
+    QString addrString() const {
+        return m_AddrString;
+    }
     QString errorStr();
     SnmpValue errorValue(const MibOid& anOid, const SnmpPdu& pdu);
     void setProfile(const SnmpProfile& profile);

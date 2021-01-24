@@ -182,20 +182,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="btnBulkGet">
-       <property name="text">
-        <string>Bulk Get</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnBulkWalk">
-       <property name="text">
-        <string>Bulk Walk</string>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="btnGetRow">
        <property name="text">
         <string>Get Row</string>
@@ -210,12 +196,42 @@
       </widget>
      </item>
      <item>
-      <widget class="QSpinBox" name="spinGetNext">
+      <spacer name="verticalSpacer_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBulkGet">
+       <property name="text">
+        <string>Bulk Get</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnBulkWalk">
+       <property name="text">
+        <string>Bulk Walk</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spinMaxRepetitions">
        <property name="minimum">
         <number>1</number>
        </property>
        <property name="maximum">
         <number>50</number>
+       </property>
+       <property name="value">
+        <number>10</number>
        </property>
       </widget>
      </item>

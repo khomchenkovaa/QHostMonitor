@@ -3,6 +3,7 @@
 
 #include "mibnode.h"
 #include "snmpvar.h"
+#include "snmppdu.h"
 
 #define SNMP_INIT_DEFAULT_NAME "SDPO"
 
@@ -36,6 +37,25 @@ enum OidOptionFlag {
 };
 Q_DECLARE_FLAGS(OidOptions, OidOptionFlag)
 Q_DECLARE_OPERATORS_FOR_FLAGS(OidOptions)
+
+/*****************************************************************/
+
+class SnmpTransport {
+    netsnmp_transport *ptr = nullptr;
+
+public:
+    SnmpTransport(void *pointer = nullptr) {
+        this->ptr = static_cast<netsnmp_transport*>(pointer);
+    }
+
+    QString addrString(const SnmpPdu& pdu) const {
+        if (ptr != nullptr &&ptr->f_fmtaddr != nullptr) {
+            return ptr->f_fmtaddr(ptr, pdu.ptr->transport_data,
+                                       pdu.ptr->transport_data_length);
+        }
+        return "<UNKNOWN>";
+    }
+};
 
 /*****************************************************************/
 

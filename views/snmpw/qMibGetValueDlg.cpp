@@ -55,15 +55,19 @@ void QMibGetValueDlg::runCmd(const QString &cmd)
 
 void QMibGetValueDlg::cmdSysInfo()
 {
-    QString objid_SysDescr        = ".1.3.6.1.2.1.1.1.0";
-    QString objid_SysUpTime       = ".1.3.6.1.2.1.1.3.0";
-    QString objid_ifOperStatus    = ".1.3.6.1.2.1.2.2.1.8";
-    QString objid_ifInUCastPkts   = ".1.3.6.1.2.1.2.2.1.11";
-    QString objid_ifInNUCastPkts  = ".1.3.6.1.2.1.2.2.1.12";
-    QString objid_ifOutUCastPkts  = ".1.3.6.1.2.1.2.2.1.17";
-    QString objid_ifOutNUCastPkts = ".1.3.6.1.2.1.2.2.1.18";
-    QString objid_ipInReceives    = ".1.3.6.1.2.1.4.3.0";
-    QString objid_ipOutRequests   = ".1.3.6.1.2.1.4.10.0";
+    QString sysDescr;
+    QString upTimeStr;
+    int     ipin = 0, ipout = 0, ipackets = 0, opackets = 0;
+
+    MibOid objid_SysDescr        = MibOid::parse(".1.3.6.1.2.1.1.1.0");
+    MibOid objid_SysUpTime       = MibOid::parse(".1.3.6.1.2.1.1.3.0");
+    MibOid objid_ifOperStatus    = MibOid::parse(".1.3.6.1.2.1.2.2.1.8");
+    MibOid objid_ifInUCastPkts   = MibOid::parse(".1.3.6.1.2.1.2.2.1.11");
+    MibOid objid_ifInNUCastPkts  = MibOid::parse(".1.3.6.1.2.1.2.2.1.12");
+    MibOid objid_ifOutUCastPkts  = MibOid::parse(".1.3.6.1.2.1.2.2.1.17");
+    MibOid objid_ifOutNUCastPkts = MibOid::parse(".1.3.6.1.2.1.2.2.1.18");
+    MibOid objid_ipInReceives    = MibOid::parse(".1.3.6.1.2.1.4.3.0");
+    MibOid objid_ipOutRequests   = MibOid::parse(".1.3.6.1.2.1.4.10.0");
 
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
@@ -78,16 +82,33 @@ void QMibGetValueDlg::cmdSysInfo()
     ss.setRetries(retries);
     ss.setDestHost(host);
 
-    ui->textResult->appendPlainText("\n" + host);
-    // System: get .1.3.6.1.2.1.1.1.0 (SNMPv2-MIB::sysDescr)
-    SnmpValue value = ss.get(objid_SysDescr);
-    ui->textResult->appendPlainText("System:\t" + value.val);
-    // Uptime: get .1.3.6.1.2.1.1.3.0 (DISMAN-EVENT-MIB::sysUpTimeInstance)
-    value = ss.get(objid_SysUpTime);
-    ui->textResult->appendPlainText("Uptime:\t" + value.val); // to hh:mm:ss
-    // Interfaces: get .1.3.6.1.2.1.2.1.0 (IF-MIB::ifNumber)
-    value = ss.get(".1.3.6.1.2.1.2.1.0");
-    ui->textResult->appendPlainText(value.val + " interfaces");
+    QList<MibOid> oids;
+    oids.append(objid_SysDescr);      // System: get .1.3.6.1.2.1.1.1.0 (SNMPv2-MIB::sysDescr)
+    oids.append(objid_SysUpTime);     // Uptime: get .1.3.6.1.2.1.1.3.0 (DISMAN-EVENT-MIB::sysUpTimeInstance)
+    oids.append(objid_ipInReceives);
+    oids.append(objid_ipOutRequests);
+
+    SnmpValueList valueList = ss.get(oids);
+    foreach(const SnmpValue& value, valueList) {
+        if (objid_SysDescr.equals(value.name)) {
+            sysDescr = value.val;
+        }
+        if (objid_SysUpTime.equals(value.name)) {
+            u_long uptime = value.val.toULong();
+            char buf[40];
+            upTimeStr = uptime_string(uptime, buf);
+        }
+        if (objid_ipInReceives.equals(value.name)) {
+            ipin = value.val.toInt();
+        }
+        if (objid_ipOutRequests.equals(value.name)) {
+            ipout = value.val.toInt();
+        }
+    }
+
+    ui->textResult->appendPlainText(QString("[%1]=>[%2] Up: %3").arg(ss.addrString(), sysDescr, upTimeStr));
+    ui->textResult->appendPlainText(QString("In receives: %1").arg(ipin));
+    ui->textResult->appendPlainText(QString("Out requests: %1").arg(ipout));
 
     // Int row: getRow .1.3.6.1.2.1.2.2.1.1 (IF-MIB::ifIndex)
     QList<SDPO::SnmpValue> rowVals = ss.getRow(".1.3.6.1.2.1.2.2.1.1");
@@ -141,6 +162,7 @@ void QMibGetValueDlg::cmdBulkGet()
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
+    int maxRepetitions = ui->spinMaxRepetitions->value();
 
     Q_UNUSED(timeout)
 
@@ -159,7 +181,7 @@ void QMibGetValueDlg::cmdBulkGet()
     QList<MibOid> mibOids;
     mibOids.append(anOid);
 
-    QList<SnmpValue> values = ss.bulkGet(mibOids);
+    QList<SnmpValue> values = ss.bulkGet(mibOids, 0, maxRepetitions);
     foreach(const SnmpValue& value, values) {
         ui->textResult->appendPlainText(value.toString());
     }
@@ -176,6 +198,7 @@ void QMibGetValueDlg::cmdBulkWalk()
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
+    int maxRepetitions = ui->spinMaxRepetitions->value();
 
     Q_UNUSED(timeout)
 
@@ -191,7 +214,7 @@ void QMibGetValueDlg::cmdBulkWalk()
         return;
     }
 
-    QList<SnmpValue> values = ss.bulkWalk(anOid);
+    QList<SnmpValue> values = ss.bulkWalk(anOid, 0, maxRepetitions);
     foreach(const SnmpValue& value, values) {
         ui->textResult->appendPlainText(value.toString());
     }
@@ -232,8 +255,7 @@ void QMibGetValueDlg::cmdGetNext()
     int timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
-    QString oid = ui->cmbOid->currentText();
-    int cnt = ui->spinGetNext->value();
+    QString oidStr = ui->cmbOid->currentText();
 
     Q_UNUSED(timeout)
 
@@ -241,7 +263,18 @@ void QMibGetValueDlg::cmdGetNext()
     ss.setRetries(retries);
     ss.setDestHost(host);
 
-    QList<SDPO::SnmpValue> values = ss.getNext(oid, cnt);
+    ui->textResult->appendPlainText(QString("SnmpGetNext: %1").arg(NetSNMP::translateObj(oidStr)));
+
+    MibOid anOid = MibOid::parse(oidStr);
+    if (anOid.hasError()) {
+        ui->textResult->appendPlainText(QString("%1: %2").arg(oidStr, anOid.errString()));
+        return;
+    }
+
+    QList<MibOid> mibOids;
+    mibOids.append(anOid);
+
+    QList<SDPO::SnmpValue> values = ss.getNext(mibOids);
     foreach (const SnmpValue& val, values) {
         ui->textResult->appendPlainText(val.toString());
         ui->cmbOid->setCurrentText(val.nameAsStr());

@@ -175,6 +175,7 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
 
         } else if (response.status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+            m_Reopen = true;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
         }
@@ -269,6 +270,7 @@ QList<SnmpValue> NetSnmpSession::getNext(const QList<MibOid> &oids)
 
         } else if (response.status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+            m_Reopen = true;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
         }
@@ -337,6 +339,7 @@ QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
         } else if (response.status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
             curRow = false; // break;
+            m_Reopen = true;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
             curRow = false; // break;
@@ -399,6 +402,7 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
         }
     } else if (response.status == SnmpRespStatTimeout) {
         emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+        m_Reopen = true;
     } else { // status == SnmpRespStatError
         emit error(errorStr());
     }
@@ -468,6 +472,7 @@ QList<SnmpValue> NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepe
         }
     } else if (response.status == SnmpRespStatTimeout) {
         emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
+        m_Reopen = true;
     } else { // status == SnmpRespStatError
         emit error(errorStr());
     }
@@ -545,6 +550,7 @@ QList<SnmpValue> NetSnmpSession::bulkWalk(const MibOid &rootOid, int nonRepeater
         } else if (status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(m_DestHost));
             running = false;
+            m_Reopen = true;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
             running = false;
@@ -686,6 +692,7 @@ QList<QList<SnmpValue> > NetSnmpSession::getTableEntries(const QList<MibNode> &c
         } else if (status == SnmpRespStatTimeout) {
             emit error(QString("Timeout: No Response from %1.").arg(destHost()));
             running = false;
+            m_Reopen = true;
         } else { // status == SnmpRespStatError
             emit error(errorStr());
             running = false;

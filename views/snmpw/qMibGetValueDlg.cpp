@@ -110,21 +110,65 @@ void QMibGetValueDlg::cmdSysInfo()
     ui->textResult->appendPlainText(QString("In receives: %1").arg(ipin));
     ui->textResult->appendPlainText(QString("Out requests: %1").arg(ipout));
 
-    // Int row: getRow .1.3.6.1.2.1.2.2.1.1 (IF-MIB::ifIndex)
-    QList<SDPO::SnmpValue> rowVals = ss.getRow(".1.3.6.1.2.1.2.2.1.1");
-    // Int name: getRow .1.3.6.1.2.1.2.2.1.2 (IF-MIB::ifDescr)
-    QList<SDPO::SnmpValue> descrVals = ss.getRow(".1.3.6.1.2.1.2.2.1.2");
-    // IN: getRow .1.3.6.1.2.1.2.2.1.10 (IF-MIB::ifInOctets)
-    QList<SDPO::SnmpValue> inVals = ss.getRow(".1.3.6.1.2.1.2.2.1.10");
-    // OUT: getRow .1.3.6.1.2.1.2.2.1.16 (IF-MIB::ifOutOctets)
-    QList<SDPO::SnmpValue> outVals = ss.getRow(".1.3.6.1.2.1.2.2.1.16");
-    for (int i=0; i<rowVals.size(); ++i) {
-        QString rowVal   = i < rowVals.size() ? rowVals.at(i).val : QString();
-        QString descrVal = i < descrVals.size() ? descrVals.at(i).val : QString();
-        QString inVal    = i < inVals.size() ? inVals.at(i).val : QString(); // TODO convert to Kb
-        QString outVal   = i < outVals.size() ? outVals.at(i).val : QString(); // TODO convert to Kb
-        QString text = QString("%1\t%2\t%3 in %4 out").arg(rowVal, descrVal, inVal, outVal);
-        ui->textResult->appendPlainText(text);
+    oids.clear();
+    oids.append(objid_ifOperStatus);
+    oids.append(objid_ifInUCastPkts);
+    oids.append(objid_ifInNUCastPkts);
+    oids.append(objid_ifOutUCastPkts);
+    oids.append(objid_ifOutNUCastPkts);
+
+    SnmpValueTable interfaces;
+    while(oids.size() == 5) {
+        SnmpValueList row = ss.getNext(oids);
+        oids.clear();
+        if (row.at(0).name.isPartOfSubtree(objid_ifOperStatus)) {
+            oids.append(row.at(0).name);
+        }
+        if (row.at(1).name.isPartOfSubtree(objid_ifInUCastPkts)) {
+            oids.append(row.at(1).name);
+        }
+        if (row.at(2).name.isPartOfSubtree(objid_ifInNUCastPkts)) {
+            oids.append(row.at(2).name);
+        }
+        if (row.at(3).name.isPartOfSubtree(objid_ifOutUCastPkts)) {
+            oids.append(row.at(3).name);
+        }
+        if (row.at(4).name.isPartOfSubtree(objid_ifOutNUCastPkts)) {
+            oids.append(row.at(4).name);
+        }
+        if (oids.size() == 5) {
+            interfaces.append(row);
+        }
+    }
+
+    QStringList ifStatus = QStringList() << "Unknown" << "Up" << "Down" << "Testing";
+
+    int downInterfaces = 0;
+    foreach(const SnmpValueList& row, interfaces) {
+        int ifOperStatus = row.at(0).val.toInt();
+        if (ifOperStatus != MIB_IFSTATUS_UP) downInterfaces++;
+        int ifInUCastPkts = row.at(1).val.toInt();
+        ipackets += ifInUCastPkts;
+        int ifInNUCastPkts = row.at(2).val.toInt();
+        ipackets += ifInNUCastPkts;
+        int ifOutUCastPkts = row.at(3).val.toInt();
+        opackets += ifOutUCastPkts;
+        int ifOutNUCastPkts = row.at(4).val.toInt();
+        opackets += ifOutNUCastPkts;
+        QString rowStr = QString("%1 %2 %3 %4 %5").arg(ifStatus.at(ifOperStatus),
+                                                       QString::number(ifInUCastPkts),
+                                                       QString::number(ifInNUCastPkts),
+                                                       QString::number(ifOutUCastPkts),
+                                                       QString::number(ifOutNUCastPkts));
+        ui->textResult->appendPlainText(rowStr);
+    }
+    QString ifSummary = QString("Interfaces: %1, Recv/Trans packets: %2/%3 | IP: %4/%5")
+            .arg(QString::number(interfaces.size()), QString::number(ipackets), QString::number(opackets), QString::number(ipin), QString::number(ipout));
+    ui->textResult->appendPlainText(ifSummary);
+    if (downInterfaces > 0) {
+        QString idDown = QString("%1 interface%2 down!\n")
+                .arg(QString::number(downInterfaces), downInterfaces > 1 ? "s are" : " is");
+        ui->textResult->appendPlainText(idDown);
     }
 }
 

@@ -2,6 +2,8 @@
 
 #include "snmp.h"
 
+#include <QRegularExpression>
+
 using namespace SDPO;
 
 /*****************************************************************/
@@ -343,10 +345,9 @@ QString MibNode::varbinds() const
 
 QString MibNode::description() const
 {
-    return node->description;
-//    QString description(node->description);
-//    QRegExp sp("\\s+");
-//    return description.replace(sp," ");
+    QString description(node->description);
+    QRegularExpression re("^\\s+", QRegularExpression::MultilineOption);
+    return description.remove(re);
 }
 
 /*****************************************************************/

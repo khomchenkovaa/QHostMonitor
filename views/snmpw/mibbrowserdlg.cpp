@@ -93,7 +93,7 @@ void MibBrowserDlg::setupUI()
     mibBrowserWidget->setSizePolicy(sizePolicy);
 
     QDialogButtonBox *btnBox = new QDialogButtonBox(this);
-    btnBox->setOrientation(Qt::Vertical);
+    btnBox->setOrientation(Qt::Horizontal);
     btnBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
     QToolButton *btnGetValue = new QToolButton(this);
@@ -113,24 +113,20 @@ void MibBrowserDlg::setupUI()
     btnFindOid->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     btnFindOid->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
 
-    QVBoxLayout *verticalLayout = new QVBoxLayout();
-    verticalLayout->addWidget(btnBox);
-    verticalLayout->addItem(new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding));
-    verticalLayout->addWidget(btnGetValue);
-    verticalLayout->addWidget(btnGetTable);
-    verticalLayout->addWidget(btnFindName);
-    verticalLayout->addWidget(btnFindOid);
+    QHBoxLayout *horizontalLayout = new QHBoxLayout();
+    horizontalLayout->addWidget(btnGetValue);
+    horizontalLayout->addWidget(btnGetTable);
+    horizontalLayout->addWidget(btnFindName);
+    horizontalLayout->addWidget(btnFindOid);
+    horizontalLayout->addItem(new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));
+    horizontalLayout->addWidget(btnBox);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(mibBrowserWidget);
-    mainLayout->addLayout(verticalLayout);
+    mainLayout->addLayout(horizontalLayout);
 
     connect(btnBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
     connect(btnBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-//    connect(btnGetValue, &QPushButton::clicked, this, &MibBrowserDlg::openGetValueDlg);
-//    connect(btnGetTable, &QPushButton::clicked, this, &MibBrowserDlg::openGetTableDlg);
-//    connect(btnFindName, &QPushButton::clicked, this, &MibBrowserDlg::openFindNameDlg);
-//    connect(btnFindOid, &QPushButton::clicked, this, &MibBrowserDlg::openFindOidDlg);
 }
 
 /******************************************************************/

@@ -50,6 +50,7 @@ private:
     void setupUI();
     void setupActions();
     void init();
+    void disableEmpty();
 
 private:
     MibTreeModel      *m_Model;

@@ -87,6 +87,8 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
     txtDescription->setPlainText(item.description());
     editReference->setText(item.reference());
     editDefault->setText(item.defaultValue());
+
+    disableEmpty();
 }
 
 /******************************************************************/
@@ -205,8 +207,6 @@ void MibBrowserWidget::setupUI()
     splitter->setOrientation(Qt::Horizontal);
     splitter->addWidget(treeMibs);
     splitter->addWidget(formWidget);
-//    splitter->setStretchFactor(0, 1);
-//    splitter->setStretchFactor(1, 3);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(splitter);
@@ -261,16 +261,36 @@ void MibBrowserWidget::setupActions()
 
 void MibBrowserWidget::init()
 {
-//    MibTree *root = NetSNMP::instance()->allMibs();
     m_Proxy->setSourceModel(m_Model);
     m_Model->setRoot(MibNode::getRoot());
     treeMibs->setModel(m_Proxy);
+
     QObject::connect(treeMibs, &QTreeView::clicked,
                      this, &MibBrowserWidget::updateFields);
     QObject::connect(treeMibs, &QTreeView::clicked,
                      this, &MibBrowserWidget::updateActions);
     QObject::connect(treeMibs, &QTreeView::customContextMenuRequested,
                      this, &MibBrowserWidget::contextMenu);
+
+    disableEmpty();
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::disableEmpty()
+{
+    editType->setDisabled(editType->text().isEmpty());
+    editAccess->setDisabled(editAccess->text().isEmpty());
+    editStatus->setDisabled(editStatus->text().isEmpty());
+    editEnums->setDisabled(editEnums->text().isEmpty());
+    editIndexes->setDisabled(editIndexes->text().isEmpty());
+    editAugments->setDisabled(editAugments->text().isEmpty());
+    editVarbinds->setDisabled(editVarbinds->text().isEmpty());
+    editHint->setDisabled(editHint->text().isEmpty());
+    editUnits->setDisabled(editUnits->text().isEmpty());
+    txtDescription->setDisabled(txtDescription->toPlainText().isEmpty());
+    editReference->setDisabled(editReference->text().isEmpty());
+    editDefault->setDisabled(editDefault->text().isEmpty());
 }
 
 /******************************************************************/

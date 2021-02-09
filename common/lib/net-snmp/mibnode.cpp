@@ -177,45 +177,6 @@ MibOid MibNode::mibOid() const
 
 /*****************************************************************/
 
-QString MibNode::syntax() const
-{
-    QString syntax = typeName();
-    if (node->ranges) {
-        range_list *rp = node->ranges;
-        QStringList ranges;
-        while(rp) {
-            switch (node->type) {
-            case MibTypeInteger:
-            case MibTypeInteger32:
-                ranges.append( rp->low == rp->high ? QString::number(rp->low) :
-                                                  QString("%1..%2").arg(rp->low).arg(rp->high) );
-                break;
-            case MibTypeUnsigned32:
-            case MibTypeOctetStr:
-            case MibTypeGauge:
-            case MibTypeUInteger:
-                ranges.append( rp->low == rp->high ? QString::number(static_cast<unsigned>(rp->low)) :
-                                                  QString("%1..%2").arg(static_cast<unsigned>(rp->low)).arg(static_cast<unsigned>(rp->high)) );
-                break;
-            }
-            rp = rp->next;
-        }
-        syntax.append( QString(" (%1)").arg(ranges.join(" | ")) );
-    }
-    if (node->enums) {
-        enum_list *ep = node->enums;
-        QStringList enums;
-        while (ep) {
-            enums.append( QString("%1(%2)").arg(ep->label).arg(ep->value) );
-            ep = ep->next;
-        }
-        syntax.append( QString(" {%1}").arg(enums.join(", ")) );
-    }
-    return syntax;
-}
-
-/*****************************************************************/
-
 char MibNode::typeChar() const
 {
     switch(node->type) {
@@ -234,7 +195,7 @@ char MibNode::typeChar() const
     }
     return '=';
 
-/*
+    /*
     case '3':
     case 'x':
     case 'd':
@@ -282,16 +243,32 @@ QString MibNode::typeName() const
 
 /*****************************************************************/
 
-QString MibNode::statusName() const
+QString MibNode::syntax() const
 {
-    switch (node->status) {
-    case MibStatusMandatory  : return "mandatory";
-    case MibStatusOptional   : return "optional";
-    case MibStatusObsolete   : return "obsolete";
-    case MibStatusDeprecated : return "deprecated";
-    case MibStatusCurrent    : return "current";
+    QString syntax = typeName();
+    if (node->ranges) {
+        range_list *rp = node->ranges;
+        QStringList ranges;
+        while(rp) {
+            switch (node->type) {
+            case MibTypeInteger:
+            case MibTypeInteger32:
+                ranges.append( rp->low == rp->high ? QString::number(rp->low) :
+                                                  QString("%1..%2").arg(rp->low).arg(rp->high) );
+                break;
+            case MibTypeUnsigned32:
+            case MibTypeOctetStr:
+            case MibTypeGauge:
+            case MibTypeUInteger:
+                ranges.append( rp->low == rp->high ? QString::number(static_cast<unsigned>(rp->low)) :
+                                                  QString("%1..%2").arg(static_cast<unsigned>(rp->low)).arg(static_cast<unsigned>(rp->high)) );
+                break;
+            }
+            rp = rp->next;
+        }
+        syntax.append( QString(" (%1)").arg(ranges.join(" | ")) );
     }
-    return QString();
+    return syntax;
 }
 
 /*****************************************************************/
@@ -311,11 +288,65 @@ QString MibNode::accessName() const
 
 /*****************************************************************/
 
+QString MibNode::statusName() const
+{
+    switch (node->status) {
+    case MibStatusMandatory  : return "mandatory";
+    case MibStatusOptional   : return "optional";
+    case MibStatusObsolete   : return "obsolete";
+    case MibStatusDeprecated : return "deprecated";
+    case MibStatusCurrent    : return "current";
+    }
+    return QString();
+}
+
+/*****************************************************************/
+
+QString MibNode::enums() const
+{
+    QStringList result;
+    enum_list *idx = node->enums;
+    while (idx) {
+        result.append( QString("%1 (%2)").arg(idx->label).arg(idx->value) );
+        idx = idx->next;
+    }
+    return result.join(", ");
+}
+
+/*****************************************************************/
+
+QString MibNode::indexes() const
+{
+    QStringList result;
+    index_list *idx = node->indexes;
+    while(idx) {
+        result.append(idx->ilabel);
+        idx = idx->next;
+    }
+    return result.join(", ");
+}
+
+/*****************************************************************/
+
+QString MibNode::varbinds() const
+{
+    QStringList result;
+    varbind_list *idx = node->varbinds;
+    while(idx) {
+        result.append(idx->vblabel);
+        idx = idx->next;
+    }
+    return result.join(", ");
+}
+
+/*****************************************************************/
+
 QString MibNode::description() const
 {
-    QString description(node->description);
-    QRegExp sp("\\s+");
-    return description.replace(sp," ");
+    return node->description;
+//    QString description(node->description);
+//    QRegExp sp("\\s+");
+//    return description.replace(sp," ");
 }
 
 /*****************************************************************/

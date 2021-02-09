@@ -57,6 +57,7 @@ QString SnmpValue::dataTypeName() const
     case SnmpDataCounter     : return "Counter";
     case SnmpDataCounter64   : return "Counter64";
     case SnmpDataTimeTicks   : return "TimeTicks";
+    default: break;
     }
     return QString();
 }

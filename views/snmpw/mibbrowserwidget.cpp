@@ -16,10 +16,18 @@ MibBrowserWidget::MibBrowserWidget(QWidget *parent) :
     treeMibs      (new QTreeView(this)),
     editMib       (new QLineEdit(this)),
     editOid       (new QLineEdit(this)),
-    editSyntax    (new QLineEdit(this)),
+    editType      (new QLineEdit(this)),
     editAccess    (new QLineEdit(this)),
     editStatus    (new QLineEdit(this)),
-    txtDescription(new QPlainTextEdit(this))
+    editEnums     (new QLineEdit(this)),
+    editIndexes   (new QLineEdit(this)),
+    editAugments  (new QLineEdit(this)),
+    editVarbinds  (new QLineEdit(this)),
+    editHint      (new QLineEdit(this)),
+    editUnits     (new QLineEdit(this)),
+    txtDescription(new QPlainTextEdit(this)),
+    editReference (new QLineEdit(this)),
+    editDefault   (new QLineEdit(this))
 {
     setupUI();
     init();
@@ -67,10 +75,18 @@ void MibBrowserWidget::updateFields(const QModelIndex &proxyIndex)
 
     editMib->setText(item.name());
     editOid->setText(item.objectID());
-    editSyntax->setText(item.syntax());
+    editType->setText(item.syntax());
     editAccess->setText(item.accessName());
     editStatus->setText(item.statusName());
+    editEnums->setText(item.enums());
+    editIndexes->setText(item.indexes());
+    editAugments->setText(item.augments());
+    editVarbinds->setText(item.varbinds());
+    editHint->setText(item.hint());
+    editUnits->setText(item.units());
     txtDescription->setPlainText(item.description());
+    editReference->setText(item.reference());
+    editDefault->setText(item.defaultValue());
 }
 
 /******************************************************************/
@@ -154,47 +170,46 @@ void MibBrowserWidget::setupUI()
     treeMibs->setHeaderHidden(true);
     treeMibs->setSortingEnabled(true);
     treeMibs->sortByColumn(0, Qt::AscendingOrder);
+    treeMibs->setAlternatingRowColors(true);
     treeMibs->setContextMenuPolicy(Qt::CustomContextMenu);
+
     setupActions();
 
-    editSyntax->setReadOnly(true);
+    editType->setReadOnly(true);
     editAccess->setReadOnly(true);
     editStatus->setReadOnly(true);
     txtDescription->setReadOnly(true);
 
-    QLabel *lblMIB    = new QLabel(tr("MIB"), this);
-    QLabel *lblOID    = new QLabel(tr("OID"), this);
-    QLabel *lblSyntax = new QLabel(tr("SINTAX"), this);
-    QLabel *lblAccess = new QLabel(tr("ACCESS"), this);
-    QLabel *lblStatus = new QLabel(tr("STATUS"), this);
+    QFormLayout *formLayout = new QFormLayout();
+    formLayout->setHorizontalSpacing(10);
+    formLayout->addRow(tr("MIB"), editMib);
+    formLayout->addRow(tr("OID"), editOid);
+    formLayout->addRow(tr("TYPE"), editType);
+    formLayout->addRow(tr("ACCESS"), editAccess);
+    formLayout->addRow(tr("STATUS"), editStatus);
+    formLayout->addRow(tr("ENUMS"), editEnums);
+    formLayout->addRow(tr("INDEXES"), editIndexes);
+    formLayout->addRow(tr("AUGMENTS"), editAugments);
+    formLayout->addRow(tr("VARBINDS"), editVarbinds);
+    formLayout->addRow(tr("HINT"), editHint);
+    formLayout->addRow(tr("UNITS"), editUnits);
+    formLayout->addRow(txtDescription);
+    formLayout->addRow(tr("REFERENCE"), editReference);
+    formLayout->addRow(tr("DEFAULT VALUE"), editDefault);
 
-    QGridLayout *gridLayout = new QGridLayout();
-    gridLayout->setHorizontalSpacing(10);
-    gridLayout->addWidget(lblMIB, 0, 0, 1, 1);
-    gridLayout->addWidget(lblOID, 1, 0, 1, 1);
-    gridLayout->addWidget(lblSyntax, 2, 0, 1, 1);
-    gridLayout->addWidget(lblAccess, 3, 0, 1, 1);
-    gridLayout->addWidget(lblStatus, 4, 0, 1, 1);
-    gridLayout->addWidget(editMib, 0, 1, 1, 3);
-    gridLayout->addWidget(editOid, 1, 1, 1, 3);
-    gridLayout->addWidget(editSyntax, 2, 1, 1, 1);
-    gridLayout->addWidget(editAccess, 3, 1, 1, 1);
-    gridLayout->addWidget(editStatus, 4, 1, 1, 1);
-    gridLayout->addWidget(txtDescription, 2, 2, 3, 2);
-    gridLayout->setColumnStretch(1, 1);
-    gridLayout->setColumnStretch(2, 3);
+    QWidget *formWidget = new QWidget(this);
+    formWidget->setLayout(formLayout);
 
-#ifndef QT_NO_SHORTCUT
-    lblMIB->setBuddy(editMib);
-    lblOID->setBuddy(editOid);
-    lblSyntax->setBuddy(editSyntax);
-    lblAccess->setBuddy(editAccess);
-    lblStatus->setBuddy(editStatus);
-#endif // QT_NO_SHORTCUT
+    // splitter
+    QSplitter *splitter = new QSplitter(this);
+    splitter->setOrientation(Qt::Horizontal);
+    splitter->addWidget(treeMibs);
+    splitter->addWidget(formWidget);
+//    splitter->setStretchFactor(0, 1);
+//    splitter->setStretchFactor(1, 3);
 
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
-    mainLayout->addWidget(treeMibs);
-    mainLayout->addLayout(gridLayout);
+    mainLayout->addWidget(splitter);
 }
 
 /******************************************************************/

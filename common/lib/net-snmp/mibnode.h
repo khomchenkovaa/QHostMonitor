@@ -140,6 +140,21 @@ public:
     MibStatus status() const {
         return static_cast<MibStatus>(node->status);
     }
+    QString augments() const {
+        return node->augments;
+    }
+    QString hint() const {
+        return node->hint;
+    }
+    QString units() const {
+        return node->units;
+    }
+    QString reference() const {
+        return node->reference;
+    }
+    QString defaultValue() const {
+        return node->defaultValue;
+    }
 
     bool hasChildren() const;
     MibNode childAt(int idx) const;
@@ -156,11 +171,14 @@ public:
     QString moduleName() const;
     QString objectID() const;          /**< dotted decimal fully qualified OID */
     MibOid  mibOid() const;
-    QString syntax() const;
     char    typeChar() const;
     QString typeName() const;
-    QString statusName() const;
+    QString syntax() const;
     QString accessName() const;
+    QString statusName() const;
+    QString enums() const;
+    QString indexes() const;
+    QString varbinds() const;
     QString description() const;
 
     static MibNode getRoot();

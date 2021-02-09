@@ -57,10 +57,18 @@ private:
     QTreeView         *treeMibs;
     QLineEdit         *editMib;
     QLineEdit         *editOid;
-    QLineEdit         *editSyntax;
+    QLineEdit         *editType;
     QLineEdit         *editAccess;
     QLineEdit         *editStatus;
+    QLineEdit         *editEnums;
+    QLineEdit         *editIndexes;
+    QLineEdit         *editAugments;
+    QLineEdit         *editVarbinds;
+    QLineEdit         *editHint;
+    QLineEdit         *editUnits;
     QPlainTextEdit    *txtDescription;
+    QLineEdit         *editReference;
+    QLineEdit         *editDefault;
 
     QAction *actSysInfo;
     QAction *actGetValue;

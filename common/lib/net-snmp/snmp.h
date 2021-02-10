@@ -103,21 +103,16 @@ public:
     static void registerDebugTokens(const QString& tokens);
     static QVariant getEnv(const QString& name);
     static int setEnv(const QString& envName, const QVariant& envVal, int overwrite);
-    static void initMib();
+    static void initSnmp(const QString& appName = SNMP_INIT_DEFAULT_NAME);
     static bool addMibDirs(const QStringList& mibDirs);
     static bool addMibFiles(const QStringList& mibFiles);
     static bool loadModules(const QStringList& mibModules);
     static QString translateObj(const QString& obj, bool toLongName = false, bool includeModuleName = true);
-    static QList<SnmpValue> get(const QVariantMap& map);
 
     static QString pError(const QString& progString);
     static QString apiErrstring(int errCode) {
         return snmp_api_errstring(errCode);
     }
-
-private:
-    static void initSnmp(const QString& appName = SNMP_INIT_DEFAULT_NAME);
-    static void librariesInit(const QString& appName);
 };
 
 

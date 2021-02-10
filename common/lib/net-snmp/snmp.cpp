@@ -137,12 +137,15 @@ int NetSNMP::setEnv(const QString &envName, const QVariant &envVal, int overwrit
 
 /*****************************************************************/
 /*!
- * \brief initMib is equivalent to calling the snmp library init_mib if Mib is NULL
- * if Mib is already loaded this function does nothing
+ * \brief initSnmp is equivalent to calling the snmp library init_snmp
  */
-void NetSNMP::initMib()
+void NetSNMP::initSnmp(const QString& appName)
 {
-    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    snmp_set_do_debugging(1);
+    snmp_set_mib_warnings(0);
+    snmp_set_mib_errors(0);
+    snmp_set_save_descriptions(1);
+    init_snmp(appName.toLatin1().data());
 }
 
 
@@ -233,60 +236,12 @@ QString NetSNMP::translateObj(const QString &obj, bool toLongName, bool includeM
 }
 
 /*****************************************************************/
-/*!
- * \brief NetSNMP::get short form of NetSnmpSestion::get method
- * Sometimes quicker to code but is less efficient since the Session is created and destroyed with each call.
- * Takes all the parameters of both NetSnmpSestion constructor and NetSnmpSestion::get
- * \param map paremeters
- * \return The list of values
- */
-QList<SnmpValue> NetSNMP::get(const QVariantMap &map)
-{
-    NetSnmpSession sess(map);
-    return sess.get(map);
-}
-
-/*****************************************************************/
 
 QString NetSNMP::pError(const QString &progString)
 {
     int xerr = snmp_errno; /*MTCRITICAL_RESOURCE */
     QString str = snmp_api_errstring(xerr);
     return QString("%1: %2").arg(progString, str);
-}
-
-/*****************************************************************/
-
-void NetSNMP::initSnmp(const QString &appName)
-{
-    librariesInit(appName);
-}
-
-/*****************************************************************/
-
-void NetSNMP::librariesInit(const QString &appName)
-{
-    static bool haveInited = false;
-
-    if (haveInited)
-        return;
-    haveInited = 1;
-
-    SOCK_STARTUP;
-
-    netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID,
-                           NETSNMP_DS_LIB_QUICK_PRINT, 1);
-//    snmp_set_mib_warnings(0);
-//    snmp_set_mib_errors(0);
-    snmp_set_save_descriptions(1);
-    init_snmp(appName.toLatin1());
-
-    netsnmp_ds_set_boolean(NETSNMP_DS_LIBRARY_ID,
-                           NETSNMP_DS_LIB_DONT_BREAKDOWN_OIDS, 1);
-    netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID,
-                       NETSNMP_DS_LIB_PRINT_SUFFIX_ONLY, 1);
-    netsnmp_ds_set_int(NETSNMP_DS_LIBRARY_ID,
-                       NETSNMP_DS_LIB_OID_OUTPUT_FORMAT, NETSNMP_OID_OUTPUT_SUFFIX);
 }
 
 /*****************************************************************/

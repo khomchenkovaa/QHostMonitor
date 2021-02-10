@@ -16,22 +16,7 @@ NetSnmpSession::NetSnmpSession(QObject *parent)
       m_Timeout    (SnmpDefaults::SnmpTimeout),
       m_Retries    (SnmpDefaults::SnmpRetries)
 {
-    NetSNMP::initMib();
-}
-
-/*****************************************************************/
-
-NetSnmpSession::NetSnmpSession(const QVariantMap &map, QObject *parent)
-    : QObject(parent),
-      m_SessPtr(nullptr)
-{
-    m_DestHost   = map.value(NET_SNMP_SESSION_DESTHOST, DEST_HOST_DEFAULT).toString();
-    m_Community  = map.value(NET_SNMP_SESSION_COMMUNITY, COMMUNITY_DEFAULT).toString();
-    m_Version    = static_cast<SnmpVersion>(map.value(NET_SNMP_SESSION_VERSION, SnmpVersion::SNMPvDefault).toInt());
-    m_Timeout    = map.value(NET_SNMP_SESSION_TIMEOUT, SnmpDefaults::SnmpTimeout).toInt();
-    m_Retries    = map.value(NET_SNMP_SESSION_RETRIES, SnmpDefaults::SnmpRetries).toInt();
-
-    NetSNMP::initMib();
+    NetSNMP::initSnmp();
 }
 
 /*****************************************************************/
@@ -58,11 +43,12 @@ bool NetSnmpSession::open()
     // Initialize a "session" that defines who we're going to talk to
     netsnmp_session session;
     snmp_sess_init(&session); // setup defaults
-    session.peername      = m_DestHost.toLocal8Bit().data();
+    session.peername      = strdup(m_DestHost.toLocal8Bit().data());
     session.version       = static_cast<long>(m_Version);
-    session.community     = reinterpret_cast<u_char*>(m_Community.toLocal8Bit().data());
+    session.community     = reinterpret_cast<u_char*>(strdup(m_Community.toLocal8Bit().data()));
     session.community_len = static_cast<size_t>(m_Community.size());
     session.retries       = m_Retries;
+    session.timeout       = m_Timeout;
 
     SOCK_STARTUP;
     m_SessPtr = snmp_open(&session); // establish the session

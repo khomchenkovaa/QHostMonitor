@@ -41,7 +41,6 @@ class NetSnmpSession : public QObject
 
 public:
     explicit NetSnmpSession(QObject *parent = nullptr);
-    explicit NetSnmpSession(const QVariantMap& map, QObject *parent = nullptr);
     ~NetSnmpSession();
 
     bool open();
@@ -73,31 +72,41 @@ public:
 
     /*! snmp version */
     void setVersion(SnmpVersion version) {
-        m_Reopen = (m_Version != version);
-        m_Version = version;
+        if (m_Version != version) {
+            m_Reopen = true;
+            m_Version = version;
+        }
     }
     /*! Number of retries before timeout */
     void setRetries(const int retries) {
-        m_Reopen = (m_Retries != retries);
-        m_Retries = retries;
+        if (m_Retries != retries) {
+            m_Reopen = true;
+            m_Retries = retries;
+        }
     }
     /*! Number of uS until first timeout, then exponential backoff */
     void setTimeout(const long timeout) {
-        m_Reopen = (m_Timeout != timeout);
-        m_Timeout = timeout;
+        if (m_Timeout != timeout) {
+            m_Reopen = true;
+            m_Timeout = timeout;
+        }
     }
     /*! name or address of default peer (may include transport specifier and/or port number) */
     void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
-        m_Reopen = (m_DestHost != host);
-        m_DestHost = host;
+        if (m_DestHost != host) {
+            m_Reopen = true;
+            m_DestHost = host;
+        }
     }
     QString destHost() const {
         return m_DestHost;
     }
     /*! community for outgoing requests (SNMPv1 & SNMPv2c field) */
     void setCommunity(const QString& community) {
-        m_Reopen = (m_Community != community);
-        m_Community = community;
+        if (m_Community != community) {
+            m_Reopen = true;
+            m_Community = community;
+        }
     }
 
 signals:
@@ -113,7 +122,7 @@ private:
     QString     m_DestHost;     /**< default 'localhost', hostname or ip addr of SNMP agent */
     QString     m_Community;    /**< default 'public', SNMP community string (used for both R/W) */
     SnmpVersion m_Version;      /**< default taken from library configuration - probably 3 [1, 2 (same as 2c), 2c, 3] */
-    int         m_Timeout;      /**< default '1000000', micro-seconds before retry */
+    long        m_Timeout;      /**< default '1000000', micro-seconds before retry */
     int         m_Retries;      /**< default '1', retries before failure */
     QString     m_ErrorStr;     /**< read-only, holds the error message assoc. w/ last request */
     int         m_ErrorNum = 0; /**< read-only, holds the snmp_err or status of last request */

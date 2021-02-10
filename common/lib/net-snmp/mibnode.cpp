@@ -356,7 +356,7 @@ MibNode MibNode::getRoot()
 {
     MibNode rootNode = get_tree_head();
     if (!rootNode.isValid()) {
-        NetSNMP::initMib(); // TODO remove to erase snmp.h include
+        NetSNMP::initSnmp(); // TODO remove to erase snmp.h include
         rootNode = read_all_mibs();
     }
     return rootNode;

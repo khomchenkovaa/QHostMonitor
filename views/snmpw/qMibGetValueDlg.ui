@@ -59,17 +59,20 @@
         </item>
         <item row="0" column="3">
          <widget class="QSpinBox" name="spinTimeout">
+          <property name="suffix">
+           <string> сек.</string>
+          </property>
           <property name="minimum">
-           <number>100</number>
+           <number>1</number>
           </property>
           <property name="maximum">
-           <number>30000</number>
+           <number>10</number>
           </property>
           <property name="singleStep">
-           <number>100</number>
+           <number>1</number>
           </property>
           <property name="value">
-           <number>2000</number>
+           <number>3</number>
           </property>
          </widget>
         </item>

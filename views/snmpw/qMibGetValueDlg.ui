@@ -151,7 +151,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPlainTextEdit" name="textResult"/>
+      <widget class="QTextEdit" name="textResult"/>
      </item>
     </layout>
    </item>

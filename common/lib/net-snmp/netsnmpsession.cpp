@@ -109,9 +109,9 @@ SnmpValue NetSnmpSession::get(const QString &oidStr)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
+SnmpValueList NetSnmpSession::get(const QList<MibOid>& oids)
 {
-    QList<SnmpValue> result;
+    SnmpValueList result;
 
     if (oids.isEmpty()) {
         emit error("Missing object names");
@@ -179,14 +179,14 @@ QList<SnmpValue> NetSnmpSession::get(const QList<MibOid>& oids)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::get(const QStringList &oids)
+SnmpValueList NetSnmpSession::get(const QStringList &oids)
 {
     QList<MibOid> mibOids;
     foreach(const QString& oidStr, oids) {
         MibOid anOid = MibOid::parse(oidStr);
         if (anOid.hasError()) {
             emit error(QString("%1: %2").arg(oidStr, anOid.errString()));
-            return QList<SnmpValue>();
+            return SnmpValueList();
         }
         mibOids.append(anOid);
     }
@@ -196,7 +196,7 @@ QList<SnmpValue> NetSnmpSession::get(const QStringList &oids)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::get(const QVariantMap &map)
+SnmpValueList NetSnmpSession::get(const QVariantMap &map)
 {
     QStringList oids = map.value(NET_SNMP_CMD_OIDS, QStringList()).toStringList();
     return get(oids);
@@ -204,9 +204,9 @@ QList<SnmpValue> NetSnmpSession::get(const QVariantMap &map)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::getNext(const QList<MibOid> &oids)
+SnmpValueList NetSnmpSession::getNext(const QList<MibOid> &oids)
 {
-    QList<SnmpValue> result;
+    SnmpValueList result;
 
     if (oids.isEmpty()) {
         emit error("Missing object names");
@@ -270,9 +270,9 @@ QList<SnmpValue> NetSnmpSession::getNext(const QList<MibOid> &oids)
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::getRow(const QString &oidStr)
+SnmpValueList NetSnmpSession::getRow(const QString &oidStr)
 {
-    QList<SnmpValue> result;
+    SnmpValueList result;
 
     MibOid anOID = MibOid::parse(oidStr);
     if (anOID.hasError()) {
@@ -400,28 +400,9 @@ SnmpValue NetSnmpSession::set(const QString &oidStr, const QVariant &oidValue)
 
 /*****************************************************************/
 
-QList<QList<SnmpValue> > NetSnmpSession::getTable(const QString &oidStr, const QVariantMap &options)
+SnmpValueList NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepeaters, int maxRepetitions)
 {
-    QList<QList<SnmpValue>> result;
-
-    MibOid rootOID = MibOid::parse(oidStr);
-    if (rootOID.hasError()) {
-        emit error(QString("%1: %2").arg(oidStr, rootOID.errString()));
-        return result;
-    }
-    // read options
-
-
-
-    // TODO NetSnmpSession::getTable()
-    return result;
-}
-
-/*****************************************************************/
-
-QList<SnmpValue> NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepeaters, int maxRepetitions)
-{
-    QList<SnmpValue> result;
+    SnmpValueList result;
 
     if (names.isEmpty()) {
         emit error("Missing object names");
@@ -470,9 +451,9 @@ QList<SnmpValue> NetSnmpSession::bulkGet(const QList<MibOid> &names, int nonRepe
 
 /*****************************************************************/
 
-QList<SnmpValue> NetSnmpSession::bulkWalk(const MibOid &rootOid, int nonRepeaters, int maxRepetitions, bool checkLexicographic, bool includeRequested)
+SnmpValueList NetSnmpSession::bulkWalk(const MibOid &rootOid, int nonRepeaters, int maxRepetitions, bool checkLexicographic, bool includeRequested)
 {
-    QList<SnmpValue> result;
+    SnmpValueList result;
 
     if (!open()) {
         emit error(m_ErrorStr);
@@ -612,80 +593,29 @@ QList<MibNode> NetSnmpSession::readColumns(const QString &oidStr)
 
 /*****************************************************************/
 
-QList<QList<SnmpValue> > NetSnmpSession::getTableEntries(const QList<MibNode> &columns, const QVariantMap &options)
+SnmpValueTable NetSnmpSession::getTableRows(const QList<MibOid> &columns)
 {
-    QList<QList<SDPO::SnmpValue>> result;
+    SnmpValueTable result;
 
     if (columns.isEmpty()) {
         emit error("No columns - not a table");
         return result;
     }
 
-    MibOid rootOid = columns.last().parent().mibOid();
-    oid      name[MAX_OID_LEN];
-    size_t   namelen = rootOid.length + 1;
-    for (size_t i=0; i<rootOid.length; ++i) {
-        name[i] = rootOid.numOid[i];
-    }
+    QList<MibOid> oids;       // for iterations
+    oids.append(columns);
 
-    // Initialize a "session" that defines who we're going to talk to
-    if (!open()) {
-        emit error(errorStr());
-        return result;
-    }
-
-    bool running = true;
-    int entries = 0;
-    const int MaxEntries = 20;
-    // while (!end of table) {
-    while (running && (entries < MaxEntries)) {
-
-        // create pdu with column ids
-        snmp_pdu *pdu = snmp_pdu_create(SNMP_MSG_GETNEXT);
-        for (int i = 0; i < columns.size(); i++) {
-            name[rootOid.length] = columns.at(i).subID();
-            snmp_add_null_var(pdu, name, namelen);
-        }
-
-        snmp_pdu *pduResponse = nullptr;
-        SnmpResponseStatus status = static_cast<SnmpResponseStatus>(snmp_synch_response(m_SessPtr, pdu, &pduResponse));
-
-        if (status == SnmpRespStatSuccess) {
-            if (pduResponse->errstat == SNMP_ERR_NOERROR) {
-                netsnmp_variable_list *vars = pduResponse->variables;
-                if (!entries) {
-                    namelen++;
-                } else {
-                    if ((namelen != vars->name_length) || (name[namelen-1] >= vars->name[namelen-1])) {
-                        running = false;
-                    }
-                }
-                if (running) {
-                    name[namelen-1] = vars->name[namelen-1];
-                    entries++;
-                    QList<SDPO::SnmpValue> entry;
-                    for(; vars != nullptr; vars = vars->next_variable) {
-                        entry.append(SnmpValue::fromVar(vars));
-                    }
-                    result.append(entry);
-                }
-            } else if (pduResponse->errstat == SNMP_ERR_NOSUCHNAME) {
-                running = false; // end of table
-            } else {
-                emit error(snmp_errstring(static_cast<int>(pduResponse->errstat)));
-                running = false;
+    while (oids.size() == columns.size()) {
+        SnmpValueList row = getNext(oids);
+        if (row.size() < columns.size()) break;
+        oids.clear();
+        for (int i=0; i<columns.size(); ++i) {
+            if (row.at(i).name.isPartOfSubtree(columns.at(i))) {
+                oids.append(row.at(i).name);
             }
-        } else if (status == SnmpRespStatTimeout) {
-            emit error(QString("Timeout: No Response from %1.").arg(destHost()));
-            running = false;
-            m_Reopen = true;
-        } else { // status == SnmpRespStatError
-            emit error(errorStr());
-            running = false;
         }
-
-        if (pduResponse) {
-          snmp_free_pdu(pduResponse);
+        if (oids.size() == columns.size()) {
+            result.append(row);
         }
     }
 

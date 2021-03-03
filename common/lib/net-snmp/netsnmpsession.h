@@ -52,15 +52,14 @@ public:
     SnmpPdu synchResponse(const SnmpPdu& request);
 
     SnmpValue get(const QString& oidStr);
-    QList<SnmpValue> get(const QList<MibOid>& oids);
-    QList<SnmpValue> get(const QStringList& oids);
-    QList<SnmpValue> get(const QVariantMap& map);
-    QList<SnmpValue> getNext(const QList<MibOid>& oids);
-    QList<SnmpValue> getRow(const QString& oidStr);
+    SnmpValueList get(const QList<MibOid>& oids);
+    SnmpValueList get(const QStringList& oids);
+    SnmpValueList get(const QVariantMap& map);
+    SnmpValueList getNext(const QList<MibOid>& oids);
+    SnmpValueList getRow(const QString& oidStr);
     SnmpValue set(const QString& oidStr, const QVariant& oidValue);
-    QList<QList<SnmpValue> > getTable(const QString& oidStr, const QVariantMap& options = QVariantMap());
-    QList<SnmpValue> bulkGet(const QList<MibOid>& names, int nonRepeaters = 0, int maxRepetitions = 10);
-    QList<SnmpValue> bulkWalk(const MibOid& rootOid, int nonRepeaters = 0, int maxRepetitions = 10,
+    SnmpValueList bulkGet(const QList<MibOid>& names, int nonRepeaters = 0, int maxRepetitions = 10);
+    SnmpValueList bulkWalk(const MibOid& rootOid, int nonRepeaters = 0, int maxRepetitions = 10,
                               bool checkLexicographic = false, bool includeRequested = true);
 
     QString addrString() const {
@@ -114,7 +113,7 @@ signals:
 
 public:
     QList<MibNode> readColumns(const QString &oidStr);
-    QList<QList<SnmpValue>> getTableEntries(const QList<MibNode>& columns, const QVariantMap& options = QVariantMap());
+    SnmpValueTable getTableRows(const QList<MibOid> &columns);
 
 private:
     bool        m_Reopen = false;

@@ -68,7 +68,11 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     QList<MibNode> columns = ss.readColumns(oid);
     model->setHeaders(columns);
     if (model->columnCount()) {
-        model->setValues(ss.getTableEntries(columns));
+        QList<MibOid> columnOids;
+        foreach(const MibNode& mNode, columns) {
+            columnOids.append(mNode.mibOid());
+        }
+        model->setValues(ss.getTableRows(columnOids));
     }
 }
 

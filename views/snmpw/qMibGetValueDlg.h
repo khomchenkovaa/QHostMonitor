@@ -42,6 +42,10 @@ private slots:
 
 private:
     void setupUI();
+    void printTitle(const QString& cmd, const QString& oidStr);
+    void printTitle(const QString& title);
+    void printError(const QString& error);
+    void printText(const QString& text);
 
 private:
     Ui::QMibGetValueDlg *ui;

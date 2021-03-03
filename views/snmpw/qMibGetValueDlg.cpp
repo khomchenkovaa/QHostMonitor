@@ -4,6 +4,7 @@
 #include "qSnmpCredentialsDlg.h"
 
 #include <QInputDialog>
+#include <QTextTable>
 
 #include <QDebug>
 
@@ -109,9 +110,10 @@ void QMibGetValueDlg::cmdSysInfo()
         }
     }
 
-    ui->textResult->appendPlainText(QString("[%1]=>[%2] Up: %3").arg(ss.addrString(), sysDescr, upTimeStr));
-    ui->textResult->appendPlainText(QString("In receives: %1").arg(ipin));
-    ui->textResult->appendPlainText(QString("Out requests: %1").arg(ipout));
+    printTitle("## SysInfo");
+    printText(QString("[%1]=>[%2] Up: %3").arg(ss.addrString(), sysDescr, upTimeStr));
+    printText(QString("In receives: %1").arg(ipin));
+    printText(QString("Out requests: %1").arg(ipout));
 
     oids.clear();
     oids.append(objid_ifOperStatus);
@@ -120,35 +122,20 @@ void QMibGetValueDlg::cmdSysInfo()
     oids.append(objid_ifOutUCastPkts);
     oids.append(objid_ifOutNUCastPkts);
 
-    SnmpValueTable interfaces;
-    while(oids.size() == 5) {
-        SnmpValueList row = ss.getNext(oids);
-        if (row.size() < 5) break;
-        oids.clear();
-        if (row.at(0).name.isPartOfSubtree(objid_ifOperStatus)) {
-            oids.append(row.at(0).name);
-        }
-        if (row.at(1).name.isPartOfSubtree(objid_ifInUCastPkts)) {
-            oids.append(row.at(1).name);
-        }
-        if (row.at(2).name.isPartOfSubtree(objid_ifInNUCastPkts)) {
-            oids.append(row.at(2).name);
-        }
-        if (row.at(3).name.isPartOfSubtree(objid_ifOutUCastPkts)) {
-            oids.append(row.at(3).name);
-        }
-        if (row.at(4).name.isPartOfSubtree(objid_ifOutNUCastPkts)) {
-            oids.append(row.at(4).name);
-        }
-        if (oids.size() == 5) {
-            interfaces.append(row);
-        }
-    }
+    SnmpValueTable interfaces = ss.getTableRows(oids);
 
     QStringList ifStatus = QStringList() << "Unknown" << "Up" << "Down" << "Testing";
 
+    QTextTableFormat tableFormat;
+    tableFormat.setHeaderRowCount(1);
+    QTextTable *ifTable = ui->textResult->textCursor().insertTable(interfaces.size() + 1, 5, tableFormat);
+    for(int i=0; i < oids.size(); ++i) {
+        ifTable->cellAt(0,i).firstCursorPosition().insertText(NetSNMP::translateObj(oids.at(i).toString()));
+    }
+
     int downInterfaces = 0;
-    foreach(const SnmpValueList& row, interfaces) {
+    for(int i=0; i < interfaces.size(); ++i) {
+        const SnmpValueList& row = interfaces.at(i);
         int ifOperStatus = row.at(0).val.toInt();
         if (ifOperStatus != MIB_IFSTATUS_UP) downInterfaces++;
         int ifInUCastPkts = row.at(1).val.toInt();
@@ -159,20 +146,19 @@ void QMibGetValueDlg::cmdSysInfo()
         opackets += ifOutUCastPkts;
         int ifOutNUCastPkts = row.at(4).val.toInt();
         opackets += ifOutNUCastPkts;
-        QString rowStr = QString("%1 %2 %3 %4 %5").arg(ifStatus.at(ifOperStatus),
-                                                       QString::number(ifInUCastPkts),
-                                                       QString::number(ifInNUCastPkts),
-                                                       QString::number(ifOutUCastPkts),
-                                                       QString::number(ifOutNUCastPkts));
-        ui->textResult->appendPlainText(rowStr);
+        ifTable->cellAt(i+1,0).firstCursorPosition().insertText(ifStatus.at(ifOperStatus));
+        ifTable->cellAt(i+1,1).firstCursorPosition().insertText(QString::number(ifInUCastPkts));
+        ifTable->cellAt(i+1,2).firstCursorPosition().insertText(QString::number(ifInNUCastPkts));
+        ifTable->cellAt(i+1,3).firstCursorPosition().insertText(QString::number(ifOutUCastPkts));
+        ifTable->cellAt(i+1,4).firstCursorPosition().insertText(QString::number(ifOutNUCastPkts));
     }
     QString ifSummary = QString("Interfaces: %1, Recv/Trans packets: %2/%3 | IP: %4/%5")
             .arg(QString::number(interfaces.size()), QString::number(ipackets), QString::number(opackets), QString::number(ipin), QString::number(ipout));
-    ui->textResult->appendPlainText(ifSummary);
+    printText(ifSummary);
     if (downInterfaces > 0) {
-        QString idDown = QString("%1 interface%2 down!\n")
+        QString idDown = QString("%1 interface%2 down!")
                 .arg(QString::number(downInterfaces), downInterfaces > 1 ? "s are" : " is");
-        ui->textResult->appendPlainText(idDown);
+        printText(idDown);
     }
 }
 
@@ -196,9 +182,8 @@ void QMibGetValueDlg::cmdGetValue()
     ss.setDestHost(host);
 
     SnmpValue value = ss.get(oid);
-    ui->textResult->appendPlainText(QString("GET: %1").arg(ss.addrString()));
-    ui->textResult->appendPlainText(NetSNMP::translateObj(oid));
-    ui->textResult->appendPlainText(value.toString());
+    printTitle(QString("## SnmpGet: %1").arg(NetSNMP::translateObj(oid)));
+    printText(value.toString());
 }
 
 /*****************************************************************/
@@ -221,11 +206,11 @@ void QMibGetValueDlg::cmdBulkGet()
     ss.setRetries(retries);
     ss.setDestHost(host);
 
-    ui->textResult->appendPlainText(QString("SnmpGetBulk: %1").arg(NetSNMP::translateObj(oidStr)));
+    printTitle("SnmpGetBulk",oidStr);
 
     MibOid anOid = MibOid::parse(oidStr);
     if (anOid.hasError()) {
-        ui->textResult->appendPlainText(QString("%1: %2").arg(oidStr, anOid.errString()));
+        printError(QString("%1: %2").arg(oidStr, anOid.errString()));
         return;
     }
 
@@ -234,7 +219,7 @@ void QMibGetValueDlg::cmdBulkGet()
 
     QList<SnmpValue> values = ss.bulkGet(mibOids, 0, maxRepetitions);
     foreach(const SnmpValue& value, values) {
-        ui->textResult->appendPlainText(value.toString());
+        printText(value.toString());
     }
 }
 
@@ -258,17 +243,17 @@ void QMibGetValueDlg::cmdBulkWalk()
     ss.setRetries(retries);
     ss.setDestHost(host);
 
-    ui->textResult->appendPlainText(QString("SnmpBulkWalk: %1").arg(NetSNMP::translateObj(oidStr)));
+    printTitle("SnmpBulkWalk", oidStr);
 
     MibOid anOid = MibOid::parse(oidStr);
     if (anOid.hasError()) {
-        ui->textResult->appendPlainText(QString("%1: %2").arg(oidStr, anOid.errString()));
+        printError(QString("%1: %2").arg(oidStr, anOid.errString()));
         return;
     }
 
     QList<SnmpValue> values = ss.bulkWalk(anOid, 0, maxRepetitions);
     foreach(const SnmpValue& value, values) {
-        ui->textResult->appendPlainText(value.toString());
+        printText(value.toString());
     }
 }
 
@@ -282,7 +267,7 @@ void QMibGetValueDlg::cmdGetRow()
     long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
-    QString oid = ui->cmbOid->currentText();
+    QString oidStr = ui->cmbOid->currentText();
 
     Q_UNUSED(timeout)
 
@@ -290,10 +275,13 @@ void QMibGetValueDlg::cmdGetRow()
     ss.setTimeout(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
-    QList<SDPO::SnmpValue> values = ss.getRow(oid);
-    foreach (const SnmpValue& val, values) {
-        ui->textResult->appendPlainText(val.toString());
-        ui->cmbOid->setCurrentText(val.nameAsStr());
+
+    printTitle("SnmpGetRow", oidStr);
+
+    QList<SDPO::SnmpValue> values = ss.getRow(oidStr);
+    foreach (const SnmpValue& value, values) {
+        printText(value.toString());
+        ui->cmbOid->setCurrentText(value.nameAsStr());
     }
 
 }
@@ -317,11 +305,11 @@ void QMibGetValueDlg::cmdGetNext()
     ss.setRetries(retries);
     ss.setDestHost(host);
 
-    ui->textResult->appendPlainText(QString("SnmpGetNext: %1").arg(NetSNMP::translateObj(oidStr)));
+    printTitle("SnmpGetNext", oidStr);
 
     MibOid anOid = MibOid::parse(oidStr);
     if (anOid.hasError()) {
-        ui->textResult->appendPlainText(QString("%1: %2").arg(oidStr, anOid.errString()));
+        printError(QString("%1: %2").arg(oidStr, anOid.errString()));
         return;
     }
 
@@ -329,9 +317,9 @@ void QMibGetValueDlg::cmdGetNext()
     mibOids.append(anOid);
 
     QList<SDPO::SnmpValue> values = ss.getNext(mibOids);
-    foreach (const SnmpValue& val, values) {
-        ui->textResult->appendPlainText(val.toString());
-        ui->cmbOid->setCurrentText(val.nameAsStr());
+    foreach (const SnmpValue& value, values) {
+        printText(value.toString());
+        ui->cmbOid->setCurrentText(value.nameAsStr());
     }
 }
 
@@ -354,14 +342,14 @@ void QMibGetValueDlg::cmdSetValue()
         return;
     }
 
-    ui->textResult->appendPlainText("set " + oid + " = " + newValue);
+    printTitle(QString("## SnmpSet: %1 = %2").arg(NetSNMP::translateObj(oid), newValue));
 
     ss.setProfile(profile);
     ss.setTimeout(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
     SnmpValue value = ss.set(oid, newValue);
-    ui->textResult->appendPlainText(value.toString());
+    printText(value.toString());
 }
 
 /*****************************************************************/
@@ -393,7 +381,50 @@ void QMibGetValueDlg::setupUI()
     connect(ui->btnGetNext, &QPushButton::clicked, this, &QMibGetValueDlg::cmdGetNext);
     connect(ui->btnSet, &QPushButton::clicked, this, &QMibGetValueDlg::cmdSetValue);
     connect(ui->btnProfile, &QPushButton::clicked, this, &QMibGetValueDlg::openSnmpCredentialsDlg);
-    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){ ui->textResult->appendPlainText(msg); });
+    connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){ printError(msg); });
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::printTitle(const QString &cmd, const QString &oidStr)
+{
+    printTitle(QString("## %1: %2").arg(cmd, NetSNMP::translateObj(oidStr)));
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::printTitle(const QString &title)
+{
+    QTextBlockFormat format;
+    format.setNonBreakableLines(true);
+    QTextCursor cursor(ui->textResult->textCursor());
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock(format);
+    cursor.insertHtml(QString("<b>%1</b> ").arg(title));
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::printError(const QString &error)
+{
+    QTextBlockFormat format;
+    format.setNonBreakableLines(false);
+    QTextCursor cursor(ui->textResult->textCursor());
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock(format);
+    cursor.insertHtml(QString("<font color='red'>%1</font> ").arg(error));
+}
+
+/*****************************************************************/
+
+void QMibGetValueDlg::printText(const QString &text)
+{
+    QTextBlockFormat format;
+    format.setNonBreakableLines(true);
+    QTextCursor cursor(ui->textResult->textCursor());
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock(format);
+    cursor.insertText(text);
 }
 
 /*****************************************************************/

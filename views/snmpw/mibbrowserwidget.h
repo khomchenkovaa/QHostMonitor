@@ -2,9 +2,9 @@
 #define MIBBROWSERWIDGET_H
 
 #include <QWidget>
+#include <QModelIndexList>
 
 QT_BEGIN_NAMESPACE
-class QModelIndex;
 class QTreeView;
 class QLineEdit;
 class QPlainTextEdit;
@@ -43,6 +43,7 @@ private slots:
     void getValueDld(const QString& cmd = QString());
     void getTableDlg();
     void findNameDlg();
+    void findNext();
     void findOidDlg();
     void contextMenu(QPoint pos);
 
@@ -51,10 +52,13 @@ private:
     void setupActions();
     void init();
     void disableEmpty();
+    void expandToIndex(const QModelIndex& proxyIndex);
 
 private:
+    QString            m_SearchStr;
     MibTreeModel      *m_Model;
     MibTreeProxyModel *m_Proxy;
+    QModelIndexList    m_Indexes;
     QTreeView         *treeMibs;
     QLineEdit         *editMib;
     QLineEdit         *editOid;

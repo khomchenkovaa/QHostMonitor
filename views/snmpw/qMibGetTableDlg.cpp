@@ -50,7 +50,6 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oid = ui->cmbOid->currentText();
 
-    Q_UNUSED(timeout)
     model->clear();
     ui->lblError->clear();
     ui->lblError->setHidden(true);

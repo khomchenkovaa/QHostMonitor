@@ -1,5 +1,5 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef MIBBROWSER_MAINWINDOW_H
+#define MIBBROWSER_MAINWINDOW_H
 
 #include "mibbrowserwidget.h"
 
@@ -25,4 +25,4 @@ private:
 
 } // namespace MibBrowser
 
-#endif // MAINWINDOW_H
+#endif // MIBBROWSER_MAINWINDOW_H

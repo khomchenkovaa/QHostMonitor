@@ -16,10 +16,30 @@ MibTreeModel::MibTreeModel(QObject *parent)
 
 QModelIndex MibTreeModel::index(int row, int column, const QModelIndex &parent) const
 {
-    if(!m_Root.isValid())
+    if (!hasIndex(row, column, parent)) {
         return QModelIndex();
+    }
+
+    if(!m_Root.isValid()) { // model is not initialized
+        return QModelIndex();
+    }
+
+    if(column != 0) { // one column only
+        return QModelIndex();
+    }
 
     MibNode parentNode = nodeFromIndex(parent);
+    if (!parentNode.isValid()) { // root
+        if (row != 0) { // one root only
+            return QModelIndex();
+        }
+        return createIndex(0, 0, m_Root.node);
+    }
+
+    if(row < 0 || row >= parentNode.childCount()) { // illegal row
+        return QModelIndex();
+    }
+
     MibNode child = parentNode.childAt(row);
 
     return createIndex(row, column, child.node);
@@ -29,11 +49,10 @@ QModelIndex MibTreeModel::index(int row, int column, const QModelIndex &parent) 
 
 QModelIndex MibTreeModel::parent(const QModelIndex &index) const
 {
-    MibNode node = nodeFromIndex(index);
-
-    if(!node.isValid())
+    if (!index.isValid())
         return QModelIndex();
 
+    MibNode node = nodeFromIndex(index);
     MibNode parentNode = node.parent();
 
     if(!parentNode.isValid())
@@ -41,7 +60,7 @@ QModelIndex MibTreeModel::parent(const QModelIndex &index) const
 
     int row = parentNode.indexOf();
 
-    return createIndex(row, index.column(), parentNode.node);
+    return createIndex(row, 0, parentNode.node);
 }
 
 /*****************************************************************/
@@ -157,24 +176,6 @@ QModelIndex MibTreeModel::indexFromNode(const MibNode& node) const
         int row = node.indexOf();
         return index(row,0,parentIndex);
     }
-}
-
-/*****************************************************************/
-
-QModelIndex MibTreeModel::findByName(const QString &name, const QModelIndex &parent) const
-{
-    int childCount = rowCount(parent);
-    for (int i=0; i<childCount; i++) {
-        QModelIndex idx = findByName(name, index(i,0,parent));
-        if (idx.isValid()) {
-            return idx;
-        }
-    }
-    MibNode node = parent.internalPointer();
-    if (name.compare(node.label(), Qt::CaseInsensitive) == 0) {
-        return parent;
-    }
-    return QModelIndex();
 }
 
 /*****************************************************************/

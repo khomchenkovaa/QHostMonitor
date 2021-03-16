@@ -44,16 +44,17 @@ MibNode MibNode::childAt(int idx) const
 
 int MibNode::indexOf() const
 {
-    int idx = 0;
+    int result = -1; // not found
     MibNode parentNode = parent();
     MibNode child = parentNode.isValid()? parentNode.childList() : getRoot();
-    for(; child != parentNode; child = child.nextPeer()) {
-        if (!child) {
+    for(int idx = 0; child.isValid(); child = child.nextPeer()) {
+        if (child.node == node) {
+            result = idx;
             break;
         }
         ++idx;
     }
-    return idx;
+    return result;
 }
 
 /*****************************************************************/

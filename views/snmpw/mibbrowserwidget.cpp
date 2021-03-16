@@ -5,6 +5,8 @@
 
 #include <QtWidgets>
 
+#include "modeltest.h"
+
 using namespace SDPO;
 
 /******************************************************************/
@@ -47,8 +49,8 @@ void MibBrowserWidget::setOid(const QString &oid)
     QModelIndex idxSource = m_Model->indexFromOid(oid);
     if (idxSource.isValid()) {
         QModelIndex idxProxy = m_Proxy->mapFromSource(idxSource);
+        expandToIndex(idxProxy);
         treeMibs->setCurrentIndex(idxProxy);
-        updateFields(idxProxy);
     }
 }
 
@@ -56,11 +58,13 @@ void MibBrowserWidget::setOid(const QString &oid)
 
 void MibBrowserWidget::findByName(const QString &name)
 {
-    QModelIndex idxSource = m_Model->findByName(name, m_Model->index(0,0));
-    if (idxSource.isValid()) {
-        QModelIndex idxProxy = m_Proxy->mapFromSource(idxSource);
-        treeMibs->setCurrentIndex(idxProxy);
-        updateFields(idxProxy);
+    m_Indexes = m_Proxy->match(m_Proxy->index(0,0), Qt::DisplayRole, name, -1,
+                           Qt::MatchFlags(Qt::MatchRecursive |
+                                          Qt::MatchFixedString |
+                                          Qt::MatchContains));
+    if (!m_Indexes.isEmpty()) {
+        expandToIndex(m_Indexes.first());
+        treeMibs->setCurrentIndex(m_Indexes.first());
     }
 }
 
@@ -141,10 +145,44 @@ void MibBrowserWidget::getTableDlg()
 void MibBrowserWidget::findNameDlg()
 {
     bool ok;
-    QString name = QInputDialog::getText(this, tr("Find Name"),tr("Name (e.g. sysUptime)"), QLineEdit::Normal, QString(), &ok);
+    QString name = QInputDialog::getText(this, tr("Find Name"),tr("Name (e.g. sysUptime)"), QLineEdit::Normal, m_SearchStr, &ok);
     if (ok) {
-        findByName(name);
+        m_SearchStr = name;
+        findByName(m_SearchStr);
     }
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::findNext()
+{
+    if (m_Indexes.isEmpty()) {
+        return;
+    }
+
+    QModelIndex curProxyIdx = treeMibs->currentIndex();
+    if (!curProxyIdx.isValid()) {
+        expandToIndex(m_Indexes.first());
+        treeMibs->setCurrentIndex(m_Indexes.first());
+        return;
+    }
+    QModelIndex curIdx = m_Proxy->mapToSource(curProxyIdx);
+    MibNode leftNode = curIdx.internalPointer();
+    MibOid leftOid = leftNode.mibOid();
+
+    foreach (const QModelIndex& proxyIdx, m_Indexes) {
+        QModelIndex idx = m_Proxy->mapToSource(proxyIdx);
+        MibNode rightNode = idx.internalPointer();
+        MibOid rightOid = rightNode.mibOid();
+        if (leftOid.compare(rightOid) < 0) {
+            expandToIndex(proxyIdx);
+            treeMibs->setCurrentIndex(proxyIdx);
+            return;
+        }
+    }
+
+    expandToIndex(m_Indexes.first());
+    treeMibs->setCurrentIndex(m_Indexes.first());
 }
 
 /******************************************************************/
@@ -174,6 +212,7 @@ void MibBrowserWidget::setupUI()
     treeMibs->sortByColumn(0, Qt::AscendingOrder);
     treeMibs->setAlternatingRowColors(true);
     treeMibs->setContextMenuPolicy(Qt::CustomContextMenu);
+    treeMibs->setSelectionMode(QAbstractItemView::SingleSelection);
 
     setupActions();
 
@@ -254,6 +293,7 @@ void MibBrowserWidget::setupActions()
     });
     connect(actGetTable, &QAction::triggered, this, &MibBrowserWidget::getTableDlg);
     connect(actFindName, &QAction::triggered, this, &MibBrowserWidget::findNameDlg);
+    connect(actFindNext, &QAction::triggered, this, &MibBrowserWidget::findNext);
     connect(actFindOid,  &QAction::triggered, this, &MibBrowserWidget::findOidDlg);
 }
 
@@ -261,14 +301,15 @@ void MibBrowserWidget::setupActions()
 
 void MibBrowserWidget::init()
 {
-    m_Proxy->setSourceModel(m_Model);
     m_Model->setRoot(MibNode::getRoot());
+
+    new ModelTest(m_Model, this);
+
+    m_Proxy->setSourceModel(m_Model);
     treeMibs->setModel(m_Proxy);
 
-    QObject::connect(treeMibs, &QTreeView::clicked,
+    QObject::connect(treeMibs->selectionModel(), &QItemSelectionModel::currentChanged,
                      this, &MibBrowserWidget::updateFields);
-    QObject::connect(treeMibs, &QTreeView::clicked,
-                     this, &MibBrowserWidget::updateActions);
     QObject::connect(treeMibs, &QTreeView::customContextMenuRequested,
                      this, &MibBrowserWidget::contextMenu);
 
@@ -291,6 +332,16 @@ void MibBrowserWidget::disableEmpty()
     txtDescription->setDisabled(txtDescription->toPlainText().isEmpty());
     editReference->setDisabled(editReference->text().isEmpty());
     editDefault->setDisabled(editDefault->text().isEmpty());
+}
+
+/******************************************************************/
+
+void MibBrowserWidget::expandToIndex(const QModelIndex &proxyIndex)
+{
+    if (proxyIndex.isValid()) {
+        expandToIndex(proxyIndex.parent());
+        treeMibs->setExpanded(proxyIndex, true);
+    }
 }
 
 /******************************************************************/

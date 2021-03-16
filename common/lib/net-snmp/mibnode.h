@@ -192,10 +192,10 @@ public:
     operator bool() const {
         return isValid();
     }
-    bool operator== (const MibNode &rhs) {
+    bool operator== (const MibNode &rhs) const {
         return (this->node == rhs.node);
     }
-    bool operator!= (const MibNode &rhs) {
+    bool operator!= (const MibNode &rhs) const {
         return (this->node != rhs.node);
     }
 };

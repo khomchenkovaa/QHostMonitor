@@ -103,10 +103,12 @@ int NetSNMP::useSprintValue = 0;
 int NetSNMP::useEnums = 0;
 int NetSNMP::useNumeric = 0;
 MibNode NetSNMP::mibRoot;
+int NetSNMP::mibWarnings = 0;
+int NetSNMP::mibErrors = 0;
 int NetSNMP::verbose = 0;
 int NetSNMP::debugging = 0;
 int NetSNMP::dumpPacket = 0;
-int NetSNMP::saveDescriptions = 0;
+int NetSNMP::saveDescriptions = 1;
 int NetSNMP::bestGuess = 0;
 int NetSNMP::nonIncreasing = 0;
 int NetSNMP::replaceNewer = 0;
@@ -141,10 +143,10 @@ int NetSNMP::setEnv(const QString &envName, const QVariant &envVal, int overwrit
  */
 void NetSNMP::initSnmp(const QString& appName)
 {
-    snmp_set_do_debugging(1);
-    snmp_set_mib_warnings(0);
-    snmp_set_mib_errors(0);
-    snmp_set_save_descriptions(1);
+    snmp_set_do_debugging(NetSNMP::debugging);
+    snmp_set_mib_warnings(NetSNMP::mibWarnings);
+    snmp_set_mib_errors(NetSNMP::mibErrors);
+    snmp_set_save_descriptions(NetSNMP::saveDescriptions);
     init_snmp(appName.toLatin1().data());
 }
 

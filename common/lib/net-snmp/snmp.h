@@ -92,6 +92,8 @@ public:
     static int useEnums;         ///< non-zero to return integers as enums and allow sets using enums where appropriate
     static int useNumeric;       ///< non-zero to return object tags as numeric OID's instead of converting to textual representations.
     static MibNode mibRoot;      ///< tied hash to access libraries internal mib tree structure parsed in from mib files
+    static int mibWarnings;
+    static int mibErrors;
     static int verbose;          ///< controls warning/info output of SNMP module, 0 => no output, 1 =>enables warning and info output from NetSNMP class itself
     static int debugging;        ///< non-zero to globally enable libsnmp do_debugging output set to >= 2 to enabling packet dumping
     static int dumpPacket;       ///< non-zero to globally enable libsnmp dump_packet output.

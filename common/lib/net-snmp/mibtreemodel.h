@@ -31,7 +31,6 @@ public:
 
     QModelIndex indexFromOid(const QString& oid) const;
     QModelIndex indexFromNode(const MibNode& node) const;
-    QModelIndex findByName(const QString& name, const QModelIndex& parent) const;
 
 private:
     MibNode m_Root;

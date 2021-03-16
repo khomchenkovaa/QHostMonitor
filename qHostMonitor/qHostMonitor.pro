@@ -16,6 +16,8 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x051000
 
 CONFIG += c++11
 
+include("../common/lib/modeltest/modeltest.pri")
+
 include("../common/common.pri")
 include("../model/model.pri")
 include("../service/service.pri")

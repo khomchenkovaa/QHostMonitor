@@ -1,9 +1,9 @@
-#ifndef MIBBROWSER_STARTUP_H
-#define MIBBROWSER_STARTUP_H
+#ifndef KHARMOVIEW_STARTUP_H
+#define KHARMOVIEW_STARTUP_H
 
 #include <QObject>
 
-namespace MibBrowser {
+namespace KharmonView {
 
 class MainWindow;
 
@@ -26,6 +26,6 @@ private:
     void load();
 };
 
-} // namespace MibBrowser
+} // namespace KharmonView
 
-#endif // MIBBROWSER_STARTUP_H
+#endif // KHARMOVIEW_STARTUP_H

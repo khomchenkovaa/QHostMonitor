@@ -1,6 +1,8 @@
 #ifndef KHARMONVIEW_MAINWINDOW_H
 #define KHARMONVIEW_MAINWINDOW_H
 
+#include "snmpobjectmodel.h"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -16,6 +18,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+
+    void setModel(SnmpObjectModel *model);
 
 private:
     Ui::MainWindow *ui;

@@ -21,3 +21,10 @@ MainWindow::~MainWindow()
 
 /*************************************************************/
 
+void MainWindow::setModel(SnmpObjectModel *model)
+{
+    ui->objectTree->setModel(model);
+}
+
+/*************************************************************/
+

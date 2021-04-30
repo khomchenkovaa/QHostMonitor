@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    setupUI();
 }
 
 /*************************************************************/
@@ -28,3 +29,13 @@ void MainWindow::setModel(SnmpObjectModel *model)
 
 /*************************************************************/
 
+void MainWindow::setupUI()
+{
+    connect(ui->actionNew, &QAction::triggered, this, &MainWindow::cmdNew);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::cmdOpen);
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::cmdSave);
+    connect(ui->actionSaveAs, &QAction::triggered, this, &MainWindow::cmdSaveAs);
+    connect(ui->actionExit, &QAction::triggered, this, &QMainWindow::close);
+}
+
+/*************************************************************/

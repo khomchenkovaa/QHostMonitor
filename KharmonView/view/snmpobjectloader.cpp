@@ -105,7 +105,7 @@ bool SnmpObjectLoader::parseConf(const QString &diagConf)
             if (current->setTimeoutIfNotEmpty(valueForKey(line, "snmp_timeout"))) continue;
             if (current->setRetriesIfNotEmpty(valueForKey(line, "snmp_retries"))) continue;
         }
-        if (value.startsWith("}")) {
+        if (line.startsWith("}")) {
             SnmpObject *parentObj = qobject_cast<SnmpObject*>(current->parent());
             if (parentObj) current = parentObj;
             if (objLevel)  --objLevel;
@@ -114,14 +114,14 @@ bool SnmpObjectLoader::parseConf(const QString &diagConf)
         value = valueForKey(line, "object");
         if (value.startsWith("{")) {
             SnmpObject *childObj = new SnmpObject(current);
-            root->append(childObj);
+            current->append(childObj);
             current = childObj;
             ++objLevel;
             continue;
         }
     }
 
-    parseOK = (objLevel != 0);
+    parseOK = (objLevel == 0);
 
     if (parseOK) {
         SnmpObject::SYSTEM = globalSystem;

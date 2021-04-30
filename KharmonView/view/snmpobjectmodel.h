@@ -23,6 +23,14 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
+    void beginResetModel() {
+        QAbstractItemModel::beginResetModel();
+    }
+
+    void endResetModel() {
+        QAbstractItemModel::endResetModel();
+    }
+
 private:
     SnmpObject* nodeFromIndex(const QModelIndex& index) const;
 };

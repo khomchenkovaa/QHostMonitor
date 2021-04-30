@@ -170,6 +170,7 @@ void QSnmpCredentialsDlg::load(const int idx)
     case SNMPv1:  ui->cmbSnmpVersion->setCurrentIndex(0); break;
     case SNMPv2c: ui->cmbSnmpVersion->setCurrentIndex(1); break;
     case SNMPv3:  ui->cmbSnmpVersion->setCurrentIndex(2); break;
+    case SNMPvDefault: break;
     }
     ui->editCommunity->setText(profile.community);
     ui->editContext->setText(profile.context);

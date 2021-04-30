@@ -19,7 +19,17 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
     void setModel(SnmpObjectModel *model);
+
+signals:
+    void cmdNew();
+    void cmdOpen();
+    void cmdSave();
+    void cmdSaveAs();
+
+private:
+    void setupUI();
 
 private:
     Ui::MainWindow *ui;

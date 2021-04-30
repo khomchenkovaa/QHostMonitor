@@ -11,6 +11,10 @@ class SnmpObjectLoader : public QObject
 public:
     explicit SnmpObjectLoader(QObject *parent = nullptr);
 
+    QString fileName() const {
+        return m_FileName;
+    }
+
 public slots:
     void create();
     void load(const QString &fileName = QString());

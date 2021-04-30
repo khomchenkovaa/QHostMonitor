@@ -1,5 +1,7 @@
 #include "snmpobject.h"
 
+#include <QDebug>
+
 #define DFLT_HOST "localhost"
 #define DFLT_SNMP_PORT 161
 #define DFLT_SNMP_VERSION SDPO::SnmpVersion::SNMPv2c
@@ -19,7 +21,8 @@ SnmpObject* SnmpObject::root = nullptr;
 /*************************************************************/
 
 SnmpObject::SnmpObject(QObject *parent)
-    : QObject(parent)
+    : QObject(parent),
+    m_TimerId(0)
 {
 
 }
@@ -215,6 +218,40 @@ bool SnmpObject::setModuleIfNotEmpty(const QString &value)
         }
     }
     return false;
+}
+
+/*************************************************************/
+
+void SnmpObject::timerEvent(QTimerEvent *event)
+{
+    if (!m_Name.isEmpty()) {
+        qDebug() << "Object:" << m_Name << "Timer ID:" << event->timerId();
+    }
+}
+
+/*************************************************************/
+
+void SnmpObject::startView()
+{
+    foreach(SnmpObject* obj, m_Objects) {
+        obj->startView();
+    }
+    if (m_TimerId == 0) {
+        m_TimerId = startTimer(getTimeout() * 1000, Qt::VeryCoarseTimer);
+    }
+}
+
+/*************************************************************/
+
+void SnmpObject::stopView()
+{
+    if (m_TimerId != 0) {
+        killTimer(m_TimerId);
+        m_TimerId = 0;
+    }
+    foreach(SnmpObject* obj, m_Objects) {
+        obj->stopView();
+    }
 }
 
 /*************************************************************/

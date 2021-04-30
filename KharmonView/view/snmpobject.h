@@ -135,6 +135,13 @@ public:
         m_ModIdx = modIdx;
     }
 
+protected:
+    void timerEvent(QTimerEvent *event);
+
+public slots:
+    void startView();
+    void stopView();
+
 signals:
 
 public:
@@ -159,6 +166,7 @@ private:
     SnmpStatus    m_Status;
     SnmpModList   m_Modules;
     SnmpParamList m_Params;
+    int m_TimerId;
 };
 
 } // namespace KharmonView

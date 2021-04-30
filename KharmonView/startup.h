@@ -7,6 +7,7 @@ namespace KharmonView {
 
 class MainWindow;
 class SnmpObjectLoader;
+class SnmpObjectModel;
 
 class Startup : public QObject
 {
@@ -17,15 +18,16 @@ public:
     ~Startup();
 
 private:
-    MainWindow &m_MainForm;
+    MainWindow       &m_MainForm;
     SnmpObjectLoader &m_ObjectLoader;
+    SnmpObjectModel  &m_ObjectModel;
 
     // singleton
     explicit Startup(const Startup& rhs);
     Startup& operator= (const Startup& rhs);
 
     // functions
-    void load();
+    void setup();
 };
 
 } // namespace KharmonView

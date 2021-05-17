@@ -29,9 +29,27 @@ SnmpObject::SnmpObject(QObject *parent)
 
 /*************************************************************/
 
+void SnmpObject::append(SnmpObject *child)
+{
+    m_Objects.append(child);
+    connect(child, &SnmpObject::snmpUpdate, this, &SnmpObject::snmpUpdate);
+}
+
+/*************************************************************/
+
 QString SnmpObject::getName() const
 {
     return m_Name;
+}
+
+/*************************************************************/
+
+int SnmpObject::getModIdx() const
+{
+    if (m_ModIdx.isValid()) {
+        return m_ModIdx.toInt();
+    }
+    return 0;
 }
 
 /*************************************************************/
@@ -62,6 +80,13 @@ int SnmpObject::getPort() const
 
 /*************************************************************/
 
+QString SnmpObject::getDestHost() const
+{
+    return QString("%1:%2").arg(getHost()).arg(getPort());
+}
+
+/*************************************************************/
+
 SDPO::SnmpVersion SnmpObject::getVersion() const
 {
     if (m_Version.isValid()) {
@@ -71,6 +96,18 @@ SDPO::SnmpVersion SnmpObject::getVersion() const
         return static_cast<SDPO::SnmpVersion>(root->m_Version.toInt());
     }
     return DFLT_SNMP_VERSION;
+}
+
+/*************************************************************/
+
+QString SnmpObject::getVersionStr() const
+{
+    switch (getVersion()) {
+    case SDPO::SNMPv1: return "1";
+    case SDPO::SNMPv3: return "3";
+    default: break;
+    }
+    return "2c";
 }
 
 /*************************************************************/
@@ -226,6 +263,7 @@ void SnmpObject::timerEvent(QTimerEvent *event)
 {
     if (!m_Name.isEmpty()) {
         qDebug() << "Object:" << m_Name << "Timer ID:" << event->timerId();
+        emit snmpUpdate(this);
     }
 }
 

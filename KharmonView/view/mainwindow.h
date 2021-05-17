@@ -6,7 +6,9 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+class QTreeView;
+class QLabel;
+class QLineEdit;
 QT_END_NAMESPACE
 
 namespace KharmonView {
@@ -28,11 +30,42 @@ signals:
     void cmdSave();
     void cmdSaveAs();
 
-private:
-    void setupUI();
+private slots:
+    void updateInfo(const QModelIndex& index);
 
 private:
-    Ui::MainWindow *ui;
+    void setupUI();
+    void setupActions();
+    void setupMenuBar();
+    void setupStatusBar();
+    void setupToolBar();
+    void init();
+
+private:
+    QAction *actionNew;
+    QAction *actionOpen;
+    QAction *actionSave;
+    QAction *actionSaveAs;
+    QAction *actionExit;
+    QAction *actionObjAdd;
+    QAction *actionObjEdit;
+    QAction *actionObjRemove;
+    QAction *actionAbout;
+    QAction *actionDefaults;
+
+    QTreeView *objectTree;
+    QLabel    *navPath;
+    QTreeView *modelList;
+    QTreeView *propertyList;
+
+    QLineEdit *editName;
+    QLineEdit *editHost;
+    QLineEdit *editModIndex;
+    QLineEdit *editSnmpPort;
+    QLineEdit *editSnmpVersion;
+    QLineEdit *editSnmpCommunity;
+    QLineEdit *editSnmpTimeout;
+    QLineEdit *editSnmpRetries;
 };
 
 } // namespace KharmonView

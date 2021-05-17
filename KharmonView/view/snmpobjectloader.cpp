@@ -55,7 +55,7 @@ void SnmpObjectLoader::load(const QString &fileName)
 
 void SnmpObjectLoader::save(const QString &fileName)
 {
-
+    Q_UNUSED(fileName)
 }
 
 /*************************************************************/

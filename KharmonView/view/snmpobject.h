@@ -70,9 +70,7 @@ class SnmpObject : public QObject
 public:
     explicit SnmpObject(QObject *parent = nullptr);
 
-    void append(SnmpObject* child) {
-        m_Objects.append(child);
-    }
+    void append(SnmpObject* child);
 
     SnmpObject* childAt(int idx) {
         return m_Objects.at(idx);
@@ -87,9 +85,12 @@ public:
     }
 
     QString getName() const;
+    int getModIdx() const;
     QString getHost() const;
     int getPort() const;
+    QString getDestHost() const;
     SDPO::SnmpVersion getVersion() const;
+    QString getVersionStr() const;
     QString getCommunity() const;
     int getTimeout() const;
     int getRetries() const;
@@ -143,6 +144,12 @@ public slots:
     void stopView();
 
 signals:
+    void snmpUpdate(SnmpObject *snmpObject);
+
+public:
+    static QString objectTitle() {
+        return QString("%1 (%2)").arg(SnmpObject::SYSTEM, SnmpObject::SUBSYSTEM);
+    }
 
 public:
     // Общие параметры

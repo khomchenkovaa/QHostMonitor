@@ -32,6 +32,7 @@ signals:
 
 private slots:
     void updateInfo(const QModelIndex& index);
+    void updateParams(const QModelIndex& index);
 
 private:
     void setupUI();

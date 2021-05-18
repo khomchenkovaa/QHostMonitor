@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include "snmpmodulemodel.h"
+
 #include <QtWidgets>
 
 using namespace KharmonView;
@@ -46,8 +48,11 @@ MainWindow::~MainWindow()
 void MainWindow::setModel(SnmpObjectModel *model)
 {
     objectTree->setModel(model);
+    modelList->setModel(new SnmpModuleModel());
     QObject::connect(objectTree->selectionModel(), &QItemSelectionModel::currentChanged,
                      this, &MainWindow::updateInfo);
+    QObject::connect(modelList->selectionModel(), &QItemSelectionModel::currentChanged,
+                     this, &MainWindow::updateParams);
     updateInfo(objectTree->currentIndex());
 }
 
@@ -78,6 +83,16 @@ void MainWindow::updateInfo(const QModelIndex &index)
     editSnmpCommunity->setText(node->getCommunity());
     editSnmpTimeout->setText(QString::number(node->getTimeout()));
     editSnmpRetries->setText(QString::number(node->getRetries()));
+
+    SnmpModuleModel *modModel = qobject_cast<SnmpModuleModel *>(modelList->model());
+    modModel->setObject(node);
+}
+
+/*************************************************************/
+
+void MainWindow::updateParams(const QModelIndex &index)
+{
+
 }
 
 /*************************************************************/

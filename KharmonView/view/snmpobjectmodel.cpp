@@ -94,9 +94,18 @@ QVariant SnmpObjectModel::data(const QModelIndex &index, int role) const
 
 QVariant SnmpObjectModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if (orientation != Qt::Horizontal) return QVariant();
-    if (section) return QVariant();
-    if (role != Qt::DisplayRole) return QVariant();
+    if (orientation != Qt::Horizontal) {
+        return QVariant();
+    }
+
+    if (section) {
+        return QVariant();
+    }
+
+    if (role != Qt::DisplayRole) {
+        return QVariant();
+    }
+
     return SnmpObject::objectTitle();
 }
 

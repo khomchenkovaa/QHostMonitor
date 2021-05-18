@@ -15,6 +15,13 @@ struct SnmpSystem {
     QString sysContact;
     int     sysType;
     QString sysParentObjectURI;
+
+    QString toString() const {
+        return QString("[%1,%2,%3,%4,%5,%6]")
+            .arg(sysName, sysDescr, sysLocation, sysContact)
+            .arg(sysType)
+            .arg(sysParentObjectURI);
+    }
 };
 
 // status struct
@@ -22,6 +29,12 @@ struct SnmpStatus {
     int     statStatus;
     QString statStatusDesc;
     QString statLastChangeDate;
+
+    QString toString() const {
+        return QString("[%1 (%2) - %3]")
+            .arg(statStatus)
+            .arg(statStatusDesc, statLastChangeDate);
+    }
 };
 
 /*
@@ -135,6 +148,23 @@ public:
     void setModIdx(int modIdx) {
         m_ModIdx = modIdx;
     }
+
+    SnmpSystem *snmpSystem() {
+        return &m_System;
+    }
+
+    SnmpStatus *snmpStatus() {
+        return &m_Status;
+    }
+
+    SnmpModList *snmpModList() {
+        return &m_Modules;
+    }
+
+    SnmpParamList *snmpParamList() {
+        return &m_Params;
+    }
+
 
 protected:
     void timerEvent(QTimerEvent *event);

@@ -12,17 +12,29 @@ SnmpClient::SnmpClient(QObject *parent) : QObject(parent)
     SDPO::NetSNMP::saveDescriptions = 0;
     SDPO::NetSNMP::initSnmp();
 
-    objid_SysName = SDPO::MibOid::parse("DIAG-MIB::sysName.0");
-    objid_SysDesc = SDPO::MibOid::parse("DIAG-MIB::sysDesc.0");
-    objid_SysLocation = SDPO::MibOid::parse("DIAG-MIB::sysLocation.0");
-    objid_SysContact = SDPO::MibOid::parse("DIAG-MIB::sysContact.0");
-    objid_SysType = SDPO::MibOid::parse("DIAG-MIB::sysType.0");
+    objid_SysName            = SDPO::MibOid::parse("DIAG-MIB::sysName.0");
+    objid_SysDesc            = SDPO::MibOid::parse("DIAG-MIB::sysDesc.0");
+    objid_SysLocation        = SDPO::MibOid::parse("DIAG-MIB::sysLocation.0");
+    objid_SysContact         = SDPO::MibOid::parse("DIAG-MIB::sysContact.0");
+    objid_SysType            = SDPO::MibOid::parse("DIAG-MIB::sysType.0");
     objid_SysParentObjectURI = SDPO::MibOid::parse("DIAG-MIB::sysParentObjectURI.0");
-    objid_StatStatus = SDPO::MibOid::parse("DIAG-MIB::statStatus.0");
-    objid_StatStatusDesc = SDPO::MibOid::parse("DIAG-MIB::statStatusDesc.0");
+    objid_StatStatus         = SDPO::MibOid::parse("DIAG-MIB::statStatus.0");
+    objid_StatStatusDesc     = SDPO::MibOid::parse("DIAG-MIB::statStatusDesc.0");
     objid_StatLastChangeDate = SDPO::MibOid::parse("DIAG-MIB::statLastChangeDate.0");
-    objid_ModCount = SDPO::MibOid::parse("DIAG-MIB::modCount.0");
-    objid_ParamCount = SDPO::MibOid::parse("DIAG-MIB::paramCount.0");
+    objid_ModCount           = SDPO::MibOid::parse("DIAG-MIB::modCount.0");
+    objid_ParamCount         = SDPO::MibOid::parse("DIAG-MIB::paramCount.0");
+
+    oids << objid_SysName
+         << objid_SysDesc
+         << objid_SysLocation
+         << objid_SysContact
+         << objid_SysType
+         << objid_SysParentObjectURI
+         << objid_StatStatus
+         << objid_StatStatusDesc
+         << objid_StatLastChangeDate
+         << objid_ModCount
+         << objid_ParamCount;
 
     objid_ModTableColumns
         << SDPO::MibOid::parse("DIAG-MIB::modIndex")
@@ -72,27 +84,106 @@ void SnmpClient::snmpRun(SnmpObject *snmpObject)
     ss.setTimeoutSec(snmpObject->getTimeout());
     ss.setRetries(snmpObject->getRetries());
 
-    QList<SDPO::MibOid> oids;
-    oids.append(objid_SysName);
-    oids.append(objid_SysDesc);
-    oids.append(objid_SysLocation);
-    oids.append(objid_SysContact);
-    oids.append(objid_SysType);
-    oids.append(objid_SysParentObjectURI);
-    oids.append(objid_StatStatus);
-    oids.append(objid_StatStatusDesc);
-    oids.append(objid_StatLastChangeDate);
-    oids.append(objid_ModCount);
-    oids.append(objid_ParamCount);
-
-    SDPO::SnmpValueList valueList = ss.get(oids);
-    SDPO::SnmpValueTable modTable = ss.getTableRows(objid_ModTableColumns);
-    SDPO::SnmpValueTable paramTable = ss.getTableRows(objid_ParamTableColumns);
+    snmpStatic(ss, snmpObject);
+    snmpModules(ss, snmpObject);
+    snmpParams(ss, snmpObject);
 
     qDebug() << "Object:" << snmpObject->getName()
-             << "Received values:" << valueList.count()
-             << "modules:" << modTable.count()
-             << "params:" << paramTable.count();
+             << "Received system:" << snmpObject->snmpSystem()->toString()
+             << "status:" << snmpObject->snmpStatus()->toString()
+             << "modules:" << snmpObject->snmpModList()->count()
+             << "params:" << snmpObject->snmpParamList()->count();
+}
+
+/*************************************************************/
+
+void SnmpClient::snmpStatic(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject)
+{
+    SDPO::SnmpValueList valueList = ss.get(oids);
+    foreach(const SDPO::SnmpValue &value, valueList) {
+        if (objid_SysName.equals(value.name)) {
+            snmpObject->snmpSystem()->sysName = value.val;
+        }
+        if (objid_SysDesc.equals(value.name)) {
+            snmpObject->snmpSystem()->sysDescr = value.val;
+            continue;
+        }
+        if (objid_SysLocation.equals(value.name)) {
+            snmpObject->snmpSystem()->sysLocation = value.val;
+            continue;
+        }
+        if (objid_SysContact.equals(value.name)) {
+            snmpObject->snmpSystem()->sysContact = value.val;
+            continue;
+        }
+        if (objid_SysType.equals(value.name)) {
+            snmpObject->snmpSystem()->sysType = value.val.toInt();
+            continue;
+        }
+        if (objid_SysParentObjectURI.equals(value.name)) {
+            snmpObject->snmpSystem()->sysParentObjectURI = value.val;
+            continue;
+        }
+        if (objid_StatStatus.equals(value.name)) {
+            snmpObject->snmpStatus()->statStatus = value.val.toInt();
+            continue;
+        }
+        if (objid_StatStatusDesc.equals(value.name)) {
+            snmpObject->snmpStatus()->statStatusDesc = value.val;
+            continue;
+        }
+        if (objid_StatLastChangeDate.equals(value.name)) {
+            snmpObject->snmpStatus()->statLastChangeDate = value.val;
+            continue;
+        }
+    }
+}
+
+/*************************************************************/
+
+void SnmpClient::snmpModules(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject)
+{
+    SDPO::SnmpValueTable modTable = ss.getTableRows(objid_ModTableColumns);
+    snmpObject->snmpModList()->clear();
+    foreach(const SDPO::SnmpValueList &row, modTable) {
+        SnmpModule module;
+        module.modIndex          = row.at(0).val.toLong();
+        module.modName           = row.at(1).val;
+        module.modDesc           = row.at(2).val;
+        module.modType           = row.at(3).val.toInt();
+        module.modStatus         = row.at(4).val.toInt();
+        module.modStatusDesc     = row.at(5).val;
+        module.modLastChangeDate = row.at(6).val;
+        module.modURI            = row.at(7).val;
+        snmpObject->snmpModList()->append(module);
+    }
+}
+
+/*************************************************************/
+
+void SnmpClient::snmpParams(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject)
+{
+    SDPO::SnmpValueTable paramTable = ss.getTableRows(objid_ParamTableColumns);
+    snmpObject->snmpParamList()->clear();
+    foreach(const SDPO::SnmpValueList &row, paramTable) {
+        SnmpParameter param;
+        param.paramName             = row.at(0).val;
+        param.paramDesc             = row.at(1).val;
+        param.paramCurrValue        = row.at(2).val;
+        param.paramCurrValueDesc    = row.at(3).val;
+        param.paramType             = row.at(4).val.toInt();
+        param.paramDataType         = row.at(5).val.toInt();
+        param.paramUnits            = row.at(6).val;
+        param.paramStatus           = row.at(7).val.toInt();
+        param.paramLastChangeDate   = row.at(8).val;
+        param.paramNormalValue      = row.at(9).val;
+        param.paramLowFailLimit     = row.at(10).val;
+        param.paramLowWarningLimit  = row.at(11).val;
+        param.paramHighFailLimit    = row.at(12).val;
+        param.paramHighWarningLimit = row.at(13).val;
+        param.paramModuleIndex      = row.at(14).val.toInt();
+        snmpObject->snmpParamList()->append(param);
+    }
 }
 
 /*************************************************************/

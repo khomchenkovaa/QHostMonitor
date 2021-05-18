@@ -90,6 +90,10 @@ public:
             m_Timeout = timeout;
         }
     }
+    /*! Number of sec until first timeout, then exponential backoff */
+    void setTimeoutSec(const long timeout) {
+        setTimeout(timeout * 1000000L);
+    }
     /*! name or address of default peer (may include transport specifier and/or port number) */
     void setDestHost(const QString& host = DEST_HOST_DEFAULT) {
         if (m_DestHost != host) {

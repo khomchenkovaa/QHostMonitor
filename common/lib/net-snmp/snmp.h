@@ -86,8 +86,9 @@ typedef QList<SnmpValueList> SnmpValueTable;
 
 class NetSNMP {
 public:
-    static bool autoInitMib;      ///< enable automatic MIB loading at session creation time
-    static bool useLongNames;     ///< non-zero to prefer longer mib textual identifiers rather than just leaf indentifiers
+    static QString appName;      ///< snmp application name
+    static bool autoInitMib;     ///< enable automatic MIB loading at session creation time
+    static bool useLongNames;    ///< non-zero to prefer longer mib textual identifiers rather than just leaf indentifiers
     static int useSprintValue;   ///< non-zero to enable formatting of response values using the snmp libraries "snprint_value"
     static int useEnums;         ///< non-zero to return integers as enums and allow sets using enums where appropriate
     static int useNumeric;       ///< non-zero to return object tags as numeric OID's instead of converting to textual representations.
@@ -105,7 +106,7 @@ public:
     static void registerDebugTokens(const QString& tokens);
     static QVariant getEnv(const QString& name);
     static int setEnv(const QString& envName, const QVariant& envVal, int overwrite);
-    static void initSnmp(const QString& appName = SNMP_INIT_DEFAULT_NAME);
+    static void initSnmp();
     static bool addMibDirs(const QStringList& mibDirs);
     static bool addMibFiles(const QStringList& mibFiles);
     static bool loadModules(const QStringList& mibModules);

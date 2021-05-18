@@ -275,7 +275,7 @@ void SnmpObject::startView()
         obj->startView();
     }
     if (m_TimerId == 0) {
-        m_TimerId = startTimer(getTimeout() * 1000, Qt::VeryCoarseTimer);
+        m_TimerId = startTimer(DLG_TIMEOUT * 1000, Qt::VeryCoarseTimer);
     }
 }
 

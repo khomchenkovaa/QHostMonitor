@@ -75,14 +75,14 @@ void QMibGetValueDlg::cmdSysInfo()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
 
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -169,7 +169,7 @@ void QMibGetValueDlg::cmdGetValue()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oid = ui->cmbOid->currentText();
@@ -177,7 +177,7 @@ void QMibGetValueDlg::cmdGetValue()
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -193,7 +193,7 @@ void QMibGetValueDlg::cmdBulkGet()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
@@ -202,7 +202,7 @@ void QMibGetValueDlg::cmdBulkGet()
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -230,7 +230,7 @@ void QMibGetValueDlg::cmdBulkWalk()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
@@ -239,7 +239,7 @@ void QMibGetValueDlg::cmdBulkWalk()
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -264,7 +264,7 @@ void QMibGetValueDlg::cmdGetRow()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
@@ -272,7 +272,7 @@ void QMibGetValueDlg::cmdGetRow()
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -293,7 +293,7 @@ void QMibGetValueDlg::cmdGetNext()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oidStr = ui->cmbOid->currentText();
@@ -301,7 +301,7 @@ void QMibGetValueDlg::cmdGetNext()
     Q_UNUSED(timeout)
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
 
@@ -330,7 +330,7 @@ void QMibGetValueDlg::cmdSetValue()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oid = ui->cmbOid->currentText();
@@ -345,7 +345,7 @@ void QMibGetValueDlg::cmdSetValue()
     printTitle(QString("## SnmpSet: %1 = %2").arg(NetSNMP::translateObj(oid), newValue));
 
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
     SnmpValue value = ss.set(oid, newValue);

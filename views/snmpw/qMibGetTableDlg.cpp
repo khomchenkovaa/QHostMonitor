@@ -45,7 +45,7 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
     // get values
     QString snmpProfile = ui->cmbProfile->currentText();
     SnmpProfile profile = SnmpProfile::findByName(snmpProfile);
-    long timeout = ui->spinTimeout->value() * 1000000L; // "2" / "1"
+    long timeout = ui->spinTimeout->value(); // "2" / "1"
     int retries = ui->spinRetries->value(); // "1" / "5"
     QString host = ui->cmbHost->currentText(); // port = 161
     QString oid = ui->cmbOid->currentText();
@@ -56,7 +56,7 @@ void SDPO::QMibGetTableDlg::on_btnGet_clicked()
 
     NetSnmpSession ss;
     ss.setProfile(profile);
-    ss.setTimeout(timeout);
+    ss.setTimeoutSec(timeout);
     ss.setRetries(retries);
     ss.setDestHost(host);
     connect(&ss, &NetSnmpSession::error, this, [this](const QString& msg){

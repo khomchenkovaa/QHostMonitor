@@ -97,6 +97,7 @@ SnmpValue SnmpValue::fromError(const MibOid &mibOid, const QString &err)
 // NetSnmp Core
 /*****************************************************************/
 
+QString NetSNMP::appName = SNMP_INIT_DEFAULT_NAME;
 bool NetSNMP::autoInitMib = true;
 bool NetSNMP::useLongNames = false;
 int NetSNMP::useSprintValue = 0;
@@ -141,7 +142,7 @@ int NetSNMP::setEnv(const QString &envName, const QVariant &envVal, int overwrit
 /*!
  * \brief initSnmp is equivalent to calling the snmp library init_snmp
  */
-void NetSNMP::initSnmp(const QString& appName)
+void NetSNMP::initSnmp()
 {
     snmp_set_do_debugging(NetSNMP::debugging);
     snmp_set_mib_warnings(NetSNMP::mibWarnings);
@@ -159,7 +160,7 @@ void NetSNMP::initSnmp(const QString& appName)
  */
 bool NetSNMP::addMibDirs(const QStringList &mibDirs)
 {
-    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    initSnmp();
     foreach(const QString& mibDir, mibDirs) {
         if (!MibNode::addMibDir(mibDir)) return false;
     }
@@ -174,7 +175,7 @@ bool NetSNMP::addMibDirs(const QStringList &mibDirs)
  */
 bool NetSNMP::addMibFiles(const QStringList &mibFiles)
 {
-    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    initSnmp();
     foreach(const QString& mibFile, mibFiles) {
         if (!MibNode::readMib(mibFile)) return false;
     }
@@ -191,7 +192,7 @@ bool NetSNMP::addMibFiles(const QStringList &mibFiles)
  */
 bool NetSNMP::loadModules(const QStringList &mibModules)
 {
-    initSnmp(SNMP_INIT_DEFAULT_NAME);
+    initSnmp();
     foreach(const QString& module, mibModules) {
         if (!MibNode::readModule(module)) return false;
     }

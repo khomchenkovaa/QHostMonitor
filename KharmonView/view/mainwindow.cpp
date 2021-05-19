@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include "snmpmodulemodel.h"
+#include "snmpparammodel.h"
 
 #include <QtWidgets>
 
@@ -49,6 +50,7 @@ void MainWindow::setModel(SnmpObjectModel *model)
 {
     objectTree->setModel(model);
     modelList->setModel(new SnmpModuleModel());
+    propertyList->setModel(new SnmpParamModel());
     QObject::connect(objectTree->selectionModel(), &QItemSelectionModel::currentChanged,
                      this, &MainWindow::updateInfo);
     QObject::connect(modelList->selectionModel(), &QItemSelectionModel::currentChanged,
@@ -86,13 +88,30 @@ void MainWindow::updateInfo(const QModelIndex &index)
 
     SnmpModuleModel *modModel = qobject_cast<SnmpModuleModel *>(modelList->model());
     modModel->setObject(node);
+    SnmpParamModel *paramModel = qobject_cast<SnmpParamModel *>(propertyList->model());
+    if (node->getModIdx()) {
+        paramModel->setObject(node, node->getModIdx());
+    } else {
+        paramModel->setObject(Q_NULLPTR, 0);
+    }
 }
 
 /*************************************************************/
 
 void MainWindow::updateParams(const QModelIndex &index)
 {
-
+    SnmpParamModel *paramModel = qobject_cast<SnmpParamModel *>(propertyList->model());
+    if (!index.isValid()) {
+        paramModel->setObject(Q_NULLPTR, 0);
+        return;
+    }
+    if (index.column()) {
+        return;
+    }
+    SnmpModuleModel *modModel = qobject_cast<SnmpModuleModel *>(modelList->model());
+    QModelIndex modelIndex = modModel->index(index.row(), 0);
+    QVariant data = modModel->data(modelIndex);
+    paramModel->setObject(modModel->getObject(), data.toString().toLong());
 }
 
 /*************************************************************/

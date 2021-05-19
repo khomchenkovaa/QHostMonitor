@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/snmpmodulemodel.h \
     $$PWD/snmpobject.h \
     $$PWD/snmpobjectloader.h \
-    $$PWD/snmpobjectmodel.h
+    $$PWD/snmpobjectmodel.h \
+    $$PWD/snmpparammodel.h
 
 SOURCES += \
     $$PWD/mainwindow.cpp \
@@ -15,4 +16,5 @@ SOURCES += \
     $$PWD/snmpmodulemodel.cpp \
     $$PWD/snmpobject.cpp \
     $$PWD/snmpobjectloader.cpp \
-    $$PWD/snmpobjectmodel.cpp
+    $$PWD/snmpobjectmodel.cpp \
+    $$PWD/snmpparammodel.cpp

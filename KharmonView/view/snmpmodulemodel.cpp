@@ -74,6 +74,10 @@ int SnmpModuleModel::rowCount(const QModelIndex &parent) const
         return 0;
     }
 
+    if (m_Object->getModIdx()) {
+        return 1;
+    }
+
     return m_Object->snmpModList()->size();
 }
 
@@ -102,7 +106,18 @@ QVariant SnmpModuleModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    SnmpModule module = m_Object->snmpModList()->at(index.row());
+    int row = index.row();
+
+    if (m_Object->getModIdx()) {
+        for (int i=0; i< m_Object->snmpModList()->size(); ++i) {
+            if (m_Object->snmpModList()->at(i).modIndex == m_Object->getModIdx()) {
+                row = i;
+                break;
+            }
+        }
+    }
+
+    SnmpModule module = m_Object->snmpModList()->at(row);
 
     switch (index.column()) {
     case 0: return QString::number(module.modIndex); break;
@@ -115,8 +130,14 @@ QVariant SnmpModuleModel::data(const QModelIndex &index, int role) const
     case 7: return module.modURI; break;
     }
 
-    // FIXME: Implement me!
     return QVariant();
+}
+
+/*****************************************************************/
+
+SnmpObject *SnmpModuleModel::getObject()
+{
+    return m_Object;
 }
 
 /*****************************************************************/

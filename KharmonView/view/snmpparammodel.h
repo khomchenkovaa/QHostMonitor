@@ -1,5 +1,5 @@
-#ifndef SNMPMODULEMODEL_H
-#define SNMPMODULEMODEL_H
+#ifndef SNMPPARAMMODEL_H
+#define SNMPPARAMMODEL_H
 
 #include "snmpobject.h"
 
@@ -7,12 +7,12 @@
 
 namespace KharmonView {
 
-class SnmpModuleModel : public QAbstractItemModel
+class SnmpParamModel : public QAbstractItemModel
 {
     Q_OBJECT
 
 public:
-    explicit SnmpModuleModel(QObject *parent = nullptr);
+    explicit SnmpParamModel(QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -27,15 +27,14 @@ public:
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
-    SnmpObject* getObject();
-    void setObject(SnmpObject* snmpObject);
+    void setObject(SnmpObject* snmpObject, int moduleIdx);
 
 private:
     SnmpObject* m_Object;
     QStringList m_Header;
-
+    int m_Idx;
 };
 
 } // namespace KharmonView
 
-#endif // SNMPMODULEMODEL_H
+#endif // SNMPPARAMMODEL_H

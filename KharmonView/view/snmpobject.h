@@ -72,7 +72,7 @@ struct SnmpParameter {
     QString paramLowWarningLimit;
     QString paramHighFailLimit;
     QString paramHighWarningLimit;
-    int     paramModuleIndex;
+    long    paramModuleIndex;
 };
 
 typedef QList<SnmpParameter> SnmpParamList;

@@ -261,9 +261,19 @@ bool SnmpObject::setModuleIfNotEmpty(const QString &value)
 
 void SnmpObject::timerEvent(QTimerEvent *event)
 {
-    if (!m_Name.isEmpty()) {
-        qDebug() << "Object:" << m_Name << "Timer ID:" << event->timerId();
+    Q_UNUSED(event)
+    updateWithChilds();
+}
+
+/*************************************************************/
+
+void SnmpObject::updateWithChilds()
+{
+    if (!m_Name.isEmpty()) { // ROOT
         emit snmpUpdate(this);
+    }
+    foreach(SnmpObject* obj, m_Objects) {
+        obj->updateWithChilds();
     }
 }
 
@@ -271,9 +281,6 @@ void SnmpObject::timerEvent(QTimerEvent *event)
 
 void SnmpObject::startView()
 {
-    foreach(SnmpObject* obj, m_Objects) {
-        obj->startView();
-    }
     if (m_TimerId == 0) {
         m_TimerId = startTimer(DLG_TIMEOUT * 1000, Qt::VeryCoarseTimer);
     }
@@ -286,9 +293,6 @@ void SnmpObject::stopView()
     if (m_TimerId != 0) {
         killTimer(m_TimerId);
         m_TimerId = 0;
-    }
-    foreach(SnmpObject* obj, m_Objects) {
-        obj->stopView();
     }
 }
 

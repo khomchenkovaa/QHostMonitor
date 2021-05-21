@@ -170,6 +170,7 @@ protected:
     void timerEvent(QTimerEvent *event);
 
 public slots:
+    void updateWithChilds();
     void startView();
     void stopView();
 

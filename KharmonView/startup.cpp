@@ -12,10 +12,10 @@ using namespace KharmonView;
 
 Startup::Startup()
     : QObject(nullptr)
-    , m_MainForm    (*new MainWindow(nullptr))
-    , m_ObjectLoader(*new SnmpObjectLoader(nullptr))
-    , m_ObjectModel (*new SnmpObjectModel(nullptr))
-    , m_SnmpClient  (*new SnmpClient(nullptr))
+    , m_MainForm    (*new MainWindow())
+    , m_ObjectLoader(*new SnmpObjectLoader())
+    , m_ObjectModel (*new SnmpObjectModel())
+    , m_SnmpClient  (*new SnmpClient())
 {
     setup();
 }

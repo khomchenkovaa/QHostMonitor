@@ -9,8 +9,8 @@ class MonitoringTask : public QObject, public QRunnable
 {
     Q_OBJECT
 
-    SDPO::TTestMethod *m_testMethod;
-    bool m_canceled;
+    SDPO::TTestMethod *m_TestMethod;
+    bool m_Canceled;
 public:
     explicit MonitoringTask(SDPO::TTestMethod *testMethod, QObject *parent = 0);
 

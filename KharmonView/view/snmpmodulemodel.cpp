@@ -11,14 +11,15 @@ SnmpModuleModel::SnmpModuleModel(QObject *parent)
     , m_Object(Q_NULLPTR)
 {
     m_Header
-        << "Index"
         << "Name"
         << "Desc"
         << "Type"
         << "Status"
         << "Status Desc"
         << "Last Change Date"
-        << "URI";
+        << "URI"
+        << "Index"
+        ;
 }
 
 /*****************************************************************/
@@ -123,14 +124,14 @@ QVariant SnmpModuleModel::data(const QModelIndex &index, int role) const
 
     if (role == Qt::DisplayRole) {
         switch (index.column()) {
-        case 0: return QString::number(module.modIndex); break;
-        case 1: return module.modName; break;
-        case 2: return module.modDesc; break;
-        case 3: return module.modType; break;
-        case 4: return module.modStatus; break;
-        case 5: return module.modStatusDesc; break;
-        case 6: return module.modLastChangeDate; break;
-        case 7: return module.modURI; break;
+        case 0: return module.modName; break;
+        case 1: return module.modDesc; break;
+        case 2: return module.modType; break;
+        case 3: return module.modStatus; break;
+        case 4: return module.modStatusDesc; break;
+        case 5: return module.modLastChangeDate; break;
+        case 6: return module.modURI; break;
+        case 7: return QString::number(module.modIndex); break;
         }
     }
 

@@ -124,11 +124,8 @@ void MainWindow::updateParams(const QModelIndex &index)
         paramModel->setObject(Q_NULLPTR, 0);
         return;
     }
-    if (index.column()) {
-        return;
-    }
     SnmpModuleModel *modModel = qobject_cast<SnmpModuleModel *>(modelList->model());
-    QModelIndex modelIndex = modModel->index(index.row(), 0);
+    QModelIndex modelIndex = modModel->index(index.row(), 7);
     QVariant data = modModel->data(modelIndex);
     paramModel->setObject(modModel->getObject(), data.toString().toLong());
 }
@@ -153,6 +150,26 @@ void MainWindow::setupUI()
     setupMenuBar();
     setupStatusBar();
     setupToolBar();
+
+    QString style =
+        "QTreeView::item:!selected { "
+        "border: 1px solid gainsboro; "
+        "border-left: none; "
+        "border-top: none; "
+        "} "
+        "QTreeView::item:selected {}";
+
+    modelList->setStyleSheet(style);
+    modelList->setAlternatingRowColors(true);
+    modelList->setIndentation(0);
+    modelList->setFont(font);
+    modelList->header()->setFont(font);
+
+    propertyList->setStyleSheet(style);
+    propertyList->setAlternatingRowColors(true);
+    propertyList->setIndentation(0);
+    propertyList->setFont(font);
+    propertyList->header()->setFont(font);
 
     QFormLayout *objectForm = new QFormLayout();
     objectForm->setHorizontalSpacing(10);

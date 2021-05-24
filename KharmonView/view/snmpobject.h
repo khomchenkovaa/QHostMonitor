@@ -108,6 +108,13 @@ public:
     int getTimeout() const;
     int getRetries() const;
 
+    bool isHostValid() const      { return m_Host.isValid();      }
+    bool isPortValid() const      { return m_Port.isValid();      }
+    bool isVersionValid() const   { return m_Version.isValid();   }
+    bool isCommunityValid() const { return m_Community.isValid(); }
+    bool isTimeoutValid() const   { return m_Timeout.isValid();   }
+    bool isRetriesValid() const   { return m_Retries.isValid();   }
+
     bool setNameIfNotEmpty(const QString &value);
     bool setHostIfNotEmpty(const QString &value);
     bool setPortIfNotEmpty(const QString &value);

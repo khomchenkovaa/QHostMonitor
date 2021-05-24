@@ -1,5 +1,7 @@
 #include "snmpparammodel.h"
 
+#include <QIcon>
+
 using namespace KharmonView;
 
 /*****************************************************************/
@@ -111,7 +113,7 @@ QVariant SnmpParamModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role != Qt::DisplayRole) {
+    if (role != Qt::DisplayRole && role != Qt::DecorationRole) {
         return QVariant();
     }
 
@@ -130,22 +132,42 @@ QVariant SnmpParamModel::data(const QModelIndex &index, int role) const
 
     SnmpParameter param = m_Object->snmpParamList()->at(row);
 
-    switch (index.column()) {
-    case 0: return param.paramName; break;
-    case 1: return param.paramDesc; break;
-    case 2: return param.paramCurrValue; break;
-    case 3: return param.paramCurrValueDesc; break;
-    case 4: return param.paramType; break;
-    case 5: return param.paramDataType; break;
-    case 6: return param.paramUnits; break;
-    case 7: return param.paramStatus; break;
-    case 8: return param.paramLastChangeDate; break;
-    case 9: return param.paramNormalValue; break;
-    case 10: return param.paramLowFailLimit; break;
-    case 11: return param.paramLowWarningLimit; break;
-    case 12: return param.paramHighFailLimit; break;
-    case 13: return param.paramHighWarningLimit; break;
-    case 14: return QString::number(param.paramModuleIndex); break;
+    if (role == Qt::DisplayRole) {
+        switch (index.column()) {
+        case 0: return param.paramName; break;
+        case 1: return param.paramDesc; break;
+        case 2: return param.paramCurrValue; break;
+        case 3: return param.paramCurrValueDesc; break;
+        case 4: return param.paramType; break;
+        case 5: return param.paramDataType; break;
+        case 6: return param.paramUnits; break;
+        case 7: return param.paramStatus; break;
+        case 8: return param.paramLastChangeDate; break;
+        case 9: return param.paramNormalValue; break;
+        case 10: return param.paramLowFailLimit; break;
+        case 11: return param.paramLowWarningLimit; break;
+        case 12: return param.paramHighFailLimit; break;
+        case 13: return param.paramHighWarningLimit; break;
+        case 14: return QString::number(param.paramModuleIndex); break;
+        }
+    }
+
+    if (role == Qt::DecorationRole && index.column() == 0) {
+        switch (param.paramStatus) {
+        case 0: // normal
+            return QIcon(":img/status/tstOk.png");
+        case 1: // lowWarning
+        case 2: // highWarning
+            return QIcon(":img/status/tstBadContents.png");
+        case 3: // initial
+            return QIcon(":img/status/tstChecking.png");
+        case 10: // lowFail
+        case 11: // highFail
+        case 12: // fail
+            return QIcon(":img/status/tstBad.png");
+        case 101: // unknown
+            return QIcon(":img/status/tstNotTested.png");
+        }
     }
 
     return QVariant();

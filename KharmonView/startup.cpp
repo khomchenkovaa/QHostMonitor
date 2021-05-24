@@ -59,6 +59,7 @@ void Startup::cfgOpen()
         m_ObjectLoader.load(fileName);
         m_ObjectModel.endResetModel();
         connect(SnmpObject::root, &SnmpObject::snmpUpdate, &m_SnmpClient, &SnmpClient::snmpRun);
+        SnmpObject::root->updateWithChilds();
         SnmpObject::root->startView();
     }
 }

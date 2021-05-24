@@ -41,6 +41,7 @@ private:
     void setupStatusBar();
     void setupToolBar();
     void init();
+    void setLineEditValue(QLineEdit *widget, const QString &value, bool isValid);
 
 private:
     QAction *actionNew;
@@ -55,7 +56,6 @@ private:
     QAction *actionDefaults;
 
     QTreeView *objectTree;
-    QLabel    *navPath;
     QTreeView *modelList;
     QTreeView *propertyList;
 
@@ -67,6 +67,17 @@ private:
     QLineEdit *editSnmpCommunity;
     QLineEdit *editSnmpTimeout;
     QLineEdit *editSnmpRetries;
+
+    QLineEdit *editSysName;
+    QLineEdit *editSysDescr;
+    QLineEdit *editSysLocation;
+    QLineEdit *editSysContact;
+    QLineEdit *editSysType;
+    QLineEdit *editSysParentObjectURI;
+
+    QLineEdit *editStatStatus;
+    QLineEdit *editStatStatusDescr;
+    QLineEdit *editStatLastChangeDate;
 };
 
 } // namespace KharmonView

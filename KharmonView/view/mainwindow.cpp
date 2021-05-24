@@ -10,29 +10,37 @@ using namespace KharmonView;
 /*************************************************************/
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , actionNew         (new QAction(this))
-    , actionOpen        (new QAction(this))
-    , actionSave        (new QAction(this))
-    , actionSaveAs      (new QAction(this))
-    , actionExit        (new QAction(this))
-    , actionObjAdd      (new QAction(this))
-    , actionObjEdit     (new QAction(this))
-    , actionObjRemove   (new QAction(this))
-    , actionAbout       (new QAction(this))
-    , actionDefaults    (new QAction(this))
-    , objectTree        (new QTreeView(this))
-    , navPath           (new QLabel(this))
-    , modelList         (new QTreeView(this))
-    , propertyList      (new QTreeView(this))
-    , editName          (new QLineEdit(this))
-    , editHost          (new QLineEdit(this))
-    , editModIndex      (new QLineEdit(this))
-    , editSnmpPort      (new QLineEdit(this))
-    , editSnmpVersion   (new QLineEdit(this))
-    , editSnmpCommunity (new QLineEdit(this))
-    , editSnmpTimeout   (new QLineEdit(this))
-    , editSnmpRetries   (new QLineEdit(this))
+    : QMainWindow (parent)
+    , actionNew              (new QAction(this))
+    , actionOpen             (new QAction(this))
+    , actionSave             (new QAction(this))
+    , actionSaveAs           (new QAction(this))
+    , actionExit             (new QAction(this))
+    , actionObjAdd           (new QAction(this))
+    , actionObjEdit          (new QAction(this))
+    , actionObjRemove        (new QAction(this))
+    , actionAbout            (new QAction(this))
+    , actionDefaults         (new QAction(this))
+    , objectTree             (new QTreeView(this))
+    , modelList              (new QTreeView(this))
+    , propertyList           (new QTreeView(this))
+    , editName               (new QLineEdit(this))
+    , editHost               (new QLineEdit(this))
+    , editModIndex           (new QLineEdit(this))
+    , editSnmpPort           (new QLineEdit(this))
+    , editSnmpVersion        (new QLineEdit(this))
+    , editSnmpCommunity      (new QLineEdit(this))
+    , editSnmpTimeout        (new QLineEdit(this))
+    , editSnmpRetries        (new QLineEdit(this))
+    , editSysName            (new QLineEdit(this))
+    , editSysDescr           (new QLineEdit(this))
+    , editSysLocation        (new QLineEdit(this))
+    , editSysContact         (new QLineEdit(this))
+    , editSysType            (new QLineEdit(this))
+    , editSysParentObjectURI (new QLineEdit(this))
+    , editStatStatus         (new QLineEdit(this))
+    , editStatStatusDescr    (new QLineEdit(this))
+    , editStatLastChangeDate (new QLineEdit(this))
 {
     setupUI();
     init();
@@ -79,12 +87,23 @@ void MainWindow::updateInfo(const QModelIndex &index)
         editModIndex->setDisabled(true);
     }
 
-    editHost->setText(node->getHost());
-    editSnmpPort->setText(QString::number(node->getPort()));
-    editSnmpVersion->setText(QString::number(node->getVersion()));
-    editSnmpCommunity->setText(node->getCommunity());
-    editSnmpTimeout->setText(QString::number(node->getTimeout()));
-    editSnmpRetries->setText(QString::number(node->getRetries()));
+    setLineEditValue(editHost, node->getHost(), node->isHostValid());
+    setLineEditValue(editSnmpPort, QString::number(node->getPort()), node->isPortValid());
+    setLineEditValue(editSnmpVersion, QString::number(node->getVersion()), node->isVersionValid());
+    setLineEditValue(editSnmpCommunity, node->getCommunity(), node->isCommunityValid());
+    setLineEditValue(editSnmpTimeout, QString::number(node->getTimeout()), node->isTimeoutValid());
+    setLineEditValue(editSnmpRetries, QString::number(node->getRetries()), node->isRetriesValid());
+
+    editSysName->setText(node->snmpSystem()->sysName);
+    editSysDescr->setText(node->snmpSystem()->sysDescr);
+    editSysLocation->setText(node->snmpSystem()->sysLocation);
+    editSysContact->setText(node->snmpSystem()->sysContact);
+    editSysType->setText(QString::number(node->snmpSystem()->sysType));
+    editSysParentObjectURI->setText(node->snmpSystem()->sysParentObjectURI);
+
+    editStatStatus->setText(QString::number(node->snmpStatus()->statStatus));
+    editStatStatusDescr->setText(node->snmpStatus()->statStatusDesc);
+    editStatLastChangeDate->setText(node->snmpStatus()->statLastChangeDate);
 
     SnmpModuleModel *modModel = qobject_cast<SnmpModuleModel *>(modelList->model());
     modModel->setObject(node);
@@ -135,13 +154,10 @@ void MainWindow::setupUI()
     setupStatusBar();
     setupToolBar();
 
-    QLabel *objectInfo = new QLabel(this);
-    objectInfo->setText("Object Info");
-    navPath->setText("Navigation Path");
-
     QFormLayout *objectForm = new QFormLayout();
     objectForm->setHorizontalSpacing(10);
-    objectForm->addRow(objectInfo);
+    objectForm->setVerticalSpacing(2);
+    objectForm->addRow(new QLabel(tr("Object Info"), this));
     objectForm->addRow(tr("name"), editName);
     objectForm->addRow(tr("host"), editHost);
     objectForm->addRow(tr("module"), editModIndex);
@@ -150,6 +166,25 @@ void MainWindow::setupUI()
     objectForm->addRow(tr("snmp_community"), editSnmpCommunity);
     objectForm->addRow(tr("snmp_timeout"), editSnmpTimeout);
     objectForm->addRow(tr("snmp_retries"), editSnmpRetries);
+
+    QFormLayout *sysForm = new QFormLayout();
+    sysForm->setHorizontalSpacing(10);
+    sysForm->setVerticalSpacing(2);
+    sysForm->addRow(new QLabel(tr("System Info"), this));
+    sysForm->addRow(tr("Name"), editSysName);
+    sysForm->addRow(tr("Description"), editSysDescr);
+    sysForm->addRow(tr("Location"), editSysLocation);
+    sysForm->addRow(tr("Contact"), editSysContact);
+    sysForm->addRow(tr("Type"), editSysType);
+    sysForm->addRow(tr("Parent URI"), editSysParentObjectURI);
+
+    QFormLayout *statForm = new QFormLayout();
+    statForm->setHorizontalSpacing(10);
+    statForm->setVerticalSpacing(2);
+    statForm->addRow(new QLabel(tr("Status Info"), this));
+    statForm->addRow(tr("Status"), editStatStatus);
+    statForm->addRow(tr("Status Description"), editStatStatusDescr);
+    statForm->addRow(tr("Last Change Date"), editStatLastChangeDate);
 
     QVBoxLayout *leftLayout = new QVBoxLayout();
     leftLayout->setObjectName(QStringLiteral("leftLayout"));
@@ -160,10 +195,14 @@ void MainWindow::setupUI()
     QWidget *leftWidget = new QWidget(this);
     leftWidget->setLayout(leftLayout);
 
+    QHBoxLayout *sysStatLayout = new QHBoxLayout();
+    sysStatLayout->addLayout(sysForm);
+    sysStatLayout->addLayout(statForm);
+
     QVBoxLayout *rightLayout = new QVBoxLayout();
     rightLayout->setObjectName(QStringLiteral("rightLayout"));
     rightLayout->setContentsMargins(0, 0, 0, 0);
-    rightLayout->addWidget(navPath);
+    rightLayout->addLayout(sysStatLayout);
     rightLayout->addWidget(modelList);
     rightLayout->addWidget(propertyList);
 
@@ -175,6 +214,8 @@ void MainWindow::setupUI()
     splitter->setOrientation(Qt::Horizontal);
     splitter->addWidget(leftWidget);
     splitter->addWidget(rightWidget);
+    splitter->setStretchFactor(0, 1);
+    splitter->setStretchFactor(1, 3);
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->addWidget(splitter);
@@ -313,6 +354,16 @@ void MainWindow::setupToolBar()
 void MainWindow::init()
 {
 
+}
+
+/*************************************************************/
+
+void MainWindow::setLineEditValue(QLineEdit *widget, const QString &value, bool isValid)
+{
+    widget->setText(value);
+    QPalette palette = widget->palette();
+    palette.setColor(QPalette::Base, isValid? Qt::white : Qt::yellow);
+    widget->setPalette(palette);
 }
 
 /*************************************************************/

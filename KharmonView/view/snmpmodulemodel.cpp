@@ -1,5 +1,7 @@
 #include "snmpmodulemodel.h"
 
+#include <QIcon>
+
 using namespace KharmonView;
 
 /*****************************************************************/
@@ -102,7 +104,7 @@ QVariant SnmpModuleModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    if (role != Qt::DisplayRole) {
+    if (role != Qt::DisplayRole && role != Qt::DecorationRole) {
         return QVariant();
     }
 
@@ -119,15 +121,35 @@ QVariant SnmpModuleModel::data(const QModelIndex &index, int role) const
 
     SnmpModule module = m_Object->snmpModList()->at(row);
 
-    switch (index.column()) {
-    case 0: return QString::number(module.modIndex); break;
-    case 1: return module.modName; break;
-    case 2: return module.modDesc; break;
-    case 3: return module.modType; break;
-    case 4: return module.modStatus; break;
-    case 5: return module.modStatusDesc; break;
-    case 6: return module.modLastChangeDate; break;
-    case 7: return module.modURI; break;
+    if (role == Qt::DisplayRole) {
+        switch (index.column()) {
+        case 0: return QString::number(module.modIndex); break;
+        case 1: return module.modName; break;
+        case 2: return module.modDesc; break;
+        case 3: return module.modType; break;
+        case 4: return module.modStatus; break;
+        case 5: return module.modStatusDesc; break;
+        case 6: return module.modLastChangeDate; break;
+        case 7: return module.modURI; break;
+        }
+    }
+
+    if (role == Qt::DecorationRole && index.column() == 0) {
+        switch (module.modStatus) {
+        case 0: // normal
+            return QIcon(":img/status/tstHostAlive.png");
+        case 1: // lowWarning
+        case 2: // highWarning
+            return QIcon(":img/status/tstWaitForMaster.png");
+        case 3: // initial
+            return QIcon(":img/status/tstChecking.png");
+        case 10: // lowFail
+        case 11: // highFail
+        case 12: // fail
+            return QIcon(":img/status/tstNoAnswer.png");
+        case 101: // unknown
+            return QIcon(":img/status/tstUnknown.png");
+        }
     }
 
     return QVariant();

@@ -93,6 +93,7 @@ void SnmpClient::snmpStatic(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject, in
     foreach(const SDPO::SnmpValue &value, valueList) {
         if (oids.at(IDX_SYS_NAME).equals(value.name)) {
             snmpObject->snmpSystem()->sysName = value.val;
+            continue;
         }
         if (oids.at(IDX_SYS_DESC).equals(value.name)) {
             snmpObject->snmpSystem()->sysDescr = value.val;

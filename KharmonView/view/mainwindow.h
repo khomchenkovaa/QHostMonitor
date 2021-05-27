@@ -13,6 +13,9 @@ QT_END_NAMESPACE
 
 namespace KharmonView {
 
+class SnmpObjectWidget;
+class SnmpResultWidget;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -32,7 +35,6 @@ signals:
 
 private slots:
     void updateInfo(const QModelIndex& index);
-    void updateParams(const QModelIndex& index);
 
 private:
     void setupUI();
@@ -41,7 +43,6 @@ private:
     void setupStatusBar();
     void setupToolBar();
     void init();
-    void setLineEditValue(QLineEdit *widget, const QString &value, bool isValid);
 
 private:
     QAction *actionNew;
@@ -56,28 +57,9 @@ private:
     QAction *actionDefaults;
 
     QTreeView *objectTree;
-    QTreeView *modelList;
-    QTreeView *propertyList;
+    SnmpObjectWidget *objectInfo;
+    SnmpResultWidget *snmpResult;
 
-    QLineEdit *editName;
-    QLineEdit *editHost;
-    QLineEdit *editModIndex;
-    QLineEdit *editSnmpPort;
-    QLineEdit *editSnmpVersion;
-    QLineEdit *editSnmpCommunity;
-    QLineEdit *editSnmpTimeout;
-    QLineEdit *editSnmpRetries;
-
-    QLineEdit *editSysName;
-    QLineEdit *editSysDescr;
-    QLineEdit *editSysLocation;
-    QLineEdit *editSysContact;
-    QLineEdit *editSysType;
-    QLineEdit *editSysParentObjectURI;
-
-    QLineEdit *editStatStatus;
-    QLineEdit *editStatStatusDescr;
-    QLineEdit *editStatLastChangeDate;
 };
 
 } // namespace KharmonView

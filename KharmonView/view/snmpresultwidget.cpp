@@ -113,7 +113,7 @@ void SnmpResultWidget::setSysInfo(const SnmpSystem *info)
     if (!info->sysContact.isEmpty()) {
         parent->addChild(new QTreeWidgetItem(QStringList() << sysContact << info->sysContact));
     }
-    parent->addChild(new QTreeWidgetItem(QStringList() << sysType << QString::number(info->sysType)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << sysType << typeAsText(info->sysType)));
     if (!info->sysParentObjectURI.isEmpty()) {
         parent->addChild(new QTreeWidgetItem(QStringList() << sysParentUri << info->sysParentObjectURI));
     }
@@ -170,7 +170,7 @@ void SnmpResultWidget::setModuleInfo(const SnmpModule *info)
 
     parent->addChild(new QTreeWidgetItem(QStringList() << modName << info->modName));
     parent->addChild(new QTreeWidgetItem(QStringList() << modDesc << info->modDesc));
-    parent->addChild(new QTreeWidgetItem(QStringList() << modType << QString::number(info->modType)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << modType << typeAsText(info->modType)));
     parent->addChild(new QTreeWidgetItem(QStringList() << modStatus << statusAsText(info->modStatus)));
     parent->addChild(new QTreeWidgetItem(QStringList() << modStatusDescr << info->modStatusDesc));
     parent->addChild(new QTreeWidgetItem(QStringList() << modLastChangeDate << info->modLastChangeDate));
@@ -218,47 +218,32 @@ void SnmpResultWidget::setParamInfo(QTreeWidgetItem *parent, const SnmpParameter
 {
     QString paramName = tr("Name");
     QString paramDesc = tr("Description");
-    QString paramCurrValue = tr("Curr Value");
-    QString paramCurrValueDesc = tr("Curr Value Desc");
-    QString paramType = tr("Type");
-    QString paramDataType = tr("Data Type");
+    QString paramCurrValue = tr("Current Value");
+    QString paramCurrValueDesc = tr("Description of current value");
     QString paramUnits = tr("Units");
     QString paramStatus = tr("Status");
-    QString paramLastChangeDate = tr("Last Change Date");
+    QString paramLastChangeDate = tr("Date of Last Change");
     QString paramNormalValue = tr("Normal Value");
-    QString paramLowFailLimit = tr("Low Fail Limit");
+    QString paramLowFailLimit = tr("Low Failure Limit");
     QString paramLowWarningLimit = tr("Low Warning Limit");
-    QString paramHighFailLimit = tr("High Fail Limit");
+    QString paramHighFailLimit = tr("High Failure Limit");
     QString paramHighWarningLimit = tr("High Warning Limit");
-    QString paramModuleIndex = tr("Module Index");
 
     parent->addChild(new QTreeWidgetItem(QStringList() << paramName << info->paramName));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramDesc << info->paramDesc));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramCurrValue << info->paramCurrValue));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramCurrValueDesc << info->paramCurrValueDesc));
-    parent->addChild(new QTreeWidgetItem(QStringList() << paramType << QString::number(info->paramType)));
-    parent->addChild(new QTreeWidgetItem(QStringList() << paramDataType << QString::number(info->paramDataType)));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramUnits << info->paramUnits));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramStatus << statusAsText(info->paramStatus)));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramLastChangeDate << info->paramLastChangeDate));
-    if (!info->paramNormalValue.isEmpty()) {
-        parent->addChild(new QTreeWidgetItem(QStringList() << paramNormalValue << info->paramNormalValue));
-    }
-    if (!info->paramLowFailLimit.isEmpty()) {
-        parent->addChild(new QTreeWidgetItem(QStringList() << paramLowFailLimit << info->paramLowFailLimit));
-    }
-    if (!info->paramLowWarningLimit.isEmpty()) {
-        parent->addChild(new QTreeWidgetItem(QStringList() << paramLowWarningLimit << info->paramLowWarningLimit));
-    }
-    if (!info->paramHighFailLimit.isEmpty()) {
-        parent->addChild(new QTreeWidgetItem(QStringList() << paramHighFailLimit << info->paramHighFailLimit));
-    }
-    if (!info->paramHighWarningLimit.isEmpty()) {
-        parent->addChild(new QTreeWidgetItem(QStringList() << paramHighWarningLimit << info->paramHighWarningLimit));
-    }
-    parent->addChild(new QTreeWidgetItem(QStringList() << paramModuleIndex << QString::number(info->paramModuleIndex)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramNormalValue << info->paramNormalValue));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramLowFailLimit << info->paramLowFailLimit));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramLowWarningLimit << info->paramLowWarningLimit));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramHighFailLimit << info->paramHighFailLimit));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramHighWarningLimit << info->paramHighWarningLimit));
 
-    setColorByStatus(parent->child(7), 1, info->paramStatus);
+    setColorByStatus(parent->child(2), 1, info->paramStatus);
+    setColorByStatus(parent->child(5), 1, info->paramStatus);
 }
 
 /*************************************************************/
@@ -269,7 +254,7 @@ void SnmpResultWidget::setParamList(QTreeWidgetItem *parent, const SnmpParamList
         if (info.paramModuleIndex != modIdx) continue;
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(0, info.paramDesc);
-        item->setText(1, info.paramCurrValue);
+        item->setText(1, paramValue(info));
         item->setText(2, statusAsText(info.paramStatus));
         item->setIcon(0, iconByParamStatus(info.paramStatus));
         setColorByStatus(item, 1, info.paramStatus);
@@ -277,7 +262,6 @@ void SnmpResultWidget::setParamList(QTreeWidgetItem *parent, const SnmpParamList
         parent->addChild(item);
         setParamInfo(item, &info);
     }
-
 }
 
 /*************************************************************/
@@ -347,6 +331,76 @@ QString SnmpResultWidget::statusAsText(const int status) const
         return tr("UNKNOWN");
     }
     return tr("Not defined");
+}
+
+/*************************************************************/
+
+QString SnmpResultWidget::typeAsText(const int sysType) const
+{
+    switch (sysType) {
+    case  1: return "системный модуль (SystemModule)";
+    case  2: return "система питания (PowerSystem)";
+    case  3: return "коммутатор ЛВС (NetworkSwitch)";
+    case  4: return "сетевой маршрутизатор/шлюз (NetworkRouter)";
+    case  5: return "межсетевой экран (Firewall)";
+    case  6: return "сервер точного времени (TimeServer)";
+    case  7: return "преобразователь/конвертер ЛВС (NetworkConverter)";
+    case  8: return "блок контроля шкафа (RMS)";
+    case  9: return "блок диагностики (DiagUnit)";
+    case 10: return "источник бесперебойного питания (UPS)";
+    case 11: return "система хранения данных (StorageSystem)";
+    case 12: return "сервер (Server)";
+    case 13: return "рабочая станция (Workstation)";
+    case 14: return "серверная стойка (ServerRack)";
+    case 15: return "система (System)";
+    case 16: return "подсистема (SubSystem)";
+    case 17: return "системный программный модуль (SysSoftwareModule)";
+    case 18: return "прикладной программный модуль (AppSoftwareModule)";
+    case 19: return "служба (SoftwareService)";
+    case 20: return "системная плата (SystemBoard)";
+    case 21: return "датчики температуры (TemperatureSensors)";
+    case 22: return "сетевая система (NetworkSystem)";
+    case 23: return "операционная система (OperatingSystem)";
+    case 24: return "система охлаждения (CoolingSystem)";
+    case 25: return "датчики (Sensors)";
+    }
+    return "другой";
+}
+
+/*************************************************************/
+
+QString SnmpResultWidget::paramValue(const SnmpParameter &info)
+{
+    QString units;
+    if (info.paramDataType == 2) {
+        units = info.paramUnits;
+    }
+    if (units == "Percent") {
+        units = "%";
+    }
+    if (units == "text") {
+        units.clear();
+    }
+
+    switch (info.paramStatus) {
+    case 0: // normal
+        return QString("%1 %2").arg(info.paramCurrValue, units);
+    case 1: // lowWarning
+        return QString("%1 %2 (%3 %4)").arg(info.paramCurrValue, units, info.paramLowWarningLimit, units);
+    case 2: // highWarning
+        return QString("%1 %2 (%3 %4)").arg(info.paramCurrValue, units, info.paramHighWarningLimit, units);
+    case 3: // initial
+        break;
+    case 10: // lowFail
+        return QString("%1 %2 (%3 %4)").arg(info.paramCurrValue, units, info.paramLowFailLimit, units);
+    case 11: // highFail
+        return QString("%1 %2 (%3 %4)").arg(info.paramCurrValue, units, info.paramHighFailLimit, units);
+    case 12: // fail
+        return QString("%1 %2 (%3 %4)").arg(info.paramCurrValue, units, info.paramNormalValue, units);
+    case 101: // unknown
+        return info.paramCurrValueDesc;
+    }
+    return QString();
 }
 
 /*************************************************************/

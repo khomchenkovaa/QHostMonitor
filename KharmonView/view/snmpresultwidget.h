@@ -30,6 +30,8 @@ private:
     QIcon iconByModStatus(const int status) const;
     QIcon iconByParamStatus(const int status) const;
     QString statusAsText(const int status) const;
+    QString typeAsText(const int sysType) const;
+    QString paramValue(const SnmpParameter &info);
     void setColorByStatus(QTreeWidgetItem *item, const int column, const int status);
 
 };

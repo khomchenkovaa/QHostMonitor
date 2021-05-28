@@ -25,9 +25,12 @@ void SnmpResultWidget::setSnmpObject(SnmpObject *node)
         for (int i=0; i< node->snmpModList()->size(); ++i) {
             if (node->snmpModList()->at(i).modIndex == node->getModIdx()) {
                 setModuleInfo(&(node->snmpModList()->at(i)));
-                QString paramInfo = tr("<b>Parameters</b>");
+                QString paramInfo = tr("Parameters");
                 QTreeWidgetItem *parent = new QTreeWidgetItem(QStringList() << paramInfo);
                 addTopLevelItem(parent);
+                QFont font = parent->font(0);
+                font.setBold(true);
+                parent->setFont(0, font);
                 setParamList(parent, node->snmpParamList(), node->getModIdx());
                 setFirstItemColumnSpanned(parent, true);
                 parent->setExpanded(true);
@@ -88,7 +91,7 @@ void SnmpResultWidget::setupUI()
 
 void SnmpResultWidget::setSysInfo(const SnmpSystem *info)
 {
-    QString sysInfo = tr("<b>System Info</b>");
+    QString sysInfo = tr("System Info");
     QString sysName = tr("Name");
     QString sysDescr = tr("Description");
     QString sysLocation = tr("Location");
@@ -98,6 +101,9 @@ void SnmpResultWidget::setSysInfo(const SnmpSystem *info)
 
     QTreeWidgetItem *parent = new QTreeWidgetItem(QStringList() << sysInfo);
     addTopLevelItem(parent);
+    QFont font = parent->font(0);
+    font.setBold(true);
+    parent->setFont(0, font);
 
     parent->addChild(new QTreeWidgetItem(QStringList() << sysName << info->sysName));
     parent->addChild(new QTreeWidgetItem(QStringList() << sysDescr << info->sysDescr));
@@ -120,17 +126,23 @@ void SnmpResultWidget::setSysInfo(const SnmpSystem *info)
 
 void SnmpResultWidget::setStatInfo(const SnmpStatus *info)
 {
-    QString statInfo = tr("<b>Status Info</b>");
+    QString statInfo = tr("Status Info");
     QString statStatus = tr("Status");
     QString statStatusDescr = tr("Status Description");
     QString statLastChangeDate = tr("Last Change Date");
 
     QTreeWidgetItem *parent = new QTreeWidgetItem(QStringList() << statInfo);
     addTopLevelItem(parent);
+    QFont font = parent->font(0);
+    font.setBold(true);
+    parent->setFont(0, font);
 
-    parent->addChild(new QTreeWidgetItem(QStringList() << statStatus << QString::number(info->statStatus)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << statStatus << statusAsText(info->statStatus)));
     parent->addChild(new QTreeWidgetItem(QStringList() << statStatusDescr << info->statStatusDesc));
     parent->addChild(new QTreeWidgetItem(QStringList() << statLastChangeDate << info->statLastChangeDate));
+
+    setColorByStatus(parent->child(0), 1, info->statStatus);
+    setColorByStatus(parent->child(1), 1, info->statStatus);
 
     setFirstItemColumnSpanned(parent, true);
     parent->setExpanded(true);
@@ -140,7 +152,7 @@ void SnmpResultWidget::setStatInfo(const SnmpStatus *info)
 
 void SnmpResultWidget::setModuleInfo(const SnmpModule *info)
 {
-    QString modInfo = tr("<b>Module Info</b>");
+    QString modInfo = tr("Module Info");
     QString modName = tr("Name");
     QString modDesc = tr("Description");
     QString modType = tr("Type");
@@ -152,17 +164,23 @@ void SnmpResultWidget::setModuleInfo(const SnmpModule *info)
 
     QTreeWidgetItem *parent = new QTreeWidgetItem(QStringList() << modInfo);
     addTopLevelItem(parent);
+    QFont font = parent->font(0);
+    font.setBold(true);
+    parent->setFont(0, font);
 
     parent->addChild(new QTreeWidgetItem(QStringList() << modName << info->modName));
     parent->addChild(new QTreeWidgetItem(QStringList() << modDesc << info->modDesc));
     parent->addChild(new QTreeWidgetItem(QStringList() << modType << QString::number(info->modType)));
-    parent->addChild(new QTreeWidgetItem(QStringList() << modStatus << QString::number(info->modStatus)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << modStatus << statusAsText(info->modStatus)));
     parent->addChild(new QTreeWidgetItem(QStringList() << modStatusDescr << info->modStatusDesc));
     parent->addChild(new QTreeWidgetItem(QStringList() << modLastChangeDate << info->modLastChangeDate));
     if (!info->modURI.isEmpty()) {
         parent->addChild(new QTreeWidgetItem(QStringList() << modUri << info->modURI));
     }
     parent->addChild(new QTreeWidgetItem(QStringList() << modIndex << QString::number(info->modIndex)));
+
+    setColorByStatus(parent->child(3), 1, info->modStatus);
+    setColorByStatus(parent->child(4), 1, info->modStatus);
 
     setFirstItemColumnSpanned(parent, true);
     parent->setExpanded(true);
@@ -172,34 +190,21 @@ void SnmpResultWidget::setModuleInfo(const SnmpModule *info)
 
 void SnmpResultWidget::setModuleList(const SnmpModList *modList, const SnmpParamList *paramList)
 {
-    QString modInfo = tr("<b>Modules</b>");
+    QString modInfo = tr("Modules");
     QTreeWidgetItem *parent = new QTreeWidgetItem(QStringList() << modInfo);
     addTopLevelItem(parent);
+    QFont font = parent->font(0);
+    font.setBold(true);
+    parent->setFont(0, font);
+
     foreach(const SnmpModule &info, *modList) {
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(0, info.modDesc);
         item->setText(1, info.modStatusDesc);
-        item->setText(2, QString::number(info.modStatus));
-        switch (info.modStatus) {
-        case 0: // normal
-            item->setIcon(0, QIcon(":img/status/tstHostAlive.png"));
-            break;
-        case 1: // lowWarning
-        case 2: // highWarning
-            item->setIcon(0, QIcon(":img/status/tstWaitForMaster.png"));
-            break;
-        case 3: // initial
-            item->setIcon(0, QIcon(":img/status/tstChecking.png"));
-            break;
-        case 10: // lowFail
-        case 11: // highFail
-        case 12: // fail
-            item->setIcon(0, QIcon(":img/status/tstNoAnswer.png"));
-            break;
-        case 101: // unknown
-            item->setIcon(0, QIcon(":img/status/tstUnknown.png"));
-            break;
-        }
+        item->setText(2, statusAsText(info.modStatus));
+        item->setIcon(0, iconByModStatus(info.modStatus));
+        setColorByStatus(item, 1, info.modStatus);
+        setColorByStatus(item, 2, info.modStatus);
         parent->addChild(item);
         setParamList(item, paramList, info.modIndex);
     }
@@ -234,7 +239,7 @@ void SnmpResultWidget::setParamInfo(QTreeWidgetItem *parent, const SnmpParameter
     parent->addChild(new QTreeWidgetItem(QStringList() << paramType << QString::number(info->paramType)));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramDataType << QString::number(info->paramDataType)));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramUnits << info->paramUnits));
-    parent->addChild(new QTreeWidgetItem(QStringList() << paramStatus << QString::number(info->paramStatus)));
+    parent->addChild(new QTreeWidgetItem(QStringList() << paramStatus << statusAsText(info->paramStatus)));
     parent->addChild(new QTreeWidgetItem(QStringList() << paramLastChangeDate << info->paramLastChangeDate));
     if (!info->paramNormalValue.isEmpty()) {
         parent->addChild(new QTreeWidgetItem(QStringList() << paramNormalValue << info->paramNormalValue));
@@ -253,6 +258,7 @@ void SnmpResultWidget::setParamInfo(QTreeWidgetItem *parent, const SnmpParameter
     }
     parent->addChild(new QTreeWidgetItem(QStringList() << paramModuleIndex << QString::number(info->paramModuleIndex)));
 
+    setColorByStatus(parent->child(7), 1, info->paramStatus);
 }
 
 /*************************************************************/
@@ -264,31 +270,109 @@ void SnmpResultWidget::setParamList(QTreeWidgetItem *parent, const SnmpParamList
         QTreeWidgetItem *item = new QTreeWidgetItem();
         item->setText(0, info.paramDesc);
         item->setText(1, info.paramCurrValue);
-        item->setText(2, QString::number(info.paramStatus));
-        switch (info.paramStatus) {
-        case 0: // normal
-            item->setIcon(0, QIcon(":img/status/tstOk.png"));
-            break;
-        case 1: // lowWarning
-        case 2: // highWarning
-            item->setIcon(0, QIcon(":img/status/tstBadContents.png"));
-            break;
-        case 3: // initial
-            item->setIcon(0, QIcon(":img/status/tstChecking.png"));
-            break;
-        case 10: // lowFail
-        case 11: // highFail
-        case 12: // fail
-            item->setIcon(0, QIcon(":img/status/tstBad.png"));
-            break;
-        case 101: // unknown
-            item->setIcon(0, QIcon(":img/status/tstNotTested.png"));
-            break;
-        }
+        item->setText(2, statusAsText(info.paramStatus));
+        item->setIcon(0, iconByParamStatus(info.paramStatus));
+        setColorByStatus(item, 1, info.paramStatus);
+        setColorByStatus(item, 2, info.paramStatus);
         parent->addChild(item);
         setParamInfo(item, &info);
     }
 
+}
+
+/*************************************************************/
+
+QIcon SnmpResultWidget::iconByModStatus(const int status) const
+{
+    switch (status) {
+    case 0: // normal
+        return QIcon(":img/status/tstHostAlive.png");
+    case 1: // lowWarning
+    case 2: // highWarning
+        return QIcon(":img/status/tstWaitForMaster.png");
+    case 3: // initial
+        return QIcon(":img/status/tstChecking.png");
+    case 10: // lowFail
+    case 11: // highFail
+    case 12: // fail
+        return QIcon(":img/status/tstNoAnswer.png");
+    case 101: // unknown
+        return QIcon(":img/status/tstUnknown.png");
+    }
+    return QIcon();
+}
+
+/*************************************************************/
+
+QIcon SnmpResultWidget::iconByParamStatus(const int status) const
+{
+    switch (status) {
+    case 0: // normal
+        return QIcon(":img/status/tstOk.png");
+    case 1: // lowWarning
+    case 2: // highWarning
+        return QIcon(":img/status/tstBadContents.png");
+    case 3: // initial
+        return QIcon(":img/status/tstChecking.png");
+    case 10: // lowFail
+    case 11: // highFail
+    case 12: // fail
+        return QIcon(":img/status/tstBad.png");
+    case 101: // unknown
+        return QIcon(":img/status/tstNotTested.png");
+    }
+    return QIcon();
+}
+
+/*************************************************************/
+
+QString SnmpResultWidget::statusAsText(const int status) const
+{
+    switch (status) {
+    case 0: // normal
+        return tr("NORMAL");
+    case 1: // lowWarning
+        return tr("LOW WARNING");
+    case 2: // highWarning
+        return tr("HIGH WARNING");
+    case 3: // initial
+        return tr("INITIAL");
+    case 10: // lowFail
+        return tr("LOW FAIL");
+    case 11: // highFail
+        return tr("HIGH FAIL");
+    case 12: // fail
+        return tr("FAIL");
+    case 101: // unknown
+        return tr("UNKNOWN");
+    }
+    return tr("Not defined");
+}
+
+/*************************************************************/
+
+void SnmpResultWidget::setColorByStatus(QTreeWidgetItem *item, const int column, const int status)
+{
+    QBrush brush = item->foreground(column);
+    switch (status) {
+    case 0: // normal
+        brush.setColor(Qt::darkGreen);
+        break;
+    case 1: // lowWarning
+    case 2: // highWarning
+        brush.setColor(Qt::darkBlue);
+        break;
+    case 3: // initial
+        brush.setColor(Qt::darkGray);
+        break;
+    case 10: // lowFail
+    case 11: // highFail
+    case 12: // fail
+    case 101: // unknown
+        brush.setColor(Qt::darkRed);
+        break;
+    }
+    item->setForeground(column, brush);
 }
 
 /*************************************************************/

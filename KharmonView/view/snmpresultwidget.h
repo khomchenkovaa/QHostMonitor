@@ -27,6 +27,10 @@ private:
     void setModuleList(const SnmpModList *modList, const SnmpParamList *paramList);
     void setParamInfo(QTreeWidgetItem *parent, const SnmpParameter *info);
     void setParamList(QTreeWidgetItem *parent, const SnmpParamList *paramList, int modIdx);
+    QIcon iconByModStatus(const int status) const;
+    QIcon iconByParamStatus(const int status) const;
+    QString statusAsText(const int status) const;
+    void setColorByStatus(QTreeWidgetItem *item, const int column, const int status);
 
 };
 

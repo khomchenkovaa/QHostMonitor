@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 
-#include "snmpmodulemodel.h"
-#include "snmpparammodel.h"
 #include "snmpobjectwidget.h"
 #include "snmpresultwidget.h"
 

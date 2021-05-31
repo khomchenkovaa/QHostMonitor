@@ -84,18 +84,14 @@ public:
     explicit SnmpObject(QObject *parent = nullptr);
 
     void append(SnmpObject* child);
+    void remove(SnmpObject* child);
+    SnmpObject* parentObj();
 
-    SnmpObject* childAt(int idx) {
-        return m_Objects.at(idx);
-    }
+    SnmpObject* childAt(int idx)   { return m_Objects.at(idx); }
+    int childCount() const         { return m_Objects.size(); }
+    int indexOf(SnmpObject* child) { return m_Objects.indexOf(child); }
 
-    int childCount() const {
-        return m_Objects.size();
-    }
-
-    int indexOf(SnmpObject* child) {
-        return m_Objects.indexOf(child);
-    }
+    void clearVars();
 
     QString getName() const;
     int getModIdx() const;
@@ -124,54 +120,19 @@ public:
     bool setRetriesIfNotEmpty(const QString &value);
     bool setModuleIfNotEmpty(const QString &value);
 
-    void setName(const QString &name) {
-        m_Name = name;
-    }
+    void setName(const QString &name)           { m_Name = name; }
+    void setHost(const QString& host)           { m_Host = host; }
+    void setPort(int port)                      { m_Port = port; }
+    void setVersion(int version)                { m_Version = version; }
+    void setCommunity(const QString& community) { m_Community = community; }
+    void setTimeout(int timeout)                { m_Timeout = timeout; }
+    void setRetries(int retries)                { m_Retries = retries; }
+    void setModIdx(int modIdx)                  { m_ModIdx = modIdx; }
 
-    void setHost(const QString& host) {
-        m_Host = host;
-    }
-
-    void setPort(int port) {
-        m_Port = port;
-    }
-
-    void setVersion(int version) {
-        m_Version = version;
-    }
-
-    void setCommunity(const QString& community) {
-        m_Community = community;
-    }
-
-    void setTimeout(int timeout) {
-        m_Timeout = timeout;
-    }
-
-    void setRetries(int retries) {
-        m_Retries = retries;
-    }
-
-    void setModIdx(int modIdx) {
-        m_ModIdx = modIdx;
-    }
-
-    SnmpSystem *snmpSystem() {
-        return &m_System;
-    }
-
-    SnmpStatus *snmpStatus() {
-        return &m_Status;
-    }
-
-    SnmpModList *snmpModList() {
-        return &m_Modules;
-    }
-
-    SnmpParamList *snmpParamList() {
-        return &m_Params;
-    }
-
+    SnmpSystem    *snmpSystem()    { return &m_System; }
+    SnmpStatus    *snmpStatus()    { return &m_Status; }
+    SnmpModList   *snmpModList()   { return &m_Modules; }
+    SnmpParamList *snmpParamList() { return &m_Params; }
 
 protected:
     void timerEvent(QTimerEvent *event);

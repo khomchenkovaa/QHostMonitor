@@ -35,6 +35,10 @@ public:
 
     SnmpObject* nodeFromIndex(const QModelIndex& index) const;
 
+    void nodeAdd(const QModelIndex& parent, SnmpObject *node);
+    void nodeChanged(const QModelIndex& index);
+    void nodeRemove(const QModelIndex& index);
+
 };
 
 } // namespace KharmonView

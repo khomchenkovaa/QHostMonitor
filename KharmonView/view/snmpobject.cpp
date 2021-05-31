@@ -31,8 +31,38 @@ SnmpObject::SnmpObject(QObject *parent)
 
 void SnmpObject::append(SnmpObject *child)
 {
+    child->setParent(this);
     m_Objects.append(child);
     connect(child, &SnmpObject::snmpUpdate, this, &SnmpObject::snmpUpdate);
+}
+
+/*************************************************************/
+
+void SnmpObject::remove(SnmpObject *child)
+{
+    if (m_Objects.removeOne(child)) {
+        child->deleteLater();
+    }
+}
+
+/*************************************************************/
+
+SnmpObject *SnmpObject::parentObj()
+{
+    return qobject_cast<SnmpObject*>(parent());
+}
+
+/*************************************************************/
+
+void SnmpObject::clearVars()
+{
+    m_Host.clear();
+    m_ModIdx.clear();
+    m_Port.clear();
+    m_Version.clear();
+    m_Community.clear();
+    m_Timeout.clear();
+    m_Retries.clear();
 }
 
 /*************************************************************/
@@ -103,8 +133,9 @@ SDPO::SnmpVersion SnmpObject::getVersion() const
 QString SnmpObject::getVersionStr() const
 {
     switch (getVersion()) {
-    case SDPO::SNMPv1: return "1";
-    case SDPO::SNMPv3: return "3";
+    case SDPO::SNMPv1:  return "1";
+    case SDPO::SNMPv2c: return "2c";
+    case SDPO::SNMPv3:  return "3";
     default: break;
     }
     return "2c";

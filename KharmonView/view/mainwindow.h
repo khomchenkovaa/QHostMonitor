@@ -35,6 +35,9 @@ signals:
 
 private slots:
     void updateInfo(const QModelIndex& index);
+    void cmdObjAdd();
+    void cmdObjEdit();
+    void cmdObjRemove();
 
 private:
     void setupUI();

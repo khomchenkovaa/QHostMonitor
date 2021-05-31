@@ -115,7 +115,35 @@ SnmpObject *SnmpObjectModel::nodeFromIndex(const QModelIndex &index) const
 {
      return index.isValid() ?
                   static_cast<SnmpObject*>(index.internalPointer()) :
-                  SnmpObject::root;
+                           SnmpObject::root;
+}
+
+/*****************************************************************/
+
+void SnmpObjectModel::nodeAdd(const QModelIndex &parent, SnmpObject *node)
+{
+    SnmpObject *parNode = nodeFromIndex(parent);
+    beginInsertRows(parent, parNode->childCount(), parNode->childCount());
+    parNode->append(node);
+    endInsertRows();
+}
+
+/*****************************************************************/
+
+void SnmpObjectModel::nodeChanged(const QModelIndex &index)
+{
+    emit dataChanged(index, index);
+}
+
+/*****************************************************************/
+
+void SnmpObjectModel::nodeRemove(const QModelIndex &index)
+{
+      SnmpObject *node = nodeFromIndex(index);
+      beginRemoveRows(parent(index), index.row(), index.row());
+      SnmpObject *parNode = node->parentObj();
+      parNode->remove(node);
+      endRemoveRows();
 }
 
 /*****************************************************************/

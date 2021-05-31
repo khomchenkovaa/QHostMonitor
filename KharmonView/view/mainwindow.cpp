@@ -2,6 +2,7 @@
 
 #include "snmpobjectwidget.h"
 #include "snmpresultwidget.h"
+#include "snmpobjectedit.h"
 
 #include <QtWidgets>
 
@@ -53,6 +54,56 @@ void MainWindow::updateInfo(const QModelIndex &index)
     SnmpObject *node = model->nodeFromIndex(index);
     objectInfo->setSnmpObject(node);
     snmpResult->setSnmpObject(node);
+}
+
+/*************************************************************/
+
+void MainWindow::cmdObjAdd()
+{
+    const QModelIndex index = objectTree->selectionModel()->currentIndex();
+    SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+    SnmpObjectEdit dlg(Q_NULLPTR, this);
+    if (dlg.exec() == QDialog::Accepted) {
+        SnmpObject *child = dlg.getObject();
+        model->nodeAdd(index, child);
+    }
+}
+
+/*************************************************************/
+
+void MainWindow::cmdObjEdit()
+{
+    const QModelIndex index = objectTree->selectionModel()->currentIndex();
+    if (!index.isValid()) return;
+    SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+    SnmpObject *node = model->nodeFromIndex(index);
+    SnmpObjectEdit dlg(node, this);
+    if (dlg.exec() == QDialog::Accepted) {
+        model->nodeChanged(index);
+    }
+}
+
+/*************************************************************/
+
+void MainWindow::cmdObjRemove()
+{
+    const QModelIndex index = objectTree->selectionModel()->currentIndex();
+    SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+    SnmpObject *node = model->nodeFromIndex(index);
+    if (node == SnmpObject::root) {
+        QMessageBox::warning(this, tr("Remove Object"), tr("There is no legal object for deletion"));
+        return;
+    }
+
+    QString question = tr("Remove Object '%1'").arg(node->getName());
+    if (node->childCount()) {
+        question.append(tr(" with all children"));
+    }
+    question.append(" ?");
+
+    if (QMessageBox::Yes == QMessageBox::question(this, tr("Remove Object"), question)) {
+        model->nodeRemove(index);
+    }
 }
 
 /*************************************************************/
@@ -137,14 +188,17 @@ void MainWindow::setupActions()
     actionObjAdd->setObjectName(QStringLiteral("actionObjAdd"));
     actionObjAdd->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     actionObjAdd->setText(QApplication::translate("MainWindow", "Add object", Q_NULLPTR));
+    connect(actionObjAdd, &QAction::triggered, this, &MainWindow::cmdObjAdd);
 
     actionObjEdit->setObjectName(QStringLiteral("actionObjEdit"));
     actionObjEdit->setIcon(QIcon::fromTheme(QStringLiteral("format-text-direction-ltr")));
     actionObjEdit->setText(QApplication::translate("MainWindow", "Edit object", Q_NULLPTR));
+    connect(actionObjEdit, &QAction::triggered, this, &MainWindow::cmdObjEdit);
 
     actionObjRemove->setObjectName(QStringLiteral("actionObjRemove"));
     actionObjRemove->setIcon(QIcon::fromTheme(QStringLiteral("list-remove")));
     actionObjRemove->setText(QApplication::translate("MainWindow", "Remove object", Q_NULLPTR));
+    connect(actionObjRemove, &QAction::triggered, this, &MainWindow::cmdObjRemove);
 
     actionAbout->setObjectName(QStringLiteral("actionAbout"));
     actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));

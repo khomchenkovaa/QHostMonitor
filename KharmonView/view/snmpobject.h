@@ -137,10 +137,11 @@ public:
     void setRetries(int retries)                { m_Retries = retries; }
     void setModIdx(int modIdx)                  { m_ModIdx = modIdx; }
 
-    SnmpSystem    *snmpSystem()    { return &m_System; }
-    SnmpStatus    *snmpStatus()    { return &m_Status; }
-    SnmpModList   *snmpModList()   { return &m_Modules; }
-    SnmpParamList *snmpParamList() { return &m_Params; }
+    QList<SnmpObject*> *snmpObjects()   { return &m_Objects; }
+    SnmpSystem         *snmpSystem()    { return &m_System; }
+    SnmpStatus         *snmpStatus()    { return &m_Status; }
+    SnmpModList        *snmpModList()   { return &m_Modules; }
+    SnmpParamList      *snmpParamList() { return &m_Params; }
 
 protected:
     void timerEvent(QTimerEvent *event);

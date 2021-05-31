@@ -3,6 +3,7 @@
 #include "snmpobjectwidget.h"
 #include "snmpresultwidget.h"
 #include "snmpobjectedit.h"
+#include "snmpobjectdefaults.h"
 
 #include <QtWidgets>
 
@@ -66,6 +67,7 @@ void MainWindow::cmdObjAdd()
     if (dlg.exec() == QDialog::Accepted) {
         SnmpObject *child = dlg.getObject();
         model->nodeAdd(index, child);
+        updateInfo(objectTree->selectionModel()->currentIndex());
     }
 }
 
@@ -80,6 +82,7 @@ void MainWindow::cmdObjEdit()
     SnmpObjectEdit dlg(node, this);
     if (dlg.exec() == QDialog::Accepted) {
         model->nodeChanged(index);
+        updateInfo(objectTree->selectionModel()->currentIndex());
     }
 }
 
@@ -103,6 +106,17 @@ void MainWindow::cmdObjRemove()
 
     if (QMessageBox::Yes == QMessageBox::question(this, tr("Remove Object"), question)) {
         model->nodeRemove(index);
+        updateInfo(objectTree->selectionModel()->currentIndex());
+    }
+}
+
+/*************************************************************/
+
+void MainWindow::cmdDefaults()
+{
+    SnmpObjectDefaults dlg(this);
+    if (dlg.exec() == QDialog::Accepted) {
+        updateInfo(objectTree->selectionModel()->currentIndex());
     }
 }
 
@@ -207,6 +221,7 @@ void MainWindow::setupActions()
     actionDefaults->setObjectName(QStringLiteral("actionDefaults"));
     actionDefaults->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system")));
     actionDefaults->setText(QApplication::translate("MainWindow", "Defaults", Q_NULLPTR));
+    connect(actionDefaults, &QAction::triggered, this, &MainWindow::cmdDefaults);
 }
 
 /*************************************************************/

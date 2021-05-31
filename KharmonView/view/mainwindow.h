@@ -38,6 +38,7 @@ private slots:
     void cmdObjAdd();
     void cmdObjEdit();
     void cmdObjRemove();
+    void cmdDefaults();
 
 private:
     void setupUI();

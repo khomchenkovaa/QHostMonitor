@@ -3,6 +3,14 @@
 
 #include "snmpprofile.h"
 
+
+#define DFLT_HOST "localhost"
+#define DFLT_SNMP_PORT 161
+#define DFLT_SNMP_VERSION SDPO::SnmpVersion::SNMPv2c
+#define DFLT_SNMP_COMMUNITY "public"
+#define DFLT_SNMP_TIMEOUT 1
+#define DFLT_SNMP_RETRIES 3
+
 #include <QObject>
 
 namespace KharmonView {

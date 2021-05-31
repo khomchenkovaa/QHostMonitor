@@ -22,7 +22,6 @@ SnmpObjectEdit::SnmpObjectEdit(SnmpObject *item, QWidget *parent)
     , uiCommunity (new QLineEdit(this))
     , uiTimeout (new QLineEdit(this))
     , uiRetries (new QLineEdit(this))
-    , uiButtonBox(new QDialogButtonBox(this))
 {
     setupUI();
     if (m_Item) {
@@ -82,6 +81,7 @@ void SnmpObjectEdit::setupUI()
     uiVersion->addItem(tr("version 2c"), SDPO::SNMPv2c);
     uiVersion->addItem(tr("version 3"), SDPO::SNMPv3);
 
+    QDialogButtonBox *uiButtonBox = new QDialogButtonBox(this);
     uiButtonBox->setOrientation(Qt::Vertical);
     uiButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
@@ -89,11 +89,11 @@ void SnmpObjectEdit::setupUI()
     formLayout->addRow(tr("Name"), uiName);
     formLayout->addRow(tr("Host"), uiHost);
     formLayout->addRow(tr("Module"), uiModule);
-    formLayout->addRow(tr("Port"), uiPort);
-    formLayout->addRow(tr("Version"), uiVersion);
-    formLayout->addRow(tr("Community"), uiCommunity);
-    formLayout->addRow(tr("Timeout"), uiTimeout);
-    formLayout->addRow(tr("Retries"), uiRetries);
+    formLayout->addRow(tr("SNMP Port"), uiPort);
+    formLayout->addRow(tr("SNMP Version"), uiVersion);
+    formLayout->addRow(tr("SNMP Community"), uiCommunity);
+    formLayout->addRow(tr("SNMP Timeout"), uiTimeout);
+    formLayout->addRow(tr("SNMP Retries"), uiRetries);
 
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addLayout(formLayout);

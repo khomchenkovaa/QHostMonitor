@@ -42,8 +42,6 @@ private:
     QLineEdit *uiCommunity;
     QLineEdit *uiTimeout;
     QLineEdit *uiRetries;
-    QDialogButtonBox *uiButtonBox;
-
 };
 
 } // namespace KharmonView

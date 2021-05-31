@@ -15,14 +15,14 @@ SnmpObjectWidget::SnmpObjectWidget(QWidget *parent) : QTreeWidget(parent)
 
 void SnmpObjectWidget::setSnmpObject(SnmpObject *node)
 {
-    QString lblName      = tr("name");
-    QString lblHost      = node->isHostValid() ? tr("host") : tr ("default_host");
-    QString lblModule    = tr("module");
-    QString lblPort      = node->isPortValid() ? tr("port") : tr ("default_snmp_port");
-    QString lblVersion   = node->isVersionValid() ? tr("snmp_version") : tr ("default_snmp_version");
-    QString lblCommunity = node->isCommunityValid() ? tr("snmp_community") : tr ("default_snmp_community");
-    QString lblTimeout   = node->isTimeoutValid() ? tr("snmp_timeout") : tr ("default_snmp_timeout");
-    QString lblRetries   = node->isRetriesValid() ? tr("snmp_retries") : tr ("default_snmp_retries");
+    QString lblName      = tr("Name");
+    QString lblHost      = node->isHostValid() ? tr("Host") : tr ("Default Host");
+    QString lblModule    = tr("Module");
+    QString lblPort      = node->isPortValid() ? tr("SNMP Port") : tr ("Default SNMP Port");
+    QString lblVersion   = node->isVersionValid() ? tr("SNMP Version") : tr ("Default SNMP Version");
+    QString lblCommunity = node->isCommunityValid() ? tr("SNMP Community") : tr ("Default SNMP Community");
+    QString lblTimeout   = node->isTimeoutValid() ? tr("SNMP Timeout") : tr ("Default SNMP Timeout");
+    QString lblRetries   = node->isRetriesValid() ? tr("SNMP Retries") : tr ("Default SNMP Retries");
 
     clear();
 

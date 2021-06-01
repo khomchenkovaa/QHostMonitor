@@ -107,33 +107,38 @@ void SnmpObjectLoader::save(const QString &fileName)
     out << "## Номер порта (по умолчанию 161)." << endl;
     out << "## default_snmp_port <port>" << endl;
     if (SnmpObject::root &&  SnmpObject::root->isPortValid()) {
-        out << "default_host " << SnmpObject::root->getPort() << endl;
+        out << "default_snmp_port " << SnmpObject::root->getPort() << endl;
     }
     out << "##" << endl;
     out << "## Версия протокола SNMP (по умолчанию 2)." << endl;
     out << "## default_snmp_version <1|2>" << endl;
     if (SnmpObject::root &&  SnmpObject::root->isVersionValid()) {
-        out << "default_host " << SnmpObject::root->getVersion() << endl;
+        switch (SnmpObject::root->getVersion()) {
+        case SDPO::SNMPv1:  out << "default_snmp_version 1" << endl; break;
+        case SDPO::SNMPv2c: out << "default_snmp_version 2" << endl; break;
+        case SDPO::SNMPv3:  out << "default_snmp_version 3" << endl; break;
+        default: break;
+        }
     }
     out << "##" << endl;
     out << "## Имя SNMP-сообщества (по умолчанию: public)." << endl;
     out << "## default_snmp_community <community>" << endl;
     if (SnmpObject::root &&  SnmpObject::root->isCommunityValid()) {
-        out << "default_host " << SnmpObject::root->getCommunity() << endl;
+        out << "default_snmp_community " << SnmpObject::root->getCommunity() << endl;
     }
     out << "##" << endl;
     out << "## Масксимальный интервал ожидания ответа от SNMP-агента, в сек." << endl;
     out << "## (по умолчанию: 1 сек.)." << endl;
     out << "## default_snmp_timeout <timeout>" << endl;
     if (SnmpObject::root &&  SnmpObject::root->isTimeoutValid()) {
-        out << "default_host " << SnmpObject::root->getTimeout() << endl;
+        out << "default_snmp_timeout " << SnmpObject::root->getTimeout() << endl;
     }
     out << "##" << endl;
     out << "## Максимальное количество повторных SNMP-запросов в случае неудачи" << endl;
     out << "## (по умолчанию: 3)." << endl;
     out << "## default_snmp_retries <retries>" << endl;
     if (SnmpObject::root &&  SnmpObject::root->isRetriesValid()) {
-        out << "default_host " << SnmpObject::root->getRetries() << endl;
+        out << "default_snmp_retries " << SnmpObject::root->getRetries() << endl;
     }
     out << endl;
     out << "################################################################################" << endl;
@@ -299,42 +304,45 @@ QString SnmpObjectLoader::valueForKey(const QString &line, const QString &key) c
 
 /*************************************************************/
 
-void SnmpObjectLoader::printObject(UnicodedStream &out, SnmpObject *node, int tab)
+void SnmpObjectLoader::printObject(UnicodedStream &out, SnmpObject *node, const QString &indent)
 {
-//    QString tabStr(' ', tab);
-//    QString tab2Str(' ', tab + 4);
-    QString tabStr;
-    for (int i=0; i<tab; i++) tabStr.append(" ");
-    QString tab2Str(tabStr);
-    for (int i=0; i<4; i++) tab2Str.append(" ");
-    out << tabStr << "object {" << endl;
-    out << tab2Str << "name \"" << node->getName() << "\"" << endl;
+    static const QString tab("    "); // 4 spaces
+
+    QString tabStr(indent);
+    tabStr.append(tab);
+    out << indent << "object {" << endl;
+    out << tabStr << "name \"" << node->getName() << "\"" << endl;
     if (node->isHostValid()) {
-        out << tab2Str << "host " << node->getHost() << endl;
+        out << tabStr << "host " << node->getHost() << endl;
     }
     if (node->getModIdx()) {
-        out << tab2Str << "module " << node->getModIdx() << endl;
+        out << tabStr << "module " << node->getModIdx() << endl;
     }
     if (node->isPortValid()) {
-        out << tab2Str << "snmp_port " << node->getPort() << endl;
+        out << tabStr << "snmp_port " << node->getPort() << endl;
     }
     if (node->isVersionValid()) {
-        out << tab2Str << "snmp_version " << node->getVersion() << endl;
+        switch (node->getVersion()) {
+        case SDPO::SNMPv1:  out << tabStr << "snmp_version 1" << endl; break;
+        case SDPO::SNMPv2c: out << tabStr << "snmp_version 2" << endl; break;
+        case SDPO::SNMPv3:  out << tabStr << "snmp_version 3" << endl; break;
+        default: break;
+        }
     }
     if (node->isCommunityValid()) {
-        out << tab2Str << "snmp_community " << node->getCommunity() << endl;
+        out << tabStr << "snmp_community " << node->getCommunity() << endl;
     }
     if (node->isTimeoutValid()) {
-        out << tab2Str << "snmp_timeout " << node->getTimeout() << endl;
+        out << tabStr << "snmp_timeout " << node->getTimeout() << endl;
     }
     if (node->isRetriesValid()) {
-        out << tab2Str << "snmp_retries " << node->getRetries() << endl;
+        out << tabStr << "snmp_retries " << node->getRetries() << endl;
     }
     foreach(SnmpObject *child, *node->snmpObjects()) {
         out << endl;
-        printObject(out, child, tab + 4);
+        printObject(out, child, tabStr);
     }
-    out << tabStr << "}" << endl;
+    out << indent << "}" << endl;
 }
 
 /*************************************************************/

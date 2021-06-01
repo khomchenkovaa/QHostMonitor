@@ -218,7 +218,12 @@ bool SnmpObject::setVersionIfNotEmpty(const QString &value)
         bool ok;
         int version = value.toInt(&ok);
         if (ok) {
-            setVersion(version);
+            switch(version) {
+            case 1: setVersion(SDPO::SNMPv1); break;
+            case 2: setVersion(SDPO::SNMPv2c); break;
+            case 3: setVersion(SDPO::SNMPv3); break;
+            default: setVersion(SDPO::SNMPvDefault); break;
+            }
             return true;
         }
     }

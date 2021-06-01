@@ -47,7 +47,7 @@ signals:
 private:
     bool parseConf(const QString &diagConf);
     QString valueForKey(const QString &line, const QString &key) const;
-    void printObject(UnicodedStream &out, SnmpObject *node, int tab = 0);
+    void printObject(UnicodedStream &out, SnmpObject *node, const QString &indent = QString());
 
 private:
     QString m_FileName;

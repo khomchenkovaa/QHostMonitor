@@ -15,6 +15,7 @@
 
 namespace KharmonView {
 
+/*************************************************************/
 // system struct
 struct SnmpSystem {
     QString sysName;
@@ -32,6 +33,7 @@ struct SnmpSystem {
     }
 };
 
+/*************************************************************/
 // status struct
 struct SnmpStatus {
     int     statStatus;
@@ -45,9 +47,8 @@ struct SnmpStatus {
     }
 };
 
-/*
- * modules struct
- */
+/*************************************************************/
+// modules struct
 struct SnmpModule {
     long    modIndex;
     QString modName;
@@ -61,9 +62,8 @@ struct SnmpModule {
 
 typedef QList<SnmpModule> SnmpModList;
 
-/*
- * parameters struct
- */
+/*************************************************************/
+// parameters struct
 struct SnmpParameter {
     long    paramIndex;
     QString paramName;
@@ -84,6 +84,20 @@ struct SnmpParameter {
 };
 
 typedef QList<SnmpParameter> SnmpParamList;
+
+/*************************************************************/
+// Log messages struct
+struct SnmpLog {
+    long    logID;
+    QString logDate;
+    int     logType;
+    int     logPriority;
+    QString logMessage;
+};
+
+typedef QList<SnmpLog> SnmpLogList;
+
+/*************************************************************/
 
 class SnmpObject : public QObject
 {
@@ -142,6 +156,7 @@ public:
     SnmpStatus         *snmpStatus()    { return &m_Status; }
     SnmpModList        *snmpModList()   { return &m_Modules; }
     SnmpParamList      *snmpParamList() { return &m_Params; }
+    SnmpLogList        *snmpLogList()   { return &m_Logs; }
 
 protected:
     void timerEvent(QTimerEvent *event);
@@ -181,6 +196,7 @@ private:
     SnmpStatus    m_Status;
     SnmpModList   m_Modules;
     SnmpParamList m_Params;
+    SnmpLogList   m_Logs;
     int m_TimerId;
 };
 

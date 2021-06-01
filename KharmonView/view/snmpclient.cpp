@@ -45,6 +45,14 @@ enum DiagMibParamss {
     IDX_PARAM_MODULE_INDEX
 };
 
+enum DiagLogParamss {
+    IDX_LOG_ID = 0,
+    IDX_LOG_DATE,
+    IDX_LOG_TYPE,
+    IDX_LOG_PRIORITY,
+    IDX_LOG_MESSAGE
+};
+
 using namespace KharmonView;
 
 /*************************************************************/
@@ -83,6 +91,20 @@ void SnmpClient::snmpRun(SnmpObject *snmpObject)
     snmpStatic(ss, snmpObject, numMods, numParams);
     snmpModules(ss, snmpObject, numMods);
     snmpParams(ss, snmpObject, numParams);
+}
+
+/*************************************************************/
+
+void SnmpClient::snmpLogRun(SnmpObject *snmpObject)
+{
+    SDPO::NetSnmpSession ss;
+    ss.setVersion(snmpObject->getVersion());
+    ss.setCommunity(snmpObject->getCommunity());
+    ss.setDestHost(snmpObject->getDestHost());
+    ss.setTimeoutSec(snmpObject->getTimeout());
+    ss.setRetries(snmpObject->getRetries());
+
+    snmpLogs(ss, snmpObject);
 }
 
 /*************************************************************/
@@ -182,6 +204,19 @@ void SnmpClient::snmpParams(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject, in
 
 /*************************************************************/
 
+void SnmpClient::snmpLogs(SDPO::NetSnmpSession &ss, SnmpObject *snmpObject)
+{
+    SDPO::SnmpValueTable logTable = ss.getTableRows(objid_LogTableColumns);
+    snmpObject->snmpLogList()->clear();
+    foreach(const SDPO::SnmpValueList &row, logTable) {
+        SnmpLog log;
+        setLogInfo(log, row);
+        snmpObject->snmpLogList()->append(log);
+    }
+}
+
+/*************************************************************/
+
 void SnmpClient::setModuleInfo(SnmpModule &module, const SDPO::SnmpValueList &row)
 {
     module.modIndex          = row.at(IDX_MOD_INDEX).val.toLong();
@@ -213,6 +248,17 @@ void SnmpClient::setParameterInfo(SnmpParameter &param, const SDPO::SnmpValueLis
     param.paramHighFailLimit    = row.at(IDX_PARAM_HIGH_FAIL_LIMIT).val;
     param.paramHighWarningLimit = row.at(IDX_PARAM_HIGH_WARNING_LIMIT).val;
     param.paramModuleIndex      = row.at(IDX_PARAM_MODULE_INDEX).val.toInt();
+}
+
+/*************************************************************/
+
+void SnmpClient::setLogInfo(SnmpLog &log, const SDPO::SnmpValueList &row)
+{
+    log.logID       = row.at(IDX_LOG_ID).val.toLong();
+    log.logDate     = row.at(IDX_LOG_DATE).val;
+    log.logType     = row.at(IDX_LOG_TYPE).val.toInt();
+    log.logPriority = row.at(IDX_LOG_PRIORITY).val.toInt();
+    log.logMessage  = row.at(IDX_LOG_MESSAGE).val;
 }
 
 /*************************************************************/
@@ -257,6 +303,13 @@ void SnmpClient::initOids()
         << SDPO::MibOid::parse("DIAG-MIB::paramHighFailLimit")
         << SDPO::MibOid::parse("DIAG-MIB::paramHighWarningLimit")
         << SDPO::MibOid::parse("DIAG-MIB::paramModuleIndex");
+
+    objid_LogTableColumns
+        << SDPO::MibOid::parse("DIAG-MIB::logID")
+        << SDPO::MibOid::parse("DIAG-MIB::logDate")
+        << SDPO::MibOid::parse("DIAG-MIB::logType")
+        << SDPO::MibOid::parse("DIAG-MIB::logPriority")
+        << SDPO::MibOid::parse("DIAG-MIB::logMessage");
 }
 
 /*************************************************************/

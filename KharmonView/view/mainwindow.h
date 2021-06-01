@@ -32,6 +32,7 @@ signals:
     void cmdOpen();
     void cmdSave();
     void cmdSaveAs();
+    void cmdLogRun(SnmpObject *);
 
 private slots:
     void updateInfo(const QModelIndex& index);
@@ -39,6 +40,7 @@ private slots:
     void cmdObjEdit();
     void cmdObjRemove();
     void cmdDefaults();
+    void cmdLogMessages();
 
 private:
     void setupUI();
@@ -59,6 +61,7 @@ private:
     QAction *actionObjRemove;
     QAction *actionAbout;
     QAction *actionDefaults;
+    QAction *actionLogs;
 
     QTreeView *objectTree;
     SnmpObjectWidget *objectInfo;

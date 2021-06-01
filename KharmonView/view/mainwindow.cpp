@@ -13,19 +13,20 @@ using namespace KharmonView;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow (parent)
-    , actionNew              (new QAction(this))
-    , actionOpen             (new QAction(this))
-    , actionSave             (new QAction(this))
-    , actionSaveAs           (new QAction(this))
-    , actionExit             (new QAction(this))
-    , actionObjAdd           (new QAction(this))
-    , actionObjEdit          (new QAction(this))
-    , actionObjRemove        (new QAction(this))
-    , actionAbout            (new QAction(this))
-    , actionDefaults         (new QAction(this))
-    , objectTree             (new QTreeView(this))
-    , objectInfo             (new SnmpObjectWidget(this))
-    , snmpResult             (new SnmpResultWidget(this))
+    , actionNew       (new QAction(this))
+    , actionOpen      (new QAction(this))
+    , actionSave      (new QAction(this))
+    , actionSaveAs    (new QAction(this))
+    , actionExit      (new QAction(this))
+    , actionObjAdd    (new QAction(this))
+    , actionObjEdit   (new QAction(this))
+    , actionObjRemove (new QAction(this))
+    , actionAbout     (new QAction(this))
+    , actionDefaults  (new QAction(this))
+    , actionLogs      (new QAction(this))
+    , objectTree      (new QTreeView(this))
+    , objectInfo      (new SnmpObjectWidget(this))
+    , snmpResult      (new SnmpResultWidget(this))
 {
     setupUI();
     init();
@@ -118,6 +119,13 @@ void MainWindow::cmdDefaults()
     if (dlg.exec() == QDialog::Accepted) {
         updateInfo(objectTree->selectionModel()->currentIndex());
     }
+}
+
+/*************************************************************/
+
+void MainWindow::cmdLogMessages()
+{
+    // TODO
 }
 
 /*************************************************************/
@@ -222,6 +230,11 @@ void MainWindow::setupActions()
     actionDefaults->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system")));
     actionDefaults->setText(QApplication::translate("MainWindow", "Defaults", Q_NULLPTR));
     connect(actionDefaults, &QAction::triggered, this, &MainWindow::cmdDefaults);
+
+    actionLogs->setObjectName(QStringLiteral("actionLogs"));
+    actionLogs->setIcon(QIcon(":img/actions/Log_Event.png"));
+    actionLogs->setText(QApplication::translate("MainWindow", "Logs", Q_NULLPTR));
+    connect(actionLogs, &QAction::triggered, this, &MainWindow::cmdLogMessages);
 }
 
 /*************************************************************/
@@ -257,6 +270,7 @@ void MainWindow::setupMenuBar()
     menuEdit->addAction(actionObjRemove);
     menuEdit->addSeparator();
     menuEdit->addAction(actionDefaults);
+    menuHelp->addAction(actionLogs);
     menuHelp->addAction(actionAbout);
 }
 
@@ -290,6 +304,7 @@ void MainWindow::setupToolBar()
     toolBar->addSeparator();
     toolBar->addAction(actionDefaults);
     toolBar->addSeparator();
+    toolBar->addAction(actionLogs);
     toolBar->addAction(actionAbout);
 }
 

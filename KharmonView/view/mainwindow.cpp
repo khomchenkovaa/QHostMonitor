@@ -4,6 +4,7 @@
 #include "snmpresultwidget.h"
 #include "snmpobjectedit.h"
 #include "snmpobjectdefaults.h"
+#include "snmpresultlog.h"
 
 #include <QtWidgets>
 
@@ -125,7 +126,17 @@ void MainWindow::cmdDefaults()
 
 void MainWindow::cmdLogMessages()
 {
-    // TODO
+    const QModelIndex index = objectTree->selectionModel()->currentIndex();
+    SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+    SnmpObject *node = model->nodeFromIndex(index);
+    if (node == SnmpObject::root) {
+        QMessageBox::warning(this, tr("Log messages"), tr("There is no legal object for view logs"));
+        return;
+    }
+
+    emit cmdLogRun(node);
+    SnmpResultLog dlg(node, this);
+    dlg.exec();
 }
 
 /*************************************************************/

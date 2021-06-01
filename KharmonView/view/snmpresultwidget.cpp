@@ -80,7 +80,7 @@ void SnmpResultWidget::setupUI()
     setAlternatingRowColors(true);
     setColumnCount(3);
     setColumnWidth(0, 150);
-    setColumnWidth(0, 300);
+    setColumnWidth(1, 300);
     setMinimumWidth(600);
     setHeaderLabels(QStringList() << "Атрибут" << "Значение" << "Статус");
     setFont(font);

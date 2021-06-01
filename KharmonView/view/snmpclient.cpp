@@ -104,6 +104,8 @@ void SnmpClient::snmpLogRun(SnmpObject *snmpObject)
     ss.setTimeoutSec(snmpObject->getTimeout());
     ss.setRetries(snmpObject->getRetries());
 
+    qDebug() << "Object:" << snmpObject->getName() << "$ getting logs";
+
     snmpLogs(ss, snmpObject);
 }
 

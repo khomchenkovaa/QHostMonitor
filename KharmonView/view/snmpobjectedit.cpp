@@ -67,7 +67,7 @@ void SnmpObjectEdit::setupUI()
     QFont font;
     font.setPointSize(9);
     setFont(font);
-    resize(600, 500);
+    resize(600, 400);
     setWindowTitle(m_Item ? tr("Edit Object") : tr("New Object"));
 
     uiHost->setPlaceholderText(QString("default: %1").arg(SnmpObject::root->getHost()));

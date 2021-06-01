@@ -10,6 +10,7 @@ HEADERS += \
     $$PWD/snmpobjectloader.h \
     $$PWD/snmpobjectmodel.h \
     $$PWD/snmpobjectwidget.h \
+    $$PWD/snmpresultlog.h \
     $$PWD/snmpresultwidget.h
 
 SOURCES += \
@@ -21,4 +22,5 @@ SOURCES += \
     $$PWD/snmpobjectloader.cpp \
     $$PWD/snmpobjectmodel.cpp \
     $$PWD/snmpobjectwidget.cpp \
+    $$PWD/snmpresultlog.cpp \
     $$PWD/snmpresultwidget.cpp

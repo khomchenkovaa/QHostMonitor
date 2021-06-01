@@ -1,6 +1,8 @@
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+include("../../views/about/about.pri")
+
 HEADERS += \
     $$PWD/mainwindow.h \
     $$PWD/snmpclient.h \

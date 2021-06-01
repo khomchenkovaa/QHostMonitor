@@ -24,7 +24,6 @@ include("../service/service.pri")
 include("../view/view.pri")
 
 HEADERS  += \
-    qAboutDlg.h \
     qAckDlg.h \
     qExportToTxtDlg.h \
     qFolderDlg.h \
@@ -41,7 +40,6 @@ HEADERS  += \
     startup.h
 
 SOURCES += main.cpp \
-    qAboutDlg.cpp \
     qAckDlg.cpp \
     qExportToTxtDlg.cpp \
     qFolderDlg.cpp \
@@ -58,7 +56,6 @@ SOURCES += main.cpp \
     startup.cpp
 
 FORMS    += \
-    qAboutDlg.ui \
     qAckDlg.ui \
     qExportToTxtDlg.ui \
     qFolderDlg.ui \

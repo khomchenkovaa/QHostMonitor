@@ -26,7 +26,6 @@ class ActionService;
 class TNode;
 class HostMonDlg;
 class OptionsForm;
-class AboutDlg;
 
 class MainForm : public QMainWindow
 {

@@ -9,6 +9,7 @@ include("options/options.pri")
 include("properties/properties.pri")
 include("testedit/testedit.pri")
 include("viewmodel/viewmodel.pri")
+include("../views/about/about.pri")
 
 HEADERS += \
     $$PWD/qOptionsForm.h \

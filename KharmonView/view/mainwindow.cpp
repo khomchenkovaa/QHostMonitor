@@ -5,6 +5,7 @@
 #include "snmpobjectedit.h"
 #include "snmpobjectdefaults.h"
 #include "snmpresultlog.h"
+#include "qAboutDlg.h"
 
 #include <QtWidgets>
 
@@ -22,9 +23,9 @@ MainWindow::MainWindow(QWidget *parent)
     , actionObjAdd    (new QAction(this))
     , actionObjEdit   (new QAction(this))
     , actionObjRemove (new QAction(this))
-    , actionAbout     (new QAction(this))
     , actionDefaults  (new QAction(this))
     , actionLogs      (new QAction(this))
+    , actionAbout     (new QAction(this))
     , objectTree      (new QTreeView(this))
     , objectInfo      (new SnmpObjectWidget(this))
     , snmpResult      (new SnmpResultWidget(this))
@@ -141,6 +142,14 @@ void MainWindow::cmdLogMessages()
 
 /*************************************************************/
 
+void MainWindow::cmdAbout()
+{
+    SDPO::AboutDlg dlg(this);
+    dlg.exec();
+}
+
+/*************************************************************/
+
 void MainWindow::setupUI()
 {
     setObjectName(QStringLiteral("MainWindow"));
@@ -233,10 +242,6 @@ void MainWindow::setupActions()
     actionObjRemove->setText(QApplication::translate("MainWindow", "Remove object", Q_NULLPTR));
     connect(actionObjRemove, &QAction::triggered, this, &MainWindow::cmdObjRemove);
 
-    actionAbout->setObjectName(QStringLiteral("actionAbout"));
-    actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
-    actionAbout->setText(QApplication::translate("MainWindow", "About", Q_NULLPTR));
-
     actionDefaults->setObjectName(QStringLiteral("actionDefaults"));
     actionDefaults->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system")));
     actionDefaults->setText(QApplication::translate("MainWindow", "Defaults", Q_NULLPTR));
@@ -246,6 +251,11 @@ void MainWindow::setupActions()
     actionLogs->setIcon(QIcon(":img/actions/Log_Event.png"));
     actionLogs->setText(QApplication::translate("MainWindow", "Logs", Q_NULLPTR));
     connect(actionLogs, &QAction::triggered, this, &MainWindow::cmdLogMessages);
+
+    actionAbout->setObjectName(QStringLiteral("actionAbout"));
+    actionAbout->setIcon(QIcon::fromTheme(QStringLiteral("help-about")));
+    actionAbout->setText(QApplication::translate("MainWindow", "About", Q_NULLPTR));
+    connect(actionAbout, &QAction::triggered, this, &MainWindow::cmdAbout);
 }
 
 /*************************************************************/

@@ -41,6 +41,7 @@ private slots:
     void cmdObjRemove();
     void cmdDefaults();
     void cmdLogMessages();
+    void cmdAbout();
 
 private:
     void setupUI();
@@ -59,9 +60,9 @@ private:
     QAction *actionObjAdd;
     QAction *actionObjEdit;
     QAction *actionObjRemove;
-    QAction *actionAbout;
     QAction *actionDefaults;
     QAction *actionLogs;
+    QAction *actionAbout;
 
     QTreeView *objectTree;
     SnmpObjectWidget *objectInfo;

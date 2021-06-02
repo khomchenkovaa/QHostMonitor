@@ -7,7 +7,7 @@
 QT       += core gui network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = qHostMonitor
+TARGET = KharmonMonitor
 TEMPLATE = app
 
 QMAKE_CXXFLAGS += -Wdeprecated

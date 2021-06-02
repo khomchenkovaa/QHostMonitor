@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     KharmonView \
-    qHostMonitor \
+    KharmonMonitor \
     MibBrowser \
     rma \
     HMTelnetService

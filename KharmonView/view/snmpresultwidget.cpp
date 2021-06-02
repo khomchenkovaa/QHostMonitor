@@ -287,18 +287,18 @@ QIcon SnmpResultWidget::iconByModStatus(const int status) const
 {
     switch (status) {
     case 0: // normal
-        return QIcon(":img/status/tstHostAlive.png");
+        return QIcon("://img/fugue/status.png");
     case 1: // lowWarning
     case 2: // highWarning
-        return QIcon(":img/status/tstWaitForMaster.png");
+        return QIcon("://img/fugue/status-away.png");
     case 3: // initial
-        return QIcon(":img/status/tstChecking.png");
+        return QIcon("://img/fugue/status-offline.png");
     case 10: // lowFail
     case 11: // highFail
     case 12: // fail
-        return QIcon(":img/status/tstNoAnswer.png");
+        return QIcon("://img/fugue/status-busy.png");
     case 101: // unknown
-        return QIcon(":img/status/tstUnknown.png");
+        return QIcon("://img/fugue/status-busy.png");
     }
     return QIcon();
 }
@@ -309,18 +309,18 @@ QIcon SnmpResultWidget::iconByParamStatus(const int status) const
 {
     switch (status) {
     case 0: // normal
-        return QIcon(":img/status/tstOk.png");
+        return QIcon("://img/fugue/media-player-xsmall-green.png");
     case 1: // lowWarning
     case 2: // highWarning
-        return QIcon(":img/status/tstBadContents.png");
+        return QIcon("://img/fugue/media-player-xsmall-blue.png");
     case 3: // initial
-        return QIcon(":img/status/tstChecking.png");
+        return QIcon("://img/fugue/media-player-xsmall-polish.png");
     case 10: // lowFail
     case 11: // highFail
     case 12: // fail
-        return QIcon(":img/status/tstBad.png");
+        return QIcon("://img/fugue/media-player-xsmall-pink.png");
     case 101: // unknown
-        return QIcon(":img/status/tstNotTested.png");
+        return QIcon("://img/fugue/media-player-xsmall-pink.png");
     }
     return QIcon();
 }

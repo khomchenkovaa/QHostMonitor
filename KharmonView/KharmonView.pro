@@ -21,7 +21,7 @@ SOURCES += \
     startup.cpp
 
 RESOURCES += \
-    ../qHostMonitor.qrc
+    ../KharmonView.qrc
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

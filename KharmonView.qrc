@@ -1,0 +1,23 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/fugue/media-player-medium.png</file>
+        <file>img/fugue/media-player-medium-black.png</file>
+        <file>img/fugue/media-player-medium-blue.png</file>
+        <file>img/fugue/media-player-medium-green.png</file>
+        <file>img/fugue/media-player-medium-orange.png</file>
+        <file>img/fugue/media-player-medium-pink.png</file>
+        <file>img/fugue/media-player-medium-purple.png</file>
+        <file>img/fugue/media-player-medium-red.png</file>
+        <file>img/fugue/media-player-medium-yellow.png</file>
+        <file>img/fugue/media-player-xsmall.png</file>
+        <file>img/fugue/media-player-xsmall-black.png</file>
+        <file>img/fugue/media-player-xsmall-blue.png</file>
+        <file>img/fugue/media-player-xsmall-green.png</file>
+        <file>img/fugue/media-player-xsmall-pink.png</file>
+        <file>img/fugue/media-player-xsmall-polish.png</file>
+        <file>img/fugue/status.png</file>
+        <file>img/fugue/status-away.png</file>
+        <file>img/fugue/status-busy.png</file>
+        <file>img/fugue/status-offline.png</file>
+    </qresource>
+</RCC>

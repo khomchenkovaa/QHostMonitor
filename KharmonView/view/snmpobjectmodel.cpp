@@ -78,13 +78,23 @@ QVariant SnmpObjectModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
 
-    SnmpObject* curObj = nodeFromIndex(index);
+    SnmpObject* node = nodeFromIndex(index);
+
+    int status = node->snmpStatus()->statStatus;
+    if (node->getModIdx()) {
+        for (int i=0; i< node->snmpModList()->size(); ++i) {
+            if (node->snmpModList()->at(i).modIndex == node->getModIdx()) {
+                status = node->snmpModList()->at(i).modStatus;
+                break;
+            }
+        }
+    }
 
     switch (role) {
     case Qt::DisplayRole:
-        return curObj->getName();
+        return node->getName();
     case Qt::DecorationRole:
-        return QIcon(":/img/folder.png");
+        return iconByStatus(status);
     }
 
     return QVariant();
@@ -144,6 +154,28 @@ void SnmpObjectModel::nodeRemove(const QModelIndex &index)
       SnmpObject *parNode = node->parentObj();
       parNode->remove(node);
       endRemoveRows();
+}
+
+/*****************************************************************/
+
+QIcon SnmpObjectModel::iconByStatus(int status) const
+{
+    switch (status) {
+    case 0: // normal
+        return QIcon("://img/fugue/media-player-medium-green.png");
+    case 1: // lowWarning
+    case 2: // highWarning
+        return QIcon("://img/fugue/media-player-medium-yellow.png");
+    case 3: // initial
+        return QIcon("://img/fugue/media-player-medium.png");
+    case 10: // lowFail
+    case 11: // highFail
+    case 12: // fail
+        return QIcon("://img/fugue/media-player-medium-red.png");
+    case 101: // unknown
+        return QIcon("://img/fugue/media-player-medium-red.png");
+    }
+    return QIcon();
 }
 
 /*****************************************************************/

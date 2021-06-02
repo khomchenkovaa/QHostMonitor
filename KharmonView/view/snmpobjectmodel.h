@@ -39,6 +39,8 @@ public:
     void nodeChanged(const QModelIndex& index);
     void nodeRemove(const QModelIndex& index);
 
+private:
+    QIcon iconByStatus(int status) const;
 };
 
 } // namespace KharmonView

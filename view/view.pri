@@ -12,6 +12,7 @@ include("viewmodel/viewmodel.pri")
 include("../views/about/about.pri")
 
 HEADERS += \
+    $$PWD/qFolderDlg.h \
     $$PWD/qOptionsForm.h \
     $$PWD/qHostMonDlg.h \
     $$PWD/qMethodSelectDlg.h \
@@ -41,6 +42,7 @@ HEADERS += \
     $$PWD/qCommonViewPropertiesDlg.h
 
 SOURCES += \
+    $$PWD/qFolderDlg.cpp \
     $$PWD/qOptionsForm.cpp \
     $$PWD/qHostMonDlg.cpp \
     $$PWD/qMethodSelectDlg.cpp \
@@ -70,6 +72,7 @@ SOURCES += \
     $$PWD/qCommonViewPropertiesDlg.cpp
 
 FORMS    += \
+    $$PWD/qFolderDlg.ui \
     $$PWD/qOptionsForm.ui \
     $$PWD/qHostMonDlg.ui \
     $$PWD/qMethodSelectDlg.ui \

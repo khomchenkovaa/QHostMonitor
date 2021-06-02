@@ -26,7 +26,6 @@ include("../view/view.pri")
 HEADERS  += \
     qAckDlg.h \
     qExportToTxtDlg.h \
-    qFolderDlg.h \
     qImportFromTxtFileDlg.h \
     qLocalSystemInfoDlg.h \
     qMainForm.h \
@@ -42,7 +41,6 @@ HEADERS  += \
 SOURCES += main.cpp \
     qAckDlg.cpp \
     qExportToTxtDlg.cpp \
-    qFolderDlg.cpp \
     qImportFromTxtFileDlg.cpp \
     qLocalSystemInfoDlg.cpp \
     qMainForm.cpp \
@@ -58,7 +56,6 @@ SOURCES += main.cpp \
 FORMS    += \
     qAckDlg.ui \
     qExportToTxtDlg.ui \
-    qFolderDlg.ui \
     qImportFromTxtFileDlg.ui \
     qLocalSystemInfoDlg.ui \
     qMainForm.ui \

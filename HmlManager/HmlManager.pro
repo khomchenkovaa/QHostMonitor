@@ -10,26 +10,28 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = HmlManager
 TEMPLATE = app
 
+CONFIG += c++11
+
+include("../common/lib/modeltest/modeltest.pri")
+
 include("../common/common.pri")
 include("../model/model.pri")
+include("../service/service.pri")
 include("../view/view.pri")
 
 SOURCES += main.cpp \
-    qAboutDlg.cpp \
     startup.cpp \
     qHmlMain.cpp
 
 HEADERS  += \
-    qAboutDlg.h \
     startup.h \
     qHmlMain.h
 
 FORMS    += \
-    qAboutDlg.ui \
     qHmlMain.ui
 
 RESOURCES += \
     ../qHostMonitor.qrc
 
-
+LIBS += -lnetsnmp
 

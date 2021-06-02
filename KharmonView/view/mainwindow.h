@@ -34,6 +34,9 @@ signals:
     void cmdSaveAs();
     void cmdLogRun(SnmpObject *);
 
+public slots:
+    void objectUpdated(SnmpObject *snmpObject);
+
 private slots:
     void updateInfo(const QModelIndex& index);
     void cmdObjAdd();

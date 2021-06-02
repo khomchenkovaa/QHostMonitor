@@ -14,6 +14,9 @@ class SnmpClient : public QObject
 public:
     explicit SnmpClient(QObject *parent = nullptr);
 
+signals:
+    void snmpDone(SnmpObject *snmpObject);
+
 public slots:
     void snmpRun(SnmpObject *snmpObject);
     void snmpLogRun(SnmpObject *snmpObject);

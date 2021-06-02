@@ -1,6 +1,7 @@
 #include "snmpresultwidget.h"
 
 #include <QHeaderView>
+#include <QScrollBar>
 
 using namespace KharmonView;
 
@@ -50,7 +51,23 @@ void SnmpResultWidget::setSnmpObject(SnmpObject *node)
 
 void SnmpResultWidget::updateSnmpObject(SnmpObject *node)
 {
+    int scrollValue = verticalScrollBar()->value();
+
+    QList<bool> expanded;
+    QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::HasChildren);
+    while (*it) {
+        expanded.append((*it)->isExpanded());
+        ++it;
+    }
     setSnmpObject(node);
+    QTreeWidgetItemIterator twit(this, QTreeWidgetItemIterator::HasChildren);
+    while (*twit) {
+        if (expanded.isEmpty()) break;
+        (*twit)->setExpanded(expanded.takeFirst());
+        ++twit;
+    }
+
+    verticalScrollBar()->setValue(scrollValue);
 }
 
 /*************************************************************/

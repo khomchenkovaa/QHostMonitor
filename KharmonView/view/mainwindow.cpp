@@ -52,6 +52,19 @@ void MainWindow::setModel(SnmpObjectModel *model)
 
 /*************************************************************/
 
+void MainWindow::objectUpdated(SnmpObject *snmpObject)
+{
+    const QModelIndex index = objectTree->selectionModel()->currentIndex();
+    if (!index.isValid()) return;
+    SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+    SnmpObject *node = model->nodeFromIndex(index);
+    if (node == snmpObject) {
+        snmpResult->updateSnmpObject(node);
+    }
+}
+
+/*************************************************************/
+
 void MainWindow::updateInfo(const QModelIndex &index)
 {
     SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
@@ -118,8 +131,18 @@ void MainWindow::cmdObjRemove()
 void MainWindow::cmdDefaults()
 {
     SnmpObjectDefaults dlg(this);
+    int dlgTimeout = SnmpObject::DLG_TIMEOUT;
     if (dlg.exec() == QDialog::Accepted) {
-        updateInfo(objectTree->selectionModel()->currentIndex());
+        if (dlgTimeout != SnmpObject::DLG_TIMEOUT) {
+            SnmpObject::root->stopView();
+            SnmpObject::root->startView();
+        }
+        const QModelIndex index = objectTree->selectionModel()->currentIndex();
+        if (index.isValid()) {
+            SnmpObjectModel *model = qobject_cast<SnmpObjectModel *>(objectTree->model());
+            SnmpObject *node = model->nodeFromIndex(index);
+            objectInfo->setSnmpObject(node);
+        }
     }
 }
 

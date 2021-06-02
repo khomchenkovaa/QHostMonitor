@@ -91,6 +91,8 @@ void SnmpClient::snmpRun(SnmpObject *snmpObject)
     snmpStatic(ss, snmpObject, numMods, numParams);
     snmpModules(ss, snmpObject, numMods);
     snmpParams(ss, snmpObject, numParams);
+
+    emit snmpDone(snmpObject);
 }
 
 /*************************************************************/

@@ -99,6 +99,7 @@ void Startup::setup()
     });
 
     connect(&m_MainForm, &MainWindow::cmdLogRun, &m_SnmpClient, &SnmpClient::snmpLogRun);
+    connect(&m_SnmpClient, &SnmpClient::snmpDone, &m_MainForm, &MainWindow::objectUpdated);
 
 //    SDPO::IOSnmpCredentialsLoader loader;
 //    loader.load();

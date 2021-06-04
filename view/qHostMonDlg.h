@@ -59,6 +59,7 @@ private slots:
     void on_btnTuneUpReply_clicked();
 
 private:
+    void setupUI();
     void saveTest(TTestMethod *testMethod);
     QString getTestName() const;
     QString getTestComment() const;

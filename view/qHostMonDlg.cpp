@@ -1,7 +1,7 @@
 #include "qHostMonDlg.h"
 #include "ui_qHostMonDlg.h"
 
-#include <QMessageBox>
+#include <QtWidgets>
 #include <QDebug>
 
 #include "method/qTestWidget.h"
@@ -611,6 +611,30 @@ void HostMonDlg::on_btnTuneUpReply_clicked()
     if (dlg.exec() == QDialog::Accepted) {
         ui->cmbReply->setCurrentText(dlg.getScript());
     }
+}
+
+/******************************************************************/
+
+void HostMonDlg::setupUI()
+{
+    if (objectName().isEmpty()) {
+        setObjectName(QStringLiteral("HostMonDlg"));
+    }
+    resize(921, 693);
+
+    QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    sizePolicy.setHorizontalStretch(0);
+    sizePolicy.setVerticalStretch(0);
+    sizePolicy.setHeightForWidth(this->sizePolicy().hasHeightForWidth());
+    setSizePolicy(sizePolicy);
+
+    setFont(QFont("DejaVu Sans", 8));
+
+    setWindowIcon(QIcon(":/img/hostMonitor.png"));
+    setWindowTitle(QApplication::translate("HostMonDlg", "Test properties", Q_NULLPTR));
+    setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
+
+    // TODO migrate from ui_qHostMonDlg.h
 }
 
 /******************************************************************/

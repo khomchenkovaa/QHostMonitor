@@ -28,7 +28,7 @@ ShellScriptWidget::~ShellScriptWidget()
 
 void ShellScriptWidget::init(TTestMethod *item)
 {
-    if (!item && (item->getTMethodID() != TMethodID::ShellScript) ) {
+    if (!item || (item->getTMethodID() != TMethodID::ShellScript) ) {
         reset();
         return;
     }
@@ -94,7 +94,7 @@ QStringList ShellScriptWidget::validate()
 
 QString ShellScriptWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::ShellScript);
     case Macro::MethodName :

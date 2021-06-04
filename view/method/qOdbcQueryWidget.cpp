@@ -119,7 +119,7 @@ QStringList OdbcQueryWidget::validate()
 
 QString OdbcQueryWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::ODBC);
     case Macro::MethodName :

@@ -70,10 +70,12 @@ struct MVariablesStruct {
     Macro::Group group;
 };
 
-// TP, TS, SS, AI, LS, ST, SP
-extern const std::vector<MVGroupsStruct> mvGroupsList;
+struct TMacro {
+    static MVariablesStruct varStruct(Macro::Variable mv);
+    static Macro::Variable  var(const QString name);
 
-extern const std::vector<MVariablesStruct> mvVariablesList;
-
+    static std::vector<MVGroupsStruct> groupList;
+    static std::vector<MVariablesStruct> varList;
+};
 
 } // namespace SDPO

@@ -27,7 +27,7 @@ ExternalPrgWidget::~ExternalPrgWidget()
 
 void ExternalPrgWidget::init(TTestMethod *item)
 {
-    if (!item && (item->getTMethodID() != TMethodID::Externalprg) ) {
+    if (!item || (item->getTMethodID() != TMethodID::Externalprg) ) {
         reset();
         return;
     }
@@ -90,7 +90,7 @@ QStringList ExternalPrgWidget::validate()
 
 QString ExternalPrgWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Externalprg);
     case Macro::MethodName :

@@ -104,24 +104,4 @@ QString TEnums::permissionName(const PermissionID id)
 
 /*****************************************************************/
 
-MVariablesStruct TEnums::mVar(Macro::Variable mv) {
-    if (static_cast<unsigned>(mv) >= mvVariablesList.size()) mv = Macro::Unknown;
-    return mvVariablesList.at(mv);
-}
-
-/*****************************************************************/
-
-Macro::Variable TEnums::mvFromString(const QString name) {
-    Macro::Variable result = Macro::Unknown;
-    for(unsigned i=0;i<mvVariablesList.size();++i) {
-        if ( name.compare(mvVariablesList.at(i).name, Qt::CaseInsensitive) == 0 ) {
-            result = mvVariablesList.at(i).id;
-            break;
-        }
-    }
-    return result;
-}
-
-/*****************************************************************/
-
 } // namespace SDPO

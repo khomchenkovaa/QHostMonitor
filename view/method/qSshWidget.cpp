@@ -1,5 +1,6 @@
 #include "qSshWidget.h"
 #include "ui_qSshWidget.h"
+#include "xMacroVar.h"
 #include "global/tMethod.h"
 #include "method/tSshTest.h"
 
@@ -119,7 +120,7 @@ QStringList SshWidget::validate()
 
 QString SshWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::SSH));
     case Macro::MethodName :

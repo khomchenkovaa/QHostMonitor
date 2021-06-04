@@ -1,5 +1,6 @@
 #include "qSybaseWidget.h"
 #include "ui_qSybaseWidget.h"
+#include "xMacroVar.h"
 #include "method/tSybase.h"
 
 namespace SDPO {
@@ -81,7 +82,7 @@ QStringList SybaseWidget::validate()
 
 QString SybaseWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Sybase);
     case Macro::MethodName :

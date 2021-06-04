@@ -69,13 +69,13 @@ void GMacroTranslator::buildValues()
             QString newKey = key.mid(idx+2);
             TNode *test = m_root->findTest(testName);
             if (test) {
-                Macro::Variable globalVar = TEnums::mvFromString(newKey);
+                Macro::Variable globalVar = TMacro::var(newKey);
                 m_values.insert(key, test->getGlobal(globalVar).toString());
             } else {
                 m_values.insert(key, QString());
             }
         } else if (m_item) {
-            Macro::Variable globalVar = TEnums::mvFromString(key);
+            Macro::Variable globalVar = TMacro::var(key);
             m_values.insert(key, m_item->getGlobal(globalVar).toString());
         } else {
             m_values.insert(key, QString());

@@ -1,11 +1,12 @@
 #include "qMacroEditorDlg.h"
 #include "ui_qMacroEditorDlg.h"
 #include "global/gUserVars.h"
+#include "xMacroVar.h"
 #include "tEnums.h"
 #include <QtWidgets>
 #include "qMacroEditorScriptRunnerDlg.h"
 
-namespace SDPO {
+using namespace SDPO;
 
 /******************************************************************/
 
@@ -42,7 +43,7 @@ void MacroEditorDlg::setScript(const QString script)
 
 void MacroEditorDlg::currentUserMacroChanged(const int row)
 {
-    if (row < GUserVars::variables.keys().count()) {
+    if (row < GUserVars::variables.size()) {
         QString key = GUserVars::variables.keys().at(row);
         ui->lineUserDefinedMacroVariables->setText(GUserVars::variables.value(key));
     }
@@ -53,9 +54,9 @@ void MacroEditorDlg::currentUserMacroChanged(const int row)
 void MacroEditorDlg::initMacroVars()
 {
     ui->listStandartMacroVariables->clear();
-    for(unsigned i=0;i<mvVariablesList.size();++i) {
+    for(unsigned i=0;i<TMacro::varList.size();++i) {
         bool added = false;
-        MVariablesStruct var = mvVariablesList.at(i);
+        MVariablesStruct var = TMacro::varList.at(i);
         switch(var.group) {
         case Macro::TP:
             if (ui->btnTP->isChecked()) {
@@ -310,6 +311,3 @@ void MacroEditorDlg::initFavorites()
 }
 
 /******************************************************************/
-
-} // namespace SDPO
-

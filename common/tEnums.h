@@ -5,7 +5,6 @@
 ** TestStatus, SimpleStatus, Prmissions
 ** ******************************************************************/
 
-#include "xMacroVar.h"
 #include <QObject>
 #include <QString>
 
@@ -78,9 +77,6 @@ public:
     static QString simpleStatus(SimpleStatusID status);
     static SimpleStatusID simpleStatusFromString(const QString &name, bool *ok=nullptr);
     static QString permissionName(const PermissionID id);
-    static MVariablesStruct mVar(Macro::Variable mv);
-    static Macro::Variable mvFromString(const QString name);
-
 };
 
 /*****************************************************************/

@@ -33,7 +33,7 @@ SnmpGetWidget::~SnmpGetWidget()
 
 void SnmpGetWidget::init(TTestMethod *item)
 {
-    if (!item && (item->getTMethodID() != TMethodID::SNMP) ) {
+    if (!item || (item->getTMethodID() != TMethodID::SNMP) ) {
         reset();
         return;
     }
@@ -98,7 +98,7 @@ QStringList SnmpGetWidget::validate()
 
 QString SnmpGetWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::SNMP));
     case Macro::MethodName :

@@ -102,7 +102,7 @@ void TTest::removeLink(TNode *node)
 
 QVariant TTest::getGlobal(Macro::Variable globalVar) const
 {
-    MVariablesStruct mvs = TEnums::mVar(globalVar);
+    MVariablesStruct mvs = TMacro::varStruct(globalVar);
     return property(mvs.name.toLatin1());
 }
 

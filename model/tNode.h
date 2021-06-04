@@ -2,6 +2,7 @@
 #define TNODE_H
 
 #include "PropertyHelper.h"
+#include "xMacroVar.h"
 #include "global/gProfiles.h"
 #include "global/tMethod.h"
 

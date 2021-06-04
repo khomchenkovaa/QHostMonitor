@@ -1,5 +1,6 @@
 #include "qWmiWidget.h"
 #include "ui_qWmiWidget.h"
+#include "xMacroVar.h"
 #include "method/tWmi.h"
 
 namespace SDPO {
@@ -83,7 +84,7 @@ QStringList WmiWidget::validate()
 
 QString WmiWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::WMI);
     case Macro::MethodName :

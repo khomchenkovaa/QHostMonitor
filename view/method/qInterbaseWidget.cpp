@@ -87,7 +87,7 @@ QStringList InterbaseWidget::validate()
 
 QString InterbaseWidget::getTemplateValue(const QString var) const
 {
-    Macro::Variable globalVar = TEnums::mvFromString(var);
+    Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Interbase);
     case Macro::MethodName :

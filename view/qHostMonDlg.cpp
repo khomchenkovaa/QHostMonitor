@@ -319,7 +319,7 @@ QString HostMonDlg::getTestName() const
     GMacroTranslator translator(nameSource);
     QStringList nameParams = translator.parse();
     if (nameParams.count()) {
-        QMap<QString,QString> nameValues = widget->setTemplateVars(nameParams);
+        QVariantMap nameValues = widget->setTemplateVars(nameParams);
         translator.setValues(nameValues);
         return translator.build();
     }
@@ -335,7 +335,7 @@ QString HostMonDlg::getTestComment() const
     GMacroTranslator translator(commentSource);
     QStringList commentParams = translator.parse();
     if (commentParams.count()) {
-        QMap<QString,QString> commentValues = widget->setTemplateVars(commentParams);
+        QVariantMap commentValues = widget->setTemplateVars(commentParams);
         translator.setValues(commentValues);
         return translator.build();
     }

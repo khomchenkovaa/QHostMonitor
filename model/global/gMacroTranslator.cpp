@@ -42,16 +42,18 @@ QStringList GMacroTranslator::parse()
 
 /*****************************************************************/
 
-void GMacroTranslator::setValues(const QMap<QString, QString> &values)
+void GMacroTranslator::setValues(const QVariantMap &values)
 {
-    foreach (const QString &key, values.keys()) {
-        m_values.insert(key, values.value(key));
+    QMapIterator<QString, QVariant> it(values);
+    while (it.hasNext()) {
+        it.next();
+        m_values.insert(it.key(), it.value());
     }
 }
 
 /*****************************************************************/
 
-QMap<QString, QString> GMacroTranslator::getValues() const
+QVariantMap GMacroTranslator::getValues() const
 {
     return m_values;
 }
@@ -88,8 +90,10 @@ void GMacroTranslator::buildValues()
 QString GMacroTranslator::build() const
 {
     QString result = m_source;
-    foreach (const QString &key, m_values.keys()) {
-        result = result.replace(QString("%%1%").arg(key),m_values.value(key));
+    QMapIterator<QString, QVariant> it(m_values);
+    while(it.hasNext()) {
+        it.next();
+        result = result.replace(QString("%%1%").arg(it.key()),it.value().toString());
     }
 
     QString pattern = "'(\\d+)\\s*(\\w\\w|%)'";

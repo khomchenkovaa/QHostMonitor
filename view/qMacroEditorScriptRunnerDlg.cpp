@@ -40,7 +40,7 @@ void MacroEditorScriptRunnerDlg::setScript(const QString script)
 
 void MacroEditorScriptRunnerDlg::on_btnRun_clicked()
 {
-    QMap<QString,QString> vars;
+    QVariantMap vars;
     for (int i=0; i<ui->tableVariables->rowCount(); i++) {
         vars.insert(ui->tableVariables->verticalHeaderItem(i)->text(), ui->tableVariables->item(i,0)->text());
     }

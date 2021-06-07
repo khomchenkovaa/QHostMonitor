@@ -2,8 +2,7 @@
 #define GSCRIPT_H
 
 #include <QStringList>
-#include <QMap>
-#include <QVariant>
+#include <QVariantMap>
 
 namespace SDPO {
 
@@ -15,13 +14,13 @@ class GMacroTranslator
     TNode *m_item;
     TNode *m_root;
     QStringList m_params;
-    QMap<QString, QString> m_values;
+    QVariantMap m_values;
 public:
     explicit GMacroTranslator(QString source, TNode *item = nullptr);
 
     QStringList parse();
-    void setValues(const QMap<QString, QString> &values);
-    QMap<QString, QString> getValues() const;
+    void setValues(const QVariantMap &values);
+    QVariantMap getValues() const;
     void buildValues();
     QString build() const;
     QString translate();

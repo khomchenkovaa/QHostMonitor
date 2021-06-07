@@ -76,6 +76,18 @@ QString TestMethod::getDefaultComments() const
 
 /***********************************************/
 
+QVariantMap TestMethod::toMap() const
+{
+    QVariantMap result;
+    result.insert("TestMethod", getTestMethod());
+    result.insert("MethodName", getTestMethodName());
+    result.insert("MethodID", getTestMethodID());
+    result.insert("TestedObjectInfo", getTestedObjectInfo());
+    return result;
+}
+
+/***********************************************/
+
 QString TestMethod::getTranslated(const QString &name, const bool translate) const
 {
     if (!translate) {
@@ -127,9 +139,9 @@ TMethodID TestMethod::methodIdFromString(const QString name)
 
 /***********************************************/
 
-QMap<QString, QString> TestMethod::setVars(const QStringList &params) const
+QVariantMap TestMethod::setVars(const QStringList &params) const
 {
-    QMap<QString, QString> result;
+    QVariantMap result;
     foreach (const QString &key, params) {
         result.insert(key, property(key.toLatin1()).toString());
     }

@@ -18,9 +18,9 @@ TestWidget::~TestWidget()
 
 /******************************************************************/
 
-QMap<QString, QString> TestWidget::setTemplateVars(const QStringList &params) const
+QVariantMap TestWidget::setTemplateVars(const QStringList &params) const
 {
-    QMap<QString, QString> result;
+    QVariantMap result;
     foreach (const QString &key, params) {
         result.insert(key, getTemplateValue(key));
     }

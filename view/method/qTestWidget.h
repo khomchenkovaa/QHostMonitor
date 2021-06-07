@@ -2,7 +2,7 @@
 #define QTESTWIDGET_H
 
 #include <QWidget>
-#include <QVariant>
+#include <QVariantMap>
 #include <QString>
 #include "PropertyHelper.h"
 #include "xMacroVar.h"
@@ -27,7 +27,7 @@ public:
     virtual QStringList validate() { return QStringList(); }
 
     virtual QString getTemplateValue(const QString var) const { Q_UNUSED(var) return QString(); }
-    QMap<QString, QString> setTemplateVars(const QStringList &params) const;
+    QVariantMap setTemplateVars(const QStringList &params) const;
 
 signals:
     void propertiesChanged();

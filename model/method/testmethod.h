@@ -163,6 +163,8 @@ class TestMethod : public QObject
 
     //! Represents short description of a testing method
     Q_PROPERTY(QString TestMethod READ getTestMethod)
+
+    //! Represents short description of a testing method
     Q_PROPERTY(QString MethodName READ getTestMethodName)
 
     //! Returns integer number that represents test method (test that has triggered action execution)
@@ -208,6 +210,7 @@ public:
     virtual TestMethod *clone();
     QString getDefaultName() const;
     QString getDefaultComments() const;
+    virtual QVariantMap toMap() const;
 
 protected:
     QString getTranslated(const QString &name, const bool translate) const;
@@ -226,7 +229,7 @@ public: // static
     static TMethodID methodIdFromString(const QString name);
 
 private:
-    QMap<QString, QString> setVars(const QStringList &params) const;
+    QVariantMap setVars(const QStringList &params) const;
 
 };
 

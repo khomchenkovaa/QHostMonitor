@@ -72,7 +72,7 @@ TestMethod *SnmpGetWidget::save(TestMethod *item)
 void SnmpGetWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::SNMP));
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::SNMP);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbSnmpProfile->clear();
@@ -102,7 +102,7 @@ QString SnmpGetWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::SNMP));
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::SNMP);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::SNMP);
     case Macro::Host :
     case Macro::HostAddr : return ui->cmbHostPort->currentText();
     case Macro::MibOid :

@@ -30,7 +30,7 @@ QString TOracle::getTestedObjectInfo() const
 
 void TOracle::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QOCI")) {

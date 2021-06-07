@@ -62,7 +62,7 @@ TestMethod *CpuUsageWidget::save(TestMethod *item)
 void CpuUsageWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::CPU);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::CPU);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbCpuComputer->setCurrentText(QString("localhost"));
@@ -92,7 +92,7 @@ QString CpuUsageWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::CPU);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::CPU);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::CPU);
     case Macro::Host : return ui->cmbCpuComputer->currentText();
     default: return QString();
     }

@@ -45,7 +45,7 @@ void TSnmpGet::run()
 
 void TSnmpGet::parseResult(QString data)
 {
-    TTestResult result;
+    TestResult result;
     result.reply = data;
 
     bool isFloat = true;

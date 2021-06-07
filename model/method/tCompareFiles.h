@@ -75,9 +75,9 @@ public:
     virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private:
-    TTestResult compareFiles(bool identical);
-    TTestResult containsFile(bool contains);
-    TTestResult containsString(bool contains);
+    TestResult compareFiles(bool identical);
+    TestResult containsFile(bool contains);
+    TestResult containsString(bool contains);
 };
 
 } // namespace SDPO

@@ -74,7 +74,7 @@ TestMethod *PingWidget::save(TestMethod *item)
 void PingWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Ping);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Ping);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     QSettings s;
@@ -108,7 +108,7 @@ QString PingWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Ping);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Ping);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Ping);
     case Macro::Host :
     case Macro::HostAddr : return ui->cmbPingHost->currentText().trimmed();
     default: return QString();

@@ -26,7 +26,7 @@ TCountFiles::TCountFiles(QObject *parent) :
 void TCountFiles::run()
 {
     writeLogTitle();
-    TTestResult result;
+    TestResult result;
     QString folder = getTranslated(a_Folder, b_TranslateMacros);
     QDir dir(folder);
     if (!dir.exists()) {

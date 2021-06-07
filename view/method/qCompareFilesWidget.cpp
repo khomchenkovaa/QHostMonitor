@@ -88,7 +88,7 @@ TestMethod *CompareFilesWidget::save(TestMethod *item)
 void CompareFilesWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::FileCompare);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileCompare);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbAlert->setCurrentIndex(0);
@@ -134,7 +134,7 @@ QString CompareFilesWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Script);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Script);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Script);
     case Macro::Object : return ui->editFirstFile->text();
     case Macro::Object2 : return ui->editSecondFile->text();
     case Macro::TestMode : return ui->cmbAlert->currentText();

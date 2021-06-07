@@ -31,7 +31,7 @@ QString TMySql::getTestedObjectInfo() const
 
 void TMySql::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QMYSQL")) {

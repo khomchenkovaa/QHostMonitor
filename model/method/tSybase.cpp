@@ -34,7 +34,7 @@ QString TSybase::getTestedObjectInfo() const
 
 void TSybase::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QTDS")) {

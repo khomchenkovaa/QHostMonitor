@@ -95,9 +95,9 @@ TestMethod *TCompareFiles::clone()
 
 /******************************************************************/
 
-TTestResult TCompareFiles::compareFiles(bool identical)
+TestResult TCompareFiles::compareFiles(bool identical)
 {
-    TTestResult result;
+    TestResult result;
     if (!b_Time && !b_Size && !b_Contents) {
         result.error = tr("no compare method");
         return result;
@@ -148,9 +148,9 @@ TTestResult TCompareFiles::compareFiles(bool identical)
 
 /******************************************************************/
 
-TTestResult TCompareFiles::containsFile(bool contains)
+TestResult TCompareFiles::containsFile(bool contains)
 {
-    TTestResult result;
+    TestResult result;
 
     QString firstFile = getTranslated(a_FirstFile, b_TranslateFirstMacros);
     QFile file1(firstFile);
@@ -185,9 +185,9 @@ TTestResult TCompareFiles::containsFile(bool contains)
 
 /******************************************************************/
 
-TTestResult TCompareFiles::containsString(bool contains)
+TestResult TCompareFiles::containsString(bool contains)
 {
-    TTestResult result;
+    TestResult result;
     QString firstFile = getTranslated(a_FirstFile, b_TranslateFirstMacros);
     QFile file(firstFile);
     if ( !file.open( QIODevice::ReadOnly ) ) {

@@ -37,7 +37,7 @@ QString TOdbcQuery::getTestedObjectInfo() const
 
 void TOdbcQuery::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No answer";
 
     QSqlDatabase db = QSqlDatabase::database("testOdbcQuery");

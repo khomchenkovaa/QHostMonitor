@@ -62,7 +62,7 @@ TestMethod *PostgreSqlWidget::save(TestMethod *item)
 void PostgreSqlWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Postgre);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Postgre);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbServer->clear();
@@ -94,7 +94,7 @@ QString PostgreSqlWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Postgre);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Postgre);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Postgre);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::Object : return ui->cmbDatabase->currentText();
     default: return QString();

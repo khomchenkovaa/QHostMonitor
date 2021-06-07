@@ -68,7 +68,7 @@ TestMethod *LdapTestWidget::save(TestMethod *item)
 void LdapTestWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Ldap);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Ldap);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->clear();
@@ -101,7 +101,7 @@ QString LdapTestWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Ldap);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Ldap);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Ldap);
     case Macro::Host :return ui->cmbHost->currentText();
     case Macro::Object : return ui->cmbBaseObject->currentText();
     case Macro::TargetPort : return ui->spinPort->text();

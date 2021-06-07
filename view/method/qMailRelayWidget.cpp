@@ -66,7 +66,7 @@ TestMethod *MailRelayWidget::save(TestMethod *item)
 void MailRelayWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::MailRelay);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::MailRelay);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lnEditOutgoing->clear();
@@ -93,7 +93,7 @@ QString MailRelayWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::MailRelay);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::MailRelay);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::MailRelay);
     case Macro::Host :return ui->lnEditOutgoing->text();
     case Macro::Object : return ui->lnEditIncoming->text();
     case Macro::Path : return ui->lnEditSender->text();

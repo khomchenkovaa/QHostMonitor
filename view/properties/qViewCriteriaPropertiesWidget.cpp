@@ -13,7 +13,7 @@ ViewCriteriaPropertiesWidget::ViewCriteriaPropertiesWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->listSelectByMethod->clear();
-    foreach(const TMethod &method, TMethod::tMethodList) {
+    foreach(const TestMethodMetaInfo &method, TestMethod::metaInfo) {
         if (method.id == TMethodID::Empty) continue;
         QListWidgetItem *item = new QListWidgetItem(method.text);
         item->setCheckState( Qt::Unchecked );

@@ -65,7 +65,7 @@ TestMethod *Pop3TestWidget::save(TestMethod *item)
 void Pop3TestWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::POP3);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::POP3);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbServer->clear();
@@ -99,7 +99,7 @@ QString Pop3TestWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::PerfCounter);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::PerfCounter);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::PerfCounter);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::Object : return ui->cmbLogin->currentText();
     case Macro::TargetPort : return ui->spinPort->text();

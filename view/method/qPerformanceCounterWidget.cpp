@@ -58,7 +58,7 @@ TestMethod *PerformanceCounterWidget::save(TestMethod *item)
 void PerformanceCounterWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::PerfCounter);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::PerfCounter);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbCheckCounter->clear();
@@ -89,7 +89,7 @@ QString PerformanceCounterWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::PerfCounter);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::PerfCounter);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::PerfCounter);
     case Macro::Path : return ui->cmbCheckCounter->currentText();
     case Macro::Object : return ui->cmbCheckCounter->currentText();
     case Macro::Object2 : return ui->spinAlert->text();

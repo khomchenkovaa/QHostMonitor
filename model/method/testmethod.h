@@ -4,7 +4,6 @@
 #include "PropertyHelper.h"
 #include "tEnums.h"
 
-#include <QIcon>
 #include <QMap>
 #include <QDateTime>
 
@@ -68,42 +67,34 @@ typedef QList<TMethodID> TMethodIdList;
 
 /*****************************************************************/
 
-class TestGroup
+struct TestGroup
 {
-public:
     int id;
     QString name;
-    QIcon icon;
+    QString icon;
     int parent;
     QStringList description;
 };
 
 /*****************************************************************/
 
-class TMethod
+struct TestMethodMetaInfo
 {
-public:
     TMethodID   id;
     QString     name;
     QString     title;
     QString     text;
-    QIcon       icon;
+    QString     icon;
     int         parent;
     bool        active;
     QString     namePattern;
     QString     commentPattern;
     QStringList description;
-
-    static QMap<TMethodID, TMethod> methodMap;
-    static QVector<TMethod> tMethodList;
-
-    static QString toName(TMethodID method);
-    static TMethodID fromString(const QString name);
 };
 
 /***********************************************/
 
-struct TTestResult {
+struct TestResult {
     TestStatus status;
     QString    reply;
     double     replyDouble;
@@ -111,7 +102,7 @@ struct TTestResult {
     QString    error;
     QDateTime  date;
 
-    TTestResult() {
+    TestResult() {
         clear();
     }
 
@@ -183,11 +174,11 @@ class TestMethod : public QObject
     Q_PROPERTY(QString TestedObjectInfo READ getTestedObjectInfo)
 
 protected:
-    TMethodID   m_TMethodID;
-    QString     m_NamePattern;
-    QString     m_CommentPattern;
-    TTestResult m_Result;
-    QString     m_Log;
+    TMethodID  m_TMethodID;
+    QString    m_NamePattern;
+    QString    m_CommentPattern;
+    TestResult m_Result;
+    QString    m_Log;
 
 public:
     explicit TestMethod(TMethodID methodId, QObject *parent = nullptr);
@@ -195,8 +186,8 @@ public:
 
     // properties
     int getTestMethodID() const { return static_cast<int>(m_TMethodID); }
-    QString getTestMethodName() const { return TMethod::toName(m_TMethodID); }
-    virtual QString getTestMethod() const { return TMethod::toName(m_TMethodID); }
+    QString getTestMethodName() const { return metaName(m_TMethodID); }
+    virtual QString getTestMethod() const { return metaName(m_TMethodID); }
     virtual QString getTestedObjectInfo() const { return QString(); }
 
     // getters and setters
@@ -206,7 +197,7 @@ public:
     void setNamePattern(const QString value) { m_NamePattern = value; }
     QString getCommentPattern() const { return m_CommentPattern; }
     void setCommentPattern(const QString value) { m_CommentPattern = value; }
-    TTestResult getResult() const { return m_Result; }
+    TestResult getResult() const { return m_Result; }
     QString getLog() const { return m_Log; }
 
     // command
@@ -229,6 +220,10 @@ signals:
 
 public: // static
     static QVector<TestGroup> groups;
+    static QVector<TestMethodMetaInfo> metaInfo;
+    static TestMethodMetaInfo metaInfoItem(TMethodID method);
+    static QString metaName(TMethodID method);
+    static TMethodID methodIdFromString(const QString name);
 
 private:
     QMap<QString, QString> setVars(const QStringList &params) const;

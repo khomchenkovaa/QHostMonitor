@@ -68,7 +68,7 @@ TestMethod *ActiveScriptWidget::save(TestMethod *item)
 void ActiveScriptWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::Script));
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Script);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lnRunScript->clear();
@@ -98,7 +98,7 @@ QString ActiveScriptWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::Script));
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Script);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Script);
     case Macro::TestMode : return ui->cmbLanguage->currentText();
     case Macro::Object : return ui->lnRunScript->text();
     default: return QString();

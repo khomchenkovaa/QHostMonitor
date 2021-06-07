@@ -17,7 +17,7 @@ TInterbase::TInterbase(QObject *parent) :
 
 void TInterbase::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QIBASE")) {

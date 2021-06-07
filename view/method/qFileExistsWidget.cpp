@@ -69,7 +69,7 @@ TestMethod *FileExistsWidget::save(TestMethod *item)
 void FileExistsWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::FileExists);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileExists);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->editFileName->clear();
@@ -102,7 +102,7 @@ QString FileExistsWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::FileExists);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::FileExists);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::FileExists);
     case Macro::Host :
     case Macro::HostAddr : return "localhost";
     case Macro::Path : return ui->editFileName->text();

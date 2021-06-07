@@ -31,7 +31,7 @@ QString TPostgreSql::getTestedObjectInfo() const
 
 void TPostgreSql::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QPSQL")) {

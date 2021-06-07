@@ -59,7 +59,7 @@ TestMethod *NtpTestWidget::save(TestMethod *item)
 void NtpTestWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::NTP);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::NTP);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbServer->clear();
@@ -90,7 +90,7 @@ QString NtpTestWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::NTP);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::NTP);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::NTP);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::Path : return ui->spinPort->text();
 

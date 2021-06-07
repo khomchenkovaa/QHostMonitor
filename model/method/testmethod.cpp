@@ -6,32 +6,10 @@
 
 namespace SDPO {
 
-/*****************************************************************/
-
-QVector<TMethod> TMethod::tMethodList;
-
-/*****************************************************************/
-
-QString TMethod::toName(TMethodID method) {
-    return TMethod::tMethodList.at(static_cast<int>(method)).name;
-}
-
-/*****************************************************************/
-
-TMethodID TMethod::fromString(const QString name) {
-    TMethodID result = TMethodID::Empty;
-    foreach( const TMethod &method, tMethodList) {
-        if (name.compare(method.name, Qt::CaseInsensitive) == 0 ) {
-            result = method.id;
-            break;
-        }
-    }
-    return result;
-}
-
 /***********************************************/
 
 QVector<TestGroup> TestMethod::groups;
+QVector<TestMethodMetaInfo> TestMethod::metaInfo;
 
 /***********************************************/
 
@@ -39,7 +17,7 @@ TestMethod::TestMethod(TMethodID methodId, QObject *parent) :
     QObject(parent),
     m_TMethodID(methodId)
 {
-    TMethod method = TMethod::tMethodList.at(static_cast<int>(methodId));
+    TestMethodMetaInfo method = metaInfoItem(methodId);
     m_NamePattern = method.namePattern;
     m_CommentPattern = method.commentPattern;
 }
@@ -117,6 +95,34 @@ void TestMethod::writeLogTitle()
     m_Log.append(QString("* Method name: %1\n").arg(getDefaultName()));
     m_Log.append(QString("* Call time:   %1\n").arg(QDateTime::currentDateTime().toString()));
     m_Log.append("*************************************************************\n\n");
+}
+
+/***********************************************/
+
+TestMethodMetaInfo TestMethod::metaInfoItem(TMethodID method)
+{
+    return metaInfo.at(static_cast<int>(method));
+}
+
+/***********************************************/
+
+QString TestMethod::metaName(TMethodID method)
+{
+    return metaInfoItem(method).name;
+}
+
+/***********************************************/
+
+TMethodID TestMethod::methodIdFromString(const QString name)
+{
+    TMethodID result = TMethodID::Empty;
+    foreach( const TestMethodMetaInfo &method, metaInfo) {
+        if (name.compare(method.name, Qt::CaseInsensitive) == 0 ) {
+            result = method.id;
+            break;
+        }
+    }
+    return result;
 }
 
 /***********************************************/

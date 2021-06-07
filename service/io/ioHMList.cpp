@@ -1029,7 +1029,7 @@ QJsonValue IOHMList::createViewCriteriaSettings(TView *view)
     if (view->isSelectByTestMethod()) {
         QJsonArray methodObj;
         foreach(const TMethodID &meth, view->getMethodCriteria()) {
-            methodObj.append(QJsonValue(TMethod::toName(meth)));
+            methodObj.append(QJsonValue(TestMethod::metaName(meth)));
         }
         result.insert(PRM_VC_METHOD,QJsonValue(methodObj));
     }
@@ -1110,7 +1110,7 @@ void IOHMList::parseViewCriteriaSettings(QJsonValue jsonValue, TView *view)
     if (view->isSelectByTestMethod()) {
         view->clearMethodCriteria();
         foreach(const QJsonValue &val, jsonObj.value(PRM_VC_METHOD).toArray()) {
-            view->addMethodCriteria(TMethod::fromString(val.toString()));
+            view->addMethodCriteria(TestMethod::methodIdFromString(val.toString()));
         }
     }
 
@@ -1191,7 +1191,7 @@ void IOHMList::parseTestMethodSection(QJsonValue jsonValue, TTest *test)
 {
     QJsonObject jsonObj = jsonValue.toObject();
     QString methodName = jsonObj.value(PRM_METHOD).toString();
-    TMethodID methodID = TMethod::fromString(methodName);
+    TMethodID methodID = TestMethod::methodIdFromString(methodName);
     IOTestMethodConverter *converter = IOHelper::methodConverter(methodID);
     TestMethod *method = converter->fromJsonObject(jsonObj);
     converter->deleteLater();

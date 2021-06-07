@@ -70,7 +70,7 @@ TestMethod *ShellScriptWidget::save(TestMethod *item)
 
 void ShellScriptWidget::reset(QVariant data)
 {
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::ShellScript);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::ShellScript);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     resetScriptMenu(data);
@@ -98,7 +98,7 @@ QString ShellScriptWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::ShellScript);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::ShellScript);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::ShellScript);
     case Macro::Host :
     case Macro::HostAddr : return "localhost";
     case Macro::Path : return ui->cmbScript->currentText();

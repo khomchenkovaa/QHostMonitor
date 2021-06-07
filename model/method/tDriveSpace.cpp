@@ -18,7 +18,7 @@ TDriveSpace::TDriveSpace(QObject *parent) :
 
 void TDriveSpace::run()
 {
-    TTestResult result;
+    TestResult result;
     writeLogTitle();
     QList<QStorageInfo> drives = QStorageInfo::mountedVolumes();
     foreach(QStorageInfo storage, drives) {

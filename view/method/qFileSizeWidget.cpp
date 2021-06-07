@@ -57,7 +57,7 @@ TestMethod *FileSizeWidget::save(TestMethod *item)
 void FileSizeWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::FileSize);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileSize);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->editFolder->clear();
@@ -86,7 +86,7 @@ QString FileSizeWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::FileSize);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::FileSize);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::FileSize);
     case Macro::Host :
     case Macro::HostAddr : return "localhost";
     case Macro::Path : return ui->editFolder->text();

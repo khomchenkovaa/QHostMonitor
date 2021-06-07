@@ -21,7 +21,7 @@ TFolderSize::TFolderSize(QObject *parent) :
 
 void TFolderSize::run()
 {
-    TTestResult result;
+    TestResult result;
 
     qint64 folderSize = diskUsage(a_Path); // bytes
     if (a_Dimension.startsWith("K")) { // KB

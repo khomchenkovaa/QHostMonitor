@@ -159,11 +159,11 @@ class TTest : public TNode
     AUTO_PROPERTY(QString, TuneUpScript)
 
     // results
-    TTestResult m_CurrentState;
-    TTestResult m_SuggestedState;
-    TTestResult m_SuggestedLastState;
-    TTestResult m_LastState;
-    TTestResult m_PreviousState;
+    TestResult m_CurrentState;
+    TestResult m_SuggestedState;
+    TestResult m_SuggestedLastState;
+    TestResult m_LastState;
+    TestResult m_PreviousState;
 
     bool m_Acknowledged;
     TAcknowledge m_Acknowledge;
@@ -617,10 +617,10 @@ public slots:
     void slotTimeout();
 
 private:
-    void setSuggestedVars(const TTestResult testResult);
-    void processUserStatusExpressions(TTestResult &testResult);
-    void tuneUpReply(TTestResult &testResult);
-    void dynamicStatistics(const TTestResult testResult);
+    void setSuggestedVars(const TestResult testResult);
+    void processUserStatusExpressions(TestResult &testResult);
+    void tuneUpReply(TestResult &testResult);
+    void dynamicStatistics(const TestResult testResult);
 
     void resetCurrentTestState();
     void resetSuggestedTestState();

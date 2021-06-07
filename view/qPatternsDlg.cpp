@@ -34,7 +34,7 @@ PatternsTableModel::PatternsTableModel(QWidget *parent) :
 int PatternsTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent)
-    return TMethod::tMethodList.count();
+    return TestMethod::metaInfo.count();
 }
 
 /*****************************************************************/
@@ -52,12 +52,12 @@ QVariant PatternsTableModel::data(const QModelIndex &index, int role) const
     if (!index.isValid()) {
         return QVariant();
     }
-    if (index.row() >= TMethod::tMethodList.size()) {
+    if (index.row() >= TestMethod::metaInfo.size()) {
         return QVariant();
     }
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        TMethod method = TMethod::tMethodList.at(index.row());
+        TestMethodMetaInfo method = TestMethod::metaInfo.at(index.row());
         switch(index.column()) {
         case 0: return method.active ? "yes" : "no";
         case 1: return method.namePattern;
@@ -72,13 +72,13 @@ QVariant PatternsTableModel::data(const QModelIndex &index, int role) const
 bool PatternsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
-        TMethod method = TMethod::tMethodList.at(index.row());
+        TestMethodMetaInfo method = TestMethod::metaInfo.at(index.row());
         switch (index.column()) {
         case 0: method.active = (value.toString() == "yes"); break;
         case 1: method.namePattern = value.toString(); break;
         case 2: method.commentPattern = value.toString(); break;
         }
-        TMethod::tMethodList.replace(index.row(), method);
+        TestMethod::metaInfo.replace(index.row(), method);
         emit dataChanged(index, index);
         return true;
     }
@@ -93,7 +93,7 @@ QVariant PatternsTableModel::headerData(int section, Qt::Orientation orientation
         if (orientation == Qt::Horizontal) {
             return m_header.at(section);
         } else {
-            TMethod method = TMethod::tMethodList.at(section);
+            TestMethodMetaInfo method = TestMethod::metaInfo.at(section);
             return method.title;
         }
     }

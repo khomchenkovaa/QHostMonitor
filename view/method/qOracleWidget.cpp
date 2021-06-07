@@ -62,7 +62,7 @@ TestMethod *OracleWidget::save(TestMethod *item)
 void OracleWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Oracle);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Oracle);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbDatabase->clear();
@@ -89,7 +89,7 @@ QString OracleWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Oracle);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Oracle);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Oracle);
     case Macro::Host : return ui->cmbDatabase->currentText();
     case Macro::Object : return ui->cmbDatabase->currentText();
     default: return QString();

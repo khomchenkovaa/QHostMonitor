@@ -156,7 +156,7 @@ public:
 
 private: // functions
     QString displayModeToString(DisplayMode mode);
-    bool errorScan(const QString &line, TTestResult &result);
+    bool errorScan(const QString &line, TestResult &result);
     bool getPercentLossStatistics(const QString &line, PingStat &stat);
     bool getRoundTrip(const QString &line, PingStat &stat);
 

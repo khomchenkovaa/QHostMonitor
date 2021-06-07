@@ -64,7 +64,7 @@ TestMethod *DominantProcessWidget::save(TestMethod *item)
 void DominantProcessWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::DominantProcess);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::DominantProcess);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbCheckProcesses->setCurrentText(QString("localhost"));
@@ -93,7 +93,7 @@ QString DominantProcessWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::CPU);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::CPU);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::CPU);
     case Macro::Host : return ui->cmbCheckProcesses->currentText();
     case Macro::TestMode : return ui->cmbAlertIf->currentText();
     default: return QString();

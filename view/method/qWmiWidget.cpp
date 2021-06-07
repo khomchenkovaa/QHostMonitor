@@ -60,7 +60,7 @@ TestMethod *WmiWidget::save(TestMethod *item)
 void WmiWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::WMI);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::WMI);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->setCurrentText(QString("localhost"));
@@ -88,7 +88,7 @@ QString WmiWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::WMI);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::WMI);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::WMI);
     case Macro::Host :return ui->cmbHost->currentText();
     case Macro::Path : return ui->cmbQuery->currentText();
     case Macro::Object : return ui->cmbQuery->currentText();

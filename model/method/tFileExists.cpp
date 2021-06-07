@@ -22,7 +22,7 @@ TFileExists::TFileExists(QObject *parent) :
 
 void TFileExists::run()
 {
-    TTestResult result;
+    TestResult result;
     result.status = TestStatus::Ok;
     writeLogTitle();
 

@@ -111,7 +111,7 @@ QVariant TTest::getGlobal(Macro::Variable globalVar) const
 void TTest::onTestPerformed()
 {
     // 1. (perform the test)
-    TTestResult testResult = m_TMethod->getResult();
+    TestResult testResult = m_TMethod->getResult();
 
     // 2. process "Reverse alert" option
     if(b_ReverseAlert) {
@@ -145,7 +145,7 @@ void TTest::restart()
 
 /******************************************************************/
 
-void TTest::setSuggestedVars(const TTestResult testResult)
+void TTest::setSuggestedVars(const TestResult testResult)
 {
     m_SuggestedLastState = m_SuggestedState;
     m_SuggestedState = testResult;
@@ -165,7 +165,7 @@ void TTest::setSuggestedVars(const TTestResult testResult)
 
 /******************************************************************/
 
-void TTest::processUserStatusExpressions(TTestResult &testResult)
+void TTest::processUserStatusExpressions(TestResult &testResult)
 {
     if (b_UseWarningScript) {
         GMacroTranslator translator(a_WarningScript, this);
@@ -190,7 +190,7 @@ void TTest::processUserStatusExpressions(TTestResult &testResult)
 
 /******************************************************************/
 
-void TTest::tuneUpReply(TTestResult &testResult)
+void TTest::tuneUpReply(TestResult &testResult)
 {
     if (b_TuneUpReply) {
         GMacroTranslator translator(a_TuneUpScript, this);
@@ -203,7 +203,7 @@ void TTest::tuneUpReply(TTestResult &testResult)
 
 /******************************************************************/
 
-void TTest::dynamicStatistics(const TTestResult testResult)
+void TTest::dynamicStatistics(const TestResult testResult)
 {
     // helpers
     bool statusChanged = (testResult.status != m_CurrentState.status);
@@ -362,7 +362,7 @@ QString TTest::executionLog() const
 {
     QString log = m_TMethod->getLog();
 
-    TTestResult tmResult = m_TMethod->getResult();
+    TestResult tmResult = m_TMethod->getResult();
     log.append("\n****** Test Method Result ******\n");
     log.append(QString("* status: %1\n").arg(TEnums::testStatus(tmResult.status)));
     log.append(QString("* reply: %1\n").arg(tmResult.reply));

@@ -66,7 +66,7 @@ TestMethod *CountFilesWidget::save(TestMethod *item)
 void CountFilesWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::CountFiles);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::CountFiles);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lnEditFolder->clear();
@@ -104,7 +104,7 @@ QString CountFilesWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::CountFiles);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::CountFiles);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::CountFiles);
     case Macro::Object : return ui->lnEditFolder->text();
     case Macro::Path : return ui->cmbFileName->currentText();
     default: return QString();

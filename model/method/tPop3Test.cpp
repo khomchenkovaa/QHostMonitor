@@ -26,7 +26,7 @@ TPop3Test::TPop3Test(QObject *parent) :
 void TPop3Test::run()
 {
     writeLogTitle();
-    TTestResult result;
+    TestResult result;
     QxtPop3 pop;
     pop.sslSocket()->setProtocol(QSsl::TlsV1_0);
     pop.sslSocket()->setPeerVerifyMode(QSslSocket::QueryPeer);

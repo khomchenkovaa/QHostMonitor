@@ -54,7 +54,7 @@ TestMethod *DriveSpaceWidget::save(TestMethod *item)
 void DriveSpaceWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::DriveSpace);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::DriveSpace);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbDrive->clear();
@@ -85,7 +85,7 @@ QString DriveSpaceWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::DriveSpace);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::DriveSpace);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::DriveSpace);
     case Macro::Host :
     case Macro::HostAddr : return "localhost";
     case Macro::Path : return ui->cmbDrive->currentText();

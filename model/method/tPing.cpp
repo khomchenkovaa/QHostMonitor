@@ -96,7 +96,7 @@ QString TPing::getCommand() const
 
 void TPing::parseResult(QString data)
 {
-    TTestResult tResult;
+    TestResult tResult;
     tResult.reply = "No answer";
     m_Log.append(data).append("\n\n");
 
@@ -196,7 +196,7 @@ QString TPing::displayModeToString(TPing::DisplayMode mode)
 
 /******************************************************************/
 
-bool TPing::errorScan(const QString &line, TTestResult &result)
+bool TPing::errorScan(const QString &line, TestResult &result)
 {
     bool match = false;
     if (line.contains("Network is unreachable") || line.contains("Destination Net Unreachable")) {

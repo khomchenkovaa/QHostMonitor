@@ -56,7 +56,7 @@ TestMethod *FileContentsWidget::save(TestMethod *item)
 void FileContentsWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::FileContents);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileContents);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lineEditFile->clear();
@@ -86,7 +86,7 @@ QString FileContentsWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::FileContents);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::FileContents);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::FileContents);
     case Macro::Host : return "localhost";
     case Macro::Path : return ui->lineEditFile->text();
     case Macro::Object : {

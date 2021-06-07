@@ -61,7 +61,7 @@ TestMethod *DicomWidget::save(TestMethod *item)
 void DicomWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::DICOM);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::DICOM);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->clear();
@@ -90,7 +90,7 @@ QString DicomWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::DICOM);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::DICOM);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::DICOM);
     case Macro::Host : return ui->cmbHost->currentText();
 //    case Macro::Object : return ui->cmbDatabase->currentText();
     default: return QString();

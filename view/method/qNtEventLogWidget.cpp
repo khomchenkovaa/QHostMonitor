@@ -83,7 +83,7 @@ TestMethod *NtEventLogWidget::save(TestMethod *item)
 void NtEventLogWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::NTLog);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::NTLog);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->btnLogSource->setChecked(true);
@@ -119,7 +119,7 @@ QString NtEventLogWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::NTLog);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::NTLog);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::NTLog);
     case Macro::Host : return ui->cmbComputer->currentText();
     case Macro::Path : return ui->cmbLog->currentText();
     case Macro::Object : return ui->cmbEventSource->currentText();

@@ -64,7 +64,7 @@ TestMethod *ExternalPrgWidget::save(TestMethod *item)
 void ExternalPrgWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::Externalprg);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::Externalprg);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->editExternalPrg->clear();
@@ -94,7 +94,7 @@ QString ExternalPrgWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::Externalprg);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::Externalprg);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Externalprg);
     case Macro::Path : return ui->editExternalPrg->text();
     case Macro::Object : return ui->editExternalPrg->text().mid(ui->editExternalPrg->text().lastIndexOf("/"));
     default: return QString();

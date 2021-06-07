@@ -82,7 +82,7 @@ TestMethod *SshWidget::save(TestMethod *item)
 void SshWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at(static_cast<int>(TMethodID::SSH));
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::SSH);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->clear();
@@ -123,7 +123,7 @@ QString SshWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number(static_cast<int>(TMethodID::SSH));
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::SSH);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::SSH);
     case Macro::Path : return ui->cmbCommand->currentText();
     case Macro::Host : return ui->cmbHost->currentText();
     default: return QString();

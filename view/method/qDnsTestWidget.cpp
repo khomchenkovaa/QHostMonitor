@@ -65,7 +65,7 @@ TestMethod *DnsTestWidget::save(TestMethod *item)
 void DnsTestWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::DNS);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::DNS);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbServer->clear();
@@ -100,7 +100,7 @@ QString DnsTestWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::DNS);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::DNS);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::DNS);
     case Macro::Host : return ui->cmbServer->currentText();
     case Macro::TestMode : return ui->cmbRequestType->currentText();
     default: return QString();

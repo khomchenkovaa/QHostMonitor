@@ -57,7 +57,7 @@ TestMethod *DhcpWidget::save(TestMethod *item)
 void DhcpWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::DHCP);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::DHCP);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbHost->clear();
@@ -100,7 +100,7 @@ QString DhcpWidget::getTemplateValue(const QString var) const
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::CountFiles);
     case Macro::MethodName :
-    case Macro::TestMethod : return TMethod::toName(TMethodID::CountFiles);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::CountFiles);
     case Macro::Host : return ui->cmbHost->currentText();
     default: return QString();
     }

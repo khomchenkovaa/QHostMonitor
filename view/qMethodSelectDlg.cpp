@@ -26,7 +26,7 @@ MethodSelectDlg::~MethodSelectDlg()
 
 void MethodSelectDlg::setCurrent(const int methodId)
 {
-    TMethod method = TMethod::tMethodList.at(methodId);
+    TestMethodMetaInfo method = TestMethod::metaInfo.at(methodId);
     QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
     QList<QStandardItem *> items = model->findItems(method.text, Qt::MatchFixedString | Qt::MatchRecursive);
 
@@ -63,7 +63,7 @@ void MethodSelectDlg::onTreeTestMethodsChanged()
         description = group.description;
         okDisabled = true;
     } else { // method
-        TMethod method = TMethod::tMethodList.at(idx);
+        TestMethodMetaInfo method = TestMethod::metaInfo.at(idx);
         description = method.description;
         ui->buttonBox->setDisabled(false);
     }
@@ -151,8 +151,8 @@ void MethodSelectDlg::createStandardItemModel()
 
 QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
 {
-    TMethod method = TMethod::tMethodList.at(static_cast<int>(methodId));
-    QStandardItem *item = new QStandardItem(method.icon, method.text);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(methodId);
+    QStandardItem *item = new QStandardItem(QIcon(method.icon), method.text);
     item->setData(static_cast<int>(method.id));
     return item;
 }
@@ -162,7 +162,7 @@ QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
 QStandardItem *MethodSelectDlg::createGroupItem(const int groupId)
 {
     TestGroup group = TestMethod::groups.at(groupId);
-    QStandardItem *item = new QStandardItem(group.icon, group.name);
+    QStandardItem *item = new QStandardItem(QIcon(group.icon), group.name);
     item->setData(groupId + 1000); // groupMarker (or childCount)?
     return item;
 }

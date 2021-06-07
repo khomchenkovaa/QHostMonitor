@@ -61,7 +61,7 @@ TestMethod *HttpWidget::save(TestMethod *item)
 void HttpWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TMethod method = TMethod::tMethodList.at((int)TMethodID::HTTP);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::HTTP);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbProxy->setCurrentText(QString("<none>"));
@@ -89,7 +89,7 @@ QString HttpWidget::getTemplateValue(const QString var) const
     Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
     case Macro::MethodID : return QString::number((int)TMethodID::HTTP);
-    case Macro::TestMethod : return TMethod::toName(TMethodID::HTTP);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::HTTP);
     case Macro::Object : return ui->cmbUrl->currentText();
     default: return QString();
     }

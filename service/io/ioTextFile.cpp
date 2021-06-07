@@ -220,7 +220,7 @@ void IOTextFile::writeTest(QTextStream &out, TTest *test)
     logMode << "Default" << "brief" << "full" << "reply";
     out << "; ------- Test #" <<  test->getID() << "-------" << endl;
     out << endl << endl;
-    out << PRM_METHOD         << " = " << TMethod::toName(test->methodId()) << endl;
+    out << PRM_METHOD         << " = " << TestMethod::metaName(test->methodId()) << endl;
     out << ";--- Common properties ---" << endl;
     out << ";" << PRM_DEST_FOLDER << " = " << test->getPath().replace("/","\\").mid(1) << endl;
     foreach (TNode *node, test->links()) {
@@ -289,7 +289,7 @@ void IOTextFile::addTest() {
     m_curTest = 0;
     // check required parameters
     IOTextFileCmd cmd = m_testProps.take(PRM_METHOD);
-    TMethodID methodId = TMethod::fromString(cmd.value);
+    TMethodID methodId = TestMethod::methodIdFromString(cmd.value);
     TestMethod *testMethod = getConverter(methodId) ? m_curMethodConverter->getTestMethod() : 0;
     if (!testMethod) {
         emit importMessage(tr("[Error] Line %1: Unknown test method at '%2'... Ignored").arg(cmd.line).arg(cmd.command));

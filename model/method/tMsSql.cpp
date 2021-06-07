@@ -20,7 +20,7 @@ TMsSql::TMsSql(QObject *parent) :
 
 void TMsSql::run()
 {
-    TTestResult result;
+    TestResult result;
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QODBC")) {

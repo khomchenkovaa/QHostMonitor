@@ -1,11 +1,11 @@
 #ifndef TNTPTEST_H
 #define TNTPTEST_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TNtpTest : public TTestMethod
+class TNtpTest : public TestMethod
 {
     Q_OBJECT
 
@@ -29,7 +29,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 signals:
 

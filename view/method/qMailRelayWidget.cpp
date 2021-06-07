@@ -33,7 +33,7 @@ void MailRelayWidget::openPropertiesDlg()
 }
 
 /*****************************************************************/
-void MailRelayWidget::init(TTestMethod *item)
+void MailRelayWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::MailRelay) ) {
         reset();
@@ -47,7 +47,7 @@ void MailRelayWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *MailRelayWidget::save(TTestMethod *item)
+TestMethod *MailRelayWidget::save(TestMethod *item)
 {
     TMailRelay* test;
     if (item && (item->getTMethodID() == TMethodID::MailRelay)) {

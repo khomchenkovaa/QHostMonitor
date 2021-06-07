@@ -6,7 +6,7 @@ namespace SDPO {
 /******************************************************************/
 
 TExternalPrg::TExternalPrg(QObject *parent) :
-    TTestMethod(TMethodID::Externalprg, parent)
+    TestMethod(TMethodID::Externalprg, parent)
 {
     a_AlertMode = 3; // "is <> from"
     a_ExitCode = 0;
@@ -56,7 +56,7 @@ void TExternalPrg::run()
 
 /******************************************************************/
 
-TTestMethod *TExternalPrg::clone()
+TestMethod *TExternalPrg::clone()
 {
     TExternalPrg *result = new TExternalPrg(parent());
     result->m_NamePattern = m_NamePattern;

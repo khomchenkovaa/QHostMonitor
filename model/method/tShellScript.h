@@ -1,11 +1,11 @@
 #ifndef TSHELLSCRIPT_H
 #define TSHELLSCRIPT_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TShellScript : public TTestMethod
+class TShellScript : public TestMethod
 {
     Q_OBJECT
 
@@ -36,7 +36,7 @@ public:
     virtual QString getCommand() const Q_DECL_OVERRIDE;
     virtual void parseResult(QString data) Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private:
     QString getParam(const int i) const;

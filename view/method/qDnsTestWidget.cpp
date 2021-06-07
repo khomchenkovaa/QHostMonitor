@@ -22,7 +22,7 @@ DnsTestWidget::~DnsTestWidget()
 
 /*****************************************************************/
 
-void DnsTestWidget::init(TTestMethod *item)
+void DnsTestWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::DNS) ) {
         reset();
@@ -41,7 +41,7 @@ void DnsTestWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *DnsTestWidget::save(TTestMethod *item)
+TestMethod *DnsTestWidget::save(TestMethod *item)
 {
     TDnsTest* test;
     if (item && (item->getTMethodID() == TMethodID::DNS)) {

@@ -50,11 +50,11 @@
 #ifndef TSNMPGET_H
 #define TSNMPGET_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TSnmpGet : public TTestMethod
+class TSnmpGet : public TestMethod
 {
     Q_OBJECT
 
@@ -100,7 +100,7 @@ public:
     virtual void run() Q_DECL_OVERRIDE;
     virtual void parseResult(QString data) Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
     // helpers
     QString conditionToString(Condition cond) const;

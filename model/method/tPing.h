@@ -80,7 +80,7 @@
 #ifndef TPING_H
 #define TPING_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 #define PING_COMMAND  "/bin/ping -n -U"
 #define PING6_COMMAND "/bin/ping6 -n -U"
@@ -105,9 +105,16 @@ struct PingStat {
     }
 };
 
-class TPing : public TTestMethod
+class TPing : public TestMethod
 {
     Q_OBJECT
+    Q_CLASSINFO("name", "Ping")
+    Q_CLASSINFO("text", "Ping test")
+    Q_CLASSINFO("icon", ":/img/test/ping.png")
+    Q_CLASSINFO("active", "yes")
+    Q_CLASSINFO("testname", "%TestMethod% %host%")
+    Q_CLASSINFO("comment", "Ping %host%")
+    Q_CLASSINFO("description", "The ping command verifies connections to remote computers, routers and other network components by sending ICMP (Internet Control Message Protocol) echo packets to the remote component and listening for echo reply packets. It`s best to use the Ping method to check a remote connection in general. To check specific services and conditions, HostMonitor provides a number of special test types.")
 
 public:
     //! Display mode enum
@@ -145,7 +152,7 @@ public:
     virtual QString getCommand() const Q_DECL_OVERRIDE;
     virtual void parseResult(QString data) Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private: // functions
     QString displayModeToString(DisplayMode mode);

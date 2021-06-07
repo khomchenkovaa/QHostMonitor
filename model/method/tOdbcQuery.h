@@ -1,11 +1,11 @@
 #ifndef TODBCQUERY_H
 #define TODBCQUERY_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TOdbcQuery : public TTestMethod
+class TOdbcQuery : public TestMethod
 {
     Q_OBJECT
 
@@ -35,7 +35,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 };
 

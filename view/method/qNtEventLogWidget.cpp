@@ -28,7 +28,7 @@ NtEventLogWidget::~NtEventLogWidget()
 
 /*****************************************************************/
 
-void NtEventLogWidget::init(TTestMethod *item)
+void NtEventLogWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::NTLog) ) {
         reset();
@@ -53,7 +53,7 @@ void NtEventLogWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *NtEventLogWidget::save(TTestMethod *item)
+TestMethod *NtEventLogWidget::save(TestMethod *item)
 {
     TNtEventLog* test;
     if (item && (item->getTMethodID() == TMethodID::NTLog)) {

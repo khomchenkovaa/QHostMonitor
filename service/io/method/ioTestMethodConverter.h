@@ -13,18 +13,18 @@ class IOTestMethodConverter : public QObject
     Q_OBJECT
 
 protected:
-    TTestMethod *m_TestMethod;
+    TestMethod *m_TestMethod;
 
 public:
     explicit IOTestMethodConverter(QObject *parent = 0);
 
-    void    setTestMethod(TTestMethod *value) { m_TestMethod = value; }
-    virtual TTestMethod *getTestMethod() { return m_TestMethod; }
+    void    setTestMethod(TestMethod *value) { m_TestMethod = value; }
+    virtual TestMethod *getTestMethod() { return m_TestMethod; }
     virtual bool setValue(QString key, QString value);
     virtual void exportTo(QTextStream &out);
 
     virtual QJsonObject toJsonObject() { return QJsonObject(); }
-    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj);
+    virtual TestMethod *fromJsonObject(QJsonObject jsonObj);
 
 
 };

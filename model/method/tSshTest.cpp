@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TSshTest::TSshTest(QObject *parent) :
-    TTestMethod(TMethodID::SSH, parent)
+    TestMethod(TMethodID::SSH, parent)
 {
     a_Port = 20;
     a_Timeout = 5000;
@@ -56,7 +56,7 @@ void TSshTest::parseResult(QString data)
 
 /******************************************************************/
 
-TTestMethod *TSshTest::clone()
+TestMethod *TSshTest::clone()
 {
     TSshTest *result = new TSshTest(parent());
     result->m_NamePattern = m_NamePattern;

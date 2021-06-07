@@ -28,7 +28,7 @@ void IOTestMethodConverter::exportTo(QTextStream &out)
 
 /***********************************************/
 
-TTestMethod *IOTestMethodConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOTestMethodConverter::fromJsonObject(QJsonObject jsonObj)
 {
     Q_UNUSED(jsonObj)
     return getTestMethod();

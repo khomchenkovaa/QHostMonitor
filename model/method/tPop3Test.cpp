@@ -7,7 +7,7 @@
 namespace SDPO {
 
 TPop3Test::TPop3Test(QObject *parent) :
-    TTestMethod(TMethodID::POP3, parent)
+    TestMethod(TMethodID::POP3, parent)
 {
     a_Server = QString();
     a_Port = 110;
@@ -44,7 +44,7 @@ void TPop3Test::run()
 
 /******************************************************************/
 
-TTestMethod *TPop3Test::clone()
+TestMethod *TPop3Test::clone()
 {
     TPop3Test *result = new TPop3Test(parent());
     result->m_NamePattern = m_NamePattern;

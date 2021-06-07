@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TInterbase::TInterbase(QObject *parent) :
-    TTestMethod(TMethodID::Interbase, parent)
+    TestMethod(TMethodID::Interbase, parent)
 {
     a_Protocol = "TCP";
 }
@@ -47,7 +47,7 @@ void TInterbase::run()
 
 /******************************************************************/
 
-TTestMethod *TInterbase::clone()
+TestMethod *TInterbase::clone()
 {
     TInterbase *result = new TInterbase(parent());
     result->m_NamePattern = m_NamePattern;

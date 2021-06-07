@@ -24,7 +24,7 @@ InterbaseWidget::~InterbaseWidget()
 
 /*****************************************************************/
 
-void InterbaseWidget::init(TTestMethod *item)
+void InterbaseWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Interbase) ) {
         reset();
@@ -40,7 +40,7 @@ void InterbaseWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *InterbaseWidget::save(TTestMethod *item)
+TestMethod *InterbaseWidget::save(TestMethod *item)
 {
     TInterbase* test;
     if (item && (item->getTMethodID() == TMethodID::Interbase)) {

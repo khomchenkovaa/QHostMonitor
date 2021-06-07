@@ -21,7 +21,7 @@ DominantProcessWidget::~DominantProcessWidget()
 }
 /*****************************************************************/
 
-void DominantProcessWidget::init(TTestMethod *item)
+void DominantProcessWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::DominantProcess) ) {
         reset();
@@ -40,7 +40,7 @@ void DominantProcessWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *DominantProcessWidget::save(TTestMethod *item)
+TestMethod *DominantProcessWidget::save(TestMethod *item)
 {
     TDominantProcess* test;
     if (item && (item->getTMethodID() == TMethodID::DominantProcess)) {

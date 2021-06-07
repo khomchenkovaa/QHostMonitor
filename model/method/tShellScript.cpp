@@ -6,7 +6,7 @@ namespace SDPO {
 /******************************************************************/
 
 TShellScript::TShellScript(QObject *parent) :
-    TTestMethod(TMethodID::ShellScript, parent)
+    TestMethod(TMethodID::ShellScript, parent)
 {
     a_Name = QString();
     a_Platform = "Linux";
@@ -103,7 +103,7 @@ void TShellScript::parseResult(QString data)
 
 /******************************************************************/
 
-TTestMethod *TShellScript::clone()
+TestMethod *TShellScript::clone()
 {
     TShellScript *result = new TShellScript(parent());
     result->m_NamePattern = m_NamePattern;

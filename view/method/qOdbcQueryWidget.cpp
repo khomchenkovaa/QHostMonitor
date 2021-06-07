@@ -32,7 +32,7 @@ OdbcQueryWidget::~OdbcQueryWidget()
 
 /*****************************************************************/
 
-void OdbcQueryWidget::init(TTestMethod *item)
+void OdbcQueryWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::ODBC) ) {
         reset();
@@ -55,7 +55,7 @@ void OdbcQueryWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *OdbcQueryWidget::save(TTestMethod *item)
+TestMethod *OdbcQueryWidget::save(TestMethod *item)
 {
     TOdbcQuery* test;
     if (item && (item->getTMethodID() == TMethodID::ODBC)) {

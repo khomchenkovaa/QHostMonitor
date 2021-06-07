@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TSybase::TSybase(QObject *parent) :
-    TTestMethod(TMethodID::Sybase, parent)
+    TestMethod(TMethodID::Sybase, parent)
 {
     a_Server = QString("");
     a_Database = QString("");
@@ -64,7 +64,7 @@ void TSybase::run()
 
 /******************************************************************/
 
-TTestMethod *TSybase::clone()
+TestMethod *TSybase::clone()
 {
     TSybase *result = new TSybase(parent());
     result->m_NamePattern = m_NamePattern;

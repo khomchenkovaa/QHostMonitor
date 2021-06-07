@@ -11,7 +11,7 @@ IODICOMConverter::IODICOMConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IODICOMConverter::getTestMethod()
+TestMethod *IODICOMConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TDicom();
@@ -76,7 +76,7 @@ QJsonObject IODICOMConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IODICOMConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IODICOMConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TDicom *test = qobject_cast<TDicom*>(getTestMethod());
     test->setHost(jsonObj.value(SP_HOST).toString());

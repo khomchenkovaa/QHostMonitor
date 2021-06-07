@@ -24,7 +24,7 @@ PostgreSqlWidget::~PostgreSqlWidget()
 
 /*****************************************************************/
 
-void PostgreSqlWidget::init(TTestMethod *item)
+void PostgreSqlWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Postgre) ) {
         reset();
@@ -40,7 +40,7 @@ void PostgreSqlWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *PostgreSqlWidget::save(TTestMethod *item)
+TestMethod *PostgreSqlWidget::save(TestMethod *item)
 {
     TPostgreSql* test;
     if (item && (item->getTMethodID() == TMethodID::Postgre)) {

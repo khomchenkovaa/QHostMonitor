@@ -73,7 +73,7 @@ void HostMonDlg::on_btnOk_clicked()
         QMessageBox::warning(nullptr,"Warning", errors.at(0));
         return;
     }
-    TTestMethod* test;
+    TestMethod* test;
     if (m_Item) {
         test = m_Item->method();
     } else {
@@ -216,7 +216,7 @@ void HostMonDlg::hideOptional(bool hide)
 
 /******************************************************************/
 
-void HostMonDlg::saveTest(TTestMethod *testMethod)
+void HostMonDlg::saveTest(TestMethod *testMethod)
 {
     QString testName = getTestName().trimmed();
     bool isNew = true;

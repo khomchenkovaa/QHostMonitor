@@ -1,11 +1,11 @@
 #ifndef TDOMINANTPROCESS_H
 #define TDOMINANTPROCESS_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TDominantProcess : public TTestMethod
+class TDominantProcess : public TestMethod
 {
     Q_OBJECT
 
@@ -32,7 +32,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 signals:
 

@@ -4,7 +4,7 @@
 #include "PropertyHelper.h"
 #include "xMacroVar.h"
 #include "global/gProfiles.h"
-#include "global/tMethod.h"
+#include "testmethod.h"
 
 #include <QVariant>
 #include <QDateTime>

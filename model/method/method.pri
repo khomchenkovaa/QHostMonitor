@@ -3,7 +3,6 @@ DEPENDPATH += $$PWD
 
 HEADERS += \
     $$PWD/sdpoTestMethods.h \
-    $$PWD/tTestMethod.h \
     $$PWD/tActiveScript.h \
     $$PWD/tCompareFiles.h \
     $$PWD/tCountFiles.h \
@@ -36,10 +35,10 @@ HEADERS += \
     $$PWD/tSnmpGet.h \
     $$PWD/tSshTest.h \
     $$PWD/tSybase.h \
-    $$PWD/tWmi.h
+    $$PWD/tWmi.h \
+    $$PWD/testmethod.h
 
 SOURCES += \
-    $$PWD/tTestMethod.cpp \
     $$PWD/tPing.cpp \
     $$PWD/tDriveSpace.cpp \
     $$PWD/tShellScript.cpp \
@@ -72,4 +71,5 @@ SOURCES += \
     $$PWD/tPerformanceCounter.cpp \
     $$PWD/tSshTest.cpp \
     $$PWD/tPop3Test.cpp \
-    $$PWD/tWmi.cpp
+    $$PWD/tWmi.cpp \
+    $$PWD/testmethod.cpp

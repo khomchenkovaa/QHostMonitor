@@ -25,7 +25,7 @@ ExternalPrgWidget::~ExternalPrgWidget()
 
 /******************************************************************/
 
-void ExternalPrgWidget::init(TTestMethod *item)
+void ExternalPrgWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Externalprg) ) {
         reset();
@@ -42,7 +42,7 @@ void ExternalPrgWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *ExternalPrgWidget::save(TTestMethod *item)
+TestMethod *ExternalPrgWidget::save(TestMethod *item)
 {
     TExternalPrg *t;
     if (item && (item->getTMethodID() == TMethodID::Externalprg)) {

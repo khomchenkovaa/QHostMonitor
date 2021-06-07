@@ -1,6 +1,5 @@
 #include "qActiveScriptWidget.h"
 #include "ui_qActiveScriptWidget.h"
-#include "global/tMethod.h"
 #include "method/tActiveScript.h"
 #include <QFileDialog>
 
@@ -26,7 +25,7 @@ ActiveScriptWidget::~ActiveScriptWidget()
 
 /*****************************************************************/
 
-void ActiveScriptWidget::init(TTestMethod *item)
+void ActiveScriptWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Script) ) {
         reset();
@@ -47,7 +46,7 @@ void ActiveScriptWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *ActiveScriptWidget::save(TTestMethod *item)
+TestMethod *ActiveScriptWidget::save(TestMethod *item)
 {
     TActiveScript* test;
     if (item && (item->getTMethodID() == TMethodID::Script)) {

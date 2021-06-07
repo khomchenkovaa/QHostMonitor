@@ -11,7 +11,7 @@ IOActiveScriptConverter::IOActiveScriptConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOActiveScriptConverter::getTestMethod()
+TestMethod *IOActiveScriptConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TActiveScript();
@@ -80,7 +80,7 @@ QJsonObject IOActiveScriptConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOActiveScriptConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOActiveScriptConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TActiveScript *test = qobject_cast<TActiveScript*>(getTestMethod());
     test->setScriptCriteria(jsonObj.value(SP_SCRIPTCRITERIA).toBool());

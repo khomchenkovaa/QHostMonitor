@@ -24,7 +24,7 @@ MySqlWidget::~MySqlWidget()
 
 /*****************************************************************/
 
-void MySqlWidget::init(TTestMethod *item)
+void MySqlWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::MySQL) ) {
         reset();
@@ -40,7 +40,7 @@ void MySqlWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *MySqlWidget::save(TTestMethod *item)
+TestMethod *MySqlWidget::save(TestMethod *item)
 {
     TMySql* test;
     if (item && (item->getTMethodID() == TMethodID::MySQL)) {

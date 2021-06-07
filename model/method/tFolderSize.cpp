@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TFolderSize::TFolderSize(QObject *parent) :
-    TTestMethod(TMethodID::FileSize, parent)
+    TestMethod(TMethodID::FileSize, parent)
 {
     a_Path = QCoreApplication::applicationDirPath();
     b_IncludeSubfolders = false;
@@ -49,7 +49,7 @@ void TFolderSize::run()
 
 /******************************************************************/
 
-TTestMethod *TFolderSize::clone()
+TestMethod *TFolderSize::clone()
 {
     TFolderSize *result = new TFolderSize(parent());
     result->m_NamePattern = m_NamePattern;

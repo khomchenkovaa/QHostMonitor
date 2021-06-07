@@ -1,5 +1,5 @@
 #include "ioTestMethodLoader.h"
-#include "global/tMethod.h"
+#include "testmethod.h"
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>
@@ -40,7 +40,7 @@ void IOTestMethodLoader::loadGroups(QJsonObject json_obj)
     QJsonArray group_array = json_obj["groups"].toArray();
     foreach (const QJsonValue &item, group_array) {
         QJsonObject jsonGroup = item.toObject();
-        TGroup group;
+        TestGroup group;
         group.id = jsonGroup["id"].toInt();
         group.name = jsonGroup["name"].toString();
         group.icon = QIcon(jsonGroup["icon"].toString());
@@ -49,7 +49,7 @@ void IOTestMethodLoader::loadGroups(QJsonObject json_obj)
         foreach (const QJsonValue &descr, descr_array) {
             group.description << descr.toString();
         }
-        TGroup::tGroupList.append(group);
+        TestMethod::groups.append(group);
     }
 }
 

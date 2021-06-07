@@ -12,7 +12,7 @@ IONtpTestConverter::IONtpTestConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IONtpTestConverter::getTestMethod()
+TestMethod *IONtpTestConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TNtpTest();
@@ -85,7 +85,7 @@ QJsonObject IONtpTestConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IONtpTestConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IONtpTestConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TNtpTest *test = qobject_cast<TNtpTest*>(getTestMethod());
     test->setServer(jsonObj.value(SP_SERVER).toString());

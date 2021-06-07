@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 TFileExists::TFileExists(QObject *parent) :
-    TTestMethod(TMethodID::FileExists, parent)
+    TestMethod(TMethodID::FileExists, parent)
 {
     a_FileName = QString();
     b_TranslateMacros = false;
@@ -62,7 +62,7 @@ void TFileExists::run()
 
 /******************************************************************/
 
-TTestMethod *TFileExists::clone()
+TestMethod *TFileExists::clone()
 {
     TFileExists *result = new TFileExists(parent());
     result->m_NamePattern = m_NamePattern;

@@ -11,7 +11,7 @@ namespace SDPO {
 /******************************************************************/
 
 TDhcp::TDhcp(QObject *parent) :
-    TTestMethod(TMethodID::DHCP, parent)
+    TestMethod(TMethodID::DHCP, parent)
 {
     a_Host = QString();
     a_Timeout = 5; // sec
@@ -99,7 +99,7 @@ QString TDhcp::getCommand() const
 
 /******************************************************************/
 
-TTestMethod *TDhcp::clone()
+TestMethod *TDhcp::clone()
 {
     TDhcp *result = new TDhcp(parent());
     result->m_NamePattern = m_NamePattern;

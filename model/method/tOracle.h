@@ -1,11 +1,11 @@
 #ifndef TORACLE_H
 #define TORACLE_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TOracle : public TTestMethod
+class TOracle : public TestMethod
 {
     Q_OBJECT
 
@@ -25,7 +25,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 };
 

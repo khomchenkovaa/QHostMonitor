@@ -24,7 +24,7 @@ PingWidget::~PingWidget()
 
 /******************************************************************/
 
-void PingWidget::init(TTestMethod *item)
+void PingWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Ping) ) {
         reset();
@@ -46,7 +46,7 @@ void PingWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *PingWidget::save(TTestMethod *item)
+TestMethod *PingWidget::save(TestMethod *item)
 {
     QString host = ui->cmbPingHost->currentText().trimmed();
     ui->cmbPingHost->addItem(host);

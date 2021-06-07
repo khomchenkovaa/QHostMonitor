@@ -24,7 +24,7 @@ ImapTestWidget::~ImapTestWidget()
 
 /*****************************************************************/
 
-void ImapTestWidget::init(TTestMethod *item)
+void ImapTestWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::IMAP) ) {
         reset();
@@ -46,7 +46,7 @@ void ImapTestWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *ImapTestWidget::save(TTestMethod *item)
+TestMethod *ImapTestWidget::save(TestMethod *item)
 {
     TImapTest* test;
     if (item && (item->getTMethodID() == TMethodID::IMAP)) {

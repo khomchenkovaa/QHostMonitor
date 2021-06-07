@@ -11,7 +11,7 @@ IOSybaseConverter::IOSybaseConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOSybaseConverter::getTestMethod()
+TestMethod *IOSybaseConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TSybase();
@@ -71,7 +71,7 @@ QJsonObject IOSybaseConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOSybaseConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOSybaseConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TSybase *test = qobject_cast<TSybase*>(getTestMethod());
     test->setServer(jsonObj.value(SP_SERVER).toString());

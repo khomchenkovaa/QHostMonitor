@@ -10,7 +10,7 @@ namespace SDPO {
 /******************************************************************/
 
 TPing::TPing(QString addr, QObject *parent) :
-    TTestMethod(TMethodID::Ping, parent)
+    TestMethod(TMethodID::Ping, parent)
 {
     QSettings s;
     a_Address      = addr;
@@ -153,7 +153,7 @@ void TPing::parseResult(QString data)
 
 /******************************************************************/
 
-TTestMethod *TPing::clone()
+TestMethod *TPing::clone()
 {
     TPing *result = new TPing(a_Address, parent());
     result->m_NamePattern = m_NamePattern;

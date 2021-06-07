@@ -3,7 +3,7 @@
 namespace SDPO {
 
 THttp::THttp(QObject *parent) :
-    TTestMethod(TMethodID::HTTP, parent)
+    TestMethod(TMethodID::HTTP, parent)
 {
     a_Proxy = QString("<none>");
     a_Url = QString();
@@ -22,7 +22,7 @@ void THttp::run()
 
 /******************************************************************/
 
-TTestMethod *THttp::clone()
+TestMethod *THttp::clone()
 {
     THttp *result = new THttp(parent());
     result->m_NamePattern = m_NamePattern;

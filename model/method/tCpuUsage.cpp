@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TCpuUsage::TCpuUsage(QObject *parent) :
-    TTestMethod(TMethodID::CPU, parent)
+    TestMethod(TMethodID::CPU, parent)
 {
     a_Computer = QString("localhost");
     a_OsSelect = QString("Linux");
@@ -27,7 +27,7 @@ void TCpuUsage::run()
 
 /******************************************************************/
 
-TTestMethod *TCpuUsage::clone()
+TestMethod *TCpuUsage::clone()
 {
     TCpuUsage *result = new TCpuUsage(parent());
     result->m_NamePattern = m_NamePattern;

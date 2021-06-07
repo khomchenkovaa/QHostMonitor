@@ -12,7 +12,7 @@ IOODBCConverter::IOODBCConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOODBCConverter::getTestMethod()
+TestMethod *IOODBCConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TOdbcQuery();
@@ -102,7 +102,7 @@ QJsonObject IOODBCConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOODBCConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOODBCConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TOdbcQuery *test = qobject_cast<TOdbcQuery*>(getTestMethod());
     test->setDataSource(jsonObj.value(SP_DATASOURCE).toString());

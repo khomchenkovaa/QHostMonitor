@@ -11,7 +11,7 @@ IODominantProcessConverter::IODominantProcessConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IODominantProcessConverter::getTestMethod()
+TestMethod *IODominantProcessConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TDominantProcess();
@@ -88,7 +88,7 @@ QJsonObject IODominantProcessConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IODominantProcessConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IODominantProcessConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TDominantProcess *test = qobject_cast<TDominantProcess*>(getTestMethod());
     test->setCheckProcessesOn(jsonObj.value(SP_CHECKPROCESSON).toString());

@@ -1,12 +1,41 @@
-#include "tTestMethod.h"
+#include "testmethod.h"
 #include "global/gMacroTranslator.h"
+
+#include <QMetaClassInfo>
 #include <QDebug>
 
 namespace SDPO {
 
+/*****************************************************************/
+
+QVector<TMethod> TMethod::tMethodList;
+
+/*****************************************************************/
+
+QString TMethod::toName(TMethodID method) {
+    return TMethod::tMethodList.at(static_cast<int>(method)).name;
+}
+
+/*****************************************************************/
+
+TMethodID TMethod::fromString(const QString name) {
+    TMethodID result = TMethodID::Empty;
+    foreach( const TMethod &method, tMethodList) {
+        if (name.compare(method.name, Qt::CaseInsensitive) == 0 ) {
+            result = method.id;
+            break;
+        }
+    }
+    return result;
+}
+
 /***********************************************/
 
-TTestMethod::TTestMethod(TMethodID methodId, QObject *parent) :
+QVector<TestGroup> TestMethod::groups;
+
+/***********************************************/
+
+TestMethod::TestMethod(TMethodID methodId, QObject *parent) :
     QObject(parent),
     m_TMethodID(methodId)
 {
@@ -17,14 +46,14 @@ TTestMethod::TTestMethod(TMethodID methodId, QObject *parent) :
 
 /***********************************************/
 
-TTestMethod::~TTestMethod()
+TestMethod::~TestMethod()
 {
 
 }
 
 /***********************************************/
 
-void TTestMethod::run()
+void TestMethod::run()
 {
     writeLogTitle();
     // Do nothing
@@ -33,9 +62,9 @@ void TTestMethod::run()
 
 /***********************************************/
 
-TTestMethod *TTestMethod::clone()
+TestMethod *TestMethod::clone()
 {
-    TTestMethod *result = new TTestMethod(m_TMethodID, parent());
+    TestMethod *result = new TestMethod(m_TMethodID, parent());
     result->m_NamePattern = m_NamePattern;
     result->m_CommentPattern = m_CommentPattern;
     return result;
@@ -43,7 +72,7 @@ TTestMethod *TTestMethod::clone()
 
 /***********************************************/
 
-QString TTestMethod::getDefaultName() const
+QString TestMethod::getDefaultName() const
 {
     GMacroTranslator translator(m_NamePattern);
     QStringList params = translator.parse();
@@ -56,7 +85,7 @@ QString TTestMethod::getDefaultName() const
 
 /***********************************************/
 
-QString TTestMethod::getDefaultComments() const
+QString TestMethod::getDefaultComments() const
 {
     GMacroTranslator translator(m_CommentPattern);
     QStringList params = translator.parse();
@@ -69,7 +98,7 @@ QString TTestMethod::getDefaultComments() const
 
 /***********************************************/
 
-QString TTestMethod::getTranslated(const QString &name, const bool translate) const
+QString TestMethod::getTranslated(const QString &name, const bool translate) const
 {
     if (!translate) {
         return name;
@@ -80,7 +109,7 @@ QString TTestMethod::getTranslated(const QString &name, const bool translate) co
 
 /***********************************************/
 
-void TTestMethod::writeLogTitle()
+void TestMethod::writeLogTitle()
 {
     m_Log.clear();
     m_Log.append("*************************************************************\n");
@@ -92,7 +121,7 @@ void TTestMethod::writeLogTitle()
 
 /***********************************************/
 
-QMap<QString, QString> TTestMethod::setVars(const QStringList &params) const
+QMap<QString, QString> TestMethod::setVars(const QStringList &params) const
 {
     QMap<QString, QString> result;
     foreach (const QString &key, params) {

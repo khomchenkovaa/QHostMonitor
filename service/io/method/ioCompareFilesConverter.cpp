@@ -13,7 +13,7 @@ IOCompareFilesConverter::IOCompareFilesConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOCompareFilesConverter::getTestMethod()
+TestMethod *IOCompareFilesConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TCompareFiles();
@@ -134,7 +134,7 @@ QJsonObject IOCompareFilesConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOCompareFilesConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOCompareFilesConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TCompareFiles *test = qobject_cast<TCompareFiles*>(getTestMethod());
     TCompareFiles::AlertMode crAMode = (TCompareFiles::AlertMode) m_AlertModeEnum.keyToValue(jsonObj.value(SP_ALERTMODE).toString().toStdString().data());

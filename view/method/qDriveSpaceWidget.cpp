@@ -24,7 +24,7 @@ DriveSpaceWidget::~DriveSpaceWidget()
 
 /******************************************************************/
 
-void DriveSpaceWidget::init(TTestMethod *item)
+void DriveSpaceWidget::init(TestMethod *item)
 {
     reset();
     TDriveSpace* driveSpace = qobject_cast<TDriveSpace*>(item);
@@ -35,7 +35,7 @@ void DriveSpaceWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *DriveSpaceWidget::save(TTestMethod *item)
+TestMethod *DriveSpaceWidget::save(TestMethod *item)
 {
     TDriveSpace* driveSpace;
     if (item && (item->getTMethodID() == TMethodID::DriveSpace)) {

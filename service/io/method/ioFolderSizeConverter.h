@@ -18,12 +18,12 @@ class IOFolderSizeConverter : public IOTestMethodConverter
 public:
     explicit IOFolderSizeConverter(QObject *parent = 0);
 
-    virtual TTestMethod *getTestMethod() Q_DECL_OVERRIDE;
+    virtual TestMethod *getTestMethod() Q_DECL_OVERRIDE;
 
     virtual bool setValue(QString key, QString value) Q_DECL_OVERRIDE;
     virtual void exportTo(QTextStream &out) Q_DECL_OVERRIDE;
     virtual QJsonObject toJsonObject() Q_DECL_OVERRIDE;
-    virtual TTestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
+    virtual TestMethod *fromJsonObject(QJsonObject jsonObj) Q_DECL_OVERRIDE;
 
 };
 

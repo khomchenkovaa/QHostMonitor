@@ -11,7 +11,7 @@ IOIMAPTestConverter::IOIMAPTestConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOIMAPTestConverter::getTestMethod()
+TestMethod *IOIMAPTestConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TImapTest();
@@ -101,7 +101,7 @@ QJsonObject IOIMAPTestConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOIMAPTestConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOIMAPTestConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TImapTest *test = qobject_cast<TImapTest*>(getTestMethod());
     test->setServer(jsonObj.value(SP_SERVER).toString());

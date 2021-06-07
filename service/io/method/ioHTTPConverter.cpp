@@ -11,7 +11,7 @@ IOHTTPConverter::IOHTTPConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOHTTPConverter::getTestMethod()
+TestMethod *IOHTTPConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new THttp();
@@ -77,7 +77,7 @@ QJsonObject IOHTTPConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOHTTPConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOHTTPConverter::fromJsonObject(QJsonObject jsonObj)
 {
     THttp *test = qobject_cast<THttp*>(getTestMethod());
     test->setProxy(jsonObj.value(SP_PROXY).toString());

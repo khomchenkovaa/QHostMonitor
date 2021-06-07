@@ -23,7 +23,7 @@ CpuUsageWidget::~CpuUsageWidget()
 
 /*****************************************************************/
 
-void CpuUsageWidget::init(TTestMethod *item)
+void CpuUsageWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::CPU) ) {
         reset();
@@ -40,7 +40,7 @@ void CpuUsageWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *CpuUsageWidget::save(TTestMethod *item)
+TestMethod *CpuUsageWidget::save(TestMethod *item)
 {
     TCpuUsage* test;
     if (item && (item->getTMethodID() == TMethodID::CPU)) {

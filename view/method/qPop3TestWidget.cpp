@@ -22,7 +22,7 @@ Pop3TestWidget::~Pop3TestWidget()
 
 /******************************************************************/
 
-void Pop3TestWidget::init(TTestMethod *item)
+void Pop3TestWidget::init(TestMethod *item)
 {
     TPop3Test *perfCounter = qobject_cast<TPop3Test*>(item);
     ui->cmbServer->setCurrentText(perfCounter->getServer());
@@ -39,7 +39,7 @@ void Pop3TestWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *Pop3TestWidget::save(TTestMethod *item)
+TestMethod *Pop3TestWidget::save(TestMethod *item)
 {
     TPop3Test* perfCounter;
     if (item && (item->getTMethodID() == TMethodID::PerfCounter)) {

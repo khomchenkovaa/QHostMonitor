@@ -6,7 +6,7 @@ namespace SDPO {
 /******************************************************************/
 
 TFileContents::TFileContents(QObject *parent) :
-    TTestMethod(TMethodID::FileContents, parent)
+    TestMethod(TMethodID::FileContents, parent)
 {
     a_File = QString();
     a_Crc = QString();
@@ -25,7 +25,7 @@ void TFileContents::run()
 
 /******************************************************************/
 
-TTestMethod *TFileContents::clone()
+TestMethod *TFileContents::clone()
 {
     TFileContents *result = new TFileContents(parent());
     result->m_NamePattern = m_NamePattern;

@@ -11,7 +11,7 @@ namespace SDPO {
 /******************************************************************/
 
 TCompareFiles::TCompareFiles(QObject *parent) :
-    TTestMethod(TMethodID::FileCompare, parent)
+    TestMethod(TMethodID::FileCompare, parent)
 {
     a_AlertWhen = AlertMode::FilesDifferent;
     a_FirstFile = QString();
@@ -72,7 +72,7 @@ void TCompareFiles::run()
 
 /******************************************************************/
 
-TTestMethod *TCompareFiles::clone()
+TestMethod *TCompareFiles::clone()
 {
     TCompareFiles *result = new TCompareFiles(parent());
     result->m_NamePattern = m_NamePattern;

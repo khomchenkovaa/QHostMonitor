@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TDicom::TDicom(QObject *parent) :
-    TTestMethod(TMethodID::DICOM, parent)
+    TestMethod(TMethodID::DICOM, parent)
 {
     a_Host = QString();
     a_Port = 104;
@@ -26,7 +26,7 @@ void TDicom::run()
 
 /******************************************************************/
 
-TTestMethod *TDicom::clone()
+TestMethod *TDicom::clone()
 {
     TDicom *result = new TDicom(parent());
     result->m_NamePattern = m_NamePattern;

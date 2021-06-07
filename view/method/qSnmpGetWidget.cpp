@@ -31,7 +31,7 @@ SnmpGetWidget::~SnmpGetWidget()
 
 /******************************************************************/
 
-void SnmpGetWidget::init(TTestMethod *item)
+void SnmpGetWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::SNMP) ) {
         reset();
@@ -49,7 +49,7 @@ void SnmpGetWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *SnmpGetWidget::save(TTestMethod *item)
+TestMethod *SnmpGetWidget::save(TestMethod *item)
 {
     TSnmpGet *t;
     if (item && (item->getTMethodID() == TMethodID::SNMP)) {

@@ -3,7 +3,7 @@
 namespace SDPO {
 
 TLdapTest::TLdapTest(QObject *parent) :
-    TTestMethod(TMethodID::Ldap, parent)
+    TestMethod(TMethodID::Ldap, parent)
 {
     a_Host = QString("");
     a_Port = 389;
@@ -26,7 +26,7 @@ void TLdapTest::run()
 
 /******************************************************************/
 
-TTestMethod *TLdapTest::clone()
+TestMethod *TLdapTest::clone()
 {
     TLdapTest *result = new TLdapTest(parent());
     result->m_NamePattern = m_NamePattern;

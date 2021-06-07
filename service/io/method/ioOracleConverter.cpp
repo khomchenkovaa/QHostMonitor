@@ -11,7 +11,7 @@ IOOracleConverter::IOOracleConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOOracleConverter::getTestMethod()
+TestMethod *IOOracleConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TOracle();
@@ -67,7 +67,7 @@ QJsonObject IOOracleConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOOracleConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOOracleConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TOracle *test = qobject_cast<TOracle*>(getTestMethod());
     test->setDatabase(jsonObj.value(SP_SERVER).toString());

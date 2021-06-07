@@ -13,7 +13,7 @@ IOExternalPrgConverter::IOExternalPrgConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOExternalPrgConverter::getTestMethod()
+TestMethod *IOExternalPrgConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TExternalPrg();
@@ -86,7 +86,7 @@ QJsonObject IOExternalPrgConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOExternalPrgConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOExternalPrgConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TExternalPrg *test = qobject_cast<TExternalPrg*>(getTestMethod());
     test->setExternalPrg(jsonObj.value(SP_COMMANDLINE).toString());

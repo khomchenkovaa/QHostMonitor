@@ -21,7 +21,7 @@ PerformanceCounterWidget::~PerformanceCounterWidget()
 }
 /******************************************************************/
 
-void PerformanceCounterWidget::init(TTestMethod *item)
+void PerformanceCounterWidget::init(TestMethod *item)
 {
     TPerformanceCounter *perfCounter = qobject_cast<TPerformanceCounter*>(item);
     ui->cmbCheckCounter->setCurrentText(perfCounter->getCheckCounter());
@@ -35,7 +35,7 @@ void PerformanceCounterWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *PerformanceCounterWidget::save(TTestMethod *item)
+TestMethod *PerformanceCounterWidget::save(TestMethod *item)
 {
     TPerformanceCounter* perfCounter;
     if (item && (item->getTMethodID() == TMethodID::PerfCounter)) {

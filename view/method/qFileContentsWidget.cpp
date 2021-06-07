@@ -23,7 +23,7 @@ FileContentsWidget::~FileContentsWidget()
 
 /******************************************************************/
 
-void FileContentsWidget::init(TTestMethod *item)
+void FileContentsWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::FileContents) ) {
         reset();
@@ -37,7 +37,7 @@ void FileContentsWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *FileContentsWidget::save(TTestMethod *item)
+TestMethod *FileContentsWidget::save(TestMethod *item)
 {
     TFileContents* test;
     if (item && (item->getTMethodID() == TMethodID::FileContents)) {

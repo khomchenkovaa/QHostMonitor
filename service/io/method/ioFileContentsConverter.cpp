@@ -11,7 +11,7 @@ IOFileContentsConverter::IOFileContentsConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOFileContentsConverter::getTestMethod()
+TestMethod *IOFileContentsConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TFileContents();
@@ -70,7 +70,7 @@ QJsonObject IOFileContentsConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOFileContentsConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOFileContentsConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TFileContents *test = qobject_cast<TFileContents*>(getTestMethod());
     test->setFile(jsonObj.value(SP_FILE).toString());

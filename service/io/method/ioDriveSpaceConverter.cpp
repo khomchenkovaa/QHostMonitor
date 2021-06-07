@@ -12,7 +12,7 @@ IODriveSpaceConverter::IODriveSpaceConverter(QObject *parent) :
 
 /***********************************************/
 
-TTestMethod *IODriveSpaceConverter::getTestMethod()
+TestMethod *IODriveSpaceConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TDriveSpace();
@@ -68,7 +68,7 @@ QJsonObject IODriveSpaceConverter::toJsonObject()
 
 /***********************************************/
 
-TTestMethod *IODriveSpaceConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IODriveSpaceConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TDriveSpace *test = qobject_cast<TDriveSpace*>(getTestMethod());
     test->setDrive(jsonObj.value(SP_DRIVE).toString());

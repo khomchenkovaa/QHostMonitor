@@ -11,7 +11,7 @@ IODNSTestConverter::IODNSTestConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IODNSTestConverter::getTestMethod()
+TestMethod *IODNSTestConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TDnsTest();
@@ -89,7 +89,7 @@ QJsonObject IODNSTestConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IODNSTestConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IODNSTestConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TDnsTest *test = qobject_cast<TDnsTest*>(getTestMethod());
     test->setServer(jsonObj.value(SP_SERVER).toString());

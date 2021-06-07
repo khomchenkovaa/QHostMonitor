@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TActiveScript::TActiveScript(QObject *parent) :
-    TTestMethod(TMethodID::Script, parent)
+    TestMethod(TMethodID::Script, parent)
 {
     a_FileScript = QString();
     b_ScriptCriteria = true;
@@ -27,7 +27,7 @@ void TActiveScript::run()
 
 /******************************************************************/
 
-TTestMethod *TActiveScript::clone()
+TestMethod *TActiveScript::clone()
 {
     TActiveScript *result = new TActiveScript(parent());
     result->m_NamePattern = m_NamePattern;

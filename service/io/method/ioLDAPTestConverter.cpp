@@ -11,7 +11,7 @@ IOLDAPTestConverter::IOLDAPTestConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOLDAPTestConverter::getTestMethod()
+TestMethod *IOLDAPTestConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TLdapTest();
@@ -93,7 +93,7 @@ QJsonObject IOLDAPTestConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOLDAPTestConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOLDAPTestConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TLdapTest *test = qobject_cast<TLdapTest*>(getTestMethod());
     test->setHost(jsonObj.value(SP_HOST).toString());

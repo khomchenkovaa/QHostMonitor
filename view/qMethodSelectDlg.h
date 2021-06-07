@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QStandardItem>
-#include "global/tMethod.h"
+#include "testmethod.h"
 
 namespace Ui {
 class MethodSelectDlg;

@@ -27,7 +27,7 @@ OracleWidget::~OracleWidget()
 
 /*****************************************************************/
 
-void OracleWidget::init(TTestMethod *item)
+void OracleWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Oracle) ) {
         reset();
@@ -42,7 +42,7 @@ void OracleWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *OracleWidget::save(TTestMethod *item)
+TestMethod *OracleWidget::save(TestMethod *item)
 {
     TOracle* test;
     if (item && (item->getTMethodID() == TMethodID::Oracle)) {

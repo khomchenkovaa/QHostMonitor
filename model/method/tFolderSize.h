@@ -1,11 +1,11 @@
 #ifndef TFOLDERSIZE_H
 #define TFOLDERSIZE_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TFolderSize : public TTestMethod
+class TFolderSize : public TestMethod
 {
     Q_OBJECT
 
@@ -30,7 +30,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private:
     quint64 diskUsage(const QString &absPath, int &itemCount);

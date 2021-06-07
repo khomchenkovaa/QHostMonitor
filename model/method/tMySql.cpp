@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TMySql::TMySql(QObject *parent) :
-    TTestMethod(TMethodID::MySQL, parent)
+    TestMethod(TMethodID::MySQL, parent)
 {
     a_Port = MYSQL_DEFAULT_PORT;
 }
@@ -60,7 +60,7 @@ void TMySql::run()
     emit testSuccess();
 }
 
-TTestMethod *TMySql::clone()
+TestMethod *TMySql::clone()
 {
     TMySql *result = new TMySql(parent());
     result->m_NamePattern = m_NamePattern;

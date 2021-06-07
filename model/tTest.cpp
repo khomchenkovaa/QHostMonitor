@@ -18,7 +18,7 @@ int TTest::failureCount = 0;
 TTest::TTest(const int id, const QString &name, QObject *parent) :
     TNode(id, name, TNode::TEST, parent)
 {
-    m_TMethod = new TTestMethod(TMethodID::Empty);
+    m_TMethod = new TestMethod(TMethodID::Empty);
 
     setEnabled(true);
     setPaused(false);
@@ -466,7 +466,7 @@ void TTest::slotTimeout()
 
 /***********************************************/
 
-void TTest::setMethod(TTestMethod *testMethod)
+void TTest::setMethod(TestMethod *testMethod)
 {
     if (m_TMethod == testMethod) return;
     if (m_TMethod) {

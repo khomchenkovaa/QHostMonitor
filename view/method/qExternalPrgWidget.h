@@ -16,8 +16,8 @@ public:
     explicit ExternalPrgWidget(QWidget *parent = 0);
     ~ExternalPrgWidget();
 
-    virtual void init(TTestMethod *item = 0);
-    virtual TTestMethod* save(TTestMethod *item);
+    virtual void init(TestMethod *item = 0);
+    virtual TestMethod* save(TestMethod *item);
     virtual void reset(QVariant data=QVariant());
     virtual QStringList validate();
     virtual QString getTemplateValue(const QString var) const Q_DECL_OVERRIDE;

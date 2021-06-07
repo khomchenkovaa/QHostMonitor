@@ -26,7 +26,7 @@ ShellScriptWidget::~ShellScriptWidget()
 
 /******************************************************************/
 
-void ShellScriptWidget::init(TTestMethod *item)
+void ShellScriptWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::ShellScript) ) {
         reset();
@@ -41,7 +41,7 @@ void ShellScriptWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *ShellScriptWidget::save(TTestMethod *item)
+TestMethod *ShellScriptWidget::save(TestMethod *item)
 {
     TShellScript* scr;
     if (item && (item->getTMethodID() == TMethodID::ShellScript)) {

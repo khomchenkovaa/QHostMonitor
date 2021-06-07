@@ -11,7 +11,7 @@ IOMailRelayConverter::IOMailRelayConverter(QObject *parent) :
 
 /***********************************************/
 
-TTestMethod *IOMailRelayConverter::getTestMethod()
+TestMethod *IOMailRelayConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TMailRelay();
@@ -70,7 +70,7 @@ QJsonObject IOMailRelayConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOMailRelayConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOMailRelayConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TMailRelay *test = qobject_cast<TMailRelay*>(getTestMethod());
     test->setOutgoing(jsonObj.value(SP_OUTGOING).toString());

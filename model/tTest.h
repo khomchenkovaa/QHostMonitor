@@ -11,7 +11,6 @@
 #include "tNode.h"
 #include "tAgent.h"
 #include "tSchedule.h"
-#include "tTestMethod.h"
 
 namespace SDPO {
 
@@ -118,7 +117,7 @@ class TTest : public TNode
 
     static int failureCount;
 
-    TTestMethod  *m_TMethod;
+    TestMethod  *m_TMethod;
     TAgent       *m_agent;
     TSchedule     m_schedule;
     QList<TNode*> m_links;
@@ -186,8 +185,8 @@ class TTest : public TNode
 
 public:
     // TTest methods
-    TTestMethod *method() const { return m_TMethod; }
-    void setMethod(TTestMethod *testMethod);
+    TestMethod *method() const { return m_TMethod; }
+    void setMethod(TestMethod *testMethod);
 
     // TAgent methods
     TAgent* agent() { return m_agent; }

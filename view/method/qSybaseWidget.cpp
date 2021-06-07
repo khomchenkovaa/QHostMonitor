@@ -23,7 +23,7 @@ SybaseWidget::~SybaseWidget()
 
 /******************************************************************/
 
-void SybaseWidget::init(TTestMethod *item)
+void SybaseWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Sybase) ) {
         reset();
@@ -38,7 +38,7 @@ void SybaseWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *SybaseWidget::save(TTestMethod *item)
+TestMethod *SybaseWidget::save(TestMethod *item)
 {
     TSybase* test;
     if (item && (item->getTMethodID() == TMethodID::Sybase)) {

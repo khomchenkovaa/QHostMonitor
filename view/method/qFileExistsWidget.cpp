@@ -26,7 +26,7 @@ FileExistsWidget::~FileExistsWidget()
 
 /******************************************************************/
 
-void FileExistsWidget::init(TTestMethod *item)
+void FileExistsWidget::init(TestMethod *item)
 {
     TFileExists *fileExists = qobject_cast<TFileExists*>(item);
     ui->editFileName->setText(fileExists->getFileName());
@@ -46,7 +46,7 @@ void FileExistsWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *FileExistsWidget::save(TTestMethod *item)
+TestMethod *FileExistsWidget::save(TestMethod *item)
 {
     TFileExists* fileExists;
     if (item && (item->getTMethodID() == TMethodID::FileExists)) {

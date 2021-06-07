@@ -25,7 +25,7 @@ CountFilesWidget::~CountFilesWidget()
 
 /*****************************************************************/
 
-void CountFilesWidget::init(TTestMethod *item)
+void CountFilesWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::CountFiles) ) {
         reset();
@@ -43,7 +43,7 @@ void CountFilesWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *CountFilesWidget::save(TTestMethod *item)
+TestMethod *CountFilesWidget::save(TestMethod *item)
 {
     TCountFiles* test;
     if (item && (item->getTMethodID() == TMethodID::CountFiles)) {

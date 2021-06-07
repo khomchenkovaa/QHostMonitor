@@ -3,16 +3,16 @@
 
 #include <QObject>
 #include <QRunnable>
-#include "method/tTestMethod.h"
+#include "method/testmethod.h"
 
 class MonitoringTask : public QObject, public QRunnable
 {
     Q_OBJECT
 
-    SDPO::TTestMethod *m_TestMethod;
+    SDPO::TestMethod *m_TestMethod;
     bool m_Canceled;
 public:
-    explicit MonitoringTask(SDPO::TTestMethod *testMethod, QObject *parent = 0);
+    explicit MonitoringTask(SDPO::TestMethod *testMethod, QObject *parent = 0);
 
     void run(); // QRunnable interface
 signals:

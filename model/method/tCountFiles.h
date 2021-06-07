@@ -48,13 +48,13 @@
 #ifndef TCOUNTFILES_H
 #define TCOUNTFILES_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 #include <QDir>
 
 namespace SDPO {
 
-class TCountFiles : public TTestMethod
+class TCountFiles : public TestMethod
 {
     Q_OBJECT
 
@@ -96,7 +96,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private:
     int countFiles(QDir dir);

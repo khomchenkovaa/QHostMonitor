@@ -11,7 +11,7 @@ IOFileExistsConverter::IOFileExistsConverter(QObject *parent) :
 
 /***********************************************/
 
-TTestMethod *IOFileExistsConverter::getTestMethod()
+TestMethod *IOFileExistsConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TFileExists();
@@ -87,7 +87,7 @@ QJsonObject IOFileExistsConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOFileExistsConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOFileExistsConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TFileExists *test = qobject_cast<TFileExists*>(getTestMethod());
     test->setFileName(jsonObj.value(SP_FILE).toString());

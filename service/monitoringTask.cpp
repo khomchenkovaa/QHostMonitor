@@ -2,7 +2,7 @@
 
 /******************************************************************/
 
-MonitoringTask::MonitoringTask(SDPO::TTestMethod *testMethod, QObject *parent)
+MonitoringTask::MonitoringTask(SDPO::TestMethod *testMethod, QObject *parent)
     : QObject(parent)
     , m_TestMethod(testMethod)
     , m_Canceled(false)

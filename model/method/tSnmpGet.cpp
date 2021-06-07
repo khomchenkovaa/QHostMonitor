@@ -9,7 +9,7 @@ namespace SDPO {
 /******************************************************************/
 
 TSnmpGet::TSnmpGet(QObject *parent) :
-    TTestMethod(TMethodID::SNMP, parent)
+    TestMethod(TMethodID::SNMP, parent)
 {
     a_Host = "localhost";
     a_SnmpProfile = "public v2";
@@ -122,7 +122,7 @@ void TSnmpGet::parseResult(QString data)
 
 /******************************************************************/
 
-TTestMethod *TSnmpGet::clone()
+TestMethod *TSnmpGet::clone()
 {
     TSnmpGet *result = new TSnmpGet(parent());
     result->m_NamePattern = m_NamePattern;

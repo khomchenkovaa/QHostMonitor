@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TMsSql::TMsSql(QObject *parent) :
-    TTestMethod(TMethodID::MSSQL, parent)
+    TestMethod(TMethodID::MSSQL, parent)
 {
     a_Server = QString("");
     a_Database = QString("");
@@ -54,7 +54,7 @@ void TMsSql::run()
 
 /******************************************************************/
 
-TTestMethod *TMsSql::clone()
+TestMethod *TMsSql::clone()
 {
     TMsSql *result = new TMsSql(parent());
     result->m_NamePattern = m_NamePattern;

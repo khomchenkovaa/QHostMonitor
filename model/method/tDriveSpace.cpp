@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 TDriveSpace::TDriveSpace(QObject *parent) :
-    TTestMethod(TMethodID::DriveSpace, parent)
+    TestMethod(TMethodID::DriveSpace, parent)
 {
     m_Drive = QString("/dev/sdb1");
     m_MinFreeSpace = 64;
@@ -54,7 +54,7 @@ void TDriveSpace::run()
 
 /******************************************************************/
 
-TTestMethod *TDriveSpace::clone()
+TestMethod *TDriveSpace::clone()
 {
     TDriveSpace *result = new TDriveSpace(parent());
     result->m_NamePattern = m_NamePattern;

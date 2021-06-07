@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TImapTest::TImapTest(QObject *parent) :
-    TTestMethod(TMethodID::IMAP, parent)
+    TestMethod(TMethodID::IMAP, parent)
 {
     a_Server = QString("");
     a_Port = 143;
@@ -30,7 +30,7 @@ void TImapTest::run()
 
 /******************************************************************/
 
-TTestMethod *TImapTest::clone()
+TestMethod *TImapTest::clone()
 {
     TImapTest *result = new TImapTest(parent());
     result->m_NamePattern = m_NamePattern;

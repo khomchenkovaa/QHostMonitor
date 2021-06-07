@@ -11,7 +11,7 @@ IOShellScriptConverter::IOShellScriptConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOShellScriptConverter::getTestMethod()
+TestMethod *IOShellScriptConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TShellScript();
@@ -81,7 +81,7 @@ QJsonObject IOShellScriptConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOShellScriptConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOShellScriptConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TShellScript *test = qobject_cast<TShellScript*>(getTestMethod());
     test->setName(jsonObj.value(SP_SCRIPT).toString());

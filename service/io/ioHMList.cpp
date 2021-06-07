@@ -1174,7 +1174,7 @@ void IOHMList::parseViewCriteriaSettings(QJsonValue jsonValue, TView *view)
 
 QJsonValue IOHMList::createTestMethodSection(TTest *test)
 {
-    TTestMethod *method = test->method();
+    TestMethod *method = test->method();
     IOTestMethodConverter *converter = IOHelper::methodConverter(method->getTMethodID());
     converter->setTestMethod(method);
     QJsonObject jsonObj = converter->toJsonObject();
@@ -1193,7 +1193,7 @@ void IOHMList::parseTestMethodSection(QJsonValue jsonValue, TTest *test)
     QString methodName = jsonObj.value(PRM_METHOD).toString();
     TMethodID methodID = TMethod::fromString(methodName);
     IOTestMethodConverter *converter = IOHelper::methodConverter(methodID);
-    TTestMethod *method = converter->fromJsonObject(jsonObj);
+    TestMethod *method = converter->fromJsonObject(jsonObj);
     converter->deleteLater();
     method->setNamePattern(jsonObj.value(PRM_NAME_PATTERN).toString());
     method->setCommentPattern(jsonObj.value(PRM_CMNT_PATTERN).toString());

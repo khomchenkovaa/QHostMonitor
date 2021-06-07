@@ -24,7 +24,7 @@ DhcpWidget::~DhcpWidget()
 
 /*****************************************************************/
 
-void DhcpWidget::init(TTestMethod *item)
+void DhcpWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::DHCP) ) {
         reset();
@@ -38,7 +38,7 @@ void DhcpWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *DhcpWidget::save(TTestMethod *item)
+TestMethod *DhcpWidget::save(TestMethod *item)
 {
     TDhcp* test;
     if (item && (item->getTMethodID() == TMethodID::DHCP)) {

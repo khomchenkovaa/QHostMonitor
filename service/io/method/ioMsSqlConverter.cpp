@@ -12,7 +12,7 @@ IOMsSqlConverter::IOMsSqlConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOMsSqlConverter::getTestMethod()
+TestMethod *IOMsSqlConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TMsSql();
@@ -72,7 +72,7 @@ QJsonObject IOMsSqlConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOMsSqlConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOMsSqlConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TMsSql *test = qobject_cast<TMsSql*>(getTestMethod());
     test->setServer(jsonObj.value(SP_SERVER).toString());

@@ -11,7 +11,7 @@ IOPerformanceCounterConverter::IOPerformanceCounterConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOPerformanceCounterConverter::getTestMethod()
+TestMethod *IOPerformanceCounterConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TPerformanceCounter();
@@ -85,7 +85,7 @@ QJsonObject IOPerformanceCounterConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOPerformanceCounterConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOPerformanceCounterConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TPerformanceCounter *test = qobject_cast<TPerformanceCounter*>(getTestMethod());
     test->setCheckCounter(jsonObj.value(SP_CHECKCOUNTER).toString());

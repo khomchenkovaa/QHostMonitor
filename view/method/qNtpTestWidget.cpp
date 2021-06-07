@@ -22,7 +22,7 @@ NtpTestWidget::~NtpTestWidget()
 
 /******************************************************************/
 
-void NtpTestWidget::init(TTestMethod *item)
+void NtpTestWidget::init(TestMethod *item)
 {
     TNtpTest *ntpTest = qobject_cast<TNtpTest*>(item);
     ui->cmbServer->setCurrentText(ntpTest->getServer());
@@ -36,7 +36,7 @@ void NtpTestWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *NtpTestWidget::save(TTestMethod *item)
+TestMethod *NtpTestWidget::save(TestMethod *item)
 {
     TNtpTest* ntpTest;
     if (item && (item->getTMethodID() == TMethodID::NTP)) {

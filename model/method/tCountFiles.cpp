@@ -10,7 +10,7 @@ namespace SDPO {
 /******************************************************************/
 
 TCountFiles::TCountFiles(QObject *parent) :
-    TTestMethod(TMethodID::CountFiles, parent)
+    TestMethod(TMethodID::CountFiles, parent)
 {
     a_Folder = QString();
     b_TranslateMacros = false;
@@ -49,7 +49,7 @@ void TCountFiles::run()
 
 /******************************************************************/
 
-TTestMethod *TCountFiles::clone()
+TestMethod *TCountFiles::clone()
 {
     TCountFiles *result = new TCountFiles(parent());
     result->m_NamePattern = m_NamePattern;

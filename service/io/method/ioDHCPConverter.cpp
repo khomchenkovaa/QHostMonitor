@@ -11,7 +11,7 @@ IODHCPConverter::IODHCPConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IODHCPConverter::getTestMethod()
+TestMethod *IODHCPConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TDhcp();
@@ -72,7 +72,7 @@ QJsonObject IODHCPConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IODHCPConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IODHCPConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TDhcp *test = qobject_cast<TDhcp*>(getTestMethod());
     test->setHost(jsonObj.value(SP_HOST).toString());

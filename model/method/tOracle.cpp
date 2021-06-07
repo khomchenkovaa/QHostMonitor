@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TOracle::TOracle(QObject *parent) :
-    TTestMethod(TMethodID::Oracle, parent)
+    TestMethod(TMethodID::Oracle, parent)
 {
 }
 
@@ -59,7 +59,7 @@ void TOracle::run()
 
 /******************************************************************/
 
-TTestMethod *TOracle::clone()
+TestMethod *TOracle::clone()
 {
     TOracle *result = new TOracle(parent());
     result->m_NamePattern = m_NamePattern;

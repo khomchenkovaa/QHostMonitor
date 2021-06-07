@@ -75,13 +75,13 @@
 #ifndef TSSHTEST_H
 #define TSSHTEST_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 #define SSH_COMMAND "sshpass -p '$1' ssh -o StrictHostKeychecking=$2@$3 \"$4\""
 
 namespace SDPO {
 
-class TSshTest : public TTestMethod
+class TSshTest : public TestMethod
 {
     Q_OBJECT
 
@@ -134,7 +134,7 @@ public:
     virtual QString getCommand() const Q_DECL_OVERRIDE;
     virtual void parseResult(QString data) Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 };
 

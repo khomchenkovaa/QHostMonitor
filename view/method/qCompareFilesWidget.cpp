@@ -1,6 +1,5 @@
 #include "qCompareFilesWidget.h"
 #include "ui_qCompareFilesWidget.h"
-#include "global/tMethod.h"
 #include "method/tCompareFiles.h"
 #include <QFileDialog>
 
@@ -33,7 +32,7 @@ CompareFilesWidget::~CompareFilesWidget()
 
 /*****************************************************************/
 
-void CompareFilesWidget::init(TTestMethod *item)
+void CompareFilesWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::FileCompare) ) {
         reset();
@@ -61,7 +60,7 @@ void CompareFilesWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *CompareFilesWidget::save(TTestMethod *item)
+TestMethod *CompareFilesWidget::save(TestMethod *item)
 {
     TCompareFiles* test;
     if (item && (item->getTMethodID() == TMethodID::FileCompare)) {

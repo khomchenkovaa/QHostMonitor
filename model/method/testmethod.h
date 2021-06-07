@@ -1,14 +1,105 @@
-#ifndef TTESTMETHOD_H
-#define TTESTMETHOD_H
+#ifndef TESTMETHOD_H
+#define TESTMETHOD_H
 
 #include "PropertyHelper.h"
 #include "tEnums.h"
-#include "global/tMethod.h"
 
+#include <QIcon>
 #include <QMap>
 #include <QDateTime>
 
 namespace SDPO {
+
+/*****************************************************************/
+
+enum class TMethodID {
+    Ping = 0,       // Ping
+    TCP,            // TCP
+    URL,            // URL
+    DriveSpace,     // Disk free space [ df -h ]
+    FileSize,       // Folder size, [ du -s ]
+    FileExists,     // File Availability,
+    Externalprg,    // External
+    SSH,            // SSH test
+    FileContents,   // File Integrity
+    Oracle,         // Oracle
+    UNC,            // UNC
+    Interbase,      // Interbase
+    MSSQL,          // MS_SQL
+    MySQL,          // MySQL
+    Postgre,        // PGSQL
+    Sybase,         // Sybase
+    Process,        // Process
+    Service,        // Service
+    SNMP,           // SNMP_Get
+    NTLog,          // NT Event Log
+    CPU,            // CPU Usage
+    FileCompare,
+    ODBC,           // ODBC
+    SMTP,           // SMTP
+    POP3,           // POP3
+    IMAP,           // IMAP
+    DNS,            // DNS
+    Ldap,           // LDAP
+    Trace,          // Trace
+    CountFiles,     // Count Files
+    RAS,            // RAS
+    PerfCounter,    // Performance Counter
+    Script,         // Active Script
+    UDP,            // UDP
+    NTP,            // NTP
+    Radius,         // Radius
+    HTTP,           // HTTP
+    TextLog,        // Text Log
+    ShellScript,    // Shell Script
+    TempMonitor,    // Temperature Monitor
+    TrafficMonitor, // Network Traffic,
+    SNMPtrap,
+    WMI,
+    MailRelay,
+    DICOM,
+    DominantProcess,
+    DHCP,
+    HMmonitor,
+    Empty
+};
+
+typedef QList<TMethodID> TMethodIdList;
+
+/*****************************************************************/
+
+class TestGroup
+{
+public:
+    int id;
+    QString name;
+    QIcon icon;
+    int parent;
+    QStringList description;
+};
+
+/*****************************************************************/
+
+class TMethod
+{
+public:
+    TMethodID   id;
+    QString     name;
+    QString     title;
+    QString     text;
+    QIcon       icon;
+    int         parent;
+    bool        active;
+    QString     namePattern;
+    QString     commentPattern;
+    QStringList description;
+
+    static QMap<TMethodID, TMethod> methodMap;
+    static QVector<TMethod> tMethodList;
+
+    static QString toName(TMethodID method);
+    static TMethodID fromString(const QString name);
+};
 
 /***********************************************/
 
@@ -75,7 +166,7 @@ struct TTestResult {
 /*!
  * Base class for all tests
  */
-class TTestMethod : public QObject
+class TestMethod : public QObject
 {
     Q_OBJECT
 
@@ -99,8 +190,8 @@ protected:
     QString     m_Log;
 
 public:
-    explicit TTestMethod(TMethodID methodId, QObject *parent = nullptr);
-    virtual ~TTestMethod();
+    explicit TestMethod(TMethodID methodId, QObject *parent = nullptr);
+    virtual ~TestMethod();
 
     // properties
     int getTestMethodID() const { return static_cast<int>(m_TMethodID); }
@@ -123,7 +214,7 @@ public:
     virtual QString getCommand() const { return QString(); }
     virtual void parseResult(QString data) { m_Result.reply = data; }
 
-    virtual TTestMethod *clone();
+    virtual TestMethod *clone();
     QString getDefaultName() const;
     QString getDefaultComments() const;
 
@@ -136,6 +227,9 @@ signals:
     void testFailed();
     void testStarted();
 
+public: // static
+    static QVector<TestGroup> groups;
+
 private:
     QMap<QString, QString> setVars(const QStringList &params) const;
 
@@ -143,4 +237,4 @@ private:
 
 } // namespace SDPO
 
-#endif // TTESTMETHOD_H
+#endif // TESTMETHOD_H

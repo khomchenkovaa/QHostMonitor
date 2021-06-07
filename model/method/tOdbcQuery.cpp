@@ -10,7 +10,7 @@ namespace SDPO {
 /******************************************************************/
 
 TOdbcQuery::TOdbcQuery(QObject *parent) :
-    TTestMethod(TMethodID::ODBC, parent)
+    TestMethod(TMethodID::ODBC, parent)
 {
     b_ExecuteQuery = false;
     b_TestAlert = false;
@@ -114,7 +114,7 @@ void TOdbcQuery::run()
 
 /******************************************************************/
 
-TTestMethod *TOdbcQuery::clone()
+TestMethod *TOdbcQuery::clone()
 {
     TOdbcQuery *result = new TOdbcQuery(parent());
     result->m_NamePattern = m_NamePattern;

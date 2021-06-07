@@ -22,7 +22,7 @@ MsSqlWidget::~MsSqlWidget()
 
 /******************************************************************/
 
-void MsSqlWidget::init(TTestMethod *item)
+void MsSqlWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::MSSQL) ) {
         reset();
@@ -37,7 +37,7 @@ void MsSqlWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *MsSqlWidget::save(TTestMethod *item)
+TestMethod *MsSqlWidget::save(TestMethod *item)
 {
     TMsSql* test;
     if (item && (item->getTMethodID() == TMethodID::MSSQL)) {

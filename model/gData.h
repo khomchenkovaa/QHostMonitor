@@ -2,15 +2,47 @@
 #define GDATA_H
 
 #include "global/gProfiles.h"
-#include "global/gConnection.h"
+#include "testmethod.h"
 
 namespace SDPO {
+
+/*****************************************************************/
+
+enum class GConnectionMethod { cmKeepActive, cmReconnect };
+
+/*****************************************************************/
+
+struct GConnection {
+    QString           resource; // Resource (UNC)
+    QString           server;   // Server or Domain
+    QString           login;
+    QString           password;
+    GConnectionMethod type;
+    TMethodIdList     methods;
+
+    GConnection() {
+        clear();
+    }
+
+    void clear() {
+        resource.clear();
+        server.clear();
+        login.clear();
+        password.clear();
+        type = GConnectionMethod::cmKeepActive;
+        methods.clear();
+    }
+};
+
+/*****************************************************************/
 
 typedef QList<GActionProfile> GActionProfileList;
 typedef QList<GColorProfile>  GColorProfileList;
 typedef QList<GMailProfile>   GMailProfileList;
 typedef QList<GUserProfile>   GUserProfileList;
 typedef QList<GConnection>    GConnectionList;
+
+/*****************************************************************/
 
 class GData : public QObject
 {
@@ -31,6 +63,8 @@ public:
     static GUserProfile getCurrentUserProfile();
 
 };
+
+/*****************************************************************/
 
 } // namespace SDPO
 

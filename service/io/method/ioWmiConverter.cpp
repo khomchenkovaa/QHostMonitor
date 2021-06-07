@@ -11,7 +11,7 @@ IOWmiConverter::IOWmiConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOWmiConverter::getTestMethod()
+TestMethod *IOWmiConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TWmi();
@@ -83,7 +83,7 @@ QJsonObject IOWmiConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOWmiConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOWmiConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TWmi *test = qobject_cast<TWmi*>(getTestMethod());
     test->setHost(jsonObj.value(SP_HOST).toString());

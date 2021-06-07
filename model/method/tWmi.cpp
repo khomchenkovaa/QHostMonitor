@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TWmi::TWmi(QObject *parent) :
-    TTestMethod(TMethodID::WMI, parent)
+    TestMethod(TMethodID::WMI, parent)
 {
     a_Host = QString("localhost");
     a_NameSpace = QString("");
@@ -27,7 +27,7 @@ void TWmi::run()
 
 /******************************************************************/
 
-TTestMethod *TWmi::clone()
+TestMethod *TWmi::clone()
 {
     TWmi *result = new TWmi(parent());
     result->m_NamePattern = m_NamePattern;

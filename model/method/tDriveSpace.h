@@ -8,11 +8,11 @@
 #ifndef TDRIVESPACE_H
 #define TDRIVESPACE_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TDriveSpace : public TTestMethod
+class TDriveSpace : public TestMethod
 {
     Q_OBJECT
 
@@ -44,7 +44,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 };
 
 } // namespace SDPO

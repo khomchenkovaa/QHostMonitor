@@ -4,7 +4,6 @@
 #include "tLink.h"
 #include "tFolder.h"
 #include "tTestInfo.h"
-#include "global/tMethod.h"
 #include "gData.h"
 
 namespace SDPO {

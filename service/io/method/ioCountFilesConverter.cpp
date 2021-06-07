@@ -13,7 +13,7 @@ IOCountFilesConverter::IOCountFilesConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOCountFilesConverter::getTestMethod()
+TestMethod *IOCountFilesConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TCountFiles();
@@ -91,7 +91,7 @@ QJsonObject IOCountFilesConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOCountFilesConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOCountFilesConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TCountFiles *test = qobject_cast<TCountFiles*>(getTestMethod());
     test->setFolder(jsonObj.value(SP_FOLDER).toString());

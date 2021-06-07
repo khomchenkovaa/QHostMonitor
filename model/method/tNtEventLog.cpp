@@ -3,7 +3,7 @@
 namespace SDPO {
 
 TNtEventLog::TNtEventLog(QObject *parent) :
-    TTestMethod(TMethodID::NTLog, parent)
+    TestMethod(TMethodID::NTLog, parent)
 {
     b_LogSource = true;
     b_AlertCondition = false;
@@ -31,7 +31,7 @@ void TNtEventLog::run()
 
 /******************************************************************/
 
-TTestMethod *TNtEventLog::clone()
+TestMethod *TNtEventLog::clone()
 {
     TNtEventLog *result = new TNtEventLog(parent());
     result->m_NamePattern = m_NamePattern;

@@ -12,7 +12,7 @@ IONtEventLogConverter::IONtEventLogConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IONtEventLogConverter::getTestMethod()
+TestMethod *IONtEventLogConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TNtEventLog();
@@ -112,7 +112,7 @@ QJsonObject IONtEventLogConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IONtEventLogConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IONtEventLogConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TNtEventLog *test = qobject_cast<TNtEventLog*>(getTestMethod());
     test->setLogSource(jsonObj.value(SP_LOGSOURCE).toBool());

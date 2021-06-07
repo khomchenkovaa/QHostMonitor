@@ -37,13 +37,13 @@
 #ifndef TDHCP_H
 #define TDHCP_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 #define DHCP_CURRENT_LOCAL_IP "<current local IP>"
 
 namespace SDPO {
 
-class TDhcp : public TTestMethod
+class TDhcp : public TestMethod
 {
     Q_OBJECT
 
@@ -62,7 +62,7 @@ public:
     virtual void run() Q_DECL_OVERRIDE;
     virtual QString getCommand() const Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
     static QString currentLocalIP();
     static QString currentMacAddress();

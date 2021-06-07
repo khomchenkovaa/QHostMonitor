@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TPostgreSql::TPostgreSql(QObject *parent) :
-    TTestMethod(TMethodID::Postgre, parent)
+    TestMethod(TMethodID::Postgre, parent)
 {
     a_Port = POSTGRESQL_DEFAULT_PORT;
 }
@@ -60,7 +60,7 @@ void TPostgreSql::run()
     emit testSuccess();
 }
 
-TTestMethod *TPostgreSql::clone()
+TestMethod *TPostgreSql::clone()
 {
     TPostgreSql *result = new TPostgreSql(parent());
     result->m_NamePattern = m_NamePattern;

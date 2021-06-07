@@ -11,7 +11,7 @@ IOCPUUsageConverter::IOCPUUsageConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOCPUUsageConverter::getTestMethod()
+TestMethod *IOCPUUsageConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TCpuUsage();
@@ -82,7 +82,7 @@ QJsonObject IOCPUUsageConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOCPUUsageConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOCPUUsageConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TCpuUsage *test = qobject_cast<TCpuUsage*>(getTestMethod());
     test->setComputer(jsonObj.value(SP_COMPUTER).toString());

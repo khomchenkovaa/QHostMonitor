@@ -23,7 +23,7 @@ WmiWidget::~WmiWidget()
 
 /******************************************************************/
 
-void WmiWidget::init(TTestMethod *item)
+void WmiWidget::init(TestMethod *item)
 {
     TWmi *wmi = qobject_cast<TWmi*>(item);
     ui->cmbHost->setCurrentText(wmi->getHost());
@@ -37,7 +37,7 @@ void WmiWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *WmiWidget::save(TTestMethod *item)
+TestMethod *WmiWidget::save(TestMethod *item)
 {
     TWmi* wmi;
     if (item && (item->getTMethodID() == TMethodID::WMI)) {

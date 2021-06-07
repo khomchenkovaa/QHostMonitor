@@ -3,7 +3,7 @@
 namespace SDPO {
 
 TPerformanceCounter::TPerformanceCounter(QObject *parent) :
-    TTestMethod(TMethodID::PerfCounter, parent)
+    TestMethod(TMethodID::PerfCounter, parent)
 {
     a_CheckCounter = QString();
     a_AlertWhen = QString("is < than");
@@ -24,7 +24,7 @@ void TPerformanceCounter::run()
 
 /******************************************************************/
 
-TTestMethod *TPerformanceCounter::clone()
+TestMethod *TPerformanceCounter::clone()
 {
     TPerformanceCounter *result = new TPerformanceCounter(parent());
     result->m_NamePattern = m_NamePattern;

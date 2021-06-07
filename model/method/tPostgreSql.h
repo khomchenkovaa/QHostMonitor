@@ -1,13 +1,13 @@
 #ifndef TPOSTGRESQL_H
 #define TPOSTGRESQL_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 #define POSTGRESQL_DEFAULT_PORT 5432
 
 namespace SDPO {
 
-class TPostgreSql : public TTestMethod
+class TPostgreSql : public TestMethod
 {
     Q_OBJECT
 
@@ -29,7 +29,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 };
 

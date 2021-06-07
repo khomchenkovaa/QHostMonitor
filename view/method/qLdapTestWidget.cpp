@@ -23,7 +23,7 @@ LdapTestWidget::~LdapTestWidget()
 }
 /*****************************************************************/
 
-void LdapTestWidget::init(TTestMethod *item)
+void LdapTestWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::Ldap) ) {
         reset();
@@ -43,7 +43,7 @@ void LdapTestWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *LdapTestWidget::save(TTestMethod *item)
+TestMethod *LdapTestWidget::save(TestMethod *item)
 {
     TLdapTest* test;
     if (item && (item->getTMethodID() == TMethodID::Ldap)) {

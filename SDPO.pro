@@ -2,7 +2,7 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     KharmonView \
-    KharmonMonitor \
+    KharMonitor \
     HmlManager \
     MibBrowser \
     rma \

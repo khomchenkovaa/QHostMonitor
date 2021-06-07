@@ -2,7 +2,7 @@
 #define IOCONNECTIONLOADER_H
 
 #include "ioDataLoader.h"
-#include "global/gConnection.h"
+#include "gData.h"
 
 #define JSON_RESOUCE    "resource"
 #define JSON_SERVER     "server"

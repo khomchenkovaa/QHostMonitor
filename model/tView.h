@@ -3,7 +3,6 @@
 
 #include "tFolder.h"
 #include "tTest.h"
-#include "global/tMethod.h"
 
 namespace SDPO {
 

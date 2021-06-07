@@ -1,11 +1,11 @@
 #ifndef THTTP_H
 #define THTTP_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class THttp : public TTestMethod
+class THttp : public TestMethod
 {
     Q_OBJECT
 
@@ -31,7 +31,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 signals:
 

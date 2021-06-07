@@ -34,11 +34,11 @@
 #ifndef TEXTERNALPRG_H
 #define TEXTERNALPRG_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TExternalPrg : public TTestMethod
+class TExternalPrg : public TestMethod
 {
     Q_OBJECT
 
@@ -67,7 +67,7 @@ public:
     virtual void run() Q_DECL_OVERRIDE;
     virtual QString getCommand() const Q_DECL_OVERRIDE { return getExternalPrg(); }
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 private:
     TestStatus testStatusByExitCode(const int exitCode);

@@ -11,7 +11,7 @@ IOPostgreSqlConverter::IOPostgreSqlConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOPostgreSqlConverter::getTestMethod()
+TestMethod *IOPostgreSqlConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TPostgreSql();
@@ -75,7 +75,7 @@ QJsonObject IOPostgreSqlConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOPostgreSqlConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOPostgreSqlConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TPostgreSql *test = qobject_cast<TPostgreSql*>(getTestMethod());
     test->setHost(jsonObj.value(SP_SERVER).toString());

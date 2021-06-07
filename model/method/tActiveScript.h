@@ -1,11 +1,11 @@
 #ifndef TACTIVESCRIPT_H
 #define TACTIVESCRIPT_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TActiveScript : public TTestMethod
+class TActiveScript : public TestMethod
 {
     Q_OBJECT
 
@@ -30,7 +30,7 @@ public:
     // command
     virtual void run() Q_DECL_OVERRIDE;
 
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 
 signals:
 

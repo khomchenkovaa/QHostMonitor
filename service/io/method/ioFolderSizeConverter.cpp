@@ -11,7 +11,7 @@ IOFolderSizeConverter::IOFolderSizeConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOFolderSizeConverter::getTestMethod()
+TestMethod *IOFolderSizeConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TFolderSize();
@@ -84,7 +84,7 @@ QJsonObject IOFolderSizeConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOFolderSizeConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOFolderSizeConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TFolderSize *test = qobject_cast<TFolderSize*>(getTestMethod());
     test->setPath(jsonObj.value(SP_FILE).toString());

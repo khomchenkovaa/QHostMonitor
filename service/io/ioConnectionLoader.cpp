@@ -1,5 +1,4 @@
 #include "ioConnectionLoader.h"
-#include "gData.h"
 
 namespace SDPO {
 

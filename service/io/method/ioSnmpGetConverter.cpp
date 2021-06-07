@@ -11,7 +11,7 @@ IOSnmpGetConverter::IOSnmpGetConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOSnmpGetConverter::getTestMethod()
+TestMethod *IOSnmpGetConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TSnmpGet();
@@ -89,7 +89,7 @@ QJsonObject IOSnmpGetConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOSnmpGetConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOSnmpGetConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TSnmpGet *test = qobject_cast<TSnmpGet*>(getTestMethod());
     test->setHost(jsonObj.value(SP_AGENT).toString());

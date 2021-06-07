@@ -3,7 +3,7 @@
 namespace SDPO {
 
 TMailRelay::TMailRelay(QObject *parent) :
-    TTestMethod(TMethodID::MailRelay, parent)
+    TestMethod(TMethodID::MailRelay, parent)
 {
     a_Outgoing = QString("");
     a_Incoming = QString("");
@@ -20,7 +20,7 @@ void TMailRelay::run()
 
 /******************************************************************/
 
-TTestMethod *TMailRelay::clone()
+TestMethod *TMailRelay::clone()
 {
     TMailRelay *result = new TMailRelay(parent());
     result->m_NamePattern = m_NamePattern;

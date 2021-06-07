@@ -1,11 +1,11 @@
 #ifndef TPERFORMANCECOUNTER_H
 #define TPERFORMANCECOUNTER_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TPerformanceCounter : public TTestMethod
+class TPerformanceCounter : public TestMethod
 {
     Q_OBJECT
 
@@ -33,7 +33,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 signals:
 
 public slots:

@@ -13,7 +13,7 @@ IOPingConverter::IOPingConverter(QObject *parent) :
 
 /***********************************************/
 
-TTestMethod *IOPingConverter::getTestMethod()
+TestMethod *IOPingConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TPing(QString());
@@ -90,7 +90,7 @@ QJsonObject IOPingConverter::toJsonObject()
 
 /***********************************************/
 
-TTestMethod *IOPingConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOPingConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TPing *test = qobject_cast<TPing*>(getTestMethod());
     test->setAddress(jsonObj.value(SP_HOST).toString());

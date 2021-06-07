@@ -290,7 +290,7 @@ void IOTextFile::addTest() {
     // check required parameters
     IOTextFileCmd cmd = m_testProps.take(PRM_METHOD);
     TMethodID methodId = TMethod::fromString(cmd.value);
-    TTestMethod *testMethod = getConverter(methodId) ? m_curMethodConverter->getTestMethod() : 0;
+    TestMethod *testMethod = getConverter(methodId) ? m_curMethodConverter->getTestMethod() : 0;
     if (!testMethod) {
         emit importMessage(tr("[Error] Line %1: Unknown test method at '%2'... Ignored").arg(cmd.line).arg(cmd.command));
         ++m_errorsCnt;

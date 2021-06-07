@@ -23,7 +23,7 @@ HttpWidget::~HttpWidget()
 }
 /*****************************************************************/
 
-void HttpWidget::init(TTestMethod *item)
+void HttpWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::HTTP) ) {
         reset();
@@ -40,7 +40,7 @@ void HttpWidget::init(TTestMethod *item)
 
 /*****************************************************************/
 
-TTestMethod *HttpWidget::save(TTestMethod *item)
+TestMethod *HttpWidget::save(TestMethod *item)
 {
     THttp* test;
     if (item && (item->getTMethodID() == TMethodID::HTTP)) {

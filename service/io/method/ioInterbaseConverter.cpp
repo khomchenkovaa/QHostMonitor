@@ -12,7 +12,7 @@ IOInterbaseConverter::IOInterbaseConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOInterbaseConverter::getTestMethod()
+TestMethod *IOInterbaseConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TInterbase();
@@ -77,7 +77,7 @@ QJsonObject IOInterbaseConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOInterbaseConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOInterbaseConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TInterbase *test = qobject_cast<TInterbase*>(getTestMethod());
     test->setHost(jsonObj.value(SP_SERVER).toString());

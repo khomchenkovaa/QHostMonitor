@@ -59,7 +59,7 @@ void MethodSelectDlg::onTreeTestMethodsChanged()
     QStringList description;
     bool okDisabled = false;
     if (idx > 1000) { //group
-        TGroup group = TGroup::tGroupList.at(idx-1000);
+        TestGroup group = TestMethod::groups.at(idx-1000);
         description = group.description;
         okDisabled = true;
     } else { // method
@@ -161,7 +161,7 @@ QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
 
 QStandardItem *MethodSelectDlg::createGroupItem(const int groupId)
 {
-    TGroup group = TGroup::tGroupList.at(groupId);
+    TestGroup group = TestMethod::groups.at(groupId);
     QStandardItem *item = new QStandardItem(group.icon, group.name);
     item->setData(groupId + 1000); // groupMarker (or childCount)?
     return item;

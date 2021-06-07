@@ -24,7 +24,7 @@ FileSizeWidget::~FileSizeWidget()
 
 /******************************************************************/
 
-void FileSizeWidget::init(TTestMethod *item)
+void FileSizeWidget::init(TestMethod *item)
 {
     TFolderSize *folderSize = qobject_cast<TFolderSize*>(item);
     ui->editFolder->setText(folderSize->getPath());
@@ -36,7 +36,7 @@ void FileSizeWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *FileSizeWidget::save(TTestMethod *item)
+TestMethod *FileSizeWidget::save(TestMethod *item)
 {
     TFolderSize* folderSize;
     if (item && (item->getTMethodID() == TMethodID::FileSize)) {

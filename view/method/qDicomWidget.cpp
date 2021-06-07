@@ -23,7 +23,7 @@ DicomWidget::~DicomWidget()
 
 /******************************************************************/
 
-void DicomWidget::init(TTestMethod *item)
+void DicomWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::DICOM) ) {
         reset();
@@ -39,7 +39,7 @@ void DicomWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *DicomWidget::save(TTestMethod *item)
+TestMethod *DicomWidget::save(TestMethod *item)
 {
     TDicom* test;
     if (item && (item->getTMethodID() == TMethodID::DICOM)) {

@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QAbstractTableModel>
-#include "global/tMethod.h"
+#include "testmethod.h"
 
 namespace Ui {
 class PatternsDlg;

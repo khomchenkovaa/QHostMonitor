@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TDnsTest::TDnsTest(QObject *parent) :
-    TTestMethod(TMethodID::DNS, parent)
+    TestMethod(TMethodID::DNS, parent)
 {
     a_Server = QString();
     a_Timeout = 50;
@@ -29,7 +29,7 @@ void TDnsTest::run()
 
 /******************************************************************/
 
-TTestMethod *TDnsTest::clone()
+TestMethod *TDnsTest::clone()
 {
     TDnsTest *result = new TDnsTest(parent());
     result->m_NamePattern = m_NamePattern;

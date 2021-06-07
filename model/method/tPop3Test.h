@@ -53,11 +53,11 @@
 #ifndef TPOP3TEST_H
 #define TPOP3TEST_H
 
-#include "tTestMethod.h"
+#include "testmethod.h"
 
 namespace SDPO {
 
-class TPop3Test : public TTestMethod
+class TPop3Test : public TestMethod
 {
     Q_OBJECT
 
@@ -86,7 +86,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual TTestMethod *clone() Q_DECL_OVERRIDE;
+    virtual TestMethod *clone() Q_DECL_OVERRIDE;
 signals:
 
 public slots:

@@ -12,7 +12,7 @@ IOMySqlConverter::IOMySqlConverter(QObject *parent) :
 
 /******************************************************************/
 
-TTestMethod *IOMySqlConverter::getTestMethod()
+TestMethod *IOMySqlConverter::getTestMethod()
 {
     if (!m_TestMethod) {
         m_TestMethod = new TMySql();
@@ -76,7 +76,7 @@ QJsonObject IOMySqlConverter::toJsonObject()
 
 /******************************************************************/
 
-TTestMethod *IOMySqlConverter::fromJsonObject(QJsonObject jsonObj)
+TestMethod *IOMySqlConverter::fromJsonObject(QJsonObject jsonObj)
 {
     TMySql *test = qobject_cast<TMySql*>(getTestMethod());
     test->setHost(jsonObj.value(SP_SERVER).toString());

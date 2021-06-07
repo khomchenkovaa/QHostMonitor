@@ -1,7 +1,6 @@
 #include "qSshWidget.h"
 #include "ui_qSshWidget.h"
 #include "xMacroVar.h"
-#include "global/tMethod.h"
 #include "method/tSshTest.h"
 
 namespace SDPO {
@@ -26,7 +25,7 @@ SshWidget::~SshWidget()
 
 /******************************************************************/
 
-void SshWidget::init(TTestMethod *item)
+void SshWidget::init(TestMethod *item)
 {
     if (!item || (item->getTMethodID() != TMethodID::SSH) ) {
         reset();
@@ -51,7 +50,7 @@ void SshWidget::init(TTestMethod *item)
 
 /******************************************************************/
 
-TTestMethod *SshWidget::save(TTestMethod *item)
+TestMethod *SshWidget::save(TestMethod *item)
 {
     TSshTest* test;
     if (item && (item->getTMethodID() == TMethodID::SSH)) {

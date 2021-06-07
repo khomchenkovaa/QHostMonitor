@@ -3,7 +3,7 @@
 namespace SDPO {
 
 TNtpTest::TNtpTest(QObject *parent) :
-    TTestMethod(TMethodID::NTP, parent)
+    TestMethod(TMethodID::NTP, parent)
 {
     a_Server = QString("");
     a_Port = 123;
@@ -25,7 +25,7 @@ void TNtpTest::run()
 
 /******************************************************************/
 
-TTestMethod *TNtpTest::clone()
+TestMethod *TNtpTest::clone()
 {
     TNtpTest *result = new TNtpTest(parent());
     result->m_NamePattern = m_NamePattern;

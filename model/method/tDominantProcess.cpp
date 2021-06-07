@@ -5,7 +5,7 @@ namespace SDPO {
 /******************************************************************/
 
 TDominantProcess::TDominantProcess(QObject *parent) :
-    TTestMethod(TMethodID::DominantProcess, parent)
+    TestMethod(TMethodID::DominantProcess, parent)
 {
     a_CheckProcessesOn = QString("localhost");
     a_ExcludeProcesses = QString();
@@ -29,7 +29,7 @@ void TDominantProcess::run()
 
 /******************************************************************/
 
-TTestMethod *TDominantProcess::clone()
+TestMethod *TDominantProcess::clone()
 {
     TDominantProcess *result = new TDominantProcess(parent());
     result->m_NamePattern = m_NamePattern;

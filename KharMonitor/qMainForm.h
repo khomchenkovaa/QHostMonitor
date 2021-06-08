@@ -37,11 +37,6 @@ class MainForm : public QMainWindow
     MonitoringService *m_MonitoringService;
     HostMonDlg        *hostMonDlg;
 
-    QMenu           *trayIconMenu;
-    QAction         *showAction;
-    QAction         *quitAction;
-    QSystemTrayIcon *trayIcon;
-
     TestListSortingModel *m_filterModel;
     TestListModel        *m_model;
     FoldersAndViewsModel *m_folders;
@@ -67,12 +62,9 @@ public slots:
     void onAlertsEnabled(bool value);
 
     void changeEvent(QEvent*event);
-    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
-    void trayActionExecute();
-    void setTrayIconActions();
-    void showTrayIcon();
 
 private slots:
+    void trayIconActivated(QSystemTrayIcon::ActivationReason reason);
     void onTestListContextMenu(const QPoint &pos);
     void onTestListSelectionChanged();
     void onViewPanelsChanged();
@@ -86,7 +78,6 @@ private slots:
     void on_actSave_triggered();
     void on_actSaveAs_triggered();
     void on_actProperties_triggered();
-    void on_actExit_triggered();
     // Monitoring menu
     void on_actPause_triggered();
     // Test menu (new)
@@ -192,6 +183,10 @@ private slots:
     void on_btnToolbarRefresh_clicked();
     void on_btnToolbarReset_clicked();
     void on_trvTestList_doubleClicked(const QModelIndex &index);
+
+private:
+    void setupUI();
+    void setupTrayIcon();
 
 private:
     TNode *getItemFromFolderPath(QString path);

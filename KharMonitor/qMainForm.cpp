@@ -70,30 +70,13 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
     , m_ActionService(act)
     , m_MonitoringService(monitoring)
     , hostMonDlg(nullptr)
-    , trayIconMenu(new QMenu(this))
-    , showAction(new QAction(tr("Show"), this))
-    , quitAction(new QAction(tr("Exit"), this))
-    , trayIcon (new QSystemTrayIcon(this))
     , m_filterModel(nullptr)
     , m_model(nullptr)
     , m_folders(nullptr)
     , m_views(nullptr)
 {
     ui->setupUi(this);
-    this->setTrayIconActions();
-    this->showTrayIcon();
-
-    connect(m_ActionService, SIGNAL(actionWinPopup(TTest*)), this, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
-    connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
-
-    ui->btnToolbarAdd->setMenu(ui->mnuTestAdd);
-    ui->btnToolbarRefresh->setMenu(ui->mnuTestRefresh);
-    ui->btnToolbarReset->setMenu(ui->mnuTestReset);
-
-    connect(ui->actFoldersTree, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actFolderLine, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actInfoPane, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
-    connect(ui->actStatusBar, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    setupUI();
 }
 
 /******************************************************************/
@@ -334,48 +317,13 @@ void MainForm::trayIconActivated(QSystemTrayIcon::ActivationReason reason)
     switch (reason) {
     case QSystemTrayIcon::Trigger:
     case QSystemTrayIcon::DoubleClick:
-        this -> trayActionExecute();
+        showNormal();
         break;
     default:
         break;
     }
 }
 
-/******************************************************************/
-
-void MainForm::trayActionExecute()
-{
-    this->showNormal();
-}
-
-/******************************************************************/
-
-void MainForm::setTrayIconActions()
-{
-     // Connecting actions to slots...
-     connect (showAction, SIGNAL(triggered()), this, SLOT(showNormal()));
-     connect (quitAction, SIGNAL(triggered()), this, SLOT(on_actExit_triggered()));
-
-     // Setting system tray's icon menu...
-     trayIconMenu -> addAction (showAction);
-     trayIconMenu -> addAction (ui->actStartMonitoring);
-     trayIconMenu -> addAction (ui->actStopMonitoring);
-     trayIconMenu -> addAction (quitAction);
-}
-
-/******************************************************************/
-
-void MainForm::showTrayIcon()
-{
-    trayIcon = new QSystemTrayIcon(this);
-    QIcon trayImage(":/img/hostMonitor.png");
-    trayIcon -> setIcon(trayImage);
-    trayIcon -> setContextMenu(trayIconMenu);
-
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
-
-    trayIcon -> show();
-}
 /******************************************************************/
 
 void MainForm::onTestListContextMenu(const QPoint &pos)
@@ -672,13 +620,6 @@ void MainForm::on_actProperties_triggered()
     if(propertiesDlg.exec() == QDialog::Accepted) {
         m_HML->setStoreHistoricalData(propertiesDlg.storeHistory());
     }
-}
-
-/******************************************************************/
-
-void MainForm::on_actExit_triggered()
-{
-    QApplication::quit();
 }
 
 /******************************************************************/
@@ -1672,6 +1613,51 @@ void MainForm::on_trvTestList_doubleClicked(const QModelIndex &index)
         return; //! TODO message "Please, select the test"
     }
     hostMonDlg->show();
+}
+
+/******************************************************************/
+
+void MainForm::setupUI()
+{
+    setupTrayIcon();
+
+    connect(m_ActionService, SIGNAL(actionWinPopup(TTest*)), this, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
+    connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
+
+    ui->btnToolbarAdd->setMenu(ui->mnuTestAdd);
+    ui->btnToolbarRefresh->setMenu(ui->mnuTestRefresh);
+    ui->btnToolbarReset->setMenu(ui->mnuTestReset);
+
+    connect(ui->actFoldersTree, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actFolderLine, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actInfoPane, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actStatusBar, SIGNAL(changed()), this, SLOT(onViewPanelsChanged()));
+    connect(ui->actExit, SIGNAL(triggered()), qApp, SLOT(quit()));
+}
+
+/******************************************************************/
+
+void MainForm::setupTrayIcon()
+{
+    QAction         *showAction = new QAction(tr("Show"), this);
+    QAction         *quitAction = new QAction(tr("Exit"), this);
+    // Connecting actions to slots...
+    connect(showAction, SIGNAL(triggered()), this, SLOT(showNormal()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
+
+    // Setting system tray's icon menu...
+    QMenu *trayIconMenu = new QMenu(this);
+    trayIconMenu->addAction(showAction);
+    trayIconMenu->addAction(ui->actStartMonitoring);
+    trayIconMenu->addAction(ui->actStopMonitoring);
+    trayIconMenu->addAction(quitAction);
+
+    QSystemTrayIcon *trayIcon = new QSystemTrayIcon(QIcon(":/img/hostMonitor.png"), this);
+    trayIcon->setContextMenu(trayIconMenu);
+
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
+
+    trayIcon->show();
 }
 
 /******************************************************************/

@@ -3,6 +3,7 @@
 
 #include "tEnums.h"
 #include "testmethod.h"
+#include "sdpoTestMethodWidgets.h"
 
 #include <QDialog>
 #include <QVariant>
@@ -42,8 +43,7 @@ public slots:
 
 private slots:
     void reset();
-    void refreshName();
-    void refreshComment();
+    void refreshNameAndComment();
     void openMethodSelectDialog();
     void hideDependencies(bool hide);
     void hideOptional(bool hide);

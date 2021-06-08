@@ -39,7 +39,6 @@ class MainForm : public QMainWindow
 
     QMenu           *trayIconMenu;
     QAction         *showAction;
-    QAction         *startStopAction;
     QAction         *quitAction;
     QSystemTrayIcon *trayIcon;
 

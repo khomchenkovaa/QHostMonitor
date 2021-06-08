@@ -23,33 +23,15 @@ namespace SDPO {
 
 /******************************************************************/
 
-HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::HostMonDlg),
-    m_HML(hml),
-    m_Item(nullptr)
+HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::HostMonDlg)
+    , m_HML(hml)
+    , m_Item(nullptr)
+    , changed(false)
 {
     ui->setupUi(this);
-    m_Data = QVariant();
-    changed = false;
-
-    connect(ui->btnTestMethod, SIGNAL(clicked()), this, SLOT(openMethodSelectDialog()));
-    connect(ui->btnTestMethodLabel, SIGNAL(clicked()), this, SLOT(openMethodSelectDialog()));
-    connect(ui->stwTestMethod, SIGNAL(currentChanged(int)), this, SLOT(refreshName()));
-    connect(ui->stwTestMethod, SIGNAL(currentChanged(int)), this, SLOT(refreshComment()));
-    ui->cmbTestName->installEventFilter(this);
-    ui->ledTestComment->installEventFilter(this);
-    
-    for (int i = 0; i < ui->stwTestMethod->count(); ++i) {
-        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
-        if (widget) {
-            connect(widget, SIGNAL(propertiesChanged()),this, SLOT(refreshName()));
-            connect(widget, SIGNAL(propertiesChanged()),this, SLOT(refreshComment()));
-        }
-    }
-    connect(ui->btnDependenciesHideLeft, SIGNAL(toggled(bool)), this, SLOT(hideDependencies(bool)));
-    connect(ui->btnDependenciesHideRight, SIGNAL(toggled(bool)), this, SLOT(hideDependencies(bool)));
-    connect(ui->btnStatusProcessingHide, SIGNAL(toggled(bool)), this, SLOT(hideOptional(bool)));
+    setupUI();
 }
 
 /******************************************************************/
@@ -157,15 +139,9 @@ void HostMonDlg::reset()
 
 /******************************************************************/
 
-void HostMonDlg::refreshName()
+void HostMonDlg::refreshNameAndComment()
 {
     ui->cmbTestName->setCurrentText(getTestName());
-}
-
-/******************************************************************/
-
-void HostMonDlg::refreshComment()
-{
     ui->ledTestComment->setText(getTestComment());
 }
 
@@ -375,14 +351,14 @@ bool HostMonDlg::eventFilter(QObject *watched, QEvent *event)
         if (watched == ui->cmbTestName) {
             TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
             widget->setNamePattern(ui->cmbTestName->currentText());
-            refreshName();
+            refreshNameAndComment();
             QPalette palette = ui->cmbTestName->palette();
             palette.setColor(QPalette::Base,Qt::white);
             ui->cmbTestName->setPalette(palette);
         } else if (watched == ui->ledTestComment) {
             TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
             widget->setCommentPattern(ui->ledTestComment->text());
-            refreshComment();
+            refreshNameAndComment();
             QPalette palette = ui->ledTestComment->palette();
             palette.setColor(QPalette::Base,Qt::white);
             ui->ledTestComment->setPalette(palette);
@@ -492,8 +468,7 @@ void HostMonDlg::init(TTest *item)
         widget->init(m_Item->method());
         widget->setNamePattern(m_Item->method()->getNamePattern());
         widget->setCommentPattern(m_Item->method()->getCommentPattern());
-        refreshName();
-        refreshComment();
+        refreshNameAndComment();
     }
 }
 
@@ -634,7 +609,46 @@ void HostMonDlg::setupUI()
     setWindowTitle(QApplication::translate("HostMonDlg", "Test properties", Q_NULLPTR));
     setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
+    TestMethodUiHelper::fillComboBox(ui->cmbTestMethod);
+    TestMethodUiHelper::fillStackedWidget(ui->stwTestMethod);
+
     // TODO migrate from ui_qHostMonDlg.h
+
+    // connections
+    connect(ui->btnTestMethod, &QToolButton::clicked,
+            this, &HostMonDlg::openMethodSelectDialog);
+    connect(ui->btnTestMethodLabel, &QPushButton::clicked,
+            this, &HostMonDlg::openMethodSelectDialog);
+    connect(ui->stwTestMethod, &QStackedWidget::currentChanged,
+            this, &HostMonDlg::refreshNameAndComment);
+    connect(ui->stwTestMethod, &QStackedWidget::currentChanged,
+            ui->cmbTestMethod, &QComboBox::setCurrentIndex);
+    connect(ui->cmbTestMethod, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            ui->stwTestMethod, &QStackedWidget::setCurrentIndex);
+
+    ui->cmbTestName->installEventFilter(this);
+    ui->ledTestComment->installEventFilter(this);
+
+    for (int i = 0; i < ui->stwTestMethod->count(); ++i) {
+        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
+        if (widget) {
+            connect(widget, &TestWidget::propertiesChanged,
+                    this, &HostMonDlg::refreshNameAndComment);
+        }
+    }
+    connect(ui->btnDependenciesHideLeft, &QPushButton::toggled,
+            this, &HostMonDlg::hideDependencies);
+    connect(ui->btnDependenciesHideRight, &QPushButton::toggled,
+            this, &HostMonDlg::hideDependencies);
+    connect(ui->btnStatusProcessingHide, &QPushButton::toggled,
+            this, &HostMonDlg::hideOptional);
+    connect(ui->cmbDependencyMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+            ui->stwMasterTest, &QStackedWidget::setCurrentIndex);
+    connect(ui->chkSynchronizeCounters, &QCheckBox::toggled,
+            ui->chkSynchronizeStatusAlerts, &QCheckBox::setEnabled);
+    connect(ui->btnCancel, &QPushButton::clicked,
+            this, &HostMonDlg::close);
+
 }
 
 /******************************************************************/

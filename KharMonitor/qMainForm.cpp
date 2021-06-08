@@ -63,21 +63,25 @@ namespace SDPO {
 
 /******************************************************************/
 
-MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *monitoring, QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainForm),
-    m_HML(hml),
-    m_ActionService(act),
-    m_MonitoringService(monitoring),
-    hostMonDlg(new HostMonDlg(m_HML,this))
+MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *monitoring, QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainForm)
+    , m_HML(hml)
+    , m_ActionService(act)
+    , m_MonitoringService(monitoring)
+    , hostMonDlg(nullptr)
+    , trayIconMenu(new QMenu(this))
+    , showAction(new QAction(tr("Show"), this))
+    , quitAction(new QAction(tr("Exit"), this))
+    , trayIcon (new QSystemTrayIcon(this))
+    , m_filterModel(nullptr)
+    , m_model(nullptr)
+    , m_folders(nullptr)
+    , m_views(nullptr)
 {
     ui->setupUi(this);
-    this -> setTrayIconActions();
-    this -> showTrayIcon();
-
-    m_folders = nullptr;
-    m_views = nullptr;
-    m_model = nullptr;
+    this->setTrayIconActions();
+    this->showTrayIcon();
 
     connect(m_ActionService, SIGNAL(actionWinPopup(TTest*)), this, SLOT(onActionWinPopup(TTest*)), Qt::QueuedConnection);
     connect(ui->trvTestList, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onTestListContextMenu(QPoint)));
@@ -95,6 +99,7 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
 /******************************************************************/
 
 void MainForm::init() {
+    hostMonDlg = new HostMonDlg(m_HML,this);
     setupFolders();
     onViewPanelsChanged();
     resetScriptMenu();
@@ -347,16 +352,11 @@ void MainForm::trayActionExecute()
 
 void MainForm::setTrayIconActions()
 {
-    // Setting actions...
-     showAction = new QAction("Show", this);
-     quitAction = new QAction("Exit", this);
-
      // Connecting actions to slots...
      connect (showAction, SIGNAL(triggered()), this, SLOT(showNormal()));
      connect (quitAction, SIGNAL(triggered()), this, SLOT(on_actExit_triggered()));
 
      // Setting system tray's icon menu...
-     trayIconMenu = new QMenu(this);
      trayIconMenu -> addAction (showAction);
      trayIconMenu -> addAction (ui->actStartMonitoring);
      trayIconMenu -> addAction (ui->actStopMonitoring);

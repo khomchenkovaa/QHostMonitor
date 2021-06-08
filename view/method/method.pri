@@ -62,7 +62,8 @@ HEADERS += \
     $$PWD/qDicomWidget.h \
     $$PWD/qDominantProcessWidget.h \
     $$PWD/qDhcpWidget.h \
-    $$PWD/qSdpoMonitorWidget.h
+    $$PWD/qSdpoMonitorWidget.h \
+    $$PWD/sdpoTestMethodWidgets.h
 
 SOURCES += \
     $$PWD/qTestWidget.cpp \

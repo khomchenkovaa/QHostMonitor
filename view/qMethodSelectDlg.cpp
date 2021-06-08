@@ -26,6 +26,7 @@ MethodSelectDlg::~MethodSelectDlg()
 
 void MethodSelectDlg::setCurrent(const int methodId)
 {
+    if (methodId == -1) return;
     TestMethodMetaInfo method = TestMethod::metaInfo.at(methodId);
     QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
     QList<QStandardItem *> items = model->findItems(method.text, Qt::MatchFixedString | Qt::MatchRecursive);

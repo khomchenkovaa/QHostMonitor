@@ -1,6 +1,8 @@
 #ifndef QMAINFORM_H
 #define QMAINFORM_H
 
+#include "testmethod.h"
+
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 
@@ -41,6 +43,7 @@ class MainForm : public QMainWindow
     TestListModel        *m_model;
     FoldersAndViewsModel *m_folders;
     FoldersAndViewsModel *m_views;
+    QMenu *mnuTestAddShellScript;
 public:
     explicit MainForm(HMListService *hml, ActionService *act, MonitoringService *monitoring, QWidget *parent = 0);
     ~MainForm();
@@ -81,55 +84,9 @@ private slots:
     // Monitoring menu
     void on_actPause_triggered();
     // Test menu (new)
-    void on_actTestPing_triggered();
-    void on_actTestTrace_triggered();
-    void on_actTestHTTP_triggered();
-    void on_actTestURL_triggered();
-    void on_actTestSMTP_triggered();
-    void on_actTestPOP3_triggered();
-    void on_actTestIMAP_triggered();
-    void on_actMailRelay_triggered();
-    void on_actTestTCP_triggered();
-    void on_actTestUDP_triggered();
-    void on_actTestRadius_triggered();
-    void on_actTestDNS_triggered();
-    void on_actTestDHCP_triggered();
-    void on_actTestNTP_triggered();
-    void on_actTestLDAP_triggered();
-    void on_actTestDICOM_triggered();
-    void on_actTestRAS_triggered();
-    void on_actTestDriveFreeSpace_triggered();
-    void on_actTestCompareFiles_triggered();
-    void on_actTestNTEventsLog_triggered();
-    void on_actTestService_triggered();
-    void on_actTestProcess_triggered();
-    void on_actTestCPUUsage_triggered();
-    void on_actDominantProcess_triggered();
-    void on_actPerformanceCounter_triggered();
-    void on_actTestWMI_triggered();
-    void on_actTestUNC_triggered();
-    void on_actTestFolderFileSize_triggered();
-    void on_actTestCountFiles_triggered();
-    void on_actTestFolderFileAvailability_triggered();
-    void on_actTestFileIntegrity_triggered();
-    void on_actTestTextLog_triggered();
-    void on_actInterbase_triggered();
-    void on_actMSSQL_triggered();
-    void on_actMySQL_triggered();
-    void on_actOracle_triggered();
-    void on_actPostgreSQL_triggered();
-    void on_actSybase_triggered();
-    void on_actTestODBCQuery_triggered();
-    void on_actTestSNMPGet_triggered();
-    void on_actSNMPTrap_triggered();
-    void on_actTestTrafficMonitor_triggered();
-    void on_actTestActiveScript_triggered();
+    void onTestActionTriggered();
     void on_actScriptManager_triggered();
     void onShellScript();
-    void on_actTestExternal_triggered();
-    void on_actTestSSH_triggered();
-    void on_actTestITTemperatureMonitor_triggered();
-    void on_actTestHMMonitor_triggered();
     // Test menu (other)
     void on_actTestEdit_triggered();
     void on_actTestCopy_triggered();
@@ -187,6 +144,8 @@ private slots:
 private:
     void setupUI();
     void setupTrayIcon();
+    void setupTestActions();
+    QAction* createTestAction(TMethodID methodID);
 
 private:
     TNode *getItemFromFolderPath(QString path);

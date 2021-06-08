@@ -1,9 +1,7 @@
 #ifndef HOSTMONDLGS_H
 #define HOSTMONDLGS_H
 
-#include "tEnums.h"
 #include "testmethod.h"
-#include "sdpoTestMethodWidgets.h"
 
 #include <QDialog>
 #include <QVariant>
@@ -16,7 +14,6 @@ namespace SDPO {
 
 class TNode;
 class TTest;
-class TestMethod;
 class HMListService;
 
 class HostMonDlg : public QDialog
@@ -60,6 +57,8 @@ private slots:
 
 private:
     void setupUI();
+    void setupTestMethodCombo();
+    void setupTestMethodWidgets();
     void saveTest(TestMethod *testMethod);
     QString getTestName() const;
     QString getTestComment() const;

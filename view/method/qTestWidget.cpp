@@ -4,8 +4,8 @@ namespace SDPO {
 
 /******************************************************************/
 
-TestWidget::TestWidget(QWidget *parent) :
-    QWidget(parent)
+TestWidget::TestWidget(QWidget *parent)
+    : QWidget(parent)
 {
 }
 

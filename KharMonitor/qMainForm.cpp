@@ -44,6 +44,7 @@
 #include "viewmodel/mFoldersAndViewsModel.h"
 #include "viewmodel/mTestListModel.h"
 #include "viewmodel/mTestListSortingModel.h"
+#include "sdpoTestMethodWidgets.h"
 
 // main
 #include "qAboutDlg.h"
@@ -74,6 +75,7 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
     , m_model(nullptr)
     , m_folders(nullptr)
     , m_views(nullptr)
+    , mnuTestAddShellScript(nullptr)
 {
     ui->setupUi(this);
     setupUI();
@@ -83,6 +85,7 @@ MainForm::MainForm(HMListService *hml, ActionService *act, MonitoringService *mo
 
 void MainForm::init() {
     hostMonDlg = new HostMonDlg(m_HML,this);
+    setupTestActions();
     setupFolders();
     onViewPanelsChanged();
     resetScriptMenu();
@@ -173,24 +176,25 @@ void MainForm::resetModel()
 
 void MainForm::resetScriptMenu()
 {
-    QList<QAction *> actions = ui->mnuTestAddShellScript->actions();
+    if (!mnuTestAddShellScript) return;
+    QList<QAction *> actions = mnuTestAddShellScript->actions();
     QMutableListIterator<QAction*> i(actions);
     while(i.hasNext()) {
         QAction *act = i.next();
         if (act->data().isValid()) {
             qDebug() << act->data().toString();
             disconnect(act,SIGNAL(triggered()),this,SLOT(onShellScript()));
-            ui->mnuTestAddShellScript->removeAction(act);
+            mnuTestAddShellScript->removeAction(act);
             delete act;
         }
     }
     IOShellScripts loader;
     QList<ShellScript*> scripts = loader.load(QCoreApplication::applicationDirPath() + "/scripts");
     foreach(ShellScript* script, scripts) {
-        QAction *action = new QAction(script->getName(), ui->mnuTestAddShellScript);
+        QAction *action = new QAction(script->getName(), mnuTestAddShellScript);
         action->setIcon(*new QIcon(":/img/action/shScript.png"));
         action->setData(script->getFileName());
-        ui->mnuTestAddShellScript->addAction(action);
+        mnuTestAddShellScript->addAction(action);
         connect(action,SIGNAL(triggered()),this,SLOT(onShellScript()));
     }
     qDeleteAll(scripts);
@@ -636,347 +640,15 @@ void MainForm::on_actPause_triggered()
 // Test menu (new)
 /******************************************************************/
 
-void MainForm::on_actTestPing_triggered()
+void MainForm::onTestActionTriggered()
 {
-    hostMonDlg->init(TMethodID::Ping);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestTrace_triggered()
-{
-    hostMonDlg->init(TMethodID::Trace);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestHTTP_triggered()
-{
-    hostMonDlg->init(TMethodID::HTTP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestURL_triggered()
-{
-    hostMonDlg->init(TMethodID::URL);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestSMTP_triggered()
-{
-    hostMonDlg->init(TMethodID::SMTP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestPOP3_triggered()
-{
-    hostMonDlg->init(TMethodID::POP3);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestIMAP_triggered()
-{
-    hostMonDlg->init(TMethodID::IMAP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actMailRelay_triggered()
-{
-    hostMonDlg->init(TMethodID::MailRelay);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestTCP_triggered()
-{
-    hostMonDlg->init(TMethodID::TCP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestUDP_triggered()
-{
-    hostMonDlg->init(TMethodID::UDP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestRadius_triggered()
-{
-    hostMonDlg->init(TMethodID::Radius);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestDNS_triggered()
-{
-    hostMonDlg->init(TMethodID::DNS);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestDHCP_triggered()
-{
-    hostMonDlg->init(TMethodID::DHCP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestNTP_triggered()
-{
-    hostMonDlg->init(TMethodID::NTP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestLDAP_triggered()
-{
-    hostMonDlg->init(TMethodID::Ldap);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestDICOM_triggered()
-{
-    hostMonDlg->init(TMethodID::DICOM);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestRAS_triggered()
-{
-    hostMonDlg->init(TMethodID::RAS);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestDriveFreeSpace_triggered()
-{
-    hostMonDlg->init(TMethodID::DriveSpace);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestCompareFiles_triggered()
-{
-    hostMonDlg->init(TMethodID::FileCompare);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestNTEventsLog_triggered()
-{
-    hostMonDlg->init(TMethodID::NTLog);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestService_triggered()
-{
-    hostMonDlg->init(TMethodID::Service);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestProcess_triggered()
-{
-    hostMonDlg->init(TMethodID::Process);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestCPUUsage_triggered()
-{
-    hostMonDlg->init(TMethodID::CPU);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actDominantProcess_triggered()
-{
-    hostMonDlg->init(TMethodID::DominantProcess);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actPerformanceCounter_triggered()
-{
-    hostMonDlg->init(TMethodID::PerfCounter);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestWMI_triggered()
-{
-    hostMonDlg->init(TMethodID::WMI);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestUNC_triggered()
-{
-    hostMonDlg->init(TMethodID::UNC);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestFolderFileSize_triggered()
-{
-    hostMonDlg->init(TMethodID::FileSize);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestCountFiles_triggered()
-{
-    hostMonDlg->init(TMethodID::CountFiles);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestFolderFileAvailability_triggered()
-{
-    hostMonDlg->init(TMethodID::FileExists);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestFileIntegrity_triggered()
-{
-    hostMonDlg->init(TMethodID::FileContents);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestTextLog_triggered()
-{
-    hostMonDlg->init(TMethodID::TextLog);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actInterbase_triggered()
-{
-    hostMonDlg->init(TMethodID::Interbase);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actMSSQL_triggered()
-{
-    hostMonDlg->init(TMethodID::MSSQL);/******************************************************************/
-
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actMySQL_triggered()
-{
-    hostMonDlg->init(TMethodID::MySQL);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actOracle_triggered()
-{
-    hostMonDlg->init(TMethodID::Oracle);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actPostgreSQL_triggered()
-{
-    hostMonDlg->init(TMethodID::Postgre);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actSybase_triggered()
-{
-    hostMonDlg->init(TMethodID::Sybase);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestODBCQuery_triggered()
-{
-    hostMonDlg->init(TMethodID::ODBC);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestSNMPGet_triggered()
-{
-    hostMonDlg->init(TMethodID::SNMP);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actSNMPTrap_triggered()
-{
-    hostMonDlg->init(TMethodID::SNMPtrap);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestTrafficMonitor_triggered()
-{
-    hostMonDlg->init(TMethodID::TrafficMonitor);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestActiveScript_triggered()
-{
-    hostMonDlg->init(TMethodID::Script);
-    hostMonDlg->show();
+    QAction *action = qobject_cast<QAction*>(sender());
+    bool ok = false;
+    int methodID = action->data().toInt(&ok);
+    if (ok) {
+        hostMonDlg->init(static_cast<TMethodID>(methodID));
+        hostMonDlg->show();
+    }
 }
 
 /******************************************************************/
@@ -997,39 +669,6 @@ void MainForm::onShellScript()
     hostMonDlg->show();
 }
 
-/******************************************************************/
-
-void MainForm::on_actTestExternal_triggered()
-{
-    hostMonDlg->init(TMethodID::Externalprg);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestSSH_triggered()
-{
-    hostMonDlg->init(TMethodID::SSH);
-    hostMonDlg->show();
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestITTemperatureMonitor_triggered()
-{
-    hostMonDlg->init(TMethodID::TempMonitor);
-    hostMonDlg->show();
-
-}
-
-/******************************************************************/
-
-void MainForm::on_actTestHMMonitor_triggered()
-{
-    hostMonDlg->init(TMethodID::HMmonitor);
-    hostMonDlg->show();
-
-}
 
 /******************************************************************/
 // Test menu (other)
@@ -1140,7 +779,6 @@ void MainForm::on_actLinkInfo_triggered()
         root->removeTestWithLinks(test);
     }
 }
-
 
 /******************************************************************/
 
@@ -1565,7 +1203,8 @@ void MainForm::on_btnFoldersLineTree_clicked()
 
 void MainForm::on_btnToolbarAdd_clicked()
 {
-    on_actTestPing_triggered();
+    hostMonDlg->init(TMethodID::Ping);
+    hostMonDlg->show();
 }
 
 /******************************************************************/
@@ -1658,6 +1297,112 @@ void MainForm::setupTrayIcon()
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayIconActivated(QSystemTrayIcon::ActivationReason)));
 
     trayIcon->show();
+}
+
+/******************************************************************/
+
+void MainForm::setupTestActions()
+{
+    QMenu *mnuTestAddWeb = new QMenu(tr("Web tests"), ui->mnuTestAdd);
+    mnuTestAddWeb->setIcon(QIcon(":/img/test/web.png"));
+    QMenu *mnuTestAddEmail = new QMenu(tr("E-Mail tests"), ui->mnuTestAdd);
+    mnuTestAddEmail->setIcon(QIcon(":/img/test/email.png"));
+    QMenu *mnuTestAddInternetService = new QMenu(tr("Internet Services"), ui->mnuTestAdd);
+    mnuTestAddInternetService->setIcon(QIcon(":/img/action/internetService.png"));
+    QMenu *mnuTestAddDatabase = new QMenu(tr("Database tests"), ui->mnuTestAdd);
+    mnuTestAddDatabase->setIcon(QIcon(":/img/test/sql_server_check.png"));
+    mnuTestAddShellScript = new QMenu(tr("Shell Script tests"), ui->mnuTestAdd);
+    mnuTestAddShellScript->setIcon(QIcon(":/img/action/schellScript.png"));
+    QMenu *mnuTestAddFiles = new QMenu(tr("Files"), ui->mnuTestAdd);
+    mnuTestAddFiles->setIcon(QIcon(":/img/action/files.png"));
+
+    ui->mnuTestAdd->clear();
+
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Ping));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Trace));
+    ui->mnuTestAdd->addAction(mnuTestAddWeb->menuAction());
+    ui->mnuTestAdd->addAction(mnuTestAddEmail->menuAction());
+    ui->mnuTestAdd->addAction(mnuTestAddInternetService->menuAction());
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::RAS));
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::DriveSpace));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::FileCompare));
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::NTLog));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Service));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Process));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::CPU));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::DominantProcess));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::PerfCounter));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::WMI));
+//    ui->mnuTestAdd->addAction(actRegistry); ":/img/test/registry.png"
+    ui->mnuTestAdd->addAction(mnuTestAddFiles->menuAction());
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(mnuTestAddDatabase->menuAction());
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::ODBC));
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::SNMP));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::SNMPtrap));
+//    ui->mnuTestAdd->addAction(actTestSNMPTable); ":/img/test/snmp_table.png" "SNMP Table"
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::TrafficMonitor));
+//    ui->mnuTestAdd->addAction(actNetInterfaceStatus); ":/img/test/net_interface_status.png" "Interfaces status"
+//    ui->mnuTestAdd->addAction(actNetInterfaceErrors); ":/img/test/net_interface_error.png" "Interfaces errors"
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Script));
+    ui->mnuTestAdd->addAction(mnuTestAddShellScript->menuAction());
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Externalprg));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::SSH));
+    ui->mnuTestAdd->addSeparator();
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::TempMonitor));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::HMmonitor));
+    mnuTestAddWeb->addAction(createTestAction(TMethodID::HTTP));
+    mnuTestAddWeb->addAction(createTestAction(TMethodID::URL));
+//    mnuTestAddWeb->addAction(actSOAP); ":/img/test/soap-xml.png" "SOAP/XML"
+//    mnuTestAddWeb->addSeparator();
+//    mnuTestAddWeb->addAction(actCertificateExpiration); ":/img/test/cerificate_expiration.png" "Certificate expiration"
+//    mnuTestAddWeb->addAction(actDomainExpiration); ":/img/test/domain_expiration.png" "Domain expiration"
+    mnuTestAddEmail->addAction(createTestAction(TMethodID::SMTP));
+    mnuTestAddEmail->addAction(createTestAction(TMethodID::POP3));
+    mnuTestAddEmail->addAction(createTestAction(TMethodID::IMAP));
+    mnuTestAddEmail->addSeparator();
+//    mnuTestAddEmail->addAction(actEMail); ":/img/test/email.png" "E-Mail"
+    mnuTestAddEmail->addAction(createTestAction(TMethodID::MailRelay));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::TCP));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::UDP));
+    mnuTestAddInternetService->addSeparator();
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::Radius));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::DNS));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::DHCP));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::NTP));
+    mnuTestAddInternetService->addSeparator();
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::Ldap));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::DICOM));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::Interbase));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::MSSQL));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::MySQL));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::Oracle));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::Postgre));
+    mnuTestAddDatabase->addAction(createTestAction(TMethodID::Sybase));
+    mnuTestAddShellScript->addSeparator();
+    mnuTestAddShellScript->addAction(ui->actScriptManager);
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::UNC));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::FileSize));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::CountFiles));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::FileExists));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::FileContents));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::TextLog));
+}
+
+/******************************************************************/
+
+QAction *MainForm::createTestAction(TMethodID methodID)
+{
+    const TestMethodMetaInfo &meta = TestMethod::metaInfoItem(methodID);
+    QAction *action = new QAction(QIcon(meta.icon), meta.text, this);
+    action->setData(static_cast<int>(meta.id));
+    action->setIconVisibleInMenu(true);
+    connect(action, SIGNAL(triggered()), this, SLOT(onTestActionTriggered()));
+    return action;
 }
 
 /******************************************************************/

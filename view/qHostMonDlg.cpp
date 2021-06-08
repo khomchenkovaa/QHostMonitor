@@ -1,10 +1,6 @@
 #include "qHostMonDlg.h"
 #include "ui_qHostMonDlg.h"
 
-#include <QtWidgets>
-#include <QDebug>
-
-#include "method/qTestWidget.h"
 #include "testedit/qAlertsEditWidget.h"
 #include "testedit/qLogReportsEditWidget.h"
 #include "testedit/qMasterTestsEditWidget.h"
@@ -13,11 +9,14 @@
 #include "qLinksList.h"
 #include "qMacroEditorDlg.h"
 #include "gSettings.h"
-#include "tEnums.h"
 #include "tTest.h"
 #include "tRoot.h"
 #include "hmListService.h"
 #include "global/gMacroTranslator.h"
+#include "sdpoTestMethodWidgets.h"
+
+#include <QtWidgets>
+#include <QDebug>
 
 namespace SDPO {
 
@@ -609,8 +608,8 @@ void HostMonDlg::setupUI()
     setWindowTitle(QApplication::translate("HostMonDlg", "Test properties", Q_NULLPTR));
     setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    TestMethodUiHelper::fillComboBox(ui->cmbTestMethod);
-    TestMethodUiHelper::fillStackedWidget(ui->stwTestMethod);
+    setupTestMethodCombo();
+    setupTestMethodWidgets();
 
     // TODO migrate from ui_qHostMonDlg.h
 
@@ -649,6 +648,73 @@ void HostMonDlg::setupUI()
     connect(ui->btnCancel, &QPushButton::clicked,
             this, &HostMonDlg::close);
 
+}
+
+/******************************************************************/
+
+void HostMonDlg::setupTestMethodCombo()
+{
+    QComboBox *box = ui->cmbTestMethod;
+    foreach(const TestMethodMetaInfo &meta, TestMethod::metaInfo) {
+        box->addItem(QIcon(meta.icon), meta.text, static_cast<int>(meta.id));
+    }
+    box->setCurrentIndex(0);
+}
+
+/******************************************************************/
+
+void HostMonDlg::setupTestMethodWidgets()
+{
+    QStackedWidget *box = ui->stwTestMethod;
+    box->addWidget(new PingWidget);
+    box->addWidget(new TcpWidget);
+    box->addWidget(new UrlWidget);
+    box->addWidget(new DriveSpaceWidget);
+    box->addWidget(new FileSizeWidget);
+    box->addWidget(new FileExistsWidget);
+    box->addWidget(new ExternalPrgWidget);
+    box->addWidget(new SshWidget);
+    box->addWidget(new FileContentsWidget);
+    box->addWidget(new OracleWidget);
+    box->addWidget(new UncWidget);
+    box->addWidget(new InterbaseWidget);
+    box->addWidget(new MsSqlWidget);
+    box->addWidget(new MySqlWidget);
+    box->addWidget(new PostgreSqlWidget);
+    box->addWidget(new SybaseWidget);
+    box->addWidget(new ProcessWidget);
+    box->addWidget(new ServiceWidget);
+    box->addWidget(new SnmpGetWidget);
+    box->addWidget(new NtEventLogWidget);
+    box->addWidget(new CpuUsageWidget);
+    box->addWidget(new CompareFilesWidget);
+    box->addWidget(new OdbcQueryWidget);
+    box->addWidget(new SmtpTestWidget);
+    box->addWidget(new Pop3TestWidget);
+    box->addWidget(new ImapTestWidget);
+    box->addWidget(new DnsTestWidget);
+    box->addWidget(new LdapTestWidget);
+    box->addWidget(new TraceTestWidget);
+    box->addWidget(new CountFilesWidget);
+    box->addWidget(new RasTestWidget);
+    box->addWidget(new PerformanceCounterWidget);
+    box->addWidget(new ActiveScriptWidget);
+    box->addWidget(new UdpTestWidget);
+    box->addWidget(new NtpTestWidget);
+    box->addWidget(new RadiusWidget);
+    box->addWidget(new HttpWidget);
+    box->addWidget(new TextLogWidget);
+    box->addWidget(new ShellScriptWidget);
+    box->addWidget(new TemperatureMonitorWidget);
+    box->addWidget(new TrafficMonitorWidget);
+    box->addWidget(new SnmpTrapWidget);
+    box->addWidget(new WmiWidget);
+    box->addWidget(new MailRelayWidget);
+    box->addWidget(new DicomWidget);
+    box->addWidget(new DominantProcessWidget);
+    box->addWidget(new DhcpWidget);
+    box->addWidget(new SdpoMonitorWidget);
+    box->setCurrentIndex(0);
 }
 
 /******************************************************************/

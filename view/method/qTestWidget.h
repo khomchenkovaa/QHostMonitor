@@ -5,6 +5,7 @@
 #include <QVariantMap>
 #include <QString>
 #include "PropertyHelper.h"
+#include "testmethod.h"
 #include "xMacroVar.h"
 
 namespace SDPO {

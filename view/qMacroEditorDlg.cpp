@@ -45,7 +45,7 @@ void MacroEditorDlg::currentUserMacroChanged(const int row)
 {
     if (row < GUserVars::variables.size()) {
         QString key = GUserVars::variables.keys().at(row);
-        ui->lineUserDefinedMacroVariables->setText(GUserVars::variables.value(key));
+        ui->lineUserDefinedMacroVariables->setText(GUserVars::variables.value(key).toString());
     }
 }
 
@@ -274,8 +274,10 @@ void MacroEditorDlg::init()
 {
     // user defined
     ui->listUserDefinedMacroVariables->clear();
-    foreach(const QString &key, GUserVars::variables.keys()) {
-        ui->listUserDefinedMacroVariables->addItem(QString("%%1%").arg(key));
+    QMapIterator<QString, QVariant> it(GUserVars::variables);
+    while(it.hasNext()) {
+        it.next();
+        ui->listUserDefinedMacroVariables->addItem(QString("%%1%").arg(it.key()));
     }
     connect(ui->listUserDefinedMacroVariables, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(appendUserDefinedVariable()));
     connect(ui->listUserDefinedMacroVariables, SIGNAL(currentRowChanged(int)), this, SLOT(currentUserMacroChanged(int)));

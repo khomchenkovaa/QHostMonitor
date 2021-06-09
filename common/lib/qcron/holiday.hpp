@@ -1,9 +1,7 @@
-#ifndef HOLIDAY_HPP
-#define HOLIDAY_HPP
+#ifndef _HOLIDAY_HPP
+#define _HOLIDAY_HPP
 
 #include <QDate>
-
-namespace SDPO {
 
 class Holiday
 {
@@ -14,5 +12,4 @@ public:
     static QDate next(const QDate & date);
 };
 
-}
-#endif // HOLIDAY_HPP
+#endif

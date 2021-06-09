@@ -28,8 +28,7 @@ bool GUnitConverter::convert()
 {
     QString pattern = "(\\d+)\\s*(\\w\\w|%)";
     QRegExp rx(pattern);
-    int pos = 0;
-    if ((pos = rx.indexIn(a_Text)) == -1) {
+    if (rx.indexIn(a_Text) == -1) {
         a_Value = 0;
         a_Ext = QString();
         return false;
@@ -63,7 +62,7 @@ QString GUnitConverter::toString()
 
 double GUnitConverter::toNumber()
 {
-    float result = a_Value;
+    double result = a_Value;
     if (a_Ext.compare("Kb",Qt::CaseInsensitive) == 0) {
         result *= 1024.0;
     } else if (a_Ext.compare("Mb",Qt::CaseInsensitive) == 0) {
@@ -85,7 +84,7 @@ double GUnitConverter::toNumber()
 
 int GUnitConverter::fromNumber()
 {
-    float result = a_Number;
+    double result = a_Number;
     if (a_Ext.compare("Kb",Qt::CaseInsensitive) == 0) {
         result /= 1024.0;
     } else if (a_Ext.compare("Mb",Qt::CaseInsensitive) == 0) {

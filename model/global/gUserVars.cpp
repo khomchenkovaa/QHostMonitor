@@ -4,19 +4,19 @@ namespace SDPO {
 
 /*****************************************************************/
 
-QMap<QString, QString> GUserVars::variables;
+QVariantMap GUserVars::variables;
 QStringList GUserVars::favorite;
 
 /*****************************************************************/
 
-void GUserVars::add(const QString &key, const QString &value)
+void GUserVars::add(const QString &key, const QVariant &value)
 {
     variables[key] = value;
 }
 
 /*****************************************************************/
 
-QString GUserVars::get(const QString &key)
+QVariant GUserVars::get(const QString &key)
 {
     return variables.value(key, QString());
 }
@@ -25,7 +25,7 @@ QString GUserVars::get(const QString &key)
 
 void GUserVars::replace(const QString &oldKey, const QString &newKey)
 {
-    QString value = variables.take(oldKey);
+    QVariant value = variables.take(oldKey);
     variables[newKey] = value;
 }
 

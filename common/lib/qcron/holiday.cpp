@@ -3,18 +3,18 @@
 #include <QList>
 #include <QDebug>
 
-namespace SDPO {
-
 /******************************************************************************/
 
-QList<QDate> Holiday::yearsHolidays(int year)
+QList<QDate>
+Holiday::
+yearsHolidays(int year)
 {
     QDate easter = Holiday::easter(year);
     QList<QDate> holidays  = QList<QDate>()
                              << QDate(year, 1, 1)     // Jour de l'an
-                             << easter.addDays(1)     // Lundi de Paques
-                             << easter.addDays(39)    // Jeaudi de l'Ascension
-                             << easter.addDays(50)    // Lundi de Pentecote
+                             << easter.addDays(1)  // Lundi de Paques
+                             << easter.addDays(39) // Jeaudi de l'Ascension
+                             << easter.addDays(50) // Lundi de Pentecote
                              << QDate(year, 5, 1)     // Fete du travail
                              << QDate(year, 5, 8)     // Fete de la victoire
                              << QDate(year, 7, 14)    // Fete nationale
@@ -28,14 +28,18 @@ QList<QDate> Holiday::yearsHolidays(int year)
 
 /******************************************************************************/
 
-bool Holiday::isHoliday(const QDate & today)
+bool
+Holiday::
+isHoliday(const QDate & today)
 {
     return yearsHolidays(today.year()).contains(today);
 }
 
 /******************************************************************************/
 
-QDate Holiday::easter(int y)
+QDate
+Holiday::
+easter(int y)
 {
     /* Many thanks to http://www.henk-reints.nl/easter/index.htm */
     int a = y % 19 + 1;
@@ -58,7 +62,9 @@ QDate Holiday::easter(int y)
 
 /******************************************************************************/
 
-QDate Holiday::next(const QDate & date)
+QDate
+Holiday::
+next(const QDate & date)
 {
     int year = date.year();
     QList<QDate> holidays = yearsHolidays(year);
@@ -84,5 +90,3 @@ QDate Holiday::next(const QDate & date)
 }
 
 /******************************************************************************/
-
-} // namespace SDPO

@@ -2,18 +2,17 @@
 #define GUSERVARS_H
 
 #include <QString>
-#include <QMap>
+#include <QVariant>
 
 namespace SDPO {
 
-class GUserVars
+struct GUserVars
 {
-public:
-    static QMap<QString, QString> variables;
+    static QVariantMap variables;
     static QStringList favorite;
 
-    static void add(const QString &key, const QString &value);
-    static QString get(const QString &key);
+    static void add(const QString &key, const QVariant &value);
+    static QVariant get(const QString &key);
     static void replace(const QString &oldKey, const QString &newKey);
     static void remove(const QString &key);
 };

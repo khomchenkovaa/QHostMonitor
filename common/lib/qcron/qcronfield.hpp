@@ -5,8 +5,6 @@
 #include <QList>
 #include <QString>
 
-namespace SDPO {
-
 enum EField
 {
     MINUTE = 0,
@@ -54,7 +52,7 @@ public:
             case DOM:    _min = 1; _max = 31;      break;
             case MONTH:  _min = 1; _max = 12;      break;
             case DOW:    _min = 1; _max = 7 ;      break;
-            case YEAR:   _min = 1; _max = 2099;    break;
+            case YEAR:   _min = 1; _max = 2099; break;
             default:     throw 42;
             }
         }
@@ -98,7 +96,5 @@ private:
     QCronNode * _parseNode(QString & str);
     int getTimeSection(QDateTime & dt) const;
 };
-
-}
 
 #endif

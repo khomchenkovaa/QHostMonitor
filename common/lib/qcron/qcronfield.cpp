@@ -3,17 +3,18 @@
 
 #include <QDebug>
 
-namespace SDPO {
-
 /******************************************************************************/
 
-QCronField::QCronField()
+QCronField::
+QCronField()
     : _is_valid(false)
 {}
 
 /******************************************************************************/
 
-QCronIntNode *QCronField::_parseInt(QString & str)
+QCronIntNode *
+QCronField::
+_parseInt(QString & str)
 {
     int value = 0;
     int char_idx = 0;
@@ -39,7 +40,9 @@ QCronIntNode *QCronField::_parseInt(QString & str)
 
 /******************************************************************************/
 
-QCronRangeNode *QCronField::_parseRange(QString & str)
+QCronRangeNode *
+QCronField::
+_parseRange(QString & str)
 {
     if (_last_node == NULL)
     {
@@ -69,7 +72,9 @@ QCronRangeNode *QCronField::_parseRange(QString & str)
 
 /******************************************************************************/
 
-QCronEveryNode *QCronField::_parseEvery(QString & str)
+QCronEveryNode *
+QCronField::
+_parseEvery(QString & str)
 {
     str.remove(0, 1);
     return new QCronEveryNode(_last_node, _parseInt(str));
@@ -77,7 +82,9 @@ QCronEveryNode *QCronField::_parseEvery(QString & str)
 
 /******************************************************************************/
 
-QCronListNode *QCronField::_parseList(QString & str)
+QCronListNode *
+QCronField::
+_parseList(QString & str)
 {
     QCronListNode * list = new QCronListNode();
     list->nodes() << _last_node;
@@ -97,7 +104,9 @@ QCronListNode *QCronField::_parseList(QString & str)
 
 /******************************************************************************/
 
-QCronNode *QCronField::_parseNode(QString & str)
+QCronNode *
+QCronField::
+_parseNode(QString & str)
 {
     QCronNode * node = NULL;
     QChar c = str[0];
@@ -145,7 +154,9 @@ QCronNode *QCronField::_parseNode(QString & str)
 
 /******************************************************************************/
 
-void QCronField::parse(QString & str)
+void
+QCronField::
+parse(QString & str)
 {
     _last_node = NULL;
     _root = _parseNode(str);
@@ -159,7 +170,9 @@ void QCronField::parse(QString & str)
 
 /******************************************************************************/
 
-int QCronField::getDateTimeSection(const QDateTime & dt) const
+int
+QCronField::
+getDateTimeSection(const QDateTime & dt) const
 {
     switch (_field)
     {
@@ -182,7 +195,9 @@ int QCronField::getDateTimeSection(const QDateTime & dt) const
 
 /******************************************************************************/
 
-void QCronField::applyOffset(QDateTime & dt, int & offset) const
+void
+QCronField::
+applyOffset(QDateTime & dt, int & offset) const
 {
     switch (_field)
     {
@@ -221,7 +236,9 @@ void QCronField::applyOffset(QDateTime & dt, int & offset) const
 
 /******************************************************************************/
 
-void QCronField::reset(QDateTime & dt)
+void
+QCronField::
+reset(QDateTime & dt)
 {
     int value = _min;
     QDate date = dt.date();
@@ -252,11 +269,11 @@ void QCronField::reset(QDateTime & dt)
 
 /******************************************************************************/
 
-bool QCronField::match(const QDateTime & dt) const
+bool
+QCronField::
+match(const QDateTime & dt) const
 {
     return _root->match(dt);
 }
 
 /******************************************************************************/
-
-} // namespace SDPO

@@ -7,9 +7,9 @@
 #include "PropertyHelper.h"
 #include "tEnums.h"
 
-namespace SDPO {
-
 class QCron;
+
+namespace SDPO {
 
 class TSchedule : public QObject
 {

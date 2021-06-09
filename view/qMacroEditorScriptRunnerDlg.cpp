@@ -6,7 +6,9 @@
 #include <QScriptEngine>
 #include <QtWidgets>
 
-namespace SDPO {
+using namespace SDPO;
+
+/******************************************************************/
 
 MacroEditorScriptRunnerDlg::MacroEditorScriptRunnerDlg(QWidget *parent) :
     QDialog(parent),
@@ -15,10 +17,14 @@ MacroEditorScriptRunnerDlg::MacroEditorScriptRunnerDlg(QWidget *parent) :
     ui->setupUi(this);
 }
 
+/******************************************************************/
+
 MacroEditorScriptRunnerDlg::~MacroEditorScriptRunnerDlg()
 {
     delete ui;
 }
+
+/******************************************************************/
 
 void MacroEditorScriptRunnerDlg::setScript(const QString script)
 {
@@ -33,10 +39,12 @@ void MacroEditorScriptRunnerDlg::setScript(const QString script)
     ui->tableVariables->setVerticalHeaderLabels(vars);
     for (int i=0; i<vars.count(); i++) {
         if (GUserVars::variables.contains(vars.at(i))) {
-            ui->tableVariables->setItem(i,0,new QTableWidgetItem(GUserVars::variables.value(vars.at(i))));
+            ui->tableVariables->setItem(i,0,new QTableWidgetItem(GUserVars::variables.value(vars.at(i)).toString()));
         }
     }
 }
+
+/******************************************************************/
 
 void MacroEditorScriptRunnerDlg::on_btnRun_clicked()
 {
@@ -53,6 +61,4 @@ void MacroEditorScriptRunnerDlg::on_btnRun_clicked()
     ui->editResult->setPlainText(value.toString());
 }
 
-} // namespace SDPO
-
-
+/******************************************************************/

@@ -11,6 +11,7 @@ public:
     static void DestructorMsg(const QPointer<QObject> object);
     static QByteArray md5(const QString &text);
     static QString duration(qint64 msec);
+    static QString sizeHuman(double dataSize);
 
 private:
     // singleton

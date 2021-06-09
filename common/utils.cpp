@@ -45,3 +45,21 @@ QString Utils::duration(qint64 msec)
 }
 
 /******************************************************************/
+//! Print file size in human redabale format
+QString Utils::sizeHuman(double dataSize)
+{
+    static const QStringList list =
+        QStringList() << "KB" << "MB" << "GB" << "TB";
+
+    QStringListIterator i(list);
+    QString unit("B");
+
+    while(dataSize >= 1024.0 && i.hasNext())
+    {
+        unit = i.next();
+        dataSize /= 1024.0;
+    }
+    return QString().setNum(dataSize,'f',2)+" "+unit;
+}
+
+/******************************************************************/

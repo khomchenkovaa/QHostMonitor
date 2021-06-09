@@ -6,8 +6,6 @@
 
 #include "qcronfield.hpp"
 
-namespace SDPO {
-
 class QCron;
 class QCronField;
 
@@ -166,6 +164,5 @@ public:
 
 /******************************************************************************/
 
-}
 
 #endif

@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-namespace SDPO {
+using namespace SDPO;
 
 QStringList TSchedule::dayOfWeek = (QStringList() << "Monday" << "Tuesday" << "Wednesday" << "Thursday" << "Friday" << "Saturday" << "Sunday");
 
@@ -253,5 +253,3 @@ void TSchedule::startTimer()
 }
 
 /***********************************************/
-
-} // namespace SDPO

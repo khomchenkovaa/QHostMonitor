@@ -57,12 +57,12 @@ void IOUserVarsLoader::parseJsonData(QJsonDocument json_doc)
 QJsonDocument IOUserVarsLoader::createJsonDocument()
 {
     QJsonArray jsonArray;
-    QMapIterator<QString, QString> i(GUserVars::variables);
+    QMapIterator<QString, QVariant> i(GUserVars::variables);
     while (i.hasNext()) {
          i.next();
          QJsonObject jsonObj;
          jsonObj.insert("variable",QJsonValue(i.key()));
-         jsonObj.insert("value",QJsonValue(i.value()));
+         jsonObj.insert("value",QJsonValue(i.value().toString()));
          jsonArray.append(QJsonValue(jsonObj));
     }
     QJsonDocument jsonDoc(jsonArray);

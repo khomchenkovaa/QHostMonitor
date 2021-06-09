@@ -7,35 +7,38 @@
 #include <QDebug>
 #include <QTimer>
 
-namespace SDPO {
-
 /******************************************************************************/
 
-QCron::QCron()
+QCron::
+QCron()
 {
     _init();
 }
 
 /******************************************************************************/
 
-QCron::QCron(const QString & pattern)
+QCron::
+QCron(const QString & pattern)
 {
     _init();
     _parsePattern(pattern);
     if (_is_valid) {
-        checkState();
+        _checkState();
     }
 }
 
 /******************************************************************************/
 
-QCron::~QCron()
+QCron::
+~QCron()
 {
 }
 
 /******************************************************************************/
 
-void QCron::_init()
+void
+QCron::
+_init()
 {
     _is_valid = true;
     _is_active = false;
@@ -49,7 +52,9 @@ void QCron::_init()
 
 /******************************************************************************/
 
-void QCron::checkState()
+void
+QCron::
+_checkState()
 {
     int interval_ms = 0;
     if (match(QDateTime::currentDateTime()))
@@ -70,12 +75,14 @@ void QCron::checkState()
     QTimer::singleShot(interval_ms,
                        Qt::VeryCoarseTimer,
                        this,
-                       SLOT(checkState()));
+                       SLOT(_checkState()));
 }
 
 /******************************************************************************/
 
-void QCron::_setError(const QString & error)
+void
+QCron::
+_setError(const QString & error)
 {
     _is_valid = false;
     _error = error;
@@ -83,7 +90,9 @@ void QCron::_setError(const QString & error)
 
 /******************************************************************************/
 
-void QCron::_parsePattern(const QString & pattern)
+void
+QCron::
+_parsePattern(const QString & pattern)
 {
     if (pattern.contains("\n"))
     {
@@ -114,7 +123,8 @@ void QCron::_parsePattern(const QString & pattern)
 
 /******************************************************************************/
 
-QList<EField> getPreviousFields(EField field)
+QList<EField>
+getPreviousFields(EField field)
 {
     QList<EField> fields;
 
@@ -140,7 +150,9 @@ QList<EField> getPreviousFields(EField field)
 
 /******************************************************************************/
 
-void QCron::add(QDateTime & dt, EField field, int value)
+void
+QCron::
+add(QDateTime & dt, EField field, int value)
 {
     switch (field)
     {
@@ -172,7 +184,8 @@ void QCron::add(QDateTime & dt, EField field, int value)
 
 /******************************************************************************/
 
-void set(QDateTime & dt, EField field, int value)
+void
+set(QDateTime & dt, EField field, int value)
 {
     QDate date = dt.date();
     QTime time = dt.time();
@@ -202,7 +215,9 @@ void set(QDateTime & dt, EField field, int value)
 
 /******************************************************************************/
 
-void QCron::catchUp(QDateTime & dt, EField field, int value)
+void
+QCron::
+catchUp(QDateTime & dt, EField field, int value)
 {
     int current_time_unit = _fields[field].getDateTimeSection(dt);
     if (current_time_unit < value)
@@ -229,7 +244,9 @@ void QCron::catchUp(QDateTime & dt, EField field, int value)
 
 /******************************************************************************/
 
-void QCron::_process(QDateTime & dt, EField field)
+void
+QCron::
+_process(QDateTime & dt, EField field)
 {
     QCronNode * node = _fields[field].getRoot();
     if (NULL == node)
@@ -241,14 +258,18 @@ void QCron::_process(QDateTime & dt, EField field)
 
 /******************************************************************************/
 
-QDateTime QCron::next()
+QDateTime
+QCron::
+next()
 {
     return next(QDateTime::currentDateTime());
 }
 
 /******************************************************************************/
 
-QDateTime QCron::next(QDateTime dt)
+QDateTime
+QCron::
+next(QDateTime dt)
 {
     dt = dt.addSecs(60);
     while (!match(dt))
@@ -274,7 +295,9 @@ QDateTime QCron::next(QDateTime dt)
 
 /******************************************************************************/
 
-bool QCron::match(const QDateTime & dt) const
+bool
+QCron::
+match(const QDateTime & dt) const
 {
     bool does_match = true;
     for (int i = 0; i < 6; ++i)
@@ -285,5 +308,3 @@ bool QCron::match(const QDateTime & dt) const
 }
 
 /******************************************************************************/
-
-} // namespace SDPO

@@ -5,17 +5,18 @@
 
 #include <QDebug>
 
-namespace SDPO {
-
 /******************************************************************************/
 
-QCronNode::~QCronNode()
+QCronNode::
+~QCronNode()
 {
 }
 
 /******************************************************************************/
 
-void QCronNode::setField(QCronField * field)
+void
+QCronNode::
+setField(QCronField * field)
 {
     _field = field;
 }
@@ -23,28 +24,35 @@ void QCronNode::setField(QCronField * field)
 /******************************************************************************/
 /******************************************************************************/
 
-QCronIntNode::QCronIntNode(int v)
+QCronIntNode::
+QCronIntNode(int v)
     : _value(v)
 {
 }
 
 /******************************************************************************/
 
-int QCronIntNode::value() const
+int
+QCronIntNode::
+value() const
 {
     return _value;
 }
 
 /******************************************************************************/
 
-int QCronIntNode::next(int t) const
+int
+QCronIntNode::
+next(int t) const
 {
     return _value - t;
 }
 
 /******************************************************************************/
 
-void QCronIntNode::process(QCron * cron,
+void
+QCronIntNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -53,7 +61,9 @@ void QCronIntNode::process(QCron * cron,
 
 /******************************************************************************/
 
-bool QCronIntNode::match(const QDateTime & dt) const
+bool
+QCronIntNode::
+match(const QDateTime & dt) const
 {
     return _field->getDateTimeSection(dt) == _value;
 }
@@ -61,23 +71,29 @@ bool QCronIntNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-int QCronStrNode::next(int t) const
+int
+QCronStrNode::
+next(int t) const
 {
     return t - 1;
 }
 
 /******************************************************************************/
 
-void QCronStrNode::process(QCron *,
+void
+QCronStrNode::
+process(QCron *,
         QDateTime &,
         EField )
 {
-    //! TODO implemet it
+    // TODO
 }
 
 /******************************************************************************/
 
-bool QCronStrNode::match(const QDateTime & dt) const
+bool
+QCronStrNode::
+match(const QDateTime & dt) const
 {
     return _field->getDateTimeSection(dt);
 }
@@ -85,7 +101,9 @@ bool QCronStrNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-int QCronAllNode::next(int t) const
+int
+QCronAllNode::
+next(int t) const
 {
     Q_UNUSED(t);
     return 0;
@@ -93,7 +111,9 @@ int QCronAllNode::next(int t) const
 
 /******************************************************************************/
 
-void QCronAllNode::process(QCron * cron,
+void
+QCronAllNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -104,7 +124,9 @@ void QCronAllNode::process(QCron * cron,
 
 /******************************************************************************/
 
-bool QCronAllNode::match(const QDateTime & dt) const
+bool
+QCronAllNode::
+match(const QDateTime & dt) const
 {
     Q_UNUSED(dt);
     return true;
@@ -113,7 +135,8 @@ bool QCronAllNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-QCronRangeNode::QCronRangeNode(const QCronIntNode * begin,
+QCronRangeNode::
+QCronRangeNode(const QCronIntNode * begin,
                const QCronIntNode * end)
     : _begin(begin)
     , _end(end)
@@ -122,7 +145,9 @@ QCronRangeNode::QCronRangeNode(const QCronIntNode * begin,
 
 /******************************************************************************/
 
-void QCronRangeNode::process(QCron * cron,
+void
+QCronRangeNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -144,21 +169,27 @@ void QCronRangeNode::process(QCron * cron,
 
 /******************************************************************************/
 
-int QCronRangeNode::beginValue() const
+int
+QCronRangeNode::
+beginValue() const
 {
     return _begin->value();
 }
 
 /******************************************************************************/
 
-int QCronRangeNode::endValue() const
+int
+QCronRangeNode::
+endValue() const
 {
     return _end->value();
 }
 
 /******************************************************************************/
 
-int QCronRangeNode::next(int t) const
+int
+QCronRangeNode::
+next(int t) const
 {
     if (_begin->value() <= t && t <= _end->value())
     {
@@ -169,7 +200,9 @@ int QCronRangeNode::next(int t) const
 
 /******************************************************************************/
 
-bool QCronRangeNode::match(const QDateTime & dt) const
+bool
+QCronRangeNode::
+match(const QDateTime & dt) const
 {
     int tu = _field->getDateTimeSection(dt);
     return _begin->value() <= tu && tu <= _end->value();
@@ -178,7 +211,8 @@ bool QCronRangeNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-QCronEveryNode::QCronEveryNode(QCronNode * what,
+QCronEveryNode::
+QCronEveryNode(QCronNode * what,
                QCronIntNode * freq)
     : _what(what)
     , _freq(freq)
@@ -187,7 +221,9 @@ QCronEveryNode::QCronEveryNode(QCronNode * what,
 
 /******************************************************************************/
 
-void QCronEveryNode::process(QCron * cron ,
+void
+QCronEveryNode::
+process(QCron * cron ,
         QDateTime & dt,
         EField field)
 {
@@ -203,7 +239,9 @@ void QCronEveryNode::process(QCron * cron ,
 
 /******************************************************************************/
 
-int QCronEveryNode::next(int t) const
+int
+QCronEveryNode::
+next(int t) const
 {
     int what_next = _what->next(t);
     if (what_next == 1)
@@ -218,7 +256,9 @@ int QCronEveryNode::next(int t) const
 
 /******************************************************************************/
 
-bool QCronEveryNode::match(const QDateTime & dt) const
+bool
+QCronEveryNode::
+match(const QDateTime & dt) const
 {
     int tu = _field->getDateTimeSection(dt);
     return _what->match(dt) && tu % _freq->value() == 0;
@@ -227,14 +267,18 @@ bool QCronEveryNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-QList<QCronNode *> &QCronListNode::nodes()
+QList<QCronNode *> &
+QCronListNode::
+nodes()
 {
     return _nodes;
 }
 
 /******************************************************************************/
 
-void QCronListNode::process(QCron * cron,
+void
+QCronListNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -252,7 +296,9 @@ void QCronListNode::process(QCron * cron,
 
 /******************************************************************************/
 
-int QCronListNode::next(int t) const
+int
+QCronListNode::
+next(int t) const
 {
     foreach (const QCronNode * node, _nodes)
     {
@@ -267,7 +313,9 @@ int QCronListNode::next(int t) const
 
 /******************************************************************************/
 
-bool QCronListNode::match(const QDateTime & dt) const
+bool
+QCronListNode::
+match(const QDateTime & dt) const
 {
     foreach (const QCronNode * node, _nodes)
     {
@@ -282,7 +330,9 @@ bool QCronListNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-int QCronHolidayNode::next(int t) const
+int
+QCronHolidayNode::
+next(int t) const
 {
     Q_UNUSED(t)
     return -1;
@@ -290,7 +340,9 @@ int QCronHolidayNode::next(int t) const
 
 /******************************************************************************/
 
-void QCronHolidayNode::process(QCron * cron,
+void
+QCronHolidayNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -312,7 +364,9 @@ void QCronHolidayNode::process(QCron * cron,
 
 /******************************************************************************/
 
-bool QCronHolidayNode::match(const QDateTime & dt) const
+bool
+QCronHolidayNode::
+match(const QDateTime & dt) const
 {
     return Holiday::isHoliday(dt.date());
 }
@@ -320,7 +374,9 @@ bool QCronHolidayNode::match(const QDateTime & dt) const
 /******************************************************************************/
 /******************************************************************************/
 
-int QCronNotHolidayNode::next(int t) const
+int
+QCronNotHolidayNode::
+next(int t) const
 {
     Q_UNUSED(t)
     return -1;
@@ -328,7 +384,9 @@ int QCronNotHolidayNode::next(int t) const
 
 /******************************************************************************/
 
-void QCronNotHolidayNode::process(QCron * cron,
+void
+QCronNotHolidayNode::
+process(QCron * cron,
         QDateTime & dt,
         EField field)
 {
@@ -346,12 +404,12 @@ void QCronNotHolidayNode::process(QCron * cron,
 
 /******************************************************************************/
 
-bool QCronNotHolidayNode::match(const QDateTime & dt) const
+bool
+QCronNotHolidayNode::
+match(const QDateTime & dt) const
 {
     return !Holiday::isHoliday(dt.date());
 }
 
 /******************************************************************************/
 /******************************************************************************/
-
-} // namespace SDPO

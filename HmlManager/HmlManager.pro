@@ -12,8 +12,6 @@ TEMPLATE = app
 
 CONFIG += c++11
 
-include("../common/lib/modeltest/modeltest.pri")
-
 include("../common/common.pri")
 include("../model/model.pri")
 include("../service/service.pri")

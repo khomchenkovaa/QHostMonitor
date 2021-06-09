@@ -7,6 +7,8 @@ include("lib/qsimplecrypt/qsimplecrypt.pri")
 include("lib/net-snmp/net-snmp.pri")
 include("lib/libqxt/libqxt.pri")
 
+include("lib/modeltest/modeltest.pri")
+
 HEADERS += \
     $$PWD/tEnums.h \
     $$PWD/PropertyHelper.h \

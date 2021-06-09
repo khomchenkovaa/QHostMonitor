@@ -450,7 +450,7 @@ QString TTest::ackResponseTime() const
         return QString();
     }
     if (m_Acknowledged) {
-        return Utils::getTimeFromMs(m_Acknowledge.time);
+        return Utils::duration(m_Acknowledge.time);
     } else {
         return "not acknowledged";
     }

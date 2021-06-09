@@ -1,17 +1,19 @@
-INCLUDEPATH += $$PWD
-DEPENDPATH += $$PWD
+isEmpty(__QDBF_PRI__) {
+    __QDBF_PRI__ = yup
+    INCLUDEPATH += $$PWD
+    DEPENDPATH += $$PWD
 
-HEADERS += \
-    $$PWD/qdbf_compat.h \
-    $$PWD/qdbffield.h \
-    $$PWD/qdbf_global.h \
-    $$PWD/qdbfrecord.h \
-    $$PWD/qdbftable.h \
-    $$PWD/qdbftablemodel.h
+    HEADERS += \
+        $$PWD/qdbf_compat.h \
+        $$PWD/qdbffield.h \
+        $$PWD/qdbf_global.h \
+        $$PWD/qdbfrecord.h \
+        $$PWD/qdbftable.h \
+        $$PWD/qdbftablemodel.h
 
-SOURCES += \
-    $$PWD/qdbffield.cpp \
-    $$PWD/qdbfrecord.cpp \
-    $$PWD/qdbftable.cpp \
-    $$PWD/qdbftablemodel.cpp
-
+    SOURCES += \
+        $$PWD/qdbffield.cpp \
+        $$PWD/qdbfrecord.cpp \
+        $$PWD/qdbftable.cpp \
+        $$PWD/qdbftablemodel.cpp
+}

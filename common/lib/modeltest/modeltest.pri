@@ -1,5 +1,9 @@
-INCLUDEPATH += $$PWD
-DEPENDPATH += $$PWD
+isEmpty(__MODELTEST_PRI__) {
+    __MODELTEST_PRI__ = yup
 
-HEADERS += $$PWD/modeltest.h
-SOURCES += $$PWD/modeltest.cpp
+    INCLUDEPATH += $$PWD
+    DEPENDPATH += $$PWD
+
+    HEADERS += $$PWD/modeltest.h
+    SOURCES += $$PWD/modeltest.cpp
+}

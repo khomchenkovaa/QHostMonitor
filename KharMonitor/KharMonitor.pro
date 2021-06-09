@@ -68,7 +68,6 @@ FORMS    += \
 RESOURCES += \
     ../qHostMonitor.qrc
 
-LIBS += -lnetsnmp
 
 
 

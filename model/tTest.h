@@ -380,7 +380,7 @@ public:
     SimpleStatusID simpleStatusID() const { return m_CurrentState.simpleStatus(b_UnknownIsBad, b_WarningIsBad); }
     int getCurrentStatusIteration() const { return m_Recurences.currentStatus; }
     int getRecurrences() const { return m_Recurences.currentSimpleStatus; }
-    QString currentStatusDuration() const { return Utils::getTimeFromMs(m_Stat.currentDuration); }
+    QString currentStatusDuration() const { return Utils::duration(m_Stat.currentDuration); }
     qint64 getCurrentStatusDurationSec() const { return m_Stat.currentDuration / 1000; }
 
     /****************************************************
@@ -524,7 +524,7 @@ public:
     QDateTime getLastTestTime() const { return m_LastState.date; }
     QString previousStatus() const { return  TEnums::testStatus(m_PreviousState.status); }
     QString previousStatusTime() const { return m_Stat.previousTime.toString("hh:mm:ss"); }
-    QString previousStatusDuration() const { return Utils::getTimeFromMs(m_Stat.previousDuration); }
+    QString previousStatusDuration() const { return Utils::duration(m_Stat.previousDuration); }
     int previousStatusDuration_Sec() const { return static_cast<int>(m_Stat.previousDuration / 1000); }
 
     /****************************************************
@@ -583,13 +583,13 @@ public:
     QString statusChangedTime() const { return m_Stat.changedTime.toString("yyyy.MM.dd hh:mm:ss"); }
     int getStatusChangedCnt() const { return m_Stat.changesCnt; }
     int getTotalTests() const { return m_Stat.totalTests; }
-    QString totalTime() const { return Utils::getTimeFromMs(m_Stat.totalTime); }
+    QString totalTime() const { return Utils::duration(m_Stat.totalTime); }
     int getFailedCnt() const { return m_Stat.failedCnt; }
     int getPassedCnt() const { return m_Stat.passedCnt; }
     int getUnknownCnt() const { return m_Stat.unknownCnt; }
-    QString aliveTime() const { return Utils::getTimeFromMs(m_Stat.aliveTime); }
-    QString deadTime() const { return Utils::getTimeFromMs(m_Stat.deadTime); }
-    QString unknownTime() const { return Utils::getTimeFromMs(m_Stat.unknownTime); }
+    QString aliveTime() const { return Utils::duration(m_Stat.aliveTime); }
+    QString deadTime() const { return Utils::duration(m_Stat.deadTime); }
+    QString unknownTime() const { return Utils::duration(m_Stat.unknownTime); }
     double getAliveRatio() { return m_Stat.aliveRatio(); }
     QString getAliveRatioAsStr() { return QString::number(m_Stat.aliveRatio(),'f',1).append('%'); }
     double getDeadRatio() { return m_Stat.deadRatio(); }

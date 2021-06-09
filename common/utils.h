@@ -7,11 +7,10 @@ namespace SDPO {
 class Utils
 {
 public:
-    Utils();
-
     static void DestructorMsg(const QString& value);
     static void DestructorMsg(const QPointer<QObject> object);
-    static QString getTimeFromMs(qint64 tm);
+    static QByteArray md5(const QString &text);
+    static QString duration(qint64 msec);
 
 private:
     // singleton

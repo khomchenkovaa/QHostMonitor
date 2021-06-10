@@ -1,30 +1,29 @@
-#include "qMethodSelectDlg.h"
-#include "ui_qMethodSelectDlg.h"
+#include "testmethodselectdlg.h"
+#include "ui_testmethodselectdlg.h"
 #include <QtWidgets>
 
 namespace SDPO {
 
 /*****************************************************************/
 
-MethodSelectDlg::MethodSelectDlg(QWidget *parent) :
+TestMethodSelectDlg::TestMethodSelectDlg(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::MethodSelectDlg)
+    ui(new Ui::TestMethodSelectDlg)
 {
     ui->setupUi(this);
-    createStandardItemModel();
-    connect(ui->treeTestMethods->selectionModel(), SIGNAL(currentChanged(QModelIndex,QModelIndex)),this,SLOT(onTreeTestMethodsChanged()));
+    setupUI();
 }
 
 /*****************************************************************/
 
-MethodSelectDlg::~MethodSelectDlg()
+TestMethodSelectDlg::~TestMethodSelectDlg()
 {
     delete ui;
 }
 
 /*****************************************************************/
 
-void MethodSelectDlg::setCurrent(const int methodId)
+void TestMethodSelectDlg::setCurrent(const int methodId)
 {
     if (methodId == -1) return;
     TestMethodMetaInfo method = TestMethod::metaInfo.at(methodId);
@@ -41,7 +40,7 @@ void MethodSelectDlg::setCurrent(const int methodId)
 
 /*****************************************************************/
 
-int MethodSelectDlg::getCurrent() const
+int TestMethodSelectDlg::getCurrent() const
 {
     QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
     QStandardItem *item = model->itemFromIndex(ui->treeTestMethods->currentIndex());
@@ -52,7 +51,7 @@ int MethodSelectDlg::getCurrent() const
 
 /*****************************************************************/
 
-void MethodSelectDlg::onTreeTestMethodsChanged()
+void TestMethodSelectDlg::onTreeTestMethodsChanged()
 {
     QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
     QStandardItem *item = model->itemFromIndex(ui->treeTestMethods->currentIndex());
@@ -77,7 +76,26 @@ void MethodSelectDlg::onTreeTestMethodsChanged()
 
 /*****************************************************************/
 
-void MethodSelectDlg::createStandardItemModel()
+void TestMethodSelectDlg::setupUI()
+{
+    if (objectName().isEmpty()) {
+        setObjectName(QStringLiteral("TestMethodSelectDlg"));
+    }
+    setFont(QFont("DejaVu Sans", 8));
+
+    createStandardItemModel();
+
+    connect(ui->treeTestMethods->selectionModel(), &QItemSelectionModel::currentChanged,
+            this, &TestMethodSelectDlg::onTreeTestMethodsChanged);
+    connect(ui->buttonBox, &QDialogButtonBox::accepted,
+            this, &QDialog::accept);
+    connect(ui->buttonBox, &QDialogButtonBox::rejected,
+            this, &QDialog::reject);
+}
+
+/*****************************************************************/
+
+void TestMethodSelectDlg::createStandardItemModel()
 {
     QStandardItemModel *model = new QStandardItemModel(this);
     QStandardItem *root = model->invisibleRootItem();
@@ -150,7 +168,7 @@ void MethodSelectDlg::createStandardItemModel()
 
 /*****************************************************************/
 
-QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
+QStandardItem *TestMethodSelectDlg::createItem(const TMethodID methodId)
 {
     TestMethodMetaInfo method = TestMethod::metaInfoItem(methodId);
     QStandardItem *item = new QStandardItem(QIcon(method.icon), method.text);
@@ -160,7 +178,7 @@ QStandardItem *MethodSelectDlg::createItem(const TMethodID methodId)
 
 /*****************************************************************/
 
-QStandardItem *MethodSelectDlg::createGroupItem(const int groupId)
+QStandardItem *TestMethodSelectDlg::createGroupItem(const int groupId)
 {
     TestGroup group = TestMethod::groups.at(groupId);
     QStandardItem *item = new QStandardItem(QIcon(group.icon), group.name);

@@ -23,7 +23,6 @@ class HostMonDlg : public QDialog
     Ui::HostMonDlg *ui;
     HMListService  *m_HML;
     TTest          *m_Item;
-    QVariant        m_Data;
     bool            changed;
 
 public:
@@ -35,13 +34,11 @@ signals:
     void testChanged(TTest *test);
 
 public slots:
-    void init(TTest *item = 0);
+    void init(TTest *item = nullptr);
     void init(TMethodID method, QVariant data = QVariant());
 
 private slots:
     void reset();
-    void refreshNameAndComment();
-    void openMethodSelectDialog();
     void hideDependencies(bool hide);
     void hideOptional(bool hide);
     void on_btnOk_clicked();
@@ -57,16 +54,7 @@ private slots:
 
 private:
     void setupUI();
-    void setupTestMethodCombo();
-    void setupTestMethodWidgets();
-    void saveTest(TestMethod *testMethod);
-    QString getTestName() const;
-    QString getTestComment() const;
-
-    // QObject interface
-public:
-    bool eventFilter(QObject *watched, QEvent *event);
-
+    bool saveTest();
 };
 
 } // namespace SDPO

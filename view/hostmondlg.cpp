@@ -1,19 +1,16 @@
-#include "qHostMonDlg.h"
-#include "ui_qHostMonDlg.h"
+#include "hostmondlg.h"
+#include "ui_hostmondlg.h"
 
-#include "testedit/qAlertsEditWidget.h"
-#include "testedit/qLogReportsEditWidget.h"
-#include "testedit/qMasterTestsEditWidget.h"
-#include "testedit/qExpressionTestsEditWidget.h"
-#include "qMethodSelectDlg.h"
+#include "qAlertsEditWidget.h"
+#include "qLogReportsEditWidget.h"
+#include "qMasterTestsEditWidget.h"
+#include "qExpressionTestsEditWidget.h"
 #include "qLinksList.h"
 #include "qMacroEditorDlg.h"
 #include "settings.h"
 #include "tTest.h"
 #include "tRoot.h"
 #include "hmListService.h"
-#include "global/gMacroTranslator.h"
-#include "sdpoTestMethodWidgets.h"
 
 #include <QtWidgets>
 #include <QDebug>
@@ -44,27 +41,9 @@ HostMonDlg::~HostMonDlg()
 
 void HostMonDlg::on_btnOk_clicked()
 {
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-    if (!widget) {
-        QMessageBox::information(nullptr,"Info", tr("Oops! Not implemented yet"));
-        return;
+    if (saveTest()) {
+        close();
     }
-    QStringList errors = widget->validate();
-    if (!errors.isEmpty()) {
-        QMessageBox::warning(nullptr,"Warning", errors.at(0));
-        return;
-    }
-    TestMethod* test;
-    if (m_Item) {
-        test = m_Item->method();
-    } else {
-        test = nullptr;
-    }
-    test = widget->save(test);
-    test->setNamePattern(widget->getNamePattern());
-    test->setCommentPattern(widget->getCommentPattern());
-    saveTest(test);
-    close();
 }
 
 /******************************************************************/
@@ -72,10 +51,7 @@ void HostMonDlg::on_btnOk_clicked()
 void HostMonDlg::reset()
 {
     //main
-    ui->cmbAgent->setCurrentIndex(0);
-    ui->cmbTestName->clearEditText();
-    ui->ledTestComment->clear();
-    ui->cmbTestRelatedURL->clearEditText();
+    ui->frmTest->reset();
 
     // Schedule
     ui->btnScheduleRegular->setChecked(true);
@@ -127,33 +103,6 @@ void HostMonDlg::reset()
     ui->cmbReply->setCurrentText(QString());
     ui->cmbEnabled->setCurrentIndex(0);
     ui->btnLinks->setVisible(false);
-
-    for (int i=0; i<ui->stwTestMethod->count(); ++i) {
-        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
-        if (widget) {
-            widget->reset(m_Data);
-        }
-    }
-}
-
-/******************************************************************/
-
-void HostMonDlg::refreshNameAndComment()
-{
-    ui->cmbTestName->setCurrentText(getTestName());
-    ui->ledTestComment->setText(getTestComment());
-}
-
-/******************************************************************/
-
-void HostMonDlg::openMethodSelectDialog()
-{
-    MethodSelectDlg dlg;
-    dlg.setCurrent(ui->cmbTestMethod->currentIndex());
-    if (dlg.exec() == QDialog::Accepted) {
-        int idx = dlg.getCurrent();
-        ui->cmbTestMethod->setCurrentIndex(idx);
-    }
 }
 
 /******************************************************************/
@@ -191,31 +140,12 @@ void HostMonDlg::hideOptional(bool hide)
 
 /******************************************************************/
 
-void HostMonDlg::saveTest(TestMethod *testMethod)
+bool HostMonDlg::saveTest()
 {
-    QString testName = getTestName().trimmed();
-    bool isNew = true;
-    if (m_Item) {
-        isNew = false;
-    } else {
-        m_Item = new TTest(m_HML->nextID(), testName);
-    }
-
-    m_Item->setMethod(testMethod);
-    m_Item->updateSpecificProperties();
-
-    // main
-    if (!testName.isEmpty())  {
-        m_Item->setName(testName);
-        ui->cmbTestName->addItem(testName);
-    }
-    QString taskComment = getTestComment().trimmed();
-    if (!taskComment.isEmpty()) m_Item->setComment(taskComment);
-    QString relatedUrl = ui->cmbTestRelatedURL->currentText().trimmed();
-    if (!relatedUrl.isEmpty()) {
-        m_Item->setRelatedURL(relatedUrl);
-        ui->cmbTestRelatedURL->addItem(relatedUrl);
-    }
+    bool isNew = (m_Item == nullptr);
+    TTest *test = ui->frmTest->save(m_HML, m_Item);
+    if (test == nullptr) return false;
+    m_Item = test;
     // schedule
     if (ui->btnScheduleRegular->isChecked()) {
         m_Item->setRegularSchedule((ui->sbScheduleHours->value() * 60 +
@@ -283,87 +213,7 @@ void HostMonDlg::saveTest(TestMethod *testMethod)
     } else {
         emit testChanged(m_Item);
     }
-}
-
-/******************************************************************/
-
-QString HostMonDlg::getTestName() const
-{
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-    QString nameSource = widget->getNamePattern();
-    GMacroTranslator translator(nameSource);
-    QStringList nameParams = translator.parse();
-    if (nameParams.count()) {
-        QVariantMap nameValues = widget->setTemplateVars(nameParams);
-        translator.setValues(nameValues);
-        return translator.build();
-    }
-    return nameSource;
-}
-
-/******************************************************************/
-
-QString HostMonDlg::getTestComment() const
-{
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-    QString commentSource = widget->getCommentPattern();
-    GMacroTranslator translator(commentSource);
-    QStringList commentParams = translator.parse();
-    if (commentParams.count()) {
-        QVariantMap commentValues = widget->setTemplateVars(commentParams);
-        translator.setValues(commentValues);
-        return translator.build();
-    }
-    return commentSource;
-}
-
-/******************************************************************/
-
-bool HostMonDlg::eventFilter(QObject *watched, QEvent *event)
-{
-    if (event->type() == QEvent::FocusIn) {
-         if (watched == ui->cmbTestName) {
-             TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-             QString nameSource = widget->getNamePattern();
-             ui->cmbTestName->setCurrentText(nameSource);
-             GMacroTranslator translator(nameSource);
-             QStringList nameParams = translator.parse();
-             if (nameParams.count()) {
-                 QPalette palette = ui->cmbTestName->palette();
-                 palette.setColor(QPalette::Base,Qt::yellow);
-                 ui->cmbTestName->setPalette(palette);
-             }
-         } else if (watched == ui->ledTestComment) {
-             TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-             QString commentSource = widget->getCommentPattern();
-             ui->ledTestComment->setText(commentSource);
-             GMacroTranslator translator(commentSource);
-             QStringList commentParams = translator.parse();
-             if (commentParams.count()) {
-                 QPalette palette = ui->ledTestComment->palette();
-                 palette.setColor(QPalette::Base,Qt::yellow);
-                 ui->ledTestComment->setPalette(palette);
-             }
-         }
-    }
-    if (event->type() == QEvent::FocusOut) {
-        if (watched == ui->cmbTestName) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-            widget->setNamePattern(ui->cmbTestName->currentText());
-            refreshNameAndComment();
-            QPalette palette = ui->cmbTestName->palette();
-            palette.setColor(QPalette::Base,Qt::white);
-            ui->cmbTestName->setPalette(palette);
-        } else if (watched == ui->ledTestComment) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-            widget->setCommentPattern(ui->ledTestComment->text());
-            refreshNameAndComment();
-            QPalette palette = ui->ledTestComment->palette();
-            palette.setColor(QPalette::Base,Qt::white);
-            ui->ledTestComment->setPalette(palette);
-        }
-    }
-    return QDialog::eventFilter(watched,event);
+    return true;
 }
 
 /******************************************************************/
@@ -376,10 +226,7 @@ void HostMonDlg::init(TTest *item)
         return;
     }
     // main
-    ui->cmbTestMethod->setCurrentIndex(m_Item->testMethodId());
-    ui->cmbTestName->setCurrentText(m_Item->testName());
-    ui->ledTestComment->setText(m_Item->getComment());
-    ui->cmbTestRelatedURL->setCurrentText(m_Item->getRelatedURL());
+    ui->frmTest->init(item);
 
     // schedule
     int hours = m_Item->interval()/(60*60); // hours
@@ -459,16 +306,6 @@ void HostMonDlg::init(TTest *item)
     ui->cmbNormalCondition->setCurrentText(m_Item->getNormalScript());
     ui->cmbReply->setCurrentText(m_Item->getTuneUpScript());
     ui->btnLinks->setVisible(m_Item->linkCount() > 0);
-
-    emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
-
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
-    if (widget) {
-        widget->init(m_Item->method());
-        widget->setNamePattern(m_Item->method()->getNamePattern());
-        widget->setCommentPattern(m_Item->method()->getCommentPattern());
-        refreshNameAndComment();
-    }
 }
 
 /******************************************************************/
@@ -476,10 +313,9 @@ void HostMonDlg::init(TTest *item)
 void HostMonDlg::init(TMethodID method, QVariant data)
 {
     m_Item = nullptr;
-    m_Data = data;
+    ui->frmTest->setData(data);
     reset();
-    ui->cmbTestMethod->setCurrentIndex(static_cast<int>(method));
-    emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
+    ui->frmTest->setMethodID(method);
 }
 
 /******************************************************************/
@@ -608,33 +444,8 @@ void HostMonDlg::setupUI()
     setWindowTitle(QApplication::translate("HostMonDlg", "Test properties", Q_NULLPTR));
     setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    setupTestMethodCombo();
-    setupTestMethodWidgets();
-
     // TODO migrate from ui_qHostMonDlg.h
 
-    // connections
-    connect(ui->btnTestMethod, &QToolButton::clicked,
-            this, &HostMonDlg::openMethodSelectDialog);
-    connect(ui->btnTestMethodLabel, &QPushButton::clicked,
-            this, &HostMonDlg::openMethodSelectDialog);
-    connect(ui->stwTestMethod, &QStackedWidget::currentChanged,
-            this, &HostMonDlg::refreshNameAndComment);
-    connect(ui->stwTestMethod, &QStackedWidget::currentChanged,
-            ui->cmbTestMethod, &QComboBox::setCurrentIndex);
-    connect(ui->cmbTestMethod, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            ui->stwTestMethod, &QStackedWidget::setCurrentIndex);
-
-    ui->cmbTestName->installEventFilter(this);
-    ui->ledTestComment->installEventFilter(this);
-
-    for (int i = 0; i < ui->stwTestMethod->count(); ++i) {
-        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
-        if (widget) {
-            connect(widget, &TestWidget::propertiesChanged,
-                    this, &HostMonDlg::refreshNameAndComment);
-        }
-    }
     connect(ui->btnDependenciesHideLeft, &QPushButton::toggled,
             this, &HostMonDlg::hideDependencies);
     connect(ui->btnDependenciesHideRight, &QPushButton::toggled,
@@ -650,72 +461,6 @@ void HostMonDlg::setupUI()
 
 }
 
-/******************************************************************/
-
-void HostMonDlg::setupTestMethodCombo()
-{
-    QComboBox *box = ui->cmbTestMethod;
-    foreach(const TestMethodMetaInfo &meta, TestMethod::metaInfo) {
-        box->addItem(QIcon(meta.icon), meta.text, static_cast<int>(meta.id));
-    }
-    box->setCurrentIndex(0);
-}
-
-/******************************************************************/
-
-void HostMonDlg::setupTestMethodWidgets()
-{
-    QStackedWidget *box = ui->stwTestMethod;
-    box->addWidget(new PingWidget);
-    box->addWidget(new TcpWidget);
-    box->addWidget(new UrlWidget);
-    box->addWidget(new DriveSpaceWidget);
-    box->addWidget(new FileSizeWidget);
-    box->addWidget(new FileExistsWidget);
-    box->addWidget(new ExternalPrgWidget);
-    box->addWidget(new SshWidget);
-    box->addWidget(new FileContentsWidget);
-    box->addWidget(new OracleWidget);
-    box->addWidget(new UncWidget);
-    box->addWidget(new InterbaseWidget);
-    box->addWidget(new MsSqlWidget);
-    box->addWidget(new MySqlWidget);
-    box->addWidget(new PostgreSqlWidget);
-    box->addWidget(new SybaseWidget);
-    box->addWidget(new ProcessWidget);
-    box->addWidget(new ServiceWidget);
-    box->addWidget(new SnmpGetWidget);
-    box->addWidget(new NtEventLogWidget);
-    box->addWidget(new CpuUsageWidget);
-    box->addWidget(new CompareFilesWidget);
-    box->addWidget(new OdbcQueryWidget);
-    box->addWidget(new SmtpTestWidget);
-    box->addWidget(new Pop3TestWidget);
-    box->addWidget(new ImapTestWidget);
-    box->addWidget(new DnsTestWidget);
-    box->addWidget(new LdapTestWidget);
-    box->addWidget(new TraceTestWidget);
-    box->addWidget(new CountFilesWidget);
-    box->addWidget(new RasTestWidget);
-    box->addWidget(new PerformanceCounterWidget);
-    box->addWidget(new ActiveScriptWidget);
-    box->addWidget(new UdpTestWidget);
-    box->addWidget(new NtpTestWidget);
-    box->addWidget(new RadiusWidget);
-    box->addWidget(new HttpWidget);
-    box->addWidget(new TextLogWidget);
-    box->addWidget(new ShellScriptWidget);
-    box->addWidget(new TemperatureMonitorWidget);
-    box->addWidget(new TrafficMonitorWidget);
-    box->addWidget(new SnmpTrapWidget);
-    box->addWidget(new WmiWidget);
-    box->addWidget(new MailRelayWidget);
-    box->addWidget(new DicomWidget);
-    box->addWidget(new DominantProcessWidget);
-    box->addWidget(new DhcpWidget);
-    box->addWidget(new SdpoMonitorWidget);
-    box->setCurrentIndex(0);
-}
 
 /******************************************************************/
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MethodSelectDlg</class>
- <widget class="QDialog" name="MethodSelectDlg">
+ <class>TestMethodSelectDlg</class>
+ <widget class="QDialog" name="TestMethodSelectDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -14,7 +14,7 @@
    <string>Select test method</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../qHostMonitor.qrc">
+   <iconset resource="../../qHostMonitor.qrc">
     <normaloff>:/img/hostMonitor.png</normaloff>:/img/hostMonitor.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
@@ -75,41 +75,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../qHostMonitor.qrc"/>
-  <include location="../qHostMonitor.qrc"/>
+  <include location="../../qHostMonitor.qrc"/>
  </resources>
- <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>MethodSelectDlg</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>MethodSelectDlg</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

@@ -1,23 +1,25 @@
-#ifndef QMETHODSELECTDLG_H
-#define QMETHODSELECTDLG_H
+#ifndef TESTMETHODSELECTDLG_H
+#define TESTMETHODSELECTDLG_H
 
 #include <QDialog>
 #include <QStandardItem>
 #include "testmethod.h"
 
 namespace Ui {
-class MethodSelectDlg;
+class TestMethodSelectDlg;
 }
 
 namespace SDPO {
 
-class MethodSelectDlg : public QDialog
+class TestMethodSelectDlg : public QDialog
 {
     Q_OBJECT
 
+    Ui::TestMethodSelectDlg *ui;
+
 public:
-    explicit MethodSelectDlg(QWidget *parent = nullptr);
-    ~MethodSelectDlg();
+    explicit TestMethodSelectDlg(QWidget *parent = nullptr);
+    ~TestMethodSelectDlg();
 
     void setCurrent(const int methodId);
     int getCurrent() const;
@@ -26,8 +28,7 @@ private slots:
     void onTreeTestMethodsChanged();
 
 private:
-    Ui::MethodSelectDlg *ui;
-
+    void setupUI();
     void createStandardItemModel();
     QStandardItem *createItem(const TMethodID methodId);
     QStandardItem *createGroupItem(const int groupId);
@@ -35,4 +36,4 @@ private:
 
 } // namespace SDPO
 
-#endif // QMETHODSELECTDLG_H
+#endif // TESTMETHODSELECTDLG_H

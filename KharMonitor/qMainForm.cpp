@@ -26,7 +26,7 @@
 #include "qCommonViewPropertiesDlg.h"
 #include "qDynamicViewPropertiesDlg.h"
 #include "qFolderPropertiesDlg.h"
-#include "qHostMonDlg.h"
+#include "hostmondlg.h"
 #include "qLinksList.h"
 #include "qLoginAsDlg.h"
 #include "qOperatorsDlg.h"

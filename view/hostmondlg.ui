@@ -36,313 +36,6 @@
    <property name="rightMargin">
     <number>4</number>
    </property>
-   <item row="0" column="0" rowspan="3">
-    <widget class="QFrame" name="frmTest">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::Panel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <property name="lineWidth">
-      <number>2</number>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_4">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetMinimumSize</enum>
-      </property>
-      <property name="leftMargin">
-       <number>6</number>
-      </property>
-      <property name="topMargin">
-       <number>9</number>
-      </property>
-      <property name="rightMargin">
-       <number>6</number>
-      </property>
-      <item>
-       <layout class="QGridLayout" name="gridLayout">
-        <property name="bottomMargin">
-         <number>6</number>
-        </property>
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="verticalSpacing">
-         <number>6</number>
-        </property>
-        <item row="1" column="2">
-         <widget class="QToolButton" name="btnTestMethod">
-          <property name="maximumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Show tests tree</string>
-          </property>
-          <property name="statusTip">
-           <string>Show tests tree</string>
-          </property>
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../qHostMonitor.qrc">
-            <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="btnAgent">
-          <property name="maximumSize">
-           <size>
-            <width>24</width>
-            <height>24</height>
-           </size>
-          </property>
-          <property name="toolTip">
-           <string>Choose Remote Monitoring Agent</string>
-          </property>
-          <property name="statusTip">
-           <string>Choose Remote Monitoring Agent</string>
-          </property>
-          <property name="text">
-           <string>...</string>
-          </property>
-          <property name="icon">
-           <iconset resource="../qHostMonitor.qrc">
-            <normaloff>:/img/browse.png</normaloff>:/img/browse.png</iconset>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="btnTestBy">
-          <property name="whatsThis">
-           <string>Test can be performed by HostMonitor itself (by default) or by Remote Monitoring Agent. You may select an agent from drop down list or click on a button (to the right of the field) to manage agent list. </string>
-          </property>
-          <property name="text">
-           <string>Test by</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="cmbAgent">
-          <property name="currentIndex">
-           <number>0</number>
-          </property>
-          <item>
-           <property name="text">
-            <string>HostMonitor</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="cmbTestMethod"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QPushButton" name="btnTestMethodLabel">
-          <property name="text">
-           <string>Test method</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <widget class="QStackedWidget" name="stwTestMethod">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::Panel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <property name="verticalSpacing">
-         <number>6</number>
-        </property>
-        <item row="0" column="0">
-         <widget class="QLabel" name="lblTestName">
-          <property name="text">
-           <string>Test name</string>
-          </property>
-          <property name="buddy">
-           <cstring>cmbTestName</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="cmbTestName">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="whatsThis">
-           <string>The name of the test; HostMonitor auto populates this field with a suggested name based on the type and other test parameters; you can change that name to whatever name you want.</string>
-          </property>
-          <property name="editable">
-           <bool>true</bool>
-          </property>
-          <property name="duplicatesEnabled">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="lblTestComment">
-          <property name="text">
-           <string>Comment</string>
-          </property>
-          <property name="buddy">
-           <cstring>ledTestComment</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_6">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="ledTestComment">
-            <property name="whatsThis">
-             <string>Here you may provide any comments that make sense to you. You can specify one-line comment directly in the Test Properties dialog or press  button to bring-up popup dialog for entering multi-line comments.</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="btnTestCommentLines">
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../qHostMonitor.qrc">
-              <normaloff>:/img/foldersTree.png</normaloff>:/img/foldersTree.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="btnTestCommentText">
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../qHostMonitor.qrc">
-              <normaloff>:/img/loupe.png</normaloff>:/img/loupe.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="lblTestRelatedURL">
-          <property name="text">
-           <string>Related URL</string>
-          </property>
-          <property name="buddy">
-           <cstring>cmbTestRelatedURL</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <property name="spacing">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QComboBox" name="cmbTestRelatedURL">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="whatsThis">
-             <string>For each test, a related URL can be specified. By adding this property to the list of visible columns or to a report, you will make the related URLs appear in the test list view or report sheet. In HTML reports, URLs appear as hyperlinks. In the list view, tests with a related URL will have a popup menu item that launches the associated program (typically, your default Internet browser).</string>
-            </property>
-            <property name="inputMethodHints">
-             <set>Qt::ImhUrlCharactersOnly</set>
-            </property>
-            <property name="editable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="btnTestUrlFileSelect">
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../qHostMonitor.qrc">
-              <normaloff>:/img/open.png</normaloff>:/img/open.png</iconset>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="btnTestUrlOpen">
-            <property name="maximumSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>...</string>
-            </property>
-            <property name="icon">
-             <iconset resource="../qHostMonitor.qrc">
-              <normaloff>:/img/misc/urlTests.png</normaloff>:/img/misc/urlTests.png</iconset>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-   </item>
    <item row="0" column="1">
     <layout class="QVBoxLayout" name="loSchedule">
      <property name="spacing">
@@ -1864,6 +1557,16 @@
      </layout>
     </widget>
    </item>
+   <item row="0" column="0" rowspan="3">
+    <widget class="SDPO::TestEditWidget" name="frmTest">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
   </layout>
   <zorder>frmTest</zorder>
   <zorder>frmButtons</zorder>
@@ -1889,6 +1592,12 @@
    <class>SDPO::ExpressionTestsEditWidget</class>
    <extends>QWidget</extends>
    <header>testedit/qExpressionTestsEditWidget.h</header>
+  </customwidget>
+  <customwidget>
+   <class>SDPO::TestEditWidget</class>
+   <extends>QFrame</extends>
+   <header>testedit/testeditwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

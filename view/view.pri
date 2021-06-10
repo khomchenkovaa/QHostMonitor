@@ -12,10 +12,9 @@ include("viewmodel/viewmodel.pri")
 include("../views/about/about.pri")
 
 HEADERS += \
+    $$PWD/hostmondlg.h \
     $$PWD/qFolderDlg.h \
     $$PWD/qOptionsForm.h \
-    $$PWD/qHostMonDlg.h \
-    $$PWD/qMethodSelectDlg.h \
     $$PWD/qLinksList.h \
     $$PWD/qActionProfiles.h \
     $$PWD/qActionProfilesAddMenu.h \
@@ -42,10 +41,9 @@ HEADERS += \
     $$PWD/qCommonViewPropertiesDlg.h
 
 SOURCES += \
+    $$PWD/hostmondlg.cpp \
     $$PWD/qFolderDlg.cpp \
     $$PWD/qOptionsForm.cpp \
-    $$PWD/qHostMonDlg.cpp \
-    $$PWD/qMethodSelectDlg.cpp \
     $$PWD/qLinksList.cpp \
     $$PWD/qActionProfiles.cpp \
     $$PWD/qActionProfilesAddMenu.cpp \
@@ -72,10 +70,9 @@ SOURCES += \
     $$PWD/qCommonViewPropertiesDlg.cpp
 
 FORMS    += \
+    $$PWD/hostmondlg.ui \
     $$PWD/qFolderDlg.ui \
     $$PWD/qOptionsForm.ui \
-    $$PWD/qHostMonDlg.ui \
-    $$PWD/qMethodSelectDlg.ui \
     $$PWD/qLinksList.ui \
     $$PWD/qActionProfiles.ui \
     $$PWD/qActionProfilesAddMenu.ui \

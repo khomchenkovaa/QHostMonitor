@@ -1,13 +1,16 @@
 #ifndef TESTMETHODSELECTDLG_H
 #define TESTMETHODSELECTDLG_H
 
-#include <QDialog>
-#include <QStandardItem>
 #include "testmethod.h"
 
-namespace Ui {
-class TestMethodSelectDlg;
-}
+#include <QDialog>
+
+QT_BEGIN_NAMESPACE
+class QStandardItem;
+class QTreeView;
+class QPlainTextEdit;
+class QDialogButtonBox;
+QT_END_NAMESPACE
 
 namespace SDPO {
 
@@ -15,11 +18,9 @@ class TestMethodSelectDlg : public QDialog
 {
     Q_OBJECT
 
-    Ui::TestMethodSelectDlg *ui;
-
 public:
     explicit TestMethodSelectDlg(QWidget *parent = nullptr);
-    ~TestMethodSelectDlg();
+    ~TestMethodSelectDlg() {};
 
     void setCurrent(const int methodId);
     int getCurrent() const;
@@ -32,6 +33,11 @@ private:
     void createStandardItemModel();
     QStandardItem *createItem(const TMethodID methodId);
     QStandardItem *createGroupItem(const int groupId);
+
+private: //UI
+    QTreeView        *uiTestMethods;
+    QPlainTextEdit   *uiTestDescription;
+    QDialogButtonBox *uiButtonBox;
 };
 
 } // namespace SDPO

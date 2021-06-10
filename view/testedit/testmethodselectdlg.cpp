@@ -1,24 +1,24 @@
 #include "testmethodselectdlg.h"
-#include "ui_testmethodselectdlg.h"
-#include <QtWidgets>
 
-namespace SDPO {
+#include <QStandardItem>
+#include <QTreeView>
+#include <QPlainTextEdit>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QSplitter>
+
+using namespace SDPO;
 
 /*****************************************************************/
 
-TestMethodSelectDlg::TestMethodSelectDlg(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TestMethodSelectDlg)
+TestMethodSelectDlg::TestMethodSelectDlg(QWidget *parent)
+    : QDialog(parent)
+    , uiTestMethods     (new QTreeView(this))
+    , uiTestDescription (new QPlainTextEdit(this))
+    , uiButtonBox       (new QDialogButtonBox(this))
 {
-    ui->setupUi(this);
     setupUI();
-}
-
-/*****************************************************************/
-
-TestMethodSelectDlg::~TestMethodSelectDlg()
-{
-    delete ui;
 }
 
 /*****************************************************************/
@@ -27,14 +27,14 @@ void TestMethodSelectDlg::setCurrent(const int methodId)
 {
     if (methodId == -1) return;
     TestMethodMetaInfo method = TestMethod::metaInfo.at(methodId);
-    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
+    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(uiTestMethods->model());
     QList<QStandardItem *> items = model->findItems(method.text, Qt::MatchFixedString | Qt::MatchRecursive);
 
     if (items.isEmpty()) {
-        ui->treeTestMethods->setCurrentIndex(model->index(0,0)); // Ping
+        uiTestMethods->setCurrentIndex(model->index(0,0)); // Ping
     } else {
         QModelIndex idx = model->indexFromItem(items.at(0));
-        ui->treeTestMethods->setCurrentIndex(idx);
+        uiTestMethods->setCurrentIndex(idx);
     }
 }
 
@@ -42,8 +42,8 @@ void TestMethodSelectDlg::setCurrent(const int methodId)
 
 int TestMethodSelectDlg::getCurrent() const
 {
-    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
-    QStandardItem *item = model->itemFromIndex(ui->treeTestMethods->currentIndex());
+    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(uiTestMethods->model());
+    QStandardItem *item = model->itemFromIndex(uiTestMethods->currentIndex());
     int idx = item->data().toInt();
     if (idx > 1000) idx = 0; // Ping
     return idx;
@@ -53,8 +53,8 @@ int TestMethodSelectDlg::getCurrent() const
 
 void TestMethodSelectDlg::onTreeTestMethodsChanged()
 {
-    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(ui->treeTestMethods->model());
-    QStandardItem *item = model->itemFromIndex(ui->treeTestMethods->currentIndex());
+    QStandardItemModel *model = qobject_cast<QStandardItemModel*>(uiTestMethods->model());
+    QStandardItem *item = model->itemFromIndex(uiTestMethods->currentIndex());
     int idx = item->data().toInt();
     QStringList description;
     bool okDisabled = false;
@@ -65,13 +65,13 @@ void TestMethodSelectDlg::onTreeTestMethodsChanged()
     } else { // method
         TestMethodMetaInfo method = TestMethod::metaInfo.at(idx);
         description = method.description;
-        ui->buttonBox->setDisabled(false);
+        uiButtonBox->setDisabled(false);
     }
-    ui->textDescription->clear();
+    uiTestDescription->clear();
     foreach(const QString &text, description) {
-        ui->textDescription->appendPlainText(text);
+        uiTestDescription->appendPlainText(text);
     }
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(okDisabled);
+    uiButtonBox->button(QDialogButtonBox::Ok)->setDisabled(okDisabled);
 }
 
 /*****************************************************************/
@@ -81,15 +81,37 @@ void TestMethodSelectDlg::setupUI()
     if (objectName().isEmpty()) {
         setObjectName(QStringLiteral("TestMethodSelectDlg"));
     }
+    resize(713, 449);
+    setWindowTitle(tr("Select test method"));
+    setWindowIcon(QIcon(":/img/hostMonitor.png"));
     setFont(QFont("DejaVu Sans", 8));
+
+    uiTestMethods->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    uiTestMethods->setIconSize(QSize(16, 16));
+    uiTestMethods->setHeaderHidden(true);
+
+    uiTestDescription->setReadOnly(true);
+    uiTestDescription->setMaximumSize(QSize(16777215, 120));
+
+    uiButtonBox->setOrientation(Qt::Vertical);
+    uiButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
+
+    QSplitter *splitter = new QSplitter(this);
+    splitter->setOrientation(Qt::Vertical);
+    splitter->addWidget(uiTestMethods);
+    splitter->addWidget(uiTestDescription);
+
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    mainLayout->addWidget(splitter);
+    mainLayout->addWidget(uiButtonBox);
 
     createStandardItemModel();
 
-    connect(ui->treeTestMethods->selectionModel(), &QItemSelectionModel::currentChanged,
+    connect(uiTestMethods->selectionModel(), &QItemSelectionModel::currentChanged,
             this, &TestMethodSelectDlg::onTreeTestMethodsChanged);
-    connect(ui->buttonBox, &QDialogButtonBox::accepted,
+    connect(uiButtonBox, &QDialogButtonBox::accepted,
             this, &QDialog::accept);
-    connect(ui->buttonBox, &QDialogButtonBox::rejected,
+    connect(uiButtonBox, &QDialogButtonBox::rejected,
             this, &QDialog::reject);
 }
 
@@ -163,7 +185,7 @@ void TestMethodSelectDlg::createStandardItemModel()
     root->appendRow(createItem(TMethodID::TempMonitor));
     root->appendRow(createItem(TMethodID::HMmonitor));
 
-    ui->treeTestMethods->setModel(model);
+    uiTestMethods->setModel(model);
 }
 
 /*****************************************************************/
@@ -187,5 +209,3 @@ QStandardItem *TestMethodSelectDlg::createGroupItem(const int groupId)
 }
 
 /*****************************************************************/
-
-} // namespace SDPO

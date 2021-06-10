@@ -25,5 +25,4 @@ FORMS    += \
     $$PWD/qMasterTestsEditWidget.ui \
     $$PWD/qExpressionTestsEditWidget.ui \
     $$PWD/qAddMasterTestDlg.ui \
-    $$PWD/testeditwidget.ui \
-    $$PWD/testmethodselectdlg.ui
+    $$PWD/testeditwidget.ui

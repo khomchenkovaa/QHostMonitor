@@ -8,7 +8,7 @@
 QT_BEGIN_NAMESPACE
 class QStandardItem;
 class QTreeView;
-class QPlainTextEdit;
+class QTextEdit;
 class QDialogButtonBox;
 QT_END_NAMESPACE
 
@@ -36,7 +36,7 @@ private:
 
 private: //UI
     QTreeView        *uiTestMethods;
-    QPlainTextEdit   *uiTestDescription;
+    QTextEdit        *uiTestDescription;
     QDialogButtonBox *uiButtonBox;
 };
 

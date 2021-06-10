@@ -74,6 +74,10 @@ struct TestGroup
     QString icon;
     int parent;
     QStringList description;
+
+    QString getDescription() const {
+        return description.join("\n");
+    }
 };
 
 /*****************************************************************/
@@ -85,11 +89,16 @@ struct TestMethodMetaInfo
     QString     title;
     QString     text;
     QString     icon;
+    QString     html;
     int         parent;
     bool        active;
     QString     namePattern;
     QString     commentPattern;
     QStringList description;
+
+    QString getDescription() const {
+        return description.join("\n");
+    }
 };
 
 /***********************************************/

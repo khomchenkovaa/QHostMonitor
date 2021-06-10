@@ -225,5 +225,6 @@
         <file>img/status/tstWaitForMaster.png</file>
         <file>img/status/tstWarning.png</file>
         <file>resources/snmpCredentials.json</file>
+        <file>resources/tests/ping.html</file>
     </qresource>
 </RCC>

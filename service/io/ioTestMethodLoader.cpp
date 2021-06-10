@@ -61,11 +61,12 @@ void IOTestMethodLoader::loadMethods(QJsonObject json_obj)
     foreach (const QJsonValue &item, test_array) {
         QJsonObject jsonTest = item.toObject();
         TestMethodMetaInfo method;
-        method.id = (TMethodID)jsonTest["id"].toInt();
+        method.id = static_cast<TMethodID>(jsonTest["id"].toInt());
         method.name = jsonTest["name"].toString();
         method.title = jsonTest["title"].toString();
         method.text = jsonTest["text"].toString();
         method.icon = jsonTest["icon"].toString();
+        method.html = jsonTest["html"].toString();
         method.parent = jsonTest["parent"].toInt();
         method.active = (jsonTest["active"].toString() == "yes");
         method.namePattern = jsonTest["testname"].toString();

@@ -59,6 +59,7 @@
     "title" : "Ping",
     "text" : "Ping test",
     "icon" : ":/img/test/ping.png",
+    "html" : ":/resources/tests/ping.html",
     "parent" : 0,
     "active" : "yes",
     "testname" : "%TestMethod% %host%",

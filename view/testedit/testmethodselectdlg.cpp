@@ -2,11 +2,12 @@
 
 #include <QStandardItem>
 #include <QTreeView>
-#include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QDialogButtonBox>
 #include <QPushButton>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QSplitter>
+#include <QFile>
 
 using namespace SDPO;
 
@@ -15,7 +16,7 @@ using namespace SDPO;
 TestMethodSelectDlg::TestMethodSelectDlg(QWidget *parent)
     : QDialog(parent)
     , uiTestMethods     (new QTreeView(this))
-    , uiTestDescription (new QPlainTextEdit(this))
+    , uiTestDescription (new QTextEdit(this))
     , uiButtonBox       (new QDialogButtonBox(this))
 {
     setupUI();
@@ -56,20 +57,26 @@ void TestMethodSelectDlg::onTreeTestMethodsChanged()
     QStandardItemModel *model = qobject_cast<QStandardItemModel*>(uiTestMethods->model());
     QStandardItem *item = model->itemFromIndex(uiTestMethods->currentIndex());
     int idx = item->data().toInt();
-    QStringList description;
     bool okDisabled = false;
+    uiTestDescription->clear();
     if (idx > 1000) { //group
         TestGroup group = TestMethod::groups.at(idx-1000);
-        description = group.description;
+        uiTestDescription->setPlainText(group.getDescription());
         okDisabled = true;
     } else { // method
         TestMethodMetaInfo method = TestMethod::metaInfo.at(idx);
-        description = method.description;
+        if (method.html.isEmpty()) {
+            uiTestDescription->setPlainText(method.getDescription());
+        } else {
+            QFile file(method.html);
+            if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+                uiTestDescription->setHtml(file.readAll());
+                file.close();
+            } else {
+                uiTestDescription->setPlainText(QString("Cannot open resource file '%1'").arg(method.html));
+            }
+        }
         uiButtonBox->setDisabled(false);
-    }
-    uiTestDescription->clear();
-    foreach(const QString &text, description) {
-        uiTestDescription->appendPlainText(text);
     }
     uiButtonBox->button(QDialogButtonBox::Ok)->setDisabled(okDisabled);
 }
@@ -81,7 +88,7 @@ void TestMethodSelectDlg::setupUI()
     if (objectName().isEmpty()) {
         setObjectName(QStringLiteral("TestMethodSelectDlg"));
     }
-    resize(713, 449);
+    resize(700, 450);
     setWindowTitle(tr("Select test method"));
     setWindowIcon(QIcon(":/img/hostMonitor.png"));
     setFont(QFont("DejaVu Sans", 8));
@@ -91,17 +98,16 @@ void TestMethodSelectDlg::setupUI()
     uiTestMethods->setHeaderHidden(true);
 
     uiTestDescription->setReadOnly(true);
-    uiTestDescription->setMaximumSize(QSize(16777215, 120));
 
-    uiButtonBox->setOrientation(Qt::Vertical);
+    uiButtonBox->setOrientation(Qt::Horizontal);
     uiButtonBox->setStandardButtons(QDialogButtonBox::Cancel|QDialogButtonBox::Ok);
 
     QSplitter *splitter = new QSplitter(this);
-    splitter->setOrientation(Qt::Vertical);
+    splitter->setOrientation(Qt::Horizontal);
     splitter->addWidget(uiTestMethods);
     splitter->addWidget(uiTestDescription);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout(this);
     mainLayout->addWidget(splitter);
     mainLayout->addWidget(uiButtonBox);
 

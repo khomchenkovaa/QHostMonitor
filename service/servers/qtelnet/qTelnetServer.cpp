@@ -1,6 +1,6 @@
 #include "qTelnetServer.h"
 #include "telnetTcpServer.h"
-#include "gSettings.h"
+#include "settings.h"
 #include "utils.h"
 
 #include <QCryptographicHash>

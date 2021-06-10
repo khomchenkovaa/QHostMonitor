@@ -1,11 +1,11 @@
-#ifndef PLOGPROPPERTIES_H
-#define PLOGPROPPERTIES_H
+#ifndef LOGPROPPERTIES_H
+#define LOGPROPPERTIES_H
 
 #include "PropertyHelper.h"
 
 namespace SDPO {
 
-class PLogProperties : public QObject
+class LogProperties : public QObject
 {
     Q_OBJECT
 
@@ -43,7 +43,7 @@ private:
     AUTO_PROPERTY(int, OdbcTimeout)
 
 public:
-    explicit PLogProperties(bool primary = true, QObject *parent = nullptr);
+    explicit LogProperties(bool primary = true, QObject *parent = nullptr);
     void getPrimaryLogSettings();
     void getBackupLogSettings();
     QString getFileNameByDate(const QDateTime date) const;
@@ -59,4 +59,4 @@ public slots:
 
 } // namespace SDPO
 
-#endif // PLOGPROPPERTIES_H
+#endif // LOGPROPPERTIES_H

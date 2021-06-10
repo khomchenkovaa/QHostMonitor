@@ -1,5 +1,5 @@
-#ifndef GSETTINGS_H
-#define GSETTINGS_H
+#ifndef SETTINGS_H
+#define SETTINGS_H
 
 #include <QSettings>
 
@@ -372,4 +372,4 @@
 #define SKEY_RMA_LogAccepted "ActiveRMAServer/LogAccepted"
 #define SKEY_RMA_LogRejected "ActiveRMAServer/LogRejected"
 
-#endif // GSETTINGS_H
+#endif // SETTINGS_H

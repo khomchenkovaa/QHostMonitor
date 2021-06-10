@@ -1,6 +1,6 @@
 #include "tPing.h"
 #include "tEnums.h"
-#include "gSettings.h"
+#include "settings.h"
 #include <QProcess>
 
 #include <QDebug>

@@ -1,7 +1,7 @@
 #include "qActionPopupEvent.h"
 #include "ui_qActionPopupEvent.h"
 #include "tTest.h"
-#include "gSettings.h"
+#include "settings.h"
 
 namespace SDPO {
 

@@ -10,9 +10,9 @@ include("lib/libqxt/libqxt.pri")
 include("lib/modeltest/modeltest.pri")
 
 HEADERS += \
+    $$PWD/settings.h \
     $$PWD/tEnums.h \
     $$PWD/PropertyHelper.h \
-    $$PWD/gSettings.h \
     $$PWD/utils.h \
     $$PWD/xMacroVar.h \
     $$PWD/gUnitConverter.h

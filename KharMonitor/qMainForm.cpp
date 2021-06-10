@@ -4,7 +4,7 @@
 #include <QtWidgets>
 
 // common
-#include "gSettings.h"
+#include "settings.h"
 #include "utils.h"
 
 // model

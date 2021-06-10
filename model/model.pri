@@ -6,7 +6,6 @@ DEPENDPATH += $$PWD
 include("global/global.pri")
 include("method/method.pri")
 include("action/action.pri")
-include("options/options.pri")
 
 HEADERS += \
     $$PWD/tNode.h \

@@ -1,10 +1,10 @@
 #ifndef LOGSERVICE_H
 #define LOGSERVICE_H
 
-#include <QObject>
-#include <QStringList>
-#include "options/pLogProperties.h"
+#include "logProperties.h"
 #include "hmListService.h"
+
+#include <QStringList>
 
 namespace SDPO {
 
@@ -32,10 +32,10 @@ public slots:
 
 private:
     void writeBackupLog(TTest *test);
-    bool writeFileLog(const QString& fileName, const PLogProperties &props, TTest *test);
-    bool odbcLog(const PLogProperties &props, TTest *test);
-    bool needToWrite(const PLogProperties::LogMode mode, TTest *test) const;
-    void reportStatus(const bool logResult, const QString& loggerName, const PLogProperties &props, TTest *test);
+    bool writeFileLog(const QString& fileName, const LogProperties &props, TTest *test);
+    bool odbcLog(const LogProperties &props, TTest *test);
+    bool needToWrite(const LogProperties::LogMode mode, TTest *test) const;
+    void reportStatus(const bool logResult, const QString& loggerName, const LogProperties &props, TTest *test);
 };
 
 } // namespace SDPO

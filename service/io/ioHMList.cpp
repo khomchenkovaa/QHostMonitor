@@ -4,7 +4,7 @@
 #include "hmListService.h"
 #include "gData.h"
 #include "global/gProfiles.h"
-#include "gSettings.h"
+#include "settings.h"
 #include "ioHelper.h"
 
 #include <QDebug>

@@ -8,6 +8,7 @@ include("logger/logger.pri")
 include("servers/servers.pri")
 
 HEADERS += \
+    $$PWD/logProperties.h \
     $$PWD/monitoringTask.h \
     $$PWD/actionTask.h \
     $$PWD/manageableService.h \
@@ -18,6 +19,7 @@ HEADERS += \
     $$PWD/logService.h
 
 SOURCES += \
+    $$PWD/logProperties.cpp \
     $$PWD/monitoringTask.cpp \
     $$PWD/actionTask.cpp \
     $$PWD/manageableService.cpp \

@@ -1,7 +1,7 @@
 #include "rciServer.h"
 #include "rciConnection.h"
 #include "utils.h"
-#include "gSettings.h"
+#include "settings.h"
 
 #include <QThread>
 #include <QDebug>

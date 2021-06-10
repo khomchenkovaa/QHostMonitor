@@ -4,7 +4,7 @@
 #include "tLink.h"
 #include "utils.h"
 #include "gData.h"
-#include "gSettings.h"
+#include "settings.h"
 
 #include <QDebug>
 

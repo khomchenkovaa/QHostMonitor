@@ -1,12 +1,12 @@
-#include "pLogProperties.h"
-#include "gSettings.h"
+#include "logProperties.h"
+#include "settings.h"
 #include <QDateTime>
 
 namespace SDPO {
 
 /******************************************************************/
 
-PLogProperties::PLogProperties(bool primary, QObject *parent) :
+LogProperties::LogProperties(bool primary, QObject *parent) :
     QObject(parent)
 {
     if (primary) {
@@ -18,7 +18,7 @@ PLogProperties::PLogProperties(bool primary, QObject *parent) :
 
 /******************************************************************/
 
-void PLogProperties::getPrimaryLogSettings()
+void LogProperties::getPrimaryLogSettings()
 {
     QSettings s;
     a_Target = static_cast<LogTarget>(s.value(SKEY_LOG1_Target,1).toInt());
@@ -39,7 +39,7 @@ void PLogProperties::getPrimaryLogSettings()
 
 /******************************************************************/
 
-void PLogProperties::getBackupLogSettings()
+void LogProperties::getBackupLogSettings()
 {
     QSettings s;
     a_Target = static_cast<LogTarget>(s.value(SKEY_LOG2_Target,1).toInt());
@@ -60,7 +60,7 @@ void PLogProperties::getBackupLogSettings()
 
 /******************************************************************/
 
-QString PLogProperties::getFileNameByDate(const QDateTime date) const
+QString LogProperties::getFileNameByDate(const QDateTime date) const
 {
     QString result = a_File2Name;
     switch (a_NameMethod) {
@@ -84,7 +84,7 @@ QString PLogProperties::getFileNameByDate(const QDateTime date) const
 
 /******************************************************************/
 
-void PLogProperties::setSaveModeByTestProps(const PLogProperties::LogModeTest lmt)
+void LogProperties::setSaveModeByTestProps(const LogProperties::LogModeTest lmt)
 {
     switch (lmt) {
     case LMT_BRIEF : a_SaveMode = LM_BRIEF; break;
@@ -96,7 +96,7 @@ void PLogProperties::setSaveModeByTestProps(const PLogProperties::LogModeTest lm
 
 /******************************************************************/
 
-void PLogProperties::setFormatByFileExt(const QString fileName)
+void LogProperties::setFormatByFileExt(const QString fileName)
 {
     a_Format = LF_TXT;
     if (fileName.endsWith(".htm",Qt::CaseInsensitive)) {

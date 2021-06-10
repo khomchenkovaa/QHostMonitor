@@ -1,5 +1,5 @@
 #include "startup.h"
-#include "gSettings.h"
+#include "settings.h"
 
 #include <QApplication>
 #include <QStyleFactory>

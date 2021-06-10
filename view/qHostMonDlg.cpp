@@ -8,7 +8,7 @@
 #include "qMethodSelectDlg.h"
 #include "qLinksList.h"
 #include "qMacroEditorDlg.h"
-#include "gSettings.h"
+#include "settings.h"
 #include "tTest.h"
 #include "tRoot.h"
 #include "hmListService.h"

@@ -1,7 +1,7 @@
 #ifndef QOPTIONSWIDGET_H
 #define QOPTIONSWIDGET_H
 
-#include "gSettings.h"
+#include "settings.h"
 
 #include <QWidget>
 

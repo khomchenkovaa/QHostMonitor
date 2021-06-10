@@ -1,12 +1,12 @@
 #include "logService.h"
+
+#include "settings.h"
 #include "utils.h"
 #include "tTest.h"
-#include "options/pLogProperties.h"
 #include "logger/textLogger.h"
 #include "logger/htmlLogger.h"
 #include "logger/dbfLogger.h"
 #include "logger/odbcLogger.h"
-#include "gSettings.h"
 
 #include <QDebug>
 
@@ -57,12 +57,12 @@ void LogService::writePrivateLog(TTest *test)
         return;
     }
 
-    PLogProperties logSettings(true);
+    LogProperties logSettings(true);
 
     // Private log type - files only
-    logSettings.setTarget(PLogProperties::LT_FILE);
+    logSettings.setTarget(LogProperties::LT_FILE);
     logSettings.setFormatByFileExt(test->getPrivateLog());
-    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getPrivateLogMode()));
+    logSettings.setSaveModeByTestProps(static_cast<LogProperties::LogModeTest>(test->getPrivateLogMode()));
     logSettings.setFile2Name(test->getPrivateLog());
     logSettings.setUseGoodAction(false);
     logSettings.setUseDeadAction(false);
@@ -86,9 +86,9 @@ void LogService::writePrivateLog(TTest *test)
 
 void LogService::writeCommonLog(TTest *test)
 {    
-    PLogProperties logSettings(true);
+    LogProperties logSettings(true);
 
-    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getCommonLogMode()));
+    logSettings.setSaveModeByTestProps(static_cast<LogProperties::LogModeTest>(test->getCommonLogMode()));
     if (!needToWrite(logSettings.getSaveMode(), test)) {
         return;
     }
@@ -96,17 +96,17 @@ void LogService::writeCommonLog(TTest *test)
     bool logWritten = false;
 
     switch (logSettings.getTarget()) {
-    case PLogProperties::LT_NONE :
+    case LogProperties::LT_NONE :
         logWritten = true;
         break;
-    case PLogProperties::LT_FILE : {
+    case LogProperties::LT_FILE : {
             QString logFileName = logSettings.getFileNameByDate(test->getTestTime());
             if (!logFileName.isEmpty()) {
                 logWritten = writeFileLog(logFileName, logSettings, test);
             }
         }
         break;
-    case PLogProperties::LT_DATABASE :
+    case LogProperties::LT_DATABASE :
         logWritten = odbcLog(logSettings, test);
         break;
     }
@@ -134,10 +134,10 @@ void LogService::writeSpecificFileLog(TTest *test, QString fileName)
         return;
     }
 
-    PLogProperties logSettings(true);
+    LogProperties logSettings(true);
 
     // specific filename log type - files only
-    logSettings.setTarget(PLogProperties::LT_FILE);
+    logSettings.setTarget(LogProperties::LT_FILE);
     logSettings.setFormatByFileExt(fileName);
     logSettings.setFile2Name(fileName);
     logSettings.setUseGoodAction(false);
@@ -158,9 +158,9 @@ void LogService::writeSpecificFileLog(TTest *test, QString fileName)
 
 void LogService::writeBackupLog(TTest *test)
 {
-    PLogProperties logSettings(false);
+    LogProperties logSettings(false);
 
-    logSettings.setSaveModeByTestProps(static_cast<PLogProperties::LogModeTest>(test->getCommonLogMode()));
+    logSettings.setSaveModeByTestProps(static_cast<LogProperties::LogModeTest>(test->getCommonLogMode()));
     if (!needToWrite(logSettings.getSaveMode(), test)) {
         return;
     }
@@ -168,17 +168,17 @@ void LogService::writeBackupLog(TTest *test)
     bool logWritten = false;
 
     switch (logSettings.getTarget()) {
-    case PLogProperties::LT_NONE :
+    case LogProperties::LT_NONE :
         logWritten = true;
         break;
-    case PLogProperties::LT_FILE : {
+    case LogProperties::LT_FILE : {
             QString logFileName = logSettings.getFileNameByDate(test->getTestTime());
             if (!logFileName.isEmpty()) {
                 logWritten = writeFileLog(logFileName, logSettings, test);
             }
         }
         break;
-    case PLogProperties::LT_DATABASE :
+    case LogProperties::LT_DATABASE :
         logWritten = odbcLog(logSettings, test);
         break;
     }
@@ -194,12 +194,12 @@ void LogService::writeBackupLog(TTest *test)
 
 /***********************************************/
 
-bool LogService::writeFileLog(const QString &fileName, const PLogProperties &props, TTest *test)
+bool LogService::writeFileLog(const QString &fileName, const LogProperties &props, TTest *test)
 {
     bool logResult = false;
 
     switch (props.getFormat()) {
-    case PLogProperties::LF_TXT : {
+    case LogProperties::LF_TXT : {
             TextLogger logger;
             if (logger.startLog(fileName)) {
                 logResult = logger.log(test);
@@ -207,7 +207,7 @@ bool LogService::writeFileLog(const QString &fileName, const PLogProperties &pro
             }
         }
         break;
-    case PLogProperties::LF_HTML : {
+    case LogProperties::LF_HTML : {
             HtmlLogger logger;
             if (logger.startLog(fileName)) {
                 logResult = logger.log(test);
@@ -215,7 +215,7 @@ bool LogService::writeFileLog(const QString &fileName, const PLogProperties &pro
             }
         }
         break;
-    case PLogProperties::LF_DBF : {
+    case LogProperties::LF_DBF : {
             DbfLogger logger;
             if (logger.startLog(fileName)) {
                 logResult = logger.log(test);
@@ -232,7 +232,7 @@ bool LogService::writeFileLog(const QString &fileName, const PLogProperties &pro
 
 /***********************************************/
 
-bool LogService::odbcLog( const PLogProperties &props, TTest *test)
+bool LogService::odbcLog( const LogProperties &props, TTest *test)
 {
     bool logResult = false;
     OdbcLogger logger;
@@ -248,23 +248,23 @@ bool LogService::odbcLog( const PLogProperties &props, TTest *test)
 
 /***********************************************/
 
-bool LogService::needToWrite(const PLogProperties::LogMode mode, TTest *test) const
+bool LogService::needToWrite(const LogProperties::LogMode mode, TTest *test) const
 {
     bool result = false;
     switch (mode) {
-    case PLogProperties::LM_FULL : // save information about every performed test
+    case LogProperties::LM_FULL : // save information about every performed test
         result = true;
         break;
-    case PLogProperties::LM_BRIEF : // write a record when test status changes
+    case LogProperties::LM_BRIEF : // write a record when test status changes
         result = (test->status() != test->lastStatus());
         break;
-    case PLogProperties::LM_MIDNIGHT : { // write a record when test status changes + midnight logging
+    case LogProperties::LM_MIDNIGHT : { // write a record when test status changes + midnight logging
         QDateTime midnight = test->getTestTime();
         midnight.setTime(QTime(0,0,0,0));
         result = (test->getLastTestTime() < midnight || test->status() != test->lastStatus());
         }
         break;
-    case PLogProperties::LM_REPLY : // write a record when test status or reply value changes
+    case LogProperties::LM_REPLY : // write a record when test status or reply value changes
         result = (test->lastReply() != test->getReply() || test->status() != test->lastStatus());
         break;
     }
@@ -273,7 +273,7 @@ bool LogService::needToWrite(const PLogProperties::LogMode mode, TTest *test) co
 
 /***********************************************/
 
-void LogService::reportStatus(const bool logResult, const QString &loggerName, const PLogProperties &props, TTest *test)
+void LogService::reportStatus(const bool logResult, const QString &loggerName, const LogProperties &props, TTest *test)
 {
     bool wasFailed = failedLogs.contains(loggerName);
 

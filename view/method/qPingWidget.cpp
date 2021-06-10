@@ -1,6 +1,6 @@
 #include "qPingWidget.h"
 #include "ui_qPingWidget.h"
-#include "gSettings.h"
+#include "settings.h"
 #include "method/tPing.h"
 
 namespace SDPO {

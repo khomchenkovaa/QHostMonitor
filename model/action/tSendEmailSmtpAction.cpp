@@ -1,7 +1,7 @@
 #include "tSendEmailSmtpAction.h"
 
 #include "global/gMacroTranslator.h"
-#include "gSettings.h"
+#include "settings.h"
 
 #include "qxtsmtp.h"
 

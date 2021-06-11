@@ -40,12 +40,8 @@ public slots:
 private slots:
     void reset();
     void hideDependencies(bool hide);
-    void hideOptional(bool hide);
     void on_btnOk_clicked();
     void on_btnLinks_clicked();
-    void on_btnWarningCondition_clicked();
-    void on_btnNormalCondition_clicked();
-    void on_btnTuneUpReply_clicked();
 
 private:
     void setupUI();

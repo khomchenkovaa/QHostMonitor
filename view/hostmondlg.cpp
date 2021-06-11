@@ -6,7 +6,6 @@
 #include "qMasterTestsEditWidget.h"
 #include "qExpressionTestsEditWidget.h"
 #include "qLinksList.h"
-#include "qMacroEditorDlg.h"
 #include "settings.h"
 #include "tTest.h"
 #include "tRoot.h"
@@ -83,15 +82,8 @@ void HostMonDlg::reset()
     ui->treeDependentTests->clear();
 
     // Optional
-    ui->chkReverseAlert->setChecked(false);
-    ui->chkUnknownIsBad->setChecked(true);
-    ui->chkWarningIsBad->setChecked(true);
-    ui->chkUseWarningIf->setChecked(false);
-    ui->chkUseNormalIf->setChecked(false);
-    ui->chkTuneUpReply->setChecked(false);
-    ui->cmbWarningCondition->setCurrentText(QString());
-    ui->cmbNormalCondition->setCurrentText(QString());
-    ui->cmbReply->setCurrentText(QString());
+    ui->frmOptional->reset();
+
     ui->cmbEnabled->setCurrentIndex(0);
     ui->btnLinks->setVisible(false);
 }
@@ -111,22 +103,6 @@ void HostMonDlg::hideDependencies(bool hide)
         qDebug() << "Size changed from:" << h << "to" << newSize.height();
         resize(newSize);
     }
-}
-
-/******************************************************************/
-
-void HostMonDlg::hideOptional(bool hide)
-{
-    if (ui->frmOptional->isHidden() == hide) {
-        return;
-    }
-    ui->btnStatusProcessingHide->setChecked(hide);
-    ui->frmOptional->setHidden(hide);
-    QSize newSize = size();
-    int h = newSize.height();
-    newSize.setHeight( hide ? h - ui->frmOptional->height() : h + ui->frmOptional->height() );
-    qDebug() << "Size changed from:" << h << "to" << newSize.height();
-    resize(newSize);
 }
 
 /******************************************************************/
@@ -166,15 +142,8 @@ bool HostMonDlg::saveTest()
     m_Item->setSynchronizeStatusAlerts(ui->chkSynchronizeStatusAlerts->isChecked());
 
     // optional
-    m_Item->setReverseAlert(ui->chkReverseAlert->isChecked());
-    m_Item->setUnknownIsBad(ui->chkUnknownIsBad->isChecked());
-    m_Item->setWarningIsBad(ui->chkWarningIsBad->isChecked());
-    m_Item->setUseWarningScript(ui->chkUseWarningIf->isChecked());
-    m_Item->setUseNormalScript(ui->chkUseNormalIf->isChecked());
-    m_Item->setTuneUpReply(ui->chkTuneUpReply->isChecked());
-    m_Item->setWarningScript(ui->cmbWarningCondition->currentText());
-    m_Item->setNormalScript(ui->cmbNormalCondition->currentText());
-    m_Item->setTuneUpScript(ui->cmbReply->currentText());
+    ui->frmOptional->save(m_Item);
+
     m_Item->setEnabled(ui->cmbEnabled->currentIndex() == 0);
 
     if (isNew) {
@@ -229,16 +198,9 @@ void HostMonDlg::init(TTest *item)
     //! TODO implement DependentTests init
 
     // optional
+    ui->frmOptional->init(m_Item);
+
     ui->cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);
-    ui->chkReverseAlert->setChecked(m_Item->isReverseAlert());
-    ui->chkUnknownIsBad->setChecked(m_Item->isUnknownIsBad());
-    ui->chkWarningIsBad->setChecked(m_Item->isWarningIsBad());
-    ui->chkUseWarningIf->setChecked(m_Item->isUseWarningScript());
-    ui->chkUseNormalIf->setChecked(m_Item->isUseNormalScript());
-    ui->chkTuneUpReply->setChecked(m_Item->isTuneUpReply());
-    ui->cmbWarningCondition->setCurrentText(m_Item->getWarningScript());
-    ui->cmbNormalCondition->setCurrentText(m_Item->getNormalScript());
-    ui->cmbReply->setCurrentText(m_Item->getTuneUpScript());
     ui->btnLinks->setVisible(m_Item->linkCount() > 0);
 }
 
@@ -262,42 +224,6 @@ void HostMonDlg::on_btnLinks_clicked()
     LinksList linksDlg(m_Item);
     linksDlg.setReadOnly();
     linksDlg.exec();
-}
-
-/******************************************************************/
-
-void HostMonDlg::on_btnWarningCondition_clicked()
-{
-    MacroEditorDlg dlg;
-    dlg.setWindowTitle(tr("Use 'Warning' status if"));
-    dlg.setScript(ui->cmbWarningCondition->currentText());
-    if (dlg.exec() == QDialog::Accepted) {
-        ui->cmbWarningCondition->setCurrentText(dlg.getScript());
-    }
-}
-
-/******************************************************************/
-
-void HostMonDlg::on_btnNormalCondition_clicked()
-{
-    MacroEditorDlg dlg;
-    dlg.setWindowTitle(tr("Use 'Normal' status if"));
-    dlg.setScript(ui->cmbNormalCondition->currentText());
-    if (dlg.exec() == QDialog::Accepted) {
-        ui->cmbNormalCondition->setCurrentText(dlg.getScript());
-    }
-}
-
-/******************************************************************/
-
-void HostMonDlg::on_btnTuneUpReply_clicked()
-{
-    MacroEditorDlg dlg;
-    dlg.setWindowTitle(tr("Tune up reply"));
-    dlg.setScript(ui->cmbReply->currentText());
-    if (dlg.exec() == QDialog::Accepted) {
-        ui->cmbReply->setCurrentText(dlg.getScript());
-    }
 }
 
 /******************************************************************/
@@ -327,8 +253,6 @@ void HostMonDlg::setupUI()
             this, &HostMonDlg::hideDependencies);
     connect(ui->btnDependenciesHideRight, &QPushButton::toggled,
             this, &HostMonDlg::hideDependencies);
-    connect(ui->btnStatusProcessingHide, &QPushButton::toggled,
-            this, &HostMonDlg::hideOptional);
     connect(ui->cmbDependencyMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             ui->stwMasterTest, &QStackedWidget::setCurrentIndex);
     connect(ui->chkSynchronizeCounters, &QCheckBox::toggled,

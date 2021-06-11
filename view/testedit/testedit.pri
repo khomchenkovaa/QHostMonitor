@@ -2,6 +2,7 @@ INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
 HEADERS += \
+    $$PWD/optionalprocessingwidget.h \
     $$PWD/qAlertsEditWidget.h \
     $$PWD/qLogReportsEditWidget.h \
     $$PWD/qMasterTestsEditWidget.h \
@@ -12,6 +13,7 @@ HEADERS += \
     $$PWD/testschedulewidget.h
 
 SOURCES += \
+    $$PWD/optionalprocessingwidget.cpp \
     $$PWD/qAlertsEditWidget.cpp \
     $$PWD/qLogReportsEditWidget.cpp \
     $$PWD/qMasterTestsEditWidget.cpp \
@@ -22,6 +24,7 @@ SOURCES += \
     $$PWD/testschedulewidget.cpp
 
 FORMS    += \
+    $$PWD/optionalprocessingwidget.ui \
     $$PWD/qAlertsEditWidget.ui \
     $$PWD/qLogReportsEditWidget.ui \
     $$PWD/qMasterTestsEditWidget.ui \

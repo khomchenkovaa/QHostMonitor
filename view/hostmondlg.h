@@ -43,11 +43,6 @@ private slots:
     void hideOptional(bool hide);
     void on_btnOk_clicked();
     void on_btnLinks_clicked();
-    void on_btnSchedulesDlg_clicked();
-    void on_btnScheduleRegular_clicked();
-    void on_btnScheduleIrregular_clicked();
-    void on_btnScheduleByExpression_clicked();
-    void on_cmbSchedIrregularMode_currentIndexChanged(int index);
     void on_btnWarningCondition_clicked();
     void on_btnNormalCondition_clicked();
     void on_btnTuneUpReply_clicked();

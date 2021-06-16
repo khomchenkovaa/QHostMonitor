@@ -3,6 +3,7 @@ DEPENDPATH += $$PWD
 
 HEADERS += \
     $$PWD/dependencieseditwidget.h \
+    $$PWD/mastereditwidget.h \
     $$PWD/optionalprocessingwidget.h \
     $$PWD/qAlertsEditWidget.h \
     $$PWD/qLogReportsEditWidget.h \
@@ -15,6 +16,7 @@ HEADERS += \
 
 SOURCES += \
     $$PWD/dependencieseditwidget.cpp \
+    $$PWD/mastereditwidget.cpp \
     $$PWD/optionalprocessingwidget.cpp \
     $$PWD/qAlertsEditWidget.cpp \
     $$PWD/qLogReportsEditWidget.cpp \
@@ -27,6 +29,7 @@ SOURCES += \
 
 FORMS    += \
     $$PWD/dependencieseditwidget.ui \
+    $$PWD/mastereditwidget.ui \
     $$PWD/optionalprocessingwidget.ui \
     $$PWD/qAlertsEditWidget.ui \
     $$PWD/qLogReportsEditWidget.ui \

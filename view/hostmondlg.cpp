@@ -49,41 +49,12 @@ void HostMonDlg::on_btnOk_clicked()
 
 void HostMonDlg::reset()
 {
-    //main
     ui->frmTest->reset();
-
-    // Schedule
     ui->frmSchedule->reset();
-
-    // Alerts
-    AlertsEditWidget *alerts = qobject_cast<AlertsEditWidget*>(ui->grpAlerts);
-    if (alerts) {
-        alerts->reset();
-    }
-
-    // Log & reports
-    LogReportsEditWidget *logReports = qobject_cast<LogReportsEditWidget*>(ui->grpLogsReports);
-    if (logReports) {
-        logReports->reset();
-    }
-
-    // Master tests
-    ui->cmbDependencyMode->setCurrentIndex(0);
-    MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
-    if (masterTests) {
-        masterTests->reset(m_HML->rootFolder());
-    }
-    ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
-    if (expressionTests) {
-        expressionTests->reset();
-    }
-    ui->chkSynchronizeCounters->setChecked(true);
-    ui->chkSynchronizeStatusAlerts->setChecked(false);
-
-    // Dependencies
+    ui->grpAlerts->reset();
+    ui->grpLogsReports->reset();
+    ui->grpMaster->reset(m_HML->rootFolder());
     ui->grpDependencies->reset();
-
-    // Optional
     ui->frmOptional->reset();
 
     ui->cmbEnabled->setCurrentIndex(0);
@@ -95,14 +66,7 @@ void HostMonDlg::reset()
 void HostMonDlg::hideDependencies(bool hide)
 {
     int hRight = ui->grpDependencies->doHide(hide);
-    int hLeft = 0;
-    ui->btnDependenciesHideLeft->setChecked(hide);
-    if (ui->frmMasterTests->isHidden() != hide) {
-        if (hide) {
-            hLeft = ui->frmMasterTests->height();
-        }
-        ui->frmMasterTests->setHidden(hide);
-    }
+    int hLeft = ui->grpMaster->doHide(hide);
 
     int delta = qMax(hRight, hLeft);
     if (delta) {
@@ -121,37 +85,12 @@ bool HostMonDlg::saveTest()
     TTest *test = ui->frmTest->save(m_HML, m_Item);
     if (test == nullptr) return false;
     m_Item = test;
-    // schedule
+
     ui->frmSchedule->save(m_Item);
-
-    // alerts
-    AlertsEditWidget *alerts = qobject_cast<AlertsEditWidget*>(ui->grpAlerts);
-    if (alerts) {
-        alerts->save(m_Item);
-    }
-
-    // Log & reports
-    LogReportsEditWidget *logReports = qobject_cast<LogReportsEditWidget*>(ui->grpLogsReports);
-    if (logReports) {
-        logReports->save(m_Item);
-    }
-
-    // Master tests
-    m_Item->setDependencyMode(ui->cmbDependencyMode->currentIndex());
-    MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
-    if (masterTests) {
-        masterTests->save(m_Item);
-    }
-    ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
-    if (expressionTests) {
-        expressionTests->save(m_Item);
-    }
-    m_Item->setSynchronizeCounters(ui->chkSynchronizeCounters->isChecked());
-    m_Item->setSynchronizeStatusAlerts(ui->chkSynchronizeStatusAlerts->isChecked());
-
+    ui->grpAlerts->save(m_Item);
+    ui->grpLogsReports->save(m_Item);
+    ui->grpMaster->save(m_Item);
     ui->grpDependencies->save(m_Item);
-
-    // optional
     ui->frmOptional->save(m_Item);
 
     m_Item->setEnabled(ui->cmbEnabled->currentIndex() == 0);
@@ -177,37 +116,10 @@ void HostMonDlg::init(TTest *item)
     // main
     ui->frmTest->init(item);
 
-    // schedule
-
-
-    // alerts
-    AlertsEditWidget *alerts = qobject_cast<AlertsEditWidget*>(ui->grpAlerts);
-    if (alerts) {
-        alerts->init(m_Item);
-    }
-
-    // Log & reports
-    LogReportsEditWidget *logReports = qobject_cast<LogReportsEditWidget*>(ui->grpLogsReports);
-    if (logReports) {
-        logReports->init(m_Item);
-    }
-
-    // Master tests
-    ui->cmbDependencyMode->setCurrentIndex(m_Item->getDependencyMode());
-    MasterTestsEditWidget *masterTests = qobject_cast<MasterTestsEditWidget*>(ui->wMasterTests);
-    if (masterTests) {
-        masterTests->init(m_Item);
-    }
-    ExpressionTestsEditWidget *expressionTests = qobject_cast<ExpressionTestsEditWidget*>(ui->wExpressionTests);
-    if (expressionTests) {
-        expressionTests->init(m_Item);
-    }
-    ui->chkSynchronizeCounters->setChecked(m_Item->isSynchronizeCounters());
-    ui->chkSynchronizeStatusAlerts->setChecked(m_Item->isSynchronizeStatusAlerts());
-
+    ui->grpAlerts->init(m_Item);
+    ui->grpLogsReports->init(m_Item);
+    ui->grpMaster->init(m_Item);
     ui->grpDependencies->init(m_Item);
-
-    // optional
     ui->frmOptional->init(m_Item);
 
     ui->cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);
@@ -259,14 +171,10 @@ void HostMonDlg::setupUI()
 
     // TODO migrate from ui_qHostMonDlg.h
 
-    connect(ui->btnDependenciesHideLeft, &QPushButton::toggled,
+    connect(ui->grpMaster, &MasterEditWidget::hideMe,
             this, &HostMonDlg::hideDependencies);
     connect(ui->grpDependencies, &DependenciesEditWidget::hideMe,
             this, &HostMonDlg::hideDependencies);
-    connect(ui->cmbDependencyMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
-            ui->stwMasterTest, &QStackedWidget::setCurrentIndex);
-    connect(ui->chkSynchronizeCounters, &QCheckBox::toggled,
-            ui->chkSynchronizeStatusAlerts, &QCheckBox::setEnabled);
     connect(ui->btnCancel, &QPushButton::clicked,
             this, &HostMonDlg::close);
 

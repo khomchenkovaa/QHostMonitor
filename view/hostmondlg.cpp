@@ -79,7 +79,9 @@ void HostMonDlg::reset()
     }
     ui->chkSynchronizeCounters->setChecked(true);
     ui->chkSynchronizeStatusAlerts->setChecked(false);
-    ui->treeDependentTests->clear();
+
+    // Dependencies
+    ui->grpDependencies->reset();
 
     // Optional
     ui->frmOptional->reset();
@@ -92,15 +94,21 @@ void HostMonDlg::reset()
 
 void HostMonDlg::hideDependencies(bool hide)
 {
+    int hRight = ui->grpDependencies->doHide(hide);
+    int hLeft = 0;
     ui->btnDependenciesHideLeft->setChecked(hide);
-    ui->btnDependenciesHideRight->setChecked(hide);
     if (ui->frmMasterTests->isHidden() != hide) {
+        if (hide) {
+            hLeft = ui->frmMasterTests->height();
+        }
         ui->frmMasterTests->setHidden(hide);
-        ui->frmDependentTests->setHidden(hide);
+    }
+
+    int delta = qMax(hRight, hLeft);
+    if (delta) {
         QSize newSize = size();
         int h = newSize.height();
-        newSize.setHeight( hide ? h - ui->frmMasterTests->height() : h + ui->frmMasterTests->height() );
-        qDebug() << "Size changed from:" << h << "to" << newSize.height();
+        newSize.setHeight(h - delta);
         resize(newSize);
     }
 }
@@ -140,6 +148,8 @@ bool HostMonDlg::saveTest()
     }
     m_Item->setSynchronizeCounters(ui->chkSynchronizeCounters->isChecked());
     m_Item->setSynchronizeStatusAlerts(ui->chkSynchronizeStatusAlerts->isChecked());
+
+    ui->grpDependencies->save(m_Item);
 
     // optional
     ui->frmOptional->save(m_Item);
@@ -194,8 +204,8 @@ void HostMonDlg::init(TTest *item)
     }
     ui->chkSynchronizeCounters->setChecked(m_Item->isSynchronizeCounters());
     ui->chkSynchronizeStatusAlerts->setChecked(m_Item->isSynchronizeStatusAlerts());
-    ui->treeDependentTests->clear();
-    //! TODO implement DependentTests init
+
+    ui->grpDependencies->init(m_Item);
 
     // optional
     ui->frmOptional->init(m_Item);
@@ -251,7 +261,7 @@ void HostMonDlg::setupUI()
 
     connect(ui->btnDependenciesHideLeft, &QPushButton::toggled,
             this, &HostMonDlg::hideDependencies);
-    connect(ui->btnDependenciesHideRight, &QPushButton::toggled,
+    connect(ui->grpDependencies, &DependenciesEditWidget::hideMe,
             this, &HostMonDlg::hideDependencies);
     connect(ui->cmbDependencyMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             ui->stwMasterTest, &QStackedWidget::setCurrentIndex);

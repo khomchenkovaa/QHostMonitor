@@ -1,10 +1,12 @@
 #include "hostmondlg.h"
-#include "ui_hostmondlg.h"
 
+#include "testeditwidget.h"
+#include "testschedulewidget.h"
 #include "qAlertsEditWidget.h"
 #include "qLogReportsEditWidget.h"
-#include "qMasterTestsEditWidget.h"
-#include "qExpressionTestsEditWidget.h"
+#include "mastereditwidget.h"
+#include "dependencieseditwidget.h"
+#include "optionalprocessingwidget.h"
 #include "qLinksList.h"
 #include "settings.h"
 #include "tTest.h"
@@ -20,12 +22,20 @@ namespace SDPO {
 
 HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::HostMonDlg)
     , m_HML(hml)
     , m_Item(nullptr)
     , changed(false)
+    , uiTestEdit(new TestEditWidget(this))
+    , uiSchedule(new TestScheduleWidget(this))
+    , uiAlerts(new AlertsEditWidget(this))
+    , uiLogsReports(new LogReportsEditWidget(this))
+    , uiMaster(new MasterEditWidget(this))
+    , uiDependencies(new DependenciesEditWidget(this))
+    , uiOptional(new OptionalProcessingWidget(this))
+    , cmbEnabled(new QComboBox(this))
+    , textWarnMemo(new QPlainTextEdit(this))
+    , btnLinks(new QPushButton(this))
 {
-    ui->setupUi(this);
     setupUI();
 }
 
@@ -33,40 +43,31 @@ HostMonDlg::HostMonDlg(HMListService *hml, QWidget *parent)
 
 HostMonDlg::~HostMonDlg()
 {
-    delete ui;
-}
-
-/******************************************************************/
-
-void HostMonDlg::on_btnOk_clicked()
-{
-    if (saveTest()) {
-        close();
-    }
 }
 
 /******************************************************************/
 
 void HostMonDlg::reset()
 {
-    ui->frmTest->reset();
-    ui->frmSchedule->reset();
-    ui->grpAlerts->reset();
-    ui->grpLogsReports->reset();
-    ui->grpMaster->reset(m_HML->rootFolder());
-    ui->grpDependencies->reset();
-    ui->frmOptional->reset();
+    uiTestEdit->reset();
+    uiSchedule->reset();
+    uiAlerts->reset();
+    uiLogsReports->reset();
+    uiMaster->reset(m_HML->rootFolder());
+    uiDependencies->reset();
+    uiOptional->reset();
 
-    ui->cmbEnabled->setCurrentIndex(0);
-    ui->btnLinks->setVisible(false);
+    cmbEnabled->setCurrentIndex(0);
+    textWarnMemo->clear();
+    btnLinks->setVisible(false);
 }
 
 /******************************************************************/
 
 void HostMonDlg::hideDependencies(bool hide)
 {
-    int hRight = ui->grpDependencies->doHide(hide);
-    int hLeft = ui->grpMaster->doHide(hide);
+    int hRight = uiDependencies->doHide(hide);
+    int hLeft = uiMaster->doHide(hide);
 
     int delta = qMax(hRight, hLeft);
     if (delta) {
@@ -79,21 +80,35 @@ void HostMonDlg::hideDependencies(bool hide)
 
 /******************************************************************/
 
+void HostMonDlg::onPrevClicked()
+{
+    qDebug() << "TODO: Hostmondlg -> onPrevClicked";
+}
+
+/******************************************************************/
+
+void HostMonDlg::onNextClicked()
+{
+    qDebug() << "TODO: Hostmondlg -> onNextClicked";
+}
+
+/******************************************************************/
+
 bool HostMonDlg::saveTest()
 {
     bool isNew = (m_Item == nullptr);
-    TTest *test = ui->frmTest->save(m_HML, m_Item);
+    TTest *test = uiTestEdit->save(m_HML, m_Item);
     if (test == nullptr) return false;
     m_Item = test;
 
-    ui->frmSchedule->save(m_Item);
-    ui->grpAlerts->save(m_Item);
-    ui->grpLogsReports->save(m_Item);
-    ui->grpMaster->save(m_Item);
-    ui->grpDependencies->save(m_Item);
-    ui->frmOptional->save(m_Item);
+    uiSchedule->save(m_Item);
+    uiAlerts->save(m_Item);
+    uiLogsReports->save(m_Item);
+    uiMaster->save(m_Item);
+    uiDependencies->save(m_Item);
+    uiOptional->save(m_Item);
 
-    m_Item->setEnabled(ui->cmbEnabled->currentIndex() == 0);
+    m_Item->setEnabled(cmbEnabled->currentIndex() == 0);
 
     if (isNew) {
         m_HML->addNode(m_HML->currentFolder(),m_Item);
@@ -113,17 +128,16 @@ void HostMonDlg::init(TTest *item)
         init(TMethodID::Ping);
         return;
     }
-    // main
-    ui->frmTest->init(item);
 
-    ui->grpAlerts->init(m_Item);
-    ui->grpLogsReports->init(m_Item);
-    ui->grpMaster->init(m_Item);
-    ui->grpDependencies->init(m_Item);
-    ui->frmOptional->init(m_Item);
+    uiTestEdit->init(item);
+    uiAlerts->init(m_Item);
+    uiLogsReports->init(m_Item);
+    uiMaster->init(m_Item);
+    uiDependencies->init(m_Item);
+    uiOptional->init(m_Item);
 
-    ui->cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);
-    ui->btnLinks->setVisible(m_Item->linkCount() > 0);
+    cmbEnabled->setCurrentIndex(m_Item->isEnabled()?0:1);
+    btnLinks->setVisible(m_Item->linkCount());
 }
 
 /******************************************************************/
@@ -131,14 +145,14 @@ void HostMonDlg::init(TTest *item)
 void HostMonDlg::init(TMethodID method, QVariant data)
 {
     m_Item = nullptr;
-    ui->frmTest->setData(data);
+    uiTestEdit->setData(data);
     reset();
-    ui->frmTest->setMethodID(method);
+    uiTestEdit->setMethodID(method);
 }
 
 /******************************************************************/
 
-void HostMonDlg::on_btnLinks_clicked()
+void HostMonDlg::onLinksClicked()
 {
     if (!m_Item) return;
     if (m_Item->linkCount() == 0) return;
@@ -146,6 +160,29 @@ void HostMonDlg::on_btnLinks_clicked()
     LinksList linksDlg(m_Item);
     linksDlg.setReadOnly();
     linksDlg.exec();
+}
+
+/******************************************************************/
+
+void HostMonDlg::onOkClicked()
+{
+    if (saveTest()) {
+        close();
+    }
+}
+
+/******************************************************************/
+
+void HostMonDlg::onAddClicked()
+{
+    qDebug() << "TODO: Hostmondlg -> onAddClicked";
+}
+
+/******************************************************************/
+
+void HostMonDlg::onHelpClicked()
+{
+    qDebug() << "TODO: Hostmondlg -> onHelpClicked";
 }
 
 /******************************************************************/
@@ -166,17 +203,87 @@ void HostMonDlg::setupUI()
     setFont(QFont("DejaVu Sans", 8));
 
     setWindowIcon(QIcon(":/img/hostMonitor.png"));
-    setWindowTitle(QApplication::translate("HostMonDlg", "Test properties", Q_NULLPTR));
+    setWindowTitle(tr("Test properties"));
     setLocale(QLocale(QLocale::English, QLocale::UnitedStates));
 
-    // TODO migrate from ui_qHostMonDlg.h
+    cmbEnabled->insertItems(0, QStringList() << tr("Enabled") << tr("Disabled"));
+    cmbEnabled->setWhatsThis(tr("This option enables or disables test execution."));
 
-    connect(ui->grpMaster, &MasterEditWidget::hideMe,
+    textWarnMemo->setMaximumSize(QSize(16777215, 32));
+    QPalette palette;
+    QBrush brush(QColor(255, 255, 225, 255));
+    brush.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Active, QPalette::Base, brush);
+    palette.setBrush(QPalette::Inactive, QPalette::Base, brush);
+    QBrush brush1(QColor(239, 235, 231, 255));
+    brush1.setStyle(Qt::SolidPattern);
+    palette.setBrush(QPalette::Disabled, QPalette::Base, brush1);
+    textWarnMemo->setPalette(palette);
+    textWarnMemo->setFrameShape(QFrame::NoFrame);
+
+    btnLinks->setMaximumSize(QSize(27, 27));
+    btnLinks->setIcon(QIcon(":/img/test/links.bmp"));
+
+    QPushButton *btnPrev = new QPushButton(this);
+    btnPrev->setIcon(QIcon(":/img/test/previous.png"));
+
+    QPushButton *btnNext = new QPushButton(this);
+    btnNext->setIcon(QIcon(":/img/test/next.png"));
+
+    QPushButton *btnOk = new QPushButton(tr("Ok"), this);
+    QPushButton *btnAdd = new QPushButton(tr("&New test"), this);
+    QPushButton *btnCancel = new QPushButton(tr("Cancel"), this);
+    QPushButton *btnHelp = new QPushButton(tr("&Help"), this);
+
+    QFrame *leftFrame = new QFrame(this);
+    leftFrame->setFrameShape(QFrame::Panel);
+    leftFrame->setFrameShadow(QFrame::Sunken);
+    QHBoxLayout *leftLayout = new QHBoxLayout(leftFrame);
+    leftLayout->setSpacing(6);
+    leftLayout->addWidget(new QLabel(tr("Test is"), this));
+    leftLayout->addWidget(cmbEnabled);
+    leftLayout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    leftLayout->addWidget(textWarnMemo);
+    leftLayout->addWidget(btnLinks);
+    leftLayout->addItem(new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum));
+    leftLayout->addWidget(btnPrev);
+    leftLayout->addWidget(btnNext);
+
+    QFrame *rightFrame = new QFrame(this);
+    rightFrame->setFrameShape(QFrame::Panel);
+    rightFrame->setFrameShadow(QFrame::Sunken);
+    QHBoxLayout *rightLayout = new QHBoxLayout(rightFrame);
+    rightLayout->setSpacing(6);
+    rightLayout->addWidget(btnOk);
+    rightLayout->addWidget(btnAdd);
+    rightLayout->addWidget(btnCancel);
+    rightLayout->addWidget(btnHelp);
+
+    QGridLayout *mainLayout = new QGridLayout(this);
+    mainLayout->addWidget(uiTestEdit, 0, 0, 3, 1);
+    mainLayout->addWidget(uiSchedule, 0, 1);
+    mainLayout->addWidget(uiAlerts, 1, 1);
+    mainLayout->addWidget(uiLogsReports, 2, 1);
+    mainLayout->addWidget(uiMaster, 3, 0);
+    mainLayout->addWidget(uiDependencies, 3, 1);
+    mainLayout->addWidget(uiOptional, 4, 0, 1, 2);
+    mainLayout->addWidget(leftFrame, 5, 0);
+    mainLayout->addWidget(rightFrame, 5, 1);
+
+    connect(uiMaster, &MasterEditWidget::hideMe,
             this, &HostMonDlg::hideDependencies);
-    connect(ui->grpDependencies, &DependenciesEditWidget::hideMe,
+    connect(uiDependencies, &DependenciesEditWidget::hideMe,
             this, &HostMonDlg::hideDependencies);
-    connect(ui->btnCancel, &QPushButton::clicked,
+    connect(btnLinks, &QPushButton::clicked,
+            this, &HostMonDlg::onLinksClicked);
+    connect(btnOk, &QPushButton::clicked,
+            this, &HostMonDlg::onOkClicked);
+    connect(btnAdd, &QPushButton::clicked,
+            this, &HostMonDlg::onAddClicked);
+    connect(btnCancel, &QPushButton::clicked,
             this, &HostMonDlg::close);
+    connect(btnHelp, &QPushButton::clicked,
+            this, &HostMonDlg::onHelpClicked);
 
 }
 

@@ -70,7 +70,6 @@ SOURCES += \
     $$PWD/qCommonViewPropertiesDlg.cpp
 
 FORMS    += \
-    $$PWD/hostmondlg.ui \
     $$PWD/qFolderDlg.ui \
     $$PWD/qOptionsForm.ui \
     $$PWD/qLinksList.ui \

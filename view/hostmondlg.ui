@@ -36,7 +36,7 @@
    <item row="0" column="1">
     <widget class="SDPO::TestScheduleWidget" name="frmSchedule" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -44,87 +44,36 @@
     </widget>
    </item>
    <item row="1" column="1">
-
-             <widget class="SDPO::AlertsEditWidget" name="grpAlerts" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-         </widget>
+    <widget class="SDPO::AlertsEditWidget" name="grpAlerts" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
    </item>
    <item row="2" column="1">
-    <layout class="QVBoxLayout" name="loLogReports">
-     <property name="spacing">
-      <number>0</number>
+    <widget class="SDPO::LogReportsEditWidget" name="grpLogsReports" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Log &amp; reports</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QFrame" name="frame_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="frameShape">
-        <enum>QFrame::Panel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <property name="lineWidth">
-        <number>2</number>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_9">
-        <property name="spacing">
-         <number>0</number>
-        </property>
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="SDPO::LogReportsEditWidget" name="grpLogsReports" native="true">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>350</width>
-            <height>80</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>354</width>
-            <height>80</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
+     <property name="minimumSize">
+      <size>
+       <width>350</width>
+       <height>80</height>
+      </size>
+     </property>
+     <property name="baseSize">
+      <size>
+       <width>354</width>
+       <height>80</height>
+      </size>
+     </property>
+    </widget>
    </item>
    <item row="3" column="0">
     <layout class="QVBoxLayout" name="loMaster">
@@ -461,15 +410,15 @@
     </layout>
    </item>
    <item row="4" column="0" colspan="2">
-<widget class="SDPO::OptionalProcessingWidget" name="frmOptional">
+    <widget class="SDPO::OptionalProcessingWidget" name="frmOptional" native="true">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
     </widget>
-    </item>
+   </item>
    <item row="5" column="0">
     <widget class="QFrame" name="Bevel11">
      <property name="frameShape">
@@ -718,7 +667,7 @@
    <item row="0" column="0" rowspan="3">
     <widget class="SDPO::TestEditWidget" name="frmTest">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
@@ -726,6 +675,9 @@
     </widget>
    </item>
   </layout>
+  <zorder>grpAlerts</zorder>
+  <zorder>grpLogsReports</zorder>
+  <zorder>frmOptional</zorder>
   <zorder>frmTest</zorder>
   <zorder>frmSchedule</zorder>
   <zorder>frmButtons</zorder>

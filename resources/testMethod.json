@@ -148,6 +148,7 @@
     "title" : "External",
     "text" : "External test",
     "icon" : ":/img/test/external_test.png",
+    "html" : ":/resources/tests/external.html",
     "parent" : 1005,
     "active" : "yes",
     "testname" : "%object%",

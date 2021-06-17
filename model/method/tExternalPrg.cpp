@@ -10,7 +10,6 @@ TExternalPrg::TExternalPrg(QObject *parent) :
 {
     a_AlertMode = 3; // "is <> from"
     a_ExitCode = 0;
-    a_WinMode = 0; // SW_SHOWNORMAL
     b_KillPrg = false;
     a_KillTimeout = 60; // 60 sec.
 }
@@ -65,7 +64,6 @@ TestMethod *TExternalPrg::clone()
     result->a_ExternalPrg = a_ExternalPrg;
     result->a_AlertMode = a_AlertMode;
     result->a_ExitCode = a_ExitCode;
-    result->a_WinMode = a_WinMode;
     result->b_KillPrg = b_KillPrg;
     result->a_KillTimeout = a_KillTimeout;
     return result;

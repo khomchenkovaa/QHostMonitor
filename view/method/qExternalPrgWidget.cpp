@@ -12,7 +12,6 @@ ExternalPrgWidget::ExternalPrgWidget(QWidget *parent) :
     ui(new Ui::ExternalPrgWidget)
 {
     ui->setupUi(this);
-    ui->cmbWinMode->setDisabled(true);
     connect(ui->editExternalPrg, SIGNAL(textEdited(QString)), this, SIGNAL(propertiesChanged()));
 }
 
@@ -35,7 +34,6 @@ void ExternalPrgWidget::init(TestMethod *item)
     ui->editExternalPrg->setText(t->getExternalPrg());
     ui->cmbAlertCondition->setCurrentIndex(t->getAlertMode());
     ui->spinAlertValue->setValue(t->getExitCode());
-    ui->cmbWinMode->setCurrentIndex(t->getWinMode());
     ui->chkKillApp->setChecked(t->isKillPrg());
     ui->spinWaitTimeout->setValue(t->getKillTimeout());
 }
@@ -53,7 +51,6 @@ TestMethod *ExternalPrgWidget::save(TestMethod *item)
     t->setExternalPrg(ui->editExternalPrg->text());
     t->setAlertMode(ui->cmbAlertCondition->currentIndex());
     t->setExitCode(ui->spinAlertValue->value());
-    t->setWinMode(ui->cmbWinMode->currentIndex());
     t->setKillPrg(ui->chkKillApp->isChecked());
     t->setKillTimeout(ui->spinWaitTimeout->value());
     return t;
@@ -70,7 +67,6 @@ void ExternalPrgWidget::reset(QVariant data)
     ui->editExternalPrg->clear();
     ui->cmbAlertCondition->setCurrentIndex(3);
     ui->spinAlertValue->setValue(0);
-    ui->cmbWinMode->setCurrentIndex(0);
     ui->chkKillApp->setChecked(false);
     ui->spinWaitTimeout->setValue(60);
 }

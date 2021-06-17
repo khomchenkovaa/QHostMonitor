@@ -48,7 +48,6 @@ class TExternalPrg : public TestMethod
     AUTO_PROPERTY(QString, ExternalPrg)
     AUTO_PROPERTY(int, AlertMode)
     AUTO_PROPERTY(int, ExitCode)
-    AUTO_PROPERTY(int, WinMode)
     BOOL_PROPERTY(KillPrg)
     AUTO_PROPERTY(int, KillTimeout)
 

@@ -128,9 +128,9 @@ void TestMethodSelectDlg::createStandardItemModel()
     QStandardItemModel *model = new QStandardItemModel(this);
     QStandardItem *root = model->invisibleRootItem();
     root->appendRow(createItem(TMethodID::Ping));
-    root->appendRow(createItem(TMethodID::TCP));
+    root->appendRow(createItem(TMethodID::Tcp));
     root->appendRow(createItem(TMethodID::UDP));
-    root->appendRow(createItem(TMethodID::URL));
+    root->appendRow(createItem(TMethodID::Url));
 
     QStandardItem *internet = createGroupItem(1);
     internet->appendRow(createItem(TMethodID::NTP));
@@ -154,9 +154,9 @@ void TestMethodSelectDlg::createStandardItemModel()
     disk->appendRow(createItem(TMethodID::FileSize));
     disk->appendRow(createItem(TMethodID::CountFiles));
     disk->appendRow(createItem(TMethodID::FileExists));
-    disk->appendRow(createItem(TMethodID::FileContents));
+    disk->appendRow(createItem(TMethodID::FileCRC));
     disk->appendRow(createItem(TMethodID::TextLog));
-    disk->appendRow(createItem(TMethodID::FileCompare));
+    disk->appendRow(createItem(TMethodID::CompareFiles));
     root->appendRow(disk);
     root->appendRow(createItem(TMethodID::Process));
     root->appendRow(createItem(TMethodID::Service));

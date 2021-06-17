@@ -6,7 +6,7 @@ namespace SDPO {
 /******************************************************************/
 
 TFileContents::TFileContents(QObject *parent) :
-    TestMethod(TMethodID::FileContents, parent)
+    TestMethod(TMethodID::FileCRC, parent)
 {
     a_File = QString();
     a_Crc = QString();

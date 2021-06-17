@@ -724,7 +724,7 @@ bool HMScriptRunner::runCopyTest(const int num, const QString &cmdLine)
             tests = m_CurrentFolder->testsByStatus(ssIdx, m_IncludeSubfolders);
         } else {
             TMethodID mIdx = TestMethod::methodIdFromString(testName);
-            if (mIdx != TMethodID::Empty) {
+            if (mIdx != TMethodID::Unknown) {
                 tests = m_CurrentFolder->testsByMethod(mIdx, m_IncludeSubfolders);
             }
         }

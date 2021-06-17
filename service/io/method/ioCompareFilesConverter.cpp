@@ -24,7 +24,7 @@ TestMethod *IOCompareFilesConverter::getTestMethod()
 
 bool IOCompareFilesConverter::setValue(QString key, QString value)
 {
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCompare)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::CompareFiles)) {
         return false;
     }
     TCompareFiles *test = qobject_cast<TCompareFiles*>(m_TestMethod);
@@ -64,7 +64,7 @@ bool IOCompareFilesConverter::setValue(QString key, QString value)
 
 void IOCompareFilesConverter::exportTo(QTextStream &out)
 {
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCompare)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::CompareFiles)) {
         return;
     }
     TCompareFiles*test = qobject_cast<TCompareFiles*>(m_TestMethod);
@@ -100,7 +100,7 @@ void IOCompareFilesConverter::exportTo(QTextStream &out)
 QJsonObject IOCompareFilesConverter::toJsonObject()
 {
     QJsonObject jsonObj;
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCompare)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::CompareFiles)) {
         return jsonObj;
     }
     TCompareFiles* test = qobject_cast<TCompareFiles*>(m_TestMethod);

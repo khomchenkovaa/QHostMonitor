@@ -127,7 +127,7 @@ QString TestMethod::metaName(TMethodID method)
 
 TMethodID TestMethod::methodIdFromString(const QString name)
 {
-    TMethodID result = TMethodID::Empty;
+    TMethodID result = TMethodID::Unknown;
     foreach( const TestMethodMetaInfo &method, metaInfo) {
         if (name.compare(method.name, Qt::CaseInsensitive) == 0 ) {
             result = method.id;

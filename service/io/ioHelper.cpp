@@ -15,7 +15,7 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
     switch (methodId) {
     case TMethodID::Script :
         return new IOActiveScriptConverter();
-    case TMethodID::FileCompare :
+    case TMethodID::CompareFiles :
         return new IOCompareFilesConverter();
     case TMethodID::CountFiles :
         return new IOCountFilesConverter();
@@ -29,7 +29,7 @@ IOTestMethodConverter *IOHelper::methodConverter(const TMethodID methodId)
         return new IODNSTestConverter();
     case TMethodID::DominantProcess :
         return new IODominantProcessConverter();
-    case TMethodID::FileContents :
+    case TMethodID::FileCRC :
         return new IOFileContentsConverter();
     case TMethodID::DriveSpace :
         return new IODriveSpaceConverter();

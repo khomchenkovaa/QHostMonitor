@@ -714,7 +714,7 @@
         ]
  },{
     "id" : 47,
-    "name" : "HM Monitor",
+    "name" : "HMmonitor",
     "title" : "HM Monitor",
     "text" : "SDPO Monitor",
     "icon" : ":/img/test/hm_monitor.png",
@@ -726,7 +726,7 @@
         "This test allows you to monitor local or remote SDPO. Yes, you may monitor primary SDPO using another instance of SDPO."
         ]
  },{
-    "id" : 48,
+    "id" : -1,
     "name" : "Unknown",
     "title" : "Unknown method",
     "text" : "Unknown",

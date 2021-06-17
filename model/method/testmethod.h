@@ -12,15 +12,16 @@ namespace SDPO {
 /*****************************************************************/
 
 enum class TMethodID {
+    Unknown = -1,   // Not defined
     Ping = 0,       // Ping
-    TCP,            // TCP
-    URL,            // URL
+    Tcp,            // TCP
+    Url,            // URL
     DriveSpace,     // Disk free space [ df -h ]
     FileSize,       // Folder size, [ du -s ]
     FileExists,     // File Availability,
     Externalprg,    // External
     SSH,            // SSH test
-    FileContents,   // File Integrity
+    FileCRC,        // File Integrity
     Oracle,         // Oracle
     UNC,            // UNC
     Interbase,      // Interbase
@@ -33,7 +34,7 @@ enum class TMethodID {
     SNMP,           // SNMP_Get
     NTLog,          // NT Event Log
     CPU,            // CPU Usage
-    FileCompare,
+    CompareFiles,   // File Compare
     ODBC,           // ODBC
     SMTP,           // SMTP
     POP3,           // POP3
@@ -53,14 +54,13 @@ enum class TMethodID {
     ShellScript,    // Shell Script
     TempMonitor,    // Temperature Monitor
     TrafficMonitor, // Network Traffic,
-    SNMPtrap,
-    WMI,
-    MailRelay,
-    DICOM,
-    DominantProcess,
-    DHCP,
-    HMmonitor,
-    Empty
+    SNMPtrap,       // SNMP Trap
+    WMI,            // WMI
+    MailRelay,      // Mail Relay
+    DICOM,          // DICOM
+    DominantProcess,// Dominant Process
+    DHCP,           // DHCP test
+    HMmonitor       // SDPO Monitor
 };
 
 typedef QList<TMethodID> TMethodIdList;

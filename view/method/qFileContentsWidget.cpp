@@ -25,7 +25,7 @@ FileContentsWidget::~FileContentsWidget()
 
 void FileContentsWidget::init(TestMethod *item)
 {
-    if (!item || (item->getTMethodID() != TMethodID::FileContents) ) {
+    if (!item || (item->getTMethodID() != TMethodID::FileCRC) ) {
         reset();
         return;
     }
@@ -40,7 +40,7 @@ void FileContentsWidget::init(TestMethod *item)
 TestMethod *FileContentsWidget::save(TestMethod *item)
 {
     TFileContents* test;
-    if (item && (item->getTMethodID() == TMethodID::FileContents)) {
+    if (item && (item->getTMethodID() == TMethodID::FileCRC)) {
         test = qobject_cast<TFileContents*>(item);
     } else {
         test = new TFileContents();
@@ -56,7 +56,7 @@ TestMethod *FileContentsWidget::save(TestMethod *item)
 void FileContentsWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileContents);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileCRC);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->lineEditFile->clear();
@@ -84,9 +84,9 @@ QString FileContentsWidget::getTemplateValue(const QString var) const
 {
     Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
-    case Macro::MethodID : return QString::number((int)TMethodID::FileContents);
+    case Macro::MethodID : return QString::number((int)TMethodID::FileCRC);
     case Macro::MethodName :
-    case Macro::TestMethod : return TestMethod::metaName(TMethodID::FileContents);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::FileCRC);
     case Macro::Host : return "localhost";
     case Macro::Path : return ui->lineEditFile->text();
     case Macro::Object : {

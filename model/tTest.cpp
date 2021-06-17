@@ -18,7 +18,7 @@ int TTest::failureCount = 0;
 TTest::TTest(const int id, const QString &name, QObject *parent) :
     TNode(id, name, TNode::TEST, parent)
 {
-    m_TMethod = new TestMethod(TMethodID::Empty);
+    m_TMethod = new TestMethod(TMethodID::Unknown);
 
     setEnabled(true);
     setPaused(false);

@@ -11,7 +11,7 @@ namespace SDPO {
 /******************************************************************/
 
 TCompareFiles::TCompareFiles(QObject *parent) :
-    TestMethod(TMethodID::FileCompare, parent)
+    TestMethod(TMethodID::CompareFiles, parent)
 {
     a_AlertWhen = AlertMode::FilesDifferent;
     a_FirstFile = QString();

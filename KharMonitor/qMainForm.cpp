@@ -1326,7 +1326,7 @@ void MainForm::setupTestActions()
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::RAS));
     ui->mnuTestAdd->addSeparator();
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::DriveSpace));
-    ui->mnuTestAdd->addAction(createTestAction(TMethodID::FileCompare));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::CompareFiles));
     ui->mnuTestAdd->addSeparator();
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::NTLog));
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::Service));
@@ -1356,7 +1356,7 @@ void MainForm::setupTestActions()
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::TempMonitor));
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::HMmonitor));
     mnuTestAddWeb->addAction(createTestAction(TMethodID::HTTP));
-    mnuTestAddWeb->addAction(createTestAction(TMethodID::URL));
+    mnuTestAddWeb->addAction(createTestAction(TMethodID::Url));
 //    mnuTestAddWeb->addAction(actSOAP); ":/img/test/soap-xml.png" "SOAP/XML"
 //    mnuTestAddWeb->addSeparator();
 //    mnuTestAddWeb->addAction(actCertificateExpiration); ":/img/test/cerificate_expiration.png" "Certificate expiration"
@@ -1367,7 +1367,7 @@ void MainForm::setupTestActions()
     mnuTestAddEmail->addSeparator();
 //    mnuTestAddEmail->addAction(actEMail); ":/img/test/email.png" "E-Mail"
     mnuTestAddEmail->addAction(createTestAction(TMethodID::MailRelay));
-    mnuTestAddInternetService->addAction(createTestAction(TMethodID::TCP));
+    mnuTestAddInternetService->addAction(createTestAction(TMethodID::Tcp));
     mnuTestAddInternetService->addAction(createTestAction(TMethodID::UDP));
     mnuTestAddInternetService->addSeparator();
     mnuTestAddInternetService->addAction(createTestAction(TMethodID::Radius));
@@ -1389,7 +1389,7 @@ void MainForm::setupTestActions()
     mnuTestAddFiles->addAction(createTestAction(TMethodID::FileSize));
     mnuTestAddFiles->addAction(createTestAction(TMethodID::CountFiles));
     mnuTestAddFiles->addAction(createTestAction(TMethodID::FileExists));
-    mnuTestAddFiles->addAction(createTestAction(TMethodID::FileContents));
+    mnuTestAddFiles->addAction(createTestAction(TMethodID::FileCRC));
     mnuTestAddFiles->addAction(createTestAction(TMethodID::TextLog));
 }
 

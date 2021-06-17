@@ -14,7 +14,7 @@ ViewCriteriaPropertiesWidget::ViewCriteriaPropertiesWidget(QWidget *parent) :
     ui->setupUi(this);
     ui->listSelectByMethod->clear();
     foreach(const TestMethodMetaInfo &method, TestMethod::metaInfo) {
-        if (method.id == TMethodID::Empty) continue;
+        if (method.id == TMethodID::Unknown) continue;
         QListWidgetItem *item = new QListWidgetItem(method.text);
         item->setCheckState( Qt::Unchecked );
         ui->listSelectByMethod->addItem(item);

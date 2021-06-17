@@ -34,7 +34,7 @@ CompareFilesWidget::~CompareFilesWidget()
 
 void CompareFilesWidget::init(TestMethod *item)
 {
-    if (!item || (item->getTMethodID() != TMethodID::FileCompare) ) {
+    if (!item || (item->getTMethodID() != TMethodID::CompareFiles) ) {
         reset();
         return;
     }
@@ -63,7 +63,7 @@ void CompareFilesWidget::init(TestMethod *item)
 TestMethod *CompareFilesWidget::save(TestMethod *item)
 {
     TCompareFiles* test;
-    if (item && (item->getTMethodID() == TMethodID::FileCompare)) {
+    if (item && (item->getTMethodID() == TMethodID::CompareFiles)) {
         test = qobject_cast<TCompareFiles*>(item);
     } else {
         test = new TCompareFiles();
@@ -88,7 +88,7 @@ TestMethod *CompareFilesWidget::save(TestMethod *item)
 void CompareFilesWidget::reset(QVariant data)
 {
     Q_UNUSED(data)
-    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::FileCompare);
+    TestMethodMetaInfo method = TestMethod::metaInfoItem(TMethodID::CompareFiles);
     setNamePattern(method.namePattern);
     setCommentPattern(method.commentPattern);
     ui->cmbAlert->setCurrentIndex(0);

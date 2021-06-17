@@ -23,7 +23,7 @@ TestMethod *IOFileContentsConverter::getTestMethod()
 
 bool IOFileContentsConverter::setValue(QString key, QString value)
 {
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileContents)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCRC)) {
         return false;
     }
     TFileContents *test = qobject_cast<TFileContents*>(m_TestMethod);
@@ -42,7 +42,7 @@ bool IOFileContentsConverter::setValue(QString key, QString value)
 
 void IOFileContentsConverter::exportTo(QTextStream &out)
 {
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileContents)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCRC)) {
         return;
     }
     TFileContents*test = qobject_cast<TFileContents*>(m_TestMethod);
@@ -57,7 +57,7 @@ void IOFileContentsConverter::exportTo(QTextStream &out)
 QJsonObject IOFileContentsConverter::toJsonObject()
 {
     QJsonObject jsonObj;
-    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileContents)) {
+    if (!m_TestMethod || (m_TestMethod->getTMethodID() != TMethodID::FileCRC)) {
         return jsonObj;
     }
     TFileContents* test = qobject_cast<TFileContents*>(m_TestMethod);

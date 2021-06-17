@@ -61,7 +61,7 @@ TMethodIdList IOConnectionLoader::parseJsonMethodList(const QJsonValue jsonValue
     TMethodIdList result;
     foreach(const QJsonValue &value, jsonValue.toArray()) {
         TMethodID mId = TestMethod::methodIdFromString(value.toString());
-        if (mId != TMethodID::Empty) {
+        if (mId != TMethodID::Unknown) {
             result.append(mId);
         }
     }

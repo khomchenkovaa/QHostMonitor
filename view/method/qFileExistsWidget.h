@@ -1,7 +1,7 @@
 #ifndef QFILEEXISTSWIDGET_H
 #define QFILEEXISTSWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class FileExistsWidget;
@@ -9,7 +9,7 @@ class FileExistsWidget;
 
 namespace SDPO {
 
-class FileExistsWidget : public TestWidget
+class FileExistsWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

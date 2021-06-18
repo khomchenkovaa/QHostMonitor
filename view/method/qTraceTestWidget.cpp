@@ -4,7 +4,7 @@
 namespace SDPO {
 
 TraceTestWidget::TraceTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::TraceTestWidget)
 {
     ui->setupUi(this);

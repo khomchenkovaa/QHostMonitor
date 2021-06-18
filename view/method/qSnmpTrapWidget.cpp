@@ -5,7 +5,7 @@
 namespace SDPO {
 
 SnmpTrapWidget::SnmpTrapWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SnmpTrapWidget)
 {
     ui->setupUi(this);

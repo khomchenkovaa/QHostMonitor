@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 NtEventLogWidget::NtEventLogWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::NtEventLogWidget)
 {
     ui->setupUi(this);

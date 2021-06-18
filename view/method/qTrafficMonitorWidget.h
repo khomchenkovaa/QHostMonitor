@@ -1,7 +1,7 @@
 #ifndef QTRAFFICMONITORWIDGET_H
 #define QTRAFFICMONITORWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class TrafficMonitorWidget;
@@ -9,7 +9,7 @@ class TrafficMonitorWidget;
 
 namespace SDPO {
 
-class TrafficMonitorWidget : public TestWidget
+class TrafficMonitorWidget : public TestMethodWidget
 {
     Q_OBJECT
 

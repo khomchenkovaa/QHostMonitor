@@ -1,7 +1,7 @@
 #ifndef QTRACETESTWIDGET_H
 #define QTRACETESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class TraceTestWidget;
@@ -9,7 +9,7 @@ class TraceTestWidget;
 
 namespace SDPO {
 
-class TraceTestWidget : public TestWidget
+class TraceTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

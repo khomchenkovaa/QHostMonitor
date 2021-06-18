@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 TrafficMonitorWidget::TrafficMonitorWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::TrafficMonitorWidget)
 {
     ui->setupUi(this);

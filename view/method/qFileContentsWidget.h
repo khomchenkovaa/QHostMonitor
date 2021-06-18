@@ -1,7 +1,7 @@
 #ifndef QFILECONTENTSWIDGET_H
 #define QFILECONTENTSWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class FileContentsWidget;
@@ -9,7 +9,7 @@ class FileContentsWidget;
 
 namespace SDPO {
 
-class FileContentsWidget : public TestWidget
+class FileContentsWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

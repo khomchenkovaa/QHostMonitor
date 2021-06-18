@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 WmiWidget::WmiWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::WmiWidget)
 {
     ui->setupUi(this);

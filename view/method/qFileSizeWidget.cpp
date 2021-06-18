@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 FileSizeWidget::FileSizeWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::FileSizeWidget)
 {
     ui->setupUi(this);

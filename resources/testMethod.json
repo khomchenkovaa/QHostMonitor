@@ -725,7 +725,20 @@
     "description" : ["HM Monitor",
         "This test allows you to monitor local or remote SDPO. Yes, you may monitor primary SDPO using another instance of SDPO."
         ]
- },{
+  },{
+    "id" : 48,
+    "name" : "Nagios",
+    "title" : "Nagios plugin",
+    "text" : "Nagios plugin",
+    "icon" : ":/img/test/nagios.gif",
+    "parent" : 1005,
+    "active" : "yes",
+    "testname" : "%object%",
+    "comment" : "%path%",
+    "description" : ["HM Monitor",
+       "This test allows you to monitor local or remote SDPO. Yes, you may monitor primary SDPO using another instance of SDPO."
+       ]
+  },{
     "id" : -1,
     "name" : "Unknown",
     "title" : "Unknown method",

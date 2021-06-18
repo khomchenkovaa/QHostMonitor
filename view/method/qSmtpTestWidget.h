@@ -1,7 +1,7 @@
 #ifndef QSMTPTESTWIDGET_H
 #define QSMTPTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SmtpTestWidget;
@@ -9,7 +9,7 @@ class SmtpTestWidget;
 
 namespace SDPO {
 
-class SmtpTestWidget : public TestWidget
+class SmtpTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

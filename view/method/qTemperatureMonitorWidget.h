@@ -1,7 +1,7 @@
 #ifndef QTEMPERATUREMONITORWIDGET_H
 #define QTEMPERATUREMONITORWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class TemperatureMonitorWidget;
@@ -9,7 +9,7 @@ class TemperatureMonitorWidget;
 
 namespace SDPO {
 
-class TemperatureMonitorWidget : public TestWidget
+class TemperatureMonitorWidget : public TestMethodWidget
 {
     Q_OBJECT
 

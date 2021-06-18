@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 MySqlWidget::MySqlWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::MySqlWidget)
 {
     ui->setupUi(this);

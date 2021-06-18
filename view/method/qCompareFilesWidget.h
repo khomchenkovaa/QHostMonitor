@@ -1,7 +1,7 @@
 #ifndef QCOMPAREFILESWIDGET_H
 #define QCOMPAREFILESWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 #include <QTextCodec>
 
@@ -11,7 +11,7 @@ class CompareFilesWidget;
 
 namespace SDPO {
 
-class CompareFilesWidget : public TestWidget
+class CompareFilesWidget : public TestMethodWidget
 {
     Q_OBJECT
 

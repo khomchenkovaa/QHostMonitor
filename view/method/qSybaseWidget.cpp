@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 SybaseWidget::SybaseWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SybaseWidget)
 {
     ui->setupUi(this);

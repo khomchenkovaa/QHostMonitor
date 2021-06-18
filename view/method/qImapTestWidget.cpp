@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 ImapTestWidget::ImapTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ImapTestWidget)
 {
     ui->setupUi(this);

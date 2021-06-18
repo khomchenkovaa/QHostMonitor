@@ -1,7 +1,7 @@
 #ifndef QPOSTGRESQLWIDGET_H
 #define QPOSTGRESQLWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class PostgreSqlWidget;
@@ -9,7 +9,7 @@ class PostgreSqlWidget;
 
 namespace SDPO {
 
-class PostgreSqlWidget : public TestWidget
+class PostgreSqlWidget : public TestMethodWidget
 {
     Q_OBJECT
 

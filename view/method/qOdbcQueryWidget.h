@@ -1,7 +1,7 @@
 #ifndef QODBCQUERYWIDGET_H
 #define QODBCQUERYWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class OdbcQueryWidget;
@@ -9,7 +9,7 @@ class OdbcQueryWidget;
 
 namespace SDPO {
 
-class OdbcQueryWidget : public TestWidget
+class OdbcQueryWidget : public TestMethodWidget
 {
     Q_OBJECT
 

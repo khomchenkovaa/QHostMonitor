@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 ExternalPrgWidget::ExternalPrgWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ExternalPrgWidget)
 {
     ui->setupUi(this);
@@ -103,7 +103,6 @@ QString ExternalPrgWidget::getTemplateValue(const QString var) const
  void ExternalPrgWidget::on_btnExternalPrg_clicked()
 {
     QString defFileName = ui->editExternalPrg->text().trimmed();
-    if (defFileName.isEmpty()) defFileName = "/usr/lib64/nagios/plugins";
     QString fileName = QFileDialog::getOpenFileName(this,tr("External application"),defFileName);
     if (!fileName.isEmpty()) {
         ui->editExternalPrg->setText(fileName);

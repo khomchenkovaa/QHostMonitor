@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 DriveSpaceWidget::DriveSpaceWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::DriveSpaceWidget)
 {
     ui->setupUi(this);

@@ -8,7 +8,7 @@ namespace SDPO {
 /*****************************************************************/
 
 CountFilesWidget::CountFilesWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::CountFilesWidget)
 {
     ui->setupUi(this);

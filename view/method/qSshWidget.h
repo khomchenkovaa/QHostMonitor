@@ -1,7 +1,7 @@
 #ifndef QSSHWIDGET_H
 #define QSSHWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SshWidget;
@@ -9,7 +9,7 @@ class SshWidget;
 
 namespace SDPO {
 
-class SshWidget : public TestWidget
+class SshWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

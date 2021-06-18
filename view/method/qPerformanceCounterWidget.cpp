@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 PerformanceCounterWidget::PerformanceCounterWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::PerformanceCounterWidget)
 {
     ui->setupUi(this);

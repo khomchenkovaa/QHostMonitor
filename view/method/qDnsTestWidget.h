@@ -1,7 +1,7 @@
 #ifndef QDNSTESTWIDGET_H
 #define QDNSTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class DnsTestWidget;
@@ -9,7 +9,7 @@ class DnsTestWidget;
 
 namespace SDPO {
 
-class DnsTestWidget : public TestWidget
+class DnsTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

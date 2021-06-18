@@ -1,7 +1,7 @@
 #ifndef QRADIUSWIDGET_H
 #define QRADIUSWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class RadiusWidget;
@@ -9,7 +9,7 @@ class RadiusWidget;
 
 namespace SDPO {
 
-class RadiusWidget : public TestWidget
+class RadiusWidget : public TestMethodWidget
 {
     Q_OBJECT
 

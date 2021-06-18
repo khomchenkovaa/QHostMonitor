@@ -36,7 +36,8 @@ HEADERS += \
     $$PWD/tSshTest.h \
     $$PWD/tSybase.h \
     $$PWD/tWmi.h \
-    $$PWD/testmethod.h
+    $$PWD/testmethod.h \
+    $$PWD/tnagiosplugin.h
 
 SOURCES += \
     $$PWD/tPing.cpp \
@@ -72,4 +73,5 @@ SOURCES += \
     $$PWD/tSshTest.cpp \
     $$PWD/tPop3Test.cpp \
     $$PWD/tWmi.cpp \
-    $$PWD/testmethod.cpp
+    $$PWD/testmethod.cpp \
+    $$PWD/tnagiosplugin.cpp

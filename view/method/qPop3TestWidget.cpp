@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 Pop3TestWidget::Pop3TestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::Pop3TestWidget)
 {
     ui->setupUi(this);

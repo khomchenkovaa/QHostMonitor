@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 LdapTestWidget::LdapTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::LdapTestWidget)
 {
     ui->setupUi(this);

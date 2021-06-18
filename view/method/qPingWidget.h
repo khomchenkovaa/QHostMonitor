@@ -1,7 +1,7 @@
 #ifndef QPINGWIDGET_H
 #define QPINGWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 #include <QComboBox>
 #include <QCheckBox>
 #include <QSpinBox>
@@ -15,7 +15,7 @@ namespace SDPO {
 
 class TestMethod;
 
-class PingWidget : public TestWidget
+class PingWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

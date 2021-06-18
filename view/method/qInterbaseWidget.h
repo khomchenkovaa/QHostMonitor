@@ -1,7 +1,7 @@
 #ifndef QINTERBASEWIDGET_H
 #define QINTERBASEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class InterbaseWidget;
@@ -9,7 +9,7 @@ class InterbaseWidget;
 
 namespace SDPO {
 
-class InterbaseWidget : public TestWidget
+class InterbaseWidget : public TestMethodWidget
 {
     Q_OBJECT
 

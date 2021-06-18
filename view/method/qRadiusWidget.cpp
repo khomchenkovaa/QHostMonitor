@@ -4,7 +4,7 @@
 namespace SDPO {
 
 RadiusWidget::RadiusWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::RadiusWidget)
 {
     ui->setupUi(this);

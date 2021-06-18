@@ -31,7 +31,7 @@ void LogProperties::getPrimaryLogSettings()
     b_UseGoodAction = s.value(SKEY_LOG1_UseGoodAction,0).toInt() == 1;
     a_GoodActionID = s.value(SKEY_LOG1_GoodActionID,-1).toInt();
     a_OdbcSource = s.value(SKEY_LOGGING_OdbcLogSource).toString();
-    a_OdbcSqlQuery = s.value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString();
+    a_OdbcSqlQuery = s.value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcLogSqlQuery).toString();
     a_OdbcUser = s.value(SKEY_LOGGING_OdbcLogUser).toString();
     a_OdbcPassword = s.value(SKEY_LOGGING_OdbcLogPswd).toString();
     a_OdbcTimeout = s.value(SKEY_LOGGING_OdbcLogTimeout).toInt();
@@ -52,7 +52,7 @@ void LogProperties::getBackupLogSettings()
     b_UseGoodAction = false;
     a_GoodActionID = -1; // Do Nothing
     a_OdbcSource = s.value(SKEY_LOG2_OdbcLogSource).toString();
-    a_OdbcSqlQuery = s.value(SKEY_LOG2_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString();
+    a_OdbcSqlQuery = s.value(SKEY_LOG2_OdbcLogSqlQuery,SVAL_LOGGING_OdbcLogSqlQuery).toString();
     a_OdbcUser = s.value(SKEY_LOG2_OdbcLogUser).toString();
     a_OdbcPassword = s.value(SKEY_LOG2_OdbcLogPswd).toString();
     a_OdbcTimeout = s.value(SKEY_LOG2_OdbcLogTimeout).toInt();

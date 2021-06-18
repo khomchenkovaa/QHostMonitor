@@ -8,7 +8,7 @@ namespace SDPO {
 /*****************************************************************/
 
 CompareFilesWidget::CompareFilesWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::CompareFilesWidget)
 {
     ui->setupUi(this);

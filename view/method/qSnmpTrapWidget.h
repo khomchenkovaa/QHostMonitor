@@ -1,7 +1,7 @@
 #ifndef QSNMPTRAPWIDGET_H
 #define QSNMPTRAPWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SnmpTrapWidget;
@@ -9,7 +9,7 @@ class SnmpTrapWidget;
 
 namespace SDPO {
 
-class SnmpTrapWidget : public TestWidget
+class SnmpTrapWidget : public TestMethodWidget
 {
     Q_OBJECT
 

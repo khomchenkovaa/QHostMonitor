@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 DnsTestWidget::DnsTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::DnsTestWidget)
 {
     ui->setupUi(this);

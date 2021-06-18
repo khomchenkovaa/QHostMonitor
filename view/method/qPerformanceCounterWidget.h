@@ -1,7 +1,7 @@
 #ifndef QPERFORMANCECOUNTERWIDGET_H
 #define QPERFORMANCECOUNTERWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class PerformanceCounterWidget;
@@ -9,7 +9,7 @@ class PerformanceCounterWidget;
 
 namespace SDPO {
 
-class PerformanceCounterWidget : public TestWidget
+class PerformanceCounterWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 ActiveScriptWidget::ActiveScriptWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ActiveScriptWidget)
 {
     ui->setupUi(this);

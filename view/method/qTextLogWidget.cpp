@@ -6,7 +6,7 @@
 namespace SDPO {
 
 TextLogWidget::TextLogWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::TextLogWidget)
 {
     ui->setupUi(this);

@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 PingWidget::PingWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::PingWidget)
 {
     ui->setupUi(this);
@@ -80,9 +80,9 @@ void PingWidget::reset(QVariant data)
     QSettings s;
     ui->cmbPingHost->clearEditText();
     ui->chkPingDontFragment->setChecked(false);
-    ui->sbPingTimeout->setValue(s.value(SKEY_PING_Timeout,0).toInt());
-    ui->sbPingPacketSize->setValue(s.value(SKEY_PING_PacketSize,0).toInt());
-    ui->sbPingPackets->setValue(s.value(SKEY_PING_Packets,1).toInt());
+    ui->sbPingTimeout->setValue(s.value(SKEY_PING_Timeout,SVAL_PING_Timeout).toInt());
+    ui->sbPingPacketSize->setValue(s.value(SKEY_PING_PacketSize,SVAL_PING_PacketSize).toInt());
+    ui->sbPingPackets->setValue(s.value(SKEY_PING_Packets,SVAL_PING_Packets).toInt());
     ui->sbPingStatusBad->setValue(90);
     ui->rbPingDisplayTime->setChecked(true);
     ui->rbPingDisplayLost->setChecked(false);

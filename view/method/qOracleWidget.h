@@ -1,7 +1,7 @@
 #ifndef QORACLEWIDGET_H
 #define QORACLEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class OracleWidget;
@@ -9,7 +9,7 @@ class OracleWidget;
 
 namespace SDPO {
 
-class OracleWidget : public TestWidget
+class OracleWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

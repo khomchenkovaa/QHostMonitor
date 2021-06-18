@@ -1,20 +1,21 @@
-#ifndef QEXTERNALPRGWIDGET_H
-#define QEXTERNALPRGWIDGET_H
+#ifndef NAGIOSPLUGINWIDGET_H
+#define NAGIOSPLUGINWIDGET_H
 
 #include "testmethodwidget.h"
 
 namespace Ui {
-class ExternalPrgWidget;
+class NagiosPluginWidget;
 }
 
 namespace SDPO {
 
-class ExternalPrgWidget : public TestMethodWidget
+class NagiosPluginWidget : public TestMethodWidget
 {
     Q_OBJECT
+
 public:
-    explicit ExternalPrgWidget(QWidget *parent = 0);
-    ~ExternalPrgWidget();
+    explicit NagiosPluginWidget(QWidget *parent = nullptr);
+    ~NagiosPluginWidget();
 
     virtual void init(TestMethod *item = 0) Q_DECL_OVERRIDE;
     virtual TestMethod* save(TestMethod *item) Q_DECL_OVERRIDE;
@@ -23,13 +24,13 @@ public:
     virtual QString getTemplateValue(const QString var) const Q_DECL_OVERRIDE;
 
 private slots:
-    void on_btnExternalPrg_clicked();
+    void on_btnSelect_clicked();
+    void on_btnHelp_clicked();
 
 private:
-    Ui::ExternalPrgWidget *ui;
-
+    Ui::NagiosPluginWidget *ui;
 };
 
 } // namespace SDPO
 
-#endif // QEXTERNALPRGWIDGET_H
+#endif // NAGIOSPLUGINWIDGET_H

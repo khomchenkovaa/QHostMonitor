@@ -1,7 +1,7 @@
 #ifndef QUDPTESTWIDGET_H
 #define QUDPTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class UdpTestWidget;
@@ -9,7 +9,7 @@ class UdpTestWidget;
 
 namespace SDPO {
 
-class UdpTestWidget : public TestWidget
+class UdpTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

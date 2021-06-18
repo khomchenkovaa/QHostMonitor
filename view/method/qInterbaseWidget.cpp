@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 InterbaseWidget::InterbaseWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::InterbaseWidget)
 {
     ui->setupUi(this);

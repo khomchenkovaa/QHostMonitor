@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 FileContentsWidget::FileContentsWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::FileContentsWidget)
 {
     ui->setupUi(this);

@@ -8,7 +8,7 @@ namespace SDPO {
 /*****************************************************************/
 
 MailRelayWidget::MailRelayWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::MailRelayWidget)
 {
     ui->setupUi(this);

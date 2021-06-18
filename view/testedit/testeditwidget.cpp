@@ -38,7 +38,7 @@ void TestEditWidget::reset()
     ui->cmbTestRelatedURL->clearEditText();
 
     for (int i=0; i<ui->stwTestMethod->count(); ++i) {
-        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
+        TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->widget(i));
         if (widget) {
             widget->reset(m_Data);
         }
@@ -66,7 +66,7 @@ void TestEditWidget::init(TTest *item)
 
     emit ui->cmbTestMethod->currentIndexChanged(ui->cmbTestMethod->currentIndex());
 
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+    TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
     if (widget) {
         widget->init(item->method());
         widget->setNamePattern(item->method()->getNamePattern());
@@ -79,7 +79,7 @@ void TestEditWidget::init(TTest *item)
 
 TTest *TestEditWidget::save(HMListService  *hmlService, TTest *item)
 {
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+    TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
     if (!widget) {
         QMessageBox::information(nullptr,"Info", tr("Oops! Not implemented yet"));
         return nullptr;
@@ -167,9 +167,9 @@ void TestEditWidget::setupUI()
     ui->ledTestComment->installEventFilter(this);
 
     for (int i = 0; i < ui->stwTestMethod->count(); ++i) {
-        TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->widget(i));
+        TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->widget(i));
         if (widget) {
-            connect(widget, &TestWidget::propertiesChanged,
+            connect(widget, &TestMethodWidget::propertiesChanged,
                     this, &TestEditWidget::refreshNameAndComment);
         }
     }
@@ -182,6 +182,7 @@ void TestEditWidget::setupTestMethodCombo()
 {
     QComboBox *box = ui->cmbTestMethod;
     foreach(const TestMethodMetaInfo &meta, TestMethod::metaInfo) {
+        if (meta.id == TMethodID::Unknown) continue;
         box->addItem(QIcon(meta.icon), meta.text, static_cast<int>(meta.id));
     }
     box->setCurrentIndex(0);
@@ -240,6 +241,7 @@ void TestEditWidget::setupTestMethodWidgets()
     box->addWidget(new DominantProcessWidget);
     box->addWidget(new DhcpWidget);
     box->addWidget(new SdpoMonitorWidget);
+    box->addWidget(new NagiosPluginWidget);
     box->setCurrentIndex(0);
 }
 
@@ -247,7 +249,7 @@ void TestEditWidget::setupTestMethodWidgets()
 
 QString TestEditWidget::getTestName() const
 {
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+    TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
     QString nameSource = widget->getNamePattern();
     GMacroTranslator translator(nameSource);
     QStringList nameParams = translator.parse();
@@ -263,7 +265,7 @@ QString TestEditWidget::getTestName() const
 
 QString TestEditWidget::getTestComment() const
 {
-    TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+    TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
     QString commentSource = widget->getCommentPattern();
     GMacroTranslator translator(commentSource);
     QStringList commentParams = translator.parse();
@@ -281,7 +283,7 @@ bool TestEditWidget::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::FocusIn) {
         if (watched == ui->cmbTestName) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+            TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
             QString nameSource = widget->getNamePattern();
             ui->cmbTestName->setCurrentText(nameSource);
             GMacroTranslator translator(nameSource);
@@ -292,7 +294,7 @@ bool TestEditWidget::eventFilter(QObject *watched, QEvent *event)
                 ui->cmbTestName->setPalette(palette);
             }
         } else if (watched == ui->ledTestComment) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+            TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
             QString commentSource = widget->getCommentPattern();
             ui->ledTestComment->setText(commentSource);
             GMacroTranslator translator(commentSource);
@@ -306,14 +308,14 @@ bool TestEditWidget::eventFilter(QObject *watched, QEvent *event)
     }
     if (event->type() == QEvent::FocusOut) {
         if (watched == ui->cmbTestName) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+            TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
             widget->setNamePattern(ui->cmbTestName->currentText());
             refreshNameAndComment();
             QPalette palette = ui->cmbTestName->palette();
             palette.setColor(QPalette::Base,Qt::white);
             ui->cmbTestName->setPalette(palette);
         } else if (watched == ui->ledTestComment) {
-            TestWidget* widget = qobject_cast<TestWidget*>(ui->stwTestMethod->currentWidget());
+            TestMethodWidget* widget = qobject_cast<TestMethodWidget*>(ui->stwTestMethod->currentWidget());
             widget->setCommentPattern(ui->ledTestComment->text());
             refreshNameAndComment();
             QPalette palette = ui->ledTestComment->palette();

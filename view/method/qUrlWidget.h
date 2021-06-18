@@ -1,7 +1,7 @@
 #ifndef QURLWIDGET_H
 #define QURLWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class UrlWidget;
@@ -9,7 +9,7 @@ class UrlWidget;
 
 namespace SDPO {
 
-class UrlWidget : public TestWidget
+class UrlWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

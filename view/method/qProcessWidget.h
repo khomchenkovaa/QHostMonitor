@@ -1,7 +1,7 @@
 #ifndef QPROCESSWIDGET_H
 #define QPROCESSWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class ProcessWidget;
@@ -9,7 +9,7 @@ class ProcessWidget;
 
 namespace SDPO {
 
-class ProcessWidget : public TestWidget
+class ProcessWidget : public TestMethodWidget
 {
     Q_OBJECT
 

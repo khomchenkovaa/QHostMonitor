@@ -9,7 +9,7 @@ namespace SDPO {
 /*****************************************************************/
 
 DhcpWidget::DhcpWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::DhcpWidget)
 {
     ui->setupUi(this);

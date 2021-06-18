@@ -1,7 +1,7 @@
 #ifndef QDRIVESPACEWIDGET_H
 #define QDRIVESPACEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class DriveSpaceWidget;
@@ -11,7 +11,7 @@ namespace SDPO {
 
 class TestMethod;
 
-class DriveSpaceWidget : public TestWidget
+class DriveSpaceWidget : public TestMethodWidget
 {
     Q_OBJECT
 

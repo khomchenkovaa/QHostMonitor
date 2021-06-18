@@ -1,7 +1,7 @@
 #ifndef QSYBASEWIDGET_H
 #define QSYBASEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SybaseWidget;
@@ -9,7 +9,7 @@ class SybaseWidget;
 
 namespace SDPO {
 
-class SybaseWidget : public TestWidget
+class SybaseWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -28,33 +28,33 @@ void LogProcessingOptionsWidget::init(QSettings *s)
     } else {
         ui->rbLogProcessingBackup->setChecked(true);
     }
-    ui->chkLogProcessingCommon->setChecked(s->value(SKEY_COMMONLOG_CheckEnabled,0).toInt());
+    ui->chkLogProcessingCommon->setChecked(s->value(SKEY_COMMONLOG_CheckEnabled,SVAL_COMMONLOG_CheckEnabled).toInt());
     on_chkLogsStatus();
     connect(ui->chkLogProcessingCommon, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
 
     // Common log
-    ui->cmbLogProcessingCommonCriteria->setCurrentIndex(s->value(SKEY_COMMONLOG_CheckMode,0).toInt());
+    ui->cmbLogProcessingCommonCriteria->setCurrentIndex(s->value(SKEY_COMMONLOG_CheckMode,SVAL_COMMONLOG_CheckMode).toInt());
     on_SelectLogs();
     connect(ui->cmbLogProcessingCommonCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
 
-    ui->cmbLogProcessingCommonTime->setCurrentIndex(s->value(SKEY_COMMONLOG_TimeUnit,2).toInt());
-    ui->spinLogProcessingCommonTime->setValue(s->value(SKEY_COMMONLOG_TimeLimit,3).toInt());
-    ui->spinLogProcessingCommonSize->setValue(s->value(SKEY_COMMONLOG_SizeLimit,600000).toInt());
-    ui->editLogProcessingCommonCmd->setText(s->value(SKEY_COMMONLOG_ExtCommand, COMMONLOG_PROCESSING_EXT_CMD).toString());
+    ui->cmbLogProcessingCommonTime->setCurrentIndex(s->value(SKEY_COMMONLOG_TimeUnit,SVAL_COMMONLOG_TimeUnit).toInt());
+    ui->spinLogProcessingCommonTime->setValue(s->value(SKEY_COMMONLOG_TimeLimit,SVAL_COMMONLOG_TimeLimit).toInt());
+    ui->spinLogProcessingCommonSize->setValue(s->value(SKEY_COMMONLOG_SizeLimit,SVAL_COMMONLOG_SizeLimit).toInt());
+    ui->editLogProcessingCommonCmd->setText(s->value(SKEY_COMMONLOG_ExtCommand, SVAL_COMMONLOG_ExtCommand).toString());
 
     // Private log
-    ui->chkLogProcessingPrivate->setChecked(s->value(SKEY_PRIVLOG_CheckEnabled,0).toInt());
+    ui->chkLogProcessingPrivate->setChecked(s->value(SKEY_PRIVLOG_CheckEnabled,SVAL_PRIVLOG_CheckEnabled).toInt());
     on_chkLogsStatus();
     connect(ui->chkLogProcessingPrivate, SIGNAL(clicked()), this, SLOT(on_chkLogsStatus()));
 
-    ui->cmbLogProcessingPrivateCriteria->setCurrentIndex(s->value(SKEY_PRIVLOG_CheckMode,1).toInt());
+    ui->cmbLogProcessingPrivateCriteria->setCurrentIndex(s->value(SKEY_PRIVLOG_CheckMode,SVAL_PRIVLOG_CheckMode).toInt());
     on_SelectLogs();
     connect(ui->cmbLogProcessingPrivateCriteria, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogs()));
 
-    ui->cmbLogProcessingTime->setCurrentIndex(s->value(SKEY_PRIVLOG_TimeUnit,2).toInt());
-    ui->spinLogProcessingTime->setValue(s->value(SKEY_PRIVLOG_TimeLimit,3).toInt());
-    ui->spinLogProcessingSize->setValue(s->value(SKEY_PRIVLOG_SizeLimit,200000).toInt());
-    ui->editLogProcessingPrivateCmd->setText(s->value(SKEY_PRIVLOG_ExtCommand, PRIVLOG_PROCESSING_EXT_CMD).toString());
+    ui->cmbLogProcessingTime->setCurrentIndex(s->value(SKEY_PRIVLOG_TimeUnit,SVAL_PRIVLOG_TimeUnit).toInt());
+    ui->spinLogProcessingTime->setValue(s->value(SKEY_PRIVLOG_TimeLimit,SVAL_PRIVLOG_TimeLimit).toInt());
+    ui->spinLogProcessingSize->setValue(s->value(SKEY_PRIVLOG_SizeLimit,SVAL_PRIVLOG_SizeLimit).toInt());
+    ui->editLogProcessingPrivateCmd->setText(s->value(SKEY_PRIVLOG_ExtCommand, SVAL_PRIVLOG_ExtCommand).toString());
 }
 
 /******************************************************************/

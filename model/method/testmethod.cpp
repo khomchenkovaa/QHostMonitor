@@ -111,16 +111,23 @@ void TestMethod::writeLogTitle()
 
 /***********************************************/
 
-TestMethodMetaInfo TestMethod::metaInfoItem(TMethodID method)
+TestMethodMetaInfo TestMethod::metaInfoItem(TMethodID methodID)
 {
-    return metaInfo.at(static_cast<int>(method));
+    TestMethodMetaInfo result = metaInfo.first();
+    foreach(const TestMethodMetaInfo &method, metaInfo) {
+        if (method.id == methodID) {
+            result = method;
+            break;
+        }
+    }
+    return result;
 }
 
 /***********************************************/
 
-QString TestMethod::metaName(TMethodID method)
+QString TestMethod::metaName(TMethodID methodID)
 {
-    return metaInfoItem(method).name;
+    return metaInfoItem(methodID).name;
 }
 
 /***********************************************/

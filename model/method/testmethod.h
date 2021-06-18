@@ -60,7 +60,8 @@ enum class TMethodID {
     DICOM,          // DICOM
     DominantProcess,// Dominant Process
     DHCP,           // DHCP test
-    HMmonitor       // SDPO Monitor
+    HMmonitor,      // SDPO Monitor
+    Nagios          // Nagios plugin
 };
 
 typedef QList<TMethodID> TMethodIdList;
@@ -233,8 +234,8 @@ signals:
 public: // static
     static QVector<TestGroup> groups;
     static QVector<TestMethodMetaInfo> metaInfo;
-    static TestMethodMetaInfo metaInfoItem(TMethodID method);
-    static QString metaName(TMethodID method);
+    static TestMethodMetaInfo metaInfoItem(TMethodID methodID);
+    static QString metaName(TMethodID methodID);
     static TMethodID methodIdFromString(const QString name);
 
 private:

@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 ServiceWidget::ServiceWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ServiceWidget)
 {
     ui->setupUi(this);

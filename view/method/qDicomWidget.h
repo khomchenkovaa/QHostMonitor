@@ -1,7 +1,7 @@
 #ifndef QDICOMWIDGET_H
 #define QDICOMWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 #include <QComboBox>
 #include <QCheckBox>
 #include <QSpinBox>
@@ -15,7 +15,7 @@ namespace SDPO {
 
 class TestMethod;
 
-class DicomWidget : public TestWidget
+class DicomWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

@@ -1,7 +1,7 @@
 #ifndef QRASTESTWIDGET_H
 #define QRASTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class RasTestWidget;
@@ -9,7 +9,7 @@ class RasTestWidget;
 
 namespace SDPO {
 
-class RasTestWidget : public TestWidget
+class RasTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

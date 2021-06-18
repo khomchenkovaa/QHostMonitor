@@ -4,7 +4,7 @@
 namespace SDPO {
 
 UdpTestWidget::UdpTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::UdpTestWidget)
 {
     ui->setupUi(this);

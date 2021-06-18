@@ -1,7 +1,7 @@
 #ifndef QNTPTESTWIDGET_H
 #define QNTPTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class NtpTestWidget;
@@ -9,7 +9,7 @@ class NtpTestWidget;
 
 namespace SDPO {
 
-class NtpTestWidget : public TestWidget
+class NtpTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

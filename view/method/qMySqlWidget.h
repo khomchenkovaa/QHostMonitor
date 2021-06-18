@@ -1,7 +1,7 @@
 #ifndef QMYSQLWIDGET_H
 #define QMYSQLWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class MySqlWidget;
@@ -9,7 +9,7 @@ class MySqlWidget;
 
 namespace SDPO {
 
-class MySqlWidget : public TestWidget
+class MySqlWidget : public TestMethodWidget
 {
     Q_OBJECT
 

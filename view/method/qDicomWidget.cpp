@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 DicomWidget::DicomWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::DicomWidget)
 {
     ui->setupUi(this);

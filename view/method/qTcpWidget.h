@@ -1,7 +1,7 @@
 #ifndef QTCPWIDGET_H
 #define QTCPWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class TcpWidget;
@@ -9,7 +9,7 @@ class TcpWidget;
 
 namespace SDPO {
 
-class TcpWidget : public TestWidget
+class TcpWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

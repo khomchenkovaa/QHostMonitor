@@ -14,7 +14,7 @@ namespace SDPO {
 /******************************************************************/
 
 SnmpGetWidget::SnmpGetWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SnmpGetWidget)
 {
     ui->setupUi(this);

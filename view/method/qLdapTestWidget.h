@@ -1,7 +1,7 @@
 #ifndef QLDAPTESTWIDGET_H
 #define QLDAPTESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class LdapTestWidget;
@@ -9,7 +9,7 @@ class LdapTestWidget;
 
 namespace SDPO {
 
-class LdapTestWidget : public TestWidget
+class LdapTestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

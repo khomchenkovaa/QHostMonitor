@@ -27,7 +27,7 @@ HtmlColorsOptionsWidget::~HtmlColorsOptionsWidget()
 
 void HtmlColorsOptionsWidget::init(QSettings *s)
 {
-     ui->editColorScheme->setText(s->value(SKEY_INTERFACE_DefaultLogPaletteID, "Grey").toString());
+     ui->editColorScheme->setText(s->value(SKEY_INTERFACE_DefaultLogPaletteID, SVAL_INTERFACE_DefaultLogPaletteID).toString());
 }
 
 /******************************************************************/

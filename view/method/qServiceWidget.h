@@ -1,7 +1,7 @@
 #ifndef QSERVICEWIDGET_H
 #define QSERVICEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class ServiceWidget;
@@ -9,7 +9,7 @@ class ServiceWidget;
 
 namespace SDPO {
 
-class ServiceWidget : public TestWidget
+class ServiceWidget : public TestMethodWidget
 {
     Q_OBJECT
 

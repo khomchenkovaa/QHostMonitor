@@ -4,7 +4,7 @@
 namespace SDPO {
 
 RasTestWidget::RasTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::RasTestWidget)
 {
     ui->setupUi(this);

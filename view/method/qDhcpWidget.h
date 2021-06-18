@@ -1,7 +1,7 @@
 #ifndef QDHCPWIDGET_H
 #define QDHCPWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class DhcpWidget;
@@ -9,7 +9,7 @@ class DhcpWidget;
 
 namespace SDPO {
 
-class DhcpWidget : public TestWidget
+class DhcpWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -227,5 +227,6 @@
         <file>resources/snmpCredentials.json</file>
         <file>resources/tests/ping.html</file>
         <file>resources/tests/external.html</file>
+        <file>img/test/nagios.gif</file>
     </qresource>
 </RCC>

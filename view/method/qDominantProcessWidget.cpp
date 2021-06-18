@@ -7,7 +7,7 @@ namespace SDPO {
 /*****************************************************************/
 
 DominantProcessWidget::DominantProcessWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::DominantProcessWidget)
 {
     ui->setupUi(this);

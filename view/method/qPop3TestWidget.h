@@ -1,7 +1,7 @@
 #ifndef QPOP3TESTWIDGET_H
 #define QPOP3TESTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class Pop3TestWidget;
@@ -9,7 +9,7 @@ class Pop3TestWidget;
 
 namespace SDPO {
 
-class Pop3TestWidget : public TestWidget
+class Pop3TestWidget : public TestMethodWidget
 {
     Q_OBJECT
 

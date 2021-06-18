@@ -1,7 +1,7 @@
 #ifndef QCOUNTFILESWIDGET_H
 #define QCOUNTFILESWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class CountFilesWidget;
@@ -9,7 +9,7 @@ class CountFilesWidget;
 
 namespace SDPO {
 
-class CountFilesWidget : public TestWidget
+class CountFilesWidget : public TestMethodWidget
 {
     Q_OBJECT
 

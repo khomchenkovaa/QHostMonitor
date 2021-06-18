@@ -24,33 +24,33 @@ PingTraceOptionsWidget::~PingTraceOptionsWidget()
 void PingTraceOptionsWidget::init(QSettings *s)
 {
     QVariant val;
-    val = s->value(SKEY_PING_Packets, 1);
+    val = s->value(SKEY_PING_Packets, SVAL_PING_Packets);
     ui->slidePackets->setValue(val.toInt());
     ui->spinPackets->setValue(val.toInt());
 
-    val = s->value(SKEY_PING_PacketSize, 32);
+    val = s->value(SKEY_PING_PacketSize, SVAL_PING_PacketSize);
     ui->slidePacketSize->setValue(val.toInt());
     ui->spinPacketSize->setValue(val.toInt());
 
-    val = s->value(SKEY_PING_Timeout, 1000);
+    val = s->value(SKEY_PING_Timeout, SVAL_PING_Timeout);
     ui->slideTimeout->setValue(val.toInt());
     ui->spinTimeout->setValue(val.toInt());
 
-    val = s->value(SKEY_PING_TTL, 255);
+    val = s->value(SKEY_PING_TTL, SVAL_PING_TTL);
     ui->slideTTL->setValue(val.toInt());
     ui->spinTTL->setValue(val.toInt());
 
-    val = s->value(SKEY_PING_Hops, 32);
+    val = s->value(SKEY_PING_Hops, SVAL_PING_Hops);
     ui->slideHops->setValue(val.toInt());
     ui->spinHops->setValue(val.toInt());
 
-    val = s->value(SKEY_PING_ShowHostsDescription, 1);
+    val = s->value(SKEY_PING_ShowHostsDescription, SVAL_PING_ShowHostsDescription);
     ui->cbShowHostDescription->setChecked(val.toInt()==1);
 
-    val = s->value(SKEY_PING_ClearOldInfo, 0);
+    val = s->value(SKEY_PING_ClearOldInfo, SVAL_PING_ClearOldInfo);
     ui->cbClearOldInfo->setChecked(val.toInt()==1);
 
-    val = s->value(SKEY_PING_StopTrace, 1);
+    val = s->value(SKEY_PING_StopTrace, SVAL_PING_StopTrace);
     ui->cbStopTrace->setChecked(val.toInt()==1);
 }
 

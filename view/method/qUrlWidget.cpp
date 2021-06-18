@@ -5,7 +5,7 @@
 namespace SDPO {
 
 UrlWidget::UrlWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::UrlWidget)
 {
     ui->setupUi(this);

@@ -4,7 +4,7 @@
 namespace SDPO {
 
 TemperatureMonitorWidget::TemperatureMonitorWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::TemperatureMonitorWidget)
 {
     ui->setupUi(this);

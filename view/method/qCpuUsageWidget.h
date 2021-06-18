@@ -1,7 +1,7 @@
 #ifndef QCPUUSAGEWIDGET_H
 #define QCPUUSAGEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class CpuUsageWidget;
@@ -9,7 +9,7 @@ class CpuUsageWidget;
 
 namespace SDPO {
 
-class CpuUsageWidget : public TestWidget
+class CpuUsageWidget : public TestMethodWidget
 {
     Q_OBJECT
 

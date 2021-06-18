@@ -1,7 +1,7 @@
 #ifndef QTEXTLOGWIDGET_H
 #define QTEXTLOGWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class TextLogWidget;
@@ -9,7 +9,7 @@ class TextLogWidget;
 
 namespace SDPO {
 
-class TextLogWidget : public TestWidget
+class TextLogWidget : public TestMethodWidget
 {
     Q_OBJECT
 

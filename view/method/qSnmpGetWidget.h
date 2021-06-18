@@ -1,7 +1,7 @@
 #ifndef QSNMPGETWIDGET_H
 #define QSNMPGETWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SnmpGetWidget;
@@ -9,7 +9,7 @@ class SnmpGetWidget;
 
 namespace SDPO {
 
-class SnmpGetWidget : public TestWidget
+class SnmpGetWidget : public TestMethodWidget
 {
     Q_OBJECT
 

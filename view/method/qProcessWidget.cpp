@@ -4,7 +4,7 @@
 namespace SDPO {
 
 ProcessWidget::ProcessWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ProcessWidget)
 {
     ui->setupUi(this);

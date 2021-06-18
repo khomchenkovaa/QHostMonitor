@@ -30,7 +30,7 @@ void AccessMethodOptionsWidget::on_btnAccessProxy_clicked()
 
 void AccessMethodOptionsWidget::init(QSettings *s)
 {
-    switch(s->value(SKEY_HOSTMON_AccessMethod, 0).toInt()) {
+    switch(s->value(SKEY_HOSTMON_AccessMethod, SVAL_HOSTMON_AccessMethod).toInt()) {
         case 0: ui->rbAccessUseRegistry->setChecked(true); break;
         case 1: ui->rbAccessDirect->setChecked(true); break;
         case 2: ui->rbAccessViaProxy->setChecked(true); break;

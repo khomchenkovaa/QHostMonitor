@@ -4,7 +4,7 @@ DEPENDPATH += $$PWD
 include("../../views/snmpw/snmpw.pri")
 
 HEADERS += \
-    $$PWD/qTestWidget.h \
+    $$PWD/nagiospluginwidget.h \
     $$PWD/qPingWidget.h \
     $$PWD/qTcpWidget.h \
     $$PWD/qUrlWidget.h \
@@ -63,10 +63,11 @@ HEADERS += \
     $$PWD/qDominantProcessWidget.h \
     $$PWD/qDhcpWidget.h \
     $$PWD/qSdpoMonitorWidget.h \
-    $$PWD/sdpoTestMethodWidgets.h
+    $$PWD/sdpoTestMethodWidgets.h \
+    $$PWD/testmethodwidget.h
 
 SOURCES += \
-    $$PWD/qTestWidget.cpp \
+    $$PWD/nagiospluginwidget.cpp \
     $$PWD/qPingWidget.cpp \
     $$PWD/qTcpWidget.cpp \
     $$PWD/qUrlWidget.cpp \
@@ -127,6 +128,7 @@ SOURCES += \
     $$PWD/qSdpoMonitorWidget.cpp
 
 FORMS    += \
+    $$PWD/nagiospluginwidget.ui \
     $$PWD/qPingWidget.ui \
     $$PWD/qTcpWidget.ui \
     $$PWD/qUrlWidget.ui \

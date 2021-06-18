@@ -1,7 +1,7 @@
 #ifndef QMAILRELAYWIDGET_H
 #define QMAILRELAYWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class MailRelayWidget;
@@ -9,7 +9,7 @@ class MailRelayWidget;
 
 namespace SDPO {
 
-class MailRelayWidget : public TestWidget
+class MailRelayWidget : public TestMethodWidget
 {
     Q_OBJECT
 

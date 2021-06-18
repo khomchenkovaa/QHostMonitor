@@ -193,7 +193,7 @@ void PrimaryLogOptionsWidget::init(QSettings *s)
 
     ui->cmbPrimaryLogDatasource->setCurrentText(s->value(SKEY_LOGGING_OdbcLogSource).toString());
     ui->plainPrimaryLogSQL->clear();
-    ui->plainPrimaryLogSQL->insertPlainText(s->value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcQuery).toString());
+    ui->plainPrimaryLogSQL->insertPlainText(s->value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcLogSqlQuery).toString());
     ui->editPrimaryLogLogin->setText(s->value(SKEY_LOGGING_OdbcLogUser).toString());
     ui->editPrimaryLogPassword->setText(s->value(SKEY_LOGGING_OdbcLogPswd).toString());
     ui->spinPrimaryLogTimeout->setValue(s->value(SKEY_LOGGING_OdbcLogTimeout,10).toInt());

@@ -8,7 +8,7 @@ namespace SDPO {
 /******************************************************************/
 
 SshWidget::SshWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SshWidget)
 {
     ui->setupUi(this);

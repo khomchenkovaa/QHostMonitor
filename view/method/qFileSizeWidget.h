@@ -1,7 +1,7 @@
 #ifndef QFILESIZEWIDGET_H
 #define QFILESIZEWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class FileSizeWidget;
@@ -9,7 +9,7 @@ class FileSizeWidget;
 
 namespace SDPO {
 
-class FileSizeWidget : public TestWidget
+class FileSizeWidget : public TestMethodWidget
 {
     Q_OBJECT
 public:

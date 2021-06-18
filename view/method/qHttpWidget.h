@@ -1,7 +1,7 @@
 #ifndef QHTTPWIDGET_H
 #define QHTTPWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class HttpWidget;
@@ -9,7 +9,7 @@ class HttpWidget;
 
 namespace SDPO {
 
-class HttpWidget : public TestWidget
+class HttpWidget : public TestMethodWidget
 {
     Q_OBJECT
 

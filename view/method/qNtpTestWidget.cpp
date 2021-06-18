@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 NtpTestWidget::NtpTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::NtpTestWidget)
 {
     ui->setupUi(this);

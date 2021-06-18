@@ -1,7 +1,7 @@
 #ifndef QSDPOMONITORWIDGET_H
 #define QSDPOMONITORWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class SdpoMonitorWidget;
@@ -9,7 +9,7 @@ class SdpoMonitorWidget;
 
 namespace SDPO {
 
-class SdpoMonitorWidget : public TestWidget
+class SdpoMonitorWidget : public TestMethodWidget
 {
     Q_OBJECT
 

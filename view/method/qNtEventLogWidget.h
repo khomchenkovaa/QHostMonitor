@@ -1,7 +1,7 @@
 #ifndef QNTEVENTLOGWIDGET_H
 #define QNTEVENTLOGWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class NtEventLogWidget;
@@ -9,7 +9,7 @@ class NtEventLogWidget;
 
 namespace SDPO {
 
-class NtEventLogWidget : public TestWidget
+class NtEventLogWidget : public TestMethodWidget
 {
     Q_OBJECT
 

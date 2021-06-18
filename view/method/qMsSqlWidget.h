@@ -1,7 +1,7 @@
 #ifndef QMSSQLWIDGET_H
 #define QMSSQLWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class MsSqlWidget;
@@ -9,7 +9,7 @@ class MsSqlWidget;
 
 namespace SDPO {
 
-class MsSqlWidget : public TestWidget
+class MsSqlWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -11,7 +11,9 @@
 // IP_Monitor
 // Environ
 #define SKEY_PING_ClearOldInfo         "Environ/ClearOldInfo"
+#define SVAL_PING_ClearOldInfo         0
 #define SKEY_PING_ShowHostsDescription "Environ/ShowHostsDescription"
+#define SVAL_PING_ShowHostsDescription 1
 
 #define SKEY_PREF_FontName       "Environ/FontName"
 #define SKEY_PREF_FontSize       "Environ/FontSize"
@@ -45,11 +47,17 @@
 
 // Ping_Trace
 #define SKEY_PING_Packets    "Ping_Trace/Packets"
+#define SVAL_PING_Packets    1
 #define SKEY_PING_PacketSize "Ping_Trace/PacketSize"
+#define SVAL_PING_PacketSize 32
 #define SKEY_PING_Timeout    "Ping_Trace/Timeout"
+#define SVAL_PING_Timeout    1000
 #define SKEY_PING_TTL        "Ping_Trace/TTL"
+#define SVAL_PING_TTL        3
 #define SKEY_PING_Hops       "Ping_Trace/Hops"
+#define SVAL_PING_Hops       32
 #define SKEY_PING_StopTrace  "Ping_Trace/StopTrace"
+#define SVAL_PING_StopTrace  1
 
 // Language,
 // HostMon
@@ -60,14 +68,22 @@
 #define SKEY_HOSTMON_MsgWinCloseAuto     "HostMon/MsgWinCloseAuto"
 #define SKEY_HOSTMON_MsgWinStayTop       "HostMon/MsgWinStayTop"
 #define SKEY_HOSTMON_AccessMethod        "HostMon/AccessMethod"
+#define SVAL_HOSTMON_AccessMethod        0
 
 #define SKEY_HOSTMON_RefreshMode            "HostMon/RefreshMode"
+#define SVAL_HOSTMON_RefreshMode            2
 #define SKEY_HOSTMON_MaxThreads             "HostMon/MaxThreads"
+#define SVAL_HOSTMON_MaxThreads             32
 #define SKEY_HOSTMON_MastersLifetime        "HostMon/MastersLifetime"
+#define SVAL_HOSTMON_MastersLifetime        60
 #define SKEY_HOSTMON_RecheckDependants      "HostMon/RecheckDependants"
+#define SVAL_HOSTMON_RecheckDependants      0
 #define SKEY_HOSTMON_CommentForDisabling    "HostMon/CommentForDisabling"
+#define SVAL_HOSTMON_CommentForDisabling    0
 #define SKEY_HOSTMON_DisableResetIterations "HostMon/DisableResetIterations"
+#define SVAL_HOSTMON_DisableResetIterations 0
 #define SKEY_HOSTMON_PauseResetIterations   "HostMon/PauseResetIterations"
+#define SVAL_HOSTMON_PauseResetIterations   0
 
 #define SKEY_HOSTMON_CheckInternetConnection "HostMon/CheckInternetConnection"
 
@@ -191,6 +207,7 @@
 // Interface
 #define SKEY_INTERFACE_SaveCurrFolder      "Interface/SaveCurrFolder"
 #define SKEY_INTERFACE_DefaultLogPaletteID "Interface/DefaultLogPaletteID"
+#define SVAL_INTERFACE_DefaultLogPaletteID "Grey"
 
 // MonitorColumns,
 // SortingColumns,
@@ -207,11 +224,10 @@
 
 #define SKEY_LOGGING_OdbcLogSource   "Logging/odbcLogSource"
 #define SKEY_LOGGING_OdbcLogSqlQuery "Logging/odbcLogSQLQuer"
+#define SVAL_LOGGING_OdbcLogSqlQuery "Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')"
 #define SKEY_LOGGING_OdbcLogUser     "Logging/odbcLogUser"
 #define SKEY_LOGGING_OdbcLogPswd     "Logging/odbcLogPswd"
 #define SKEY_LOGGING_OdbcLogTimeout  "Logging/odbcLogTimeout"
-
-#define SVAL_LOGGING_OdbcQuery "Insert into hmlog (eventtime, testname, status, reply, testid, testmethod) VALUES ('%DateTime%', '%TestName%', '%Status%', '%Reply%', %TestID%, '%TestMethod%')"
 
 // Logging1
 #define SKEY_LOG1_Target          "Logging1/Target"
@@ -226,33 +242,52 @@
 
 // Logging2
 #define SKEY_LOG2_Target          "Logging2/Target"
+#define SVAL_LOG2_Target          1
 #define SKEY_LOG2_SaveMode        "Logging2/SaveMode"
+#define SVAL_LOG2_SaveMode        2
 #define SKEY_LOG2_LogNameMethod   "Logging2/LogNameMethod"
+#define SVAL_LOG2_LogNameMethod   0
 #define SKEY_LOG2_File2Name       "Logging2/File2Name"
 #define SKEY_LOG2_LogFormat       "Logging2/LogFormat"
+#define SVAL_LOG2_LogFormat       0
 #define SKEY_LOG2_UseDeadAction   "Logging2/UseDeadAction"
+#define SVAL_LOG2_UseDeadAction   0
 #define SKEY_LOG2_DeadActionID    "Logging2/DeadActionID"
+#define SVAL_LOG2_DeadActionID    -1
 #define SKEY_LOG2_OdbcLogSource   "Logging2/odbcLogSource"
 #define SKEY_LOG2_OdbcLogSqlQuery "Logging2/odbcLogSQLQuer"
 #define SKEY_LOG2_OdbcLogUser     "Logging2/odbcLogUser"
 #define SKEY_LOG2_OdbcLogPswd     "Logging2/odbcLogPswd"
 #define SKEY_LOG2_OdbcLogTimeout  "Logging2/odbcLogTimeout"
+#define SVAL_LOG2_OdbcLogTimeout  10
 
 // Logging_CommonProcessing
 #define SKEY_COMMONLOG_CheckEnabled "Logging_CommonProcessing/CheckEnabled"
+#define SVAL_COMMONLOG_CheckEnabled 0
 #define SKEY_COMMONLOG_CheckMode    "Logging_CommonProcessing/CheckMode"
+#define SVAL_COMMONLOG_CheckMode    0
 #define SKEY_COMMONLOG_TimeUnit     "Logging_CommonProcessing/TimeUnit"
+#define SVAL_COMMONLOG_TimeUnit     2
 #define SKEY_COMMONLOG_TimeLimit    "Logging_CommonProcessing/TimeLimit"
+#define SVAL_COMMONLOG_TimeLimit    3
 #define SKEY_COMMONLOG_SizeLimit    "Logging_CommonProcessing/SizeLimit"
+#define SVAL_COMMONLOG_SizeLimit    600000
 #define SKEY_COMMONLOG_ExtCommand   "Logging_CommonProcessing/ExtCommand"
+#define SVAL_COMMONLOG_ExtCommand   "cmd /c del \"%log%\" +"
 
 // Logging_PrivProcessing
 #define SKEY_PRIVLOG_CheckEnabled "Logging_PrivProcessing/CheckEnabled"
+#define SVAL_PRIVLOG_CheckEnabled 0
 #define SKEY_PRIVLOG_CheckMode    "Logging_PrivProcessing/CheckMode"
+#define SVAL_PRIVLOG_CheckMode    1
 #define SKEY_PRIVLOG_TimeUnit     "Logging_PrivProcessing/TimeUnit"
+#define SVAL_PRIVLOG_TimeUnit     2
 #define SKEY_PRIVLOG_TimeLimit    "Logging_PrivProcessing/TimeLimit"
+#define SVAL_PRIVLOG_TimeLimit    3
 #define SKEY_PRIVLOG_SizeLimit    "Logging_PrivProcessing/SizeLimit"
+#define SVAL_PRIVLOG_SizeLimit    200000
 #define SKEY_PRIVLOG_ExtCommand   "Logging_PrivProcessing/ExtCommand"
+#define SVAL_PRIVLOG_ExtCommand   "cmd /c move /y \"%log%\" \"%logpath%old\%logname%\""
 
 // ICQ
 #define SKEY_ICQ_PrimaryUIN  "ICQ/PrimaryUIN"
@@ -283,16 +318,22 @@
 
 // Jabber
 #define SKEY_JABBER_PrimaryLoginServer "Jabber/PrimaryLoginServer"
+#define SVAL_JABBER_PrimaryLoginServer "jabber.org"
 #define SKEY_JABBER_PrimaryUserName    "Jabber/PrimaryUserName"
 #define SKEY_JABBER_PrimaryPswd        "Jabber/PrimaryPswd"
 #define SKEY_JABBER_PrimarySslMode     "Jabber/PrimarySSLMode"
+#define SVAL_JABBER_PrimarySslMode     0
 #define SKEY_JABBER_PrimaryLoginPort   "Jabber/PrimaryLoginPort"
+#define SVAL_JABBER_PrimaryLoginPort   5222
 
 #define SKEY_JABBER_BackupLoginServer  "Jabber/BackupLoginServer"
+#define SVAL_JABBER_BackupLoginServer  "jabber.org"
 #define SKEY_JABBER_BackupUserName     "Jabber/BackupUserName"
 #define SKEY_JABBER_BackupPswd         "Jabber/BackupPswd"
 #define SKEY_JABBER_BackupSslMode      "Jabber/BackupSSLMode"
+#define SVAL_JABBER_BackupSslMode      0
 #define SKEY_JABBER_BackupLoginPort    "Jabber/BackupLoginPort"
+#define SVAL_JABBER_BackupLoginPort    5222
 
 // SMS_SMPP1
 #define SKEY_SMSSMPP1_Host    "SMS_SMPP1/Host"
@@ -367,9 +408,14 @@
 
 // ActiveRMAServer
 #define SKEY_RMA_Enabled     "ActiveRMAServer/Enabled"
+#define SVAL_RMA_Enabled     0
 #define SKEY_RMA_Port        "ActiveRMAServer/Port"
+#define SVAL_RMA_Port        5056
 #define SKEY_RMA_AcceptAnyIP "ActiveRMAServer/AcceptAnyIP"
+#define SVAL_RMA_AcceptAnyIP 1
 #define SKEY_RMA_LogAccepted "ActiveRMAServer/LogAccepted"
+#define SVAL_RMA_LogAccepted 0
 #define SKEY_RMA_LogRejected "ActiveRMAServer/LogRejected"
+#define SVAL_RMA_LogRejected 0
 
 #endif // SETTINGS_H

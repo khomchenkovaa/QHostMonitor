@@ -9,7 +9,7 @@ namespace SDPO {
 /******************************************************************/
 
 ShellScriptWidget::ShellScriptWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::ShellScriptWidget)
 {
     ui->setupUi(this);

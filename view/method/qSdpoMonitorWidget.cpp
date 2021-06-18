@@ -4,7 +4,7 @@
 namespace SDPO {
 
 SdpoMonitorWidget::SdpoMonitorWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SdpoMonitorWidget)
 {
     ui->setupUi(this);

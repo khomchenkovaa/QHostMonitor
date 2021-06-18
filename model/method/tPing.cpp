@@ -14,10 +14,10 @@ TPing::TPing(QString addr, QObject *parent) :
 {
     QSettings s;
     a_Address      = addr;
-    a_Packets      = s.value(SKEY_PING_Packets, 1).toInt();
-    a_Timeout      = s.value(SKEY_PING_Timeout, 1000).toInt();
-    a_PacketSize   = s.value(SKEY_PING_PacketSize, 32).toInt();
-    a_TimeToLive   = s.value(SKEY_PING_TTL, 3).toInt();
+    a_Packets      = s.value(SKEY_PING_Packets, SVAL_PING_Packets).toInt();
+    a_Timeout      = s.value(SKEY_PING_Timeout, SVAL_PING_Timeout).toInt();
+    a_PacketSize   = s.value(SKEY_PING_PacketSize, SVAL_PING_PacketSize).toInt();
+    a_TimeToLive   = s.value(SKEY_PING_TTL, SVAL_PING_TTL).toInt();
     b_DontFragment = false;
     a_BadCriteria  = 90;
     a_DisplayMode  = TPing::Time;

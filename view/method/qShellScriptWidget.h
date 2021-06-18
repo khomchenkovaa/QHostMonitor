@@ -1,7 +1,7 @@
 #ifndef QSHELLSCRIPTWIDGET_H
 #define QSHELLSCRIPTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class ShellScriptWidget;
@@ -9,7 +9,7 @@ class ShellScriptWidget;
 
 namespace SDPO {
 
-class ShellScriptWidget : public TestWidget
+class ShellScriptWidget : public TestMethodWidget
 {
     Q_OBJECT
 

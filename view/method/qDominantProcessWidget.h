@@ -1,7 +1,7 @@
 #ifndef QDOMINANTPROCESSWIDGET_H
 #define QDOMINANTPROCESSWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class DominantProcessWidget;
@@ -9,7 +9,7 @@ class DominantProcessWidget;
 
 namespace SDPO {
 
-class DominantProcessWidget : public TestWidget
+class DominantProcessWidget : public TestMethodWidget
 {
     Q_OBJECT
 

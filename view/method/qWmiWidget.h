@@ -1,7 +1,7 @@
 #ifndef QWMIWIDGET_H
 #define QWMIWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class WmiWidget;
@@ -9,7 +9,7 @@ class WmiWidget;
 
 namespace SDPO {
 
-class WmiWidget : public TestWidget
+class WmiWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -11,7 +11,7 @@ namespace SDPO {
 /*****************************************************************/
 
 OracleWidget::OracleWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::OracleWidget)
 {
     ui->setupUi(this);

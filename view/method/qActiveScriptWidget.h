@@ -1,7 +1,7 @@
 #ifndef QACTIVESCRIPTWIDGET_H
 #define QACTIVESCRIPTWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class ActiveScriptWidget;
@@ -9,7 +9,7 @@ class ActiveScriptWidget;
 
 namespace SDPO {
 
-class ActiveScriptWidget : public TestWidget
+class ActiveScriptWidget : public TestMethodWidget
 {
     Q_OBJECT
 

@@ -1,7 +1,7 @@
 #include "tExternalPrg.h"
 #include <QProcess>
 
-namespace SDPO {
+using namespace SDPO;
 
 /******************************************************************/
 
@@ -122,4 +122,3 @@ TestStatus TExternalPrg::testStatusByExitCode(const int exitCode)
 
 /******************************************************************/
 
-} // namespace SDPO

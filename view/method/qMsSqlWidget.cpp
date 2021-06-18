@@ -7,7 +7,7 @@ namespace SDPO {
 /******************************************************************/
 
 MsSqlWidget::MsSqlWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::MsSqlWidget)
 {
     ui->setupUi(this);

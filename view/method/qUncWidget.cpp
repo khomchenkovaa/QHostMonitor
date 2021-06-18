@@ -4,7 +4,7 @@
 namespace SDPO {
 
 UncWidget::UncWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::UncWidget)
 {
     ui->setupUi(this);

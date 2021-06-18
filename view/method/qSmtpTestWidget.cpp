@@ -4,7 +4,7 @@
 namespace SDPO {
 
 SmtpTestWidget::SmtpTestWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::SmtpTestWidget)
 {
     ui->setupUi(this);

@@ -1,7 +1,7 @@
 #ifndef QUNCWIDGET_H
 #define QUNCWIDGET_H
 
-#include "qTestWidget.h"
+#include "testmethodwidget.h"
 
 namespace Ui {
 class UncWidget;
@@ -9,7 +9,7 @@ class UncWidget;
 
 namespace SDPO {
 
-class UncWidget : public TestWidget
+class UncWidget : public TestMethodWidget
 {
     Q_OBJECT
 

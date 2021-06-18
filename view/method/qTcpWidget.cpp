@@ -4,7 +4,7 @@
 namespace SDPO {
 
 TcpWidget::TcpWidget(QWidget *parent) :
-    TestWidget(parent),
+    TestMethodWidget(parent),
     ui(new Ui::TcpWidget)
 {
     ui->setupUi(this);

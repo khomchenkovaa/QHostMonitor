@@ -201,7 +201,7 @@ void OptionsForm::prepareToSave()
     ui->wActiveRma->prepareToSave(&s);
     ui->wScheduler->prepareToSave(&s);
     ui->wMisc->prepareToSave(&s);
-    setAutostart(s.value(SKEY_STARTUP_StartupRun,0).toInt() == 1);
+    setAutostart(s.value(SKEY_HOSTMON_StartupRun,0).toInt() == 1);
 }
 
 /******************************************************************/

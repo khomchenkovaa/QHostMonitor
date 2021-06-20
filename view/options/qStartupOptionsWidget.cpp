@@ -25,7 +25,7 @@ StartupOptionsWidget::~StartupOptionsWidget()
 void StartupOptionsWidget::init(QSettings *s)
 {
     // Monitoring
-    switch (s->value(SKEY_STARTUP_StartStopMode,2).toInt()) {
+    switch (s->value(SKEY_STARTUP_StartStopMode,SVAL_STARTUP_StartStopMode).toInt()) {
     case 0: ui->rbStartupMonitoringStart->setChecked(true); break;
     case 1: ui->rbStartupMonitoringStop->setChecked(true); break;
     default: // case 2:
@@ -33,7 +33,7 @@ void StartupOptionsWidget::init(QSettings *s)
     }
 
     // Windows status
-    switch (s->value(SKEY_STARTUP_WinStatusMode,3).toInt()) {
+    switch (s->value(SKEY_STARTUP_WinStatusMode,SVAL_STARTUP_WinStatusMode).toInt()) {
     case 0: ui->rbStartupWindowMin->setChecked(true); break;
     case 1: ui->rbStartupWindowMax->setChecked(true); break;
     case 2: ui->rbStartupWindowNormal->setChecked(true); break;
@@ -42,7 +42,7 @@ void StartupOptionsWidget::init(QSettings *s)
     }
 
     // Test List
-    switch (s->value(SKEY_STARTUP_FileLoadMode,2).toInt()) {
+    switch (s->value(SKEY_STARTUP_FileLoadMode, SVAL_STARTUP_FileLoadMode).toInt()) {
     case 0: ui->rbStartupEmptyList->setChecked(true); break;
     case 1: ui->rbnStartupLoadList->setChecked(true); break;
     default: // case 2:
@@ -55,14 +55,14 @@ void StartupOptionsWidget::init(QSettings *s)
     connect(ui->rbStartupRestoreList, SIGNAL(clicked()), this, SLOT(onTestListChanged()));
 
     // Error Handler
-    switch (s->value(SKEY_STARTUP_ErrorHandlerMode,1).toInt()) {
+    switch (s->value(SKEY_STARTUP_ErrorHandlerMode, SVAL_STARTUP_ErrorHandlerMode).toInt()) {
     case 0: ui->rbErrorNormal->setChecked(true); break;
     case 2: ui->rbErrorQuit->setChecked(true); break;
     default: // case 1:
         ui->rbErrorIgnore->setChecked(true);
     }
 
-    ui->StartupChk->setChecked(s->value(SKEY_STARTUP_StartupRun,0) == 1);
+    ui->StartupChk->setChecked(s->value(SKEY_HOSTMON_StartupRun, SVAL_HOSTMON_StartupRun) == 1);
 }
 
 /******************************************************************/
@@ -103,7 +103,7 @@ void StartupOptionsWidget::prepareToSave(QSettings *s)
     }
     s->setValue(SKEY_STARTUP_ErrorHandlerMode, errorHandlerMode);
 
-    s->setValue(SKEY_STARTUP_StartupRun, ui->StartupChk->isChecked()?1:0);
+    s->setValue(SKEY_HOSTMON_StartupRun, ui->StartupChk->isChecked()?1:0);
     s->setValue(SKEY_STARTUP_LoadFileName, ui->editStartupFileName->text());
 }
 

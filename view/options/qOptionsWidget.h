@@ -10,11 +10,17 @@ namespace SDPO {
 class OptionsWidget : public QWidget
 {
     Q_OBJECT
-public:
-    explicit OptionsWidget(QWidget *parent = nullptr);
 
-    virtual void init(QSettings *s) { Q_UNUSED(s) }
-    virtual void prepareToSave(QSettings *s) { Q_UNUSED(s) }
+public:
+    explicit OptionsWidget(QWidget *parent = nullptr) : QWidget(parent) {}
+
+    virtual void init(QSettings *s) {
+        Q_UNUSED(s)
+    }
+
+    virtual void prepareToSave(QSettings *s) {
+        Q_UNUSED(s)
+    }
 
 signals:
     void goToPage(const int idx);

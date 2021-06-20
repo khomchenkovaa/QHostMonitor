@@ -31,9 +31,9 @@ void SystemLogOptionsWidget::on_btnSystemLogFileName_clicked()
 
 void SystemLogOptionsWidget::init(QSettings *s)
 {
-    ui->editSystemLogFileName->setText(s->value(SKEY_LOGGING_SysLogFileName).toString());
-    ui->chkSystemLogSuccessful->setChecked(s->value(SKEY_LOGGING_LogSuccessActions,0).toInt() == 1);
-    ui->chkSystemLogFailed->setChecked(s->value(SKEY_LOGGING_LogFailedActions,0).toInt() == 1);
+    ui->editSystemLogFileName->setText    (s->value(SKEY_LOGGING_SysLogFileName).toString());
+    ui->chkSystemLogSuccessful->setChecked(s->value(SKEY_LOGGING_LogSuccessActions, SVAL_LOGGING_LogSuccessActions).toInt());
+    ui->chkSystemLogFailed->setChecked    (s->value(SKEY_LOGGING_LogFailedActions, SVAL_LOGGING_LogFailedActions).toInt());
 }
 
 /******************************************************************/

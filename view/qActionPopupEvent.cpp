@@ -68,8 +68,8 @@ void ActionPopupEvent::setupProperties()
     ui->editReply->setText(m_test->getReply());
 
     QSettings s;
-    m_closeAfter = s.value(SKEY_HOSTMON_MsgWinTime, 5).toInt();
-    m_autoClose = (s.value(SKEY_HOSTMON_MsgWinCloseAuto, 5).toInt() == 1);
+    m_closeAfter = s.value(SKEY_HOSTMON_MsgWinTime, SVAL_HOSTMON_MsgWinTime).toInt();
+    m_autoClose  = s.value(SKEY_HOSTMON_MsgWinCloseAuto, SVAL_HOSTMON_MsgWinCloseAuto).toInt();
 }
 
 /***********************************************/

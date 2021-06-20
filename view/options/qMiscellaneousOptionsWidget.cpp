@@ -53,81 +53,79 @@ void MiscellaneousOptionsWidget::on_btnSelectActionProfile_clicked()
 
 void MiscellaneousOptionsWidget::init(QSettings *s)
 {
-    QVariant value;
-
     // Date & Time format
-    ui->chkDateTimeFixed->setChecked(s->value(SKEY_FORMATS_UseFixedFormats,0).toInt());
+    ui->chkDateTimeFixed->setChecked(s->value(SKEY_FF_UseFixedFormats, SVAL_FF_UseFixedFormats).toInt());
     on_selectDateFormat();
     connect(ui->chkDateTimeFixed, SIGNAL(clicked()),this, SLOT(on_selectDateFormat()));
-    ui->cmbDateFormat->setCurrentIndex(s->value(SKEY_FORMATS_FixedDateFormat,3).toInt());
-    ui->cmbTimeFormat->setCurrentIndex(s->value(SKEY_FORMATS_FixedTimeFormat,0).toInt());
+    ui->cmbDateFormat->setCurrentIndex(s->value(SKEY_FF_FixedDateFormat, SVAL_FF_FixedDateFormat).toInt());
+    ui->cmbTimeFormat->setCurrentIndex(s->value(SKEY_FF_FixedTimeFormat, SVAL_FF_FixedTimeFormat).toInt());
 
     // Reports & Statistics
-    ui->chkShowFolderNames->setChecked(s->value(SKEY_REPORTS_ShowFolders,0).toInt());
-    ui->chkSkipEmptyFolders->setChecked(s->value(SKEY_REPORTS_SkipEmptyFolders,1).toInt());
-    if (s->value(SKEY_MISC_AliveDeadRatioMode,0).toInt()) {
+    ui->chkShowFolderNames->setChecked(s->value(SKEY_REPORTS_ShowFolders, SVAL_REPORTS_ShowFolders).toInt());
+    ui->chkSkipEmptyFolders->setChecked(s->value(SKEY_REPORTS_SkipEmptyFolders, SVAL_REPORTS_SkipEmptyFolders).toInt());
+    if (s->value(SKEY_MISC_AliveDeadRatioMode, SVAL_MISC_AliveDeadRatioMode).toInt()) {
         ui->rbDisplayRatioTime->setChecked(true);
     } else {
         ui->rbDisplayRatioTests->setChecked(true);
     }
-    ui->spinPrecision->setValue(s->value(SKEY_ENVIRON_DigitsAfterDotStat,2).toInt());
+    ui->spinPrecision->setValue(s->value(SKEY_ENVIRON_DigitsAfterDotStat, SVAL_ENVIRON_DigitsAfterDotStat).toInt());
 
     // ODBC tests & logging
-    ui->chkNotSqlFetch->setChecked(s->value(SKEY_MISC_DoNotUseSqlFetchAbsolute,1).toInt());
-    if(s->value(SKEY_MISC_OdbcUseSystemDsn,1).toInt()) {
+    ui->chkNotSqlFetch->setChecked(s->value(SKEY_MISC_DoNotUseSqlFetchAbsolute, SVAL_MISC_DoNotUseSqlFetchAbsolute).toInt());
+    if(s->value(SKEY_MISC_OdbcUseSystemDsn, SVAL_MISC_OdbcUseSystemDsn).toInt()) {
         ui->rbDsnSystem->setChecked(true);
     } else {
         ui->rbDsnUser->setChecked(true);
     }
-    ui->chkEnableConnectionPooling->setChecked(s->value(SKEY_MISC_OdbcConnectionPooling,0).toInt());
+    ui->chkEnableConnectionPooling->setChecked(s->value(SKEY_MISC_OdbcConnectionPooling, SVAL_MISC_OdbcConnectionPooling).toInt());
 
     // RMA / Logging
-    if (s->value(SKEY_LOGGING_RecordPrimaryRMAErrors,1).toInt()) {
+    if (s->value(SKEY_LOGGING_RecordPrimaryRMAErrors, SVAL_LOGGING_RecordPrimaryRMAErrors).toInt()) {
         ui->rbRequestBackup->setChecked(true);
     } else {
         ui->rbSetUnknown->setChecked(true);
     }
-    ui->chkLogAboutInactive->setChecked(s->value(SKEY_LOGGING_LogStateChanges,0).toInt());
+    ui->chkLogAboutInactive->setChecked(s->value(SKEY_LOGGING_LogStateChanges, SVAL_LOGGING_LogStateChanges).toInt());
 
     // Update check
-    if (s->value(SKEY_UPDATE_AutoMode,1).toInt()) {
+    if (s->value(SKEY_UPDATE_AutoMode, SVAL_UPDATE_AutoMode).toInt()) {
         ui->rbNoUpdates->setChecked(true);
     } else {
         ui->rbUpdateCheck->setChecked(true);
     }
 
     // SSL options
-    ui->chkAcceptInvalidHostsPop3->setChecked(s->value(SKEY_MISC_sslAnyHostPOP3,0).toInt());
-    ui->chkAcceptInvalidDatesPop3->setChecked(s->value(SKEY_MISC_sslAnyDatePOP3,0).toInt());
-    ui->chkIgnoreAuthorityPop3->setChecked(s->value(SKEY_MISC_sslAnyAuthPOP3,0).toInt());
-    ui->chkAcceptInvalidHostsImap->setChecked(s->value(SKEY_MISC_sslAnyHostIMAP,0).toInt());
-    ui->chkAcceptInvalidDatesImap->setChecked(s->value(SKEY_MISC_sslAnyDateIMAP,0).toInt());
-    ui->chkIgnoreAuthorityImap->setChecked(s->value(SKEY_MISC_sslAnyAuthIMAP,0).toInt());
-    ui->chkAcceptInvalidHostsLdap->setChecked(s->value(SKEY_MISC_sslAnyHostLDAP,0).toInt());
-    ui->chkAcceptInvalidDatesLdap->setChecked(s->value(SKEY_MISC_sslAnyDateLDAP,0).toInt());
-    ui->chkIgnoreAuthorityLdap->setChecked(s->value(SKEY_MISC_sslAnyAuthLDAP,0).toInt());
+    ui->chkAcceptInvalidHostsPop3->setChecked (s->value(SKEY_MISC_sslAnyHostPOP3, SVAL_MISC_sslAnyHostPOP3).toInt());
+    ui->chkAcceptInvalidDatesPop3->setChecked (s->value(SKEY_MISC_sslAnyDatePOP3, SVAL_MISC_sslAnyDatePOP3).toInt());
+    ui->chkIgnoreAuthorityPop3->setChecked    (s->value(SKEY_MISC_sslAnyAuthPOP3, SVAL_MISC_sslAnyAuthPOP3).toInt());
+    ui->chkAcceptInvalidHostsImap->setChecked (s->value(SKEY_MISC_sslAnyHostIMAP, SVAL_MISC_sslAnyHostIMAP).toInt());
+    ui->chkAcceptInvalidDatesImap->setChecked (s->value(SKEY_MISC_sslAnyDateIMAP, SVAL_MISC_sslAnyDateIMAP).toInt());
+    ui->chkIgnoreAuthorityImap->setChecked    (s->value(SKEY_MISC_sslAnyAuthIMAP, SVAL_MISC_sslAnyAuthIMAP).toInt());
+    ui->chkAcceptInvalidHostsLdap->setChecked (s->value(SKEY_MISC_sslAnyHostLDAP, SVAL_MISC_sslAnyHostLDAP).toInt());
+    ui->chkAcceptInvalidDatesLdap->setChecked (s->value(SKEY_MISC_sslAnyDateLDAP, SVAL_MISC_sslAnyDateLDAP).toInt());
+    ui->chkIgnoreAuthorityLdap->setChecked    (s->value(SKEY_MISC_sslAnyAuthLDAP, SVAL_MISC_sslAnyAuthLDAP).toInt());
 
     // Settings for URL tests
-    ui->chkNotCheckConnection->setChecked(s->value(SKEY_HOSTMON_CheckInternetConnection,0).toInt());
-    ui->cmbAgentName->setCurrentText(s->value(SKEY_MISC_DefAgentName, "KSHostMonitor:/1.0").toString());
-    ui->chkAcceptInvalidHosts->setChecked(s->value(SKEY_MISC_IgnoreCertCnInvalid,0).toInt());
-    ui->chkAcceptInvalidDates->setChecked(s->value(SKEY_MISC_IgnoreCertDateInvalid,0).toInt());
+    ui->chkNotCheckConnection->setChecked (s->value(SKEY_HOSTMON_CheckInternetConnection, SVAL_HOSTMON_CheckInternetConnection).toInt());
+    ui->cmbAgentName->setCurrentText      (s->value(SKEY_MISC_DefAgentName, SVAL_MISC_DefAgentName).toString());
+    ui->chkAcceptInvalidHosts->setChecked (s->value(SKEY_MISC_IgnoreCertCnInvalid, SVAL_MISC_IgnoreCertCnInvalid).toInt());
+    ui->chkAcceptInvalidDates->setChecked (s->value(SKEY_MISC_IgnoreCertDateInvalid, SVAL_MISC_IgnoreCertDateInvalid).toInt());
 
     // Settings for UNC tests
-    ui->spinUncRetries->setValue(s->value(SKEY_MISC_UncRetries,2).toInt());
-    switch (s->value(SKEY_MISC_UncMode,0).toInt()) {
+    ui->spinUncRetries->setValue(s->value(SKEY_MISC_UncRetries, SVAL_MISC_UncRetries).toInt());
+    switch (s->value(SKEY_MISC_UncMode, SVAL_MISC_UncMode).toInt()) {
     case 1: ui->rbUncOnePerServer->setChecked(true); break;
     case 2: ui->rbUncOneByOne->setChecked(true); break;
     default: // case 0:
         ui->rbUncNormal->setChecked(true); break;
     }
-    ui->chkErrorInReply->setChecked(s->value(SKEY_MISC_UncShowErrors,0).toInt());
+    ui->chkErrorInReply->setChecked(s->value(SKEY_MISC_UncShowErrors, SVAL_MISC_UncShowErrors).toInt());
 
     // NT event log tests
-    ui->chkShowEventsDecription->setChecked(s->value(SKEY_MISC_ShowNTEventDescr,1).toInt());
+    ui->chkShowEventsDecription->setChecked(s->value(SKEY_MISC_ShowNTEventDescr, SVAL_MISC_ShowNTEventDescr).toInt());
 
     // Performance counter
-    switch(s->value(SKEY_MISC_PerfWorkMode,0).toInt()) {
+    switch(s->value(SKEY_MISC_PerfWorkMode, SVAL_MISC_PerfWorkMode).toInt()) {
     case 1: ui->rbModeOneByOne->setChecked(true); break;
     case 2: ui->rbModeSmart->setChecked(true); break;
     case 3: ui->rbModeExternal->setChecked(true); break;
@@ -136,21 +134,21 @@ void MiscellaneousOptionsWidget::init(QSettings *s)
     }
 
     // SNMP Get tests
-    ui->chkSnmpAppend0->setChecked(s->value(SKEY_MISC_SnmpAutoSingleInstance,0).toInt());
+    ui->chkSnmpAppend0->setChecked(s->value(SKEY_MISC_SnmpAutoSingleInstance, SVAL_MISC_SnmpAutoSingleInstance).toInt());
 
     // SNMP Trap tests
     reset_SnmpTrapAction();
-    ui->spinSnmpTrapUdpPort->setValue(s->value(SKEY_TRAP_Port, 162).toInt());
-    ui->grpSnmpTrafficAlert->setChecked(s->value(SKEY_TRAP_TrafficCheck, 1).toInt());
-    ui->spinSnmpAlertMessages->setValue(s->value(SKEY_TRAP_TrafficLimit, 1800).toInt());
-    ui->spinSnmpAlertSeconds->setValue(s->value(SKEY_TRAP_TrafficSpan, 60).toInt());
-    ui->chkSnmpSuspend->setChecked(s->value(SKEY_TRAP_Pause, 1).toInt());
-    ui->spinSnmpSuspendTime->setValue(s->value(SKEY_TRAP_PauseSpan, 60).toInt());
-    ui->chkExecuteAtionProfile->setChecked(s->value(SKEY_TRAP_Action, 1).toInt());
-    ui->cmbSelectActionProfile->setCurrentIndex(s->value(SKEY_TRAP_ActionID,0).toInt());
+    ui->spinSnmpTrapUdpPort->setValue          (s->value(SKEY_TRAP_Port, SVAL_TRAP_Port).toInt());
+    ui->grpSnmpTrafficAlert->setChecked        (s->value(SKEY_TRAP_TrafficCheck, SVAL_TRAP_TrafficCheck).toInt());
+    ui->spinSnmpAlertMessages->setValue        (s->value(SKEY_TRAP_TrafficLimit, SVAL_TRAP_TrafficLimit).toInt());
+    ui->spinSnmpAlertSeconds->setValue         (s->value(SKEY_TRAP_TrafficSpan, SVAL_TRAP_TrafficSpan).toInt());
+    ui->chkSnmpSuspend->setChecked             (s->value(SKEY_TRAP_Pause, SVAL_TRAP_Pause).toInt());
+    ui->spinSnmpSuspendTime->setValue          (s->value(SKEY_TRAP_PauseSpan, SVAL_TRAP_PauseSpan).toInt());
+    ui->chkExecuteAtionProfile->setChecked     (s->value(SKEY_TRAP_Action, SVAL_TRAP_Action).toInt());
+    ui->cmbSelectActionProfile->setCurrentIndex(s->value(SKEY_TRAP_ActionID, SVAL_TRAP_ActionID).toInt());
 
     // Traffic monitor tests
-    switch (s->value(SKEY_MISC_TrafficMonitorUnits,0).toInt()) {
+    switch (s->value(SKEY_MISC_TrafficMonitorUnits, SVAL_MISC_TrafficMonitorUnits).toInt()) {
     case 1: ui->rbTrafficInKbit->setChecked(true); break;
     case 2: ui->rbTestSettings->setChecked(true); break;
     default: // case 0:
@@ -163,9 +161,9 @@ void MiscellaneousOptionsWidget::init(QSettings *s)
 void MiscellaneousOptionsWidget::prepareToSave(QSettings *s)
 {      
     // Date & Time format
-    s->setValue(SKEY_FORMATS_UseFixedFormats, ui->chkDateTimeFixed->isChecked()?1:0);
-    s->setValue(SKEY_FORMATS_FixedDateFormat, ui->cmbDateFormat->currentIndex());
-    s->setValue(SKEY_FORMATS_FixedTimeFormat, ui->cmbTimeFormat->currentIndex());
+    s->setValue(SKEY_FF_UseFixedFormats, ui->chkDateTimeFixed->isChecked()?1:0);
+    s->setValue(SKEY_FF_FixedDateFormat, ui->cmbDateFormat->currentIndex());
+    s->setValue(SKEY_FF_FixedTimeFormat, ui->cmbTimeFormat->currentIndex());
 
     // Reports & Statistics
     s->setValue(SKEY_REPORTS_ShowFolders, ui->chkShowFolderNames->isChecked()?1:0);

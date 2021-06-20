@@ -32,16 +32,16 @@ RCIServer::~RCIServer()
 void RCIServer::readSettings()
 {
     QSettings s;
-    m_Enabled = s.value(SKEY_RCI_Enabled, false).toBool();
-    m_Port = static_cast<quint16>(s.value(SKEY_RCI_Port, 1054).toInt());
-    setMaxConnections(s.value(SKEY_RCI_MaxClients, 16).toInt());
-    setConnectionTimeout(s.value(SKEY_RCI_Timeout, 300000).toInt());
-    m_LogAccepted = s.value(SKEY_RCI_LogAccepted, false).toBool();
-    m_LogAcceptedWatchDog = s.value(SKEY_RCI_LogAcceptedWatchDog, false).toBool();
-    m_LogRejected = s.value(SKEY_RCI_LogRejected, false).toBool();
-    m_LogRejectedWatchDog = s.value(SKEY_RCI_LogRejectedWatchDog, false).toBool();
-    m_LogSuccess = s.value(SKEY_RCI_LogSuccess, false).toBool();
-    m_LogError = s.value(SKEY_RCI_LogError, false).toBool();
+    m_Enabled             = s.value(SKEY_RCI_Enabled, SVAL_RCI_Enabled).toInt();
+    m_Port = static_cast<quint16>(s.value(SKEY_RCI_Port, SVAL_RCI_Port).toInt());
+    setMaxConnections      (s.value(SKEY_RCI_MaxClients, SVAL_RCI_MaxClients).toInt());
+    setConnectionTimeout   (s.value(SKEY_RCI_Timeout, SVAL_RCI_Timeout).toInt());
+    m_LogAccepted         = s.value(SKEY_RCI_LogAccepted, SVAL_RCI_LogAccepted).toInt();
+    m_LogAcceptedWatchDog = s.value(SKEY_RCI_LogAcceptedWatchDog, SVAL_RCI_LogAcceptedWatchDog).toInt();
+    m_LogRejected         = s.value(SKEY_RCI_LogRejected, SVAL_RCI_LogRejected).toInt();
+    m_LogRejectedWatchDog = s.value(SKEY_RCI_LogRejectedWatchDog, SVAl_RCI_LogRejectedWatchDog).toInt();
+    m_LogSuccess          = s.value(SKEY_RCI_LogSuccess, SVAL_RCI_LogSuccess).toInt();
+    m_LogError            = s.value(SKEY_RCI_LogError, SVAL_RCI_LogError).toInt();
 }
 
 /***********************************************/

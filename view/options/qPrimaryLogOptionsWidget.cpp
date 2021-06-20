@@ -166,12 +166,12 @@ void PrimaryLogOptionsWidget::init(QSettings *s)
     reset_AlertInaccessible();
     reset_AlertAlive();
 
-    ui->cmbPrimaryLogType->setCurrentIndex(s->value(SKEY_LOG1_Target,1).toInt());
+    ui->cmbPrimaryLogType->setCurrentIndex(s->value(SKEY_LOG1_Target, SVAL_LOG1_Target).toInt());
     on_cmbPrimaryLogSelect(ui->cmbPrimaryLogType->currentIndex());
     connect(ui->cmbPrimaryLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryLogSelect(int)));
 
-    ui->cmbPrimaryLogMode->setCurrentIndex(s->value(SKEY_LOG1_SaveMode,2).toInt());
-    ui->cmbPrimaryLogFile->setCurrentIndex(s->value(SKEY_LOG1_LogNameMethod,0).toInt());
+    ui->cmbPrimaryLogMode->setCurrentIndex(s->value(SKEY_LOG1_SaveMode, SVAL_LOG1_SaveMode).toInt());
+    ui->cmbPrimaryLogFile->setCurrentIndex(s->value(SKEY_LOG1_LogNameMethod, SVAL_LOG1_LogNameMethod).toInt());
 
     QString val = s->value(SKEY_LOG1_File2Name).toString();
     int idx = val.lastIndexOf("/");
@@ -180,23 +180,23 @@ void PrimaryLogOptionsWidget::init(QSettings *s)
     }
     ui->editPrimaryLogFileName->setText(val);
 
-    switch (s->value(SKEY_LOG1_LogFormat,0).toInt()) {
+    switch (s->value(SKEY_LOG1_LogFormat, SVAL_LOG1_LogFormat).toInt()) {
     case 1: ui->rbPrimaryLogText->setChecked(true); break;
     case 2: ui->rbPrimaryLogDBF->setChecked(true); break;
     default: // case 0:
         ui->rbPrimaryLogHTML->setChecked(true); break;
     }
-    ui->chkPrimaryLogAlertInaccessible->setChecked(s->value(SKEY_LOG1_UseDeadAction,0).toInt());
-    ui->cmbPrimaryLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG1_DeadActionID,-1).toInt());
-    ui->chkPrimaryLogAlertAlive->setChecked(s->value(SKEY_LOG1_UseGoodAction,0).toInt());
-    ui->cmbPrimaryLogAlertAlive->setCurrentIndex(s->value(SKEY_LOG1_GoodActionID,-1).toInt());
+    ui->chkPrimaryLogAlertInaccessible->setChecked     (s->value(SKEY_LOG1_UseDeadAction, SVAL_LOG1_UseDeadAction).toInt());
+    ui->cmbPrimaryLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG1_DeadActionID, SVAL_LOG1_DeadActionID).toInt());
+    ui->chkPrimaryLogAlertAlive->setChecked            (s->value(SKEY_LOG1_UseGoodAction, SVAL_LOG1_UseGoodAction).toInt());
+    ui->cmbPrimaryLogAlertAlive->setCurrentIndex       (s->value(SKEY_LOG1_GoodActionID, SVAL_LOG1_GoodActionID).toInt());
 
     ui->cmbPrimaryLogDatasource->setCurrentText(s->value(SKEY_LOGGING_OdbcLogSource).toString());
     ui->plainPrimaryLogSQL->clear();
     ui->plainPrimaryLogSQL->insertPlainText(s->value(SKEY_LOGGING_OdbcLogSqlQuery,SVAL_LOGGING_OdbcLogSqlQuery).toString());
-    ui->editPrimaryLogLogin->setText(s->value(SKEY_LOGGING_OdbcLogUser).toString());
-    ui->editPrimaryLogPassword->setText(s->value(SKEY_LOGGING_OdbcLogPswd).toString());
-    ui->spinPrimaryLogTimeout->setValue(s->value(SKEY_LOGGING_OdbcLogTimeout,10).toInt());
+    ui->editPrimaryLogLogin->setText       (s->value(SKEY_LOGGING_OdbcLogUser).toString());
+    ui->editPrimaryLogPassword->setText    (s->value(SKEY_LOGGING_OdbcLogPswd).toString());
+    ui->spinPrimaryLogTimeout->setValue    (s->value(SKEY_LOGGING_OdbcLogTimeout, SVAL_LOGGING_OdbcLogTimeout).toInt());
 }
 
 /******************************************************************/

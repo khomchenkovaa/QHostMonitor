@@ -30,7 +30,6 @@ HEADERS += \
     $$PWD/qMiscellaneousOptionsWidget.h
 
 SOURCES += \
-    $$PWD/qOptionsWidget.cpp \
     $$PWD/qPreferencesWidget.cpp \
     $$PWD/qBehaviorWidget.cpp \
     $$PWD/qStartupOptionsWidget.cpp \

@@ -138,31 +138,31 @@ void BackupLogOptionsWidget::setBackupFileLogName()
 void BackupLogOptionsWidget::init(QSettings *s)
 {
     reset_AlertInaccessible();
-    ui->cmbBackupLogType->setCurrentIndex(s->value(SKEY_LOG2_Target,SVAL_LOG2_Target).toInt());
+    ui->cmbBackupLogType->setCurrentIndex(s->value(SKEY_LOG2_Target, SVAL_LOG2_Target).toInt());
     on_cmbBackupLogSelect(ui->cmbBackupLogType->currentIndex());
     connect(ui->cmbBackupLogType, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbBackupLogSelect(int)));
-    ui->cmbBackupLogMode->setCurrentIndex(s->value(SKEY_LOG2_SaveMode,SVAL_LOG2_SaveMode).toInt());
-    ui->cmbBackupLogFile->setCurrentIndex(s->value(SKEY_LOG2_LogNameMethod,SVAL_LOG2_LogNameMethod).toInt());
+    ui->cmbBackupLogMode->setCurrentIndex(s->value(SKEY_LOG2_SaveMode, SVAL_LOG2_SaveMode).toInt());
+    ui->cmbBackupLogFile->setCurrentIndex(s->value(SKEY_LOG2_LogNameMethod, SVAL_LOG2_LogNameMethod).toInt());
     QString val = s->value(SKEY_LOG2_File2Name).toString();
     int idx = val.lastIndexOf("/");
     if (idx != -1) {
         curFolder = val.mid(0,idx);
     }
     ui->editBackupLogFileName->setText(val);
-    switch (s->value(SKEY_LOG2_LogFormat,SVAL_LOG2_LogFormat).toInt()) {
+    switch (s->value(SKEY_LOG2_LogFormat, SVAL_LOG2_LogFormat).toInt()) {
     case 1: ui->rbBackupLogText->setChecked(true); break;
     case 2: ui->rbBackupLogDBF->setChecked(true); break;
     default: // case 0:
         ui->rbBackupLogHTML->setChecked(true); break;
     }
-    ui->chkBackupLogAlertInaccessible->setChecked(s->value(SKEY_LOG2_UseDeadAction,SVAL_LOG2_UseDeadAction).toInt() == 1);
-    ui->cmbBackupLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG2_DeadActionID,SVAL_LOG2_DeadActionID).toInt());
-    ui->cmbBackupLogDatasource->setCurrentText(s->value(SKEY_LOG2_OdbcLogSource).toString());
+    ui->chkBackupLogAlertInaccessible->setChecked     (s->value(SKEY_LOG2_UseDeadAction, SVAL_LOG2_UseDeadAction).toInt() == 1);
+    ui->cmbBackupLogAlertInaccessible->setCurrentIndex(s->value(SKEY_LOG2_DeadActionID, SVAL_LOG2_DeadActionID).toInt());
+    ui->cmbBackupLogDatasource->setCurrentText        (s->value(SKEY_LOG2_OdbcLogSource).toString());
     ui->plainBackupLogSQL->clear();
     ui->plainBackupLogSQL->insertPlainText(s->value(SKEY_LOG2_OdbcLogSqlQuery, SVAL_LOGGING_OdbcLogSqlQuery).toString());
-    ui->editBackupLogLogin->setText(s->value(SKEY_LOG2_OdbcLogUser).toString());
-    ui->editBackupLogPassword->setText(s->value(SKEY_LOG2_OdbcLogPswd).toString());
-    ui->spinBackupLogTimeout->setValue(s->value(SKEY_LOG2_OdbcLogTimeout,SVAL_LOG2_OdbcLogTimeout).toInt());
+    ui->editBackupLogLogin->setText       (s->value(SKEY_LOG2_OdbcLogUser).toString());
+    ui->editBackupLogPassword->setText    (s->value(SKEY_LOG2_OdbcLogPswd).toString());
+    ui->spinBackupLogTimeout->setValue    (s->value(SKEY_LOG2_OdbcLogTimeout, SVAL_LOG2_OdbcLogTimeout).toInt());
 }
 
 /******************************************************************/

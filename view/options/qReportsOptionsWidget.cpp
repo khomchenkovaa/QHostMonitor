@@ -124,35 +124,35 @@ void ReportsOptionsWidget::on_btnCreateReport_1_clicked()
 void ReportsOptionsWidget::init(QSettings *s)
 {
     reset_ActionProfileSelect();
-    ui->chkGenerateReports->setChecked(s->value(SKEY_REPORTS_AutoCreate,0).toInt());
-    ui->spinGenerateReports->setValue(s->value(SKEY_REPORTS_Interval,5).toInt());
+    ui->chkGenerateReports->setChecked(s->value(SKEY_REPORTS_AutoCreate, SVAL_REPORTS_AutoCreate).toInt());
+    ui->spinGenerateReports->setValue (s->value(SKEY_REPORTS_Interval, SVAL_REPORTS_Interval).toInt());
 
-    ui->chkCreateReport_1->setChecked(s->value(SKEY_REPORTS_CreateReport1,1).toInt());
-    ui->cmbCreateReport_1->setCurrentText(s->value(SKEY_REPORTS_ReportType1,8).toString());
-    ui->editReportFile_1->setText(s->value(SKEY_REPORTS_ReportFile1,curFolder + "dbf-full.dbf").toString());
+    ui->chkCreateReport_1->setChecked    (s->value(SKEY_REPORTS_CreateReport1, SVAL_REPORTS_CreateReport1).toInt());
+    ui->cmbCreateReport_1->setCurrentText(s->value(SKEY_REPORTS_ReportType1, SVAL_REPORTS_ReportType1).toString());
+    ui->editReportFile_1->setText        (s->value(SKEY_REPORTS_ReportFile1,curFolder + SVAL_REPORTS_ReportFile1).toString());
 
-    ui->chkCreateReport_2->setChecked(s->value(SKEY_REPORTS_CreateReport2,1).toInt());
-    ui->cmbCreateReport_2->setCurrentText(s->value(SKEY_REPORTS_ReportType2,6).toString());
-    ui->editReportFile_2->setText(s->value(SKEY_REPORTS_ReportFile2,curFolder + "dbf-big.dbf").toString());
+    ui->chkCreateReport_2->setChecked    (s->value(SKEY_REPORTS_CreateReport2, SVAL_REPORTS_CreateReport2).toInt());
+    ui->cmbCreateReport_2->setCurrentText(s->value(SKEY_REPORTS_ReportType2, SVAL_REPORTS_ReportType2).toString());
+    ui->editReportFile_2->setText        (s->value(SKEY_REPORTS_ReportFile2,curFolder + SVAL_REPORTS_ReportFile2).toString());
 
-    ui->chkCreateReport_3->setChecked(s->value(SKEY_REPORTS_CreateReport3,1).toInt());
-    ui->cmbCreateReport_3->setCurrentText(s->value(SKEY_REPORTS_ReportType3,1).toString());
-    ui->editReportFile_3->setText(s->value(SKEY_REPORTS_ReportFile3,curFolder + "rep-admin.htm").toString());
+    ui->chkCreateReport_3->setChecked    (s->value(SKEY_REPORTS_CreateReport3, SVAL_REPORTS_CreateReport3).toInt());
+    ui->cmbCreateReport_3->setCurrentText(s->value(SKEY_REPORTS_ReportType3, SVAL_REPORTS_ReportType3).toString());
+    ui->editReportFile_3->setText        (s->value(SKEY_REPORTS_ReportFile3,curFolder + SVAL_REPORTS_ReportFile3).toString());
 
-    ui->chkCreateReport_4->setChecked(s->value(SKEY_REPORTS_CreateReport4,1).toInt());
-    ui->cmbCreateReport_4->setCurrentText(s->value(SKEY_REPORTS_ReportType4,2).toString());
-    ui->editReportFile_4->setText(s->value(SKEY_REPORTS_ReportFile4,curFolder + "rep-man.htm").toString());
+    ui->chkCreateReport_4->setChecked    (s->value(SKEY_REPORTS_CreateReport4, SVAL_REPORTS_CreateReport4).toInt());
+    ui->cmbCreateReport_4->setCurrentText(s->value(SKEY_REPORTS_ReportType4, SVAL_REPORTS_ReportType4).toString());
+    ui->editReportFile_4->setText        (s->value(SKEY_REPORTS_ReportFile4,curFolder + SVAL_REPORTS_ReportFile4).toString());
 
-    ui->chkCreateReport_5->setChecked(s->value(SKEY_REPORTS_CreateReport5,1).toInt());
-    ui->cmbCreateReport_5->setCurrentText(s->value(SKEY_REPORTS_ReportType5,3).toString());
-    ui->editReportFile_5->setText(s->value(SKEY_REPORTS_ReportFile5,curFolder + "rep-boss.htm").toString());
+    ui->chkCreateReport_5->setChecked    (s->value(SKEY_REPORTS_CreateReport5, SVAL_REPORTS_CreateReport5).toInt());
+    ui->cmbCreateReport_5->setCurrentText(s->value(SKEY_REPORTS_ReportType5, SVAL_REPORTS_ReportType5).toString());
+    ui->editReportFile_5->setText        (s->value(SKEY_REPORTS_ReportFile5,curFolder + SVAL_REPORTS_ReportFile5).toString());
 
-    ui->chkCreateReport_6->setChecked(s->value(SKEY_REPORTS_CreateReport6,1).toInt());
-    ui->cmbCreateReport_6->setCurrentText(s->value(SKEY_REPORTS_ReportType6,4).toString());
-    ui->editReportFile_6->setText(s->value(SKEY_REPORTS_ReportFile6,curFolder + "rep-full.htm").toString());
+    ui->chkCreateReport_6->setChecked    (s->value(SKEY_REPORTS_CreateReport6, SVAL_REPORTS_CreateReport6).toInt());
+    ui->cmbCreateReport_6->setCurrentText(s->value(SKEY_REPORTS_ReportType6, SVAL_REPORTS_ReportType6).toString());
+    ui->editReportFile_6->setText        (s->value(SKEY_REPORTS_ReportFile6,curFolder + SVAL_REPORTS_ReportFile6).toString());
 
-    ui->chkExecuteActionProfile->setChecked(s->value(SKEY_REPORTS_ExecuteActions,0).toInt());
-    ui->cmbSelectActionProfile->setCurrentIndex(s->value(SKEY_REPORTS_ActionsProfile).toInt());
+    ui->chkExecuteActionProfile->setChecked    (s->value(SKEY_REPORTS_ExecuteActions, SVAL_REPORTS_ExecuteActions).toInt());
+    ui->cmbSelectActionProfile->setCurrentIndex(s->value(SKEY_REPORTS_ActionsProfile, SVAL_REPORTS_ActionsProfile).toInt());
 }
 
 /******************************************************************/

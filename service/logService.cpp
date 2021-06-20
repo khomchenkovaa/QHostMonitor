@@ -120,7 +120,7 @@ void LogService::writeCommonLog(TTest *test)
              << test->property("TestID").toInt();
 
     QSettings s;
-    bool useBothLogs = s.value(SKEY_LOGGING_UseBothLogs,0) == 1;
+    bool useBothLogs = s.value(SKEY_LOGGING_UseBothLogs, SVAL_LOGGING_UseBothLogs) == 1;
     if (!logWritten || useBothLogs) {
         writeBackupLog(test);
     }

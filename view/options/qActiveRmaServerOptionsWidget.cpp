@@ -23,15 +23,15 @@ ActiveRmaServerOptionsWidget::~ActiveRmaServerOptionsWidget()
 
 void ActiveRmaServerOptionsWidget::init(QSettings *s)
 {
-    ui->chkActiveRmaConnection->setChecked(s->value(SKEY_RMA_Enabled,SVAL_RMA_Enabled).toInt());
-    ui->spinActiveRmaPort->setValue(s->value(SKEY_RMA_Port,SVAL_RMA_Port).toInt());
-    if (s->value(SKEY_RMA_AcceptAnyIP,SVAL_RMA_AcceptAnyIP).toInt()) {
+    ui->chkActiveRmaConnection->setChecked (s->value(SKEY_RMA_Enabled, SVAL_RMA_Enabled).toInt());
+    ui->spinActiveRmaPort->setValue        (s->value(SKEY_RMA_Port, SVAL_RMA_Port).toInt());
+    if (s->value(SKEY_RMA_AcceptAnyIP, SVAL_RMA_AcceptAnyIP).toInt()) {
         ui->rdActiveRmaAnyIp->setChecked(true);
     } else {
         ui->rdActiveRmaFollowingIp->setChecked(true);
     }
-    ui->chkActiveRmaAcceptedConnections->setChecked(s->value(SKEY_RMA_LogAccepted,SVAL_RMA_LogAccepted).toInt());
-    ui->chkActiveRmaRejectedConnections->setChecked(s->value(SKEY_RMA_LogRejected,SVAL_RMA_LogRejected).toInt());
+    ui->chkActiveRmaAcceptedConnections->setChecked(s->value(SKEY_RMA_LogAccepted, SVAL_RMA_LogAccepted).toInt());
+    ui->chkActiveRmaRejectedConnections->setChecked(s->value(SKEY_RMA_LogRejected, SVAL_RMA_LogRejected).toInt());
 }
 /******************************************************************/
 

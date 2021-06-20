@@ -77,32 +77,32 @@ void MailerSettingsWidget::onBackUpPortChange()
 
 void MailerSettingsWidget::init(QSettings *s)
 {
-    ui->cmbPrimarySmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server1,"smtp.mail.yahoo.com").toString());
-    ui->spinPrimarySmtpPort->setValue(s->value(SKEY_SMTP_Port1,25).toInt());
-    ui->cmbPrimarySmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType1,0).toInt());
-    int idx1 = s->value(SKEY_SMTP_Auth1,0).toInt();
+    ui->cmbPrimarySmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server1, SVAL_SMTP_Server1).toString());
+    ui->spinPrimarySmtpPort->setValue        (s->value(SKEY_SMTP_Port1, SVAL_SMTP_Port1).toInt());
+    ui->cmbPrimarySmtpTls->setCurrentIndex   (s->value(SKEY_SMTP_SslType1, SVAL_SMTP_SslType1).toInt());
+    int idx1 = s->value(SKEY_SMTP_Auth1, SVAL_SMTP_Auth1).toInt();
     ui->cmbPrimarySmtpAuth->setCurrentIndex(idx1);
-    ui->editPrimarySmtpLogin->setText(s->value(SKEY_SMTP_User1).toString());
+    ui->editPrimarySmtpLogin->setText   (s->value(SKEY_SMTP_User1).toString());
     ui->editPrimarySmtpPassword->setText(s->value(SKEY_SMTP_Pswd1).toString());
     on_cmbPrimaryAuthSelect(idx1);
     connect(ui->cmbPrimarySmtpTls, SIGNAL(currentIndexChanged(int)), this, SLOT(onPrimaryPortChange()));
     connect(ui->cmbPrimarySmtpAuth, SIGNAL(currentIndexChanged(int)), this, SLOT(on_cmbPrimaryAuthSelect(int)));
 
-    ui->cmbBackupSmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server2,"smtp.mail.yahoo.com").toString());
-    ui->spinBackupSmtpPort->setValue(s->value(SKEY_SMTP_Port2,25).toInt());
-    ui->cmbBackupSmtpTls->setCurrentIndex(s->value(SKEY_SMTP_SslType2,0).toInt());
-    int idx2 = s->value(SKEY_SMTP_Auth2,0).toInt();
+    ui->cmbBackupSmtpAddress->setCurrentText(s->value(SKEY_SMTP_Server2, SVAL_SMTP_Server2).toString());
+    ui->spinBackupSmtpPort->setValue        (s->value(SKEY_SMTP_Port2, SVAL_SMTP_Port2).toInt());
+    ui->cmbBackupSmtpTls->setCurrentIndex   (s->value(SKEY_SMTP_SslType2, SVAL_SMTP_SslType2).toInt());
+    int idx2 = s->value(SKEY_SMTP_Auth2, SVAL_SMTP_Auth2).toInt();
     ui->cmbBackupSmtpAuth->setCurrentIndex(idx2);
-    ui->editBackupSmtpLogin->setText(s->value(SKEY_SMTP_User2).toString());
+    ui->editBackupSmtpLogin->setText   (s->value(SKEY_SMTP_User2).toString());
     ui->editBackupSmtpPassword->setText(s->value(SKEY_SMTP_Pswd2).toString());
     on_cmbBackupAuthSelect(idx2);
     connect (ui->cmbBackupSmtpTls, SIGNAL(currentIndexChanged(int)),this,SLOT(onBackUpPortChange()));
     connect(ui->cmbBackupSmtpAuth, SIGNAL(currentIndexChanged(int)), this,SLOT(on_cmbBackupAuthSelect(int)));
 
-    ui->gpShowStatusWindow->setChecked(s->value(SKEY_SMTP_ShowMailWin,1).toInt() == 1);
-    ui->chkCloseOnDisconnect->setChecked(s->value(SKEY_SMTP_MailWinAutoClose,1).toInt() == 1);
-    ui->spinCloseOnDisconnect->setValue(s->value(SKEY_SMTP_MailWinCloseAfter,6).toInt());
-    ui->chkShowInLastPosition->setChecked(s->value(SKEY_SMTP_ShowMailWinInLastPos,1).toInt() == 1);
+    ui->gpShowStatusWindow->setChecked   (s->value(SKEY_SMTP_ShowMailWin, SVAL_SMTP_ShowMailWin).toInt());
+    ui->chkCloseOnDisconnect->setChecked (s->value(SKEY_SMTP_MailWinAutoClose, SVAL_SMTP_MailWinAutoClose).toInt());
+    ui->spinCloseOnDisconnect->setValue  (s->value(SKEY_SMTP_MailWinCloseAfter, SVAL_SMTP_MailWinCloseAfter).toInt());
+    ui->chkShowInLastPosition->setChecked(s->value(SKEY_SMTP_ShowMailWinInLastPos, SVAL_SMTP_ShowMailWinInLastPos).toInt());
 }
 
 /******************************************************************/

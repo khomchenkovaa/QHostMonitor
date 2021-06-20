@@ -29,11 +29,10 @@ void SendEmailSmtpAction::run(TTest *test)
     QString body = translator.translate();
 
     QSettings s;
-    int tlsIdx = s.value(SKEY_SMTP_SslType1,0).toInt();
-    int authIdx = s.value(SKEY_SMTP_Auth1,0).toInt();
-    QString serverName = s.value(SKEY_SMTP_Server1,"smtp.mail.yahoo.com").toString();
-    quint16 defaultPort = tlsIdx? 465 : 25;
-    quint16 serverPort = static_cast<quint16>(s.value(SKEY_SMTP_Port1,defaultPort).toInt());
+    int tlsIdx  = s.value(SKEY_SMTP_SslType1, SVAL_SMTP_SslType1).toInt();
+    int authIdx = s.value(SKEY_SMTP_Auth1, SVAL_SMTP_Auth1).toInt();
+    QString serverName = s.value(SKEY_SMTP_Server1, SVAL_SMTP_Server1).toString();
+    quint16 serverPort = static_cast<quint16>(s.value(SKEY_SMTP_Port1, SVAL_SMTP_Port1).toInt());
     QString userName = s.value(SKEY_SMTP_User1).toString();
     QString password = s.value(SKEY_SMTP_Pswd1).toString();
 

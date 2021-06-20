@@ -22,15 +22,15 @@ ProxyOptionsWidget::~ProxyOptionsWidget()
 void ProxyOptionsWidget::init(QSettings *s)
 {
     // Proxy server
-    ui->editProxyServer->setText(s->value(SKEY_PROXY_Server,"127.0.0.1").toString());
-    ui->spinProxyPort->setValue(s->value(SKEY_PROXY_Port,80).toInt());
+    ui->editProxyServer->setText(s->value(SKEY_PROXY_Server, SVAL_PROXY_Server).toString());
+    ui->spinProxyPort->setValue (s->value(SKEY_PROXY_Port, SVAL_PROXY_Port).toInt());
     // Use proxy auth
-    ui->boxProxyAuth->setChecked(s->value(SKEY_PROXY_Auth,1) == 1);
-    ui->ProxyUserEdit->setText(s->value(SKEY_PROXY_User,"test").toString());
-    ui->ProxyPswdEdit->setText(s->value(SKEY_PROXY_Pswd).toString());
+    ui->boxProxyAuth->setChecked(s->value(SKEY_PROXY_Auth, SVAL_PROXY_Auth).toInt());
+    ui->ProxyUserEdit->setText  (s->value(SKEY_PROXY_User, SVAL_PROXY_User).toString());
+    ui->ProxyPswdEdit->setText  (s->value(SKEY_PROXY_Pswd).toString());
     // Proxy bypass list
     ui->plainProxyBypassList->clear();
-    ui->plainProxyBypassList->insertPlainText(s->value(SKEY_PROXY_Param2,"<local>;").toString());
+    ui->plainProxyBypassList->insertPlainText(s->value(SKEY_PROXY_Param2, SVAL_PROXY_Param2).toString());
 }
 
 /******************************************************************/

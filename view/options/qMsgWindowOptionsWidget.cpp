@@ -23,20 +23,20 @@ MsgWindowOptionsWidget::~MsgWindowOptionsWidget()
 
 void MsgWindowOptionsWidget::init(QSettings *s)
 {
-    ui->spinMWCloseAfter->setValue(s->value(SKEY_HOSTMON_MsgWinTime,5).toInt());
-    ui->spinMsgWinX->setValue(s->value(SKEY_HOSTMON_MsgWinXPos,200).toInt());
-    ui->spinMsgWinY->setValue(s->value(SKEY_HOSTMON_MsgWinYPos,100).toInt());
-    if (s->value(SKEY_HOSTMON_MsgWinConstPos,0).toInt()) {
+    ui->spinMWCloseAfter->setValue(s->value(SKEY_HOSTMON_MsgWinTime, SVAL_HOSTMON_MsgWinTime).toInt());
+    ui->spinMsgWinX->setValue     (s->value(SKEY_HOSTMON_MsgWinXPos, SVAL_HOSTMON_MsgWinXPos).toInt());
+    ui->spinMsgWinY->setValue     (s->value(SKEY_HOSTMON_MsgWinYPos, SVAL_HOSTMON_MsgWinYPos).toInt());
+    if (s->value(SKEY_HOSTMON_MsgWinConstPos, SVAL_HOSTMON_MsgWinConstPos).toInt()) {
         ui->rbMWPredefinedPosition->setChecked(true);
     } else {
         ui->rbMWShowInLastPosition->setChecked(true);
     }
-    if (s->value(SKEY_HOSTMON_MsgWinCloseAuto,1).toInt() == 1) {
+    if (s->value(SKEY_HOSTMON_MsgWinCloseAuto, SVAL_HOSTMON_MsgWinCloseAuto).toInt() == 1) {
         ui->rbMWCloseAfter->setChecked(true);
     } else {
         ui->rbMWCloseManually->setChecked(true);
     }
-    ui->chkMWStayOnTop->setChecked(s->value(SKEY_HOSTMON_MsgWinStayTop,1).toInt()==1);
+    ui->chkMWStayOnTop->setChecked(s->value(SKEY_HOSTMON_MsgWinStayTop, SVAL_HOSTMON_MsgWinStayTop).toInt()==1);
 }
 
 /******************************************************************/

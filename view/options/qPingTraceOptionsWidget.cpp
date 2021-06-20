@@ -45,13 +45,13 @@ void PingTraceOptionsWidget::init(QSettings *s)
     ui->spinHops->setValue(val.toInt());
 
     val = s->value(SKEY_PING_ShowHostsDescription, SVAL_PING_ShowHostsDescription);
-    ui->cbShowHostDescription->setChecked(val.toInt()==1);
+    ui->cbShowHostDescription->setChecked(val.toInt());
 
     val = s->value(SKEY_PING_ClearOldInfo, SVAL_PING_ClearOldInfo);
-    ui->cbClearOldInfo->setChecked(val.toInt()==1);
+    ui->cbClearOldInfo->setChecked(val.toInt());
 
     val = s->value(SKEY_PING_StopTrace, SVAL_PING_StopTrace);
-    ui->cbStopTrace->setChecked(val.toInt()==1);
+    ui->cbStopTrace->setChecked(val.toInt());
 }
 
 /******************************************************************/

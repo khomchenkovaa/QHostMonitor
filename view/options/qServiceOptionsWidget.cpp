@@ -22,7 +22,7 @@ ServiceOptionsWidget::~ServiceOptionsWidget()
 /******************************************************************/
 void ServiceOptionsWidget::init(QSettings *s)
 {
-    if (s->value(SKEY_SERVICE_Logon,1).toInt() == 1) {
+    if (s->value(SKEY_SERVICE_Logon, SVAL_SERVICE_Logon).toInt()) {
         ui->rbServiceLocalAccount->setChecked(true);
     } else {
         ui->rbServiceUseAccount->setChecked(true);
@@ -33,9 +33,9 @@ void ServiceOptionsWidget::init(QSettings *s)
     ui->editServiceUser->setText(s->value(SKEY_SERVICE_User).toString());
     ui->editServicePassword->setText(s->value(SKEY_SERVICE_Pswd).toString());
 
-    ui->spinServiceStartupDelay->setValue(s->value(SKEY_SERVICE_Delay,0).toInt());
+    ui->spinServiceStartupDelay->setValue(s->value(SKEY_SERVICE_Delay, SVAL_SERVICE_Delay).toInt());
 
-    if (s->value(SKEY_SERVICE_SaveMode,1).toInt() == 1) {
+    if (s->value(SKEY_SERVICE_SaveMode, SVAL_SERVICE_SaveMode).toInt()) {
         ui->rbServiceSaveInHML->setChecked(true);
     } else {
         ui->rbServiceDiscardChanges->setChecked(true);

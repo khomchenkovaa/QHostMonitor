@@ -45,17 +45,17 @@ void JabberOptionsWidget::on_btnSwitchJabberAccount_clicked()
 
 void JabberOptionsWidget::init(QSettings *s)
 {
-    ui->editPrimaryLoginServer->setText(s->value(SKEY_JABBER_PrimaryLoginServer, SVAL_JABBER_PrimaryLoginServer).toString());
-    ui->editPrimaryJabberID->setText(s->value(SKEY_JABBER_PrimaryUserName).toString());
-    ui->editPrimaryPassword->setText(s->value(SKEY_JABBER_PrimaryPswd).toString());
-    ui->cmbPrimarySslTls->setCurrentIndex(s->value(SKEY_JABBER_PrimarySslMode,SVAL_JABBER_PrimarySslMode).toInt());
-    ui->spinPrimaryTcpPort->setValue(s->value(SKEY_JABBER_PrimaryLoginPort,SVAL_JABBER_PrimaryLoginPort).toInt());
+    ui->editPrimaryLoginServer->setText  (s->value(SKEY_JABBER_PrimaryLoginServer, SVAL_JABBER_PrimaryLoginServer).toString());
+    ui->editPrimaryJabberID->setText     (s->value(SKEY_JABBER_PrimaryUserName).toString());
+    ui->editPrimaryPassword->setText     (s->value(SKEY_JABBER_PrimaryPswd).toString());
+    ui->cmbPrimarySslTls->setCurrentIndex(s->value(SKEY_JABBER_PrimarySslMode, SVAL_JABBER_PrimarySslMode).toInt());
+    ui->spinPrimaryTcpPort->setValue     (s->value(SKEY_JABBER_PrimaryLoginPort, SVAL_JABBER_PrimaryLoginPort).toInt());
 
-    ui->editBackupLoginServer->setText(s->value(SKEY_JABBER_BackupLoginServer, SVAL_JABBER_BackupLoginServer).toString());
-    ui->editBackupJabberID->setText(s->value(SKEY_JABBER_BackupUserName).toString());
-    ui->editBackupPassword->setText(s->value(SKEY_JABBER_BackupPswd).toString());
-    ui->cmbBackupSslTls->setCurrentIndex(s->value(SKEY_JABBER_BackupSslMode,SVAL_JABBER_BackupSslMode).toInt());
-    ui->spinBackupTcpPort->setValue(s->value(SKEY_JABBER_BackupLoginPort,SVAL_JABBER_BackupLoginPort).toInt());
+    ui->editBackupLoginServer->setText  (s->value(SKEY_JABBER_BackupLoginServer, SVAL_JABBER_BackupLoginServer).toString());
+    ui->editBackupJabberID->setText     (s->value(SKEY_JABBER_BackupUserName).toString());
+    ui->editBackupPassword->setText     (s->value(SKEY_JABBER_BackupPswd).toString());
+    ui->cmbBackupSslTls->setCurrentIndex(s->value(SKEY_JABBER_BackupSslMode, SVAL_JABBER_BackupSslMode).toInt());
+    ui->spinBackupTcpPort->setValue     (s->value(SKEY_JABBER_BackupLoginPort,SVAL_JABBER_BackupLoginPort).toInt());
 }
 
 /******************************************************************/

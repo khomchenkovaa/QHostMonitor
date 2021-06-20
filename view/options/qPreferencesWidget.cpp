@@ -1,7 +1,7 @@
 #include "qPreferencesWidget.h"
 #include "ui_qPreferencesWidget.h"
 
-namespace SDPO {
+using namespace SDPO;
 
 /******************************************************************/
 
@@ -24,27 +24,27 @@ PreferencesWidget::~PreferencesWidget()
 void PreferencesWidget::init(QSettings *s)
 {
     // Fonts
-    ui->cmbPrefWindowsFont->setCurrentFont(s->value(SKEY_PREF_FontName, "DejaVu Sans").toString());
-    ui->spinPrefWindowsFontSize->setValue(s->value(SKEY_PREF_FontSize, 8).toInt());
-    ui->cmbPrefTerminalFont->setCurrentFont(s->value(SKEY_PREF_TelnetFontName, "Carlito").toString());
-    ui->spinPrefTerminalFontSize->setValue(s->value(SKEY_PREF_TelnetFontSize, 12).toInt());
+    ui->cmbPrefWindowsFont->setCurrentFont (s->value(SKEY_PREF_FontName, SVAL_PREF_FontName).toString());
+    ui->spinPrefWindowsFontSize->setValue  (s->value(SKEY_PREF_FontSize, SVAL_PREF_FontSize).toInt());
+    ui->cmbPrefTerminalFont->setCurrentFont(s->value(SKEY_PREF_TelnetFontName, SVAL_PREF_TelnetFontName).toString());
+    ui->spinPrefTerminalFontSize->setValue (s->value(SKEY_PREF_TelnetFontSize, SVAL_PREF_TelnetFontSize).toInt());
 
     // Autosave options
-    ui->chkPrefAutoSaveOptions->setChecked(s->value(SKEY_PREF_AutoSave, 1).toInt());
-    ui->cmbPrefAutoSaveOptions->setCurrentIndex(s->value(SKEY_PREF_AutoSaveMode, 5).toInt());
-    ui->chkPrefRecent->setChecked(s->value(SKEY_PREF_KeptAddresses, 1).toInt());
-    ui->spinPrefRecent->setValue(s->value(SKEY_PREF_DeepAddresses, 5).toInt());
+    ui->chkPrefAutoSaveOptions->setChecked     (s->value(SKEY_PREF_AutoSave, SVAL_PREF_AutoSave).toInt());
+    ui->cmbPrefAutoSaveOptions->setCurrentIndex(s->value(SKEY_PREF_AutoSaveMode, SVAL_PREF_AutoSaveMode).toInt());
+    ui->chkPrefRecent->setChecked              (s->value(SKEY_PREF_KeptAddresses, SVAL_PREF_KeptAddresses).toInt());
+    ui->spinPrefRecent->setValue               (s->value(SKEY_PREF_DeepAddresses, SVAL_PREF_DeepAddresses).toInt());
 
     // Icon
-    ui->chkPrefMinToTray->setChecked(s->value(SKEY_PREF_MinToTray, 1).toInt());
-    ui->chkPrefAnimateIcon->setChecked(s->value(SKEY_PREF_AnimateIcon, 1).toInt());
-    ui->chkPrefChangeIconDie->setChecked(s->value(SKEY_PREF_ChangeIcon, 1).toInt());
-    ui->chkPrefAlwaysTop->setChecked(s->value(SKEY_PREF_StayFormTop, 0).toInt());
+    ui->chkPrefMinToTray->setChecked    (s->value(SKEY_PREF_MinToTray, SVAL_PREF_MinToTray).toInt());
+    ui->chkPrefAnimateIcon->setChecked  (s->value(SKEY_PREF_AnimateIcon, SVAL_PREF_AnimateIcon).toInt());
+    ui->chkPrefChangeIconDie->setChecked(s->value(SKEY_PREF_ChangeIcon, SVAL_PREF_ChangeIcon).toInt());
+    ui->chkPrefAlwaysTop->setChecked    (s->value(SKEY_PREF_StayFormTop, SVAL_PREF_StayFormTop).toInt());
 
     // Save options
-    ui->chkPrefStoreStatHML->setChecked(s->value(SKEY_MISC_StoreStatistics, 1).toInt());
-    ui->chkPrefStoreRecurencesHML->setChecked(s->value(SKEY_MISC_StoreIterations, 1).toInt());
-    ui->chkPrefRememberCurrentFolder->setChecked(s->value(SKEY_INTERFACE_SaveCurrFolder, 1).toInt());
+    ui->chkPrefStoreStatHML->setChecked         (s->value(SKEY_MISC_StoreStatistics, SVAL_MISC_StoreStatistics).toInt());
+    ui->chkPrefStoreRecurencesHML->setChecked   (s->value(SKEY_MISC_StoreIterations, SVAL_MISC_StoreIterations).toInt());
+    ui->chkPrefRememberCurrentFolder->setChecked(s->value(SKEY_INTERFACE_SaveCurrFolder, SVAL_INTERFACE_SaveCurrFolder).toInt());
 }
 
 /******************************************************************/
@@ -76,5 +76,3 @@ void PreferencesWidget::prepareToSave(QSettings *s)
 }
 
 /******************************************************************/
-
-} // namespace SDPO

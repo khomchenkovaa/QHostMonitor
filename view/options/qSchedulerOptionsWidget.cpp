@@ -127,45 +127,40 @@ void SchedulerOptionsWidget::init(QSettings *s)
 {
     reset_AlertProfiles();
 
-    ui->cmbScheduleSelect_1->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode1,0).toInt());
-    ui->timeEdit_1->setTime(s->value(SKEY_SCHEDULER_Time1).toTime());
-    ui->spinMinute_1->setValue(s->value(SKEY_SCHEDULER_Interval1,60).toInt());
-    int day1 = s->value(SKEY_SCHEDULER_Day1,1).toInt();
-    ui->cmbSelectDay_1->setCurrentIndex(day1);
-    ui->cmbMonthDay_1->setCurrentIndex(day1);
-    ui->cmbAlertSelect_1->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts1).toInt());
+    ui->cmbScheduleSelect_1->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode1, SVAL_SCHEDULER_Mode1).toInt());
+    ui->timeEdit_1->setTime                 (s->value(SKEY_SCHEDULER_Time1).toTime());
+    ui->spinMinute_1->setValue              (s->value(SKEY_SCHEDULER_Interval1, SVAL_SCHEDULER_Interval1).toInt());
+    ui->cmbSelectDay_1->setCurrentIndex     (s->value(SKEY_SCHEDULER_Day1, SVAL_SCHEDULER_Day1).toInt());
+    ui->cmbMonthDay_1->setCurrentIndex      (s->value(SKEY_SCHEDULER_Day1, SVAL_SCHEDULER_Day1).toInt());
+    ui->cmbAlertSelect_1->setCurrentIndex   (s->value(SKEY_SCHEDULER_SchedAlerts1, SVAL_SCHEDULER_SchedAlerts1).toInt());
 
-    ui->cmbScheduleSelect_2->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode2,0).toInt());
-    ui->timeEdit_2->setTime(s->value(SKEY_SCHEDULER_Time2).toTime());
-    ui->spinMinute_2->setValue(s->value(SKEY_SCHEDULER_Interval2,60).toInt());
-    int day2 = s->value(SKEY_SCHEDULER_Day2,2).toInt();
-    ui->cmbSelectDay_2->setCurrentIndex(day2);
-    ui->cmbMonthDay_2->setCurrentIndex(day2);
-    ui->cmbAlertSelect_2->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts2).toInt());
+    ui->cmbScheduleSelect_2->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode2, SVAL_SCHEDULER_Mode2).toInt());
+    ui->timeEdit_2->setTime                 (s->value(SKEY_SCHEDULER_Time2).toTime());
+    ui->spinMinute_2->setValue              (s->value(SKEY_SCHEDULER_Interval2, SVAL_SCHEDULER_Interval2).toInt());
+    ui->cmbSelectDay_2->setCurrentIndex     (s->value(SKEY_SCHEDULER_Day2, SVAL_SCHEDULER_Day2).toInt());
+    ui->cmbMonthDay_2->setCurrentIndex      (s->value(SKEY_SCHEDULER_Day2, SVAL_SCHEDULER_Day2).toInt());
+    ui->cmbAlertSelect_2->setCurrentIndex   (s->value(SKEY_SCHEDULER_SchedAlerts2, SVAL_SCHEDULER_SchedAlerts2).toInt());
 
-    ui->cmbScheduleSelect_3->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode3,0).toInt());
-    ui->timeEdit_3->setTime(s->value(SKEY_SCHEDULER_Time3).toTime());
-    ui->spinMinute_3->setValue(s->value(SKEY_SCHEDULER_Interval3,60).toInt());
-    int day3 = s->value(SKEY_SCHEDULER_Day3,3).toInt();
-    ui->cmbSelectDay_3->setCurrentIndex(day3);
-    ui->cmbMonthDay_3->setCurrentIndex(day3);
-    ui->cmbAlertSelect_3->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts3).toInt());
+    ui->cmbScheduleSelect_3->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode3, SVAL_SCHEDULER_Mode3).toInt());
+    ui->timeEdit_3->setTime                 (s->value(SKEY_SCHEDULER_Time3).toTime());
+    ui->spinMinute_3->setValue              (s->value(SKEY_SCHEDULER_Interval3, SVAL_SCHEDULER_Interval3).toInt());
+    ui->cmbSelectDay_3->setCurrentIndex     (s->value(SKEY_SCHEDULER_Day3, SVAL_SCHEDULER_Day3).toInt());
+    ui->cmbMonthDay_3->setCurrentIndex      (s->value(SKEY_SCHEDULER_Day3, SVAL_SCHEDULER_Day3).toInt());
+    ui->cmbAlertSelect_3->setCurrentIndex   (s->value(SKEY_SCHEDULER_SchedAlerts3, SVAL_SCHEDULER_SchedAlerts3).toInt());
 
-    ui->cmbScheduleSelect_4->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode4,0).toInt());
-    ui->timeEdit_4->setTime(s->value(SKEY_SCHEDULER_Time4).toTime());
-    ui->spinMinute_4->setValue(s->value(SKEY_SCHEDULER_Interval4,60).toInt());
-    int day4 = s->value(SKEY_SCHEDULER_Day4,4).toInt();
-    ui->cmbSelectDay_4->setCurrentIndex(day4);
-    ui->cmbMonthDay_4->setCurrentIndex(day4);
-    ui->cmbAlertSelect_4->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts4).toInt());
+    ui->cmbScheduleSelect_4->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode4, SVAL_SCHEDULER_Mode4).toInt());
+    ui->timeEdit_4->setTime                 (s->value(SKEY_SCHEDULER_Time4).toTime());
+    ui->spinMinute_4->setValue              (s->value(SKEY_SCHEDULER_Interval4, SVAL_SCHEDULER_Interval4).toInt());
+    ui->cmbSelectDay_4->setCurrentIndex     (s->value(SKEY_SCHEDULER_Day4, SVAL_SCHEDULER_Day4).toInt());
+    ui->cmbMonthDay_4->setCurrentIndex      (s->value(SKEY_SCHEDULER_Day4, SVAL_SCHEDULER_Day4).toInt());
+    ui->cmbAlertSelect_4->setCurrentIndex   (s->value(SKEY_SCHEDULER_SchedAlerts4, SVAL_SCHEDULER_SchedAlerts4).toInt());
 
-    ui->cmbScheduleSelect_5->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode5,0).toInt());
-    ui->timeEdit_5->setTime(s->value(SKEY_SCHEDULER_Time5).toTime());
-    ui->spinMinute_5->setValue(s->value(SKEY_SCHEDULER_Interval5,60).toInt());
-    int day5 = s->value(SKEY_SCHEDULER_Day5,5).toInt();
-    ui->cmbSelectDay_5->setCurrentIndex(day5);
-    ui->cmbMonthDay_5->setCurrentIndex(day5);
-    ui->cmbAlertSelect_5->setCurrentIndex(s->value(SKEY_SCHEDULER_SchedAlerts5).toInt());
+    ui->cmbScheduleSelect_5->setCurrentIndex(s->value(SKEY_SCHEDULER_Mode5, SVAL_SCHEDULER_Mode5).toInt());
+    ui->timeEdit_5->setTime                 (s->value(SKEY_SCHEDULER_Time5).toTime());
+    ui->spinMinute_5->setValue              (s->value(SKEY_SCHEDULER_Interval5, SVAL_SCHEDULER_Interval5).toInt());
+    ui->cmbSelectDay_5->setCurrentIndex     (s->value(SKEY_SCHEDULER_Day5, SVAL_SCHEDULER_Day5).toInt());
+    ui->cmbMonthDay_5->setCurrentIndex      (s->value(SKEY_SCHEDULER_Day5, SVAL_SCHEDULER_Day5).toInt());
+    ui->cmbAlertSelect_5->setCurrentIndex   (s->value(SKEY_SCHEDULER_SchedAlerts5, SVAL_SCHEDULER_SchedAlerts5).toInt());
 
     on_SchedulerSelect();
     connect(ui->cmbScheduleSelect_1, SIGNAL(currentIndexChanged(int)),this, SLOT(on_SchedulerSelect()));

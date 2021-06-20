@@ -55,17 +55,17 @@ void ViewersOptionsWidget::on_btnViewersDbfLogFiles_clicked()
 void ViewersOptionsWidget::init(QSettings *s)
 {
 
-    ui->cmbTxtLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_TextViewerMode,0).toInt());
-    ui->cmbHtmlLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_HtmlViewerMode,1).toInt());
-    ui->cmbDbfLogFile->setCurrentIndex(s->value(SKEY_LOGVIEWER_DbfViewerMode,0).toInt());
+    ui->cmbTxtLogFiles->setCurrentIndex (s->value(SKEY_LOGVIEWER_TextViewerMode, SVAL_LOGVIEWER_TextViewerMode).toInt());
+    ui->cmbHtmlLogFiles->setCurrentIndex(s->value(SKEY_LOGVIEWER_HtmlViewerMode, SVAL_LOGVIEWER_HtmlViewerMode).toInt());
+    ui->cmbDbfLogFile->setCurrentIndex  (s->value(SKEY_LOGVIEWER_DbfViewerMode, SVAL_LOGVIEWER_DbfViewerMode).toInt());
     on_SelectLogViewer();
     connect(ui->cmbTxtLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
     connect(ui->cmbHtmlLogFiles, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
     connect(ui->cmbDbfLogFile, SIGNAL(currentIndexChanged(int)), this, SLOT(on_SelectLogViewer()));
 
-    ui->editViewersTxtLogFiles->setText(s->value(SKEY_LOGVIEWER_TextViewerCmd, "notepad.exe %log%").toString());
+    ui->editViewersTxtLogFiles->setText (s->value(SKEY_LOGVIEWER_TextViewerCmd, SVAL_LOGVIEWER_TextViewerCmd).toString());
     ui->editViewersHtmlLogFiles->setText(s->value(SKEY_LOGVIEWER_HtmlViewerCmd).toString());
-    ui->editViewersDbfLogFiles->setText(s->value(SKEY_LOGVIEWER_DbfViewerCmd).toString());
+    ui->editViewersDbfLogFiles->setText (s->value(SKEY_LOGVIEWER_DbfViewerCmd).toString());
 }
 
 /******************************************************************/

@@ -1,4 +1,4 @@
-#include "qRciOptionsWidget.h"
+﻿#include "qRciOptionsWidget.h"
 #include "ui_qRciOptionsWidget.h"
 
 namespace SDPO {
@@ -23,18 +23,18 @@ RciOptionsWidget::~RciOptionsWidget()
 
 void RciOptionsWidget::init(QSettings *s)
 {
-    ui->chkRciOptionsEnable->setChecked(s->value(SKEY_RCI_Enabled,0).toInt());
+    ui->chkRciOptionsEnable->setChecked             (s->value(SKEY_RCI_Enabled, SVAL_RCI_Enabled).toInt());
     on_checkedRemoteControle();
     connect(ui->chkRciOptionsEnable, SIGNAL(clicked()),this,SLOT(on_checkedRemoteControle()));
-    ui->spinIncomingConnectionsPort->setValue(s->value(SKEY_RCI_Port,1054).toInt());
-    ui->spinMaximumSimultaneousConnections->setValue(s->value(SKEY_RCI_MaxClients,16).toInt());
-    ui->spinTimeout->setValue(s->value(SKEY_RCI_Timeout,300).toInt());
-    ui->chkRecordInfoAcceptedConnections->setChecked(s->value(SKEY_RCI_LogAccepted,1).toInt());
-    ui->chkIncludingWatchDogAccount_1->setChecked(s->value(SKEY_RCI_LogAcceptedWatchDog,1).toInt());
-    ui->chkRecordInfoRejectedConnections->setChecked(s->value(SKEY_RCI_LogRejected,1).toInt());
-    ui->chkIncludingWatchDogAccount_2->setChecked(s->value(SKEY_RCI_LogRejectedWatchDog,0).toInt());
-    ui->chkRecordInfoAcceptedCommands->setChecked(s->value(SKEY_RCI_LogSuccess,1).toInt());
-    ui->chkRecordInfoRejectedCommands->setChecked(s->value(SKEY_RCI_LogError,1).toInt());
+    ui->spinIncomingConnectionsPort->setValue       (s->value(SKEY_RCI_Port, SVAL_RCI_Port).toInt());
+    ui->spinMaximumSimultaneousConnections->setValue(s->value(SKEY_RCI_MaxClients, SVAL_RCI_MaxClients).toInt());
+    ui->spinTimeout->setValue                       (s->value(SKEY_RCI_Timeout, SVAL_RCI_Timeout).toInt());
+    ui->chkRecordInfoAcceptedConnections->setChecked(s->value(SKEY_RCI_LogAccepted, SVAL_RCI_LogAccepted).toInt());
+    ui->chkIncludingWatchDogAccount_1->setChecked   (s->value(SKEY_RCI_LogAcceptedWatchDog, SVAL_RCI_LogAcceptedWatchDog).toInt());
+    ui->chkRecordInfoRejectedConnections->setChecked(s->value(SKEY_RCI_LogRejected, SVAL_RCI_LogRejected).toInt());
+    ui->chkIncludingWatchDogAccount_2->setChecked   (s->value(SKEY_RCI_LogRejectedWatchDog, SVAl_RCI_LogRejectedWatchDog).toInt());
+    ui->chkRecordInfoAcceptedCommands->setChecked   (s->value(SKEY_RCI_LogSuccess, SVAL_RCI_LogSuccess).toInt());
+    ui->chkRecordInfoRejectedCommands->setChecked   (s->value(SKEY_RCI_LogError, SVAL_RCI_LogError).toInt());
 }
 
 /******************************************************************/

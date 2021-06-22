@@ -6,6 +6,7 @@
 
 #include <QMap>
 #include <QDateTime>
+#include <QVariant>
 
 namespace SDPO {
 
@@ -106,9 +107,8 @@ struct TestMethodMetaInfo
 
 struct TestResult {
     TestStatus status;
-    QString    reply;
-    double     replyDouble;
-    int        replyInt;
+    QVariant   reply;
+    QString    replyDesc;
     QString    error;
     QDateTime  date;
 
@@ -118,10 +118,9 @@ struct TestResult {
 
     void clear() {
         status = TestStatus::Unknown;
-        reply = QString();
-        replyDouble = 0.0;
-        replyInt = 0;
-        error = QString();
+        reply.clear();
+        replyDesc.clear();
+        error.clear();
         date = QDateTime::currentDateTime();
     }
 

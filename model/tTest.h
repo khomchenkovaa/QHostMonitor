@@ -370,9 +370,9 @@ public:
     QTime currentTime() const { return m_CurrentState.date.time(); }
     QDateTime getTestTime() const { return m_CurrentState.date; }
     QString testTime() const { return m_CurrentState.date.toString("yyyy.MM.dd hh:mm:ss"); }
-    QString getReply() const { return m_CurrentState.reply; }
-    double getReplyNumber() const { return m_CurrentState.replyDouble; }
-    double getReplyInteger() const { return m_CurrentState.replyInt; }
+    QString getReply() const { return m_CurrentState.reply.toString(); }
+    double getReplyNumber() const { return m_CurrentState.reply.toDouble(); }
+    double getReplyInteger() const { return m_CurrentState.reply.toInt(); }
     QString status() const;
     TestStatus getStatusID() const;
     int statusID() const { return static_cast<int>(getStatusID()); }
@@ -425,9 +425,9 @@ private:
 public:
     QString suggestedStatus() const { return TEnums::testStatus(m_SuggestedState.status); }
     QString suggestedSimpleStatus() const { return TEnums::simpleStatus(m_SuggestedState.simpleStatus(b_UnknownIsBad)); }
-    QString suggestedReply() const { return m_SuggestedState.reply; }
-    int suggestedReplyInteger() const { return m_SuggestedState.replyInt; }
-    QString suggestedLastReply() const { return m_SuggestedLastState.reply; }
+    QString suggestedReply() const { return m_SuggestedState.reply.toString(); }
+    int suggestedReplyInteger() const { return m_SuggestedState.reply.toInt(); }
+    QString suggestedLastReply() const { return m_SuggestedLastState.reply.toString(); }
     int getSuggestedRecurrences() const { return m_Recurences.suggestedSimpleStatus; }
     int getFailureIteration() const { return m_Recurences.failure; }
 
@@ -520,7 +520,7 @@ public:
     QString lastStatus() const { return TEnums::testStatus(m_LastState.status); }
     SimpleStatusID getLastSimpleStatusID() const { return m_LastState.simpleStatus(b_UnknownIsBad, b_WarningIsBad); }
     QString lastSimpleStatus() const { return TEnums::simpleStatus(m_LastState.simpleStatus(b_UnknownIsBad, b_WarningIsBad)); }
-    QString lastReply() const { return m_LastState.reply; }
+    QString lastReply() const { return m_LastState.reply.toString(); }
     QDateTime getLastTestTime() const { return m_LastState.date; }
     QString previousStatus() const { return  TEnums::testStatus(m_PreviousState.status); }
     QString previousStatusTime() const { return m_Stat.previousTime.toString("hh:mm:ss"); }

@@ -37,13 +37,12 @@ void TCountFiles::run()
         emit testFailed();
         return;
     }
-    int count = countFiles(dir);
-    m_Log.append(QString("%1 files found").arg(count));
-    result.replyInt = count;
-    result.replyDouble = count;
-    result.reply = QString::number(count);
-    result.status = count > a_AlertWhen ? TestStatus::Bad : TestStatus::Ok;
+    int cnt = countFiles(dir);
+    result.reply = cnt;
+    result.replyDesc = QString("%1 files found").arg(cnt);
+    result.status = cnt > a_AlertWhen ? TestStatus::Bad : TestStatus::Ok;
     m_Result = result;
+    m_Log.append(result.replyDesc);
     emit testSuccess();
 }
 

@@ -49,60 +49,62 @@ void TSnmpGet::parseResult(QString data)
     result.reply = data;
 
     bool isFloat = true;
-    result.replyDouble = data.toDouble(&isFloat);
+    double replyDouble = data.toDouble(&isFloat);
+    double oldDouble = m_Result.reply.toDouble();
     double valueAsFloat = isFloat? a_Value.toDouble(&isFloat) : 0.0;
     bool isInt = true;
-    result.replyInt = data.toInt(&isInt);
+    int replyInt = data.toInt(&isInt);
+    int oldInt = m_Result.reply.toInt();
     int valueAsInt = isInt? a_Value.toInt(&isInt) : 0;
 
     switch (a_Condition) {
     case Condition::LessThan:
         if (isFloat) {
-            result.status = (result.replyDouble < valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (replyDouble < valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
         } else if (isInt) {
-            result.status = (result.replyInt < valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (replyInt < valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         } else {
-            result.status = (result.reply.compare(a_Value) < 0)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.reply.toString().compare(a_Value) < 0)? TestStatus::Bad : TestStatus::Ok;
         }
         break;
     case Condition::MoreThan:
         if (isFloat) {
-            result.status = (result.replyDouble > valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (replyDouble > valueAsFloat)? TestStatus::Bad : TestStatus::Ok;
         } else if (isInt) {
-            result.status = (result.replyInt > valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (replyInt > valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         } else {
-            result.status = (result.reply.compare(a_Value) > 0)? TestStatus::Bad : TestStatus::Ok;
+            result.status = (result.reply.toString().compare(a_Value) > 0)? TestStatus::Bad : TestStatus::Ok;
         }
         break;
     case Condition::EqualTo:
-        result.status = (result.reply.compare(a_Value) == 0)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.toString().compare(a_Value) == 0)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DifferentFrom:
-        result.status = (result.reply.compare(a_Value) != 0)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.toString().compare(a_Value) != 0)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::Contain:
-        result.status = (result.reply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
+        result.status = (result.reply.toString().contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::NotContain:
-        result.status = (!result.reply.contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
+        result.status = (!result.reply.toString().contains(a_Value))? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncreaseBy:
-        result.status = (result.replyInt + valueAsInt >= m_Result.replyInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (replyInt + valueAsInt >= oldInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DecreaseBy:
-        result.status = (result.replyInt + valueAsInt <= m_Result.replyInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (replyInt + valueAsInt <= oldInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::ChangeBy:
-        result.status = (qAbs(result.replyInt-m_Result.replyInt) >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (qAbs(replyInt-oldInt) >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncByPercent:
-        result.status = (100*(result.replyInt-m_Result.replyInt)/m_Result.replyInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*(replyInt-oldInt)/oldInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::DecByPercent:
-        result.status = (100*(result.replyInt-m_Result.replyInt)/m_Result.replyInt <= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*(replyInt-oldInt)/oldInt <= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::ChangeByPercent:
-        result.status = (100*qAbs(result.replyInt-m_Result.replyInt)/m_Result.replyInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
+        result.status = (100*qAbs(replyInt-oldInt)/oldInt >= valueAsInt)? TestStatus::Bad : TestStatus::Ok;
         break;
     case Condition::IncSec:
         // TODO "Bad" status when average increase of the counter (per second) is greater than the specified limit

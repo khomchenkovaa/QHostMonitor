@@ -64,7 +64,7 @@ TTest::~TTest()
 QVariant TTest::property(QString name) const
 {
     if (name.startsWith("CommentLine")) {
-        int idx = name.mid(11).toInt();
+        int idx = name.midRef(11).toInt();
         return getCommentLine(idx);
     }
     return QObject::property(name.toLatin1());
@@ -268,14 +268,14 @@ void TTest::dynamicStatistics(const TestResult testResult)
 
     if (simpleStatusID == SimpleStatusID::UP) {
         if (m_Stat.passedCnt == 1) {
-            m_Stat.minReply = testResult.replyDouble;
-        } else if (m_Stat.minReply < testResult.replyDouble) {
-            m_Stat.minReply = testResult.replyDouble;
+            m_Stat.minReply = testResult.reply.toDouble();
+        } else if (m_Stat.minReply < testResult.reply.toDouble()) {
+            m_Stat.minReply = testResult.reply.toDouble();
         }
-        if (m_Stat.maxReply > testResult.replyDouble) {
-            m_Stat.maxReply = testResult.replyDouble;
+        if (m_Stat.maxReply > testResult.reply.toDouble()) {
+            m_Stat.maxReply = testResult.reply.toDouble();
         }
-        m_Stat.avgReply = (m_Stat.avgReply*(m_Stat.passedCnt-1) + testResult.replyDouble) / m_Stat.passedCnt;
+        m_Stat.avgReply = (m_Stat.avgReply*(m_Stat.passedCnt-1) + testResult.reply.toDouble()) / m_Stat.passedCnt;
     }
 }
 
@@ -365,9 +365,10 @@ QString TTest::executionLog() const
     TestResult tmResult = m_TMethod->getResult();
     log.append("\n****** Test Method Result ******\n");
     log.append(QString("* status: %1\n").arg(TEnums::testStatus(tmResult.status)));
-    log.append(QString("* reply: %1\n").arg(tmResult.reply));
-    log.append(QString("* reply float: %1\n").arg(tmResult.replyDouble));
-    log.append(QString("* reply number: %1\n").arg(tmResult.replyInt));
+    log.append(QString("* reply: %1\n").arg(tmResult.reply.toString()));
+    log.append(QString("* reply as float: %1\n").arg(tmResult.reply.toDouble()));
+    log.append(QString("* reply as number: %1\n").arg(tmResult.reply.toInt()));
+    log.append(QString("* reply description: %1\n").arg(tmResult.replyDesc));
     log.append(QString("* error: %1\n").arg(tmResult.error));
     log.append(QString("* date: %1\n").arg(tmResult.date.toString()));
 
@@ -383,7 +384,7 @@ QString TTest::executionLog() const
             log.append(QString("* %1: %2\n").arg(name).arg(value.toInt()));
             break;
         default:
-            log.append(QString("* %1: %2\n").arg(name).arg(value.toString()));
+            log.append(QString("* %1: %2\n").arg(name, value.toString()));
         }
     }
 

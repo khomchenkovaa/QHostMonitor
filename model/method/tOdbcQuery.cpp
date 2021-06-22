@@ -81,9 +81,7 @@ void TOdbcQuery::run()
                                 result.status = (value.toString().contains(a_CriteriaValue)) ? TestStatus::Ok : TestStatus::Bad;
                                 break;
                             }
-                            result.reply = value.toString();
-                            result.replyInt = value.toInt();
-                            result.replyDouble = value.toFloat();
+                            result.reply = value;
                         } else {
                             result.status = TEnums::testStatusFromString(a_UnavailableStatus);
                             result.reply = "Unavailable";

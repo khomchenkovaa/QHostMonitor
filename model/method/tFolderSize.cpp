@@ -32,9 +32,8 @@ void TFolderSize::run()
         folderSize = folderSize / 1024 / 1024 / 1024;
     }
 
-    result.replyInt = (int)folderSize;
-    result.replyDouble = folderSize;
-    result.reply = QString::number(folderSize) + a_Dimension;
+    result.reply = folderSize;
+    result.replyDesc = QString::number(folderSize) + a_Dimension;
 
     if (folderSize > a_MaxSize) {
         result.status = TestStatus::Bad;

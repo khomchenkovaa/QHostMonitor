@@ -35,9 +35,8 @@ void TDriveSpace::run()
             testValue = conv.fromNumber();
         }
 
-        result.replyInt = testValue;
-        result.replyDouble = testValue;
-        result.reply = QString::number(testValue) + m_Dimension;
+        result.reply = testValue;
+        result.replyDesc = QString::number(testValue) + m_Dimension;
 
         if (testValue < m_MinFreeSpace) {
             result.status = TestStatus::Bad;

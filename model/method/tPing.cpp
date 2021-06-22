@@ -132,19 +132,16 @@ void TPing::parseResult(QString data)
 
     switch(a_DisplayMode) {
     case TPing::Time :
-        tResult.reply =  QString("%1ms").arg(pingStat.rttAvg);
-        tResult.replyInt = qRound(pingStat.rttAvg);
-        tResult.replyDouble = pingStat.rttAvg;
+        tResult.reply = pingStat.rttAvg;
+        tResult.replyDesc = QString("%1ms").arg(pingStat.rttAvg);
         break;
     case TPing::Lost :
-        tResult.reply = QString("%1%").arg(pingStat.percentLoss);
-        tResult.replyInt = pingStat.percentLoss;
-        tResult.replyDouble = pingStat.percentLoss;
+        tResult.reply = pingStat.percentLoss;
+        tResult.replyDesc = QString("%1%").arg(pingStat.percentLoss);
         break;
     case TPing::Received :
-        tResult.reply = QString("%1%").arg(100 - pingStat.percentLoss);
-        tResult.replyInt = 100 - pingStat.percentLoss;
-        tResult.replyDouble = 100 - pingStat.percentLoss;
+        tResult.reply = 100 - pingStat.percentLoss;
+        tResult.replyDesc = QString("%1%").arg(100 - pingStat.percentLoss);
         break;
     }
 

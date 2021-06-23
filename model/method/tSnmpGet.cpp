@@ -43,14 +43,13 @@ void TSnmpGet::run()
 
 /******************************************************************/
 
-void TSnmpGet::parseResult(QString data)
+void TSnmpGet::parseResult(const QString &data)
 {
     TestResult result;
     result.reply = data;
 
     bool isFloat = true;
     double replyDouble = data.toDouble(&isFloat);
-    double oldDouble = m_Result.reply.toDouble();
     double valueAsFloat = isFloat? a_Value.toDouble(&isFloat) : 0.0;
     bool isInt = true;
     int replyInt = data.toInt(&isInt);

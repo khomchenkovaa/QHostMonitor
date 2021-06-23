@@ -46,9 +46,10 @@ void TExternalPrg::run()
         emit testFailed();
         return;
     }
-    m_Log.append(process.readAll());
+    QString res = process.readAll();
+    m_Log.append(res);
     m_Result.status = testStatusByExitCode(process.exitCode());
-    parseResult(process.readAll().trimmed());
+    parseResult(res.trimmed());
 
     emit testSuccess();
 }

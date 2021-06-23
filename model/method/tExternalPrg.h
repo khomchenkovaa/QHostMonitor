@@ -64,7 +64,9 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual QString getCommand() const Q_DECL_OVERRIDE { return getExternalPrg(); }
+    virtual QString getCommand() const Q_DECL_OVERRIDE {
+        return getExternalPrg();
+    }
 
     virtual TestMethod *clone() Q_DECL_OVERRIDE;
 

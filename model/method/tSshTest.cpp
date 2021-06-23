@@ -49,7 +49,7 @@ QString TSshTest::getCommand() const
 
 /******************************************************************/
 
-void TSshTest::parseResult(QString data)
+void TSshTest::parseResult(const QString &data)
 {
     Q_UNUSED(data)
 }

@@ -94,7 +94,7 @@ QString TPing::getCommand() const
 
 /******************************************************************/
 
-void TPing::parseResult(QString data)
+void TPing::parseResult(const QString &data)
 {
     TestResult tResult;
     tResult.reply = "No answer";

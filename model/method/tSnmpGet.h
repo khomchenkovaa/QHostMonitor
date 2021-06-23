@@ -98,7 +98,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual void parseResult(QString data) Q_DECL_OVERRIDE;
+    virtual void parseResult(const QString &data) Q_DECL_OVERRIDE;
 
     virtual TestMethod *clone() Q_DECL_OVERRIDE;
 

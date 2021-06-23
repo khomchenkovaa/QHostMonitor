@@ -40,6 +40,13 @@ void TestMethod::run()
 
 /***********************************************/
 
+void TestMethod::parseResult(const QString &data)
+{
+    m_Result.reply  = data;
+}
+
+/***********************************************/
+
 TestMethod *TestMethod::clone()
 {
     TestMethod *result = new TestMethod(m_TMethodID, parent());

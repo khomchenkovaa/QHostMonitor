@@ -62,7 +62,8 @@ enum class TMethodID {
     DominantProcess,// Dominant Process
     DHCP,           // DHCP test
     HMmonitor,      // SDPO Monitor
-    Nagios          // Nagios plugin
+    Nagios,         // Nagios plugin
+    Diag            // Diag test
 };
 
 typedef QList<TMethodID> TMethodIdList;
@@ -214,7 +215,7 @@ public:
     // command
     virtual void run();
     virtual QString getCommand() const { return QString(); }
-    virtual void parseResult(QString data) { m_Result.reply = data; }
+    virtual void parseResult(const QString &data);
 
     virtual TestMethod *clone();
     QString getDefaultName() const;

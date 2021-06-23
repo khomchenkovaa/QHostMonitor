@@ -65,7 +65,7 @@ QString TShellScript::getCommand() const
 
 /******************************************************************/
 
-void TShellScript::parseResult(QString data)
+void TShellScript::parseResult(const QString &data)
 {
     TestResult tResult;
     tResult.reply = "No answer";

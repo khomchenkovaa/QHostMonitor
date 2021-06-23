@@ -1,0 +1,58 @@
+<tr>
+    <td><p align=justify><br>
+     The TCP test provides you with the ability to monitor TCP based servers such as Whois, Finger, Telnet, Chargen, etc.
+     Please note, that you may check SMTP, POP, IMAP, DNS, LDAP, HTTP/HTTPS, and FTP servers using dedicated SMTP, POP,
+      IMAP, DNS, LDAP, URL, HTTP tests.<br>
+     In addition to the <a href="#Dialog">common test parameters</a>, the TCP test has the following options:<br><br>
+
+     <b>Host</b><br>
+		Here you should provide the domain name (e. g. <font color="#AA0000">www.yahoo.com</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the host that should process the TCP connection.. Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. -->
+		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.<br>
+		Also, a range of IPv4 addresses (e.g. <font color="#AA0000">10.10.1.100 - 10.10.1.254</font>) rather than a single address can be 
+		 specified. In this case, HostMonitor will create a separate test for each of the addresses within that range.<br><br> 
+	  
+     <b>Port</b><br>
+     Specify the port number on which the host is listening for incoming TCP packets. E.g. Telnet servers use port #23,
+      Whois servers uses port #43, etc. For a list of conventional port numbers click the button to the right of the
+      port number box.<br><br>
+
+     <b>Timeout</b><br>
+     Enter the amount of time (in seconds) that HostMonitor should wait for a response from the server. If this value
+      is 0 (default value), HostMonitor uses the default Windows timeout.<br><br>
+
+     The following optional parameters allow you not only to check whether the connection could be accepted by remote
+      server but also allow to send some data to that server and check the response from it.<br><br>
+
+     <b>Send data</b><br>
+     If you want to send data to the host (after TCP connection established), mark this option and enter the packet
+      data. If you need to send binary data, use sequences formatted <b>%XX</b> where XX is a hexadecimal code of a
+      character (byte). E.g. <font color="#AA0000">HELLO%0D%0A</font> would send HELLO followed by a character ASCII 13
+      (line feed) and ASCII 10 (new line).<br><br>
+
+     <b>Alert when</b><br>
+     To check the reply from the server, mark this option and choose one of the conditions to consider result of the
+      test as "Bad":<br>
+     <table border=0>
+      <tr><td valign=top nowrap> - no reply  </td><td>HostMonitor will set "No answer" status when no reply from the server received and set test status to "Host is alive" when any reply received </td></tr>
+      <tr><td valign=top nowrap> - any reply </td><td>HostMonitor will set "Ok" status when no reply from the server received and set test status to "Bad" when any reply received </td></tr>
+      <tr><td valign=top nowrap> - reply contains </td><td>HostMonitor will set "Bad" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, HostMonitor will set "Ok" status. The program sets status to "No answer" when no reply received. </td></tr>
+      <tr><td valign=top nowrap> - reply doesn't contain &nbsp; </td><td>HostMonitor will set "Ok" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, HostMonitor will set "Bad" status. The program sets status to "No answer" when no reply received. </td></tr>
+      <tr><td valign=top nowrap> - reply equal to </td><td>HostMonitor will set "Bad" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, HostMonitor will set "Ok" status. The program sets status to "No answer" when no reply received.</td></tr>
+      <tr><td valign=top nowrap> - reply not equal to </td><td>HostMonitor will set "Ok" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, HostMonitor will set "Bad" status. The program sets status to "No answer" when no reply received.</td></tr>
+     </table><br>
+
+     <b>Compare with</b><br>
+     HostMonitor can compare data that was received from the server with specified string (use "Alert when" option to
+      choose compare condition). As in "Send data" field you can use sequences formatted <b>%XX</b> where XX is a
+      hexadecimal code of a character (byte). E.g. "<font color="#AA0000">October%00%00</font>"<br><br>
+
+   See also: <a href="actions.htm#macro_tcp">variable specific to TCP and UDP tests</a><br><br>  
+  </td></tr>

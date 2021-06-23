@@ -1,0 +1,47 @@
+  <tr>
+    <td><p align="justify"><br>
+      Most Internet e-mail servers use the Simple Mail Transfer Protocol (SMTP) to transmit e-mail from server to server.
+       HostMonitor monitors this type of server by sending an SMTP command to the server as if it were an e-mail client
+       or another server verifying the existence of a user. By verifying the username, the program effectively tests the
+       SMTP server`s mail database without generating unnecessary mail messages.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the SMTP test has the following options:<br><br>
+
+      <b>Server</b><br>
+     	Here you should provide the host name (e. g. <font color="#AA0000">mail.ourdomain.com</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the mail server you want to test. Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">mail.ourdomain.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. --> 
+		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		 <br><br> 
+	  
+      <b>Port</b><br>
+      The default test port is 25, but you can specify a non-standard port. For a list of conventional port numbers click
+       the button to the right of the port number box.<br><br>
+
+      <b>Timeout</b><br>
+      This is the amount of time in seconds the program will wait for a response from the server before the request
+       fails. Set this to 0 for no timeout (not recommended).<br><br>
+
+      <b>Perform 'VRFY' test</b><br>
+      When checked, the test performs will include the verify ('VRFY') command, which is a complete test of the server's
+       user database and its ability to respond to client requests. When this field is not checked, HostMonitor will log
+       on to the mail server and then log off, but will not issue the "VRFY" command as part of the test. Skipping this
+       command provides nearly the same level of server monitoring, since logging on and off effectively verifies that
+       the mail server is accepting connections.<br>
+      For mail servers that support the "VRFY" command, and have it enabled, we suggest that you use the complete test.
+       However, some mail servers do not support the "VRFY" command, so turning this check off is required. In addition,
+       for security reasons, the "VRFY" command is sometimes disabled on some servers, again requiring that this extra
+       test would be turned off.<br><br>
+
+      <b>User Name</b><br>
+      Enter a valid e-mail account name that exists on the server you are testing. HostMonitor will ask the server if
+       this user exists. Most mail servers have "root" or "postmaster" accounts defined, even if the server is used
+       only to forward outgoing mail. You can also use your own account name, assuming you have an account on that
+       server.
+     <br><br>
+  </td></tr>

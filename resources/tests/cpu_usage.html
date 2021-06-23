@@ -1,0 +1,83 @@
+  <tr>
+    <td><br>
+    CPU Usage test checks the percentage of CPU utilization on the local or remote machine. 
+     This test method can monitor various systems and devices: Windows, Linux, AIX, FreeBSD, Cisco, etc.<br>
+    In addition to the <a href="#Dialog">common test parameters</a> the CPU Usage test has the following options:<br><br>
+
+    <b>Host[:port]</b><br>
+	 - Provide the host name, FQDN, UNC name (Universal Naming Convention), or IP address (e.g. <span class="samplered">192.168.1.55</span>) of the host that you wish to monitor.<br>
+	 - Type <span class="samplered">localhost</span> when you want to check system where RMA agent is running ("Test by" property should point to this agent).<br>
+     - Also you may type <span class="samplered">&lt;local computer&gt;</span> or keep empty string when using the test for a local machine where HostMonitor is running.<br>
+     - Specify a server name or NDS tree name (like ".bigcompany.ifx.department2.sever1") when using this test for Novell Netware server.<br>
+	 When SNMP protocol is used (see below), you may specify UDP port that is used by SNMP agent running on the target system. This parameter is optional; 
+	  port number has to be provided after a colon following the target host address (e.g. <span class="samplered">10.10.15.201<b>:161</b></span>).<br><br>
+
+      <b>OS (protocol)</b><br>
+      Select the type of OS on the target host and prefered protocol (e.g. HostMonitor may check Windows systems using RPC or SNMP requests).<br>
+      <table border=0 cellspacing="6">
+       <tr valign="top"><td><b>Windows (RPC)</b></td><td style="text-align: justify">
+		Target OS: Microsoft Windows NT 4.0, Windows 2000/XP, Windows Vista/7/8/10 or Windows Server 2003-2016.<br>
+		In order to monitor CPU utilization on a remote Windows system, please make sure you have the RPC service and Remote Registry service started on the remote system.
+		(Windows NT 4.0 does not have this service installed by default, however you can find this service in the Resource Kit for Windows NT 4.0)<br>
+	   <b>Connect as</b><br>
+	    In some cases you need to provide credentials for connection to the target system (e.g. system does not belong to the domain).
+		You may use <a href="profiles.htm#conmgr">Connection Manager</a> or you may provide a username and password using this option.<br>
+		To monitor processes on a remote Windows system you should use account from "Performance Monitor" or "Administrators" group.
+		</td></tr>
+	
+	  <tr valign="top"><td nowrap><b>Novell Netware</b></td><td> Target OS: Novell Netware 4+<br>
+		In this case HostMonitor uses the functionality of the Novell Netware client, therefore the Novell Netware client software has 
+		 to be installed on the machine where HostMonitor is running.<br>
+		Note: this mode kept for backward compatibility, it was not tested recently.</td></tr>
+	   
+       <tr valign="top"><td><b>UNIX (local RMA)</b></td><td> Target OS: Linux, FreeBSD, NetBSD, OpenBSD, Solaris, MacOS, AIX<br>
+        In this case HostMonitor sends request to <a href="rma-unix/index.htm" target=_top>Remote Monitoring Agent</a> installed on target UNIX-machine.
+		Agent name should be selected in "<a href="#Dialog">Test by</a>" field.
+       </td></tr>
+
+	   <tr valign="top"><td nowrap><b>UNIX (SNMP)</b></td><td> Target OS: Linux, FreeBSD, OpenBSD, Solaris, AIX, ESXi and other<br>
+	     HostMonitor checks the average of the percentage of time that CPU was not idle over the last minute. 
+		 Different systems have different implementation related to CPU load statistics, may approximate this one minute smoothing period
+		 (on Linux system load &lt;&gt; CPU load).<br> 
+		 Test offers option to check either: <br>
+		 - <b>average/cores</b> - checks all CPU cores, calculates average load<br> 
+		 - <b>max usage core</b> - finds CPU core with highest load<br>
+		 Example: if system has 2 CPU cores with 90% load on 1st core and 10% load on 2nd core then average/cores=50%; max_usage_core=90%
+		</td></tr>
+	   <tr valign="top"><td nowrap><b>Windows (SNMP)</b></td><td>
+		Target OS: Microsoft Windows 2000/XP/2003, Windows Vista/7/8/10, Windows Server 2008/2012/2016.<br>
+		Test offers option to check either: <br>
+		 - <b>average/cores</b> - checks all CPU cores, calculates average load<br> 
+		 - <b>max usage core</b> - finds CPU core with highest load<br>
+		 Example: if system has 2 CPU cores with 90% load on 1st core and 10% load on 2nd core then average/cores=50%; max_usage_core=90%
+		
+		<tr valign="top"><td><b>Cisco</b></td><td> Target: Cisco IOS (software used on most Cisco routers and network switches).<br>
+	     CPU Usage in this case is one minute exponentially-decayed moving average value</td></tr>
+	   
+	   <tr valign="top"><td><b>Juniper</b></td><td> Target: Junos OS (operating system used in Juniper Networks hardware routers).<br>
+	    Here you may choose test mode: check FPC,RE modules or Packet Forwarding Engine modules (SPU mode). In any case HostMonitor will
+		 find module with highest CPU load</td></tr>
+		 
+	   <tr valign="top"><td><b>NetApp</b></td><td> Target: NetApp storage devices</td></tr>
+	   <tr valign="top"><td><b>QNAP</b></td><td> Target: QNAP storage devices</td></tr>
+	   <tr valign="top"><td><b>Synology</b></td><td> Target: Synology storage devices</td></tr>
+	   <tr valign="top"><td><b>F5 Big-IP</b></td><td> Target: F5 BIG-IP network devices.<br>
+		HostMonitor may check the average CPU load over the 5 or 60 seconds or current CPU usage ratio, depending on time elapsed since previous test probe
+	   </td></tr>
+	   <tr valign="top"><td><b>Citrix Netscaler</b></td><td> Target: Citrix Netscaler network devices.<br>
+		You may choose test mode: check the percentage of CPU utilization; or check utilization of the hardware crypto chip (N3 chip, if installed)
+	   </td></tr>
+      </table><br><br>
+
+      <b>Alert when CPU usage over N%</b><br>
+      HostMonitor will set Bad test status and start specified alert actions when the percentage of CPU usage exceeds specified limit<br><br>  
+	
+	<br>The following parameters should be specified when SNMP protocol is used.<br><br>
+	<b>SNMP profile</b><br>
+	 Choose profile that stores credentials necessary for communication with SNMP agent. You may select profile from drop-down list or 
+	  click button beside the list to bring up <a href="#snmpaccount">SNMP Credentials</a> dialog.<br><br>
+	<b>Timeout</b><br>
+	 This is the amount of time in miliseconds the program will wait for a response from the server before the request fails<br><br>
+	<b>Retries</b><br>
+	 Specifies the communications retry count<br><br>
+  </td></tr>

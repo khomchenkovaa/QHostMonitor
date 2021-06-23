@@ -1,0 +1,213 @@
+<tr>
+    <td><p align=justify><br>
+       Event logging in Microsoft Windows provides a standard, centralized way for applications (and the
+       operating system) to record important software and hardware events. The event-logging service stores events from
+       various sources in a single collection called an event log. HostMonitor can check this log and start alert actions
+       if some specific events occur.<br>
+       In addition to the <a href="#Dialog">common test parameters</a> the NT Event Log test has the following options:<br><br>
+
+	   <b>Compatibility</b><br>
+		For each test item you may choose "Windows NT API" or "Windows Vista+ API" mode. If HostMonitor is started on Windows Vista, 
+		 Windows 7/8/10 or Windows Server 2008/2012/2016 and target host uses one of these operational systems as well, we recommend using "Windows Vista API" mode. 
+		Otherwise you should use "Windows NT API" mode that works fine for Windows 2000, Windows XP and Windows Server 2003 as well.<br>
+		Note: if you switch mode for existing test, HostMonitor will consider such modified test as new item and ignore "old" events.<br><br>
+	   
+       <b>Computer</b><br>
+       The Universal Naming Convention (UNC) name of the server on which the event log is to be opened (the target
+        computer name must be prefixed by "\\"). Type the UNC or select the "&lt;local computer&gt;" item, also you
+        can use the "Browse network" button to select a computer from the list.<br><br>
+
+       <b>Event Log (Channel)</b><br>
+		Provide name of the event log that will be checked by HostMonitor. This can be the Application, Security, or System log, or a custom registered log.<br>
+		Note: "Log" vs. "Channel"<br>
+		Starting from Windows Vista, events use the concept of "event channels" instead of "event logs" used for downlevel platforms. From 
+		 HostMonitor's "poing of view" channels and logs are interchangeable.  The Windows Vista/2008 backwards compatibility logs are named
+		 the same as they were on downlevel platforms (Application, Security, etc).<br>
+		The only tricky thing to note about the channels in Vista/Server 2008 is that the folder structure in the Windows Event Viewer 
+		 application does not necessarily match correct channel name (Windows Event Viewer changes channel names to present them in nicer form).<br><br>
+		
+       <b>Event Source (Publisher)</b><br>
+       Select the source of events (application, service, driver, subsystem). If you leave this field blank, HostMonitor
+        will check events from all sources.<br>
+		Also you may specify event source using * as wildcard at the end of the string. E.g. if you type "MsExchange*", HostMonitor will 
+		 check for events produced by "MsExchangeIS", "MSExhange ActiveSync", "MSExchange ADAccess", etc<br><br>
+
+	   <b>Connect as</b><br>
+       To check an Event Log on the remote system you can mark this option and provide a username and a password for a
+        connection to the target computer.<br><br><br>
+
+		<u>Alert conditions:</u><br><br>
+		<a href="../images/hostmon7/ntlogdlg1.gif" target="_blank"><img src="../images/hostmon7/ntlogdlg1s.gif" width=380 height=350 border=0 align=right alt="Event Log Test Properties dialog"></a>
+		When you setup test item using Event Log Test Properties dialog, you should provide <a href="#ntlog_filter">filters</a>
+ 		 (one or more conditions) that will separate "Bad" and "Good" events. Event passes the filter only when 
+		 it matches ALL specified requirements of the filter.<br><br>
+
+		When HostMonitor finds <a href="#ntlog_new">new</a>* message that fits "Bad" filter conditions, it 
+		 changes status of the test item to "Bad".
+       <hr>
+		<ul class=list0>
+		<li><a name="ntlog_new">Note1: here "new" means event was recorded after last test probe.</a>
+		<li>Note2: HostMonitor does not check event log records that were added while HostMonitor was not started or NT Event Log test item was not created yet.
+		</ul>
+	   <hr>
+		When test status should be changed back to "Ok"? This behavior depends on the following options:
+		<ul>
+		<li style="text-align: justify"><b>set "Ok" status when no new "Bad" events detected</b><br>
+		  HostMonitor will assign "Ok" status to the test item, when subsequent test probe does not detect 
+		   <a href="#ntlog_new">new</a>* "Bad" event (event log does not contain new events at all or none of 
+		   new events meet conditions of the "Bad" filter).<br><br>
+
+		<li style="text-align: justify"><b>set "Ok" status when new "Good" event detected</b><br>
+		  Status of the test item will be changed to "Ok" when HostMonitor finds new event that fits "Good" 
+		  filter conditions.<br><br>
+
+		<li style="text-align: justify"><b>set "Ok" status by acknowledgement (manually)</b><br>
+		 With this option chosen, test item will remain "Bad" until operator <a href="#ack">acknowledge</a> status
+		 (then status will be changed to Ok)
+		</ul>
+
+		<p align=justify>If you choose "set Ok status when no new Bad events detected" or "set Ok status by acknowledgement 
+		 (manually)" options then "Good" filter is not used by the test item.<br>
+		If you choose "set Ok status when new Good event detected" option, you should specify both 
+		 ("Bad" and "Good") <a href="#ntlog_filter">filters</a>.<br><br><br>
+		
+		<b>Report about last "Bad"/"Good" event</b><br>
+		With this option enabled HostMonitor will scan (starting from the end of the log) all <a href="#ntlog_new">new</a>* 
+		 events till first** "Bad" event. If new "Bad" event is detected, HostMonitor marks test as 
+		 "Bad" and may perform specified alert actions (if necessary). This option is useful when you check for 
+		 some specific event and you don't need many messages about the same recurring error.<br>
+		<a name="ntlog_first">**Note</a>: here "first" means the most recent (last) "Bad" event as monitor scans 
+		 the log from the end.<br><br>
+
+		<b>Report about all events</b><br>
+		In opposite to previous mode, with this option enabled HostMonitor will inform you about each event that 
+		 satisfies specified requirements (<a href="#ntlog_filter">filters</a>). This option is useful when you 
+		 use one test item to check for different error events (e.g. you are checking for any event with "Failure 
+		 Audit" type).<br>
+		Note: you may need to use "<a href="actions.htm#properties">Repeat: until status changes</a>" option for 
+		 associated alert actions.<br><br>
+
+		Consider, for example, there are 3 new events were added into NT Event Log: "bad", "bad and "good". If 
+		 all 3 events were added within short time interval (between 2 consecutive test probes), how the monitor 
+		 behaves depending on test settings?<br><hr>
+		<table border=0>
+		<tr>
+		  <td nowrap valign=top>Used options &nbsp; &nbsp;<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when no new "Bad" events detected<br>- Report about last "Bad"/"Good" event<br><br>
+			<ol class=olist00><li style="text-align: justify">HostMonitor sets "Bad" status because there is "Bad" 
+			event detected; increments or resets 
+			Recurrences counter (depending on previous test status); if necessary, starts actions assigned to 
+			the test item (depending on action settings)</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when no new "Bad" events detected<br>- Report about all events<br><br>
+		    <ol class=olist00><li style="text-align: justify">
+			HostMonitor sets "Bad" status; increments or resets Recurrences counter (depending on previous 
+			 test status); if necessary, starts actions assigned to the test (depending on action settings)<br>
+			<li style="text-align: justify">
+			HostMonitor keeps "Bad" status, increments Recurrences counter because 2nd "Bad" event detected; 
+			 starts actions if necessary</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when new "Good" event detected<br>- Report about last "Bad"/"Good" event<br><br>
+            <ol class=olist00><li style="text-align: justify">
+			HostMonitor sets "Ok" status because last event fits "good" filter; increments or resets 
+			 Recurrences counter (depending on previous test status); starts actions assigned to the test 
+			 if necessary (depending on action settings)</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when new "Good" event detected<br>- Report about all events<br><br>
+		    <ol class=olist00><li style="text-align: justify">
+            HostMonitor sets "Bad" status; increments or resets Recurrences counter (depending on previous 
+			 test status); if necessary, starts actions assigned to the test item (depending on action settings)<br>
+			<li style="text-align: justify">
+			HostMonitor keeps "Bad" status, increments Recurrences counter because 2nd "Bad" event detected; 
+			 starts actions if necessary<br>
+			<li style="text-align: justify"> 
+			HostMonitor sets "Ok" status, resets Recurrences counter and starts actions if necessary
+			</ol>
+		  </td></tr>
+		</table><br>
+	   
+	    <b>Report about last event but count ALL</b><br>
+		This option works similar to "Report about last Bad/Good event" option, however it counts all NEW events that fit "bad" filter 
+		 (and "good" filter if specified). If "Show events description in Reply field for NT Event Log test" option is disabled 
+		 (Options dialog) then test will display number of detected "bad" events in Reply field of the test.<br>
+		Also you may use '%NTEvents_BadCnt%' and '%NTEvents_GoodCnt%' variables for Optional status processing, actions or Custom HTML 
+		 reports (regardless of "Show events description" option). E.g.<br>
+		<div style="margin-left: 0.5em">- you may set <span class="samplered">Set Normal status if %NTEvents_BadCnt%&lt;5</span> test option. This way HostMonitor will set Normal test status when there are NEW "bad" records in Event Log but number of such records below 5.<br>
+		- or you may set <span class="samplered">Tune up Reply value, Reply = [%NTEvents_BadCnt%]</span> test option, this way HostMonitor will display number of new "bad" events in Reply field of the test even if "Show events description" option" is enabled</div>
+		
+		<br><hr><br>
+		
+		<u><a name="ntlog_filter">Filters:</a></u><br><br>
+		There are 2 sets of conditions in the Event Log Test Properties dialog - "Bad" and "Good" filters. An 
+		 event passes the filter only when it matches ALL specified requirements. If some event matches 
+		 neither "Bad" nor "Good" filter, event is ignored by the test item (however the same event can be 
+		 processed by another NT Event Log test item with different filters in use).<br><br>
+
+		Both filters provide exactly the same set of options. So, let's describe the conditions for "Bad" filter:<br><br>
+
+       <b>Computer</b><br>
+       Match against the computer that added the entry to the event log. You can provide list of the computers and choose one of the options:
+        <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=3 CELLSPACING=2>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any </td><td> name of the computer doesn't matter (event from any computer <a href="#eventcanbe">can be**</a> considered as "Bad")</td></tr>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any from the following   </td><td>  event <a href="#eventcanbe">can be**</a> considered as "Bad" when computer (that added the entry to the log) is specified in the list</td></tr>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any except the following &nbsp; </td><td> event <a href="#eventcanbe">can be**</a> considered as "Bad" when computer (that added the entry to the log) is not specified in the list</td></tr>
+        </table>
+       Note: To add a new line to the end of the list go to the last existing line and press Down Arrow button. Press INSERT button to insert new item. Press CTRL+DEL to remove item. Press F2 to edit item.<br><br>
+
+       <b>Event type / Event level</b><br>
+		Match against the event type. Here you may choose "Any" option to skip this filter (any type of events can be considered as "Bad") 
+		 or choose "Any from the following" mode and then mark one or several items from the list.<br>
+		When you use "Windows NT API" compatibility mode, you may mark one or several possible event types: Error, Warning, Information, Success Audit, and Failure Audit.<br>
+		When you use "Windows Vista+ API" compatibility mode, you should choose one or several event levels: Audit, Critical, Error, Warning, Info and Verbose<br><br>
+		
+       <b>Event ID</b><br>
+       Match against the event ID (event ID is specific to the software that generated the event log entry). You can provide list of the ID codes and choose one of the options:
+        <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=3 CELLSPACING=2>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any </td><td>ID doesn't matter (event with any ID <a href="#eventcanbe">can be**</a> considered as "Bad")</td></tr>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any from the following   </td><td>event <a href="#eventcanbe">can be**</a> considered as "Bad" when ID is specified in the list</td></tr>
+         <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any except the following &nbsp; </td><td>event <a href="#eventcanbe">can be**</a> considered as "Bad" when ID is not specified in the list</td></tr>
+        </table><br>
+
+       <b>Description contains</b><br>
+       Match against the event description. You can provide list of the text strings (phrases) and choose one of the options:
+        <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=3 CELLSPACING=2>
+        <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any text </td><td> event description doesn't matter (event with any description <a href="#eventcanbe">can be**</a> considered as "Bad")</td></tr>
+        <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Any string from the list </td><td> event <a href="#eventcanbe">can be**</a> considered as "Bad" when description contains ANY string from the list</td></tr>
+        <tr bgcolor="#FFFFFF"><td valign=top nowrap>- Nothing from the list </td><td> event <a href="#eventcanbe">can be**</a> considered as "Bad" when description does not contain ANY string from the list</td></tr>
+        <tr bgcolor="#FFFFFF"><td valign=top nowrap>- All strings from the list &nbsp; </td><td> event <a href="#eventcanbe">can be**</a> considered as "Bad" when description contains ALL strings from the list</td></tr>
+       </table>
+       Note: To add a new line to the end of the list go to the last existing line and press Down Arrow button. Press
+        INSERT button to insert new item. Press CTRL+DEL to remove item. Press F2 to edit item.<br><br>
+
+       <u><a name="eventcanbe">**</a> here "can be" means event WILL BE considered as "Bad" WHEN IT MATCHES ALL specified requirements.</u><br><br>
+		Note: there are <a href="actions.htm#macro_ntlog">variables</a> that provide information about current and previous detected event.<br><br>
+       <br>
+
+	   <b><font color="#AA0000">Known problems</font></b><br><br>
+	   
+	   <u>3rd party DLLs version mismatch</u><br><br>
+       When HostMonitor calls Windows API to format event description, Windows does not check the accordance 
+		between the number of variables in a template (that is stored in resource file) and the number of 
+		variables stored in an event log. This could lead to access violation errors when some software was 
+		installed or updated incorrectly (e.g. version mismatch between different DLLs).<br> 
+       HostMonitor checks the template (retrieved from the DLL) and verifies the number 
+	    of insertion strings before calling Windows API. If problem detected, HostMonitor shows 
+		"Not enough insertion data for the message &lt;dllname&gt;" error in Reply field of the test.<br><br>
+	   Solution:<br>
+       If there is DLLs version mismatch (described above), you may copy appropriate DLL (e.g. copy file from 
+	    another system) into &lt;HostMonitor&gt;\EventLogDlls\ directory. If HostMonitor detects DLL in 
+		EventLogDlls subdirectory, this DLL will be used instead of installed DLL (installed DLL - DLL that is 
+		specified in the system registry under <font color="#AA0000">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\EventLog\&lt;log name&gt;\&lt;event source name&gt;</font> key).<br><br>
+		
+	   <u>Bugs in Windows Crypt32.DLL</u><br><br>
+		There are some bugs in crypt32.dll that comes with Microsoft Windows Vista (including Service Pack 1 and 2) and Microsoft Windows 
+		 Server 2008 (including Service Pack 2). According to Microsoft this may lead to application crash. We added some code to HostMonitor 
+		 and RMA that should prevent application crash however some options will not work correctly on Windows Vista and Windows Server 2008.<br><br>
+
+	   Solution:<br>
+		Looks like Microsoft fixed this problem in Windows 7.<br>
+		Also Microsoft provides hot fix for Windows Vista and Windows Server 2008: 
+		<a href="http://support.microsoft.com/kb/982416" target="_blank">http://support.microsoft.com/kb/982416</a>.
+		Unfortunately this fix does not correct all problems related to this DLL.<br><br>
+		
+  </td></tr>

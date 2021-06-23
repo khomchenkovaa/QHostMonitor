@@ -1,0 +1,36 @@
+ <tr>
+    <td><p align=justify><br>
+    The Digital Imaging and Communications in Medicine (DICOM) standard was created by the National Electrical 
+     Manufacturers Association (NEMA) to aid the distribution and viewing of medical images, such as CT scans, 
+     MRIs, and ultrasound. <a href="http://medical.nema.org/" target="_blank">http://medical.nema.org/</a><br>
+    The DICOM test verifies end-to-end communications with a remote DICOM server by sending DIMSE C-Echo
+     request to the remote host and listening for reply packets.<br>
+    In addition to the <a href="#Dialog">common test parameters</a> the DICOM test has the following options:<br><br>
+
+    <b>Host</b><br>
+       	Here you should provide the host name (e. g. <font color="#AA0000">medical.neman.org</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the remote DICOM server that you wish to monitor.<br>
+		 Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">medical.neman.org<b>::</b>ipv4</font> or <font color="#AA0000">medical.neman.org<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. --> 
+		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		 <br><br> 
+	
+	
+    <b>Port</b><br>
+    Specify a port number that is used by the DICOM server to listening for incoming connections.<br><br>
+
+    <b>Timeout</b><br>
+    Specify a timeout interval in seconds.<br><br>
+       
+    <b>Called AE-Title</b><br>
+    Specify the destination DICOM Application Name.<br><br>
+
+    <b>Calling AE-Title</b><br>
+    Specify the source DICOM Application Name.<br><br>	
+  </td></tr>

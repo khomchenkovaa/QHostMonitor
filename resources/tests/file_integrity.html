@@ -1,0 +1,33 @@
+  <tr>
+    <td><p style="margin-top: 1em; margin-bottom: 0">
+HostMonitor can check the integrity of your files and start alert actions when changes detected. This is done by calculating the 
+ CRC or MD5/SHA digest of the file and comparing it with a previously obtained value.<br>
+In addition to the <a href="#Dialog">common test parameters</a>, the File Integrity test offers the following options:<br><br>
+
+<b>File</b><br>
+You can manually type in the complete path and filename that you wish to monitor or click the "Browse" button to select the file.<br>
+If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you 
+ should have in mind:
+<ul class="list00">
+ <li>slash (/) should be used instead of backslash (\); 
+ <li>on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files).
+</ul><br>
+
+<b>Digest mode</b><br>
+- CRC32<br>
+- MD5<br>
+- SHA256<br>
+- SHA512<br>
+Use MD5, SHA256 or SHA512 when you need to check for unauthorized file modifications (SHA256 or SHA512 is preferred).<br>
+CRC32 can be used for legitimate modifications monitoring (not related to system security).<br><br>
+
+<b>Hash</b><br>
+This field shows stored digest of the file. If you changed/updated the file, you may click "Calculate" button - the program will 
+ recalculate and store new digest.<br>
+You may setup test item using empty Hash field. In this case HostMonitor will calculate and set digest on 1st test probe. This 
+ saves your time when you need to setup tests for large files.<br><br>
+
+<b>Recalculate Hash when file content changes are detected</b><br>
+With this option enabled, the new checksum will be recorded every time when changes in the file are detected, so the test will return to 
+ "Good" status until the checksum changes again.<br><br>
+  </td></tr>

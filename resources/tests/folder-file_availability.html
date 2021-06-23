@@ -1,0 +1,120 @@
+<tr>
+    <td><br>HostMonitor can check for a file that MUST exist each time a test is run, or can check for a file that MUST NOT exist each time a test is run. 
+This test can check:
+<ul class="olist00">
+ <li>files on local file system;
+ <li>files on shared network disk connected to HostMonitor system (using network client installed on local Windows system);
+ <li>files on system where Remote Monitoring Agent is running;
+ <li>files on shared network disk connected to the system where Remote Monitoring Agent is running;
+ <li>files on FTP and FTPS server (FTPS uses SSL);
+ <li>files on SFTP server (SFTP uses SSH protocol).
+</ul> 
+HostMonitor can check file modification time stamp, check for files that are dynamically created and so on.<br><br>
+In addition to the <a href="#Dialog">common test parameters</a>, the Folder/File Availability test offers the following options:<br><br>
+
+<b>File or folder name</b><br>
+Enter the file or folder name you wish to test (including full path, server name, protocol name).
+<TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=2 CELLSPACING=1>
+<tr><td class="hdr1" nowrap>If you check file on </td><td class="hdr1" nowrap>path should be specified like</td></tr>
+<tr bgcolor="#FFFFFF"><td valign="top">
+ - local file system<br>
+ - or system where RMA for Windows is running;</td>
+ <td>&lt;disk&gt;:\&lt;path&gt;\&lt;file&gt;
+  <br><br>
+  Examples:<br>
+  C:\folder\subfolder\error1.log<br>
+  C:\folder\log-%mmddyyyy%.txt<br>
+  D:\%newestfolder%<br>
+  D:\logs\%ddmmyy[-1d]%\%oldestfile%<br><br>
+ </td></tr>
+
+<tr bgcolor="#FFFFFF"><td valign="top">- system where RMA for UNIX is running;</td><td>
+/&lt;path&gt;/&lt;file&gt;<br><br>
+Examples:<br>
+/var/logs/sql/<br>
+/var/logs/%newestfolder%<br><br>
+Notes:
+      <ul class="list00">
+       <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
+       <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
+       <li> on Windows system file masks * and *.* represent any file. On UNIX-like system only * represents any file; *.* can be used for any file that has dot (.) in the name;
+      </ul><br>
+</td></tr> 
+
+<tr bgcolor="#FFFFFF"><td valign="top">- shared network disk connected to HostMonitor or Windows RMA agent</td><td>
+\\&lt;hostname&gt;\&lt;path&gt;\&lt;file&gt;
+<br><br>
+Note: we recommend to use UNC path to the resource even if you set mapped disk drive. HostMonitor started as Windows service will not see 
+mapped disks but will be able to check resource specified by UNC path<br><br>
+</td></tr>
+
+<tr bgcolor="#FFFFFF"><td valign="top">- SFTP server </td><td>
+sftp://&lt;username&gt;@&lt;server&gt;[:&lt;port&gt;]/&lt;path&gt;/&lt;file&gt;
+<br><br>
+Examples:<br>
+sftp://user1@ssh.microsoft.com:22/uploads/log.txt<br>
+sftp://user1@ssh.microsoft.com:22/uploads/%oldestfile%<br>
+sftp://user1@ssh.microsoft.com/uploads/%mmddyy[-1d]%<br><br>
+</td></tr>
+
+<tr bgcolor="#FFFFFF"><td valign="top">- FTP / FTPS server </td><td>
+ ftp://&lt;username&gt;@&lt;server&gt;[:&lt;port&gt;]/&lt;path&gt;/&lt;file&gt; [&lt;dateformat&gt;]<br>
+ftps://&lt;username&gt;@&lt;server&gt;[:&lt;port&gt;]/&lt;path&gt;/&lt;file&gt; [&lt;dateformat&gt;]
+<br><br>
+Examples:<br>
+ftp://user1@microsoft.ftp.com:21/uploads/log.txt<br>
+ftp://user1:pswd1@microsoft.ftp.com:21/uploads/<br>
+ftps://user1@microsoft.ftp.com:990/%newestfolder%  &nbsp;  [DMY]<br>
+ftps://user1@microsoft.ftp.com/uploads/%ddmmyy%<br>
+<br>
+Notes:<br>
+&lt;dateformat&gt; parameter is optional; if specified should be inside square brakets. Useful when you need to check file modification time 
+ (necessary for some servers due to limitations of FTP protocol. See details <a href="#ftpprotonotes">below</a>)<br>
+<br>
+Available date formats: <br>
+[MDY] - month, day, year, like 01/25/91 or 01-25-2005<br>
+[DMY] - day, month, year, like 25/11/91 or 25-11-2005<br>
+[YMD] - year, month, day, like 91/11/25 or 2005-11-25<br>
+[YDM] - year, day, month, like 91/25/01 or 2005-25-01<br><br>
+</td></tr>
+</table>
+"Browse" button allows you to choose folder and file (cannot be used if you check files on FTP or  SFTP servers).<br><br>
+
+<b>Set password</b><br>
+HostMonitor enables this option when you check file on FTP, FTPS or SFTP server. Specify password for authentication on the server.<br>
+If you need to specify account for LAN connection, use <a href="profiles.htm#conmgr">Connection Manager</a>.<br><br>
+
+<b>Translate macros</b><br>
+If you need to check some files that are dynamically created and do not have static name (e.g. some logs that are created on daily 
+ basis and have a different file name every day), you may enable "Translate macros" options. 
+ With this option enabled you may use special <a href="#macros">date macro variables</a>, <a href="#filespecmacro">file-specific variables</a>
+ and <a href="actions.htm#udvmacro">User Defined Variables</a> in file name.<br><br>
+
+<b>Alert when</b><br>
+You may set the following alert conditions:
+<ul class="olist00">
+ <li>file doesn't exist
+ <li>file doesn't exist or older than N min
+ <li>file doesn't exist or newer than N min
+ <li>file exists
+ <li>file exists and older than N min
+ <li>file exists and newer than N min
+</ul>
+Normally test sets Ok or Bad status. Unknown status indicates error (e.g. FTP server rejects login attempt with specified account), 
+ in such case error description will be displayed in Reply field of the test.<br>
+%FileName%, %FileSize%, %FileTime% and other <a href="actions.htm#macro_filename">variables</a> provide file information and can be used as parameters of the actions assigned to the test.<br><br>
+
+<u><a name="ftpprotonotes">FTP/FTPS related notes</a></u>:<br>
+Unfortunately standard FTP protocol does not specify date format and does not provide a method for determining the server time zone.
+ If you set File/Availability test to check file modification time, it can be hard to get correct time stamp of the file.<br>
+E.g.
+<ul class="olist00">
+<li style="text-align: justify"> FTP servers that use UNIX directory structure do not include year information for files modified within the last 12 months. In such case 
+  HostMonitor appends current or last year to the file date (depending on file modification day and time). When HostMonitor system and the 
+  FTP server are in different time zones, the years may not match between December 31 and January 1; also year can be set incorrectly when 
+  the file is 1 year old (+- several hours)</li>
+<li style="text-align: justify"> other FTP servers may provide date like 01/02/2016. Is it January 02 (USA) or February 01 (France)? In this case you may specify date 
+  format after file name, e.g. <span class="samplered">ftps://user1@ftp.big.com:990/%newestfolder%   [DMY]</span></li>
+</ul><br>
+RMA for UNIX does not support FTP, FTPS, SFTP protocols<br><br>
+</td></tr>

@@ -1,0 +1,19 @@
+  <tr>
+    <td><p align=justify><br>
+      HostMonitor can test your SQL servers. It supports Interbase MySQL servers.<br> 
+	  Servers are checked by logging into (and out) of the server. You should specify the server name, database, user name and password.<br>
+      See also <a href="#Dialog">common test parameters</a><br><br>
+
+      In order to monitor MySQL servers HostMonitor uses the MySQL Call Interface (libmysql.dll), you should have the MySQL client software installed on the computer.<br>
+      
+	 <a name="db_bugs1"><br></a>
+		<b>MySQL v8 notes</b>: libmySQL.dll from MySQL Connector v8 is not supported yet; libmySQL.dll version 5.x can be used for connection 
+	    to MySQL v8 but in this case you have to create a user account using mysql_native_password plugin (because default MySQL v8 
+		caching_sha2_password authentication is not supported by MySQL 5.x).<br>
+       <b>MySQL known problems</b>: MySQL Connectors prior version 5.26 have bugs and may cause HostMonitor to crash. You may download 
+	    stable version of MySQL library or at least place all MySQL test items into one folder and use "<a href="testlist.htm#folder_special">Non-simultaneously test execution</a>" 
+		folder-specific option.<br><br>
+		
+		MS SQL test methods may display "unknown" status and appropriate error message in the Reply field when it was impossible to perform the check (e.g. when client library is not installed).
+      <br><br>
+  </td></tr>

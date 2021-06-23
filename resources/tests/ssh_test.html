@@ -1,0 +1,77 @@
+    <td class=tdjust><br>
+	Secure Shell or SSH is a network protocol that allows data to be exchanged using a secure channel between two networked devices. Used 
+	 primarily on UNIX based systems to access shell accounts, SSH was designed as a replacement for TELNET and other insecure remote shells.<br>
+	SSH is typically used to log into a remote machine and execute commands. The encryption used by SSH provides confidentiality and integrity 
+	 of data over an insecure network, such as the Internet.<br><br>
+
+	HostMonitor can connect and login to specified remote system running the SSH daemon and execute a command or shell script. This allows you to
+ 	 perform some tests on UNIX systems without using <a href="rma-unix/index.htm" target="_top">Remote Monitoring Agent</a> for UNIX.<br>
+	HostMonitor may perform SSH test directly or using RMA for Windows.<br><br>
+
+	In addition to the <a href="#Dialog">common test parameters</a>, the SSH test has the following options:<br><br>
+
+	<b>Host</b><br>
+	Host name or IP address of the system that provides SSH service<br><br>
+
+	<b>Port</b><br>
+	Specify TCP port used by SSH server (SSH server, by default, listens on TCP port 22)<br><br>
+
+	<b>Timeout</b><br>
+	Specify timeout in miliseconds<br><br>
+
+	<b>Command</b><br>
+	Specify command line that should be executed on target server<br><br>
+	
+	<b>Translate date macros</b><br>
+	With this option enabled you may use special <a href="#macros">date macro variables</a> in the command line<br><br>
+
+	<b>Check for</b><br>
+	SSH test allows you to check result of the command execution in 3 different ways:<br>
+	<ul>
+	 <li><b>Check for exit code</b> (just like <a href="#execheck">External test</a> method does)<br>
+	     In such case HostMonitor checks errorlevel returned by the command. You should choose one of the following conditions:<br>
+		 Alert if exit code
+		<table border=0>
+		 <tr><td nowrap valign=top><b> &nbsp; is &lt; than </b> </td><td nowrap valign=top> &nbsp; - </td><td>alert if the errorlevel returned by the program is less than a specified code.</td></tr>
+		 <tr><td nowrap valign=top><b> &nbsp; is &gt; than </b> </td><td nowrap valign=top> &nbsp; - </td><td>alert if the errorlevel returned by the program is greater than a specified code.</td></tr>
+		 <tr><td nowrap valign=top><b> &nbsp; is = to   </b> </td><td nowrap valign=top> &nbsp; - </td><td>alert if the errorlevel returned by the program is equal to a specified code.    </td></tr>
+		 <tr><td nowrap valign=top><b> &nbsp; is &lt;&gt; from</b> </td><td nowrap valign=top> &nbsp; - </td><td>alert if the errorlevel returned by the program is different than a specified code.</td></tr>
+		</table><br>
+	 <li><b>Check for text output</b><br>
+		 HostMonitor can search for a string in the command output and start alert actions when the string exists (or doesn't exist). 
+		  You should specify a string and condition to alert using the following options:<br>
+		Alert if
+		<table border=0>
+		 <tr><td nowrap valign=top><b>&nbsp; string present</b></td><td> HostMonitor will set "Bad" status when output contains specified string </td></tr>
+		 <tr><td nowrap valign=top><b>&nbsp; string absent </b></td><td> HostMonitor will set "Bad contents" status when output does not contain specified string </td></tr>
+		 <tr><td nowrap valign=top><b>&nbsp; expression true &nbsp;&nbsp;</b> </td><td><p align=justify> HostMonitor will consider provided text as boolean (logical) expression, evaluate this expression 
+		    using data received from the server, and set "Bad" status when retrieved data does not satisfy the required conditions.<br>
+		   For example: if you define expression like "<font color="#AA0000">'No errors' and not ('Error' or 'Warning')</font>", then 
+		   HostMonitor will mark test as "Ok" when command output contains string '<font color="#AA0000">No error</font>' and does not contain 
+		   either '<font color="#AA0000">Error</font>' or '<font color="#AA0000">Warning</font>'<br>
+		   In the expression you may use strings (must be put in quotes (') or in double quotes (")); round brackets; logical operators 
+		    "and", "or", "not".</td></tr>
+		</table> 
+		Additional options:<br>
+		<b>Case sensitive</b><br>
+		With this option enabled search is case sensitive<br>
+		<b>Whole words only</b><br>
+		Searches are for words only. With this option disabled, the search string might be found within longer words.<br>
+		<b>Macros</b><br>
+		This option allows you to use <a href="#macros">date macro variables</a> in the search string. E.g. if you provide 
+		 "<font color="#AA0000">%mm%-%dd%-%yyyyy%</font>" in the search string, HostMonitor will check retrieved data for the presence of a current date and will set 
+		 "Bad" status for output without current date stamp.<br><br>
+
+	 <li><b>Check for Shell Script result</b><br>
+		HostMonitor checks output text for specially formatted result string. I.e. result of the command execution should follow 
+		 the same <a href="#shellres">rules</a> as <a href="#chkShell">Shell Script</a><br><br>
+	</ul>
+	
+	<p align=justify>
+	Note 1: <a href="profiles.htm#conmgr">Connection Manager</a> allows you to setup user name and password for each remote system (also you may use some default 
+	 account information for all target systems)<br><br>
+	Note 2: HostMonitor supports 3DES, AES128-ctr, AES192-ctr, AES256-ctr, AES128-cbc, AES192-cbc, AES256-cbc and Blowfish encryption methods 
+	 for SSHv2. If you are using old SSHv1 server, HostMonitor will use 3DES encryption only.<br><br>
+	Note3: Since SSH-1 has inherent design flaws which make it vulnerable (e.g., man-in-the-middle attacks), it is now generally considered 
+	 obsolete and should be avoided.<br><br>
+  </td></tr>

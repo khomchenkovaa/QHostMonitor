@@ -1,0 +1,59 @@
+<tr>
+    <td class=tdjust><br>
+      The DNS test acts as a low-level resolver and connects directly to the target name server to perform a query.
+       This means that the test is completely independent of the host files, DNR cache, etc.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the DNS test has the following options:<br><br>
+
+      <b>Server</b><br>
+     	Here you should provide the domain name (e. g. <font color="#AA0000">DNS1.IU.EDU</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the machine running the DNS server that you wish to monitor. Using a domain name in the "Server" field requires that the domain name 
+		 be resolved before the Domain Name Server can be tested, creating ambiguity in testing. It is better to enter the IP address of your 
+		 Domain Name Server, as opposed to the domain name, so that the test will always report the correct error if the DNS fails.<br>
+		 Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">DNS1.IU.EDU<b>::</b>ipv4</font> or <font color="#AA0000">NS-AOA.ES.NET<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. --> 
+		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		 <br><br> 
+	   
+      <b>Protocol</b><br>
+      Select the protocol to use: TCP or UDP<br><br>
+
+      <b>Port</b><br>
+      The default test port is 53, but you can specify a non-standard port. For a list of conventional port numbers
+       click the button to the right of the port number box.<br><br>
+
+      <b>Timeout</b><br>
+      This is the amount of time in seconds the program will wait for a response from the server before the request
+       fails.<br><br>
+
+      <b>Request / Request type</b><br>
+	  Use these options to specify the domain name that should be requested from DNS server and type of the request.
+	  You may choose one of the following requests:
+	  <ul class=list00>
+		<li>A type request - request for IPv4 (IP version 4) address of the host
+		<li>AAAA request - request for IPv6 (IP version 6) address of the host
+		<li>CNAME - canonical name request
+		<li>NS - authoritative server request
+		<li>MX - mail routing information requests
+		<li>PTR - reverse DNS
+		<li>TXT - text records
+		<li>SPF - Sender Policy Framework records	
+	  </ul>
+	  Note: you may specify protocol used for communication (IPv4 or IPv6) and type of the request (A or AAAA) completely independently. E.g. 
+	   HostMonitor may connect to DNS server <font color="#AA0000">204.71.200.68</font> using IPv4 protocol and retrieve AAAA (IPv6) record or 
+	   it may send request to host <font color="#AA0000">fe80::370:ff56:fed5:22</font> using IPv6 protocol and retrieve A (IPv4) record.<br>
+	  <br>
+
+      <b>Test result for</b><br>
+	  If you are using "A" type request, you can define the IP address that will be compared with the address 
+	   returned from the DNS server being tested. You can use "Test" button to have HostMonitor fill in this 
+	   field, or you can enter the expected IP address yourself.<br>
+	  Similarly you may check results of CNAME, NS, MX, TXT and SPF requests.<br><br>
+	  
+  See also: <a href="actions.htm#macro_dns">variables specific to DNS tests</a><br><br>  
+  </td></tr>

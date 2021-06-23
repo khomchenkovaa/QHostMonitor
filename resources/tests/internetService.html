@@ -1,0 +1,77 @@
+<tr>
+    <td><p align=justify><br>
+	Internet Information Services (IIS) is an extensible web server running on Windows OS including Windows 10 and Windows Server 2016 
+	 (starting from Windows NT 3.51). It may support web site extensions like SharePoint Web Application.<br>
+    In addition to the <a href="#Dialog">common test parameters</a>, the IIS test has the following options:<br><br>
+
+	<b>Target host</b><br>
+	Provide the host name (e.g. <span class="samplered">mainserver.domain.com</span>) or IP address (e.g. <span class="samplered">10.10.1.55</span>)
+	 of the IIS server that you wish to monitor. Use <a href="profiles.htm#conmgr">Connection Manager</a> to store account 
+	 information necessary to perform connections to remote systems.<br><br>
+
+	<b>Site</b><br>
+	If you are running several web sites on IIS server, you may tell HostMonitor which site should by checked by this test. 
+	 You may select site name from drop down list or you may set "Total" when you need to check statistics for entire IIS server.<br><br>
+
+	<b>Alert when &lt;parameter&gt; above X or below Y</b><br>
+	 Choose parameter to check and set upper and lower limits. HostMonitor will set Bad test status and trigger specified actions 
+	  when parameter value will be out of the range.<br>
+
+	<table border=0 cellspacing=5>
+	<tr><td nowrap valign="top">Current connections<br>(ALL instances/sites)</td><td style="text-align: justify">The number of active connections established with the web service (ALL sites, Site test property is not used for this counter)</td></tr>
+	<tr><td nowrap valign="top">Current requests</td><td style="text-align: justify">Current number of active requests currently being processed. Includes anonymous, non-anonymous, CGI, temporarily blocked requests</td></tr>
+	<tr><td nowrap valign="top">Current CGI requests</td><td style="text-align: justify">Current number of CGI requests that are simultaneously being processed by the web service. </td></tr>
+	<tr><td nowrap valign="top">Current ISAPI requests</td><td style="text-align: justify">Current number of ISAPI extension requests that are simultaneously being processed by the web service. </td></tr>
+	<tr><td nowrap valign="top">Current Anonymous requests</td><td style="text-align: justify">	The active anonymous requests currently being processed.<br>
+	A typical scenario looks like:<br>
+	- user requests a page<br>
+	- connection is established and "Current Connections" increase<br>
+	- the request is being processed and "Current Anonymous requests" increase<br>
+	- the request has been processed and "Current Anonymous requests" decrease<br>
+	- the connection is idle for some time<br>
+	- the connection is closed, and "Current Connections" decrease</td></tr>
+	<tr><td nowrap valign="top">Current NonAnonymous requests</td><td style="text-align: justify">The active non-anonymous requests currently being processed </td></tr>
+	<tr><td nowrap valign="top">Current BlockedAsyncIO requests</td><td style="text-align: justify">Current requests temporarily blocked due to bandwidth throttling settings. </td></tr>
+	<tr><td nowrap valign="top">Bytes transferred/sec</td><td style="text-align: justify">Average traffic (received+sent) since last test probe.<br>
+		This metric measures the amount of data being transferred in and out of the server. It can be used as an indicator of server performance, relative to constraints such as network infrastructure. </td></tr>
+	<tr><td nowrap valign="top">Bytes received/sec</td><td style="text-align: justify">The rate at which bytes are received by the web service. </td></tr>
+	<tr><td nowrap valign="top">Bytes sent/sec</td><td style="text-align: justify">The rate at which bytes are sent by the web service. </td></tr>
+	<tr><td nowrap valign="top">Files transferred/sec</td><td style="text-align: justify">The number of files send and received per second (average rate since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">Files received/sec</td><td style="text-align: justify">The number of files received per second </td></tr>
+	<tr><td nowrap valign="top">Files sent/sec</td><td style="text-align: justify">The number of files sent per second </td></tr>
+	<tr><td nowrap valign="top">Requests/sec</td><td style="text-align: justify">Average requests/sec ratio since last test probe.<br>
+		Spikes in RPS can indicate increased customer activity or a DDoS attack. Drops in RPS, on the other hand, can be signs of network connectivity issues.</td></tr>
+	<tr><td nowrap valign="top">CGI requests/sec</td><td style="text-align: justify">The rate of CGI requests (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">ISAPI requests/sec</td><td style="text-align: justify">The rate of ISAPI extention requests </td></tr>
+	<tr><td nowrap valign="top">Anonymous requests/sec</td><td style="text-align: justify">The number of requests from users over an anonymous connection per second (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">NonAnonymous requests/sec</td><td style="text-align: justify">The number of requests from users over a non-anonymous connection per second (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">GET requests/sec</td><td style="text-align: justify">The rate of HTTP GET requests (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">HEAD requests/sec</td><td style="text-align: justify">The rate of HTTP HEAD requests</td></tr>
+	<tr><td nowrap valign="top">POST requests/sec</td><td style="text-align: justify">The rate of HTTP POST requests</td></tr>
+	<tr><td nowrap valign="top">PUT requests/sec</td><td style="text-align: justify">The rate of HTTP PUT requests</td></tr>
+	<tr><td nowrap valign="top">OPTIONS requests/sec</td><td style="text-align: justify">The rate of HTTP OPTIONS requests</td></tr>
+	<tr><td nowrap valign="top">DELETE requests/sec</td><td style="text-align: justify">The rate of HTTP DELETE requests</td></tr>
+	<tr><td nowrap valign="top">COPY requests/sec</td><td style="text-align: justify">The rate of HTTP COPY requests</td></tr>
+	<tr><td nowrap valign="top">LOCK requests/sec</td><td style="text-align: justify">The rate of HTTP LOCK requests</td></tr>
+	<tr><td nowrap valign="top">MKOL requests/sec</td><td style="text-align: justify">The rate of HTTP MKOL requests</td></tr>
+	<tr><td nowrap valign="top">MOVE requests/sec</td><td style="text-align: justify">The rate of HTTP MOVE requests</td></tr>
+	<tr><td nowrap valign="top">TRACE requests/sec</td><td style="text-align: justify">The rate of HTTP TRACE requests</td></tr>
+	<tr><td nowrap valign="top">SEARCH requests/sec</td><td style="text-align: justify">The rate of HTTP SEARCH requests</td></tr>
+	<tr><td nowrap valign="top">404 errors/sec</td><td style="text-align: justify">The rate of not found errors (HTTP 404 response code; since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">404 errors ratio (%)</td><td style="text-align: justify">not found errors / total requests ratio (%)<br>
+		Use this mode to trigger alerts if the fraction of 404 responses rises above a threshold. In theory, a 404 response is the user's fault, not the fault of the server. However, if many users are suddenly requesting missing pages, there's a good chance it's due to some changes on server side.</td></tr>
+	<tr><td nowrap valign="top">423 errors/sec</td><td style="text-align: justify">The rate of locked errors (HTTP 423 response code; since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">423 errors ratio (%)</td><td style="text-align: justify">locked errors / total requests ratio (%)<br>
+		Use this mode to trigger alerts if the fraction of 423 responses rises above a threshold.</td></tr>
+	<tr><td nowrap valign="top">File Cache Hits %</td><td style="text-align: justify">The ratio of user-mode file cache hits to total file cache requests (since previous test probe).<br>
+		A low counter value combined with a low Kernel URI Cache Hits% value could mean that you need to check why your files are not being cached. </td></tr>
+	<tr><td nowrap valign="top">Metadata Cache Hits %</td><td style="text-align: justify">The ratio of Metadata cache hits to total Metadata cache requests (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">Kernel URI Cache Hits %</td><td style="text-align: justify">The ratio of Kernel URI cache hits to total cache requests (since previous test probe)<br>
+		Note: this counter reflects all HTTP.sys activity, not just IIS activity</td></tr>
+	<tr><td nowrap valign="top">URI Cache Hits %</td><td style="text-align: justify">The ratio of URI cache hits to total URI cache requests (since previous test probe)</td></tr>
+	<tr><td nowrap valign="top">Output Cache Hits %</td><td style="text-align: justify">The ratio of Output cache hits (since previous test probe)</td></tr>
+	</table><br>
+	Also you may setup additional tests: <a href="#url">URL</a> or <a href="#http">HTTP</a> test, <a href="#domain">Domain Expiration</a>,
+	 <a href="#certchk">Certificate expiration</a>, <a href="#trafficmon">Traffic Monitor</a>, <a href="#cpuUsage">CPU Usage</a>, 
+	 <a href="#memory">Memory</a>, <a href="#diskspace">Drive Free Space</a>.<br><br>
+  </td></tr>

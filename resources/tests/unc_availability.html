@@ -1,0 +1,22 @@
+<tr>
+    <td><p align=justify><br>
+      Check the UNC path (or local folder) for availability;
+      for the total amount of free space; or for the amount of free space
+      available to the current user
+      (if the operating system implements per-user quotas, this value may be
+      less than the total number of free bytes on the disk).
+      For this test you have to specify the UNC path (or local folder) that you wish
+      to be checked and select the condition for the alert: <br>
+      <ul class=list00>
+       <li> when the resource is unavailable<br>
+       <li> when free space (for current user) is less than a specified value<br>
+       <li> when the total free space is less than a specified value
+      </ul><br>
+
+      If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you should have in mind:
+      <ul class=list00>
+       <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
+       <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
+      </ul><br>
+
+      See also <a href="#Dialog">com

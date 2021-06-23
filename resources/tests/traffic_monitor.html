@@ -1,0 +1,66 @@
+ <tr>
+    <td><p align=justify><br>
+     This test allows you to check the traffic on network interfaces of SNMP enabled devices. It has the following advantages over the <a href="#chkSNMP">SNMP test</a>:
+     <ul class=list00>
+      <li><p align=justify>you don't need to know much about OIDs. Connection to the specified network device is established with the help of Test Properties dialog which displays the list of available interfaces. You only have to select the interface that you want to monitor;
+      <li><p align=justify>using single test item you may monitor total (both incoming and outgoing ) traffic on the selected interface;
+      <li><p align=justify>with single test item you may monitor summarized total of the traffic or some other parameters (like queue length) for all interfaces of selected device. For example you may monitor the traffic on all ports of one network router.
+     </ul>
+     In addition to the <a href="#Dialog">common test parameters</a>, Traffic Monitor test has the following options:<br><br>
+
+     <b>Host</b><br>
+       Here you should provide a string specifying either a dotted-decimal IP address (e.g. <font color="#AA0000">195.168.10.10</font>) or 
+	    a host name that can be resolved to an IP address, an IPX address (in 8.12 notation), or an Ethernet address.<br>
+		Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 or specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. -->
+		You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.<br><br>	 
+	 
+     <b>Port</b><br>
+     Specify the port number on which the host is listening for incoming requests. By default SNMP agent uses port 161.
+	 <!--Please note: if you are running HostMonitor on Windows NT 4.0 system, it will be able to use only the default 161 port. On Windows 2000/XP/2003 application may use any port provided.--><br><br>
+
+	 <b>Profile</b><br>
+	 Choose profile that stores credentials necessary for communication with SNMP agent. You may select profile 
+	  from drop-down list or click button beside the list to bring up <a href="#snmpaccount">SNMP Credentials</a> dialog.<br><br>
+	 
+     <b>Timeout</b><br>
+     This is the amount of time in milliseconds the program will wait for a response from the server before the request fails.<br><br>
+
+     <b>Retries</b><br>
+     Specifies the communications retry count.<br><br>
+
+     <!-- <b>Community</b><br>
+     A string specifying the SNMP community name used when communicating with the device specified in the Agent Address parameter. By default on SNMP systems this is "PUBLIC" but it can be different on your systems.<br><br> -->
+
+     <b>Check (interface)</b><br>
+     Select interface that you want to monitor. For each available interface popup window displays the index, description, speed and status facilitating easy selection of correct interface. If you choose "Monitor traffic on all interfaces", HostMonitor will check summarized traffic for each network interface available on the device.<br><br>
+
+     <b>Alert if</b><br>
+     Here you should specify which parameter of the interface to check together with its minimum or maximum value beyond which an alert action will be started.
+     <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=0 CELLSPACING=0><TR><TD>
+     <TABLE BORDER=0 CELLPADDING=5 CELLSPACING=1>
+     <tr bgcolor="#E0E0E0"><td nowrap valign=top>Parameter	</td><td valign=top>Comment </td><td>Alert threshold unit(s)</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>In/Out traffic 	</td><td valign=top>total  of incoming and outgoing traffic  </td><td nowrap>Kbit/sec, KB/sec, Mbit/sec, MB/sec,<br>Kbit/min, KB/min, Mbit/min, MB/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>Income traffic	</td><td valign=top>income traffic only	  </td><td>Kbit/sec, KB/sec, Mbit/sec, MB/sec,<br>Kbit/min, KB/min, Mbit/min, MB/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>Outgoing traffic	</td><td valign=top>outgoing traffic only </td><td>Kbit/sec, KB/sec, Mbit/sec, MB/sec,<br>Kbit/min, KB/min, Mbit/min, MB/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>In Discards	</td><td valign=top>the number of inbound packets which were chosen to be discarded (e.g. because of an unknown or unsupported protocol)	</td><td>pkt/sec<br>pkt/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>In Errors	</td><td valign=top>the number of inbound packets that contained errors preventing them from being deliverable to a higher-layer protocol	</td><td>pkt/sec<br>pkt/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>Out Discards	</td><td valign=top>the number of outbound packets which were chosen to be discarded	         </td><td>pkt/sec<br>pkt/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>Out Errors	</td><td valign=top>the number of outbound packets that could not be transmitted because of errors. </td><td>pkt/sec<br>pkt/min</td></tr>
+     <tr BGCOLOR="#FFFFFF"><td nowrap valign=top>Output queue 	</td><td valign=top>the length of the output packet queue </td><td>pkt</td></tr>
+     </table>
+	 </td></tr></table><br>
+     Note #1: even though you specify traffic (or errors) limit in Kb/sec, Mb/min, etc, it doesn't mean that 
+	  HostMonitor will check network interface every second or every minute. It checks the device by specified 
+	  schedule and then calculates average traffic between 2 consecutive probes.<br><br>
+     Note #2: options located on <a href="options.htm#MiscTraffic">Misc</a> page in the <a href="options.htm">Options</a>
+ 	  dialog allow you to select units used to report amount of network traffic (KB/MB or Kbit/Mbit).<br><br>
+	 Note #3: since version 7.06 HostMonitor does not use Microsoft`s mgmtapi.dll anymore, this helps to avoid 
+	  various problem caused by bugs in some versions of this DLL<br><br>
+  </td></tr>

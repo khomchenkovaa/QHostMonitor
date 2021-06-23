@@ -1,0 +1,293 @@
+<tr>
+    <td style="text-align: justify"><br>
+     This test is useful when you need to check log files created by another application. Unlike "<a href="#filecmp">Compare Files</a>" test
+      that warns you when any part of a file contains some specific string the Text Log test warns you only when the
+      string is found in a NEW record. It means that if log file already has "bad' records when you started HostMonitor,
+      you will not receive any alerts; but if any new "bad" record will be added to the log file while HostMonitor is
+      running, you will receive a warning about the new problem. So the Text Log test works like NT Event Log test but
+      it checks text files instead of NT Event Log Database.<br>
+     In addition to the <a href="#Dialog">common test parameters</a>, the Text Log test has the following options:<br><br>
+
+	<u>Target file</u><br><br>
+
+     <b>File</b><br>
+     Provide name (with full path specified) of the file that has to be checked. You can manually type in the filename
+      that you wish to monitor, or click on the "Browse" button to select the file.<br>
+     You may use wildcards in the name of the file (e.g. c:\logs\2004*.log), in this case 1st matched file will be checked.<br><br>
+
+     If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you should have in mind:
+     <ul class=olist00>
+      <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
+      <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
+     </ul><br>
+
+     <b>Translate macros</b><br>
+     You may need this option if an application changes log file at regular intervals, e.g. daily or monthly. With this
+      option enabled you may use special <a href="#macros">date macro variables</a> and <a href="actions.htm#udvmacro">User Defined Variables</a>
+      in the file name (e.g. %dd% represents current day as a number with a leading zero 01..31)<br><br>
+
+	 <b>Encoding</b><br>
+	Use this option to tell HostMonitor what encoding is used for the file. HostMonitor supports several encoding methods:
+	<ul class=olist0>
+	 <li>ASCII
+	 <li>UTF-8
+	 <li>UTF-16
+	 <li>UTF-16 big endian
+	 <li>UTF-32
+	 <li>UTF-32 big endian
+	</ul>
+	<p align="justify">
+	Note 1 (file encoding)<br>
+	 &nbsp; ASCII - each character represented by single byte; <br>
+	 &nbsp; UTF-8 - variable-length character encoding for Unicode;<br>
+	 &nbsp; UTF-16 - all characters in the Basic Multilingual Plane encoded by 2 bytes;<br>
+	 &nbsp; UTF-32 - each Unicode character is represented by exactly 4 bytes.<br><br>
+
+	Note 2 (Unicode support): HostMonitor gets information regarding current code page used on the system when you setup test item. If you check Unicode
+ 	 file, HostMonitor translates string to Unicode using stored code page.<br><br>
+
+	Note 3 (RMA for UNIX): current version of RMA for UNIX supports ASCII encoding only. This will be improved in future version.<br><br>
+
+	<br><u>Filters for Bad and Good records</u><br><br>
+	When you setup Text Log test item, you should setup filters that separate "Bad" and "Good" records.<br><br>
+	<!--<br>
+	<u>Ok status mode</u><br><br>-->
+
+	When HostMonitor finds new message that fits "Bad" filter conditions, it changes status of the test item to "Bad"
+	<ul class=list0>
+	 <li> Note1: here "new" means record that was recorded after last test probe.
+	 <li> Note2: HostMonitor does not check records that were added while HostMonitor was not started or Text Log test item was not created yet.
+	</ul><br>
+
+	When test status should be changed back to "Ok"? This behavior depends on the following options:
+	<ul>
+	 <li><b>set "Ok" status when no new "Bad" records detected</b><br>
+		HostMonitor will assign "Ok" status to the test item, when subsequent test probe does not detect new "Bad" event (text log does not 
+		 contain new events at all or none of new events meet conditions of the "Bad" filter).<br><br>
+
+	 <li><b>set "Ok" status when new "Good" records detected</b><br>
+		Status of the test item will be changed to "Ok" when HostMonitor finds new event that fits "Good" filter conditions. <br><br>
+
+	 <li><b>set "Ok" status by acknowledgement (manually)</b><br>
+		With this option chosen, test item will remain "Bad" until operator acknowledge status (then status will be changed to Ok)
+	</ul>
+
+	If you choose "<u>set "Ok" status when no new "Bad" records detected</u>" or "<u>set "Ok" status by acknowledgement (manually)</u>" options then 
+	 "Good" filter is not used by the test item.<br>
+	If you choose "<u>set "Ok" status when new "Good" records detected</u>" option, you should specify both ("Bad" and "Good") filters.<br><br>
+
+	<br><u>Filters:</u><br><br>
+	There are 2 sets of conditions in the Text Log Test Properties dialog - "Bad" and "Good" filters. If some log record in the file matches 
+	 neither "Bad" nor "Good" filter, record is ignored by the test item (however the same record can be processed by another Text Log test
+	 item that check the same file with different filters in use).<br><br>
+
+	Both filters provide exactly the same set of options. So, let's describe the conditions for "Bad" filter:<br><br>	  
+	  
+     <b>Look for</b><br>
+	 <div style="padding-left: 1.5em">
+      <b>string</b>: with this option selected HostMonitor will check records in a log file for a specified string.
+          If new record contains specified data, HostMonitor will change status of the test to "Bad"<br><br>
+      
+	  <b>simple expression</b>: with this option selected HostMonitor will check log records using a boolean (logical)
+         expression. Status of the test will be set to "Bad" when the text in the record satisfies the required conditions.
+         In the expression you may use strings (must be concluded in quotes (') or double quotes (")); round brackets;
+         logical operators "<font color="#AA0000">and</font>", "<font color="#AA0000">or</font>", "<font color="#AA0000">not</font>".<br>
+        For example: if you define expression like <font color="#AA0000">('error' or 'warning') and not '16536'</font>,
+         then HostMonitor will mark test as "Bad" when line in the log contains string '<font color="#AA0000">error</font>'
+         or '<font color="#AA0000">warning</font>' and does not contain string '<font color="#AA0000">16536</font>'<br><br>
+	  
+	  <!-- 12.32 -->
+	  <b>expression</b>: this mode allows to check each log record using
+      <ul class="list00">
+	  <li><b>%data%</b> variable (represents line from the file)
+
+	  <li>numbers and strings (in quotes). Strings that contain a number plus one of the following unit specificators [ms, Kb, Mb, Gb, %] 
+		 are compared as numbers, so that <span class="samplered">'900 Kb'</span> is equivalent to <span class="samplered">921600</span>. 
+		 Also HostMonitor supports numbers in binary format, such number should contain only 0 and 1 and should be finished with 'B' character, e.g. '1110B' or '00101111B'
+		 
+	<li>arithmetical operators:<br>
+	<table border=0>
+	<tr><td>&nbsp;div</td><td nowrap>&nbsp;(integer division)</td></tr>
+	<tr><td>&nbsp;mod</td><td nowrap>&nbsp;(remainder)</td></tr>
+	<tr><td>&nbsp;* </td><td nowrap>&nbsp;(multiplication)</td></tr>
+	<tr><td>&nbsp;+ </td><td nowrap>&nbsp;(addition)</td></tr>
+	<tr><td>&nbsp;- </td><td nowrap>&nbsp;(subtraction)</td></tr>
+	<tr><td>&nbsp;and </td><td nowrap>&nbsp;(bitwise and)</td></tr>
+	<tr><td>&nbsp;or </td><td nowrap>&nbsp;(bitwise or)</td></tr>
+	<tr><td>&nbsp;xor </td><td nowrap>&nbsp;(bitwise xor)</td></tr>
+	</table> 
+	Note: the value of (x div y) is the value of x divided by y and then rounded in the direction of zero to the 
+	nearest integer; 'mod' operator returns the remainder obtained by dividing its operands (in other words, 
+	(x mod y) == x - (x div y) * y);<br>	
+	For numbers in binary format you may use the same arithmetic operations that you are using for decimal numbers, 
+	 plus you may use AND, OR and XOR operators to perform bitwise operations, e.g. <span class="samplered">('%Reply%' and '010B')=='010B'</span>.<br>
+	When at least one operand of AND/OR/XOR operators specified in binary format, HostMonitor will use binary format for result 
+	 as well. E.g. (6 and '11111111B') will return '110B'. If you want to convert number in binary format to decimal format, 
+	 you may use addition (+), subtraction (-) or multiplication operations. E.g. '110B'+0 will return '6'.
+
+	<li>relational operators are used to compare two operands
+     <table border=0>
+      <tr><td> &gt;  </td><td> greater-than </td></tr>
+	  <tr><td> &lt;  </td><td> less-than </td></tr>
+	  <tr><td> &gt;= </td><td> greater-than-or-equal-to</td></tr>
+	  <tr><td> &lt;= </td><td> less-than-or-equal-to</td></tr>
+	  <tr><td> &lt;&gt; &nbsp; </td><td> inequality	</td></tr>
+	  <tr><td> ==  </td><td> equality</td></tr>
+      <tr><td> not </td><td> negation (one operand)</td></tr>
+	 </table>
+ 
+	<li> string operators
+        <table border=0>
+        <tr><td class="cell1" bgcolor="#E0E0E0">Operator </td><td class="cell1" bgcolor="#E0E0E0"> Description </td></tr>	
+		<tr><td class="cell1">&nbsp;getword </td>
+		  <td class="cell1">Expression like <font color="#AA0000">("string" getword N)</font> returns Nth word from text string counting from beginning<br>
+			Example: <span class="samplered">('40 10 50' getword 3) returns '50' &nbsp; </span></td></tr>
+		<tr><td class="cell1">&nbsp;endword </td>
+		  <td class="cell1">Expression like <font color="#AA0000">("string" endword N)</font> returns Nth word from text string counting from end of the string<br>
+			Example: <span class="samplered">('40 10 50' endword 3) returns '40' &nbsp; </span></td></tr>
+		<tr><td class="cell1">&nbsp;csvfield </td>
+		  <td class="cell1">Retrieves field from CSV (comma-separated values) string. ('string' csvfield N) returns field #N.<br>
+		 Examples:<br>
+			<span class="samplered">('40,10 10,50' csvfield 2) == '10 10'<br> ('"error 5","10,1,2",10,50' csvfield 2) == '10,1,2'</span></td></tr>
+		<tr><td class="cell1">&nbsp;tsvfield </td>
+		  <td class="cell1">Retrieves field from TSV (tab-separated values) string. Works similar to csvfield command: ('string' tsvfield N) returns field #N.</td></tr>	
+		  <tr><td class="cell1">getnumberwithdot</td>
+		  <td class="cell1">
+		    Usage &lt;string&gt; getnumberwithdot &lt;num&gt;<br>
+			This operator ignores all words within &lt;string&gt; except integer numbers and numbers with the period, returns number #num and then replaces the period character with system decimal separator (so it may replace the period with comma when system decimal separator is the comma).<br>
+			Example<br>
+			<span class="samplered">
+			('wordA wordB 21.10,15.00' getnumberwithdot 2) == '15.00'<br>
+			('wordA wordB 21 15.00' getnumberwithdot 2) == '15.00'<br>
+			</span>
+			('15.00' will be replaced with '15,00' when system decimal separator is comma)
+		  </td></tr>
+		<tr><td class="cell1">getnumberwithcomma &nbsp; &nbsp;</td>
+		  <td class="cell1">
+			Usage &lt;string&gt; getnumberwithcomma &lt;num&gt;<br>
+			This operator ignores all words within &lt;string&gt; except integer numbers and numbers with comma, returns number #num and then replaces comma with system decimal separator (so it may replace comma with the period when system decimal separator is the period).<br>
+			Example<br>
+			<span class="samplered">
+			('wordA wordB 21.10,15.00' getnumberwithcomma 2) == '10,15'<br>
+			('wordA wordB 21 15.00' getnumberwithcomma 2) == '15'<br>
+			</span>
+			('10,15' will be replaced with '15.10' when system decimal separator is the period)
+		  </td></tr>
+			<tr><td class="cell1">getnumber</td>
+			  <td class="cell1">
+				Usage &lt;string&gt; getnumber &lt;num&gt;<br>
+				This operator ignores all words and symbols within &lt;string&gt; except integer numbers, returns number #num<br>
+				<span class="samplered">
+				('wordA wordB 21.10,15.00' getnumber 2) == '10'<br>
+				('wordA wordB 21 15.00' getnumber 2) == '15'<br>
+				</span>
+			  </td></tr>
+		</table><br>
+	</ul> 
+    Samples:<br>
+	('%data%' csvfield 2) + ('%data%' csvfield 4) > 100<br>
+	('%data%' tsvfield 2 &gt; 50) and ('%data%' tsvfield 4 &gt; 160)<br>
+	('%data%' getword 1 == 'error') and ('%data%' getnumber 1 &gt;= 500)<br><br>
+      
+	<br><b>Note: "string" mode is the fastest one; "expression" mode the slowest</b><br><br>
+    </div>      		 
+	<!-- 12.32 end -->
+
+     <br>
+     Options:<br>
+     <b>Case sensitive</b><br>
+        With this option enabled search is case sensitive<br>
+     <b>Whole words only</b><br>
+        Search for the whole words only. With this option disabled, the search string might be found as a part of a word.<br>
+     <b>Macros</b><br>
+        With this option enabled you may use <a href="actions.htm#udvmacro">user defined</a>
+         (global) and <a href="actions.htm#timemacro">date&amp;time</a> macro variables
+         in the "look for" string/expression<br><br>
+
+     <br><p align=justify>
+	 <u>Scanning mode</u><br><br>
+	 
+     <b>Warn of last new event</b><br>
+     With this option enabled HostMonitor will scan (starting from the end of the log file) all events that were added
+      into a log file since after the previous test. When the test finds a first "Bad" new record the test receives
+      "Bad" status and HostMonitor performs specified alert action if it was specified. For example: if HostMonitor
+      performs test every 10 minutes and 3 "Bad" events occurred within this time interval, HostMonitor will report
+      only about the last one (because it scans starting from the end of file). This option is useful when you check
+      for some specific event and don't need many messages about the same recurring error.<br><br>
+
+     <b>Warn of all new events</b><br>
+     In opposite to previous mode, with this option enabled HostMonitor will inform you about each event that satisfies
+      specified requirements. This option is useful when you use one test item to check for different error events
+      (usually you will use "Repeat: until status changes" option for appropriate alert actions).<br><br>
+
+     <!--Note: HostMonitor changes test status to "Bad" only when it has found NEW event(s) that satisfies all specified  requirements. If, after the next probe, the monitor does not find a new "Bad" event, it changes the test status to "Ok".<br><br>-->
+	 Consider, for example, there are 3 new records were added into log file: "bad", "bad" and "good". If all 3 records were added within 
+	  short time interval (between 2 consecutive test probes), how the monitor behaves depending on test settings?<br><hr>
+		<table border=0>
+		<tr>
+		  <td nowrap valign=top>Used options &nbsp; &nbsp;<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when no new "Bad" records detected<br>- Warn of last new event<br><br>
+			<ol class=olist00><li style="text-align: justify">HostMonitor sets "Bad" status because there is "Bad" 
+			event detected; increments or resets 
+			Recurrences counter (depending on previous test status); if necessary, starts actions assigned to 
+			the test item (depending on action settings)</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when no new "Bad" records detected<br>- Warn of all new events<br><br>
+		    <ol class=olist00><li style="text-align: justify">
+			HostMonitor sets "Bad" status; increments or resets Recurrences counter (depending on previous 
+			 test status); if necessary, starts actions assigned to the test (depending on action settings)<br>
+			<li style="text-align: justify">
+			HostMonitor keeps "Bad" status, increments Recurrences counter because 2nd "Bad" event detected; 
+			 starts actions if necessary</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when new "Good" records detected<br>- Warn of last new event<br><br>
+            <ol class=olist00><li style="text-align: justify">
+			HostMonitor sets "Ok" status because last event fits "good" filter; increments or resets 
+			 Recurrences counter (depending on previous test status); starts actions assigned to the test 
+			 if necessary (depending on action settings)</ol><hr></td></tr>
+		<tr><td nowrap valign=top>Used options<br><br><br>Behavior</td>
+		  <td>- Set "Ok" status when new "Good" records detected<br>- Warn of all new events<br><br>
+		    <ol class=olist00><li style="text-align: justify">
+            HostMonitor sets "Bad" status; increments or resets Recurrences counter (depending on previous 
+			 test status); if necessary, starts actions assigned to the test item (depending on action settings)<br>
+			<li style="text-align: justify">
+			HostMonitor keeps "Bad" status, increments Recurrences counter because 2nd "Bad" event detected; 
+			 starts actions if necessary<br>
+			<li style="text-align: justify"> 
+			HostMonitor sets "Ok" status, resets Recurrences counter and starts actions if necessary
+			</ol>
+		  </td></tr>
+		</table><hr><br><br>
+
+	 <u>Info to display</u><br><br>
+
+     <b>Display</b><br>
+     Specifies what information HostMonitor should display in the reply field of the test item when the "bad" (or the "good") record is detected in the log file:
+     <ul class=olist00>
+      <li> found line
+      <li> offset of the found string in the file
+      <li> file size
+     </ul><br>
+
+     <b>Filter</b><br>
+     When you chose "found line" mode you may apply additional filter to the select part of the line to display:
+     <ul class=olist00>
+      <li> display entire line
+      <li> display word #N
+      <li> display word #N counting from the end of line
+      <li> display text from word #N1 till word #N2
+      <li> display text from pos #N1 till pos #N2
+     </ul><br>
+	 
+	<b>Words separated by</b><br>
+	This option allows you to choose word separator:
+     <ul class=olist00>
+	  <li>space or tabs
+	  <li>tabs
+	  <li>comma
+	  <li>semicolon	 
+    </ul><br>
+
+  See also: <a href="#tuneupreply">Tune up Reply</a> option<br>
+  See also: <a href="actions.htm#macro_filename">variables specific to file related test methods</a><br><br>  	 	  
+  </td></tr>

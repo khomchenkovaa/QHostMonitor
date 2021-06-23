@@ -144,6 +144,7 @@ void TestMethodSelectDlg::createStandardItemModel()
     internet->appendRow(createItem(TMethodID::DICOM));
     internet->appendRow(createItem(TMethodID::DHCP));
     root->appendRow(internet);
+
     root->appendRow(createItem(TMethodID::MailRelay));
     root->appendRow(createItem(TMethodID::Trace));
     root->appendRow(createItem(TMethodID::RAS));
@@ -158,6 +159,7 @@ void TestMethodSelectDlg::createStandardItemModel()
     disk->appendRow(createItem(TMethodID::TextLog));
     disk->appendRow(createItem(TMethodID::CompareFiles));
     root->appendRow(disk);
+
     root->appendRow(createItem(TMethodID::Process));
     root->appendRow(createItem(TMethodID::Service));
     root->appendRow(createItem(TMethodID::NTLog));
@@ -187,7 +189,9 @@ void TestMethodSelectDlg::createStandardItemModel()
     external->appendRow(createItem(TMethodID::ShellScript));
     external->appendRow(createItem(TMethodID::Externalprg));
     external->appendRow(createItem(TMethodID::SSH));
+    external->appendRow(createItem(TMethodID::Nagios));
     root->appendRow(external);
+
     root->appendRow(createItem(TMethodID::TempMonitor));
     root->appendRow(createItem(TMethodID::HMmonitor));
 

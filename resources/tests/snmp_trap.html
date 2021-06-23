@@ -1,0 +1,298 @@
+<tr>
+    <td class=tdjust><br>
+     SNMP Trap test method allows you to receive SNMP Trap messages - unsolicited messages from a device (such as
+      router, server) to an SNMP console. Traps might indicate power-up or link-up/down conditions, temperatures
+      exceeding certain thresholds, high traffic, etc. Traps provide an immediate notification for an events that
+      otherwise might only be discovered during occasional polling.<br><br>
+
+     This test method is different from any other. Unlike rest of tests that really test some devices (by sending
+      request and receiving response), SNMP Trap test method was implemented as listener - it does not send any
+      requests. HostMonitor listens for incoming messages from network hosts and reacts in real-time.<br>
+     That is why time interval fields for this test method are disabled; however you still may use
+      <a href="profiles.htm#Schedules">Schedule</a> as well as for any other method. HostMonitor simply ignores
+      messages that come within restricted time period.<br><br>
+
+	BTW: <a href="rma-win/activerma.htm#passiveORactive" target="_top">Active</a> <a href="rma-win/activerma.htm" target="_top">RMA</a> agent is able to collect, filter and 
+	forward SNMP Trap messages from remote networks to HostMonitor. Some notes regarding Active RMA:
+    <ul class=list00>
+	 <li style="text-align=justify">RMA encrypts Trap messages like any other traffic between HostMonitor and RMA
+	 <li style="text-align=justify">When you setup SNMP Trap test item and choose remote active agent using "<a href="#Dialog">Test by</a>" property, HostMonitor 
+		send filter settings to the agent. This allows filtering incoming trap messages on remote site and sending to HostMonitor only 
+		messages that satisfy specified requirements.
+	 <li style="text-align=justify">HostMonitor does not use "<a href="#backuprma">Backup RMA</a>" for SNMP Trap test items.
+	</ul><br> 	  
+	  
+     In addition to the <a href="#Dialog">common test parameters</a>, the SNMP Trap test has the following options:
+     <ul class=list00>
+      <li>Bad message <a href="#trapfilter2">filter</a>
+      <li>Good message <a href="#trapfilter2">filter</a>
+      <li><a href="#trapdisplay">Display</a>
+     </ul><br>
+
+     In the <a href="options.htm">Options</a> dialog (<a href="options.htm#MiscPage">Miscellaneous</a>: <a href="options.htm#MiscTrap">SNMP Trap test settings</a>
+      page) you may specify general Trap Watcher settings and provide special instructions to warn about high SNMP
+      traffic from network devices.<br><br>
+
+     <br>
+     <a href="../images/hostmon4/trapdlg1.gif" target="_blank" ><img src="../images/hostmon4/trapdlg1s.gif" width=465 height=379 border=0 align=right alt=""></a>
+     <a name="trapfilter"><b>Filters:</b></a><br>
+     <br>
+     When you setup SNMP Trap test item, you should provide filters (one or more <a href="#trapfilterconditions">conditions</a>)
+      that will separate "Bad" and "Good" messages. Message passes the filter only when it matches ALL specified
+      requirements of the filter.<br>
+     When HostMonitor receives message that fits "Bad" filter conditions, it changes status of the test item to "Bad".
+      If HostMonitor receives message that fits "Good" filter conditions, it changes status of the test item to "Ok".<br>
+     Different test items may react on different trap messages. For example one test item may react on router
+      configuration changes, while another test reacts on incoming connections received by your firewall.<br>
+     It is also possible to change status of the test if no "Bad" (or "Good") trap messages were received within
+      specified time interval. For example, you may setup 3rd test item alerting you when a temperature-monitoring
+      device does not send any messages for 5 min.<br><br>
+
+    The following options define which situation will be reported as "bad":
+     <ul class=list00>
+      <li style="text-align=justify"><b>set "Bad" status if received message satisfies...</b><br>
+       with this option selected HostMonitor will set "Bad" status when received trap message meets all conditions of
+       the "Bad" filter.<br>
+      </li>
+      <li style="text-align=justify"><b>set "Bad" status if no "Good" trap received within NN sec</b><br>
+       with this option selected HostMonitor will assign "Bad" status to the test item when there were no messages
+       received within specified interval of time or when received messages don't meet conditions of the "Good" filter.
+      </li>
+     </ul><br>
+
+    The same options are available for "Good" messages: 
+    <ul class=list00>
+     <li>Set "Ok" status if received message satisfies...
+     <li>Set "Ok" status if no "Bad" trap received within NN sec
+    </ul>
+    Plus there is one more option for "Good" status:  
+    <ul class=list00>
+     <li>Set Ok status by acknowlegement (manually)
+    </ul>
+    With this option enabled, test item will remain "Bad" until operator <a href="#ack">Acknowledge</a> status 
+    (then status will be changed to Ok)<br><br>
+
+    You should provide at least one filter ("Bad" or "Good) or both.<br><br>
+
+     <a name="trapfilter2"><b>Filter conditions:</b></a><br>
+     <br>
+     There are 2 sets of conditions in the Trap Filter dialog - "Bad" and "Good" filters. Message passes the filter
+      only when it matches ALL specified requirements. If received message does not match neither "Bad" nor "Good"
+      filter, trap message is ignored by the test item (but of course it can be processed by another test item with
+      different filter).<br><br>
+
+     <a name="trapfilterconditions">So, let's describe the conditions:</a><br><br>
+
+     <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=0 CELLSPACING=0><TR><TD>
+     <TABLE BORDER=0 CELLPADDING=3 CELLSPACING=1>
+     <tr bgcolor="#FFFFFF"><td colspan=2>
+	 <b>SNMP device</b><br>
+     Match against the source device - device that have sent message. You can provide list of IP addresses and choose one of the following options:
+	 </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any </b></ul></td><td> messages from any device will be accepted</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any from the following </b></ul></td><td> messages only from specified devices will be accepted</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any except the following &nbsp; </b></ul></td><td> messages from any devices except specified will be accepted</td></tr>
+     <tr bgcolor="#FFFFFF"><td colspan=2>
+     <small>List editing tips<br></small>
+     <ul class=list00s>
+      <li>To add new items to the end of the list go to the last existing line and press Down Arrow key.
+      <li>Press INSERT key to insert new item.
+      <li>Press CTRL+DEL to remove item.
+      <li>Press F2 to edit item.
+     </ul>
+	 Note: also you may specify ranges of IP addresses from which SNMP Trap message may be accepted. E.g. <font color="#AA0000">192.168.1.1 - 192.168.1.100</font>
+	 <br><br>
+
+     <b>Trap type (generic)</b><br>
+     Match against the generic type of the trap:
+     </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any </b></ul></td><td> select this option to accept messages of any type.</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any from the following &nbsp; </b></ul></td><td>
+          if you want to accept just some type of messages, select this option and mark one or several possible event
+           types: Cold Start, Warm Start, Link Down, Link Up, Authentication Failure, EGP Neighbor Loss, Enterprise Specific
+              <ul style="margin-top: 0; margin-bottom: 0; list-style-type: circle">
+               <li> Cold Start - the sender is reinitializing and its configuration may change
+               <li> Warm Start - the sender is reinitializing but its configuration will not change
+               <li> Link Down - failure in one of the agent's links
+               <li> Link Up - one of the agent's links has come up
+               <li> Authentication Failure - the agent received a protocol message improperly authenticated
+               <li> EGP Neighbor Loss - an Exterior Gateway Protocol neighbor is down
+               <li> Enterprise Specific - the trap is identified as not being one of the basic traps
+              </ul>
+      </td></tr>
+    
+	<tr bgcolor="#FFFFFF"><td colspan=2>
+     <br><b>Trap type (specific)</b><br>
+     You can provide list of enterprise specific codes (numbers) and choose one of the following options:
+	</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any </b></ul></td><td> accept messages of any type</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any from the following </b></ul></td><td> accept only messages that have one of the specified enterprise specific types</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any except the following &nbsp; </b></ul></td><td>accept messages with any enterprise specific type except those that are specified in the list</td></tr>
+	<tr bgcolor="#FFFFFF"><td colspan=2>
+     <small>List editing tips<br></small>
+     <ul class=list00s>
+      <li>To add new items to the end of the list go to the last existing line and press Down Arrow key.
+      <li>Press INSERT key to insert new item.
+      <li>Press CTRL+DEL to remove item.
+      <li>Press F2 to edit item.
+     </ul><br>
+
+     <b>Enterprise</b> &nbsp; (not applicable for SNMPv2 Traps)<br>
+     Enterprise field of the trap contains an OBJECT IDENTIFIER, which names the device that sends the trap. Here you may provide list of OIDs and choose one of the following options:
+	</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any </b></ul></td><td>do not check Enteprise field of the traps</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any from the following </b></ul></td><td> accept only messages from listed devices.</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Any except the following	accept &nbsp; </b></ul></td><td> all messages except from the devices on the list</td></tr>
+	</table>
+	</td></tr></table>
+
+     <br><a name="trapfilteroid">
+     <b>Message contains OID</b><br></a>
+     This option allows you to check incoming trap messages for some specific variable and
+	 <ul class=list00>
+      <li> compare its value to some constant (string or number)
+      <li> compare current value of the variable with previous value of this variable
+	 </ul> 
+     Just provide OID (OBJECT IDENTIFIER) of the variable and choose one of the following compare conditions:<br>
+     <!--<b>Condition for alert</b><br>-->
+     <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=0 CELLSPACING=0><TR><TD>
+     <TABLE BORDER=0 CELLPADDING=3 CELLSPACING=1>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>is &lt; than </b></ul></td><td> message fits the condition when value of the variable is less than specified number   </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>is &gt; than </b></ul></td><td> message fits the condition when value of the variable is greater than specified number</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>is = to	  </b></ul></td><td> message fits the condition when value of the variable is equal to specified number or string    </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>is &lt;&gt; from</b></ul></td><td> message fits the condition when value of the variable is not equal to specified number or string</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>contains  </b></ul></td><td> message fits the condition when value of the variable contains specified string                 </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>does not contain </b></ul></td><td> message fits the condition when value of the variable does not contain specified string  </td></tr>
+      <tr bgcolor="#FFFFFF"><td colspan=2>Also HostMonitor supports 9 conditions that allows you to check how new value had changed versus its previous value:                   </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>increases by 	 </b></ul></td><td> trap message fits the condition when new value is greater then the old one by specified number or more</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>decreases by	 </b></ul></td><td> message fits the condition when new value is less then old one by specified number or more</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>changes by 	     </b></ul></td><td> message fits the condition when absolute difference between new and old value is equal or greater then specified number</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>increases by (%) </b></ul></td><td> message fits the condition when new value had increased by specified (or greater) percentage versus the old one</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>decreases by (%) &nbsp; &nbsp; </b></ul></td><td> message fits the condition when new value had decreased by specified (or greater) percentage versus the old one</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>changes by (%)   </b></ul></td><td> message fits the condition when an absolute difference between new and old values measured as a percentage of an old value is equal or greater then specified percentage number </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>increases /sec   </b></ul></td><td> message fits the condition when average increase of the counter (per second) is greater than the specified limit ((current value - old value)/elapsed time >= specified limit)  </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>decreases /sec   </b></ul></td><td> message fits the condition when average decrease of the counter (per second) is greater than the specified limit ((old value - current value)/elapsed time >= specified limit)  </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>changes /sec 	 </b></ul></td><td> message fits the condition when average absolute difference (change) of the counter (per second) is greater than the specified limit (abs(current value - old value)/elapsed time >= specified limit) </td></tr>
+     </table>
+	 </td></tr></table>
+
+     <p align=justify>
+     <b>Note 1:</b> When you are configuring SNMP Trap test method with <a href="mibbrowser/index.htm" target=_top>MIB Browser</a>
+       installed HostMonitor allows you to specify SNMP variables by a name (e.g. <font color="#990000">iso.org.dod.internet.mgmt.mib-2.system.sysUpTime.0</font>)
+       as well as by an OID in numeric format (e.g. <font color="#990000">1.3.6.1.2.1.1.3.0</font>). If you click on
+       "Browse MIBs" button next to "OID" field, HostMonitor will launch MIB Browser displaying the hierarchy tree of
+       SNMP variables. The specified variable (if any) is highlighted and additional information is displayed for it
+       (such as status, access mode, description). Now you may browse variables, choose another variable if needed and
+       click [Ok] button to use the selected variable by HostMonitor.<br><br>
+
+	 <b>Note 2:</b> You may type "<font color="#AA0000">any</font>" instead of specific object identifier. In such 
+	  case HostMonitor will check every object contained in the Trap message.<br>
+	  Also you may use trailing wildcard * for "Message contains OID" test property. E.g. <font color="#AA0000">1.3.6.1.2.1.1.3*</font><br><br>
+	   
+     <b>Note 3:</b> If you use relative compare modes (increases by, changes by, decreases by (%), increases /sec, etc)
+      and various network sources can send the same variable, you should restrict the filter to accept SNMP Trap
+      messages from a single source only. Otherwise HostMonitor could compare variables that were received from
+      different sources (that usually does not make any sense). Create several test items (one item for each network
+      source) if you have to use relative compare mode for some variable.<br><br>
+
+	 <br> 
+	 <b>Counters fit expression</b><br>
+	 Instead of "Message contains OID" option you may mark "Counters fit expression" checkbox and provide logical expression that will be 
+	  applied to incoming trap messages. This option allows you to check several parameters (counters) of the message using expressions 
+	  like the following:<br>
+	 <font color="#AA0000">('gmail.com' in '%1.3.6.1.4.1.3093.1.1.0%') and (%1.3.6.1.4.1.3093.1.3.0% > 995)</font><br>
+	 Such expression means - trap message will pass verification when it contains OID 1.3.6.1.4.1.3093.1.1.0 and its value contains 
+	  'gmail.com' string; also trap message contains OID 1.3.6.1.4.1.3093.1.3.0 with numeric value above 995.<br><br>
+ 	  In these expressions you can use:
+	  <ul class=list0>
+       <li> numbers and strings (in quotes). Strings that contain a number plus one of the following unit specificators
+            [<font color="#AA0000">ms, Kb, Mb, Gb, %</font>] are compared as numbers, so that '<font color="#AA0000">900 Kb</font>'
+            is less than '<font color="#AA0000">9 Mb</font>' ('<font color="#AA0000">900 Kb</font>' is equivalent to <font color="#AA0000">921600</font>)
+	   <li> variables that represent trap message OIDs. Such variables should be marked by % signs. HostMonitor resolves OID variables 
+			using values from received trap message. If received SNMP Trap message does not contain specified OID, HostMonitor sets 
+			variable to empty string '' before logical expression evaluation;
+       <li> logical operators [<font color="#AA0000">and, or, xor, not, &lt;, &gt;, &gt;=, &lt;=, ==, &lt;&gt;</font>];
+       <li> arithmetic operators [<font color="#AA0000">div</font>, <font color="#AA0000">mod</font>, <font color="#AA0000">*</font>, <font color="#AA0000">+</font>, <font color="#AA0000">-</font>]
+		<table border=0>
+		<tr><td>&nbsp;div</td><td nowrap>&nbsp;(integer division)</td></tr>
+		<tr><td>&nbsp;mod</td><td nowrap>&nbsp;(remainder)</td></tr>
+		<tr><td>&nbsp;* </td><td nowrap>&nbsp;(multiplication)</td></tr>
+		<tr><td>&nbsp;+ </td><td nowrap>&nbsp;(addition)</td></tr>
+		<tr><td>&nbsp;- </td><td nowrap>&nbsp;(subtraction)</td></tr>
+		</table> 
+		Note: the value of (x div y) is the value of x divided by y and then rounded in the direction of zero to the 
+		nearest integer; 'mod' operator returns the remainder obtained by dividing its operands (in other words, 
+		(x mod y) == x - (x div y) * y); 
+       <li> operator [<font color="#AA0000">in</font>]. Expression <font color="#AA0000">'Substr' in 'Str'</font>
+			searches for a sub string, Substr, in a string Str. Operator returns True when Str contains Substr; 
+			otherwise operator returns False
+	   <li> parentheses<br>
+       In complex expressions, common rules of precedence determine the order in which operations are performed:
+        <table border=0>
+         <tr><td class=thinborder2 bgcolor="#E0E0E0">Operators </td><td class=thinborder3 bgcolor="#E0E0E0"> Precedence </td></tr>
+         <tr><td class=thinborder2>not       </td>  <td class=thinborder3> first (highest)</td></tr>
+         <tr><td class=thinborder2>div, mod, * </td><td class=thinborder3> second</td></tr>
+         <tr><td class=thinborder2>+, -, in  </td>  <td class=thinborder3> third</td></tr>
+         <tr><td class=thinborder2>&lt;, &gt;, &gt;=, &lt;=, ==, &lt;&gt;</td><td class=thinborder3> fourth</td></tr>
+         <tr><td class=thinborder2>and, or, xor </td><td class=thinborder3> fifth (lowest)</td></tr>
+        </table>
+        An operator with higher precedence is evaluated before an operator with lower precedence, while operators
+        of equal precedence associate to the left. You can use parentheses to override precedence rules.
+        An expression within parentheses is evaluated first and then its result is treated as a single operand.
+	</ul><br>
+
+     <br>
+     <a name="trapdisplay"><b>Display</b><br></a>
+     This option defines what information will be displayed in the Reply field of the test item. Choose one of the
+      following options:<br>
+     <TABLE BORDER=0 BGCOLOR="#c0c0c0" CELLPADDING=0 CELLSPACING=0><TR><TD>
+     <TABLE BORDER=0 CELLPADDING=3 CELLSPACING=1>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Agent address</b> &nbsp; </ul></td><td>Represents IP address of the host that have sent the message</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Trap type</b> </ul></td><td>
+              Represents type of the trap. It provides information about generic type and enterprise specific number.
+               Generic type could be one of the following: Cold Start, Warm Start, Link Down, Link Up, Auth Failure, EGP
+               Loss, Specific.
+              <ul style="margin-top: 0; margin-bottom: 0; list-style-type: circle">
+               <li> Cold Start - the sender is reinitializing and its configuration may change
+               <li> Warm Start - the sender is reinitializing but its configuration will not change
+               <li> Link Down - failure in one of the agent's links
+               <li> Link Up - one of the agent's links has come up
+               <li> Authentication Failure - the agent received a protocol message improperly authenticated
+               <li> EGP Neighbor Loss - an Exterior Gateway Protocol neighbor is down
+               <li> Enterprise Specific - the trap is identified as not being one of the basic traps
+              </ul>
+              Enterprise specific number is only applicable when generic trap type is Enterprise Specific, otherwise enterprise specific number is 0
+      </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Enterprise</b></ul></td><td>Enterprise field contains an OBJECT IDENTIFIER which names the device that have sent the trap</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>OID</b>	     </ul></td><td>Variable name (OID)</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Counter</b>   </ul></td><td>Variable value</td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>Relative value</b></ul></td><td>
+         Relative value of the variable. This is could be useful when you check incoming trap messages for some specific
+          variable and compare current value of the variable with its previous value (see
+           <a href="tests.htm#trapfilteroid">"Message contains OID</a>" option in the <a href="tests.htm#trapfilter">Trap Filter</a> dialog).
+           Depending on the test settings HostMonitor may display:
+          <ul style="margin-top: 0; margin-bottom: 0; list-style-type: circle">
+          <li> simple difference between current and previous value (if you use  "increases by", "decreases by" or
+               "changes by" compare option)
+          <li> relative difference as a percentage of previous value (if you use  "increases by (%)", "decreases by (%)"
+               or "changes by (%)" compare option)
+          <li> average increase/decrease of the counter per second since previous message (if you use "increases /sec",
+               "decreases /sec" or "changes /sec" compare option)
+          </ul>     
+      </td></tr>
+      <tr bgcolor="#FFFFFF"><td nowrap valign=top><ul class=list00><li><b>OID & Value</b> </ul></td><td>Display variable name (OID) and variable value</td></tr>
+     </table>
+	 </td></tr></table>
+     <br>
+	 
+     <b>Increment counters when no messages received</b><br>
+	If you are using SNMP Trap test items with "Set Ok status if no Bad trap received within N sec" option, 
+	 HostMonitor sets "Ok" status to the test item when there are no messages received within specified time 
+	 interval or when received messages don't meet conditions of the "Bad" filter.<br> 
+	With "Increment counters when no messages received" option enabled HostMonitor sets the status AND increments 
+	 Recurrences and statistical counters every N seconds. This allows the use of escalation alerts even if 
+	 HostMonitor does not receives any messages from monitoring device. Of course the same rule applies to 
+	 "Set <b>Bad</b> status if no Ok trap received within N sec".<br><br>
+
+  See also: <a href="actions.htm#trapmacro">variables specific to SNMP Trap tests</a><br><br>  	  
+  </td></tr>

@@ -1,0 +1,61 @@
+<tr>
+    <td><p align=justify><br>
+      Traces the route to a remote host over the network. This test allows you to check the route that all packets take
+       to go from your machine to a specific host on the Internet (Intranel, LAN). It also can check the time each hop
+       (or each machine packets go through) takes to answer.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the Trace test has the following options:<br><br>
+
+      <b>Address</b><br>
+  		Here you should provide the domain name (e. g. <font color="#AA0000">www.yahoo.com</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the host route that you want to test. Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. -->
+	    You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		<br><br>
+
+      <b>Timeout</b><br>
+      Specify a timeout interval in milliseconds.<br><br>
+
+      <b>Packet size</b><br>
+      Specify the size of ECHO packets in bytes.<br><br>
+
+      <b>Retries</b><br>
+      Specify how many times HostMonitor will try to resend ECHO packets when it does not receive the respond.<br><br>
+
+      <b>Alert when</b><br>
+      Choose one of the conditions to determine is route "good" or "bad":
+      <ul class=list00>
+      <li> route was changed<br>
+           HostMonitor will mark test as "Bad" every time route changed
+      <li> number of hops different from NN<br>
+           Test will change status to "Bad" if number of hops is different from specified
+      <li> number of hops greater than NN<br>
+           Test will change status to "Bad" if number of hops is greater than specified
+      <li> number of hops less than NN<br>
+           Test will change status to "Bad" if number of hops is less than specified
+      <li> maximum reply time more than NN milliseconds<br>
+           Mark test as "Bad" when reply time from any of the hosts is longer than specified
+      <li> traffic thru the host<br>
+           HostMonitor will mark test as "Bad" every time traffic will go thru specified intermediate host
+      <li> traffic bypass host<br>
+           HostMonitor will mark test as "Bad" every time traffic will not go thru specified intermediate host
+      </ul><br>
+
+      <b>Display</b><br>
+      This option determines what information HostMonitor will display in Reply field. Choose one of the following options:
+      <ul class=list00>
+      <li> Total time
+      <li> Average reply time
+      <li> Maximum reply time
+      <li> Number of hops
+      <li> Number of non-responding devices
+      <li> Route, brief mode (list of IP addresses only)
+      <li> Route, full mode (hop, IP address, time)
+      </ul><br>
+	  See also: <a href="actions.htm#macro_trace">variables</a> specific to Trace test<br><br>
+  </td></tr>

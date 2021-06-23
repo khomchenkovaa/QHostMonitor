@@ -1,0 +1,38 @@
+<td><p align="justify"><br>
+	This test may check several drives on target system and find the drive with minimum free space or the drive with minimal percentage 
+	  of free space (e.g. you may setup test to check all removable drives plus disk C: and F:). 
+	 This version of Drive Free Space test method checks systems using SNMP requests, this allows to check non-shared resources on remote Windows or UNIX systems.<br><br>
+    In addition to the <a href="#Dialog">common test parameters</a>, Drive Free Space test has the following options:<br><br>
+
+	  <b>Target host</b><br>
+	 Provide host name, IPv6  or IPv4 address (e.g. <span class="samplered">10.10.1.55</span>) of the system that you wish to monitor.<br>
+	 Optionally you may specify UDP port; port number has to be provided after a colon following the address(hostname)
+	 (e.g. <span class="samplered">172.168.10.10<b>:161</b></span>).<br><br>
+	   
+    <b>SNMP profile</b><br>
+	 Choose profile that stores credentials necessary for communication with SNMP agent on target system. You may select profile 
+	  from drop-down list or click button beside the list to bring up <a href="#snmpaccount">SNMP Credentials</a> dialog.<br>
+	 Note: HostMonitor may retrieve data faster when SNMP v2c or SNMP v3 is used.<br><br>
+	 
+     <b>Timeout, Retries</b><br>
+     Timeout - the amount of time in milliseconds the program will wait for a response from the server before the request fails.<br>
+	 Retries - specifies the communications retry count.<br>
+	 You may specify timeout and retries value in text field, type integer numbers separating values by space or colon or semicolon like 
+	  "2000ms, 1" or "300,1" or "500 1"; also you may open "Connection parameters" window and choose Port, Timeout, Retries<br><br>
+	  
+	  Then you may select one or several of the following options
+	  <table border="0">
+	   <tbody><tr valign="top"><td nowrap=""><b>- Check all local drives</b></td><td>tells HostMonitor to check all fixed drives on target system</td></tr>
+	   <tr valign="top"><td nowrap=""><b>- Check all removable drives</b>&nbsp;</td><td>check all removable drives on target system (not including CD/DVD drives)</td></tr>
+	   <tr valign="top"><td nowrap=""><b>- Check listed drive(s)</b> </td><td>mark this option and provide drive list when you want to check specific 
+	     drive(s) on target system, e.g. <span class="samplered">C: D: E: M:</span> or <span class="samplered">/var /dev/sda/</span>.
+		 Note: wildcard * can be used at the end of disk name, e.g. /dev/sd*</td></tr>
+	  </tbody></table><br>
+	  
+	  <b>Alert if free space less than &lt;N&gt; MB/GB/TB/%</b><br>
+	  When HostMonitor checks several drives it finds drive with smallest amount of free space (or drive with minimal percentage of free space 
+	   when "%" alert options is selected) and sets Ok or Bad test status depending on amount of free space and value of this option.<br>
+	  Also %DiskID% and %DiskLabel% variables can be used as parameters of the actions, providing information about target drive.<br><br>
+	  
+  See also: <a href="actions.htm#macro_dspace">variables specific to Drive Free Space test</a><br><br>  	 	   
+  </p></td>

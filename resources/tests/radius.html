@@ -1,0 +1,68 @@
+<tr>
+    <td><p align=justify><br>
+     RADIUS test allows you to check Remote Authentication Dial-In User Service (RADIUS).
+     In addition to the <a href="#Dialog">common test parameters</a>, the RADIUS test has the following options:<br><br>
+
+     <b>Server</b><br>
+     	Here you should provide the host name (e. g. <font color="#AA0000">www.yahoo.com</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
+		 of the destination host that should receive and process the request from HostMonitor. You RADIUS server must be configured to accept 
+		 packets from the IP address of the machine on which HostMonitor is installed.<br>
+		 Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
+		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
+		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
+		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
+		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. --> 
+		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		 <br><br> 
+	  
+     <b>Port</b><br>
+     Specify the port number on which the host is listening for incoming packets. By default RADIUS servers using port
+      #1812. However some RADIUS servers are still using port 1645 even though RFC 2138 notes the conflict with
+      "datametrics" services.  You may need to change 1812 to 1645, this will depend on your RADIUS server
+      configuration.<br><br>
+
+     <b>Retries</b><br>
+     Set the number of times HostMonitor will resend data to the server before test fails.<br><br>
+
+     <b>Timeout</b><br>
+     Enter the amount of time (in seconds) that HostMonitor should wait for a response from the server.<br><br>
+
+     <b>Login</b><br>
+     Specify the name of the user to be authenticated. You can use invalid (fake) user name and set "Reject reply is
+      Good" option. In this case HostMonitor will mark test as "bad" and start alert actions only when no reply
+      received. If any reply from the server will be received, HostMonitor will mark test as "Host is alive". Please
+      note, for security reasons some RADIUS services will quietly discard invalid request packets. To check these
+      servers you should specify correct user name and password.<br><br>
+
+     <b>Password</b><br>
+     Specify the password of the user to be authenticated.<br><br>
+
+     <b>Secret</b><br>
+     Provide a "shared secret". Transactions between the client and RADIUS server are authenticated through the use of
+      a shared secret, which is never sent over the network. User passwords are sent encrypted between the client and
+      RADIUS server, to eliminate the possibility that someone snooping on an unsecured network could determine user's
+      password.<br><br>
+
+     <b>Reject reply is Good / Reject reply is Bad</b><br>
+     Choose one of two options:
+     <ul class=list00>
+      <li>"Reject" reply is Good <br>
+          with this option enabled HostMonitor will set test's status to "Host is alive" when any reply received from the server
+      <li>"Reject" reply is Bad <br>
+          with this option enabled HostMonitor will set test's status to "Ok" when "Access-Accept" packet received from the server (that means user was successfully authenticated on server). If any other response was received, the program will set "Bad" status. If no answer received, HostMonitor set status to "No answer"
+     </ul><br>
+
+     Please note:
+     <ol>
+      <li> You RADIUS server must be configured to accept packets from the IP address of the machine on which
+           HostMonitor is installed.
+      <li> For some RADIUS servers you can use invalid (fake) user name and/or password and set "Reject reply is Good"
+            option. In this case HostMonitor will mark test as "bad" and start alert actions only when no reply received.
+            If any reply from the server will be received, HostMonitor will mark test as "Host is alive".<br>
+           However, for security reasons some RADIUS services will quietly discard invalid request packets. To check
+           these servers you should specify correct user name and password.
+     </ol>
+  </td></tr>

@@ -1,0 +1,68 @@
+<tr>
+    <td><p align=justify><br>
+	Unlike test methods that allow you to check specific process (Process test, Performance Counter, WMI) or 
+	 total/average resource usage on the system (CPU Usage, WMI), Dominant Process test allows you to check on 
+	 regular basis what process exactly uses the most of system resources. This test allows you to find out which 
+	 process uses the most of CPU, Handles, Threads, Memory, Virtual memory or Address space.<br>
+	HostMonitor provides information about "top process" - process that uses more resources that any other 
+	 process on the system; it may display amount of allocated resources, process name and or process ID.<br>
+	In addition to the <a href="#Dialog">common test parameters</a> the Dominant Process test has the following options:<br><br>
+
+    <b>Check processes on...</b><br>
+	Specify name or an IP address of the target computer (the target computer name must be prefixed by "\\"), or 
+	 select the "&lt;local computer&gt;" item. You can use the "Browse network" button to select a computer from 
+	 the list.<br><br>
+
+	<b>Exclude process(es)</b><br>
+	Here you may tell HostMonitor to exclude some processes from check by providing comma separated list of such processes, e.g. 
+	 <font color="#AA0000">iexplore.exe, avp.exe, sql.exe</font>.
+	If some process name includes comma, use quotation marks for such process. E.g. <font color="#AA0000">"test,alert.exe"</font>
+ 	 - name of single process<br>
+	Also you may use expression like <span class="samplered">firefox.exe<b>[800 MB]</b>, oracle.exe<b>[8 GB]</b></span>.
+	 Expressions in square brackets tell HostMonitor to exclude firefox.exe and oracle.exe processes from check UNLESS firefox uses over 
+	  800 MB or oracle uses over 8 GB (memory). Similar expressions can be applied when the test checks for processes are using the most 
+	  CPU, Handles or Threads; e.g. <span class="samplered">svchost.exe[30 %]</span> or <span class="samplered">chrome.exe[4000]</span>
+	<br>	 
+	When you need to monitor many instances of some specific application, you may use "Exclude processes" option to exclude ALL but 
+	 specified process(es). Type string like <span class="samplered"><b>all but</b> processname.exe</span> You may check several 
+	 processes using string like <span class="samplered"><b>all but</b> iexplore.exe, avp.exe</span><br><br>
+	 
+    <b>Alert if process utilizes over...</b><br>
+	Here you should specify what kind of resources should be monitored and the maximum limit of resources. If any 
+	 process uses resources over the limit, HostMonitor will change test status from Ok to Bad and start alerts 
+	 if necessary (e.g. you may setup HostMonitor to use "kill" utility to terminate or restart any application 
+	 that uses 60 or more percents of CPU).<br>
+	You may check the following resources: <br>
+	- CPU load<br>
+	- Handles<br>
+	- Threads<br>
+	- Memory<br>
+	- Virtual memory<br>
+	- Address space<br><br>
+
+    <b>Top process info:</b><br>
+	HostMonitor provides information about "top process" (process that uses more resources that any other process 
+	 on the system) using Reply field of the test item. You may choose one of the following options:<br>
+	- process ID<br>
+	- process name<br>
+	- process name and process ID<br>
+	- value (amount of resources used by the process)<br>
+	- value and process ID<br>
+	- value and process name<br>
+	- value, process name and process ID<br>
+	Also, there are 3 <a href="actions.htm#macro">macro variables</a> that can be used as parameters of the action (%ProcessName%, %ProcessID% and %ProcessOwner%).<br><br> 
+
+    <b>Connect as</b><br>
+	To check processes on remote Windows system you can mark this option and provide a username and a password 
+	 for a connection to the target computer. On the other hand, we recommend using the <a href="profiles.htm#conmgr">Connection Manager</a>
+	 that provides one convenient place to store account information necessary to perform connections to remote systems.<br><br>
+
+	Note: To monitor processes on local or remote Windows system, make sure you have the WMI Core software package
+ 	 installed on the system. WMI Core is installed by default on Windows ME/2000/XP/Vista/7/8/10 and Windows Server 2003-2016. 
+	 The WMI Core software package for Windows 95, 98, and Windows NT 4.0 is available at Microsoft's 
+	 <a href="http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=AFE41F46-E213-4CBF-9C5B-FBF236E0E875" target="_blank">web site</a>
+	 site. Please note: WMI CORE for Windows 95/98/NT requires Microsoft Internet Explorer version 5 or later.<br><br>
+
+      See also: <a href="procmeter/index.htm" target="_top">Process Meter</a> application
+      <br><br>
+  </td></tr>

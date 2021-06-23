@@ -1,0 +1,99 @@
+<tr>
+    <td><p align=justify><br>
+      Performance Counter test allows you to monitor specific aspects of work performed on local or remote computer by
+       a system or a service. You can monitor a lot of important parameters of the system based on
+       Microsoft Windows NT (including Microsoft Windows NT 4.0, Windows 2000, Windows XP, Windows Vista, Windows 7/8/10, Windows Server 2003-2016).
+       Parameters, such as:<br>
+      <table width="100%">
+       <tr><td nowrap bgcolor="#E0E0E0">Counter   </td><td bgcolor="#E0E0E0">Description </td></tr>
+       <tr><td nowrap valign=top>Processor\% Processor Time  </td><td> % Processor Time is the percentage of time that the processor is executing a non-Idle thread</td></tr>
+       <tr><td nowrap valign=top>Processor\% Interrupt Time  </td><td> % Interrupt Time is the percentage of time the processor spent receiving and servicing hardware interrupts during the sample interval</td></tr>
+       <tr><td nowrap valign=top>Processor\Interrupts/sec	  </td><td> Interrupts/sec is the average number of hardware interrupts the processor is receiving and servicing in each second</td></tr>
+       <tr><td nowrap valign=top>System\Processes	          </td><td> Processes is the number of processes in the computer at the time of data collection</td></tr>
+       <tr><td nowrap valign=top>TCP\Connections Established </td><td> Connections Established is the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT</td></tr>
+       <tr><td nowrap valign=top>TCP\Segments/sec	          </td><td> Segments/sec is the rate at which TCP segments are sent or received using the TCP protocol</td></tr>
+       <tr><td nowrap valign=top>Process\% Processor Time	  </td><td> % Processor Time is the percentage of elapsed time that all of the threads of specified process used the processor to execute instructions</td></tr>
+       <tr><td nowrap valign=top>Process\Handle Count	  </td><td> The total number of handles currently open by specified process</td></tr>
+       <tr><td nowrap valign=top>Printer Queue\Jobs	  </td><td> Current number of jobs in a print queue</td></tr>
+       <tr><td nowrap valign=top>PhysicalDisk\% Disk Time	  </td><td> % Disk Time is the percentage of elapsed time that the selected disk drive is busy servicing read or write requests</td></tr>
+       <tr><td nowrap valign=top>PhysicalDisk\Current Disk Queue Length </td><td> Current Disk Queue Length is the number of requests outstanding on the disk at the time the performance data is collected</td></tr>
+       <tr><td nowrap valign=top>Memory\Available Bytes	  </td><td> Available Bytes is the amount of physical memory available to processes running on the computer, in bytes</td></tr>
+       <tr><td nowrap valign=top>NetworkInterface\Current Bandwidth </td><td> Current Bandwidth is an estimate of the interface's current bandwidth in bits per second (BPS)</td></tr>
+      </table>
+      and much more...<br><br>
+
+      To create Performance Counter test you need to define just 3 parameters (of course in addition to the
+       <a href="#Dialog">common test parameters</a>):<br><br>
+
+      <b>Performance Counter</b><br>
+      Type name of the counter to monitor or use browse button to explore all performance counters available on the system.<br>
+      Note: Each counter is uniquely identified through its name and its path, or location. In the same way that a file
+       path includes drives, directories, subdirectories, and file names, a counter path consists of four elements: the
+       machine, the object, the object instance, and the counter name. The syntax of a counter path is:<br>
+       \\Machine\PerfObject(ParentInstance/ObjectInstance#InstanceIndex)\Counter<br><br>
+
+      <b>Condition for alert</b><br>
+      HostMonitor can compare value of the counter with a specified number and start alert actions if the returned value is:
+      <ul class=list00>
+       <li> less than the specified value
+       <li> more than the specified value
+       <li> equal to the specified number
+       <li> different from the specified number
+      </ul><br>
+
+      Also HostMonitor has 9 alert conditions to check how new value changes compare to the previous test:<br>
+      <table>
+       <tr><td nowrap valign=top>&nbsp;"increases by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value increases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value decreases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value changes by specified number or more   </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"increases by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value increases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value decreases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value changes by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"increases /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average increase of the counter (per second) is greater than the specified limit ((new value - old value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average decrease of the counter (per second) is greater than the specified limit ((old value - new value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average change of the counter (per second) is greater than the specified limit (abs(new value - old value)/elapsed time >= specified limit) </td></tr>
+      </table><br>
+
+      <p align=justify>
+      HostMonitor can set status of the test to "Unknown" in case it cannot retrieve performance counter value (e.g.
+       unable to connect to the remote machine or the specified counter could not be found). You can use
+       "<a href="#UnknownIsBad">Treat Unknown status as Bad</a>" option. With this option enabled, if test results
+       cannot be obtained, actions are triggered by HostMonitor the same way as if the test returned a "Bad" status.<br><br>
+
+      <b>Display mode</b><br>
+      This parameter defines information display method. You can select one of 
+      the following options: 
+      <table border=0> 
+       <tr><td nowrap valign=top>&nbsp; as is		       </td><td nowrap valign=top> -</td><td> do not perform any conversion </td></tr>
+       <tr><td nowrap valign=top>&nbsp; sec -> [days] hh:mm:ss </td><td nowrap valign=top> -</td><td> converts received value in seconds to a "[days] hh:mm:ss" format </td></tr>
+       <tr><td nowrap valign=top>&nbsp; msec-> [days] hh:mm:ss </td><td nowrap valign=top> -</td><td> converts received value in milliseconds to a "[days] hh:mm:ss" format </td></tr>
+       <tr><td nowrap valign=top>&nbsp; bytes -> Kb	       </td><td nowrap valign=top> -</td><td> converts received value in bytes to kilobytes </td></tr>
+       <tr><td nowrap valign=top>&nbsp; bytes -> Mb	       </td><td nowrap valign=top> -</td><td> converts received value in bytes to megabytes </td></tr>
+       <tr><td nowrap valign=top>&nbsp; bytes -> Gb	       </td><td nowrap valign=top> -</td><td> converts received value in bytes to gigabytes </td></tr>
+      </table><br>
+
+      <br>
+      <a name="perfnotes"><b>Important notes:</b></a><br><br>
+      
+      <p align=left>
+      <b>Note #1 (permissions)</b>: The security on the following registry key dictates which users or groups can gain
+       access to the performance data: <font face="Courier New">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows_NT\CurrentVersion\Perflib.</font>
+      In order for to query performance data, account must have KEY_READ access to the above registry key. To change
+       permissions to the registry key you can use the registry editor utility (Regedt32.exe).<br><br>
+
+      <p align=justify>
+      <b>Note #2 (bugs)</b>: Windows implementation of performance counters has bugs. E.g., Windows 2000 (Professional,
+       Server, and Advanced Server editions) can produce memory leak in PDH.DLL when user (application) querying
+       performance counter that does not exist. This bug fixed in SP2. Also PDH.DLL does not work correctly with
+       multithread applications.<br>
+      That's why in HostMonitor we have implemented several different methods to work with pdh.dll:
+      <ul class=list00>
+       <li> MultiThread - allows to start several tests in separate threads (fastest method)
+       <li> OneByOne - HostMonitor starts Performance Counter tests one by one
+       <li> Smart - multithreading model, HostMonitor tries to reload pdh.dll when error occurs
+       <li> External - HostMonitor uses external (perfobj.exe) utility to perform the tests. This is fast and most reliable method.
+      </ul>
+      You can specify which test mode will be used on <a href="options.htm#MiscPerf">Miscellaneous</a>
+       page in the <a href="options.htm">Options</a> dialog.<br>
+    <br>
+  </td></tr>

@@ -1,0 +1,46 @@
+<tr>
+    <td><p align=justify><br>
+      This test allows you to check number of files in the specified directory. Let`s say you have a mailserver that
+       uses a spool directory. If the mail server is running correctly, it should deliver the mail within 5 minutes to
+       the internet. Using Count Files test HostMonitor can check the number of files in the mail server`s spool
+       directory and warn you when number of files exceed specified limit.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the Count Files test has the following options:<br><br>
+
+      <b>Folder</b><br>
+      Specify the directory in what you want to count the amount of files.<br><br>
+
+      <b>File name mask</b><br>
+      Specify file name mask. Usually mask contains wildcard characters, e.g. use '*.*' mask to count all files in the
+       folder; use '*.eml' mask to count files with .EML extension.<br><br>
+
+      <b>Translate macros</b><br>
+      With this option enabled you can use special <a href="#macros">date macro variables</a>, <a href="#filespecmacro">file-specific variables</a>
+ 	   and <a href="actions.htm#udvmacro">User Defined Variables</a> in the folder name and in the file name mask.<br><br>
+
+      <b>Include sub-folders</b><br>
+      If the option is disabled, HostMonitor will count files directly in the specified folder. If the option is enabled,
+       files in the specified folder and in all of its descending subfolders will be counted.<br><br>
+
+      <b>Conditions to count files</b><br>
+      Specify additional condition to count files. Choose one of the options:
+      <ul class=list00>
+       <li> Count all files
+       <li> Count files older than NN min
+       <li> Count files newer than NN min
+       <li> Count files bigger than NN bytes
+       <li> Count files smaller than NN bytes
+       <li> Count subfolders only 
+      </ul><br>
+
+      <b>Alert when folder contains more than NN files</b><br>
+      Specify limit for the file amount. When this limit is reached, HostMonitor will change test status to "Bad". If
+       you need to start alert actions when file amount become lower than specified, use "<a href="#Reverse">Reverse alert</a>"
+       option.<br><br>
+
+      If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you should have in mind:
+      <ul class=list00>
+       <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
+       <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
+       <li> on Windows system file masks * and *.* represent any file. On UNIX-like system only * represents any file; *.* can be used for any file that has dot (.) in the name;
+      </ul><br>
+  </td></tr>

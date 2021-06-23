@@ -1,0 +1,49 @@
+<tr>
+    <td><p align=justify><br>
+      E-mail is commonly posted and transferred between mail servers using SMTP, but access to mail is provided through
+       POP3 (Post Office Protocol version 3). POP3 test can be used to test that your mail server's POP functions are
+       functioning perfectly. To perform test HostMonitor login to the server and logout using specified user account.
+       As an option HostMonitor can check number of messages and size of messages for specified user. If messages
+       count/size exceed specified limit, the program can start alert actions.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the POP3 test has the following options:<br><br>
+
+      <b>Server</b><br>
+      This is the name or IP address of the mail server you want to test, usually in the form "mail.yourcom.com".<br><br>
+
+      <b>Port</b><br>
+	  The default POP3 port for unencrypted connection is 110; POP3 servers that support secured SSL connections usually accept 
+	   connections using TCP port 995. If your server configured to use some non-standard port, specify port number using this property.<br><br>
+
+	  <b>TLS</b><br>
+	  This option allows you to use secured and encrypted connection (SSL). You may set "None" option to use unencrypted connection, 
+	   select "Implicit" or "Explicit" to use encrypted connection. Supported SSL protocols: TLS1, SSL3, SSL2 and PCT1.<br>
+	  Additional SSL options located on <a href="options.htm#miscSSL1">Misc</a> page in the <a href="options.htm">Options</a> dialog.<br><br>	  
+	  
+      <b>Timeout</b><br>
+      This is the amount of time in seconds the program will wait for a response from the server before the request fails.
+       Set this to 0 for no timeout (not recommended).<br><br>
+
+      <b>User Name</b><br>
+      HostMonitor will test the POP server by logging in to it using an existing account. In the user name field, supply
+       the name of an account that can be used for testing. HostMonitor will log into the account and check the status
+       of its mailbox without accessing, modifying or deleting any of the messages held in it.<br><br>
+
+      <b>Password</b><br>
+      Supply the password for the user account HostMonitor will log into during the test.<br><br>
+
+      <b>Alert when mailbox contains more then [NN] messages</b><br>
+      Mark this option and specify limit amount of messages in a mailbox. When this limit is reached, HostMonitor will
+       change test status to Bad.<br><br>
+
+      <b>Alert when total size of messages bigger than [NN] MB</b><br>
+      Mark this option and specify the size limit of all messages in a mailbox. When this limit is reached, HostMonitor
+       will change test status to Bad.<br><br>
+
+      Note: Value of the 'Reply' field depends on the test's settings:<br>
+      <ul class=list00>
+       <li> if test checks number of messages, HostMonitor will display number of messages
+       <li> if test checks total size of messages, HostMonitor will display total size of messages.
+       <li> if both these options disabled and test checks server status only (connect, login and logout), Reply value will contain the test execution time (that shows the reply speed of the server).
+       <li> Reply value is empty when the program cannot connect or login to server
+     </ul><br>
+  </td></tr>

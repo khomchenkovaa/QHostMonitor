@@ -228,5 +228,56 @@
         <file>resources/tests/ping.html</file>
         <file>resources/tests/external.html</file>
         <file>img/test/nagios.gif</file>
+        <file>resources/tests/active_script.html</file>
+        <file>resources/tests/compare_files.html</file>
+        <file>resources/tests/count_files.html</file>
+        <file>resources/tests/cpu_usage.html</file>
+        <file>resources/tests/databases.html</file>
+        <file>resources/tests/dhcp_test.html</file>
+        <file>resources/tests/dicom.html</file>
+        <file>resources/tests/disk_file_mapped.html</file>
+        <file>resources/tests/dns_test.html</file>
+        <file>resources/tests/dominant_process.html</file>
+        <file>resources/tests/drive_free_space.html</file>
+        <file>resources/tests/file_integrity.html</file>
+        <file>resources/tests/files_size.html</file>
+        <file>resources/tests/folder-file_availability.html</file>
+        <file>resources/tests/hm_monitor.html</file>
+        <file>resources/tests/http.html</file>
+        <file>resources/tests/imap_test.html</file>
+        <file>resources/tests/interbase.html</file>
+        <file>resources/tests/internetService.html</file>
+        <file>resources/tests/ldap_test.html</file>
+        <file>resources/tests/mail_relay.html</file>
+        <file>resources/tests/mssql.html</file>
+        <file>resources/tests/mysql.html</file>
+        <file>resources/tests/nagios.html</file>
+        <file>resources/tests/nt_event_log.html</file>
+        <file>resources/tests/ntp_test.html</file>
+        <file>resources/tests/odbcTests.html</file>
+        <file>resources/tests/oracle.html</file>
+        <file>resources/tests/performance_counter.html</file>
+        <file>resources/tests/pop3_test.html</file>
+        <file>resources/tests/postgresql.html</file>
+        <file>resources/tests/process.html</file>
+        <file>resources/tests/radius.html</file>
+        <file>resources/tests/ras_test.html</file>
+        <file>resources/tests/service.html</file>
+        <file>resources/tests/shell_script.html</file>
+        <file>resources/tests/smtp_test.html</file>
+        <file>resources/tests/snmp.html</file>
+        <file>resources/tests/snmp_get.html</file>
+        <file>resources/tests/snmp_trap.html</file>
+        <file>resources/tests/ssh_test.html</file>
+        <file>resources/tests/sybase.html</file>
+        <file>resources/tests/tcp_connection.html</file>
+        <file>resources/tests/temperature_monitor.html</file>
+        <file>resources/tests/text_log.html</file>
+        <file>resources/tests/trace_test.html</file>
+        <file>resources/tests/traffic_monitor.html</file>
+        <file>resources/tests/udp_test.html</file>
+        <file>resources/tests/unc_availability.html</file>
+        <file>resources/tests/url_request.html</file>
+        <file>resources/tests/wmi.html</file>
     </qresource>
 </RCC>

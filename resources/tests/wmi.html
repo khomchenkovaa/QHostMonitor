@@ -1,0 +1,164 @@
+<tr>
+    <td><p align=justify><br>
+    <b>WMI</b> is an acronym for <b>W</b>indows <b>M</b>anagement <b>I</b>nstrumentation. WMI is the Microsoft's
+     implementation of Web-Based Enterprise Management (WBEM) - a new management technology that allows software to monitor
+     and control managed resources throughout the network. Such managed resources include hard drives, file systems,
+     settings of operating system, processes, services, shares, registry settings, networking components, event logs,
+     users, groups, etc.<br>
+    WMI allows monitoring of performance counters as well. Microsoft applications such as Exchange and SQL Server have WMI
+     built-in. Many non-Microsoft applications utilize WMI and thus they could be monitored using Advanced Host Monitor as
+     well.<br>
+    WMI is already built into Windows 2000 or above, and can be installed on any other 32-bit Windows system.
+    See also:
+    <ul class=list0>
+     <li><a href="#wmitestsysreq">System requirements</a>
+     <li><a href="wmi/index.htm#knownproblems" target=_top>Known problems</a>
+     <li><a href="http://technet.microsoft.com/library/ee692772.aspx" target="_blank">Microsoft WMI FAQ</a>
+     <li><a href="wmi/index.htm" target=_top>WMI Explorer</a>
+    </ul><br>
+	In addition to the <a href="#Dialog">common test parameters</a>, the WMI test has the following options:<br>
+	<p align=justify>
+	
+	<b>Host</b><br>
+	Provide the host name (e.g. <font color="#AA0000">mainserver</font>) or IP address (e.g. <font color="#AA0000">192.168.1.55</font>) 
+ 	 of the host that you wish to monitor.<br>
+	Please note: <a href="profiles.htm#conmgr">Connection Manager</a> provides one convenient place to store 
+	 account information necessary to perform connections to remote systems.<br><br>
+
+	<b>Authentication Level</b><br>
+	This option is necessary for access to some namespaces. E.g. <font color="#AA0000">root\cimv2\TerminalServices</font> namespace 
+	 requires Packet Privacy authentication level.<br><br>
+	 
+	<b>Name space</b><br>
+	WMI namespace is a container grouping child objects related to one another in some way. A namespace contains 
+	 a hierarchy of classes and associations, which define either a machine's object or the relationship between 
+	 two or more objects. The most commonly used namespace is CIMV2 (root\cimv2) - Common Information Model 
+	 Version 2.<br><br>
+
+	<b>Query</b><br>
+	Provide WQL (WMI Query Language) query. This query will be performed at test execution time and result data 
+	 set will be checked by HostMonitor.<br>
+	Examples:
+	<ol class=olist0>
+	 <li style="text-align: justify">If you want to monitor the number of handles used by all running instances of the 
+	  Internet Explorer, use the query like this: <font color="#AA0000">SELECT HandleCount FROM Win32_Process WHERE name='iexplore.exe'</font>
+	 <li style="text-align: justify">If you need to monitor the number of processes which use more than 10 threads,
+ 	  use the following query: <font color="#AA0000">SELECT ThreadCount FROM Win32_Process WHERE ThreadCount&gt;10</font>
+	 <li style="text-align: justify">The query: <font color="#AA0000">SELECT Name FROM Win32_Service WHERE 
+	  Started=0 AND StartMode='Auto'</font> shows all services which have not started and have the start mode 
+	  configured to "Automatic". 
+	</ol>
+	<p align=justify>
+	You may click the right mouse button on the test item and choose "Explore WMI" item from the popup menu. 
+	 When you do so, HostMonitor will start <a href="wmi/index.htm" target=_top>WMI Explorer</a> in the Query mode,
+	 passing the query and information about the target host (such as the hostname, name space, login, etc) to 
+	 the explorer. This allows you to check quickly hardware and software parameters on the target system and 
+	 instantly see what is going on (e.g. why the test item has been failed).<br>
+	Also, <a href="wmi/index.htm" target=_top>WMI Explorer</a> may display full set of classes within the 
+	 specified namespace, child objects and their properties.<br>
+	If you change the authentication level or namespace using WMI Explorer, it will pass new parameters back to Test Properties dialog.<br><br>
+	 
+    <b>Alert if</b><br>
+	<img src="../images/hostmon4/wmitest.gif" border=0 width=364 height=160 align=right alt="">
+	This option specifies when exactly test result(s) should be considered as "bad" and appropriate alert actions 
+	 should be started. There are 3 parameters should be provided: aggregation mode, compare mode and compare 
+	 value.
+	<ol> 
+	<li><a name="wmitestaggregation">Aggregation mode</a><br>
+	  Specifies how HostMonitor should compare result data when WML query returns several rows. Choose one of the 
+	  following option:<br>
+	  <b>Any</b><br>
+		Tell HostMonitor to compare data from EVERY row. If ANY row matches specified compare condition, 
+		HostMonitor will set "Bad" test status.<br>
+	  <b>Average</b><br>
+		Tells HostMonitor to calculate average value of the rows and compare average to the specified number.<br>
+	  <b>Total</b><br>
+		Tells HostMonitor to calculate sum of the rows and then compare total to the specified number.<br>
+	  <b>Row count</b><br>
+		Tell HostMonitor to calculate row count and compare number of rows to the specified number<br><br>
+
+	  Examples:
+	  <ol class=olist0>
+	  <li>if you set the following test parameters:<br>
+		- Query: <font color="#AA0000">SELECT HandleCount FROM Win32_Process WHERE name='iexplore.exe'</font><br>
+		- Alert if: <font color="#AA0000"><b>Any</b></font><br>
+		- Compare: <font color="#AA0000">&gt; than 200</font><br>
+		HostMonitor will set "bad" status if any instance of Internet Explorer allocated more than 200 handles.</li>
+	  <li style="text-align: justify">The same query but you chose "Alert if <b>Average</b> &gt; 200" option. HostMonitor will set "bad" status when average handles usage is over 200 (e.g. there are 3 IE instances running on the system: 1st instance uses 120 handles, 2nd - 190 handles and 3rd - 310 handles. Average=206.6).</li>
+	  <li style="text-align: justify">The same query but this time you have chosen "Alert if <b>Total</b> &gt; 200" option. HostMonitor will set "bad" status when total number of handles used by all instances of IE is over 200 (e.g. there are 3 IE instances running on the system: 1st instance uses 80 handles, 2nd - 50 handles and 3rd - 110 handles)</li>
+	  <li style="text-align: justify">If you choose "Alert if <b>Row count</b> &gt; 200" then HostMonitor will start alerts when there are more than 200 instances of Internet Explorer is running</li>
+	  </ol><br>
+
+	  Notes: 
+	  <ol class=olist0>
+	  <li>If WML query returns single row, then "Any", "Average" and "Total" modes are equivalent (except "Average" and "Total" do not compare value to a string).
+	  <li>If you specify several fields in 'select' query (e.g. Select HandleCount, ThreadCount from Win32_Process), HostMonitor will check <b>only 1st field</b> (HandleCount).
+	  <li>You may use Average and Total mode only with numeric data 
+	  </ol><br>
+	</li>
+	
+	<li>Compare mode<br>
+	HostMonitor compares received/calculated value of the counter with a specified number or string. The following 
+	compare modes are supported:
+	<ul class=list0>
+	 <li>less than the specified number 
+	 <li>greater than the specified number 
+	 <li>equal to the specified value (number or string)
+	 <li>different from the specified value (number or string)
+	 <li>contains the specified string
+	 <li>doesn't contain the specified string
+	</ul><br>
+	Also HostMonitor provides 9 compare modes to check how counter value changes in comparison to the previous 
+	test:<br>
+      <table>
+       <tr><td nowrap valign=top>&nbsp;increases by     </td><td nowrap valign=top> -</td><td> set "Bad" status when value increases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;decreases by     </td><td nowrap valign=top> -</td><td> set "Bad" status when value decreases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;changes   by     </td><td nowrap valign=top> -</td><td> set "Bad" status when value changes by specified number or more   </td></tr>
+       <tr><td nowrap valign=top>&nbsp;increases by (%) </td><td nowrap valign=top> -</td><td> set "Bad" status when value increases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;decreases by (%) </td><td nowrap valign=top> -</td><td> set "Bad" status when value decreases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;changes   by (%) </td><td nowrap valign=top> -</td><td> set "Bad" status when value changes by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;increases /sec   </td><td nowrap valign=top> -</td><td> set "Bad" status when average increase of the counter (per second) is greater than the specified limit ((new value - old value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;decreases /sec   </td><td nowrap valign=top> -</td><td> set "Bad" status when average decrease of the counter (per second) is greater than the specified limit ((old value - new value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;changes   /sec   </td><td nowrap valign=top> -</td><td> set "Bad" status when average change of the counter (per second) is greater than the specified limit (abs(new value - old value)/elapsed time >= specified limit) </td></tr>
+      </table>
+	Please note: You cannot use these "relative" compare modes if you have chosen "Any" <a href="#wmitestaggregation">aggregation</a>
+ 	 mode.<br><br>
+	</li>
+ 
+	<li>And finally you should provide value to compare.</li>
+	</ol>
+	
+	<p align=justify>
+	<b>If instance not available, set [Unknown/Bad/Ok] status</b><br>
+	This option allows you to choose test status that should be used when HostMonitor is able to connect to the 
+	 system and execute WMI query but query returns empty data set. E.g. you have specified <font color="#AA0000">
+	 SELECT HandleCount FROM Win32_Process WHERE name='iexplore.exe'</font> query; this query will return empty 
+	 data set if 'iexplore.exe' process is not started.  You may choose one of the following statuses: Unknown, 
+	 Bad, Ok<br>
+	Please note: If HostMonitor cannot connect to the host or WMI query fails, HostMonitor will set Unknown 
+	 status and display error description in Reply field of the test.<br><br>
+	<br>
+	
+	<a name="wmitestsysreq">System requirements</a><br><br>
+	The following versions of Windows <b>do</b> have the WMI pre-installed:
+	<UL class=list0>
+	<li>Windows Server 2016
+	<li>Windows Server 2012
+	<li>Windows Server 2008
+	<li>Windows Server 2003
+    <li>Windows 7, 8, 10
+    <li>Windows Vista
+	<li>Windows 2000
+	<li>Windows XP
+	<li>Windows ME
+	</ul><br>
+	These versions of Windows <b>do not</b> have the WMI pre-installed:
+	<UL class=list0>
+	<li>Windows NT
+	<li>Windows 98
+	<li>Windows 95
+	</ul>
+	<P align=justify>
+	The WMI Core software package for Windows 95, 98, and Windows NT 4.0 available at Microsoft's <a href="http://www.microsoft.com/downloads/details.aspx?displaylang=en&amp;FamilyID=AFE41F46-E213-4CBF-9C5B-FBF236E0E875" target="_blank">web site</a>.<br>
+	Please note: WMI CORE for Windows 95/98/NT requires Microsoft Internet Explorer version 5 or later.<br><br>
+  </td></tr>

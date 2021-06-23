@@ -1,0 +1,109 @@
+<tr>
+    <td><p align=justify><br>
+	Mail Relay test method was designed to monitor a chain of mail servers. HostMonitor sends an e-mail through 
+	 the specific mail server and then checks when the message becomes available in target mailbox. HostMonitor 
+	 sends special mail using SMTP protocol and checks the target mailbox using POP3 or IMAP protocol.<br>
+	In addition to <a href="#Dialog">common test parameters</a>, for this test you should specify the following 
+	 options:<br><br>
+
+	<u>Outgoing mail server</u><br>
+	The following group of parameters specifies the mail server that receives e-mail from HostMonitor and sends 
+	 message to a target mailbox (directly or through a chain of other mail servers).<br><br>
+
+	<b>Protocol</b><br>
+	HostMonitor sends e-mail messages using SMTP protocol only.<br><br>
+	<b>Host</b><br>
+	Provide the name or IP address of the mail server.<br><br>
+	<b>Port</b><br>
+	The default port for SMTP protocol is 25. However you can specify a non-standard port (if it is known that your mail server uses such port)<br><br>
+	<b>TLS</b><br>
+	This option allows you to use secured and encrypted connection (SSL). You may set "None" option to use unencrypted connection, select 
+	 "Implicit" or "Explicit" (StartTLS) to use encrypted connection.<br><br>
+	<b>Timeout</b><br>
+	This is the amount of time in seconds the program will wait for a response from the server before the request fails. Set this to 0 for no timeout (not recommended).<br><br>
+	<b>Authentication</b><br>
+	HostMonitor supports and automatically recognizes Plain, Login and Cram-MD5 authentication schemes. It also works with SMTP servers that do not require any authorization.<br><br>
+	<b>Login</b><br>
+	Specify the login name. You may create special e-mail account for testing purpose (an account that will be used 
+	 by HostMonitor only), or you may use any of the existing user accounts. If your SMTP server does not require 
+	 authorization, keep this field blank.<br><br>
+	<b>Password</b><br>
+	Supply the password for the account specified above.<br><br>
+	<br>
+
+	<u>Incoming mail server</u><br>
+	This group of parameters specifies the target server that should receive e-mail messages.<br><br>
+	<b>Protocol</b><br>
+	HostMonitor supports IMAP (Internet Message Access Protocol) and POP3 (Post Office Protocol version 3) protocols. Select the one supported by your server.<br><br>
+	<b>Host</b><br>
+	The name or IP address of the server that should receive test messages.<br><br>
+	<b>Port</b><br>
+	The default POP3 port for unencrypted connection is 110; POP3 servers that support secured SSL connections usually accept connections using TCP port 995.<br>
+	The default IMAP port for unencrypted connection is 143; IMAP servers that support secured SSL connections usually accept connections using TCP port 993.<br>
+	If your server configured to use some non-standard port, specify port number using this property.<br><br>
+	<b>TLS</b><br>
+	This option allows you to use secured and encrypted connection (SSL). You may set "None" option to use unencrypted connection, 
+	 select "Implicit" or "Explicit" to use encrypted connection. Supported SSL protocols: TLS1, SSL3, SSL2 and PCT1.<br>
+	Additional SSL options located on <a href="options.htm#miscSSL1">Misc</a> page in the <a href="options.htm">Options</a> dialog.<br><br>	  
+	<b>Timeout</b><br>
+	This is the amount of time in seconds the program will wait for a response from the server before the request fails. Set this to 0 for no timeout (not recommended).<br><br>
+	<b>Mailbox</b><br>
+	Specify name of the mailbox to check (unused for POP3 servers).<br><br>
+
+	<b>Login</b><br>
+	HostMonitor tests the IMAP/POP3 server by logging in to it and checking status of the previously sent mail. 
+	 In the Login field you should provide the name of an account that will be used for testing.<br>
+	You may use an existing (user's) account - HostMonitor will log into the mailbox, check the status of special 
+	 test mail and remove this mail without accessing, modifying or deleting any of the user's messages held in it.<br>
+	However we recommend creating a special account to be used by HostMonitor only. In latter case test messages 
+	 will not confuse users.<br><br>
+
+	<b>Password</b><br>
+	Supply the password for the account specified above.<br><br>
+	<br>
+
+	<u>Mail</u><br>
+	Here you should provide the e-mail addresses of the sender and recipient. In some cases you may use the same 
+	 address in both fields.<br><br>
+
+	<b>From</b><br>
+	Specify the email address of the sender (HostMonitor). You may create special account for testing purposes 
+	 (an account that will be used by HostMonitor only), or you may use any valid address here (e.g. hostmonitor@our-domain.com).<br><br>
+
+	<b>To</b><br>
+	Address of the recipient. You may use an e-mail address of existing user; HostMonitor will log into the 
+	 mailbox, check the status of special mail and remove this mail without accessing, modifying or deleting any 
+	 of the user's messages held in it.<br>
+	However we recommend creating a special account to be used by HostMonitor only. In latter case testing 
+	 messages will not confuse users (e.g. hostmonitor@our-remote-mail-box.com).<br><br>
+	<br>
+
+	<u>Alert</u><br>
+	The following options define how HostMonitor should perform the test<br><br>
+
+	<b>Alert when incoming mail server does not receive mail within N sec</b><br>
+	With this option selected HostMonitor will send e-mail through the specified SMTP server then wait N seconds 
+	 and check the target mailbox on POP3 or IMAP server. If the target server has not received the mail then the
+	 status of the test item will be changed to "Bad" and appropriate action profile will be executed. If the 
+	 mail has been received, HostMonitor sets "Ok" status and removes the message. Also it removes all obsolete 
+	 messages (if any). "Obsolete messages" are those that were sent during previous test probes but were not 
+	 delivered on time.<br>
+	Use this option if your mail system pretty fast and messages can be delivered within a minute or so.<br><br>
+
+	<b>Alert when incoming mail server does not receive mail before next checking cycle</b><br>
+	With this option selected HostMonitor first logs into "incoming" server to check if the target mailbox has 
+	 received the test mail that was sent by previous test probe. If the mail was received, HostMonitor sets 
+	 "Ok" status and removes the message; otherwise "Bad" status will be set.<br>
+	Then HostMonitor sends new mail that will be checked by next test probe. Time of the next probe depends on 
+	 the test interval and assigned schedule (specified in <a href="#Dialog">Test Properties</a> dialog). 
+	 Note: if test item has been assigned as Master test for other test items, it might be executed more often 
+	 (see "Consider status of the master test obsolete after N seconds" option on <a href="options.htm#Behavior">Behaviour</a>
+	 page in the <a href="options.htm">Options</a> dialog). Also "Refresh" command will force HostMonitor to 
+	 execute the test immediately.<br>
+	So if you choose this option, each test probe will look for mail that was sent by previous probe. Use this 
+	 option when your mail system needs several minutes to deliver the mail.<br><br>
+
+	Of course when incoming or outgoing server does not accept connection at all or it is impossible to pass 
+	 server authentication using specified account, HostMonitor sets an appropriate test status and triggers 
+	 assigned alert profile.<br><br>
+  </td></tr>

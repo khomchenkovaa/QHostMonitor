@@ -1,0 +1,154 @@
+ <tr>
+    <td style="text-align: justify"><br>
+      This test allows you to check the availability of an ODBC data source, run an SQL query, and analyze the value of
+       a specified data field in the result set returned. To set up a test, simply pick one of the ODBC data sources
+       defined in your system, and fill in the Login, Password and Timeout fields. Optionally, provide an SQL query
+       and a condition to check. If no condition is specified, the two possible test status values are "Alive" and
+       "No answer". If a condition is provided, test status can be either:
+      <ul class="list0">
+       <li> "Ok" - if the condition is met;
+       <li> "Bad" - if the condition is not met;
+       <li> "Unknown" - if the query fails, or the data field specified is not found in the result set.
+      </ul><br>
+
+      <b>If field is unavailable, set status</b><br>
+      You can use this option to define status of the test in case SQL query was executed without errors but result data 
+       set does not contain specified field (specified by row and col parameters). Choose one of the following statuses:
+      <ul class="list0">
+       <li> Unknown
+       <li> Bad
+       <li> Ok
+      </ul><br>
+
+	<b>Retrieve 2nd field</b><br>
+	With this option enabled test may retrieve 2 different fields. HostMonitor may check value of field1 and display value of field2 or display field1, also it may display both fields. 
+	Also variables %ODBCField1% and %ODBCField2% provide access to retrieved data; variables can be used in 
+	 <a href="#normalstatus">Optional status processing</a> expressions or as parameters of actions assigned to ODBC Query test<br><br>
+
+	<b>Display</b><br>
+	  
+	Note: some ODBC drivers (e.g. MS SQL ODBC Driver version 13.1+) support Integrated Windows authentication and Active Directory Integrated 
+	authentication. In this case you may type <span class="samplered">WindowsAuth</span> instead of login name (for Integrated Windows authentication) or set 
+	<span class="samplered">ADAuth</span> as login name (for Active Directory Integrated authentication). Password field is not used in such case.<br><br>
+	  
+      See also 
+      <ul class="list03">
+	    <li><a href="#Dialog">common test parameters</a>
+		<li><a href="options.htm#MiscODBC">DSN options</a> (options located on Misc page in the <a href="options.htm">Options</a> dialog)
+	  </ul><br><br>
+	
+	<b>Windows x64</b><br>
+	HostMonitor is 32bit application that can be started on 64bit Windows OS. If you are using Windows x64 Edition and you want to setup 
+	 ODBC Logging or ODBC test method, you should setup ODBC datasources using 32-bit ODBC Data Source Administrator (e.g. 
+	 C:\WINDOWS\SysWOW64\odbcad32.exe).<br>
+	There are x86 and x64 versions of RMA (Remote Monitoring Agent) available, so you may use 32-bit or 64-bit version of ODBC Data Source Administrator
+	 depending on RMA version.<br><br>
+
+	<span class="samplered"><b>	 <a name="odbc_bugs1">Reliability / Known problems</a></b></span><br>
+	If you are using ODBC Query test method or you have setup ODBC logging, you must be sure that ODBC driver (provided by 3rd party) 
+	 works reliable and will not cause HostMonitor to crash. Some bad ODBC drivers:
+    <ul class="list0">
+	 <li>Microsoft dBase Driver v 4.00 causes resource leakage; 
+	 <li>Oracle drivers v8 and v10 have many "bugs" and may crash application;
+	 <li>Old MySQL ODBC drivers v3 cause handles leakage in multithreaded environment. If you have several ODBC Query test items that check 
+	  MySQL servers, we recommend to place these test items in separate folder and use "<a href="testlist.htm#folder_special">Non-simultaneously test execution</a>"
+	  folder-specific option;<br>
+	 <li>MySQL ODBC drivers version 8.00.11 - 8.00.15 may lead to various problems as well, including memory access violations. If you need 
+	 to use MySQL ODBC driver version 8.x, please set two options in hostmon.ini file, [Misc] section:<br>
+		<span class="samplered">[Misc]<br>
+		ODBC_UseSharedEnvHandle=1<br>
+		ODBC_KeepSharedEnvHandle=1<br></span>
+	</ul><br><br>
+	 
+	Using this test method you may retrieve information about SQL server status as well.
+	There are some useful SQL queries:<br><br>
+
+	<b>Firebird: The number of established connections</b><br>
+	<font color="#0000AA">SELECT COUNT(*) FROM MON$ATTACHMENTS</font><br><br>
+
+	<br>
+	<b>Interbase: Number of active connections (SMALLINT)</b><br>
+	<font color="#0000AA">SELECT TMP$ATTACHMENTS FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Active threads in database (SMALLINT)</b><br>
+	<font color="#0000AA">SELECT TMP$ACTIVE_THREADS FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Current memory allocated database (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$CURRENT_MEMORY FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Maximum memory ever allocated (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$MAXIMUM_MEMORY FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Number of active transactions (SMALLINT)</b><br>
+	<font color="#0000AA">SELECT TMP$TRANSACTIONS FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Number of transaction deadlocks (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$TRANSACTION_DEADLOCKS FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Number of transaction update conflicts (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$TRANSACTION_CONFLICTS FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Records inserted into database (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$RECORD_INSERTS FROM TMP$DATABASE </font><br><br>
+
+	<b>Interbase: Records updated to database (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$RECORD_UPDATES FROM TMP$DATABASE</font><br><br>
+
+	<b>Interbase: Records deleted from database (INTEGER)</b><br>
+	<font color="#0000AA">SELECT TMP$RECORD_DELETES FROM TMP$DATABASE</font><br><br>
+
+	<br>
+	<b>MS SQL: Number of active connections</b><br>
+	<font color="#0000AA">SELECT COUNT(DBID) AS TOTALCONNECTIONS FROM SYS.SYSPROCESSES</font><br><br>
+
+	<br>
+	<b>MySQL: The number of failed attempts to connect to the MySQL server</b><br>
+	<font color="#0000AA">SHOW GLOBAL STATUS LIKE 'Aborted_connects'</font><br><br>
+
+	<b>MySQL: The number of connections that were aborted</b><br>
+	<font color="#0000AA">SHOW GLOBAL STATUS LIKE 'Aborted_clients'</font><br><br>
+
+	<b>MySQL: The maximum number of connections that have been in use simultaneously since the server started. </b><br>
+	<font color="#0000AA">SHOW GLOBAL STATUS LIKE 'Max_used_connections'</font><br><br>
+
+	<b>MySQL: The number of files that are open</b><br>
+	<font color="#0000AA">SHOW GLOBAL STATUS LIKE 'Open_files'</font><br><br>
+
+	<b>MySQL: The number of tables that are open</b><br>
+	<font color="#0000AA">SHOW GLOBAL STATUS LIKE 'Open_tables'</font><br><br>
+
+	<br>
+	<b>Oracle: CPU Usage Per Sec</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'CPU Usage Per Sec'</font><br>
+	The CPU Time Per Sec Oracle metric shows the amount of CPU usage per second for the specific task, SQL statement or session.<br><br>
+
+	<b>Oracle: Current Logons Count</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Current Logons Count'</font><br>
+	The Current Logons Count Oracle metric is the total number of current logons.<br><br>
+
+	<b>Oracle: Current Open Cursors Count</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Current Open Cursors Count'</font><br>
+	The Current Open Cursors Count Oracle metric refers to the current number of open cursors; whether they are being utilized or not.<br><br>
+
+	<b>Oracle: Current OS Load (Number Of Processes)</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Current OS Load'</font><br><br>
+
+	<b>Oracle: Cursor Cache Hit Ratio</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Cursor Cache Hit Ratio'</font><br>
+	The Cursor Cache Hit Ratio Oracle metric is determined by the ratio of the number of times an open cursor was found divided by the number of times a cursor was sought.<br><br>
+	
+	<b>Oracle: Database CPU Time Ratio</b><br>
+	Measurement unit: % Cpu/DB_Time<br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Database CPU Time Ratio' order by group_id</font><br><br>
+
+	<b>Oracle: Host CPU Utilization (%)</b><br>
+	<font color="#0000AA">SELECT value FROM sys.v_$sysmetric WHERE metric_name = 'Host CPU Utilization (%)' order by group_id</font><br><br>
+
+	<br>
+	<b>Sybase: Number of active connections</b><br>
+	<font color="#0000AA">SELECT COUNT(*) FROM MASTER.DBO.SYSPROCESSES</font><br><br>
+
+	There are more useful SQL queries for most popular SQL servers listed in Appendix #1 of the manual (Manual.PDF file).
+
+     <br><br>
+  </td></tr>

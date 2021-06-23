@@ -1,0 +1,53 @@
+<tr>
+    <td><p align=justify><br>
+      This test is used to check Directory Servers using the LDAP (Lightweight Directory Access Protocol). To perform
+       this test HostMonitor connects and binds to the directory server. If the Password property has a value, it is
+       used for authentication. As an option HostMonitor can perform Search operation using specified base object
+       and search filter.<br>
+      In addition to the <a href="#Dialog">common test parameters</a>, the LDAP test has the following options:<br><br>
+
+      <b>Server</b><br>
+      This is the name or IP address of the LDAP server you want to test.<br>
+	  Note: when you setup LDAP test for LDAP server that accepts connection on non-standard port but does not support any SSL option, 
+	   you may add "::sslnone" suffix to hostname (e.g. you may specify target hostname as 
+	   <font color="#AA000">primaryDC.mycompany.com::sslnone</font> or <font color="#AA000">10.10.5.1::sslnone</font>)<br><br>
+
+      <b>Port</b><br>
+	  The default LDAP port port for unencrypted connection is 389. LDAP servers that support secured SSL connections 
+	   usually accept connections using TCP port 636 (supported SSL protocols: TLS1, SSL3, SSL2, PCT1).<br>
+	  If your server configured to use some non-standard port, specify port number using this property.<br>
+	  Additional SSL options located on <a href="options.htm#miscSSL1">Misc</a> page in the <a href="options.htm">Options</a> dialog.<br><br>	  
+
+      <b>Timeout</b><br>
+      This is the amount of time in seconds the program will wait for a response from the server before the request fails.<br><br>
+
+      <b>Login / Password</b><br>
+      Specify the username and password used to authenticate to the LDAP server.<br><br>
+
+      <b>Perform Search operation</b><br>
+      HostMonitor can perform search operation, to implement this behavior mark "Perform Search operation" option and
+       define follow parameters:<br><br>
+
+      <b>Base object</b><br>
+      The Distinguished Name used as the base for LDAP operations (in HostMonitor's case it's a base object during LDAP
+       searches). The Distinguished Name is provided in string format as specified by RFC 1779.<br><br>
+
+      <b>Search filter</b><br>
+      A string representation of the LDAP search filter used during searches. The format of the search filters is
+       specified by RFC 1558 and is identical to the format used by most LDAP applications. The following are examples
+       of search filters, as provided in the RFC:
+       <ul class=list00>
+        <li>(cn=Babs Jensen)
+        <li>(!(cn=Tim Howes))
+        <li>(&(objectClass=Person)(|(sn=Jensen)(cn=Babs J*)))
+        <li>(o=univ*of*mich*)
+      </ul>
+
+      <p align=justify><b>Results limit</b><br>
+      By default HostMonitor checks only result code returned by the server. If
+       result code is 0 (success), HostMonitor sets "Host is alive" status. 
+       However if you want to check how many records server returns in response
+       to search operation, use "Results limit" option. In this case HostMonitor 
+       will check number of records returned by the server and set "Bad contents"
+       status when number of records below specified limit.<br><br>
+  </td></tr>

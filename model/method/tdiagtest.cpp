@@ -11,6 +11,10 @@ TDiagTest::TDiagTest(QObject *parent)
     : TestMethod(TMethodID::Diag, parent)
 {
     a_ParamStatus = ParamStatus::INITIAL;
+    a_ParamType = 1; // Info
+    a_DataType = 2; // Float
+    a_Scale = 0;
+    a_Timeout = 1;
 }
 
 /******************************************************************/
@@ -74,6 +78,7 @@ bool TDiagTest::fetchData()
     if (process.exitCode() != QProcess::NormalExit) {
         m_Result.replyDesc = QString("error %1 in: %2").arg(process.exitCode())
                 .arg(command);
+        m_Log.append(process.readAll());
         return false;
     }
     QString res = process.readAll();

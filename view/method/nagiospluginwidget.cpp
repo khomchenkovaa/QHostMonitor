@@ -113,9 +113,9 @@ QString NagiosPluginWidget::getTemplateValue(const QString var) const
 {
     Macro::Variable globalVar = TMacro::var(var);
     switch (globalVar) {
-    case Macro::MethodID : return QString::number((int)TMethodID::Externalprg);
+    case Macro::MethodID : return QString::number((int)TMethodID::Nagios);
     case Macro::MethodName :
-    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Externalprg);
+    case Macro::TestMethod : return TestMethod::metaName(TMethodID::Nagios);
     case Macro::Path : return ui->editNagiosPlugin->text();
     case Macro::Object : return ui->editNagiosPlugin->text().mid(ui->editNagiosPlugin->text().lastIndexOf("/"));
     default: return QString();

@@ -242,6 +242,7 @@ void TestEditWidget::setupTestMethodWidgets()
     box->addWidget(new DhcpWidget);
     box->addWidget(new SdpoMonitorWidget);
     box->addWidget(new NagiosPluginWidget);
+    box->addWidget(new DiagTestWidget);
     box->setCurrentIndex(0);
 }
 

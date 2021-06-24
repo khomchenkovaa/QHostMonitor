@@ -786,9 +786,22 @@
     "active" : "yes",
     "testname" : "%object%",
     "comment" : "%path%",
-    "description" : ["HM Monitor",
+    "description" : ["Nagios plugin",
        "This test allows you to use more than fifty standard plugins for Icinga, Naemon, Nagios, Shinken, Sensu, and other monitoring applications."
        ]
+   },{
+     "id" : 49,
+     "name" : "Diag",
+     "title" : "Diag test",
+     "text" : "Diag test",
+     "icon" : ":/img/test/hm_monitor.png",
+     "parent" : 1005,
+     "active" : "yes",
+     "testname" : "%object%",
+     "comment" : "%path%",
+     "description" : ["Diag test",
+        "This test allows you to emulate Kharmond running its commands."
+        ]
   },{
     "id" : -1,
     "name" : "Unknown",

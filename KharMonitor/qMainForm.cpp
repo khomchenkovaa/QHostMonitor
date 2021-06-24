@@ -1353,6 +1353,7 @@ void MainForm::setupTestActions()
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::Externalprg));
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::SSH));
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::Nagios));
+    ui->mnuTestAdd->addAction(createTestAction(TMethodID::Diag));
     ui->mnuTestAdd->addSeparator();
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::TempMonitor));
     ui->mnuTestAdd->addAction(createTestAction(TMethodID::HMmonitor));

@@ -190,6 +190,7 @@ void TestMethodSelectDlg::createStandardItemModel()
     external->appendRow(createItem(TMethodID::Externalprg));
     external->appendRow(createItem(TMethodID::SSH));
     external->appendRow(createItem(TMethodID::Nagios));
+    external->appendRow(createItem(TMethodID::Diag));
     root->appendRow(external);
 
     root->appendRow(createItem(TMethodID::TempMonitor));

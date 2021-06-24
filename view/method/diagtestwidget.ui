@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DiagTestWidget</class>
+ <widget class="QWidget" name="DiagTestWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>286</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="lblParamName">
+       <property name="text">
+        <string>Name</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="editParamName"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="lblParamDesc">
+       <property name="text">
+        <string>Descr</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="editParamDesc"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lblCommand">
+       <property name="text">
+        <string>Command</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="editCommand"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lblDataType">
+       <property name="text">
+        <string>Data Type</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QComboBox" name="cmbDataType"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="lblUnits">
+         <property name="text">
+          <string>Units</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="cmbUnits"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tabNormValue">
+      <attribute name="title">
+       <string>Value</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLabel" name="lblNormValue">
+         <property name="text">
+          <string>Norm Value</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="editNormValue"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblWarning">
+         <property name="text">
+          <string>Warning</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QSpinBox" name="spinWarning">
+         <property name="suffix">
+          <string>%</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLabel" name="valWarming"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lblFail">
+         <property name="text">
+          <string>Fail</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="spinFail">
+         <property name="suffix">
+          <string>%</string>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="valFail"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabLimits">
+      <attribute name="title">
+       <string>Limits</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="1">
+        <widget class="QLabel" name="lblLow">
+         <property name="text">
+          <string>Low Limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="lblHigh">
+         <property name="text">
+          <string>High Limit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="lblWarnLimit">
+         <property name="text">
+          <string>Warning</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="editLowWarning"/>
+       </item>
+       <item row="1" column="2">
+        <widget class="QLineEdit" name="editHighWarning"/>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lblFailLimit">
+         <property name="text">
+          <string>Fail</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLineEdit" name="editLowFail"/>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="editHighFail"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

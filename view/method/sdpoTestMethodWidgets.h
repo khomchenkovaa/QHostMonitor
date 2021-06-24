@@ -1,6 +1,7 @@
 #ifndef SDPOTESTMETHODWIDGETS_H
 #define SDPOTESTMETHODWIDGETS_H
 
+#include "diagtestwidget.h"
 #include "nagiospluginwidget.h"
 #include "qActiveScriptWidget.h"
 #include "qCompareFilesWidget.h"

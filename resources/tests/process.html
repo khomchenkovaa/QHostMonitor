@@ -1,19 +1,16 @@
 <tr>
-    <td><p align=justify><br>
-      A process, in the simplest terms, is an executing program. HostMonitor can check specified process on local or
-       remote computer and start alert actions if number of instances of the specified process is out of the defined
-       range. To monitor processes on a remote computer you should use account from Performance Monitor or Administrators group.<br>
-	  This test method can check processes on Windows systems using RPC calls. Also you may check processes on Windows and UNIX 
-	   systems using SNMP protocol, see <a href="#chkProcSnmp">Process (SNMP)</a><br><br>
-      In addition to the <a href="#Dialog">common test parameters</a> the Process test has the following options:<br><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">Process</h2>
+      A process, in the simplest terms, is an executing program. KharmonMonitor can check specified process on local or remote computer and start alert actions if number of instances of the specified process is out of the defined range. To monitor processes on a remote computer you should use account from Performance Monitor or Administrators group.<br>
+	  This test method can processes on Windows and UNIX  systems using SNMP protocol.<br><br>
+      Process test has the following options:<br><br>
 
       <b>Computer name</b><br>
-      Specify IP address or name of the target computer (the target computer name must be prefixed by "\\"), or select the "&lt;local computer&gt;"
-       item. You can use the "Browse network" button to select a computer from the list.<br><br>
+      Specify IP address or name of the target computer.<br><br>
 
       <b>Process</b><br>
       Type name of the process to check, or select a process from the drop-down list. Also select lower and/or upper
-       limit amount of running instances of the specified process, when the limit is reached HostMonitor will mark the
+       limit amount of running instances of the specified process, when the limit is reached KharmonMonitor will mark the
        test status as Bad.<br><br>
 
       <b>Connect as</b><br>
@@ -21,15 +18,5 @@
        to the target computer.<br><br>
 
       Note #1 (Windows): make sure you have RPC and Remote Registry services started on the remote system. 
-	  Windows NT 4.0 does not have this service installed by default, however you can find Remote Registry service in the Resource Kit for Windows NT 4.0.<br><br>
-
-      Note #2 (UNIX): in order to check UNIX systems you may use <a href="rma-unix/index.htm" target=_top>Remote Monitoring Agent</a> installed on UNIX-machine.
-       (RMA for UNIX does not use "Computer" and "Connect as" parameters of the test and checks only the system where agent is running).
-	   Also you may use <a href="#chkProcSnmp">Process(SNMP)</a> test, this test method can check processes on remote Windows and UNIX systems using SNMP requests.
-      <br><br>
-
-      See also:<br>
-      - <a href="#topprocess">Dominant Process</a> test method <br>
-      - <a href="procmeter/index.htm" target="_top">Process Meter</a> application
-      <br><br>
+	  Windows NT 4.0 does not have this service installed by default, however you can find Remote Registry service in the Resource Kit for Windows NT 4.0.
   </td></tr>

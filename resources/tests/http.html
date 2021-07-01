@@ -1,20 +1,17 @@
  <tr>
-    <td><p align=justify><br>
-     The HTTP test provides you with the ability to monitor HTTP based servers, verify the content of dynamically generated pages, check for the changed content. Also it can help you verify that CGI scripts and back-end databases are functioning properly.
+    <h2 align="center" style="color: Black">HTTP</h2>
+    <td><p align=justify>
+         The HTTP test provides you with the ability to monitor HTTP based servers, verify the content of dynamically generated pages, check for the changed content. Also it can help you verify that CGI scripts and back-end databases are functioning properly.
       In contrast to URL test, that can perform HTTP request as well, HTTP test does not use wininet.dll (part of Internet Explorer). In this way we can avoid any problems related to IE's bugs (of course we can make mistakes as well but we always are able to fix our own mistakes :-).
       Also using HTTP test you can define more parameters specific to HTTP protocol and setup more varied checks.<br>
-     In addition to the <a href="#Dialog">common test parameters</a>, the HTTP test has the following options:<br><br>
-
-     <u>HTTP request parameters:</u><br><br>
+     HTTP test has the following options:<br><br>
 
      <b>URL</b><br>
      Enter the URL you want to monitor (for example, http://www.ourbiggestserver.com)<br><br>
 
      <b><a name="httpproxy">Proxy</a></b><br>
-     Optionally, a proxy server can be used to access the URL. Select a proxy server from the drop down list or choose
-      "<font color="#AA0000">&lt;none&gt;</font>" to perform direct request to HTTP server.<br>
-     You can open Proxies List dialog to modify the list of proxy servers. For each item from the proxy list you can
-      specify:
+     Optionally, a proxy server can be used to access the URL. Select a proxy server from the drop down list or choose "<font color="#AA0000">&lt;none&gt;</font>" to perform direct request to HTTP server.<br>
+     You can open Proxies List dialog to modify the list of proxy servers. For each item from the proxy list you can specify:
      <ul class=list00>
       <li> Domain name or IP address of the HTTP proxy server
       <li> TCP port
@@ -29,28 +26,20 @@
       <tr><td valign=top nowrap><b>HEADER</b>&nbsp; </td><td><p align=justify> request for HTTP header. Server will return status information about the document (HTTP header) but will not transfer data. It allows you to check web server functionality with minimum network traffic but you cannot check the content of the web page.</td></tr>
       <tr><td valign=top nowrap><b>GET   </b>&nbsp; </td><td><p align=justify>
          request the page specified by URL parameter. Server will return status information (HTTP header) and data.
-         You can use "<a href="#httpchkcontent">Check content</a>" and "<a href="#httpchkcrc">Check CRC</a>" options
-         to monitor contents of the page.</td></tr>
+         You can use "Check content" and "Check CRC" options to monitor contents of the page.</td></tr>
       <tr><td valign=top nowrap><b>POST  </b>&nbsp; </td><td><p align=justify>
-         send data (defined in "Post data" field) to the web server to be processed in some way, like by a CGI script.
-         In this case URL is not a resource to retrieve; it's usually a program to handle the data you are sending.
-         The HTTP response is normally the program output, not a static file. The most common use of POST is to submit
-         HTML form data to CGI scripts. In this case, the "<font color="#AA0000">Content-Type:</font>" header is usually set to
-         "<font color="#AA0000">application/x-www-form-urlencoded</font>". So, when you choose POST request, HostMonitor
-         adds this header into "<a href="#httpoptheaders">Optional headers</a>" field by default. However you can change that
-         header to another one or remove it.</td></tr>
+         send data (defined in "Post data" field) to the web server to be processed in some way, like by a CGI script. In this case URL is not a resource to retrieve; it's usually a program to handle the data you are sending. The HTTP response is normally the program output, not a static file. The most common use of POST is to submit HTML form data to CGI scripts. In this case, the "<font color="#AA0000">Content-Type:</font>" header is usually set to "<font color="#AA0000">application/x-www-form-urlencoded</font>". So, when you choose POST request, KharmonMonitor adds this header into "Optional headers" field by default. However you can change that header to another one or remove it.</td></tr>
      </table><br>
 
      <b>Follow redirect</b><br>
-     This parameter determines the HostMonitor's behavior, when the server issues a redirect. When the option enabled
-      HostMonitor follows redirect and retrieve URL specified by server. If option disabled and HTTP server returns code
-      301 (Moved Permanently) or 302 (Moved Temporarily), HostMonitor marks test as "Bad".<br><br>
+     This parameter determines the KharmonMonitor's behavior, when the server issues a redirect. When the option enabled
+      KharmonMonitor follows redirect and retrieve URL specified by server. If option disabled and HTTP server returns code
+      301 (Moved Permanently) or 302 (Moved Temporarily), KharmonMonitor marks test as "Bad".<br><br>
 
      <b>Post data</b><br>
      If the URL is for a POST request, enter the post variables as <font color="#AA0000">name1=value1&amp;name2=value2</font>.
       This option is used to verify that a form is working correctly by performing the same request which occurs when
-      a user submits a form. See also the "<a href="#httpchkcontent">Check content</a>" option for a way to verify that
-      the correct form response was received.<br><br>
+      a user submits a form.<br><br>
 
      <b>Authorization</b><br>
      Use this option when the URL specified requires a name and password for access.<br>
@@ -58,7 +47,7 @@
      If the URL specified requires a name and password for access, enter the user name in this box.<br>
      <b>Password</b><br>
      If the URL specified requires a name and password for access, enter the password in this box.<br>
-     HostMonitor supports basic and NTLM authentication methods.<br><br>
+     KharmonMonitor supports basic and NTLM authentication methods.<br><br>
 
      <b>Agent</b><br>
      Some server-based scripts can check agent's name and return different information for different HTTP agents
@@ -68,13 +57,13 @@
      <b>Timeout</b><br>
      Specify the number of seconds that the test should wait for a page to complete downloading before timing-out.
       Once this time period is over, the monitor will mark test as "No answer". If you have checked the "Download
-      nested frames" or "Download images" option, HostMonitor will use the same timeout for all frames/images
+      nested frames" or "Download images" option, KharmonMonitor will use the same timeout for all frames/images
       referenced on the page.<br>
-     If the Timeout property is set to 0 (default value), HostMonitor will use default Windows timeout specified for
+     If the Timeout property is set to 0 (default value), KharmonMonitor will use default Windows timeout specified for
       TCP protocol.<br><br>
 
      <b>Allow per-session cookies</b><br>
-     With this option enabled HostMonitor remembers cookies received from the server, and sends them back in case of
+     With this option enabled KharmonMonitor remembers cookies received from the server, and sends them back in case of
       redirection to another URL.<br>
      This option can be useful when you need to check some access-restricted resources. Often web-based authorization
       systems use cookies to identify user. How it usually works:<br>
@@ -83,120 +72,10 @@
      - server checks login/password and (in case data are correct) assings session ID for the  user;<br>
      - server sends cookie that contains ID to user's browser, and redirects user to another page;<br>
      - browser must store cookie and send it back to server every time it (browser) requests access-restricted pages<br>
-     So, now HostMonitor can work like your browser and login to your mailbox to check whether you have the new messages.
-      See also the "<a href="#httpchkcontent">Check content</a>" option for a way to verify that the correct response
-      was received.<br><br>
+     So, now KharmonMonitor can work like your browser and login to your mailbox to check whether you have the new messages.<br><br>
 
      <b><a name="httpoptheaders">Optional headers</a></b><br>
      Specify optional HTTP headers those will be added to request. For example you can define cookies using string like
       "<font color="#AA0000">Cookie: name1=value1; name2=value2; name3=value3</font>". When you send data to the server
-      using POST method, HostMonitor automatically insert "<font color="#AA0000">Content-Type: application/x-www-form-urlencoded</font>"
-      header.<br><br>
-     <br>
-
-     <u>Optional test parameters:</u><br><br>
-     The HTTP test doesn't automatically retrieve any objects linked from the page. You can, however, instruct
-     HostMonitor to retrieve the nested frames and images.<br><br>
-
-     <b>Download nested frames</b><br>
-     Select this box if you want to retrieve the all frames referenced in a frameset and count their retrieval time in
-      the total time to download this page. If "Download images" is also checked, HostMonitor will attempt to retrieve
-      all images in all frames. In case the program successfully retrieve page specified in the URL field but cannot
-      receive one of the nested frames, HostMonitor will mark test as "Bad contents".<br><br>
-
-     <b>Download images</b><br>
-     Enable this option if you want the status and response time statistics to include the retrieval time for all of
-      the embedded images in the page. Embedded images include those referenced by &lt;IMG&gt; HTML tags. Images that appear
-      more than once in a page are only retrieved once. In case the program successfully retrieves the page
-      specified in the URL field but cannot receive one of images, HostMonitor will mark test as "Bad contents".<br><br>
-
-     <b><a name="httpchkcrc">Check CRC</a></b><br>
-     With this option enabled HostMonitor will save CRC (Cyclical Redundancy Check) of the downloaded data and do a
-      checksum comparison each subsequent time test is performed. If the checksum changes, the test will have
-      "Bad contents" status.<br>
-     By default HostMonitor calculates (and checks) CRC for page specified in the URL. But if "Download nested frames"
-      and/or "Download images" options are enabled, HostMonitor will calculate CRC for the nested frames and/or images
-      as well.<br><br>
-
-     <b>Recalculate CRC when page content changes detected</b><br>
-     With this option enabled, the new checksum will be recorded as the default in case the error "page content changed"
-      occurs, so the test will return to "Good" status until the checksum changes again.<br><br>
-
-     <b>Check header</b><br>
-     HostMonitor can search for a string (or several strings) in the HTTP header (received from a server) and start
-      alert actions when the string exists (or doesn't exist) in the header. Define string(s) and condition to alert
-      using following options:<br>
-     <b>Mode</b><br>
-     This option determines condition to check. Choose one of the available modes:<br>
-     <table border=0>
-      <tr><td valign=top nowrap> <b> - should contain</b> </td><td> HostMonitor will set "Bad contents" status when HTTP header does not contain specified string</td></tr>
-      <tr><td valign=top nowrap> <b> - should not contain</b> &nbsp; </td><td> HostMonitor will set "Bad contents" status when HTTP header contains specified string</td></tr>
-      <tr><td valign=top nowrap> <b> - use expression</b> </td><td>
-        HostMonitor will consider the string as boolean (logical) expression, evaluate expression using data received from the server, and set "Bad contents" status when retrieved HTTP header does not satisfy the required conditions.<br>
-        For example: if you define expression like "<font color="#AA0000">'HTTP/1.1' and not ('301' or '302')</font>",
-        then HostMonitor will mark test as "Host is alive" when retrieved data contains string '<font color="#AA0000">HTTP/1.1</font>'
-        and contains neither '<font color="#AA0000">301</font>' nor '<font color="#AA0000">302</font>'.</td></tr>
-     </table>
-     <b>Expression</b><br>
-     Enter a string to check the returned HTTP header. If you chose "use expression" mode, you may use expressions like
-      "<font color="#AA0000">('HTTP/1.1' or 'HTTP/1.0') and not ('301' or '302')</font>". In this case, a test will have
-      a "Host is alive" status when monitor gets reply from the server and retrieved HTTP header contains either
-      strings "<font color="#AA0000">HTTP/1.1</font>" or "<font color="#AA0000">HTTP/1.0</font>", and doesn't contain
-      either strings "<font color="#AA0000">301</font>" or "<font color="#AA0000">302</font>". In the expression you may
-      use strings (must be concluded in quotes (<b>'</b>) or in double quotes (<b>"</b>)); round brackets; logical
-      operators "and", "or", "not".<br>
-     <b>Case sensitive</b><br>
-     With this option enabled search is case sensitive<br>
-     <b>Whole words only</b><br>
-     Searches are for words only. With this option disabled, the search string might be found within longer words.<br><br>
-
-     <b><a name="httpchkcontent">Check contents</a></b><br>
-     HostMonitor can search for a string (or several strings) in the returned page and start alert actions when string
-      exists (or doesn't exist) on the page. Define string(s) and condition to alert using following options:<br>
-     <b>Mode</b><br>
-     This option determines condition to check. Choose one of the available modes:
-     <table border=0>
-      <tr><td valign=top nowrap> <b> - should contain</b> </td><td> HostMonitor will set "Bad contents" status when page does not contain specified string</td></tr>
-      <tr><td valign=top nowrap> <b> - should not contain</b> &nbsp; </td><td> HostMonitor will set "Bad contents" status when page contains specified string.<br>
-         (may check multiline text, CR and LF replaced with space character, CRLF replaced with 2 space chars)</td></tr>
-      <tr><td valign=top nowrap> <b> - use expression</b> </td><td>
-          HostMonitor will consider the string as boolean (logical) expression, evaluate expression using data received
-           from the server, and set "Bad contents" status when retrieved page does not satisfy the required conditions.<br>
-          For example: if you define expression like "<font color="#AA0000">'No errors' and not ('Error' or 'Warning')</font>",
-           then HostMonitor will mark test as "Host is alive" when retrieved page contains string '<font color="#AA0000">No error</font>'
-           and does not contain either '<font color="#AA0000">Error</font>' or '<font color="#AA0000">Warning</font>'</td></tr>
-     </table>
-     <b>Expression</b><br>
-     Enter a string of text to check the returned page. Remember that HTML tags are part of a document, so include the
-      HTML tags if they are part of the text you are searching for (for example, "<font color="#AA0000">&lt;B&gt;Hello&lt;/B&gt; World</font>").<br>
-     If you chose "use expression" mode, you may use expressions like "<font color="#AA0000">("Total" and "End Of Page")
-      and not ('Error' or 'Warning')</font>". In this case, a test will have a "Host is alive" status when monitor can
-      receive specified page and this page contains both strings "<font color="#AA0000">Total</font>" and
-      "<font color="#AA0000">End Of Page</font>", and doesn't contain either strings "<font color="#AA0000">Error</font>"
-      or "<font color="#AA0000">Warning</font>". In the expression you may use strings (must be concluded in quotes
-      (<b>'</b>) or in double quotes (<b>"</b>)); round brackets; logical operators "and", "or", "not".<br>
-
-     <b>Translate date macro variables</b><br>
-     This option allows you to use <a href="actions.htm#timemacro">date & time variables</a>
-      in the search string. It is useful when you have to monitor web pages
-      that shall be updated regularly. E.g. if you provide "<font color="#AA0000">%mm%-%dd%-%yyyy%</font>"
-      in the search string, HostMonitor will check the retrieved document for
-      the presence of a current date and will set "Bad content" status for the
-      documents without current date stamp. This option could be useful for testing
-      various scripts and applications that generate web pages.<br>
-     <b>Case sensitive</b><br>
-     With this option enabled search is case sensitive<br>
-     <b>Whole words only</b><br>
-     Searches are for words only. With this option disabled, the search string might be found within longer words.<br><br>
-
-     <b>Set "Bad" status when total download time is longer than NN msec</b><br>
-     With this option enabled HostMonitor will check total download time and mark status as "Bad" when download time is
-      longer than specified.<br><br>
-
-     BTW: When HostMonitor cannot retrieve page at all, it marks test as "No answer" and Reply value will be empty.
-      In case all checks passed, HostMonitor mark status as "Host is alive" and display total download time in the
-      "Reply" field. Also "Reply" field will display total download time when any reply received from HTTP server,
-      even if its message about error such as "Page not found" error.<br><br>
-	  
-	  See also: <a href="actions.htm#macro_url">variables specific to URL, HTTP, SOAP and SIP tests</a><br><br>
+      using POST method, KharmonMonitor automatically insert "<font color="#AA0000">Content-Type: application/x-www-form-urlencoded</font>"       header.
   </td></tr>

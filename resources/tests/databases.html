@@ -1,14 +1,12 @@
   <tr>
-    <td><p align=justify><br>
-      HostMonitor can test your SQL servers. It supports Interbase, Firebird, MS SQL, MySQL, MariaDB, Oracle, Postgre and Sybase servers. 
-	  Servers are checked by logging into (and out) of the server. You should specify the server name (the TNS alias for Oracle), 
-	  database, user name and password. For Interbase you can specify the protocol (TCP, SPX, or NetBEUI).<br>
-      See also <a href="#Dialog">common test parameters</a><br><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">Databases</h2>
+      KharmonMonitor can test your SQL servers. It supports Interbase, Firebird, MS SQL, MySQL, MariaDB, Oracle, Postgre and Sybase servers. Servers are checked by logging into (and out) of the server. You should specify the server name (the TNS alias for Oracle), database, user name and password. For Interbase you can specify the protocol (TCP, SPX, or NetBEUI).<br>
 
-      In order to monitor Oracle servers HostMonitor uses the Oracle Call Interface (OCI.DLL),
+      In order to monitor Oracle servers KharmonMonitor uses the Oracle Call Interface (OCI.DLL),
       you should have the Oracle client software installed on the computer.
       The same is true for other SQL servers - please install the client software for testing your SQL server.
-      HostMonitor uses the following DLLs:<br>
+      KharmonMonitor uses the following DLLs:<br>
      <ul class=list00>  
       <li>gds32.dll to monitor Interbase connections 
       <li>fbclient.dll to check Firebird SQL server
@@ -22,12 +20,12 @@
 	 <a name="db_bugs1"><br></a>
 		<b>MS SQL notes</b>: ntwdblib.dll does not allow connection to modern MS SQL servers using Windows Authentication; only 
 		 SQL Server Authentication can be used (the user name and the password are created by using SQL Server and stored in SQL Server; 
-		 not based on Windows user accounts). If you need Windows Authentication, then you may use <a href="#odbc">ODBC Query</a> test method instead.<br><br>	  
+		 not based on Windows user accounts). If you need Windows Authentication, then you may use "ODBC Query" test method instead.<br><br>	  
        <b>MySQL v8 notes</b>: libmySQL.dll from MySQL Connector v8 is not supported yet; libmySQL.dll version 5.x can be used for connection 
 	    to MySQL v8 but in this case you have to create a user account using mysql_native_password plugin (because default MySQL v8 
-		caching_sha2_password authentication is not supported by MySQL 5.x).<br>
-       <b>MySQL known problems</b>: MySQL Connectors prior version 5.26 have bugs and may cause HostMonitor to crash. You may download 
-	    stable version of MySQL library or at least place all MySQL test items into one folder and use "<a href="testlist.htm#folder_special">Non-simultaneously test execution</a>" 
+		caching_sha2_password authentication is not supported by MySQL 5.x).<br><br>
+       <b>MySQL known problems</b>: MySQL Connectors prior version 5.26 have bugs and may cause KharmonMonitor to crash. You may download 
+	    stable version of MySQL library or at least place all MySQL test items into one folder and use "Non-simultaneously test execution" 
 		folder-specific option.<br><br>
 		<b>Oracle known problems</b>: Oracle client software version 8, 11 and especially version 10 have a lot of bugs, it may lead to 
 		 high CPU usage, handles and memory leakage and may crash application. Please do not use these versions of Oracle client software.<br><br>

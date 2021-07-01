@@ -1,18 +1,19 @@
 <tr>
-    <td class=tdjust><br>
+    <td class=tdjust>
+    <h2 align="center" style="color: Black">Temperature Monitor</h2>
     When you utilize temperature-sensing units from <a href="http://www.sensatronics.com" target="_blank">Sensatronics</a>,
      this test provides you with the ability to monitor the temperature and to start alert actions when the temperature
-     is out of the specified range. HostMonitor supports the following unit models:
+     is out of the specified range. KharmonMonitor supports the following unit models:
     <ul class=list00>
       <li> Model E4 (temperature monitor)
       <li> Model EM1 (environmental monitor)*
       <li> Model CM (cryo low temperature monitor)
       <li> Model U16 (universal temperature monitor)
     </ul>
-	Note: there are new devices from various manufacturers, HostMonitor does not offer special tests for each device because most of them support
-	 SNMP protocol. This means you may use <a href="#chkSNMP">SNMP Get</a> or <a href="#snmptrap">SNMP Trap</a> test methods to work with such device.
+	Note: there are new devices from various manufacturers, KharmonMonitor does not offer special tests for each device because most of them support
+	 SNMP protocol. This means you may use "SNMP Get" or "SNMP Trap" test methods to work with such device.
 	<br><br>
-    In addition to the <a href="#Dialog">common test parameters</a>, IT Temperature Monitor test has the following options:<br><br>
+    Temperature Monitor test has the following options:<br><br>
 
     <b>IP</b><br>
     Provides IP address of the temperature-sensing unit<br><br>
@@ -24,23 +25,23 @@
     After you have specified IP address and TCP port, select which Probes you want to monitor. There are two special (in addition to the list of probes) options available in the drop down list:
     <ul class=list00>
      <li><p align=justify><b>&lt;All probes&gt;</b><br>
-         HostMonitor will check all available probes (on the specified unit) and will start alarm action when the temperature on ANY probe(s) is out of specified upper/lower limits (status of the test item will then be set to "Bad"). If some probes are not connected or there is a shortcut in the circuit, HostMonitor sets "Unknown" status of the test (and starts alarm actions if "Treat Unknown status as Bad" option is enabled).</li>
+         KharmonMonitor will check all available probes (on the specified unit) and will start alarm action when the temperature on ANY probe(s) is out of specified upper/lower limits (status of the test item will then be set to "Bad"). If some probes are not connected or there is a shortcut in the circuit, KharmonMonitor sets "Unknown" status of the test (and starts alarm actions if "Treat Unknown status as Bad" option is enabled).</li>
      <li><p align=justify><b>&lt;All operable probes&gt;</b><br>
-     if you choose this item, HostMonitor will check all operable probes. Operable, means all those probes that work correctly, shortcut or not connected probes will be ignored.</li>
+     if you choose this item, KharmonMonitor will check all operable probes. Operable, means all those probes that work correctly, shortcut or not connected probes will be ignored.</li>
     </ul><p align=justify>
     
     <b>Scale</b><br>
     This option sets Fahrenheit or Celsius scale to display temperatures.<br><br>
 
     <b>Low temp alarm</b><br>
-    Use this option to set lower temperature limit. If temperature goes below this limit, HostMonitor sets test status
+    Use this option to set lower temperature limit. If temperature goes below this limit, KharmonMonitor sets test status
      to "Bad" (and starts alert actions if specified so).<br><br>
 
     <b>High temp alarm</b><br>
-    Use this option to set upper temperature limit. If temperature goes above this limit, HostMonitor sets test status
+    Use this option to set upper temperature limit. If temperature goes above this limit, KharmonMonitor sets test status
      to "Bad" (and starts alert actions if specified so).<br><br>
 
     <b>*</b> EM1 Environmental Monitor may measure wetness and humidity as well as temperature. To monitor wetness and
-     humidity with HostMonitor you should use <a href="#chkSNMP">SNMP Get</a> test method.<br><br>
+     humidity with KharmonMonitor you should use "SNMP Get" test method.<br><br>
 
   </td></tr>

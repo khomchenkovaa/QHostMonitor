@@ -1,5 +1,6 @@
   <tr>
-    <td style="text-align: justify"><br>
+    <td style="text-align: justify">
+      <h2 align="center" style="color: Black">File Compare</h2>
       You can use this test to compare two files or to search a string in the file. 6 alert conditions are available:<br>
       <ul class=olist00>
        <li> alert when files are different<br>
@@ -11,16 +12,15 @@
       </ul>
 	  <p align="justify">
       You can specify one or more parameters to compare files: compare time, compare size, compare contents.
-      If you set "compare contents" option but don't set "compare size" option, HostMonitor will consider two files are identical when
+      If you set "compare contents" option but don't set "compare size" option, KharmonMonitor will consider two files are identical when
       one file includes another one at offset 0 (one file can be smaller then another one).<br><br>
 
       If you need to check some files that are dynamically created and do not have static name (e.g. some logs that
        are created on daily basis and have different file name every day), you may enable "Translate macros" options.
-       With this option enabled you may use special <a href="#macros">date macro variables</a>, <a href="#filespecmacro">file-specific variables</a>
-	   and <a href="actions.htm#udvmacro">User Defined Variables</a> in file name.<br><br>
+       With this option enabled you may use special date macro variables, file-specific variables and User Defined Variables in file name.<br><br>
 
-	  When you use Compare Files test to check file for some specific string, you should tell HostMonitor what encoding was used for the 
-	   file. HostMonitor supports several encoding methods:
+	  When you use Compare Files test to check file for some specific string, you should tell KharmonMonitor what encoding was used for the 
+	   file. KharmonMonitor supports several encoding methods:
 	<ul class=olist00>
 	 <li>ASCII
 	 <li>UTF-8
@@ -36,16 +36,13 @@
 	 &nbsp; UTF-16 - all characters in the Basic Multilingual Plane encoded by 2 bytes;<br>
 	 &nbsp; UTF-32 - each Unicode character is represented by exactly 4 bytes.<br><br>
 
-	Note 2 (Unicode support): HostMonitor gets information regarding current code page used on the system when you setup test item. If you check Unicode
- 	 file, HostMonitor translates string to Unicode using stored code page.<br><br>
+	Note 2 (Unicode support): KharmonMonitor gets information regarding current code page used on the system when you setup test item. If you check Unicode
+ 	 file, KharmonMonitor translates string to Unicode using stored code page.<br><br>
 
 	Note 3 (UNIX):
-      If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you should have in mind:
+      If you want to perform the test using an agent installed on UNIX-like system, you should have in mind:
       <ul class=olist00>
        <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
        <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);	   
       </ul>
-	  Also note: current version of RMA for UNIX supports ASCII encoding only. This will be improved in future version.<br><br>
-  See also <a href="#Dialog">common test parameters</a><br>
-  See also: <a href="actions.htm#macro_filename">variables specific to file related test methods</a><br><br>  	 	  
   </td></tr>

@@ -1,8 +1,9 @@
 <tr>
-    <td><p align=justify><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">SNMP</h2>
       The Simple Network Management Protocol is the Internet standard protocol for exchanging management information between management console applications and managed entities (hosts, routers, bridges, hubs).
-      Using this powerful test HostMonitor can control many different parameters of network devices.<br>
-      In addition to the <a href="#Dialog">common test parameters</a>, the SNMP test has the following options:<br><br>
+      Using this powerful test KharmonMonitor can control many different parameters of network devices.<br>
+      SNMP test has the following options:<br><br>
 
       <b>Agent address</b><br>
        Here you should provide a string specifying either a dotted-decimal IP address (e.g. <font color="#AA0000">195.168.10.10</font>) or 
@@ -10,11 +11,10 @@
 		Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
 		 or specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
 		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
-		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
-		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
-		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
-		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
-		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. -->
+		If you specify hostname without any suffix, KharmonMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, KharmonMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 KharmonMonitor will use IPv4 (or IPv6) protocol only.<br>
+		 
 		You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.<br>
 	   Also you may specify port that will be used by target SNMP agent. This parameter is optional; port number has to be
         provided after a colon following the address of SNMP agent. (E.g. <font color="#AA0000">195.168.10.10<b>:161</b></font>).
@@ -33,75 +33,33 @@
 
       <b>OID (object identifier)</b><br>
       The name that uniquely identifies the object for testing.<br>
-      For example OID "1.3.6.1.2.1.2.1" represents the number of network interfaces on which your system can
-       send/receive IP datagrams; OID "1.3.6.1.2.1.6.9" represents the number of TCP connections for which the current
-       state is either ESTABLISHED or CLOSE-WAIT; etc. To get a list of valid OIDs for your SNMP enabled devices you
-       should contact the vendor of the device. They should be able to give you a MIB file that contains all the OIDs
-       for the device.
+      For example OID "1.3.6.1.2.1.2.1" represents the number of network interfaces on which your system can send/receive IP datagrams; OID "1.3.6.1.2.1.6.9" represents the number of TCP connections for which the current state is either ESTABLISHED or CLOSE-WAIT; etc. To get a list of valid OIDs for your SNMP enabled devices you should contact the vendor of the device. They should be able to give you a MIB file that contains all the OIDs for the device.<br>
        If you cannot contact the vendor, try to find the file on the Internet. Numerous free resources offer wide lists
        of MIB files for various devices (e.g. <a href="http://www.mibdepot.com/index.shtml" target="_blank">http://www.mibdepot.com/index.shtml</a>).<br>
-      When you are configuring SNMP Get test method with  <a href="mibbrowser/index.htm" target=_top>MIB Browser</a>
-       installed HostMonitor allows you to specify SNMP variables by a name (e.g. <font color="#990000">iso.org.dod.internet.mgmt.mib-2.system.sysUpTime.0</font>)
-       as well as by an OID in numeric format (e.g. <font color="#990000">1.3.6.1.2.1.1.3.0</font>). If you click on
-       "Browse MIBs" button next to "OID" field, HostMonitor will launch MIB Browser displaying the hierarchy tree of
-       SNMP variables. The specified variable (if any) is highlighted and additional information is displayed for it
-       (such as status, access mode, description). Now you may browse variables, choose another variable if needed and
-       click [Ok] button to use the selected variable by HostMonitor.<br><br>
+      When you are configuring SNMP Get test method with  "MIB Browser" installed KharmonMonitor allows you to specify SNMP variables by a name (e.g. <font color="#990000">iso.org.dod.internet.mgmt.mib-2.system.sysUpTime.0</font>) as well as by an OID in numeric format (e.g. <font color="#990000">1.3.6.1.2.1.1.3.0</font>). If you click on "Browse MIBs" button next to "OID" field, KharmonMonitor will launch MIB Browser displaying the hierarchy tree of SNMP variables. The specified variable (if any) is highlighted and additional information is displayed for it (such as status, access mode, description). Now you may browse variables, choose another variable if needed and click [Ok] button to use the selected variable by KharmonMonitor.<br><br>
 
-	 Starting from version 9.18	HostMonitor allows you to use expressions like <br>
-	 <span class="samplered">TotalTraffic1 = [1.3.6.1.2.1.2.2.1.10.1] + [1.3.6.1.2.1.2.2.1.16.1]</span><br>
-	 In such case HostMonitor will retrieve 2 counters (1.3.6.1.2.1.2.2.1.10.1 - total number of octets received on interface #1; 
-	  1.3.6.1.2.1.2.2.1.16.1 - total number of octets transmitted out of interface #1) calculate sum of these counters and check result.<br>
-	 When you are using this expression, %MIBNAME%, %MIBNAMESHORT% and %PATH% variables will be set to <span class="samplered">TotalTraffic1</span> (name of the variable 
-	  specified in this expression); while %OBJECT% variable will be set to <span class="samplered">[1.3.6.1.2.1.2.2.1.10.1] + [1.3.6.1.2.1.2.2.1.16.1]</span><br><br>
-
-	 Also you may use <a href="testlist.htm#folder_var">folder-level variables</a> instead of expression. In such case variable should be specified using 
-	  <a href="testlist.htm#FolderTree">Folder Properties</a> dialog and it should contain valid expression. <br>
-	 For example you may use <span class="samplered">[1.3.6.1.2.1.2.2.1.10.1]+[1.3.6.1.2.1.2.2.1.16.1]</span> string for <span class="samplered">%fvar_totaltraffic1%</span> 
-	  folder variable and then just type <span class="samplered">%fvar_totaltraffic1%</span> when setup SNMP Get test item. In such case 
-	  %MIBNAME%, %MIBNAMESHORT% and %PATH%  variables will be set to <span class="samplered">totaltraffic1</span> while %OBJECT% variable will be set to 
-	  <span class="samplered">[1.3.6.1.2.1.2.2.1.10.1]+[1.3.6.1.2.1.2.2.1.16.1]</span><br><br>
-
-	 When you are using expression for SNMP Get test, counters should be specified by OID numbers enclosed in square brackets. MIB names cannot be used in expressions.<br>
-	 Also you may use round brackets (to change common rules of precedence) and the following operators:<br>
-	 <table border=0>
-	  <tr><td valign="top">&nbsp;div</td><td valign="top">&nbsp;- integer division, the value of (x div y) is the value of x divided by y and then rounded in the direction of zero to the nearest integer</td></tr>
-	  <tr><td>&nbsp;mod</td><td nowrap>&nbsp;- remainder</td></tr>
-	  <tr><td>&nbsp;*  </td><td nowrap>&nbsp;- multiplication</td></tr>
-	  <tr><td>&nbsp;+  </td><td nowrap>&nbsp;- addition</td></tr>
-	  <tr><td>&nbsp;-  </td><td nowrap>&nbsp; -subtraction</td></tr>
-	  <tr><td>&nbsp;or </td><td nowrap>&nbsp;- bitwise OR operation</td></tr>
-	  <tr><td>&nbsp;and</td><td nowrap>&nbsp;- bitwise AND operation</td></tr>
-	  <tr><td>&nbsp;xor</td><td nowrap>&nbsp;- bitwise XOR operation</td></tr>
-	 </table>
-	 Note: When at least one operand of AND/OR/XOR operators specified in binary format, HostMonitor will use binary format for result as well. 
-	  E.g. (6 and '11111111B') will return '110B'. If you want to convert number in binary format to decimal format, you may use addition (+), 
-	  subtraction (-) or multiplication operations. E.g. '110B'+0 will return '6'.<br>
-	 Example: var1 = (([1.3.6.1.2.1.2.2.1.10.1]+[1.3.6.1.2.1.2.2.1.16.1]) div ([1.3.6.1.2.1.2.2.1.14.1]+[1.3.6.1.2.1.2.2.1.20.1]+1) AND 11110000B)+0<br><br>
-
-	   
       <b>Condition for alert</b><br>
-      HostMonitor can compare values returned by the device with a specified string and start alert actions if the
+      KharmonMonitor can compare values returned by the device with a specified string and start alert actions if the
        returned value is:<br>
       <ul class=list00>
        <li> less/more than the specified value
        <li> equal to/different from the specified number or string
        <li> contains/doesn't contain the specified string
       </ul><br>
-      Also HostMonitor has 9 alert conditions to check how new value changes compare to the previous test:<br>
+      Also KharmonMonitor has 9 alert conditions to check how new value changes compare to the previous test:<br>
       <table>
-       <tr><td nowrap valign=top>&nbsp;"increases by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value increases by specified number or more </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"decreases by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value decreases by specified number or more </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"changes   by"     </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value changes by specified number or more   </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"increases by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value increases by specified (or greater) percentage </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"decreases by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value decreases by specified (or greater) percentage </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"changes   by (%)" </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when value changes by specified (or greater) percentage </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"increases /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average increase of the counter (per second) is greater than the specified limit ((new value - old value)/elapsed time >= specified limit) </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"decreases /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average decrease of the counter (per second) is greater than the specified limit ((old value - new value)/elapsed time >= specified limit) </td></tr>
-       <tr><td nowrap valign=top>&nbsp;"changes   /sec"   </td><td nowrap valign=top> -</td><td> HM sets "Bad" status when average change of the counter (per second) is greater than the specified limit (abs(new value - old value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"increases by"     </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value increases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases by"     </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value decreases by specified number or more </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   by"     </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value changes by specified number or more   </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"increases by (%)" </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value increases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases by (%)" </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value decreases by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   by (%)" </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when value changes by specified (or greater) percentage </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"increases /sec"   </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when average increase of the counter (per second) is greater than the specified limit ((new value - old value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"decreases /sec"   </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when average decrease of the counter (per second) is greater than the specified limit ((old value - new value)/elapsed time >= specified limit) </td></tr>
+       <tr><td nowrap valign=top>&nbsp;"changes   /sec"   </td><td nowrap valign=top> -</td><td> KM sets "Bad" status when average change of the counter (per second) is greater than the specified limit (abs(new value - old value)/elapsed time >= specified limit) </td></tr>
       </table><br>
 
-      BTW: if OCTET STRING returned by SNMP agent contains non-printable characters, HostMonitor displays them using
+      BTW: if OCTET STRING returned by SNMP agent contains non-printable characters, KharmonMonitor displays them using
        <b>%XX</b> format where "<b>XX</b>" is a hexadecimal code of a character (byte). This is useful when you need
        to check MAC address or some other counters.<br><br>
 	   
@@ -111,7 +69,7 @@
 	SNMP Credentials dialog allows you to setup list of SNMP profiles (accounts). Profiles store login or 
 	 community string and other information necessary for communication with SNMP agent.<br>
 	For each profile you should specify name of the profile (your choice) and version of SNMP protocol used by 
-	 SNMP agent. HostMonitor supports SNMP v1, v2c and v3.<br><br>
+	 SNMP agent. KharmonMonitor supports SNMP v1, v2c and v3.<br><br>
 
 	<b>Community</b><br>
 	If SNMP agent uses SNMP v1 or v2c protocol, specify the SNMP community name. Often SNMP systems uses "public"
@@ -141,7 +99,7 @@
 	Specify key for encryption<br><br>
 
 	<br><b>Check OPAQUE data for float numbers</b><br>
-	This option tells HostMonitor to check for single and double precision floating-point numbers that can be 
+	This option tells KharmonMonitor to check for single and double precision floating-point numbers that can be 
 	 encoded as OPAQUE SNMP data and compare such numbers with specified value (number that specified as alert
 	 condition for each specific test item).<br><br>
   </td></tr>

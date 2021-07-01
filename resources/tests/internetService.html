@@ -1,20 +1,20 @@
 <tr>
-    <td><p align=justify><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">Internet Services</h2>
 	Internet Information Services (IIS) is an extensible web server running on Windows OS including Windows 10 and Windows Server 2016 
 	 (starting from Windows NT 3.51). It may support web site extensions like SharePoint Web Application.<br>
-    In addition to the <a href="#Dialog">common test parameters</a>, the IIS test has the following options:<br><br>
+    IIS test has the following options:<br><br>
 
 	<b>Target host</b><br>
-	Provide the host name (e.g. <span class="samplered">mainserver.domain.com</span>) or IP address (e.g. <span class="samplered">10.10.1.55</span>)
-	 of the IIS server that you wish to monitor. Use <a href="profiles.htm#conmgr">Connection Manager</a> to store account 
-	 information necessary to perform connections to remote systems.<br><br>
+	Provide the host name (e.g. <span class="samplered">mainserver.domain.com</span>) or IP address (e.g. <span  class="samplered">10.10.1.55</span>)
+	 of the IIS server that you wish to monitor.<br><br>
 
 	<b>Site</b><br>
-	If you are running several web sites on IIS server, you may tell HostMonitor which site should by checked by this test. 
+	If you are running several web sites on IIS server, you may tell KharmonMonitor which site should by checked by this test. 
 	 You may select site name from drop down list or you may set "Total" when you need to check statistics for entire IIS server.<br><br>
 
 	<b>Alert when &lt;parameter&gt; above X or below Y</b><br>
-	 Choose parameter to check and set upper and lower limits. HostMonitor will set Bad test status and trigger specified actions 
+	 Choose parameter to check and set upper and lower limits. KharmonMonitor will set Bad test status and trigger specified actions 
 	  when parameter value will be out of the range.<br>
 
 	<table border=0 cellspacing=5>
@@ -71,7 +71,4 @@
 	<tr><td nowrap valign="top">URI Cache Hits %</td><td style="text-align: justify">The ratio of URI cache hits to total URI cache requests (since previous test probe)</td></tr>
 	<tr><td nowrap valign="top">Output Cache Hits %</td><td style="text-align: justify">The ratio of Output cache hits (since previous test probe)</td></tr>
 	</table><br>
-	Also you may setup additional tests: <a href="#url">URL</a> or <a href="#http">HTTP</a> test, <a href="#domain">Domain Expiration</a>,
-	 <a href="#certchk">Certificate expiration</a>, <a href="#trafficmon">Traffic Monitor</a>, <a href="#cpuUsage">CPU Usage</a>, 
-	 <a href="#memory">Memory</a>, <a href="#diskspace">Drive Free Space</a>.<br><br>
-  </td></tr>
+	</td></tr>

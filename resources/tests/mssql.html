@@ -1,16 +1,15 @@
   <tr>
-    <td><p align=justify><br>
-      HostMonitor can test your SQL servers. It supports MS SQL servers.<br>
-	  Servers are checked by logging into (and out) of the server. You should specify the server name, database, user name and password.<br>
-      See also <a href="#Dialog">common test parameters</a><br><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">MS SQL</h2>
+      KharmonMonitor can test your SQL servers. It supports MS SQL servers.<br>
+	  Servers are checked by logging into (and out) of the server. You should specify the server name, database, user name and password.<br><br>
 
-      In order to monitor MS SQL servers HostMonitor uses the MS SQL Call Interface (ntwdblib.dll), you should have the MS SQL client software installed on the computer.<br>
+      In order to monitor MS SQL servers KharmonMonitor uses the MS SQL Call Interface (ntwdblib.dll), you should have the MS SQL client software installed on the computer.<br>
       
       	 <a name="db_bugs1"><br></a>
 		<b>MS SQL notes</b>: ntwdblib.dll does not allow connection to modern MS SQL servers using Windows Authentication; only 
 		 SQL Server Authentication can be used (the user name and the password are created by using SQL Server and stored in SQL Server; 
-		 not based on Windows user accounts). If you need Windows Authentication, then you may use <a href="#odbc">ODBC Query</a> test method instead.<br><br>	  
+		 not based on Windows user accounts). If you need Windows Authentication, then you may use "ODBC Query" test method instead.<br><br>	  
        		
 		MS SQL test methods may display "unknown" status and appropriate error message in the Reply field when it was impossible to perform the check (e.g. when client library is not installed).
-      <br><br>
   </td></tr>

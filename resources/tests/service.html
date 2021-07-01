@@ -1,35 +1,26 @@
   <tr>
-    <td><p align=justify><br>
-     Microsoft Windows NT* supports an application type known as a
-      service. It can be started automatically at system boot, by a user through
-      the Services control panel applet, or by an application that uses the service
-      functions. Services can execute even when no user is logged on to the system.<br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">Service</h2>
+     Microsoft Windows NT* and UNIX systems supports an application type known as a service. It can be started automatically at system boot, by a user, or by an application that uses the service functions. Services can execute even when no user is logged on to the system.<br>
      Here "Windows NT" means system based on NT technology, including Microsoft Windows NT 4.0, Windows 2000/XP, Windows Vista/7/8/10, Windows Server 2003-2016.
       <br><br>
-      In addition to the <a href="#Dialog">common test parameters</a> the Service test has the following options:<br><br>
 
-      <b>Target host</b><br>
-      Specify name (or IP address) of the target computer (name must be prefixed by "\\"), or select the
-       "&lt;local computer&gt;" item. You can use the "Browse network" button to select a computer from the list.<br><br>
-
-	Service test may work in 3 modes:<br><br>
+      Service test may work in 3 modes:<br><br>
 
 	<b>Alert when service not started</b><br>
-	HostMonitor checks specific service state. If the service is not Running, HostMonitor will set Bad status and start the specified 
+	KharmonMonitor checks specific service state. If the service is not Running, KharmonMonitor will set Bad status and start the specified 
 	 alert actions.<br>
 	You may type name of the service to check, or select a service from the drop-down list. Note: when you setup NEW Service test item, 
-	 you may specify several services; in such case HostMonitor will create separate test item for each selected Windows service.<br><br>
+	 you may specify several services; in such case KharmonMonitor will create separate test item for each selected OS service.<br><br>
 
 	<b>Alert when service not started or does not respond</b><br>
-	This mode used by default. HostMonitor checks service state and responsiveness. If the service has not been started or the service 
-	 does not answer, HostMonitor will set Bad status and start the specified alert actions.<br>
+	This mode used by default. KharmonMonitor checks service state and responsiveness. If the service has not been started or the service 
+	 does not answer, KharmonMonitor will set Bad status and start the specified alert actions.<br>
 	You may type name of the service to check, or select a service from the drop-down list. Note: when you setup NEW Service test item,
- 	 you may specify several services; in such case HostMonitor will create separate test item for each selected Windows service.<br><br>
+ 	 you may specify several services; in such case KharmonMonitor will create separate test item for each selected OS service.<br><br>
 
 	<b>Alert when some "Auto" services not running</b><br>
-	HostMonitor will get list of ALL services with Automatic startup type and check state of each service. If some "auto" service is not 
-	 running, HostMonitor will set Bad test status. You may specify comma separated list of the services that should not be checked, e.g. 
-	<span class="samplered">MMCSS,sppsvc,UxSms</span>; you may use * wildcard at the end of the name, e.g. <span class="samplered">clr*,spp*</span><br><br>
+	KharmonMonitor will get list of ALL services with Automatic startup type and check state of each service. If some "auto" service is not running, KharmonMonitor will set Bad test status.<br><br>
 
 	You may open "Choose service to monitor" dialog that displays list of all services on target system. It shows service name 
 	 (short name), its long name, service status and type of the service. Also you may setup filters:<br>
@@ -42,6 +33,4 @@
       <b>Connect as</b><br>
       To check service on a remote system you can mark this option and provide a username and a password for a connection
        to the target computer.
-      <br><br>
-  See also: <a href="actions.htm#macro_service">variables specific to Service test</a><br><br>  	 	  
   </td></tr>

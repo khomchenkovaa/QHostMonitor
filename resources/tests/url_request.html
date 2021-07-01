@@ -1,18 +1,15 @@
 
   <tr>
-    <td><p align=justify><br>
-      HostMonitor can perform  a URL (Universal Resource Locator) check based on the
-      HTTP (web), HTTPS (secure web), FTP or Gopher <!-- or RTSP (streaming audio)--> protocols.
-      To perform URL check HostMonitor can connect to a remote server directly or through a proxy server, this proxy server can be defined on the
-      <a href="options.htm#Proxy" target=Info>PROXY</a> page in the <a href="options.htm" target=Info>Options</a> dialog.<br>
-      In addition to the <a href="#Dialog">common test parameters</a>, the URL test has the following options:<br><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">URL</h2>
+      KharmonMonitor can perform  a URL (Universal Resource Locator) check based on the HTTP (web), HTTPS (secure web), FTP or Gopher   protocols.
+      To perform URL check KharmonMonitor can connect to a remote server directly or through a proxy server, this proxy server can be defined on the "PROXY" page in the "Options" dialog.<br>
+      URL test has the following options:<br><br>
 
       <u>Basic parameters:</u><br><br>
 
       <b>URL</b><br>
-      Enter the URL you want to monitor. HostMonitor is not limited to the 
-       retrieval of HTML files for the HTTP and HTTPS checking, it can 
-       also retrieve other types of pages, even CGI scripts.<br>
+      Enter the URL you want to monitor. KharmonMonitor is not limited to the retrieval of HTML files for the HTTP and HTTPS checking, it can also retrieve other types of pages, even CGI scripts.<br>
       Examples of URLs include:
       <ul class=list00>
        <LI>http://www.yahoo.com/index.html</LI>
@@ -22,9 +19,8 @@
 
       <p align=justify>
       <b>Translate date macro variables</b><br>
-      This option allows you to use <a href="actions.htm#timemacro">date & time variables</a> in the "URL" and "Post data" fields.
-       It is useful when you have to monitor web pages that are created on regular basis. E.g. such URL may look
-       like "<font color="#AA0000"> http://www.sql.company.com/logs/<b>%mm%</b>-<b>%dd%</b>-<b>%yyyy%</b>.html</font>".<br><br>
+      This option allows you to use date & time variables in the "URL" and "Post data" fields.
+       It is useful when you have to monitor web pages that are created on regular basis. E.g. such URL may look like "<font color="#AA0000"> http://www.sql.company.com/logs/<b>%mm%</b>-<b>%dd%</b>-<b>%yyyy%</b>.html</font>".<br><br>
 
       <b>Password protected page</b><br>
       Use this option when the URL specified requires a name and password for access.<br>
@@ -38,7 +34,7 @@
       <b>Optional headers</b><br>
 		You may specify optional HTTP headers which will be added to the request. For example you can define 
 		 cookies using string like "<font color="#AA0000">Cookie: name1=value1; name2=value2; name3=value3</font>".
-		 When you send data to the server using POST method, HostMonitor automatically inserts "
+		 When you send data to the server using POST method, KharmonMonitor automatically inserts "
 		 <font color="#AA0000">Content-Type: application/x-www-form-urlencoded</font>" header.<br><br>
 
       <b>HTTP POST request</b><br>
@@ -47,128 +43,13 @@
 		the data you are sending. The HTTP response is normally the program output, not a static file. The most 
 		common use of POST is to submit HTML form data to CGI scripts. In this case, the "<font color="#AA0000">Content-Type:</font>"
 		header should be set to "<font color="#AA0000">application/x-www-form-urlencoded</font>". So, when you 
-		choose "HTTP POST request" option, HostMonitor adds this header into "Optional headers" field by default.<br><br>
+		choose "HTTP POST request" option, KharmonMonitor adds this header into "Optional headers" field by default.<br><br>
 
       <b>Use client certificate</b><br>
 		An HTTPS server may require client authentication, in which case a local client certificate should be 
 		sent to the server for authentication. Client certificates contain information that identifies the user, 
 		as well as information about the organization that issued the certificate.<br>
 		"Use client certificate" option allows you to choose certificate that will be sent to the server. If test 
-		will be performed directly by HostMonitor, application shows list of certificates installed on local 
-		system. If URL test will be performed by <a href="rma-win/index.htm" target=_top>Remote Monitoring Agent</a> (RMA), HostMonitor 
-		requests specified RMA to retrieve list of certificates installed on system where agent is running.<br><br>
-
-      <br><u>Advanced options:</u><br><br>
-
-      <b>FTP: Passive mode</b><br>
-      In this mode HostMonitor uses passive FTP semantics (option available for FTP checks only) which might be
-       required in order to work properly with some firewalls.<br><br>
-
-      <b>HTTP/HTTPS: Code 302 (redirect) is Ok</b><br>
-      This parameter determines the HostMonitor's behavior, when HTTP/HTTPS server issues a redirect.
-      If option disabled and HTTP server returns code 301 (Moved Permanently) or 302 (Moved Temporarily),
-      HostMonitor marks test as "Bad".
-      With this option enabled HostMonitor sets "Host is alive" status.<br><br>
-
-      <b>HTTPS: Ignore unknown certificate authority problems</b><br>
-      This option allows checking web servers that use HTTPS protocol and security
-      certificates that were issued by not trusted company. With this option enabled, 
-      HostMonitor will accept security certificates issued by any company. 
-      When this option is disabled and the certificate belongs to a not trusted
-      company then HostMonitor will set the test status to "no answer".<br><br>
-
-	 <b>HTTPS: Accept certificates with invalid host name</b><br>
-	 This option tells HostMonitor to accept SSL/PCT-based certificate even if certificate was issued for different host<br>
-	 <b>HTTPS: Accept certificates with invalid dates</b><br>
-	 This option tells HostMonitor to accept expired SSL/PCT-based certificates<br>
-	 By default these options are greyed out, this means HostMonitor should use global options specified on 
-	 Misc page in the <a href="options.htm">Options</a> dialog. If you mark or unmark test options, these 
-	 settings will override global options (for this specific test item only).<br><br>
-
-
-     <br><b><a name="urlchkcontent">Check contents</a></b><br>
-     HostMonitor can search for a string (or several strings) in the returned page and start alert actions when string
-      exists (or doesn't exist) on the page. Define string(s) and condition to alert using following options:<br>
-     <b>Mode</b><br>
-     This option determines condition to check. Choose one of the available modes:
-     <table border=0>
-      <tr><td valign=top nowrap> <b> - should contain</b> </td><td> HostMonitor will set "Bad contents" status when page does not contain specified string</td></tr>
-      <tr><td valign=top nowrap> <b> - should not contain</b> &nbsp; </td><td> HostMonitor will set "Bad contents" status when page contains specified string.<br>
-        (may check multiline text, CR and LF replaced with space character, CRLF replaced with 2 space chars)</td></tr>
-      <tr><td valign=top nowrap> <b> - use expression</b> </td><td>
-          HostMonitor will consider the string as Boolean (logical) expression, evaluate expression using data received
-           from the server, and set "Bad contents" status when retrieved page does not satisfy the required conditions.<br>
-          For example: if you define expression like "<font color="#AA0000">'No errors' and not ('Error' or 'Warning')</font>",
-           then HostMonitor will mark test as "Host is alive" when retrieved page contains string '<font color="#AA0000">No error</font>'
-           and does not contain either '<font color="#AA0000">Error</font>' or '<font color="#AA0000">Warning</font>'</td></tr>
-     </table>
-     <b>Expression</b><br>
-     Enter a string of text to check the returned page. Remember that HTML tags are part of a document, so include the
-      HTML tags if they are part of the text you are searching for (for example, "<font color="#AA0000">&lt;B&gt;Hello&lt;/B&gt; World</font>").<br>
-     If you chose "use expression" mode, you may use expressions like "<font color="#AA0000">("Total" and "End Of Page")
-      and not ('Error' or 'Warning')</font>". In this case, a test will have a "Host is alive" status when monitor can
-      receive specified page and this page contains both strings "<font color="#AA0000">Total</font>" and
-      "<font color="#AA0000">End Of Page</font>", and doesn't contain either strings "<font color="#AA0000">Error</font>"
-      or "<font color="#AA0000">Warning</font>". In the expression you may use strings (must be concluded in quotes
-      (<b>'</b>) or in double quotes (<b>"</b>)); round brackets; logical operators "and", "or", "not".<br>
-     <b>Translate date macro variables</b><br>
-     This option allows you to use <a href="actions.htm#timemacro">date & time variables</a> in the search string.
-      It is useful when you have to monitor web pages that shall be updated regularly. E.g. if you provide
-      "<font color="#AA0000">%mm%-%dd%-%yyyy%</font>" in the search string, HostMonitor will check the retrieved document
-      for the presence of a current date and will set "Bad content" status for the documents without current date stamp.
-      This could be useful for testing various scripts and applications that generate web pages.<br>
-     <b>Case sensitive</b><br>
-     With this option enabled search is case sensitive<br>
-     <b>Whole words only</b><br>
-     Searches are for words only. With this option disabled, the search string might be found within longer words.<br><br>
-
-	 
-      <br>The URL test doesn't automatically retrieve any objects linked from the page. You can, however, instruct
-      HostMonitor to retrieve the nested frames and images.<br><br>
-
-      <b>Download nested frames</b><br>
-      Select this box if you want to retrieve the all frames referenced in a frameset and count their retrieval time in
-       the total time to download this page. If "Download images" is also checked, HostMonitor will attempt to retrieve
-       all images in all frames. In case the program successfully retrieve page specified in the URL field but cannot
-       receive one of the nested frames, HostMonitor will mark test as "Bad contents".<br><br>
-
-      <b>Download images</b><br>
-      Enable this option if you want the status and response time statistics to include the retrieval time for all of
-       the embedded images in the page. Embedded images include those referenced by &lt;IMG&gt; HTML tags. Images that appear
-       more than once in a page are only retrieved once. In case the program successfully retrieves the page
-       specified in the URL field but cannot receive one of images, HostMonitor will mark test as "Bad contents".<br><br>
-
-    <br>Check digest <br><br>
-
-	<b><a name="urlchkcrc">Compute and check digest for entire page</a></b><br>
-	With this option enabled HostMonitor will compute CRC, MD5 or SHA digest of the downloaded data and do a comparison each subsequent time 
-	 test is performed. If the hash changes, the test will have "Bad contents" status. <br>
-	If "Download nested frames" and/or "Download images" options are enabled, HostMonitor will compute digest for the nested frames and/or images as well.<br><br>
-
-	<b>Compute and check digest within the following tags</b><br>
-	This option allows you to specify some important parts of the document and check digest only for these parts. E.g. check digest for HTML 
-	 code between &lt;table and &lt;/table&gt; sections.<br>
-	If "Download nested frames" and/or "Download images" options are enabled, HostMonitor will compute digest for the nested frames and/or images as well.<br><br>
-
-	<b>Digest mode</b><br>
-	&nbsp; CRC32<br>
-	&nbsp; MD5<br>
-	&nbsp; SHA256<br>
-	&nbsp; SHA512<br>
-	Use MD5, SHA256 or SHA512 when you need to check for unauthorized file modifications (SHA256 or SHA512 is preferred). <br>
-	CRC32 can be used for legitimate modifications monitoring.<br><br>
-
-	<b>Recalculate checksum when page content changes detected</b><br>
-	With this option enabled, the new CRC or digest will be recorded as the default in case the error "page content changed" occurs, 
-	 so the test will return to "Good" status until the digest changes again.<br><br>
-
-	   
-    <br>Note: some server-based scripts can check agent's name and return different 
-      information for different HTTP agents (e.g. generate different HTML pages
-      for Internet Explorer or Netscape). 
-      To get correct test results you may need to change "Agent name" parameter.
-      Use <a href="options.htm#MiscURL">Miscellaneous</a> page in the 
-      <a href="options.htm">Options</a> dialog for this purpose.<br><br>
-
-	  See also: <a href="actions.htm#macro_url">variables specific to URL, HTTP, SOAP and SIP tests</a><br><br>
-  </td></tr>
+		will be performed directly by KharmonMonitor, application shows list of certificates installed on local 
+		system
+</td></tr>

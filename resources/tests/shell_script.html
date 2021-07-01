@@ -1,181 +1,41 @@
 <tr>
-    <td><p align=justify><br>
-     Shell Script method combines the versatility of "<a href="#execheck">External</a>" and convenience of "<a href="#script">Active Script</a>" method.
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">Shell Script</h2>
+     Shell Script method combines the versatility of "External" and convenience of "Active Script" method.
      Both "External" and "Shell Script" test methods execute specified commands as new processes. Due to this nature it is possible to use any programming tool for test creation. E.g. you may use Visual Basic script, Java script, create real executable file using C++ compiler or use simple BAT file or shell script.
-     On the other hand this test method allows passing of any valid Status and Reply values back to HostMonitor. Just like "Active Script" (formerly "Script") test method.<br>
-     In addition to the <a href="#Dialog">common test parameters</a>, the Shell Script test has the following options:<br><br>
+     On the other hand this test method allows passing of any valid Status and Reply values back to KharmonMonitor. Just like "Active Script" (formerly "Script") test method.<br>
+     Shell Script test has the following options:<br><br>
 
      <b>Script</b><br>
-     Choose <a href="#createshellscript">script profile</a> from drop down list box or click "Script Manager" button to view/modify/select the script.
-      <a href="#shellmng">Script Manager</a> allows you to view and modify scripts; check script comments, version and
-      history; import and export existing scripts; create and test new scripts.<br>
-     Some useful <a href="#uscripts">UNIX-specific scripts</a> are included into the package.<br><br>
+     Choose script profile from drop down list box or click "Script Manager" button to view/modify/select the script.
+      "Script Manager" allows you to view and modify scripts; check script comments, version and
+      history; import and export existing scripts; create and test new scripts.<br><br>
 
      <b>Params</b><br>
      If script requires some parameters, "Hint" field will show you the list of parameters. E.g. "SYSTEM: Average Load
       for the past 5 min" script requires single parameter: &lt;alert threshold&gt;. If you specify "50" as the script
       parameter and script detects that system load is over 50%, it will set "Bad" status for the test. Otherwise
-      status of the test will be "Ok".<br>
-     <b>Translate macros</b><br>
-     With this option enabled you can use <a href="actions.htm#udvmacro">global macro variables</a> as script parameters.<br><br>
+      status of the test will be "Ok".<br><br>
 
      <b>Timeout</b><br>
      The Timeout property offers a safety shield to prevent a script program from going into an infinite loop and
-      locking up the system.  It specifies the maximum number of seconds the script can run before HostMonitor (or RMA)
+      locking up the system.  It specifies the maximum number of seconds the script can run before KharmonMonitor (or RMA)
       terminates the script and sets "Unknown" status for the test.<br>
-     If you set Timeout to 0, HostMonitor will not terminate script.<br><br><br>
+     If you set Timeout to 0, KharmonMonitor will not terminate script.<br><br>
 
-	 <b>Known problems:</b><br>
-	 If you are using Windows Vista or newer version of the system, UAC is enabled and HostMonitor running as Win32 service cannot start external 
-	  applications, you may need to assign "Replace a process level token" right to the account (user account used for HostMonitor service).
-	  Local Computer Policy -&gt; Computer Configuration -&gt; Windows Settings -&gt; Security Settings -&gt; Local Policies -&gt; User Rights Assignment -&gt; Replace a process level token -&gt; Properties -&gt; Add User or Group,
-	  then restart system<br><br> 
-
-    <br><a name="uscripts">
-     Some useful UNIX-specific scripts that are included into the package.<br></a>
-
-     <table border=0 width="100%">
-     <tr><td colspan=2><p class=shadow1>SYSTEM: number of processes (runnable)</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks how many processes are on run queue.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>&nbsp; MaxLimit </td><td> script sets "Bad" status when number of runnable processes is greater than specified limit.</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1>SYSTEM: number of processes (total)</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks how many processes (in total) exist on the system.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>&nbsp; MaxLimit</td><td>	script sets "Bad" status when number of processes is greater than specified limit.</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1>SYSTEM: number of processes (zombie)</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks how many zombie processes exist on the system.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>&nbsp; MaxLimit</td><td>	script sets "Bad" status when number of defunct processes is greater than specified limit.</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_sysuser"></a>SYSTEM: number of user sessions</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks how many user sessions are opened on the system.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- MinLimit </td><td>script sets "Bad" status when number of sessions is less than specified limit.</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit </td><td>script sets "Bad" status when number of sessions is greater than specified limit.</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>UNIX</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_sysload"></a>SYSTEM: Average Load for the last 1, 5 or 15 min</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks an average load of the system during the last 1, 5, or 15 minutes.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- MaxLimit </td><td>script sets "Bad" status when system load is over specified limit.</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>UNIX</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_sysmem"></a>SYSTEM: Mem Free</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks the amount of free memory on the system.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- MinLimit </td><td>script sets "Bad" status when amount of free memory is less than specified limit (Kb)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_sysvmem"></a>SYSTEM: Swap Free</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks the amount of available swap space on the system.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- MinLimit </td><td>script sets "Bad" status when amount of available swap space is less than specified limit (Kb)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>FreeBSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>Linux Mandrake 9.1, FreeBSD 4.5, and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_procnum"></a>Process: number of instances</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks the number of instances of the specified process.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- ProcessName</td><td>name of the process that has to be checked. On Solaris you should specify first 8 characters of the base name of the process's executable file name</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when number of running instances is over specified limit</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_proccpu"></a>Process: %CPU usage (average)</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks an average (percentage for the last minute) CPU usage for the specified process. If there are several processes with the same name, script chooses process that loads CPU more than other instances.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- ProcessName</td><td>name of the process that has to be checked. On Solaris you should specify first 8 characters of the base name of the process's executable file name</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when CPU usage by the process is over specified limit (%)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_procrcpu"></a>Process: %CPU usage (raw)</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks current (raw) CPU usage in percents by the specified process. If there are several processes with the same name, script chooses process that loads CPU more than other instances.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- ProcessName</td><td>name of the process that has to be checked. <!--On Solaris you should specify first 8 characters of the base name of the process's executable file name--></td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when CPU usage by the process is over specified limit (%)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>Linux</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>Linux Mandrake 9.1</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_procmem"></a>Process: Memory usage</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks memory usage for the specified process. If there are several processes with the same name, script chooses process with max amount of memory usage.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- ProcessName</td><td>name of the process that has to be checked. On Solaris you should specify first 8 characters of the base name of the process's executable file name</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when memory usage by the process is over specified limit (Kb)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_procvmem"></a>Process: Virtual Memory usage</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks virtual memory usage for the specified process. If there are several processes with the same name, script chooses process with max amount of memory usage.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- ProcessName &nbsp; </td><td>name of the process that has to be checked. On Solaris you should specify first 8 characters of the base name of the process's executable file name</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when virtual memory usage by the process is over specified limit (Kb)</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_userproc"></a>USER: number of processes</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks the number of processes started by specified user.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- UserName	</td><td>user's login name</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when the user has more running processes then specified limit</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>AIX / BSD / Linux / Solaris</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-
-     <tr><td colspan=2><p class=shadow1><a name="uscripts_usersess"></a>USER: number of sessions</p></td></tr>
-      <tr valign=top><td nowrap>Purpose:	</td><td>Checks the number of sessions opened by specified user.</td></tr>
-      <tr valign=top><td nowrap>Parameters:</td><td></td></tr>
-      <tr valign=top><td nowrap>- UserName	</td><td>user's login name</td></tr>
-      <tr valign=top><td nowrap>- MinLimit	</td><td>script sets "Bad" status when the user has less opened sessions then specified limit</td></tr>
-      <tr valign=top><td nowrap>- MaxLimit	</td><td>script sets "Bad" status when the user has more opened sessions then specified limit</td></tr>
-      <tr valign=top><td nowrap>Platform:	</td><td>UNIX</td></tr>
-      <tr valign=top><td nowrap>Tested on:	</td><td>AIX 5.3, Linux Mandrake 9.1, FreeBSD 4.5, FreeBSD 6.0, NetBSD 3.0.1, OpenBSD 3.9 and Solaris 9</td></tr>
-      <tr valign=top><td nowrap>See also:	</td><td><a href="#chkShell">Shell Script</a> test method, <a href="#Dialog">Test Properties</a> dialog, <a href="#shellmng">Script Manager</a></td></tr>
-     </table>
-     <br><br>
+	 
 <!--==== Script manager ======-->
 
      <a name="shellmng"><font color="#CC0000"><b>Script Manager</b></font></a><br>
-     <a href="../images/hostmon4/sh_mgr1.gif" target="_blank"><img src="../images/hostmon4/sh_mgr1s.gif" border=0 align=right width=379 height=333 alt=""></a>
-     <br>
      You may reach Script Manager dialog from the Test Properties dialog (as described above) or use main window menu
       "Test"-&gt;"New"-&gt;"Shell Script test"-&gt;"Script Manager"<br><br>
-
-     <font color="#CC0000">How to manage a list of script profiles?</font><br><br>
-
-     In the upper part of the dialog you see the list of <a href="#createshellscript">script profiles</a>.
-      To manage the list of profiles, use following buttons on toolbar:<br><br>
 
      <b>New</b><br>
      Creates new profile.<br><br>
 
      <b>Copy</b><br>
      Makes a copy of the selected profile. You will need to change either the name of profile or the target platform.
-      HostMonitor does not allow having several scripts with the same name for the same target platform. However you
+      KharmonMonitor does not allow having several scripts with the same name for the same target platform. However you
       may have several scripts with the same name for different platforms (e.g. "CPU Usage" script for Linux, "CPU
       Usage" script for Solaris and "CPU Usage" script for Windows).<br><br>
 
@@ -202,7 +62,6 @@
  
      <br>
      <a name="shellimport"><b>Import</b></a><br>
-     <a href="../images/hostmon4/sh_import1.gif" target="_blank"><img src="../images/hostmon4/sh_import1s.gif" border=0 align=right width=388 height=240 alt=""></a>
      Brings up "Import" dialog window that allows you to select file with script profiles, view profiles, select some
       of them and import into current list.<br><br>
 
@@ -214,9 +73,9 @@
      </table><table border=0>
       <tr><td nowrap valign=top><ul class=list00><li>exists&nbsp;</ul></td><td><p align=justify> Script already exists in the list; it has the same modification date and version number. Marked by grey.</td></tr>
       <tr><td nowrap valign=top><ul class=list00><li>older  </ul></td><td><p align=justify> Script that is going to be imported already exists in the list, however it has older modification date and lower version number than existing one. Marked by red - risk of  losing some functionality if you import this script</td></tr>
-      <tr><td nowrap valign=top><ul class=list00><li>??     </ul></td><td><p align=justify> Script that is going to be imported already exists in the list. HostMonitor is confused because script's modification date and version number are not correlating (e.g. "import" script has more recent modification date than current script but has lower version than current script. Or vice versa.)</td></tr>
+      <tr><td nowrap valign=top><ul class=list00><li>??     </ul></td><td><p align=justify> Script that is going to be imported already exists in the list. KharmonMonitor is confused because script's modification date and version number are not correlating (e.g. "import" script has more recent modification date than current script but has lower version than current script. Or vice versa.)</td></tr>
      </table>
-     If you click "Import" button and some of the current scripts are going to be replaced, HostMonitor will ask for
+     If you click "Import" button and some of the current scripts are going to be replaced, KharmonMonitor will ask for
       confirmation.<br>
      By the way: you may select another file for importing without closing the dialog. Use "Import file" control for
       this purpose.<br><br>
@@ -226,28 +85,13 @@
      This function brings up "Export" dialog that allows you to select some (or all) scripts from the current list
       and export them into specified file. So, you may send this file to your colleague.<br><br>
 
-     <!--<br>
-     There are 2 more buttons in the Script Manager dialog window: Apply and Revoke.
-     Apply
-     Temporarily applies all changes that were made to the selected profile but does not save them. When you select another profile or click Ok button (that closes dialog and saves profile list), HostMonitor applies changes automatically.
-     To save all changes into the file, click Ok button. Use Cancel button to revoke any changes of the script list.-->
-
-<!-- create script -->
-
-    <br>
-    <a name="createshellscript"><font color="#CC0000">How to create your own script?</font></a><br><br>
-
-    Now the most interesting part: how to create scripts profiles.
-    Script profile is not just a command for execution. It is recommended to specify comments, the list of parameters
-    (if any) and version for each profile.<br><br>
-
     <u>General script information</u><br><br>
 
     <b>Name</b><br>
     Provide the name of the script. This name will be displayed in drop down list in the Test Properties dialog, also
-     HostMonitor will create menu item (with the same title) in "Shell Script" submenu. If you click on that item,
-     HostMonitor will create new test with preselected script.<br>
-    Please note HostMonitor does not allow you to have several scripts with the same name for the same target platform.
+     KharmonMonitor will create menu item (with the same title) in "Shell Script" submenu. If you click on that item,
+     KharmonMonitor will create new test with preselected script.<br>
+    Please note KharmonMonitor does not allow you to have several scripts with the same name for the same target platform.
      However you may have several scripts with the same name for different platforms (e.g. "CPU Usage" script for Linux,
      "CPU Usage" script for Solaris and "CPU Usage" script for Windows).<br><br>
 
@@ -258,7 +102,7 @@
 
     <b>Developer</b><br>
     Select name of the developer from drop down list. If your name is not in the list yet, just type the name and
-     HostMonitor adds it to the list.<br><br>
+     KharmonMonitor adds it to the list.<br><br>
 
     <b>Platform</b><br>
     Choose the platform on which a script can be executed. E.g. Windows, Linux, or UNIX (if script can be executed on
@@ -270,7 +114,7 @@
      If you change script that was developed by somebody else, please, change version number.<br><br>
 
     <b>Date</b><br>
-    Date of the last modification. HostMonitor updates this field automatically when you modify the script.
+    Date of the last modification. KharmonMonitor updates this field automatically when you modify the script.
      Import manager uses information about version and modification date (see <a href="#shellimport">above</a>).<br><br>
 
     <!--========================-->
@@ -286,119 +130,11 @@
     If you made changes to some script developed by Advanced Network Software (KS-Soft) or somebody else, please, make report about this
      modification in History section. If you modify your own script, this section can be useful as well. Please
      provide the date of the modification, version number, who made the changes, comments about modification
-     (HostMonitor adds date and version number automatically, however you may change it).<br><br>
+     (KharmonMonitor adds date and version number automatically, however you may change it).<br><br>
 
     <!--========================-->
     <a name="createshell_cmd"><br><u>Script section</u></a><br><br>
 
-    This is the most important section; here you define the script and the command that HostMonitor/RMA will use to
-     start the script.<br><br>
-
-    <b>Start cmd</b><br>
-     This is an obligatory parameter. Please provide the command that HostMonitor/RMA will use to start the script. In
-     this command you can use 2 special variables:
-    <ul class=list00>
-    <li> %Script%<br>
-     Before execution of the script HostMonitor/RMA will save the script into temporary file. %Script%
-     variable will be replaced by the name of this temporary file. This variable doesn't have sense when you do not
-     provide any script and use script profile just to start external executable module.<br>
-    <li> %Params%<br>
-     Scripts often require some parameters, you can specify the list of parameters in the Test Properties dialog for
-     each test item separately. This allows using the same script to check different parameters on different target
-     systems. To pass parameters to the script use %Params% variable, HostMonitor will replace this variable by
-     parameters specified for the test item.
-    </ul><br>
-
-    Examples:
-    <ul class=list00>
-     <li> If script is designed as <b>BAT file</b> for Windows NT system (like "File Compare" sample script), you can use command line like "<font color="#AA0000">cmd /c %Script% %Params%</font>"</li>
-     <li> If script is <b>Visual Basic Script</b> for Windows system, use command line like "<font color="#AA0000">cmd  /c cscript  /B  /E:VBScript  %Script% %Params%</font>"</li>
-     <li> If script is <b>Java Script</b> for Windows system, use command line like "<font color="#AA0000">cmd  /c cscript  /B  /E:JScript  %Script% %Params%</font>"</li>
-     <li> If script is <b>shell script</b> for UNIX-like system, you may use simple command like "<font color="#AA0000">%Script% %Params%</font>" or you may use more complicated command like "<font color="#AA0000">/bin/sh -c "%Script% %Params%"</font>"</li>
-     <li> If you want to execute <a href="http://www.microsoft.com/windowsserver2003/technologies/management/powershell/default.mspx" target="_blank">Power Shell</a> script, use command line like "<font color="#AA0000">powershell %Script% %Params%</font>"
-	 <li> If you do not provide script and use profile to start your executable module or if you want to store script in external file, command line may look like "<font color="#AA0000">c:\HostMonitor4\myscripts\MyPowerfulScript %Params%</font>"</li>
-    </ul><br>
-
-    <b>Script</b><br>
-    In some cases you will not provide script body, just a command for execution. E.g. if you have created an
-     executable module using some compiler such as C++ or if you want to store script in the external file.<br>
-    However in most cases script body can be stored within script profile. Use "Script" field to store your script.
-    <br><br>
-
-    <br><!--=======-->
-    <b>Requirements to the script:</b><br><br>
-
-    The following rules must be obeyed when creating a script:<br><br>
-
-    <a name="shellres">The</a> script or external program must write to stdout (standard output stream) single result string. This string should contain 3 parts separated by colon (<b>:</b>).
-    <ol>
-    <li> First obligatory part - marker "<font color="#AA0000"><b>scriptres</b></font>" tells to HostMonitor or RMA that this string is the result string.<br><br>
-
-    <li> Second obligatory part represents the test status, it can take one of the following values (case insensitive):
-     <table border=0 width="100%">
-     <tr bgcolor="#E0E0E0"><td nowrap valign=top> Status string </td><td>	Comment </td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Host is alive </font> </td><td> status means " script executed successfully, target system correctly responds"</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">No answer     </font> </td><td> script executed successfully, target system does not respond</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Unknown	  </font> </td><td> status means "test cannot be performed for some reason"</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Unknown host  </font></td><td> use this status when script cannot resolve target host name into IP address</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Ok	</font> </td><td> script executed, result satisfies (some) requirements</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Bad	</font> </td><td> script executed, result does not satisfy (some) requirements</td></tr>
-     <tr><td nowrap valign=top> <font color="#AA0000">Bad contents  </font></td><td> use this status if script found some error in monitored file, web page, etc</td></tr>
-    </table><br></li>
-
-    <li> Third optional part contains Reply value, HostMonitor displays this value in Reply field, writes to log files, uses to displays charts (Log Analyzer), etc.
-    If you want Log Analyzer to process Reply values correctly and display charts, use one of the following formats for Reply value:<ul>
-     <li> decimal_number (like "<font color="#AA0000">123</font>", "<font color="#AA0000">0</font>", "<font color="#AA0000">6456.45</font>". as decimal separator use symbol that is specified on your system, usually a dot (.) or a comma (,))</li>
-     <li> decimal_number + space + "Kb" (like&nbsp; "<font color="#AA0000">512 Kb</font>", &nbsp;&nbsp;"<font color="#AA0000">64 Kb</font>")</li>
-     <li> decimal_number + space + "Mb" (like&nbsp; "<font color="#AA0000">1024 Mb</font>",&nbsp;"<font color="#AA0000">5 Mb</font>")</li>
-     <li> decimal_number + space + "Gb" (like&nbsp; "<font color="#AA0000">12 Gb</font>",  &nbsp;&nbsp;&nbsp;"<font color="#AA0000">4 Gb</font>")</li>
-     <li> decimal_number + space + "%"&nbsp; (like&nbsp; "<font color="#AA0000">50 %</font>", &nbsp;&nbsp;&nbsp;&nbsp;"<font color="#AA0000">99 %</font>")</li>
-     <li> decimal_number + space + "ms" (like&nbsp; "<font color="#AA0000">100 ms</font>", &nbsp;"<font color="#AA0000">5400 ms</font>")</li>
-    </ul><br>
-    Several examples:
-     <table border=0 width="100%">
-      <tr bgcolor="#E0E0E0"><td nowrap valign=top> String printed by script </td><td> "Status" of the test</td><td>"Reply" field of the test </td></tr>
-      <tr><td nowrap valign=top><font color="#AA0000">scriptres:Host is alive:1000 ms </font></td><td> Host is alive </td><td> 1000 ms</td></tr>
-      <tr><td nowrap valign=top><font color="#AA0000">scriptres:Unknown host:</font></td><td>Unknown host</td></tr>
-      <tr><td nowrap valign=top><font color="#AA0000">scriptres:Ok:300 Kb    </font></td><td>Ok  </td><td>300 Kb</td></tr>
-      <tr><td nowrap valign=top><font color="#AA0000">scriptres:Bad:90 %     </font></td><td>Bad </td><td>90 %</td></tr>
-     </table>
-    </ol>
-
-    That's it. Everything else is entirely up to you<br><br>
-
-    BTW: HostMonitor offers dozen of scripts for Unix and Windows, they are pretty simple and you can use these scripts
-    as basis for your own development.<br><br>
-
-    <!--========================-->
-    <p align=justify><a name="createshell_try"><br><u>Lets try</u></a><br><br>
-
-    This tab allows you to test script before using it for real monitoring.<br><br>
-
-    <b>Test by</b><br>
-    Test can be performed by HostMonitor itself (by default) or by <a href="rma-unix/index.htm" target=_top>Remote Monitoring Agent</a>.
-     To specify what application should execute script, select an agent from drop down list.<br>
-    Please note script is executed on system where HostMonitor (or RMA) is running.  It means if you have created some
-     script for Linux, you should select appropriate agent that is running on Linux system to execute this script.<br><br>
-
-    <b>Params</b><br>
-    If script requires some parameters, provide them here.<br><br>
-
-    <b>Timeout</b><br>
-    The Timeout property offers a safety shield to prevent a script program from going into an infinite loop and locking up the system. It specifies the maximum number of seconds the script can run before HostMonitor (or RMA) terminates the script and sets "Unknown" status for the test.<br>
-    If you set Timeout to 0, HostMonitor will not terminate script.<br><br>
-
-    <b>Display N lines</b><br>
-    If script doesn't work properly, it may display various error messages. This option allows you to check messages displayed by script; it defines how many lines of the result to display.<br><br>
-
-    <b>Test</b><br>
-    Click this button to execute the script. HostMonitor will execute the script (by itself or with the help of selected
-     agent) and display result.<br>
-    Unlike normal test execution mode (when HostMonitor displays status and single reply string), this test sends
-     special flag to the agent and displays complete script response if the <a href="#shellres">result string</a>
-     of correct format was not received. It helps to find errors in the script.<br><br>
-
-    <b>Clear old res</b><br>
-    With this option enabled HostMonitor clears previous outputs.<br><br>
-
+    This is the most important section; here you define the script and the command that KharmonMonitor/RMA will use to
+     start the script.   
   </td></tr>

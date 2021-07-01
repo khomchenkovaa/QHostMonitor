@@ -1,23 +1,16 @@
 <tr>
-    <td><p align=justify><br>
-      HostMonitor can check folder or file size.
-      To add this task select the test type "Folder/File Size", enter the folder name and specify
-      a maximum size. You can manually type in the complete path to the folder
-      that you wish to test, or click on the "Browse" button to select the folder.<br>
-      If you select the option "Include sub-folders", HostMonitor will calculate the size for the folder and all its
-       sub-folders.<br>
+<h2 align="center" style="color: Black">Folder size</h2>
+    <td><p align=justify>
+      KharmonMonitor can check folder or file size.
+      To add this task select the test type "Folder/File Size", enter the folder name and specify a maximum size. You can manually type in the complete path to the folder that you wish to test, or click on the "Browse" button to select the folder.<br>
+      If you select the option "Include sub-folders", KharmonMonitor will calculate the size for the folder and all its sub-folders.<br>
       If you need to check some files that are dynamically created and do not have static name (e.g. some logs that
-       are created on daily basis and have different file name every day), you may enable "Translate macros" options.
-       With this option enabled you may use special <a href="#macros">date macro variables</a>,
-		<a href="#filespecmacro">file-specific variables</a> and <a href="actions.htm#udvmacro">User Defined Variables</a> in the path to the file.<br><br>
+       are created on daily basis and have different file name every day), you may enable "Translate macros" options.<br><br>
 
-      If you want to perform the test using an <a href="rma-unix/index.htm" target="_blank">agent</a> installed on UNIX-like system, you should have in mind:
+      If you want to perform the test using an agent installed on UNIX-like system, you should have in mind:
       <ul class=list00>
        <li> use slash (/) in the path (instead of backslash (\) that you are using on Windows systems);
        <li> on UNIX-like systems name of the file is case sensitive (so "/etc/RMA" and "/etc/rma" are different files);
        <li> on Windows system file masks * and *.* represent any file. On UNIX-like system only * represents any file; *.* can be used for any file that has dot (.) in the name;
       </ul><br>
-
-  See also <a href="#Dialog">common test parameters</a><br>
-  See also: <a href="actions.htm#macro_filename">variables specific to file related test methods</a><br><br>  	 	  
   </td></tr>

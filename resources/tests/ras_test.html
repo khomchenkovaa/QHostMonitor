@@ -1,22 +1,21 @@
 <tr>
-    <td><p align=justify><br>
-      The RAS check type useful for monitoring remote RAS server. With this test HostMonitor tries to connect to the
-       server using specified dial-up connection, sets status of the test ("Ok", "Bad", "No answer", or "Unknown"
-       <a href="#rasstatuses">depending</a> on the connection result), and disconnects from the server.<br>
-      In addition to the <a href="#Dialog">common test parameters</a>, the RAS test has the following options:<br><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">RAS</h2>
+      The RAS check type useful for monitoring remote RAS server. With this test KharmonMonitor tries to connect to the server using specified dial-up connection, sets status of the test ("Ok", "Bad", "No answer", or "Unknown" depending on the connection result), and disconnects from the server.<br>
+      RAS test has the following options:<br><br>
 
       <b>Connection</b><br>
       Select from drop down list the remote access entry to establish the connection.<br><br>
 
       <b>User name</b><br>
       Specify the user's name. This parameter is used to authenticate the user's access to the remote access server. If
-       the user name is empty string (""), HostMonitor uses the user name of the current logon context for authentication.
+       the user name is empty string (""), KharmonMonitor uses the user name of the current logon context for authentication.
        For a user-mode application, RAS uses the credentials of the currently logged-on interactive user. For a Win32
        service process, RAS uses the credentials associated with the service.<br><br>
 
       <b>Password</b><br>
       Specify the user's password. This parameter is used to authenticate the user's access to the remote access server.
-       If the password is empty string (""), HostMonitor uses the password of the current logon context for authentication.
+       If the password is empty string (""), KharmonMonitor uses the password of the current logon context for authentication.
        For a user-mode application, RAS uses the credentials of the currently logged-on interactive user. For a Win32
        service process, RAS uses the credentials associated with the service.<br><br>
 
@@ -28,23 +27,22 @@
 
       <b>Retries</b><br>
       Set the number of times the dial-up connection is automatically redialed if the first attempt to connect fails.
-       HostMonitor does not perform second attempt in case connection failed because of the wrong user name or password.
-       If you setup HostMonitor to check several servers using the single modem connected to your computer, it is good
+       KharmonMonitor does not perform second attempt in case connection failed because of the wrong user name or password.
+       If you setup KharmonMonitor to check several servers using the single modem connected to your computer, it is good
        idea to set retries to 3 or more attempts and use Wait between retries option. In this case test that was started
        second (third, forth, etc) will wait for the first test to end and release modem.<br><br>
 
       <b>Wait between retries</b><br>
-      If attempt to dial fails, HostMonitor will wait specified amount of seconds before making another attempt. Of
+      If attempt to dial fails, KharmonMonitor will wait specified amount of seconds before making another attempt. Of
        course this parameter makes sense only when Retries field set to 2 or more attempts.<br><br>
 
-      <a name="rasstatuses">After execution of a test HostMonitor can set one of four statuses:</a><br>
+      <a name="rasstatuses">After execution of a test KharmonMonitor can set one of four statuses:</a><br>
       <ul class=list00>
       <li> "Ok" status HM sets when connection was successfully established (physical connection modem-to-modem, and network connection as well).
       <li> "Bad". There can be many reason for this status, e.g. wrong user name or password, some problems with RAS server, etc.
       <li> "No answer". The program uses this status when modem does not receive answer from remote modem.
-      <li> "Unknown". This status HostMonitor sets when connection was not established because of a problem on local system,
-         e.g. modem is used by another application. You can use "<a href="#UnknownIsBad">Treat Unknown status as Bad</a>"
-         option. With this option enabled, if test results cannot be obtained, actions are triggered by HostMonitor the
+      <li> "Unknown". This status KharmonMonitor sets when connection was not established because of a problem on local system,
+         e.g. modem is used by another application. You can use "Treat Unknown status as Bad" option. With this option enabled, if test results cannot be obtained, actions are triggered by KharmonMonitor the
          same way as if the test returned a "Bad" status.
       </ul><br>
   </td></tr>

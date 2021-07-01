@@ -1,32 +1,30 @@
 <tr>
-    <td><p align=justify><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">UDP</h2>
      The UDP test provides you with the ability to monitor UDP based servers such as TFTP, SNTP, Daytime, etc. Please
-      note, to check DNS, NTP, and RADIUS servers you can use dedicated <a href="#dns">DNS</a>, <a href="#ntp">NTP</a>,
-      and <a href="#radius">RADIUS</a> tests.<br>
-     In addition to the <a href="#Dialog">common test parameters</a>, the UDP test has the following options:<br><br>
+      note, to check DNS, NTP, and RADIUS servers you can use dedicated "DNS", "NTP", and "RADIUS" tests.<br>
+     UDP test has the following options:<br><br>
 
      <b>Server</b><br>
 		Here you should provide the domain name (e. g. <font color="#AA0000">www.yahoo.com</font>) or IP address (e. g. <font color="#AA0000">204.71.200.68</font>) 
 		 of the host that should process the UDP data packet. Also you may provide IPv6 addresses (e.g. <font color="#AA0000">fe80::370:ff56:fed5:22</font>) 
 		 and specify hostname with suffixes <font color="#AA0000"><b>::</b>ipv4</font> or <font color="#AA0000"><b>::</b>ipv6</font> (e.g. 
 		 <font color="#AA0000">www.google.com<b>::</b>ipv4</font> or <font color="#AA0000">www.6bone.net<b>::</b>ipv6</font>).<br>
-		If you specify hostname without any suffix, HostMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
-		 resolved by IPv4 protocol, HostMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
-		 HostMonitor will use IPv4 (or IPv6) protocol only.<br>
-		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported.
-		<!--HostMonitor supports IPv6 on Windows XP SP2, Windows 2003, Windows Vista and Windows Server 2008 when IPv6 protocol is installed. On Windows NT 4.0 and Windows 2000 only IPv4 is supported. -->
-		 You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
+		If you specify hostname without any suffix, KharmonMonitor will try to resolve name into IP address using IPv4 protocol. If name cannot be 
+		 resolved by IPv4 protocol, KharmonMonitor will try to use IPv6 protocol. If you specify hostname with ::ipv4 (or ::ipv6) suffix, 
+		 KharmonMonitor will use IPv4 (or IPv6) protocol only.<br>
+		Note: on Windows NT 4.0, Windows 2000 and Windows XP SP1 IPv6 protocol is not supported. You may use menu Tools -&gt; Local Info to check is your system IPv6 ready.
 		 <br><br>
 
      <b>Port</b><br>
      Specify the port number on which the host is listening for incoming UDP packets. E.g. TFTP servers use port #69,
-      SNTP servers use port #123, Daytime servers use port #13, etc<br><br>
+      SNTP servers use port #123, Daytime servers use port #13, etc.<br><br>
 
      <b>Retries</b><br>
-     Set the number of times HostMonitor will resend data to the server before test fails.<br><br>
+     Set the number of times KharmonMonitor will resend data to the server before test fails.<br><br>
 
      <b>Timeout</b><br>
-     Enter the amount of time (in seconds) that HostMonitor should wait for a response from the server.<br><br>
+     Enter the amount of time (in seconds) that KharmonMonitor should wait for a response from the server.<br><br>
 
      <b>Packet to send</b><br>
      Enter the packet data that should be sent to the host. Because most UDP servers accept binary data, you may need
@@ -36,38 +34,16 @@
      <b>Alert when</b><br>
      Choose one of the conditions to consider result of the test as "Bad":<br>
      <table border=0>
-      <tr><td valign=top nowrap> - no reply  </td><td>HostMonitor will set "No answer" status when no reply from the server received and set test status to "Host is alive" when any reply received </td></tr>
-      <tr><td valign=top nowrap> - any reply </td><td>HostMonitor will set "Ok" status when no reply from the server received and set test status to "Bad" when any reply received </td></tr>
-      <tr><td valign=top nowrap> - reply contains </td><td>HostMonitor will set "Bad" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, HostMonitor will set "Ok" status. The program sets status to "No answer" when no reply received. </td></tr>
-      <tr><td valign=top nowrap> - reply doesn't contain &nbsp; </td><td>HostMonitor will set "Ok" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, HostMonitor will set "Bad" status. The program sets status to "No answer" when no reply received. </td></tr>
-      <tr><td valign=top nowrap> - reply equal to </td><td>HostMonitor will set "Bad" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, HostMonitor will set "Ok" status. The program sets status to "No answer" when no reply received.</td></tr>
-      <tr><td valign=top nowrap> - reply not equal to </td><td>HostMonitor will set "Ok" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, HostMonitor will set "Bad" status. The program sets status to "No answer" when no reply received.</td></tr>
+      <tr><td valign=top nowrap> - no reply  </td><td>KM will set "No answer" status when no reply from the server received and set test status to "Host is alive" when any reply received </td></tr>
+      <tr><td valign=top nowrap> - any reply </td><td>KM will set "Ok" status when no reply from the server received and set test status to "Bad" when any reply received </td></tr>
+      <tr><td valign=top nowrap> - reply contains </td><td>KM will set "Bad" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, KM will set "Ok" status. The program sets status to "No answer" when no reply received. </td></tr>
+      <tr><td valign=top nowrap> - reply doesn't contain &nbsp; </td><td>KM will set "Ok" status when reply from the server contains specified string (defined in "Compare with" field). If reply doesn't contain the specified string, KM will set "Bad" status. The program sets status to "No answer" when no reply received. </td></tr>
+      <tr><td valign=top nowrap> - reply equal to </td><td>KM will set "Bad" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, KM will set "Ok" status. The program sets status to "No answer" when no reply received.</td></tr>
+      <tr><td valign=top nowrap> - reply not equal to </td><td>KM will set "Ok" status when reply from the server equal to specified string (defined in "Compare with" field). If reply doesn't equal to the specified string, KM will set "Bad" status. The program sets status to "No answer" when no reply received.</td></tr>
      </table><br>
 
      <b>Compare with</b><br>
-     HostMonitor can compare data that was received from the server with specified string (use "Alert when" option to
+     KharmonMonitor can compare data that was received from the server with specified string (use "Alert when" option to
       choose compare condition). As in "Packet to send" field you can use sequences formatted <b>%XX</b> where XX is a
-      hexadecimal code of a character (byte). E.g. "October%00%00"<br><br>
-
-     <br>Examples:<br><br>
-
-     To check your TFTP server fill up test parameters with following values:<br>
-     <table border=0>
-      <tr><td valign=top nowrap>&nbsp; Server:  </td><td> address of the server</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Port:    </td><td> 69</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Alert when: </td><td> no reply</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Packet to send: &nbsp </td><td> %00%01filename%00%00netascii%00 <br> where filename is the name of the file on the server. We recommend provide incorrect (fake) name of the file.</td></tr>
-     </table><br>
-
-     To check SNTP server fill up test parameters with following values:
-     <table border=0>
-      <tr><td valign=top nowrap>&nbsp; Server:  </td><td> address of the server</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Port:    </td><td> 123</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Alert when:  </td><td> no reply</td></tr>
-      <tr><td valign=top nowrap>&nbsp; Packet to send: &nbsp; </td><td>
-           %0B%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00<br>
-           %00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00<br>
-           %00%00%00%00%00%00%00%00%00%00%00%00%00%00%00%00<br>
-           Yes, string must be so long because request packet must contain 48 bytes</td></tr>
-     </table><br>
-  See also: <a href="actions.htm#macro_tcp">variable specific to TCP and UDP tests</a><br><br>  
+      hexadecimal code of a character (byte). E.g. "October%00%00".
+</tr></td>

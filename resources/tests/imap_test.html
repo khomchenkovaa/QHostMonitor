@@ -1,11 +1,12 @@
 <tr>
-    <td><p align=justify><br>
+    <td><p align=justify>
+    <h2 align="center" style="color: Black">HTTP</h2>
      Some Internet mail servers support IMAP (Internet Message Access Protocol) for exchanging and manipulating e-mail.
       The IMAP test works much in the same way that POP3 test function to test IMAP compliant mail servers. The IMAP test
-      performed by HostMonitor involves logging in to your mail server using an existing account and checking the status
-      of the mailbox for that user. As option HostMonitor can check number of messages and size of messages for specified
+      performed by KharmonMonitor involves logging in to your mail server using an existing account and checking the status
+      of the mailbox for that user. As option KharmonMonitor can check number of messages and size of messages for specified
       mailbox. If message count/size exceed specified limit, the program can start alert actions.<br>
-     In addition to the <a href="#Dialog">common test parameters</a>, the IMAP test has the following options:<br><br>
+     IMAP test has the following options:<br><br>
 
      <b>Server</b><br>
      This is the name or IP address of the mail server that you want to test, usually in the form "mail.yourcom.com".<br><br>
@@ -16,22 +17,20 @@
 
 	 <b>TLS</b><br>
 	 This option allows you to use secured and encrypted connection (SSL). You may set "None" option to use unencrypted connection, 
-	  select "Implicit" or "Explicit" to use encrypted connection. Supported SSL protocols: TLS1, SSL3, SSL2 and PCT1.<br>
-	 Additional SSL options located on <a href="options.htm#miscSSL1">Misc</a> page in the <a href="options.htm">Options</a> dialog.<br><br>	  
+	  select "Implicit" or "Explicit" to use encrypted connection. Supported SSL protocols: TLS1, SSL3, SSL2 and PCT1.<br><br>	  
 	  
      <b>Timeout</b><br>
      This is the amount of time in seconds the program will wait for a response from the server before the request fails.
       Set this to 0 for no timeout (not recommended).<br><br>
 
      <b>Login</b><br>
-     HostMonitor will test the IMAP server by logging in to it using an existing account. In the user name field, supply
-      the name of an account that can be used for testing. HostMonitor will log into the account and check the status of
+     KharmonMonitor will test the IMAP server by logging in to it using an existing account. In the user name field, supply
+      the name of an account that can be used for testing. KharmonMonitor will log into the account and check the status of
       it's mailbox without accessing, modifying or deleting any of the messages held in it.<br><br>
 
      <b>Password</b><br>
-     Supply the password for the user account HostMonitor will log into during the test.<br><br>
+     Supply the password for the user account KharmonMonitor will log into during the test.<br><br>
 
-     <br>
 	 <b>Check mailbox</b><br>
 	 You may mark this combobox and select one of the folowing options to check mailbox parameters.<br><br>
 
@@ -39,7 +38,7 @@
      Specify name of the mailbox to check.<br><br>
 
      <b>Filter</b><br>
-	Here you may tell HostMonitor to scan all messages in the mailbox or scan for messages with specific flag by choosing one of the following options<br>
+	Here you may tell KharmonMonitor to scan all messages in the mailbox or scan for messages with specific flag by choosing one of the following options<br>
 	- All messages<br>
 	- Recent<br>
 	- Answered<br>
@@ -48,25 +47,24 @@
 	- Unflagged<br>
 	- Seen<br>
 	- Unseen<br>
-	Note: Recent option tells HostMonitor to check for messages that were received since last test probe (last check by HostMonitor).<br><br><br>
+	Note: Recent option tells KharmonMonitor to check for messages that were received since last test probe (last check by KharmonMonitor).<br><br><br>
 		 
      <b>Alert when mailbox contains more then [NN] messages</b><br>
-     Select this option and specify the limit amount of messages in the mailbox. When this limit is reached, HostMonitor
+     Select this option and specify the limit amount of messages in the mailbox. When this limit is reached, KharmonMonitor
       will change test status to Bad.<br><br>
 
      <b>Alert when total size of messages bigger than [NN] MB</b><br>
      Select this option and specify the size limit of all messages in the mailbox. When this limit is reached,
-      HostMonitor will change test status to Bad.<br><br>
+      KharmonMonitor will change test status to Bad.<br><br>
 
 	 <b>Alert when there are messages older than [NN] min</b><br>
-	 If you choose this option, HostMonitor will search for e-mail messages older than specified time limit. If any "old" e-mail detected, 
-	  HostMonitor will set "Bad" test status and display number of such messages. Note: you may use "<a href="#usrstatusprocessing">Optional 
-	  status processing</a>" options to modify test status depending on number of messages or some other conditions.<br><br>	  
+	 If you choose this option, KharmonMonitor will search for e-mail messages older than specified time limit. If any "old" e-mail detected, 
+	  KharmonMonitor will set "Bad" test status and display number of such messages. Note: you may use "Optional status processing" options to modify test status depending on number of messages or some other conditions.<br><br>	  
 	  
      Note: Value of the 'Reply' field depends on the test settings:<br>
      <ul class=list00>
-      <li>if test checks number of messages, HostMonitor will display number of messages.
-      <li>if test checks total size of messages, HostMonitor will display total size of messages
+      <li>if test checks number of messages, KharmonMonitor will display number of messages.
+      <li>if test checks total size of messages, KharmonMonitor will display total size of messages
       <li>if 'check mailbox' options disabled and test checks server status only (connect, login and logout), Reply value will contain the test execution time (that shows the reply speed of the server).
       <li>Reply value is empty when the program cannot connect or login to the server
      </ul><br>

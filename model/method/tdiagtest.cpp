@@ -49,6 +49,13 @@ void TDiagTest::run()
 
 /******************************************************************/
 
+QString TDiagTest::getCommand() const
+{
+    return "sudo " + getCmd();
+}
+
+/******************************************************************/
+
 bool TDiagTest::fetchData()
 {
     m_Result.clear();

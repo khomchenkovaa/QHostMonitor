@@ -35,7 +35,7 @@ void TMySql::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QMYSQL")) {
-        QSqlDatabase db = QSqlDatabase::database("testMySQL");
+        QSqlDatabase db = QSqlDatabase::database("testMySQL", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QMYSQL", "testMySQL");
         }

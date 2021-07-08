@@ -34,7 +34,7 @@ void TOracle::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QOCI")) {
-        QSqlDatabase db = QSqlDatabase::database("testOracle");
+        QSqlDatabase db = QSqlDatabase::database("testOracle", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QOCI", "testOracle");
         }

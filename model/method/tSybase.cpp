@@ -38,7 +38,7 @@ void TSybase::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QTDS")) {
-        QSqlDatabase db = QSqlDatabase::database("testSybase");
+        QSqlDatabase db = QSqlDatabase::database("testSybase", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QTDS", "testSybase");
         }

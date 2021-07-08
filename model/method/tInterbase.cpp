@@ -21,7 +21,7 @@ void TInterbase::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QIBASE")) {
-        QSqlDatabase db = QSqlDatabase::database("testInterbase");
+        QSqlDatabase db = QSqlDatabase::database("testInterbase", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QIBASE", "testInterbase");
         }

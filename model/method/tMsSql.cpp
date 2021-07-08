@@ -24,7 +24,7 @@ void TMsSql::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QODBC")) {
-        QSqlDatabase db = QSqlDatabase::database("testMsSQL");
+        QSqlDatabase db = QSqlDatabase::database("testMsSQL", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QODBC", "testMsSQL");
             db.setConnectOptions("SQL_ATTR_ODBC_VERSION=SQL_OV_ODBC3");
@@ -34,7 +34,7 @@ void TMsSql::run()
 //        QString odbcDriver = "SQL Server Native Client 11.0"; // 2012
 
         QString dbName = QString("DRIVER={%1};SERVER=%2;DATABASE=%3;UID=%4;Port=1433;PWD=%5;WSID=.")
-                .arg(odbcDriver).arg(a_Server).arg(a_Login).arg(a_Password);
+                .arg(odbcDriver, a_Server, a_Database, a_Login, a_Password);
         db.setDatabaseName(dbName);
         bool ok = db.open();
         if (!ok) {

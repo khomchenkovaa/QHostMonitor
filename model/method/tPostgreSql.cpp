@@ -24,7 +24,7 @@ QString TPostgreSql::getTestMethod() const
 
 QString TPostgreSql::getTestedObjectInfo() const
 {
-    return QString("PostgreSQL database %1 on %2:%3").arg(a_Database).arg(a_Host).arg(a_Port);
+    return QString("PostgreSQL database %1 on %2:%3").arg(a_Database, a_Host).arg(a_Port);
 }
 
 /******************************************************************/
@@ -35,7 +35,7 @@ void TPostgreSql::run()
     result.reply = "No driver";
 
     if (QSqlDatabase::isDriverAvailable("QPSQL")) {
-        QSqlDatabase db = QSqlDatabase::database("testPostgreSQL");
+        QSqlDatabase db = QSqlDatabase::database("testPostgreSQL", false);
         if (!db.isValid()) {
             db = QSqlDatabase::addDatabase("QPSQL", "testPostgreSQL");
         }

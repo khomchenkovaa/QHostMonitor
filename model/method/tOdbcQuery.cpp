@@ -40,7 +40,7 @@ void TOdbcQuery::run()
     TestResult result;
     result.reply = "No answer";
 
-    QSqlDatabase db = QSqlDatabase::database("testOdbcQuery");
+    QSqlDatabase db = QSqlDatabase::database("testOdbcQuery", false);
     if (!db.isValid()) {
         db = QSqlDatabase::addDatabase("QODBC", "testOdbcQuery");
     }

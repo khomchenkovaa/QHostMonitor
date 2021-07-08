@@ -54,9 +54,7 @@ public:
 
     // command
     virtual void run() Q_DECL_OVERRIDE;
-    virtual QString getCommand() const Q_DECL_OVERRIDE {
-        return getCmd();
-    }
+    virtual QString getCommand() const Q_DECL_OVERRIDE;
 
     bool fetchData();
     void statusUpdate();
